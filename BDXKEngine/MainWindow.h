@@ -5,6 +5,6 @@ class MainWindow : public WindowBase
 public:
 	MainWindow();
 
-	LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	LRESULT HandleMessage(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter) override;
 };
 

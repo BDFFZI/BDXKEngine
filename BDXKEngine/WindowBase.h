@@ -10,13 +10,11 @@
 class WindowBase {
 public:
 	WindowBase(PCWSTR windowName);
-	BOOL Show();
+	void Show();
 	PCWSTR GetWindowName();
-	HWND GetHWND();
 protected:
-	virtual LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	virtual LRESULT CALLBACK HandleMessage(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	PCWSTR WindowName;
-	HWND hwnd;
 private:
 	static LRESULT CALLBACK WindowProcess(HWND hwnd, UINT messageSign, WPARAM parameterA, LPARAM parameterB);
 };

@@ -43,5 +43,11 @@
     <ClInclude Include="MainWindow.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BDXKEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

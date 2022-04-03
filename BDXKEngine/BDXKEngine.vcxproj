@@ -145,6 +145,8 @@
     <ClCompile Include="WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BDXKEngine.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="WindowBase.h" />
   </ItemGroup>

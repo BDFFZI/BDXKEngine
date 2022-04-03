@@ -1,14 +1,14 @@
-#include "WindowBase.h"
+#include"BDXKEngine.h"
 #include <iostream>
 using namespace std;
+
 
 WindowBase::WindowBase(PCWSTR windowName)
 {
 	WindowName = windowName;
-	hwnd = NULL;
 }
 
-BOOL WindowBase::Show()
+void WindowBase::Show()
 {
 	//向操作系统注册窗口类
 	WNDCLASS windowClass = {};
@@ -17,7 +17,7 @@ BOOL WindowBase::Show()
 	RegisterClass(&windowClass);
 
 	//创建窗口
-	hwnd = CreateWindowEx(
+	HWND hwnd = CreateWindowEx(
 		0,//窗口行为
 		WindowName, //窗口类名称
 		WindowName,//窗口标题
@@ -29,13 +29,9 @@ BOOL WindowBase::Show()
 		NULL,//实例句柄,默认
 		this//附加的数据
 	);
-	if (hwnd != NULL)
-	{
-		ShowWindow(hwnd, SW_SHOWDEFAULT);
-		return TRUE;
-	}
 
-	return FALSE;
+	//显示窗口
+	ShowWindow(hwnd, SW_SHOWDEFAULT);
 }
 
 PCWSTR WindowBase::GetWindowName()
@@ -43,32 +39,12 @@ PCWSTR WindowBase::GetWindowName()
 	return WindowName;
 }
 
-HWND WindowBase::GetHWND()
+LRESULT CALLBACK WindowBase::HandleMessage(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
-	return hwnd;
+	return	DefWindowProc(hwnd, messageSign, wparameter, lparameter);
 }
 
-LRESULT WindowBase::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
-{
-	switch (messageSign)
-	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		return 0;
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hwnd, &ps);
-
-		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_HOTLIGHT));
-
-		EndPaint(hwnd, &ps);
-	}
-	return 0;
-	}
-}
-
-LRESULT WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+LRESULT CALLBACK WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
 	WindowBase* window = NULL;
 
@@ -88,7 +64,7 @@ LRESULT WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter
 	if (window != NULL)
 	{
 		//使用窗口实例提供的消息处理程序
-		return	window->HandleMessage(messageSign, wparameter, lparameter);
+		return window->HandleMessage(hwnd, messageSign, wparameter, lparameter);
 	}
 	else
 	{

@@ -4,10 +4,8 @@
 
 #include <windows.h>
 #include <iostream>
-
 using namespace std;
-
-#include "MainWindow.h"
+#include "BDXKEngine.h"
 
 int main()
 {
