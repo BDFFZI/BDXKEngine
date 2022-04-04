@@ -49,5 +49,8 @@
     <ClInclude Include="BDXKEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

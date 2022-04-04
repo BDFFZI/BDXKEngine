@@ -1,25 +1,52 @@
 #pragma once
-#include<iostream>
-using namespace std;
-static class Debug
+#include "String.h"
+
+class Debug
 {
 public:
-	static void Log(HWND pointer)
+	static void Log(String str)
 	{
-		Log(pointer != NULL);
+		using namespace std;
+		cout << (String)str << endl;
 	}
 
-	static void Log(bool value)
+	/// <summary>
+	/// 输出带颜色的日志
+	/// 黑色     = 0  | 
+	/// 蓝色     = 1  | 
+	///	绿色     = 2  | 
+	///	浅绿色   = 3  | 
+	///	红色     = 4  | 
+	///	紫色     = 5  | 
+	///	黄色     = 6  | 
+	///	白色     = 7  | 
+	/// 灰色     = 8  |
+	/// 淡蓝色   = 9  |
+	/// 淡绿色   = 10 |
+	/// 淡浅绿色 = 11 |
+	/// 淡红色   = 12 |
+	/// 淡紫色   = 13 |
+	/// 淡黄色   = 14 |
+	/// 亮白色   = 15 |
+	/// </summary>
+	static void Log(String str, int color)
 	{
-		if (value == true)
-			cout << "True" << endl;
-		else
-			cout << "False" << endl;
+		HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+		
+		SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | color);
+		Log(str);
+		SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | 7);
 	}
 
-	static void Log()
+	static void LogWarning(String str)
 	{
+		Log(str, 6);
+	}
 
+	static void LogError(String str)
+	{
+		Log(str, 4);
 	}
 };
+
 

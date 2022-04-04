@@ -8,7 +8,6 @@ MainWindow::MainWindow() :WindowBase(L"MainWindow")
 
 LRESULT MainWindow::HandleMessage(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
-	cout << messageSign << endl;
 	switch (messageSign)
 	{
 	case WM_DESTROY:
@@ -20,8 +19,8 @@ LRESULT MainWindow::HandleMessage(HWND hwnd, UINT messageSign, WPARAM wparameter
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hwnd, &ps);
 
-		// All painting occurs here, between BeginPaint and EndPaint.
 		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_GRADIENTACTIVECAPTION));
+
 		EndPaint(hwnd, &ps);
 	}
 	return 0;

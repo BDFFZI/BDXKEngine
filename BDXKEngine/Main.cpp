@@ -1,14 +1,13 @@
-﻿#ifndef UNICODE
-#define UNICODE
-#endif 
-
-#include <windows.h>
-#include <iostream>
-using namespace std;
-#include "BDXKEngine.h"
+﻿#include "BDXKEngine.h"
 
 int main()
 {
+	Debug::Log(true);
+	Debug::LogWarning(23.23f);
+	Debug::LogError("文本");
+	Debug::Log((String*)0, 1);
+	Debug::Log((String)"微软文档永远的神" + false + 123);
+
 	MainWindow window;
 	window.Show();
 
