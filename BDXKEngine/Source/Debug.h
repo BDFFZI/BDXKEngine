@@ -5,11 +5,7 @@
 class Debug
 {
 public:
-	static void Log(String str)
-	{
-		using namespace std;
-		wcout << str << endl;
-	}
+	static void Log(String str);
 
 	/// <summary>
 	/// 输出带颜色的日志
@@ -30,24 +26,11 @@ public:
 	/// 淡黄色   = 14 |
 	/// 亮白色   = 15 |
 	/// </summary>
-	static void Log(String str, int color)
-	{
-		HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	static void Log(String str, int color);
 
-		SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | color);
-		Log(str);
-		SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | 7);
-	}
+	static void LogWarning(String str);
 
-	static void LogWarning(String str)
-	{
-		Log(str, 6);
-	}
-
-	static void LogError(String str)
-	{
-		Log(str, 4);
-	}
+	static void LogError(String str);
 };
 
 

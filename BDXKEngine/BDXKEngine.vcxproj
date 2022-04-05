@@ -148,15 +148,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Assert.cpp" />
     <ClCompile Include="Source\ComUtility.cpp" />
+    <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\DialogUtility.cpp" />
-    <ClCompile Include="Source\Assert.h" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MainWindow.cpp" />
     <ClCompile Include="Source\String.cpp" />
     <ClCompile Include="Source\WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Assert.h" />
     <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\ComUtility.h" />
     <ClInclude Include="Source\Debug.h" />

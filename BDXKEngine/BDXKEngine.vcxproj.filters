@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Assert.h">
-      <Filter>Diagnose</Filter>
-    </ClCompile>
     <ClCompile Include="Source\String.cpp">
       <Filter>Type</Filter>
     </ClCompile>
@@ -33,6 +30,12 @@
     </ClCompile>
     <ClCompile Include="Source\DialogUtility.cpp">
       <Filter>Extern</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Debug.cpp">
+      <Filter>Diagnose</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Assert.cpp">
+      <Filter>Diagnose</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,5 +59,8 @@
       <Filter>Extern</Filter>
     </ClInclude>
     <ClInclude Include="Source\Test.h" />
+    <ClInclude Include="Source\Assert.h">
+      <Filter>Diagnose</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
