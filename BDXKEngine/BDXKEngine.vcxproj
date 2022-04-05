@@ -72,15 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -140,23 +148,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ComUtility.cpp" />
-    <ClCompile Include="DialogUtility.cpp" />
-    <ClCompile Include="Assert.h" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="String.cpp" />
-    <ClCompile Include="WindowBase.cpp" />
+    <ClCompile Include="Source\ComUtility.cpp" />
+    <ClCompile Include="Source\DialogUtility.cpp" />
+    <ClCompile Include="Source\Assert.h" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\MainWindow.cpp" />
+    <ClCompile Include="Source\String.cpp" />
+    <ClCompile Include="Source\WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BDXKEngine.h" />
-    <ClInclude Include="ComUtility.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="DialogUtility.h" />
-    <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="Test.h" />
-    <ClInclude Include="WindowBase.h" />
-    <ClInclude Include="String.h" />
+    <ClInclude Include="Source\BDXKEngine.h" />
+    <ClInclude Include="Source\ComUtility.h" />
+    <ClInclude Include="Source\Debug.h" />
+    <ClInclude Include="Source\DialogUtility.h" />
+    <ClInclude Include="Source\MainWindow.h" />
+    <ClInclude Include="Source\Test.h" />
+    <ClInclude Include="Source\WindowBase.h" />
+    <ClInclude Include="Source\String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
