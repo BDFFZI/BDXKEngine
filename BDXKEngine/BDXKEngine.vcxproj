@@ -140,9 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Assert.cpp" />
     <ClCompile Include="ComUtility.cpp" />
-    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DialogUtility.cpp" />
     <ClCompile Include="Assert.h" />
     <ClCompile Include="Main.cpp" />
@@ -159,9 +157,6 @@
     <ClInclude Include="Test.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="String.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="BDXKEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

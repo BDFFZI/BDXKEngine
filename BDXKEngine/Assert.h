@@ -6,5 +6,8 @@
 class Assert
 {
 public:
-	static void IsSucceeded(LRESULT result, const char* errorLog = "错误断言：函数的执行结果实际是失败的。");
+	static void IsSucceeded(LRESULT result, const char* errorLog = "错误断言：函数的执行结果实际是失败的。")
+	{
+		if (FAILED(result))throw std::domain_error(errorLog);
+	}
 };

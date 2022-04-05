@@ -1,4 +1,3 @@
-using namespace std;
 #include "WindowBase.h"
 
 

@@ -32,3 +32,4 @@
 #include "DialogUtility.h"
 #include "MainWindow.h"
 #include "Debug.h"
+#include "Assert.h"

@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "Assert.h"
 
 MainWindow::MainWindow() :WindowBase(L"MainWindow")
 {
