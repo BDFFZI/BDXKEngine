@@ -94,6 +94,10 @@ void MainWindow::OnPaint()
 
 		//ÉèÖÃ±³¾°
 		renderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
+		//ÉèÖÃ»­±ÊÑÕÉ«
+		D2D1_COLOR_F color = brush->GetColor();
+		color.r = fmod((color.r + 0.01f), 1);
+		brush->SetColor(color);
 		//»æÖÆÔ²ÐÎ
 		D2D1_SIZE_F size = renderTarget->GetSize();
 		const float x = size.width / 2;
