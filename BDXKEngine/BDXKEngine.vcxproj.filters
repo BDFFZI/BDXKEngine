@@ -19,6 +19,18 @@
     <Filter Include="头文件\Window">
       <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Debug">
+      <UniqueIdentifier>{15dea8a3-8bbc-49df-bb6a-dff82e9fddf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Debug">
+      <UniqueIdentifier>{dc26758d-4f74-4030-b6e6-74f498a75059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Data">
+      <UniqueIdentifier>{c9d0ce2c-705c-461f-a941-c7dc9116a6f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Data">
+      <UniqueIdentifier>{2e6a3bbf-753f-4af7-9e36-2e0754cb949e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -29,6 +41,24 @@
     </ClCompile>
     <ClCompile Include="WindowBase.cpp">
       <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogUtility.cpp">
+      <Filter>源文件\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Assert.h">
+      <Filter>头文件\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>源文件\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ComUtility.cpp">
+      <Filter>源文件\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>源文件\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Assert.cpp">
+      <Filter>源文件\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,14 +73,23 @@
     <ClInclude Include="MainWindow.h">
       <Filter>头文件\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Debug.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="BDXKEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DialogUtility.h">
+      <Filter>头文件\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>头文件\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="String.h">
+      <Filter>头文件\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ComUtility.h">
+      <Filter>头文件\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

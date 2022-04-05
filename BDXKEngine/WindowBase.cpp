@@ -1,26 +1,26 @@
-#include"BDXKEngine.h"
-#include <iostream>
 using namespace std;
+#include "WindowBase.h"
 
 
 WindowBase::WindowBase(PCWSTR windowName)
 {
-	WindowName = windowName;
+	this->windowName = windowName;
+	this->hwnd = NULL;
 }
 
 void WindowBase::Show()
 {
 	//向操作系统注册窗口类
 	WNDCLASS windowClass = {};
-	windowClass.lpszClassName = WindowName;//类名，标识
+	windowClass.lpszClassName = windowName;//类名，标识
 	windowClass.lpfnWndProc = WindowProcess;//窗口消息处理函数
 	RegisterClass(&windowClass);
 
 	//创建窗口
 	HWND hwnd = CreateWindowEx(
 		0,//窗口行为
-		WindowName, //窗口类名称
-		WindowName,//窗口标题
+		windowName, //窗口类名称
+		windowName,//窗口标题
 		WS_OVERLAPPEDWINDOW,//窗口样式
 		CW_USEDEFAULT, CW_USEDEFAULT,//窗口位置xy
 		CW_USEDEFAULT, CW_USEDEFAULT,//窗口大小xy
@@ -36,12 +36,12 @@ void WindowBase::Show()
 
 PCWSTR WindowBase::GetWindowName()
 {
-	return WindowName;
+	return windowName;
 }
 
-LRESULT CALLBACK WindowBase::HandleMessage(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+LRESULT CALLBACK WindowBase::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
-	return	DefWindowProc(hwnd, messageSign, wparameter, lparameter);
+	return DefWindowProc(hwnd, messageSign, wparameter, lparameter);
 }
 
 LRESULT CALLBACK WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
@@ -55,6 +55,7 @@ LRESULT CALLBACK WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM w
 		CREATESTRUCT* createStruct = (CREATESTRUCT*)lparameter;
 		window = (WindowBase*)createStruct->lpCreateParams;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
+		window->hwnd = hwnd;
 	}
 	else
 	{
@@ -64,10 +65,10 @@ LRESULT CALLBACK WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM w
 	if (window != NULL)
 	{
 		//使用窗口实例提供的消息处理程序
-		return window->HandleMessage(hwnd, messageSign, wparameter, lparameter);
+		return window->HandleMessage(messageSign, wparameter, lparameter);
 	}
 	else
 	{
-		return	DefWindowProc(hwnd, messageSign, wparameter, lparameter);
+		return DefWindowProc(hwnd, messageSign, wparameter, lparameter);
 	}
 }
