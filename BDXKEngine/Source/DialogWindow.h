@@ -5,7 +5,7 @@
 #include<stdexcept>
 #include "String.h"
 
-class DialogUtility
+class DialogWindow
 {
 public:
 	static String FileOpenDialog();

@@ -6,7 +6,7 @@
 #include <shobjidl.h> 
 #include<atlbase.h>
 #include"Assert.h"
-class ComUtility
+class Com
 {
 public:
 	/// <summary>

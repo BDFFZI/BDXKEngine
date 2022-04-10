@@ -148,25 +148,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\Color.cpp" />
+    <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\Assert.cpp" />
-    <ClCompile Include="Source\ComUtility.cpp" />
+    <ClCompile Include="Source\Com.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
-    <ClCompile Include="Source\DialogUtility.cpp" />
+    <ClCompile Include="Source\DialogWindow.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MainWindow.cpp" />
     <ClCompile Include="Source\String.cpp" />
     <ClCompile Include="Source\WindowBase.cpp" />
+    <ClCompile Include="Source\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\Math.h" />
+    <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\Assert.h" />
     <ClInclude Include="Source\BDXKEngine.h" />
-    <ClInclude Include="Source\ComUtility.h" />
+    <ClInclude Include="Source\Com.h" />
     <ClInclude Include="Source\Debug.h" />
-    <ClInclude Include="Source\DialogUtility.h" />
+    <ClInclude Include="Source\DialogWindow.h" />
     <ClInclude Include="Source\MainWindow.h" />
     <ClInclude Include="Source\Test.h" />
     <ClInclude Include="Source\WindowBase.h" />
     <ClInclude Include="Source\String.h" />
+    <ClInclude Include="Source\Vector2.h" />
+    <ClInclude Include="Source\Color.h" />
+    <ClInclude Include="Source\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

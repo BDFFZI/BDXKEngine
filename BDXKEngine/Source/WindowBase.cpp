@@ -38,6 +38,11 @@ PCWSTR WindowBase::GetWindowName()
 	return windowName;
 }
 
+HWND WindowBase::GetHwnd()
+{
+	return hwnd;
+}
+
 LRESULT CALLBACK WindowBase::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
 	return DefWindowProc(hwnd, messageSign, wparameter, lparameter);

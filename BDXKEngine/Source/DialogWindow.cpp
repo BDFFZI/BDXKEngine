@@ -1,6 +1,6 @@
-#include "DialogUtility.h"
+#include "DialogWindow.h"
 
-String DialogUtility::FileOpenDialog()
+String DialogWindow::FileOpenDialog()
 {
 	HRESULT result = CoInitialize(NULL);//初始化COM环境
 	if (FAILED(result)) {
@@ -46,7 +46,7 @@ String DialogUtility::FileOpenDialog()
 	return path;
 }
 
-String DialogUtility::FileSaveDialog()
+String DialogWindow::FileSaveDialog()
 {
 	throw std::exception("未定义错误");
 }

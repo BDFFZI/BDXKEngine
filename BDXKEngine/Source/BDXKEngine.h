@@ -26,10 +26,47 @@
 
 //基础数据结构
 #include "String.h"
-#include "ComUtility.h"
+#include "Com.h"
+#include "Color.h"
+#include "Vector2.h"
+#include "Math.h"
+#include "Time.h"
 //扩展功能
 #include "WindowBase.h"
-#include "DialogUtility.h"
+#include "DialogWindow.h"
 #include "MainWindow.h"
 #include "Debug.h"
 #include "Assert.h"
+#include "GameObject.h"
+#include "Component.h"
+
+class BDXKEngine {
+public:
+	static void Initialize()
+	{
+		std::setlocale(LC_ALL, "zh-CN");
+		WindowBase window = { L"BDXKEngine" };
+		window.Show();
+		Graphics::SetRenderTarget(window.GetHwnd());
+		Time::Initialize();
+	}
+
+	static void Run()
+	{
+		while (true)
+		{
+			Time::BeginFrame();
+			Graphics::BeginDraw();
+
+			Graphics::ClearCanvas();
+
+			for (GameObject* gameObject : GameObject::gameObjects)
+			{
+				gameObject->OnUpdate();
+			}
+
+			Graphics::EndDraw();
+			Time::EndFrame();
+		}
+	}
+};

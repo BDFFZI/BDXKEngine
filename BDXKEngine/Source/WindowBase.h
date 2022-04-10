@@ -7,6 +7,7 @@ public:
 	WindowBase(PCWSTR windowName);
 	void Show();
 	PCWSTR GetWindowName();
+	HWND GetHwnd();
 protected:
 	virtual LRESULT CALLBACK HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	PCWSTR windowName;
