@@ -13,7 +13,7 @@ private:
 	static long frameTime;
 	static float deltaTime;
 
-	static void Initialize();
+	static void Awake();
 	static void BeginFrame();
 	static void EndFrame();
 };

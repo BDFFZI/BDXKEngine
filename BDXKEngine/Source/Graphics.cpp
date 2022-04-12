@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Com.h"
 #include "Assert.h"
+#include "WindowUtility.h"
 
 HWND Graphics::hwnd = NULL;
 PAINTSTRUCT* Graphics::paintStruct = NULL;
@@ -21,13 +22,7 @@ void Graphics::SetRenderTarget(HWND hwnd)
 
 void Graphics::ResetCanvas()
 {
-	RECT rect;
-	GetClientRect(hwnd, &rect);
-	D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
-
-	renderTarget->Resize(size);
-	//缩小窗口时不会发送重绘事件，所以手动废弃这部分画面，以便激活重绘事件
-	InvalidateRect(hwnd, &rect, true);
+	renderTarget->Resize(WindowUtility::GetSize(hwnd));
 }
 
 void Graphics::ClearCanvas(Color color)

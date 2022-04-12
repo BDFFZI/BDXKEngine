@@ -42,31 +42,12 @@
 
 class BDXKEngine {
 public:
-	static void Initialize()
-	{
-		std::setlocale(LC_ALL, "zh-CN");
-		WindowBase window = { L"BDXKEngine" };
-		window.Show();
-		Graphics::SetRenderTarget(window.GetHwnd());
-		Time::Initialize();
-	}
+	static void Awake();
 
-	static void Run()
-	{
-		while (true)
-		{
-			Time::BeginFrame();
-			Graphics::BeginDraw();
+	static void Update();
 
-			Graphics::ClearCanvas();
+	static void Run();
 
-			for (GameObject* gameObject : GameObject::gameObjects)
-			{
-				gameObject->OnUpdate();
-			}
-
-			Graphics::EndDraw();
-			Time::EndFrame();
-		}
-	}
+private:
+	static MainWindow *window;
 };

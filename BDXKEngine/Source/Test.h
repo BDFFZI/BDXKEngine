@@ -19,15 +19,9 @@ public:
 		TestWindow(window);
 	}
 
-	static void TestMainWindow()
-	{
-		MainWindow window;
-		TestWindow(window);
-	}
-
 	static void TestGameObject()
 	{
-		BDXKEngine::Initialize();
+		BDXKEngine::Awake();
 
 		//在此创建初始场景
 		GameObject* gameObject = new GameObject(L"BDXKEngine");
@@ -36,6 +30,7 @@ public:
 		//组件2
 		TestComponent* testComponent = gameObject->AddComponent<TestComponent>();
 		testComponent->x = 600;
+
 
 		BDXKEngine::Run();
 	}

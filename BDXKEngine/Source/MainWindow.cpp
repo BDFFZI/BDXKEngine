@@ -1,8 +1,9 @@
 #include "MainWindow.h"
 #include "Assert.h"
 #include "Graphics.h"
+#include "BDXKEngine.h"
 
-MainWindow::MainWindow() :WindowBase(L"MainWindow")
+MainWindow::MainWindow() :WindowBase(L"BDXKEngine")
 {
 	painter = {};
 }
@@ -27,14 +28,20 @@ LRESULT MainWindow::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lp
 		PostQuitMessage(0);
 		return 0;
 	case WM_PAINT:
-		OnPaint();
+		BDXKEngine::Update();
 		return 0;
 	case WM_SIZE:
 		Graphics::ResetCanvas();
+		RePaint();
 		return 0;
 	}
 
 	return DefWindowProc(hwnd, messageSign, wparameter, lparameter);
+}
+
+void MainWindow::RePaint(bool clear)
+{
+	InvalidateRect(hwnd, NULL, clear);
 }
 
 void MainWindow::OnPaint()

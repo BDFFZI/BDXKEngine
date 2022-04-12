@@ -19,6 +19,9 @@
     <Filter Include="Type\Object">
       <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mathematics\Vector">
+      <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\String.cpp">
@@ -56,6 +59,8 @@
       <Filter>Type\Object</Filter>
     </ClCompile>
     <ClCompile Include="Source\Time.cpp" />
+    <ClCompile Include="Source\WindowUtility.cpp" />
+    <ClCompile Include="Source\BDXKEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
@@ -87,9 +92,6 @@
     <ClInclude Include="Source\Graphics.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Vector2.h">
-      <Filter>Mathematics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Math.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
@@ -100,5 +102,14 @@
       <Filter>Type\Object</Filter>
     </ClInclude>
     <ClInclude Include="Source\Time.h" />
+    <ClInclude Include="Source\Vector2.h">
+      <Filter>Mathematics\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vector2Int.h">
+      <Filter>Mathematics\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WindowUtility.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

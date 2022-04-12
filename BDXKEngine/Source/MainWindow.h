@@ -13,6 +13,7 @@ public:
 	~MainWindow();
 protected:
 	LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter) override;
+	void RePaint(bool clear = true);
 private:
 	void OnPaint();
 	Graphics* painter;

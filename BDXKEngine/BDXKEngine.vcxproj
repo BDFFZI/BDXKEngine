@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\BDXKEngine.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Source\String.cpp" />
     <ClCompile Include="Source\WindowBase.cpp" />
     <ClCompile Include="Source\Time.cpp" />
+    <ClCompile Include="Source\WindowUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component.h" />
@@ -179,6 +181,8 @@
     <ClInclude Include="Source\Vector2.h" />
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\Time.h" />
+    <ClInclude Include="Source\Vector2Int.h" />
+    <ClInclude Include="Source\WindowUtility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

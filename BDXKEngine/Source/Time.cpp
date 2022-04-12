@@ -15,7 +15,7 @@ long Time::startTime = 0;
 long Time::frameTime = 0;
 float Time::deltaTime = 0;
 
-void Time::Initialize()
+void Time::Awake()
 {
 	Time::startTime = GetSystemTime();
 }

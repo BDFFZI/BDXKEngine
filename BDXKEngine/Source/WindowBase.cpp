@@ -1,9 +1,8 @@
 #include "WindowBase.h"
 
-
-WindowBase::WindowBase(PCWSTR windowName)
+WindowBase::WindowBase(PCWSTR name)
 {
-	this->windowName = windowName;
+	this->name = name;
 	this->hwnd = NULL;
 }
 
@@ -11,15 +10,15 @@ void WindowBase::Show()
 {
 	//向操作系统注册窗口类
 	WNDCLASS windowClass = {};
-	windowClass.lpszClassName = windowName;//类名，标识
+	windowClass.lpszClassName = name;//类名，标识
 	windowClass.lpfnWndProc = WindowProcess;//窗口消息处理函数
 	RegisterClass(&windowClass);
 
 	//创建窗口
 	HWND hwnd = CreateWindowEx(
 		0,//窗口行为
-		windowName, //窗口类名称
-		windowName,//窗口标题
+		name, //窗口类名称
+		name,//窗口标题
 		WS_OVERLAPPEDWINDOW,//窗口样式
 		CW_USEDEFAULT, CW_USEDEFAULT,//窗口位置xy
 		CW_USEDEFAULT, CW_USEDEFAULT,//窗口大小xy
@@ -33,14 +32,23 @@ void WindowBase::Show()
 	ShowWindow(hwnd, SW_SHOWDEFAULT);
 }
 
-PCWSTR WindowBase::GetWindowName()
+PCWSTR WindowBase::GetName()
 {
-	return windowName;
+	return name;
 }
 
 HWND WindowBase::GetHwnd()
 {
 	return hwnd;
+}
+
+Vector2Int WindowBase::GetSize()
+{
+	RECT rect;
+	GetClientRect(hwnd, &rect);
+	D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
+
+	return size;
 }
 
 LRESULT CALLBACK WindowBase::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
@@ -66,8 +74,14 @@ LRESULT CALLBACK WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM w
 		window = (WindowBase*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
 
+
 	if (window != NULL)
 	{
+		if (messageSign == WM_SIZE)
+		{
+			window->size = WindowUtility::GetSize(hwnd);
+		}
+
 		//使用窗口实例提供的消息处理程序
 		return window->HandleMessage(messageSign, wparameter, lparameter);
 	}
