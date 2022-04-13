@@ -22,7 +22,7 @@ void Graphics::SetRenderTarget(HWND hwnd)
 
 void Graphics::ResetCanvas()
 {
-	renderTarget->Resize(WindowUtility::GetSize(hwnd));
+	renderTarget->Resize(WindowUtility::GetWindowSize(hwnd));
 }
 
 void Graphics::ClearCanvas(Color color)
@@ -40,6 +40,11 @@ void Graphics::SetBrushColor(Color color)
 	brush->SetColor(color);
 }
 
+void Graphics::SetTransform(Matrix matrix)
+{
+	renderTarget->SetTransform(matrix);
+}
+
 void Graphics::BeginDraw(Color color)
 {
 	if (renderTarget == NULL)
@@ -49,6 +54,7 @@ void Graphics::BeginDraw(Color color)
 	BeginPaint(hwnd, paintStruct);
 	renderTarget->BeginDraw();
 	SetBrushColor(color);
+	SetTransform(D2D1::IdentityMatrix());
 }
 
 void Graphics::EndDraw()

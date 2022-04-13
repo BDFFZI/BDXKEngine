@@ -148,7 +148,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\BDXKEngine.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -156,15 +155,17 @@
     <ClCompile Include="Source\Assert.cpp" />
     <ClCompile Include="Source\Com.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
-    <ClCompile Include="Source\DialogWindow.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\MainWindow.cpp" />
+    <ClCompile Include="Source\Matrix.cpp" />
+    <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\String.cpp" />
     <ClCompile Include="Source\WindowBase.cpp" />
     <ClCompile Include="Source\Time.cpp" />
     <ClCompile Include="Source\WindowUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Exception.h" />
+    <ClInclude Include="Source\Matrix.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Math.h" />
@@ -173,8 +174,7 @@
     <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\Com.h" />
     <ClInclude Include="Source\Debug.h" />
-    <ClInclude Include="Source\DialogWindow.h" />
-    <ClInclude Include="Source\MainWindow.h" />
+    <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Test.h" />
     <ClInclude Include="Source\WindowBase.h" />
     <ClInclude Include="Source\String.h" />

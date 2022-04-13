@@ -7,9 +7,6 @@
     <Filter Include="Utility">
       <UniqueIdentifier>{9e7d04b0-bc01-4e99-acb6-890f6e6ebed2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Window">
-      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
     </Filter>
@@ -22,23 +19,23 @@
     <Filter Include="Mathematics\Vector">
       <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Type\Window">
+      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\String.cpp">
       <Filter>Type</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainWindow.cpp">
-      <Filter>Window</Filter>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Type\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\WindowBase.cpp">
-      <Filter>Window</Filter>
+      <Filter>Type\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Com.cpp">
       <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DialogWindow.cpp">
-      <Filter>Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Assert.cpp">
       <Filter>Utility</Filter>
@@ -58,16 +55,22 @@
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Type\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Time.cpp" />
-    <ClCompile Include="Source\WindowUtility.cpp" />
-    <ClCompile Include="Source\BDXKEngine.cpp" />
+    <ClCompile Include="Source\WindowUtility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Time.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Matrix.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
-      <Filter>Window</Filter>
+      <Filter>Type\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MainWindow.h">
-      <Filter>Window</Filter>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Type\Window</Filter>
     </ClInclude>
     <ClInclude Include="Source\String.h">
       <Filter>Type</Filter>
@@ -77,9 +80,6 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Source\Test.h" />
-    <ClInclude Include="Source\DialogWindow.h">
-      <Filter>Window</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Assert.h">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -101,7 +101,6 @@
     <ClInclude Include="Source\GameObject.h">
       <Filter>Type\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Time.h" />
     <ClInclude Include="Source\Vector2.h">
       <Filter>Mathematics\Vector</Filter>
     </ClInclude>
@@ -110,6 +109,15 @@
     </ClInclude>
     <ClInclude Include="Source\WindowUtility.h">
       <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Time.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Matrix.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Exception.h">
+      <Filter>Type</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

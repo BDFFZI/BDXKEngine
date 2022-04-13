@@ -25,16 +25,17 @@
 //LPARAM = int
 
 //基础数据结构
+#include <functional>
 #include "String.h"
 #include "Com.h"
 #include "Color.h"
 #include "Vector2.h"
 #include "Math.h"
 #include "Time.h"
+#include "Matrix.h"
 //扩展功能
 #include "WindowBase.h"
-#include "DialogWindow.h"
-#include "MainWindow.h"
+#include "Window.h"
 #include "Debug.h"
 #include "Assert.h"
 #include "GameObject.h"
@@ -42,12 +43,56 @@
 
 class BDXKEngine {
 public:
-	static void Awake();
+	static void Run(std::function<void()> onStart)
+	{
+		std::setlocale(LC_ALL, "zh-CN");
 
-	static void Update();
+		//初始化
+		Window window = Window(L"BDXKEngine",
+			//OnCreate
+			[](Window* window) {
+				Graphics::SetRenderTarget(window->GetHwnd());
+				Time::Awake();
+			},
+			//OnPaint
+				[](Window* window) {
+				Time::BeginFrame();
+				Graphics::BeginDraw();
 
-	static void Run();
+				Graphics::ClearCanvas();
 
-private:
-	static MainWindow *window;
+				for (GameObject* gameObject : GameObject::gameObjects)
+				{
+					gameObject->OnUpdate();
+				}
+
+				Graphics::EndDraw();
+				Time::EndFrame();
+			},
+				//OnSize
+				[](Window* window) {
+				Graphics::ResetCanvas();
+				window->RePaint();
+			});
+		window.Show();
+
+		//完成初始化后，正式循环前
+		onStart();
+
+		//正式循环
+		HWND hwnd = window.GetHwnd();
+		MSG msg = {};
+		while (true)
+		{
+			//保证消息队列不为空，从而一直更新窗口
+			if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
+				PostMessage(hwnd, WM_PAINT, NULL, NULL);
+
+			//获取消息
+			GetMessage(&msg, hwnd, 0, 0);
+			//预处理后交给窗口过程响应
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
 };

@@ -32,9 +32,11 @@ public:
 	String(wchar_t* value) :std::wstring(value) {}
 	String(const char* value) :std::wstring(to_wstring(std::string(value))) {}
 	String(char* value) :std::wstring(to_wstring(std::string(value))) {}
+	String(std::wstring value) :std::wstring(value) {}
+	String(std::string value) :std::wstring(to_wstring(value)) {}
 	//带格式转换
 	template<typename TDataType>
-	String(TDataType value,  std::ios_base& (*format)(std::ios_base&)) {
+	String(TDataType value, std::ios_base& (*format)(std::ios_base&)) {
 		std::wstringstream stringStream;
 		stringStream << format << value;
 		append(stringStream.str());
