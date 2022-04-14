@@ -64,6 +64,12 @@
     <ClCompile Include="Source\Matrix.cpp">
       <Filter>Mathematics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vector2.cpp">
+      <Filter>Mathematics\Vector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
@@ -118,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Source\Exception.h">
       <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

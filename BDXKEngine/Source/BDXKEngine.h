@@ -9,7 +9,7 @@
 //C++特殊函数后缀，代表函数的不同版本
 // 
 //函数中使用的字符类型
-//A ASCII编码
+//a ASCII编码
 //W 宽字符编码，咱中文就用这个
 // 
 //一般表明颜色存储方式
@@ -33,6 +33,7 @@
 #include "Math.h"
 #include "Time.h"
 #include "Matrix.h"
+#include "Input.h"
 //扩展功能
 #include "WindowBase.h"
 #include "Window.h"
@@ -49,30 +50,69 @@ public:
 
 		//初始化
 		Window window = Window(L"BDXKEngine",
-			//OnCreate
-			[](Window* window) {
-				Graphics::SetRenderTarget(window->GetHwnd());
-				Time::Awake();
-			},
-			//OnPaint
-				[](Window* window) {
-				Time::BeginFrame();
-				Graphics::BeginDraw();
-
-				Graphics::ClearCanvas();
-
-				for (GameObject* gameObject : GameObject::gameObjects)
+			[](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
+				switch (messageSign)
 				{
-					gameObject->OnUpdate();
+				case WM_CREATE:
+				{
+					Graphics::SetRenderTarget(window->GetHwnd());
+					Time::Awake();
+					return true;
 				}
+				case WM_CLOSE:
+				{
+					if (MessageBox(window->GetHwnd(), L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
+						DestroyWindow(window->GetHwnd());
+					return true;
+				}
+				case WM_DESTROY:
+				{
+					PostQuitMessage(0);
+					return true;
+				}
+				case WM_PAINT:
+				{
+					Time::BeginFrame();
+					Graphics::BeginDraw();
 
-				Graphics::EndDraw();
-				Time::EndFrame();
-			},
-				//OnSize
-				[](Window* window) {
-				Graphics::ResetCanvas();
-				window->RePaint();
+					Graphics::ClearCanvas();
+
+					for (GameObject* gameObject : GameObject::gameObjects)
+					{
+						gameObject->Update();
+					}
+
+					Graphics::EndDraw();
+					Time::EndFrame();
+					Input::Update();
+					return true;
+				}
+				case WM_SIZE:
+				{
+					Graphics::ResetCanvas();
+					window->RePaint();
+					return true;
+				}
+				case WM_LBUTTONDOWN:
+				{
+					Input::mouseButtonState[0] = true;
+
+					int x = lparameter << 48 >> 48;
+					int y = lparameter >> 16;
+					Input::mousePosition = Vector2(x, y);
+					return true;
+				}
+				case WM_LBUTTONUP:
+				{
+					Input::mouseButtonState[0] = false;
+
+					int x = lparameter << 48 >> 48;
+					int y = lparameter >> 16;
+					Input::mousePosition = Vector2(x, y);
+					return true;
+				}
+				}
+				return false;
 			});
 		window.Show();
 

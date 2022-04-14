@@ -7,7 +7,7 @@ std::vector<GameObject*> GameObject::gameObjects;
 	gameObjects.push_back(this);
 }
 
-void GameObject::OnUpdate()
+void GameObject::Update()
 {
 	for (Component* component : startGameObjects)
 	{
@@ -17,7 +17,7 @@ void GameObject::OnUpdate()
 	startGameObjects.clear();
 
 	for (Component* component : updateGameObjects)
-		component->OnUpdate();
+		component->Update();
 
 	for (Component* component : updateGameObjects)
 		component->OnLateUpdate();

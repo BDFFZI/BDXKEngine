@@ -3,17 +3,24 @@
 struct Color
 {
 public:
-	float R;
-	float G;
-	float B;
-	float A;
+	static const Color clear;
+	static const Color white;
+	static const Color black;
+	static const Color red;
+	static const Color green;
+	static const Color blue;
+
+	float r;
+	float g;
+	float b;
+	float a;
 
 	Color(float r, float g, float b, float a)
 	{
-		R = r;
-		G = g;
-		B = b;
-		A = a;
+		this->r = r;
+		this->g = g;
+		this->b = b;
+		this->a = a;
 	}
 
 	Color(float r, float g, float b) :Color(r, g, b, 1)
@@ -23,13 +30,8 @@ public:
 
 	operator D2D1_COLOR_F()
 	{
-		return D2D1::ColorF(R, G, B, A);
+		return D2D1::ColorF(r, g, b, a);
 	}
 
-	static const Color Clear;
-	static const Color White;
-	static const Color Black;
-	static const Color Red;
-	static const Color Green;
-	static const Color Blue;
+
 };

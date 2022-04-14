@@ -6,9 +6,7 @@ class Window : public WindowBase
 {
 public:
 	Window(const wchar_t* name,
-		std::function<void(Window *window)> onCreate,
-		std::function<void(Window *window)> onPaint,
-		std::function<void(Window *window)> onSize
+		std::function<bool(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
 	);
 
 	Window();
@@ -17,8 +15,6 @@ public:
 protected:
 	LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter) override;
 private:
-	std::function<void(Window *window)> OnCreate;
-	std::function<void(Window *window)> OnPaint;
-	std::function<void(Window *window)> OnSize;
+	std::function<bool(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent;
 };
 

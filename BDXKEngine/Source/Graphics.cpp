@@ -76,9 +76,14 @@ void Graphics::DrawCircle(Vector2 center, float radius, bool isFill)
 		renderTarget->DrawEllipse(ellipse, brush);
 }
 
+void Graphics::DrawRectangleCenter(Vector2 center, Vector2 size, bool isFill)
+{
+	DrawRectangle(center - size / 2, size, isFill);
+}
+
 void Graphics::DrawRectangle(Vector2 origin, Vector2 size, bool isFill)
 {
-	const D2D1_RECT_F rect = D2D1::RectF(origin.x, size.y, size.x, origin.y);
+	const D2D1_RECT_F rect = D2D1::RectF(origin.x, origin.y, origin.x + size.x,origin.y + size.y);
 	if (isFill)
 		renderTarget->FillRectangle(rect, brush);
 	else

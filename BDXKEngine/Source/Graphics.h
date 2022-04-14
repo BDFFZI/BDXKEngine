@@ -11,17 +11,18 @@ public:
 	static void SetRenderTarget(HWND hwnd);
 
 	static void ResetCanvas();
-	static void ClearCanvas(Color color = Color::Black);
+	static void ClearCanvas(Color color = Color::black);
 	static Vector2 GetCanvasSize();
 
-	static void SetBrushColor(Color color = Color::White);
-	static void SetTransform(Matrix matrix = Matrix::Identity);
+	static void SetBrushColor(Color color = Color::white);
+	static void SetTransform(Matrix matrix = Matrix::identity);
 
-	static void BeginDraw(Color color = Color::White);
+	static void BeginDraw(Color color = Color::white);
 	static void EndDraw();
 
 	static void DrawCircle(Vector2 center, float radius, bool isFill);
 	static void DrawRectangle(Vector2 origin, Vector2 size, bool isFill);
+	static void DrawRectangleCenter(Vector2 center, Vector2 size, bool isFill);
 
 	static ID2D1HwndRenderTarget* GetRenderTarget() { return renderTarget.p; }
 private:

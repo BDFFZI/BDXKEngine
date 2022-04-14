@@ -3,6 +3,13 @@
 struct Vector2
 {
 public:
+	static const Vector2 zero;
+	static const Vector2 one;
+	static const Vector2 left;
+	static const Vector2 right;
+	static const Vector2 up;
+	static const Vector2 down;
+
 	float x;
 	float y;
 
@@ -28,8 +35,35 @@ public:
 		return D2D1::Point2F(x, y);
 	}
 
-	Vector2  operator/(float value)
+
+
+	Vector2 operator+(float value)
+	{
+		return Vector2(x + value, y + value);
+	}
+
+	Vector2 operator-(float value)
+	{
+		return Vector2(x - value, y - value);
+	}
+
+	Vector2 operator*(float value)
+	{
+		return Vector2(x * value, y * value);
+	}
+
+	Vector2 operator/(float value)
 	{
 		return Vector2(x / value, y / value);
+	}
+
+	Vector2 operator+(Vector2 value)
+	{
+		return Vector2(x + value.x, y + value.y);
+	}
+
+	Vector2 operator-(Vector2 value)
+	{
+		return Vector2(x - value.x, y - value.y);
 	}
 };

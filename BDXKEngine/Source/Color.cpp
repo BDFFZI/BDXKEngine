@@ -1,8 +1,8 @@
 #include "Color.h"
 
-const Color Color::Clear = Color(0, 0, 0, 0);
-const Color Color::White = Color(1, 1, 1);
-const Color Color::Black = Color(0, 0, 0);
-const Color Color::Red = Color(1, 0, 0);
-const Color Color::Green = Color(0, 1, 0);
-const Color Color::Blue = Color(0, 0, 1);
+const Color Color::clear = Color(0, 0, 0, 0);
+const Color Color::white = Color(1, 1, 1);
+const Color Color::black = Color(0, 0, 0);
+const Color Color::red = Color(1, 0, 0);
+const Color Color::green = Color(0, 1, 0);
+const Color Color::blue = Color(0, 0, 1);

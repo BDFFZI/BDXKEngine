@@ -19,7 +19,7 @@ public:
 		//确保TComponent实现相应的构造函数
 		Component* component = new TComponent();
 		component->gameObject = this;
-		component->OnAwake();
+		component->Awake();
 		components.push_back(component);
 		startGameObjects.push_back(component);
 		return (TComponent*)component;
@@ -31,6 +31,6 @@ private:
 	std::vector<Component*> startGameObjects;
 	std::vector<Component*> updateGameObjects;
 
-	void OnUpdate();
+	void Update();
 };
 

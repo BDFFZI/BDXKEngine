@@ -155,8 +155,10 @@
     <ClCompile Include="Source\Assert.cpp" />
     <ClCompile Include="Source\Com.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
+    <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Matrix.cpp" />
+    <ClCompile Include="Source\Vector2.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\String.cpp" />
     <ClCompile Include="Source\WindowBase.cpp" />
@@ -165,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Exception.h" />
+    <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Matrix.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
