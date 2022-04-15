@@ -110,36 +110,40 @@ public:
 				case WM_LBUTTONDOWN:
 				{
 					Input::mouseButtonState[0] = true;
+					SetCapture(window->GetHwnd());
 					return true;
 				}
 				case WM_LBUTTONUP:
 				{
 					Input::mouseButtonState[0] = false;
+					ReleaseCapture();
 					return true;
 				}
 				case WM_RBUTTONDOWN:
 				{
 					Input::mouseButtonState[1] = true;
+					SetCapture(window->GetHwnd());
 					return true;
 				}
 				case WM_RBUTTONUP:
 				{
 					Input::mouseButtonState[1] = false;
+					ReleaseCapture();
 					return true;
 				}
 				case WM_MBUTTONDOWN:
 				{
 					Input::mouseButtonState[2] = true;
+					SetCapture(window->GetHwnd());
 					return true;
 				}
 				case WM_MBUTTONUP:
 				{
 					Input::mouseButtonState[2] = false;
+					ReleaseCapture();
 					return true;
 				}
 #pragma endregion
-
-
 				}
 				return false;
 			});
