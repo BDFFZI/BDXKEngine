@@ -1,6 +1,7 @@
 #include "Input.h"
 
 Vector2 Input::mousePosition;
+Vector2 Input::mouseScrollDelta;
 bool Input::lastMouseButtonState[3];
 bool Input::mouseButtonState[3];
 bool Input::lastKeyboardState[26];
@@ -36,4 +37,5 @@ void Input::Update()
 	{
 		lastMouseButtonState[i] = mouseButtonState[i];
 	}
+	mouseScrollDelta.y *= 0.7f;
 }

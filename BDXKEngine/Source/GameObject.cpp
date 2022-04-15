@@ -11,7 +11,7 @@ void GameObject::Update()
 {
 	for (Component* component : startGameObjects)
 	{
-		component->OnStart();
+		component->Start();
 		updateGameObjects.push_back(component);
 	}
 	startGameObjects.clear();
@@ -20,7 +20,7 @@ void GameObject::Update()
 		component->Update();
 
 	for (Component* component : updateGameObjects)
-		component->OnLateUpdate();
+		component->LateUpdate();
 
 	for (Component* component : updateGameObjects)
 		component->OnRenderObject();

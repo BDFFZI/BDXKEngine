@@ -55,7 +55,7 @@
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Type\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\WindowUtility.cpp">
+    <ClCompile Include="Source\Screen.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="Source\Time.cpp">
@@ -69,6 +69,12 @@
     </ClCompile>
     <ClCompile Include="Source\Vector2.cpp">
       <Filter>Mathematics\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rect.h">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cursor.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +119,7 @@
     <ClInclude Include="Source\Vector2Int.h">
       <Filter>Mathematics\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Source\WindowUtility.h">
+    <ClInclude Include="Source\Screen.h">
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Source\Time.h">
@@ -126,6 +132,9 @@
       <Filter>Type</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Cursor.h">
       <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>

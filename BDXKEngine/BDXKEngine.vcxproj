@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Cursor.cpp" />
+    <ClCompile Include="Source\Rect.h" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Color.cpp" />
@@ -163,9 +165,10 @@
     <ClCompile Include="Source\String.cpp" />
     <ClCompile Include="Source\WindowBase.cpp" />
     <ClCompile Include="Source\Time.cpp" />
-    <ClCompile Include="Source\WindowUtility.cpp" />
+    <ClCompile Include="Source\Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Cursor.h" />
     <ClInclude Include="Source\Exception.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Matrix.h" />
@@ -185,7 +188,7 @@
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\Time.h" />
     <ClInclude Include="Source\Vector2Int.h" />
-    <ClInclude Include="Source\WindowUtility.h" />
+    <ClInclude Include="Source\Screen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #include "Graphics.h"
 #include "Com.h"
 #include "Assert.h"
-#include "WindowUtility.h"
+#include "Window.h"
 
 HWND Graphics::hwnd = NULL;
 PAINTSTRUCT* Graphics::paintStruct = NULL;
@@ -22,7 +22,7 @@ void Graphics::SetRenderTarget(HWND hwnd)
 
 void Graphics::ResetCanvas()
 {
-	renderTarget->Resize(WindowUtility::GetWindowSize(hwnd));
+	renderTarget->Resize(Window::GetSize(hwnd));
 }
 
 void Graphics::ClearCanvas(Color color)

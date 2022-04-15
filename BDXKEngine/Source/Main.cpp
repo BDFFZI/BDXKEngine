@@ -1,20 +1,28 @@
 ﻿#include "BDXKEngine.h"
 #include "Test.h"
 
-class TestComponent :public Component {
+class TestMatrixAndInput :public Component {
 public:
 	Vector2 center = Vector2(Vector2::one) * 100;
+	float size = 1;
 private:
 	void Update()override
 	{
-		if (Input::GetMouseButtonDown(0))
-			Debug::Log(L"左键按下", 1);
-		if (Input::GetMouseButton(0))
-			Debug::Log(L"左键按住", 2);
-		if (Input::GetMouseButtonUp(0))
-			Debug::Log(L"左键抬起", 5);
+		if (Input::GetMouseButton(1))
+			center = Input::GetMousePosition();
 
-		center = Input::mousePosition;
+		if (Input::GetMouseButtonDown(0))
+		{
+			Debug::Log("锁定", 4);
+			Cursor::SetLockState(true);
+		}
+		if (Input::GetMouseButtonUp(0))
+		{
+			Debug::Log("解锁", 2);
+			Cursor::SetLockState(false);
+		}
+
+		size += Input::GetMouseScrollDelta().y;
 	}
 
 	void OnRenderObject()override
@@ -26,7 +34,7 @@ private:
 		Graphics::SetTransform(matrix);
 		Graphics::SetBrushColor(Color::blue);
 
-		Graphics::DrawRectangleCenter(Vector2(0,0), Vector2(200, 70), true);
+		Graphics::DrawRectangleCenter(Vector2(0, 0), Vector2(200, 70) * size, true);
 	}
 };
 
@@ -36,12 +44,12 @@ int main()
 		//在此创建初始场景
 		//物体1
 		GameObject* gameObject1 = new GameObject(L"物体1");
-		gameObject1->AddComponent<TestComponent>();
+		gameObject1->AddComponent<TestMatrixAndInput>();
 		////物体2
 		//GameObject* gameObject2 = new GameObject(L"物体2");
-		//TestComponent* testComponent21 = gameObject2->AddComponent<TestComponent>();
+		//TestObjectAndGraphics* testComponent21 = gameObject2->AddComponent<TestObjectAndGraphics>();
 		//testComponent21->x = 200;
-		//TestComponent* testComponent22 = gameObject2->AddComponent<TestComponent>();
+		//TestObjectAndGraphics* testComponent22 = gameObject2->AddComponent<TestObjectAndGraphics>();
 		//testComponent22->x = 300;
 		//testComponent22->rotate = true;
 		});

@@ -10,9 +10,9 @@ protected:
 	virtual GameObject* GetGameObject() { return gameObject; }
 
 	virtual void Awake() {};
-	virtual void OnStart() {};
+	virtual void Start() {};
 	virtual void Update() {};
-	virtual void OnLateUpdate() {};
+	virtual void LateUpdate() {};
 	virtual void OnRenderObject() {};
 	virtual void OnDrawGizmos() {};
 private:

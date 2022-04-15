@@ -41,13 +41,14 @@
 #include "Assert.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "Screen.h"
+#include "Cursor.h"
 
 class BDXKEngine {
 public:
 	static void Run(std::function<void()> onStart)
 	{
 		std::setlocale(LC_ALL, "zh-CN");
-
 		//≥ı ºªØ
 		Window window = Window(L"BDXKEngine",
 			[](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
@@ -56,7 +57,8 @@ public:
 				case WM_CREATE:
 				{
 					Graphics::SetRenderTarget(window->GetHwnd());
-					Time::Awake();
+					Screen::Initialize(window);
+					Time::Initialize();
 					return true;
 				}
 				case WM_CLOSE:
@@ -93,24 +95,51 @@ public:
 					window->RePaint();
 					return true;
 				}
+#pragma region  Û±Í
+				case WM_MOUSEMOVE:
+				{
+					Input::mousePosition.x = (float)(lparameter << 48 >> 48);
+					Input::mousePosition.y = (float)(lparameter >> 16);
+					return true;
+				}
+				case WM_MOUSEWHEEL:
+				{
+					Input::mouseScrollDelta.y += GET_WHEEL_DELTA_WPARAM(wparameter) / 1000.0f;
+					return true;
+				}
 				case WM_LBUTTONDOWN:
 				{
 					Input::mouseButtonState[0] = true;
-
-					int x = lparameter << 48 >> 48;
-					int y = lparameter >> 16;
-					Input::mousePosition = Vector2(x, y);
 					return true;
 				}
 				case WM_LBUTTONUP:
 				{
 					Input::mouseButtonState[0] = false;
-
-					int x = lparameter << 48 >> 48;
-					int y = lparameter >> 16;
-					Input::mousePosition = Vector2(x, y);
 					return true;
 				}
+				case WM_RBUTTONDOWN:
+				{
+					Input::mouseButtonState[1] = true;
+					return true;
+				}
+				case WM_RBUTTONUP:
+				{
+					Input::mouseButtonState[1] = false;
+					return true;
+				}
+				case WM_MBUTTONDOWN:
+				{
+					Input::mouseButtonState[2] = true;
+					return true;
+				}
+				case WM_MBUTTONUP:
+				{
+					Input::mouseButtonState[2] = false;
+					return true;
+				}
+#pragma endregion
+
+
 				}
 				return false;
 			});

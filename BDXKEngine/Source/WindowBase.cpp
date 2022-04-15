@@ -46,15 +46,6 @@ HWND WindowBase::GetHwnd()
 	return hwnd;
 }
 
-Vector2Int WindowBase::GetSize()
-{
-	RECT rect;
-	GetClientRect(hwnd, &rect);
-	D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
-
-	return size;
-}
-
 LRESULT CALLBACK WindowBase::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
 	return DefWindowProc(hwnd, messageSign, wparameter, lparameter);
@@ -81,11 +72,6 @@ LRESULT CALLBACK WindowBase::WindowProcess(HWND hwnd, UINT messageSign, WPARAM w
 
 	if (window != NULL)
 	{
-		if (messageSign == WM_SIZE)
-		{
-			window->size = WindowUtility::GetWindowSize(hwnd);
-		}
-
 		//使用窗口实例提供的消息处理程序
 		return window->HandleMessage(messageSign, wparameter, lparameter);
 	}
