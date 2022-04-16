@@ -61,7 +61,7 @@
     <ClCompile Include="Source\Time.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Matrix.cpp">
+    <ClCompile Include="Source\Matrix3x2.cpp">
       <Filter>Mathematics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input.cpp">
@@ -125,7 +125,7 @@
     <ClInclude Include="Source\Time.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Matrix.h">
+    <ClInclude Include="Source\Matrix3x2.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Exception.h">

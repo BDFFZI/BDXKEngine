@@ -159,7 +159,7 @@
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Matrix.cpp" />
+    <ClCompile Include="Source\Matrix3x2.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\String.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="Source\Cursor.h" />
     <ClInclude Include="Source\Exception.h" />
     <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\Matrix.h" />
+    <ClInclude Include="Source\Matrix3x2.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Math.h" />

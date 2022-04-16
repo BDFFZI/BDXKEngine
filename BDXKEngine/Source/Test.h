@@ -38,7 +38,7 @@ public:
 
 		void OnDrawGizmos() override
 		{
-			if (rotate)Graphics::SetTransform(Matrix::Rotate(Time::GetRealtimeSinceStartup() * 10, Vector2(x + 25, 200)));
+			if (rotate)Graphics::SetTransform(Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * 10, Vector2(x + 25, 200)));
 			Graphics::SetBrushColor(Color::blue);
 			Graphics::DrawRectangle(Vector2(x, 100), Vector2(x + 50, 300), false);
 			Graphics::SetTransform();

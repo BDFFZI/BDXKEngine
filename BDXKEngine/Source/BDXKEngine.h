@@ -32,7 +32,7 @@
 #include "Vector2.h"
 #include "Math.h"
 #include "Time.h"
-#include "Matrix.h"
+#include "Matrix3x2.h"
 #include "Input.h"
 //À©Õ¹¹¦ÄÜ
 #include "WindowBase.h"
@@ -76,7 +76,6 @@ public:
 				{
 					Time::BeginFrame();
 					Graphics::BeginDraw();
-
 					Graphics::ClearCanvas();
 
 					for (GameObject* gameObject : GameObject::gameObjects)
@@ -116,7 +115,9 @@ public:
 				case WM_LBUTTONUP:
 				{
 					Input::mouseButtonState[0] = false;
-					ReleaseCapture();
+					if (Input::GetMouseButton(1) == false &&
+						Input::GetMouseButton(2) == false)
+						ReleaseCapture();
 					return true;
 				}
 				case WM_RBUTTONDOWN:
@@ -128,7 +129,9 @@ public:
 				case WM_RBUTTONUP:
 				{
 					Input::mouseButtonState[1] = false;
-					ReleaseCapture();
+					if (Input::GetMouseButton(0) == false &&
+						Input::GetMouseButton(2) == false)
+						ReleaseCapture();
 					return true;
 				}
 				case WM_MBUTTONDOWN:
@@ -140,10 +143,25 @@ public:
 				case WM_MBUTTONUP:
 				{
 					Input::mouseButtonState[2] = false;
-					ReleaseCapture();
+					if (Input::GetMouseButton(0) == false &&
+						Input::GetMouseButton(1) == false)
+						ReleaseCapture();
 					return true;
 				}
 #pragma endregion
+#pragma region ¼üÅÌ
+				case WM_KEYDOWN:
+				{
+					Input::keyboardState[wparameter] = true;
+					return true;
+				}
+				case WM_KEYUP:
+				{
+					Input::keyboardState[wparameter] = false;
+					return true;
+				}
+#pragma endregion
+
 				}
 				return false;
 			});

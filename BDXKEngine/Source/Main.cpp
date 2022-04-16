@@ -2,15 +2,14 @@
 #include "Test.h"
 
 class TestMatrixAndInput :public Component {
-public:
+private:
 	Vector2 center = Vector2(Vector2::one) * 100;
 	float size = 1;
-private:
+	float sleep = 100;
+
+
 	void Update()override
 	{
-		if (Input::GetMouseButton(1))
-			center = Input::GetMousePosition();
-
 		if (Input::GetMouseButtonDown(0))
 		{
 			Debug::Log("锁定", 4);
@@ -22,19 +21,42 @@ private:
 			Cursor::SetLockState(false);
 		}
 
+		if (Input::GetMouseButton(1))
+			center = Input::GetMousePosition();
+
+		float move = Time::GetDeltaTime() * 100;
+		if (Input::GetKey(KeyCode::Shift))
+		{
+			Debug::Log(L"加速");
+			move *= 3;
+		}
+
+		if (Input::GetKeyDown(KeyCode::Shift))sleep *= 10;
+		if (Input::GetKeyUp(KeyCode::Shift))sleep /= 10;
+
+		if (Input::GetKey(KeyCode::W))
+			center.y -= move;
+		if (Input::GetKey(KeyCode::S))
+			center.y += move;
+		if (Input::GetKey(KeyCode::A))
+			center.x -= move;
+		if (Input::GetKey(KeyCode::D))
+			center.x += move;
+
 		size += Input::GetMouseScrollDelta().y;
 	}
 
 	void OnRenderObject()override
 	{
-		Matrix matrix = Matrix::identity;
-		matrix *= Matrix::Rotate(Time::GetRealtimeSinceStartup() * 100, Vector2::zero);
-		matrix *= Matrix::Translate(center);
+		Matrix3x2 matrix = Matrix3x2::identity;
+		matrix *= Matrix3x2::Scale((Vector2)Vector2::one * size);
+		matrix *= Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * sleep, Vector2::zero);
+		matrix *= Matrix3x2::Translate(center);
 
 		Graphics::SetTransform(matrix);
 		Graphics::SetBrushColor(Color::blue);
 
-		Graphics::DrawRectangleCenter(Vector2(0, 0), Vector2(200, 70) * size, true);
+		Graphics::DrawRectangleCenter(Vector2(0, 0), Vector2(100, 50), true);
 	}
 };
 

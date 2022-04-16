@@ -40,7 +40,7 @@ void Graphics::SetBrushColor(Color color)
 	brush->SetColor(color);
 }
 
-void Graphics::SetTransform(Matrix matrix)
+void Graphics::SetTransform(Matrix3x2 matrix)
 {
 	renderTarget->SetTransform(matrix);
 }

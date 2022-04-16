@@ -4,33 +4,43 @@
 struct Rect
 {
 public:
-	Vector2 position;
-	Vector2 size;
+	float x;
+	float y;
+	float width;
+	float height;
 
-	Vector2 GetMin() { return{ position.x,  position.y }; }
-	Vector2 GetMax() { return{ position.x + size.x,  position.y + size.y }; }
-	float GetXMin() { return position.x; };
-	float GetYMin() { return position.y; };
-	float GetXMax() { return position.x + size.x; };
-	float GetYMax() { return position.y + size.y; };
+	Vector2 GetPosition() { return{ x,  y }; }
+	Vector2 GetSize() { return{ width,  height }; }
+	Vector2 GetMin() { return{ x,  y }; }
+	Vector2 GetMax() { return{ x + width,  y + height }; }
+	float GetXMin() { return x; };
+	float GetYMin() { return y; };
+	float GetXMax() { return x + width; };
+	float GetYMax() { return y + height; };
 
 
 	Rect()
 	{
-		position = {};
-		size = {};
+		x = 0;
+		y = 0;
+		width = 0;
+		height = 0;
 	}
 
-	Rect(Vector2 min,Vector2 max)
+	Rect(Vector2 min, Vector2 max)
 	{
-		position = min;
-		size = max - min;
+		x = min.x;
+		y = min.y;
+		width = max.x - min.x;
+		height = max.y - min.y;
 	}
 
 	Rect(RECT rect)
 	{
-		position = { (float)rect.left,(float)rect.top };
-		size = { (float)(rect.right - rect.left),(float)(rect.bottom - rect.top)};
+		x = (float)rect.left;
+		y = (float)rect.top;
+		width = (float)(rect.right - rect.left);
+		height = (float)(rect.bottom - rect.top);
 	}
 
 	operator RECT()

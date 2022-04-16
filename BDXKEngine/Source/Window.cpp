@@ -84,7 +84,7 @@ Rect Window::GetScreenRect()
 Vector2 Window::GetSize()
 {
 	Rect rect = GetRect();
-	return rect.size;
+	return rect.GetSize();
 }
 
 void Window::ConfiningCursor(bool isOpen)
