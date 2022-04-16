@@ -3,6 +3,7 @@
 //W 宽，如wchar_t,以处理Unicode中utf-16,注意现在都用这个
 //L 长，x16时代的产物，现在不带也是长
 //P 指针
+//H 句柄
 //LP 长指针
 //C 常量
 
@@ -49,6 +50,7 @@ public:
 	static void Run(std::function<void()> onStart)
 	{
 		std::setlocale(LC_ALL, "zh-CN");
+
 		//初始化
 		Window window = Window(L"BDXKEngine",
 			[](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
@@ -59,17 +61,6 @@ public:
 					Graphics::SetRenderTarget(window->GetHwnd());
 					Screen::Initialize(window);
 					Time::Initialize();
-					return true;
-				}
-				case WM_CLOSE:
-				{
-					if (MessageBox(window->GetHwnd(), L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
-						DestroyWindow(window->GetHwnd());
-					return true;
-				}
-				case WM_DESTROY:
-				{
-					PostQuitMessage(0);
 					return true;
 				}
 				case WM_PAINT:
@@ -93,6 +84,14 @@ public:
 					Graphics::ResetCanvas();
 					window->RePaint();
 					return true;
+				}
+				case WM_SETCURSOR:
+				{
+					if (LOWORD(lparameter) == HTCLIENT)
+					{
+						Cursor::Update();
+						return true;
+					}
 				}
 #pragma region 鼠标
 				case WM_MOUSEMOVE:
@@ -161,7 +160,17 @@ public:
 					return true;
 				}
 #pragma endregion
-
+				case WM_CLOSE:
+				{
+					if (MessageBox(window->GetHwnd(), L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
+						DestroyWindow(window->GetHwnd());
+					return true;
+				}
+				case WM_DESTROY:
+				{
+					PostQuitMessage(0);
+					return true;
+				}
 				}
 				return false;
 			});

@@ -10,6 +10,28 @@ private:
 
 	void Update()override
 	{
+		//键盘
+		float move = Time::GetDeltaTime() * 100;
+		if (Input::GetKey(KeyCode::Shift))
+		{
+			Debug::Log(L"加速");
+			move *= 3;
+		}
+		if (Input::GetKeyDown(KeyCode::Shift))sleep *= 10;
+		if (Input::GetKeyUp(KeyCode::Shift))sleep /= 10;
+
+		if (Input::GetKey(KeyCode::W))
+			center.y -= move;
+		if (Input::GetKey(KeyCode::S))
+			center.y += move;
+		if (Input::GetKey(KeyCode::A))
+			center.x -= move;
+		if (Input::GetKey(KeyCode::D))
+			center.x += move;
+
+		//鼠标
+		size += Input::GetMouseScrollDelta().y;
+
 		if (Input::GetMouseButtonDown(0))
 		{
 			Debug::Log("锁定", 4);
@@ -23,27 +45,8 @@ private:
 
 		if (Input::GetMouseButton(1))
 			center = Input::GetMousePosition();
-
-		float move = Time::GetDeltaTime() * 100;
-		if (Input::GetKey(KeyCode::Shift))
-		{
-			Debug::Log(L"加速");
-			move *= 3;
-		}
-
-		if (Input::GetKeyDown(KeyCode::Shift))sleep *= 10;
-		if (Input::GetKeyUp(KeyCode::Shift))sleep /= 10;
-
-		if (Input::GetKey(KeyCode::W))
-			center.y -= move;
-		if (Input::GetKey(KeyCode::S))
-			center.y += move;
-		if (Input::GetKey(KeyCode::A))
-			center.x -= move;
-		if (Input::GetKey(KeyCode::D))
-			center.x += move;
-
-		size += Input::GetMouseScrollDelta().y;
+		if (Input::GetMouseButtonDown(1)) Cursor::SetVisible(false);
+		if (Input::GetMouseButtonUp(1))Cursor::SetVisible(true);
 	}
 
 	void OnRenderObject()override
