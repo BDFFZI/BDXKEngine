@@ -1,6 +1,7 @@
 #pragma once
 #include<d2d1.h>
 #include "Vector2.h"
+#include "Math.h"
 
 //https://docs.microsoft.com/en-us/windows/win32/learnwin32/appendix--matrix-transforms
 //DirectX使用行向量
@@ -17,22 +18,31 @@ struct Matrix3x2
 public:
 	static const Matrix3x2 identity;
 
-	static Matrix3x2 Rotate(float angle, Vector2 center)
-	{
-		return D2D1::Matrix3x2F::Rotation(angle, center);
-	}
-
-	static Matrix3x2 Translate(Vector2 move)
-	{
-		return D2D1::Matrix3x2F::Translation(move.x, move.y);
-	}
-
 	static Matrix3x2 Scale(Vector2 scale)
 	{
 		return {
 			scale.x,0,
 			0,scale.y,
 			0,0
+		};
+	}
+
+	static Matrix3x2 Rotate(float degree)
+	{
+		float radian = degree * Math::Deg2Rad;
+		return {
+			Math::Cos(radian),Math::Sin(radian),
+			-Math::Sin(radian),Math::Cos(radian),
+			0,0
+		};
+	}
+
+	static Matrix3x2 Translate(Vector2 move)
+	{
+		return {
+			1,0,
+			0,1,
+			move.x,move.y
 		};
 	}
 

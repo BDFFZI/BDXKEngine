@@ -50,7 +50,7 @@ private:
 	{
 		Matrix3x2 matrix = Matrix3x2::identity;
 		matrix *= Matrix3x2::Scale((Vector2)Vector2::one * size);
-		matrix *= Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * sleep, Vector2::zero);
+		matrix *= Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * sleep);
 		matrix *= Matrix3x2::Translate(center);
 
 		Graphics::SetTransform(matrix);

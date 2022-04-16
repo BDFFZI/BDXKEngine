@@ -22,6 +22,9 @@
     <Filter Include="Type\Window">
       <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\String.cpp">
@@ -55,17 +58,8 @@
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Type\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Screen.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Time.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Matrix3x2.cpp">
       <Filter>Mathematics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input.cpp">
-      <Filter>Utility</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector2.cpp">
       <Filter>Mathematics\Vector</Filter>
@@ -73,8 +67,20 @@
     <ClCompile Include="Source\Rect.h">
       <Filter>Mathematics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Math.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Screen.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Time.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Cursor.cpp">
-      <Filter>Utility</Filter>
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,12 +125,6 @@
     <ClInclude Include="Source\Vector2Int.h">
       <Filter>Mathematics\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Screen.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Time.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Matrix3x2.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
@@ -132,10 +132,16 @@
       <Filter>Type</Filter>
     </ClInclude>
     <ClInclude Include="Source\Input.h">
-      <Filter>Utility</Filter>
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Screen.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Time.h">
+      <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Source\Cursor.h">
-      <Filter>Utility</Filter>
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

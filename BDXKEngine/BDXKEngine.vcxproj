@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Cursor.cpp" />
+    <ClCompile Include="Source\Math.cpp" />
     <ClCompile Include="Source\Rect.h" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
