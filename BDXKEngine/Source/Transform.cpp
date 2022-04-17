@@ -24,7 +24,7 @@ void Transform::SetParent(Transform* newparent)
 	ClearLocalToWorldMatrix();
 
 	//解绑旧父物体
-	this->parent->children.erase(std::find_if(parent->children.begin(), parent->children.end(), [=](Transform* item) { return item == this; }));
+	this->parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
 	//设置新父物体
 	this->parent = (newparent == NULL ? &root : newparent);
 	//绑定新父物体
@@ -33,6 +33,10 @@ void Transform::SetParent(Transform* newparent)
 Transform* Transform::GetChild(int index)
 {
 	return children[index];
+}
+int Transform::GetChildCount()
+{
+	return (int)children.size();
 }
 #include"Debug.h"
 #include"GameObject.h"

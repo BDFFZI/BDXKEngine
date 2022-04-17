@@ -204,8 +204,20 @@ namespace TestRelation {
 			transform->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * 100 });
 			transform->SetLocalPosition(Input::GetMousePosition());
 
-			target->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * -100 });
-			target->SetLocalScale((Vector2)Vector2::one * (2 - scale + 0.1f));
+			if (target->GetParent() != NULL)
+			{
+				target->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * -100 });
+				target->SetLocalScale((Vector2)Vector2::one * (2 - scale + 0.1f));
+
+				if (Input::GetKeyDown(KeyCode::Esc))
+					target->SetParent(NULL);
+			}
+			else if (Input::GetKeyUp(KeyCode::Esc))
+			{
+				Debug::Log(transform->GetChild(0)->GetChildCount());
+				target->SetParent(transform->GetChild(0));
+			}
+
 		}
 	};
 

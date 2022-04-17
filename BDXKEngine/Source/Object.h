@@ -4,8 +4,8 @@
 class Object
 {
 public:
-	int id;
-	String name;
+	int id = -1;
+	String name = L"";
 
 	virtual String ToString();
 

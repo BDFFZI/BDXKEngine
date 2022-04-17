@@ -11,6 +11,7 @@ public:
 	Transform* GetParent();
 	void SetParent(Transform* parent);
 	Transform* GetChild(int index);
+	int GetChildCount();
 	Vector3 GetPosition();
 	Vector3 GetEulerAngles();
 	Vector3 GetScale();
