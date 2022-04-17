@@ -1,11 +1,12 @@
 #pragma once
-#include "GameObject.h"
-#include "Graphics.h"
+#include "Object.h"
 
 class GameObject;
-class Component
+class Component :public Object
 {
 	friend GameObject;
+public:
+	String ToString()override;
 protected:
 	virtual GameObject* GetGameObject() { return gameObject; }
 

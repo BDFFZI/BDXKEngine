@@ -1,4 +1,6 @@
 #include "String.h"
+#include <codecvt>
+
 std::wstring String::to_wstring(const std::string& input)
 {
 	using namespace std;
@@ -24,3 +26,14 @@ std::string String::to_string(const std::wstring& input)
 	delete[] dest;
 	return result;
 }
+
+//Ô­Éú×Ö·û´®
+String::String(wchar_t* value) : std::wstring(value) {}
+String::String(const wchar_t* value) : std::wstring(value) {}
+String::String(std::wstring value) : std::wstring(value) {}
+String::String(char* value) :std::wstring(to_wstring(std::string(value))) {}
+String::String(const char* value) : std::wstring(to_wstring(std::string(value))) {}
+String::String(std::string value) : std::wstring(to_wstring(value)) {}
+
+String::String(bool value) : std::wstring(value == 1 ? L"True" : L"False") {}
+String::String(std::exception& value) : String(value.what()) {}

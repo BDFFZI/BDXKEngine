@@ -1,6 +1,5 @@
 #pragma once
 #include "String.h"
-#include<Windows.h>
 
 class Debug
 {

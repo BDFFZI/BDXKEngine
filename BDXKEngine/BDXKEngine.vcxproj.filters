@@ -25,6 +25,15 @@
     <Filter Include="System">
       <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Type\Component">
+      <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mathematics\Matrix">
+      <UniqueIdentifier>{0bf330c7-487c-4b42-ab17-8f98883caebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Type\Container">
+      <UniqueIdentifier>{287ed0d2-3206-4d93-8cc8-57ce8cb9311a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\String.cpp">
@@ -58,9 +67,6 @@
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Type\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Matrix3x2.cpp">
-      <Filter>Mathematics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Vector2.cpp">
       <Filter>Mathematics\Vector</Filter>
     </ClCompile>
@@ -81,6 +87,27 @@
     </ClCompile>
     <ClCompile Include="Source\Cursor.cpp">
       <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transform.cpp">
+      <Filter>Type\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vector3.cpp">
+      <Filter>Mathematics\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Matrix3x2.cpp">
+      <Filter>Mathematics\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Matrix4x4.cpp">
+      <Filter>Mathematics\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\List.cpp">
+      <Filter>Type\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer.cpp">
+      <Filter>Type\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object.cpp">
+      <Filter>Type\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +152,6 @@
     <ClInclude Include="Source\Vector2Int.h">
       <Filter>Mathematics\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Matrix3x2.h">
-      <Filter>Mathematics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Exception.h">
       <Filter>Type</Filter>
     </ClInclude>
@@ -142,6 +166,27 @@
     </ClInclude>
     <ClInclude Include="Source\Cursor.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Transform.h">
+      <Filter>Type\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vector3.h">
+      <Filter>Mathematics\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Matrix3x2.h">
+      <Filter>Mathematics\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Matrix4x4.h">
+      <Filter>Mathematics\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\List.h">
+      <Filter>Type\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer.h">
+      <Filter>Type\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object.h">
+      <Filter>Type\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

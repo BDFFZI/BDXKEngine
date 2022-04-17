@@ -3,7 +3,7 @@
 #include "Com.h"
 #include "Vector2.h"
 #include "Color.h"
-#include "Matrix3x2.h"
+#include "Matrix4x4.h"
 
 class Graphics
 {
@@ -15,7 +15,8 @@ public:
 	static Vector2 GetCanvasSize();
 
 	static void SetBrushColor(Color color = Color::white);
-	static void SetTransform(Matrix3x2 matrix = Matrix3x2::identity);
+	//static void SetMatrix(Matrix4x4 matrix = Matrix4x4::identity);
+	static void SetMatrix(Matrix3x2 matrix = Matrix3x2::identity);
 
 	static void BeginDraw(Color color = Color::white);
 	static void EndDraw();

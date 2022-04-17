@@ -148,6 +148,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Renderer.cpp" />
+    <ClCompile Include="Source\List.cpp" />
+    <ClCompile Include="Source\Object.cpp" />
+    <ClCompile Include="Source\Matrix4x4.cpp" />
     <ClCompile Include="Source\Cursor.cpp" />
     <ClCompile Include="Source\Math.cpp" />
     <ClCompile Include="Source\Rect.h" />
@@ -167,8 +171,14 @@
     <ClCompile Include="Source\WindowBase.cpp" />
     <ClCompile Include="Source\Time.cpp" />
     <ClCompile Include="Source\Screen.cpp" />
+    <ClCompile Include="Source\Transform.cpp" />
+    <ClCompile Include="Source\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Renderer.h" />
+    <ClInclude Include="Source\List.h" />
+    <ClInclude Include="Source\Object.h" />
+    <ClInclude Include="Source\Matrix4x4.h" />
     <ClInclude Include="Source\Cursor.h" />
     <ClInclude Include="Source\Exception.h" />
     <ClInclude Include="Source\Input.h" />
@@ -190,6 +200,8 @@
     <ClInclude Include="Source\Time.h" />
     <ClInclude Include="Source\Vector2Int.h" />
     <ClInclude Include="Source\Screen.h" />
+    <ClInclude Include="Source\Transform.h" />
+    <ClInclude Include="Source\Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

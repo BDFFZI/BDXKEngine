@@ -1,7 +1,8 @@
 #pragma once
+#include <functional>
 #include "WindowBase.h"
 #include "Rect.h"
-#include <functional>
+#include "Vector2Int.h"
 
 class Window : public WindowBase
 {

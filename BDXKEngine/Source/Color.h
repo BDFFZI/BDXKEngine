@@ -1,6 +1,8 @@
 #pragma once
 #include <d2d1.h>
-struct Color
+#include "Object.h"
+
+class Color :Object
 {
 public:
 	static const Color clear;
@@ -15,23 +17,10 @@ public:
 	float b;
 	float a;
 
-	Color(float r, float g, float b, float a)
-	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->a = a;
-	}
+	Color(float r, float g, float b, float a);
+	Color(float r, float g, float b);
 
-	Color(float r, float g, float b) :Color(r, g, b, 1)
-	{
+	String ToString()override;
 
-	}
-
-	operator D2D1_COLOR_F()
-	{
-		return D2D1::ColorF(r, g, b, a);
-	}
-
-
+	operator D2D1_COLOR_F();
 };

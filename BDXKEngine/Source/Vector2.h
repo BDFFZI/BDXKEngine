@@ -1,7 +1,8 @@
 #pragma once
 #include <d2d1.h>
+#include"Object.h"
 
-struct Vector2
+class Vector2 :public Object
 {
 public:
 	static const Vector2 zero;
@@ -48,29 +49,30 @@ public:
 	{
 		return Vector2(x + value, y + value);
 	}
-
 	Vector2 operator-(float value)
 	{
 		return Vector2(x - value, y - value);
 	}
-
 	Vector2 operator*(float value)
 	{
 		return Vector2(x * value, y * value);
 	}
-
 	Vector2 operator/(float value)
 	{
 		return Vector2(x / value, y / value);
 	}
-
 	Vector2 operator+(Vector2 value)
 	{
 		return Vector2(x + value.x, y + value.y);
 	}
-
 	Vector2 operator-(Vector2 value)
 	{
 		return Vector2(x - value.x, y - value.y);
+	}
+
+	String ToString()override {
+		std::wstringstream string;
+		string << '(' << x << ',' << y << ')';
+		return string.str();
 	}
 };

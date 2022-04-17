@@ -4,7 +4,67 @@
 
 class Test {
 public:
+	class TestMatrixAndInput :public Component {
+	private:
+		Vector2 center = Vector2(Vector2::one) * 100;
+		float size = 1;
+		float sleep = 100;
 
+
+		void Update()override
+		{
+			//键盘
+			float move = Time::GetDeltaTime() * 100;
+			if (Input::GetKey(KeyCode::Shift))
+			{
+				Debug::Log(L"加速");
+				move *= 3;
+			}
+			if (Input::GetKeyDown(KeyCode::Shift))sleep *= 10;
+			if (Input::GetKeyUp(KeyCode::Shift))sleep /= 10;
+
+			if (Input::GetKey(KeyCode::W))
+				center.y -= move;
+			if (Input::GetKey(KeyCode::S))
+				center.y += move;
+			if (Input::GetKey(KeyCode::A))
+				center.x -= move;
+			if (Input::GetKey(KeyCode::D))
+				center.x += move;
+
+			//鼠标
+			size += Input::GetMouseScrollDelta().y;
+
+			if (Input::GetMouseButtonDown(0))
+			{
+				Debug::Log("锁定", 4);
+				Cursor::SetLockState(true);
+			}
+			if (Input::GetMouseButtonUp(0))
+			{
+				Debug::Log("解锁", 2);
+				Cursor::SetLockState(false);
+			}
+
+			if (Input::GetMouseButton(1))
+				center = Input::GetMousePosition();
+			if (Input::GetMouseButtonDown(1)) Cursor::SetVisible(false);
+			if (Input::GetMouseButtonUp(1))Cursor::SetVisible(true);
+		}
+
+		void OnRenderObject()override
+		{
+			Matrix3x2 matrix = Matrix3x2::identity;
+			matrix *= Matrix3x2::Scale((Vector2)Vector2::one * size);
+			matrix *= Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * sleep);
+			matrix *= Matrix3x2::Translate(center);
+
+			Graphics::SetMatrix(matrix);
+			Graphics::SetBrushColor(Color::blue);
+
+			Graphics::DrawRectangleCenter(Vector2(0, 0), Vector2(100, 50), true);
+		}
+	};
 
 	class TestObjectAndGraphics :public Component
 	{
@@ -38,10 +98,10 @@ public:
 
 		void OnDrawGizmos() override
 		{
-			if (rotate)Graphics::SetTransform(Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * 10));
+			if (rotate)Graphics::SetMatrix(Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * 10));
 			Graphics::SetBrushColor(Color::blue);
 			Graphics::DrawRectangle(Vector2(x, 100), Vector2(x + 50, 300), false);
-			Graphics::SetTransform();
+			Graphics::SetMatrix();
 		}
 	};
 
@@ -121,4 +181,61 @@ public:
 		}
 	}
 };
+
+namespace TestRelation {
+	class Controler :public Component
+	{
+	public:
+		Transform* target;
+	private:
+		Transform* transform = NULL;
+		float scale = 1;
+
+		void Start()override
+		{
+			transform = GetGameObject()->GetTransform();
+		}
+
+		void Update()override
+		{
+			scale = Math::Clamp(scale + Input::GetMouseScrollDelta().y / 10, 0, 2);
+
+			transform->SetLocalScale((Vector2)Vector2::one * (scale + 0.1f));
+			transform->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * 100 });
+			transform->SetLocalPosition(Input::GetMousePosition());
+
+			target->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * -100 });
+			target->SetLocalScale((Vector2)Vector2::one * (2 - scale + 0.1f));
+		}
+	};
+
+	void Start()
+	{
+		BDXKEngine::Run([]() {
+			GameObject* circle = new GameObject(L"circle");
+			Renderer* circleRenderer = circle->AddComponent<Renderer>();
+			circleRenderer->render = []() {Graphics::DrawCircle(Vector2::zero, 10, true); };
+			circleRenderer->color = Color::red;
+			Controler* testComponent = circle->AddComponent<Controler>();
+
+			GameObject* square = new GameObject(L"square");
+			Renderer* squareRenderer = square->AddComponent<Renderer>();
+			squareRenderer->render = []() {Graphics::DrawRectangleCenter(Vector2::zero, (Vector2)Vector2::one * 100, false); };
+			squareRenderer->color = Color::green;
+			Transform* squareTransform = square->GetTransform();
+			squareTransform->SetLocalPosition({ 50,50,0 });
+			squareTransform->SetParent(circle->GetTransform());
+
+			GameObject* rectangle = new GameObject(L"rectangle");
+			Renderer* rectangleRenderer = rectangle->AddComponent<Renderer>();
+			rectangleRenderer->render = []() {Graphics::DrawRectangle(Vector2::zero, Vector2(100, 20), false); };
+			rectangleRenderer->color = Color::blue;
+			Transform* rectangleTransform = rectangle->GetTransform();
+			rectangleTransform->SetLocalPosition({ 50,50,0 });
+			rectangleTransform->SetParent(squareTransform);
+
+			testComponent->target = rectangleTransform;
+			});
+	}
+}
 

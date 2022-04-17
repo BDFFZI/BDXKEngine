@@ -1,10 +1,16 @@
 #include "GameObject.h"
 
-std::vector<GameObject*> GameObject::gameObjects;
+List<GameObject*> GameObject::gameObjects;
 
- GameObject::GameObject(String name) {
+GameObject::GameObject(String name) {
 	this->name = name;
+	transform = AddComponent<Transform>();
 	gameObjects.push_back(this);
+}
+
+Transform* GameObject::GetTransform()
+{
+	return transform;
 }
 
 void GameObject::Update()
@@ -25,6 +31,8 @@ void GameObject::Update()
 	for (Component* component : updateGameObjects)
 		component->OnRenderObject();
 
+
 	for (Component* component : updateGameObjects)
 		component->OnDrawGizmos();
+
 }

@@ -1,7 +1,5 @@
 #pragma once
 #include <windows.h>
-#include<stdexcept>
-#include "Vector2Int.h"
 
 class WindowBase {
 public:

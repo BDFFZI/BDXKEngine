@@ -40,7 +40,12 @@ void Graphics::SetBrushColor(Color color)
 	brush->SetColor(color);
 }
 
-void Graphics::SetTransform(Matrix3x2 matrix)
+//void Graphics::SetMatrix(Matrix4x4 matrix)
+//{
+//	renderTarget->SetTransform(matrix.ToMatrix3x2());
+//}
+
+void Graphics::SetMatrix(Matrix3x2 matrix)
 {
 	renderTarget->SetTransform(matrix);
 }
@@ -54,7 +59,7 @@ void Graphics::BeginDraw(Color color)
 	BeginPaint(hwnd, paintStruct);
 	renderTarget->BeginDraw();
 	SetBrushColor(color);
-	SetTransform(D2D1::IdentityMatrix());
+	SetMatrix(D2D1::IdentityMatrix());
 }
 
 void Graphics::EndDraw()

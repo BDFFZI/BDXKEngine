@@ -26,7 +26,6 @@ public:
 			0,0
 		};
 	}
-
 	static Matrix3x2 Rotate(float degree)
 	{
 		float radian = degree * Math::Deg2Rad;
@@ -36,7 +35,6 @@ public:
 			0,0
 		};
 	}
-
 	static Matrix3x2 Translate(Vector2 move)
 	{
 		return {

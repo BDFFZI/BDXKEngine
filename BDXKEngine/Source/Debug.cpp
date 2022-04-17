@@ -1,4 +1,7 @@
 #include "Debug.h"
+#include<Windows.h>
+#include<iostream>
+
 void Debug::Log(String str)
 {
 	using namespace std;

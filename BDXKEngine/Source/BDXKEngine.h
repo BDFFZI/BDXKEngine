@@ -25,25 +25,35 @@
 //WPARAM = uint
 //LPARAM = int
 
-//基础数据结构
-#include <functional>
-#include "String.h"
+//基本
+#include<algorithm>
 #include "Com.h"
+#include "String.h"
+#include "Object.h"
+#include "List.h"
 #include "Color.h"
-#include "Vector2.h"
+#include "Rect.h"
 #include "Math.h"
-#include "Time.h"
+#include "Vector2.h"
+#include "Vector3.h"
 #include "Matrix3x2.h"
-#include "Input.h"
-//扩展功能
-#include "WindowBase.h"
-#include "Window.h"
+#include "Matrix4x4.h"
+//工具
 #include "Debug.h"
 #include "Assert.h"
-#include "GameObject.h"
-#include "Component.h"
+#include "WindowBase.h"
+#include "Window.h"
+//系统
+#include "Graphics.h"
+#include "Time.h"
+#include "Input.h"
 #include "Screen.h"
 #include "Cursor.h"
+//组件
+#include "GameObject.h"
+#include "Component.h"
+#include "Transform.h"
+#include "Renderer.h"
 
 class BDXKEngine {
 public:
@@ -69,10 +79,23 @@ public:
 					Graphics::BeginDraw();
 					Graphics::ClearCanvas();
 
-					for (GameObject* gameObject : GameObject::gameObjects)
+					//统计待更新的物体，以层次结构为优先级
+					List<Transform*> list;
+					list.push_back(&Transform::root);
+					for (int i = 0; i < list.size(); i++)
 					{
-						gameObject->Update();
+						for (Transform* child : list[i]->children)
+						{
+							list.push_back(child);
+						}
 					}
+					//更新物体，（第一个为系统根物体，跳过）
+					std::for_each(
+						(list.begin() + 1), list.end(),
+						[](Transform* item) {
+							item->GetGameObject()->Update();
+						}
+					);
 
 					Graphics::EndDraw();
 					Time::EndFrame();
