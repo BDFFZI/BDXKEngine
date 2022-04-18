@@ -4,9 +4,9 @@
 #include "Matrix4x4.h"
 #include "List.h"
 
-class BDXKEngine;
-class Transform :public Component {
-	friend BDXKEngine;
+class Transform :
+	public Component
+{
 public:
 	Transform* GetParent();
 	void SetParent(Transform* parent);
@@ -36,8 +36,8 @@ private:
 	Transform* parent;
 	List<Transform*> children;
 
-	void ClearPosition();
-	void ClearEulerAngles();
-	void ClearScale();
-	void ClearLocalToWorldMatrix();
+	void RenewPosition();
+	void RenewEulerAngles();
+	void RenewScale();
+	void RenewLocalToWorldMatrix();
 };

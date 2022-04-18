@@ -175,6 +175,7 @@
     <ClCompile Include="Source\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ComponentEvent.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\List.h" />
     <ClInclude Include="Source\Object.h" />

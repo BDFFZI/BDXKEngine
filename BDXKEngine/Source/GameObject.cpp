@@ -1,6 +1,12 @@
 #include "GameObject.h"
 
 List<GameObject*> GameObject::gameObjects;
+List<Component*> GameObject::components;
+List<StartEvent*> GameObject::startEvents;
+List<UpdateEvent*> GameObject::updateEvents;
+List<LateUpdateEvent*> GameObject::lateUpdateEvents;
+List<OnRenderObjectEvent*> GameObject::onRenderObjectEvents;
+List<OnDrawGizmosEvent*> GameObject::onDrawGizmosEvents;
 
 GameObject::GameObject(String name) {
 	this->name = name;
@@ -15,24 +21,19 @@ Transform* GameObject::GetTransform()
 
 void GameObject::Update()
 {
-	for (Component* component : startGameObjects)
-	{
-		component->Start();
-		updateGameObjects.push_back(component);
-	}
-	startGameObjects.clear();
+	for (StartEvent* pevent : startEvents)
+		pevent->Start();
+	startEvents.clear();
 
-	for (Component* component : updateGameObjects)
-		component->Update();
+	for (UpdateEvent* pevent : updateEvents)
+		pevent->Update();
 
-	for (Component* component : updateGameObjects)
-		component->LateUpdate();
+	for (LateUpdateEvent* pevent : lateUpdateEvents)
+		pevent->LateUpdate();
 
-	for (Component* component : updateGameObjects)
-		component->OnRenderObject();
+	for (OnRenderObjectEvent* pevent : onRenderObjectEvents)
+		pevent->OnRenderObject();
 
-
-	for (Component* component : updateGameObjects)
-		component->OnDrawGizmos();
-
+	for (OnDrawGizmosEvent* pevent : onDrawGizmosEvents)
+		pevent->OnDrawGizmos();
 }

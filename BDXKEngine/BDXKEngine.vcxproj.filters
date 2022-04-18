@@ -13,9 +13,6 @@
     <Filter Include="Mathematics">
       <UniqueIdentifier>{a3820dea-652f-4659-a1f9-1b9e47202379}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Type\Object">
-      <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mathematics\Vector">
       <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
     </Filter>
@@ -25,14 +22,17 @@
     <Filter Include="System">
       <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Type\Component">
-      <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mathematics\Matrix">
       <UniqueIdentifier>{0bf330c7-487c-4b42-ab17-8f98883caebb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Type\Container">
       <UniqueIdentifier>{287ed0d2-3206-4d93-8cc8-57ce8cb9311a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Component">
+      <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,11 +61,8 @@
     <ClCompile Include="Source\Graphics.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Component.cpp">
-      <Filter>Type\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameObject.cpp">
-      <Filter>Type\Object</Filter>
+      <Filter>GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector2.cpp">
       <Filter>Mathematics\Vector</Filter>
@@ -89,7 +86,7 @@
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="Source\Transform.cpp">
-      <Filter>Type\Component</Filter>
+      <Filter>GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector3.cpp">
       <Filter>Mathematics\Vector</Filter>
@@ -104,10 +101,13 @@
       <Filter>Type\Container</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer.cpp">
-      <Filter>Type\Component</Filter>
+      <Filter>GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object.cpp">
-      <Filter>Type\Object</Filter>
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component.cpp">
+      <Filter>GameObject\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,11 +140,8 @@
     <ClInclude Include="Source\Math.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Component.h">
-      <Filter>Type\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameObject.h">
-      <Filter>Type\Object</Filter>
+      <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector2.h">
       <Filter>Mathematics\Vector</Filter>
@@ -168,7 +165,7 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Source\Transform.h">
-      <Filter>Type\Component</Filter>
+      <Filter>GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector3.h">
       <Filter>Mathematics\Vector</Filter>
@@ -183,10 +180,16 @@
       <Filter>Type\Container</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer.h">
-      <Filter>Type\Component</Filter>
+      <Filter>GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object.h">
-      <Filter>Type\Object</Filter>
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component.h">
+      <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ComponentEvent.h">
+      <Filter>GameObject\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,10 @@
 #include"Transform.h"
 #include"Color.h"
 
-class Renderer :public Component
+class Renderer :
+	public Component,
+	public StartEvent,
+	public OnRenderObjectEvent
 {
 public:
 	std::function<void()> render = NULL;

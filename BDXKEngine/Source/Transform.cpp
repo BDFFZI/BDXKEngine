@@ -2,10 +2,6 @@
 
 Transform Transform::root = []() {
 	Transform transform;
-	transform.position = Vector3::zero;
-	transform.eulerAngles = Vector3::zero;
-	transform.scale = Vector3::one;
-	transform.localToWorldMatrix = Matrix4x4::identity;
 	transform.name = "[root] : class Transform";
 	return transform;
 }();
@@ -18,17 +14,17 @@ Transform* Transform::GetParent()
 }
 void Transform::SetParent(Transform* newparent)
 {
-	ClearPosition();
-	ClearEulerAngles();
-	ClearScale();
-	ClearLocalToWorldMatrix();
-
 	//解绑旧父物体
 	this->parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
 	//设置新父物体
 	this->parent = (newparent == NULL ? &root : newparent);
 	//绑定新父物体
 	this->parent->children.push_back(this);
+
+	RenewPosition();
+	RenewEulerAngles();
+	RenewScale();
+	RenewLocalToWorldMatrix();
 }
 Transform* Transform::GetChild(int index)
 {
@@ -38,114 +34,96 @@ int Transform::GetChildCount()
 {
 	return (int)children.size();
 }
-#include"Debug.h"
-#include"GameObject.h"
+
 Vector3 Transform::GetPosition()
 {
-	if (position.IsNaN() == false)
-		return position;
-
-	position = parent->GetPosition() + localPosition;
 	return position;
 }
 Vector3 Transform::GetEulerAngles()
 {
-	if (eulerAngles.IsNaN() == false)
-		return eulerAngles;
-
-	Vector3 parentalEulerAngles = parent->GetEulerAngles();
-	eulerAngles.x = Math::Mod(parentalEulerAngles.x + localEulerAngles.x, 360);
-	eulerAngles.y = Math::Mod(parentalEulerAngles.y + localEulerAngles.y, 360);
-	eulerAngles.z = Math::Mod(parentalEulerAngles.z + localEulerAngles.z, 360);
 	return eulerAngles;
 }
 Vector3 Transform::GetScale()
 {
-	if (scale.IsNaN() == false)
-		return scale;
-
-	Vector3 parentalScale = parent->GetScale();
-	scale.x = parentalScale.x * localScale.x;
-	scale.y = parentalScale.y * localScale.y;
-	scale.z = parentalScale.z * localScale.z;
 	return scale;
 }
 Matrix4x4 Transform::GetLocalToWorldMatrix()
 {
-	if (localToWorldMatrix != Matrix4x4::zero)
-		return localToWorldMatrix;
-
-	localToWorldMatrix = parent->GetLocalToWorldMatrix();
-	localToWorldMatrix *= Matrix4x4::Translate(localPosition);
-	localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
-	localToWorldMatrix *= Matrix4x4::Scale(localScale);
-
 	return localToWorldMatrix;
 }
 
 void Transform::SetLocalPosition(Vector3 value)
 {
-	ClearPosition();
-	ClearLocalToWorldMatrix();
-
 	localPosition = value;
+
+	RenewPosition();
+	RenewLocalToWorldMatrix();
 }
 void Transform::SetLocalEulerAngles(Vector3 value)
 {
-	ClearEulerAngles();
-	ClearLocalToWorldMatrix();
-
 	value.x = Math::Mod(value.x, 360);
 	value.y = Math::Mod(value.y, 360);
 	value.z = Math::Mod(value.z, 360);
 	localEulerAngles = value;
+
+	RenewEulerAngles();
+	RenewLocalToWorldMatrix();
 }
 void Transform::SetLocalScale(Vector3 value)
 {
-	ClearScale();
-	ClearLocalToWorldMatrix();
-
 	localScale = value;
+
+	RenewScale();
+	RenewLocalToWorldMatrix();
 }
 
 Transform::Transform()
 {
+	parent = &root;
+	root.children.push_back(this);
+
 	localPosition = Vector3::zero;
 	localEulerAngles = Vector3::zero;
 	localScale = Vector3::one;
 
-	position = Vector3::nan;
-	eulerAngles = Vector3::nan;
-	scale = Vector3::nan;
-	localToWorldMatrix = Matrix4x4::zero;
-
-	parent = &root;
-	root.children.push_back(this);
+	position = Vector3::zero;
+	eulerAngles = Vector3::zero;
+	scale = Vector3::one;
+	localToWorldMatrix = Matrix4x4::identity;
 }
 
-void Transform::ClearPosition()
+void Transform::RenewPosition()
 {
-	position = Vector3::nan;
+	position = parent->GetPosition() + localPosition;
 	for (Transform* child : children)
-		child->ClearPosition();
+		child->RenewPosition();
 }
-void Transform::ClearEulerAngles()
+void Transform::RenewEulerAngles()
 {
-	eulerAngles = Vector3::nan;
+	Vector3 parentalEulerAngles = parent->GetEulerAngles();
+	eulerAngles.x = Math::Mod(parentalEulerAngles.x + localEulerAngles.x, 360);
+	eulerAngles.y = Math::Mod(parentalEulerAngles.y + localEulerAngles.y, 360);
+	eulerAngles.z = Math::Mod(parentalEulerAngles.z + localEulerAngles.z, 360);
 	for (Transform* child : children)
-		child->ClearEulerAngles();
+		child->RenewEulerAngles();
 }
-void Transform::ClearScale()
+void Transform::RenewScale()
 {
-	scale = Vector3::nan;
+	Vector3 parentalScale = parent->GetScale();
+	scale.x = parentalScale.x * localScale.x;
+	scale.y = parentalScale.y * localScale.y;
+	scale.z = parentalScale.z * localScale.z;
 	for (Transform* child : children)
-		child->ClearScale();
+		child->RenewScale();
 }
-void Transform::ClearLocalToWorldMatrix()
+void Transform::RenewLocalToWorldMatrix()
 {
-	localToWorldMatrix = Matrix4x4::zero;
+	localToWorldMatrix = parent->GetLocalToWorldMatrix();
+	localToWorldMatrix *= Matrix4x4::Translate(localPosition);
+	localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
+	localToWorldMatrix *= Matrix4x4::Scale(localScale);
 	for (Transform* child : children)
-		child->ClearLocalToWorldMatrix();
+		child->RenewLocalToWorldMatrix();
 }
 
 

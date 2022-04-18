@@ -4,7 +4,8 @@
 
 class Test {
 public:
-	class TestMatrixAndInput :public Component {
+	class TestMatrixAndInput :public Component,UpdateEvent,OnRenderObjectEvent
+	{
 	private:
 		Vector2 center = Vector2(Vector2::one) * 100;
 		float size = 1;
@@ -66,7 +67,8 @@ public:
 		}
 	};
 
-	class TestObjectAndGraphics :public Component
+	class TestObjectAndGraphics :public Component,
+		AwakeEvent,StartEvent,UpdateEvent,OnRenderObjectEvent,OnDrawGizmosEvent
 	{
 	public:
 		float x = 100;
@@ -183,10 +185,13 @@ public:
 };
 
 namespace TestRelation {
-	class Controler :public Component
+	class Controler :
+		public Component,
+		public StartEvent,
+		public UpdateEvent
 	{
 	public:
-		Transform* target;
+		Transform* target = NULL;
 	private:
 		Transform* transform = NULL;
 		float scale = 1;

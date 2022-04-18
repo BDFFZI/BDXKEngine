@@ -52,6 +52,7 @@
 //组件
 #include "GameObject.h"
 #include "Component.h"
+#include "ComponentEvent.h"
 #include "Transform.h"
 #include "Renderer.h"
 
@@ -79,23 +80,24 @@ public:
 					Graphics::BeginDraw();
 					Graphics::ClearCanvas();
 
-					//统计待更新的物体，以层次结构为优先级
-					List<Transform*> list;
-					list.push_back(&Transform::root);
-					for (int i = 0; i < list.size(); i++)
-					{
-						for (Transform* child : list[i]->children)
-						{
-							list.push_back(child);
-						}
-					}
-					//更新物体，（第一个为系统根物体，跳过）
-					std::for_each(
-						(list.begin() + 1), list.end(),
-						[](Transform* item) {
-							item->GetGameObject()->Update();
-						}
-					);
+					////统计待更新的物体，以层次结构为优先级
+					//List<Transform*> list;
+					//list.push_back(&Transform::root);
+					//for (int i = 0; i < list.size(); i++)
+					//{
+					//	for (Transform* child : list[i]->children)
+					//	{
+					//		list.push_back(child);
+					//	}
+					//}
+					////更新物体，（第一个为系统根物体，跳过）
+					//std::for_each(
+					//	(list.begin() + 1), list.end(),
+					//	[](Transform* item) {
+					//		item->GetGameObject()->Update();
+					//	}
+					//);
+					GameObject::Update();
 
 					Graphics::EndDraw();
 					Time::EndFrame();
