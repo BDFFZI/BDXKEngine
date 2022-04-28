@@ -3,7 +3,7 @@
 #include "Math.h"
 #include "Matrix3x2.h"
 
-class Matrix4x4 :Object
+struct Matrix4x4 :public ObjectBase
 {
 public:
 	static const Matrix4x4 zero;

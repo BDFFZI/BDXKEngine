@@ -38,6 +38,7 @@
 #include "Vector3.h"
 #include "Matrix3x2.h"
 #include "Matrix4x4.h"
+#include "Mesh.h"
 //工具
 #include "Debug.h"
 #include "Assert.h"
@@ -81,11 +82,11 @@ public:
 					Graphics::ClearCanvas();
 
 					////统计待更新的物体，以层次结构为优先级
-					//List<Transform*> list;
-					//list.push_back(&Transform::root);
+					//List<MatrixBuffer*> list;
+					//list.push_back(&MatrixBuffer::root);
 					//for (int i = 0; i < list.size(); i++)
 					//{
-					//	for (Transform* child : list[i]->children)
+					//	for (MatrixBuffer* child : list[i]->children)
 					//	{
 					//		list.push_back(child);
 					//	}
@@ -93,7 +94,7 @@ public:
 					////更新物体，（第一个为系统根物体，跳过）
 					//std::for_each(
 					//	(list.begin() + 1), list.end(),
-					//	[](Transform* item) {
+					//	[](MatrixBuffer* item) {
 					//		item->GetGameObject()->Update();
 					//	}
 					//);
@@ -209,7 +210,7 @@ public:
 		MSG msg = {};
 		while (true)
 		{
-			//保证消息队列不为空，从而一直更新窗口
+			//如果没有要处理的消息，我们就用这段空闲时间更新游戏
 			if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
 				PostMessage(hwnd, WM_PAINT, NULL, NULL);
 

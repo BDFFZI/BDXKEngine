@@ -1,14 +1,10 @@
 #pragma once
-#include"String.h"
+#include"ObjectBase.h"
 
-class Object
+class Object :public ObjectBase
 {
 public:
 	int id = -1;
 	String name = L"";
-
-	virtual String ToString();
-
-	operator String();
 };
 

@@ -15,7 +15,7 @@ void Graphics::SetRenderTarget(HWND hwnd)
 	Graphics::paintStruct = NULL;
 
 	LRESULT back = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
-	Assert::IsSucceeded(back, "创建资源工厂失败");
+	Assert::IsSucceeded(back, L"创建资源工厂失败");
 
 	CreateResources();
 }
@@ -106,12 +106,12 @@ void Graphics::CreateResources()
 		D2D1::HwndRenderTargetProperties(hwnd, size),
 		&renderTarget
 	);
-	Assert::IsSucceeded(back, "创建呈现器目标失败");
+	Assert::IsSucceeded(back, L"创建呈现器目标失败");
 
 	//创建画笔
 	D2D1_COLOR_F color = D2D1::ColorF(1, 1, 1);
 	back = renderTarget->CreateSolidColorBrush(color, &brush);
-	Assert::IsSucceeded(back, "创建画笔失败");
+	Assert::IsSucceeded(back, L"创建画笔失败");
 }
 
 void Graphics::DeleteResources()

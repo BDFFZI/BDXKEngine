@@ -1,9 +1,8 @@
 #pragma once
 #include<d2d1.h>
-#include "Object.h"
 #include"Vector2.h"
 
-struct Vector3 :Object
+struct Vector3
 {
 public:
 	static const Vector3 nan;//不要拿这个用作比较对象，nan无法比较，请使用IsNaN()
@@ -62,7 +61,7 @@ public:
 		return x != value.x || y != value.y || z != value.z;
 	}
 
-	String ToString() override;
+	String ToString();
 
 	Vector3(D2D1_SIZE_F size);
 

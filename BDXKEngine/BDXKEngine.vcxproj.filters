@@ -109,6 +109,16 @@
     <ClCompile Include="Source\Component.cpp">
       <Filter>GameObject\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GL.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Play.cpp" />
+    <ClCompile Include="Source\Mesh.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ObjectBase.cpp">
+      <Filter>Type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
@@ -120,7 +130,6 @@
     <ClInclude Include="Source\String.h">
       <Filter>Type</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\Com.h">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -190,6 +199,16 @@
     </ClInclude>
     <ClInclude Include="Source\ComponentEvent.h">
       <Filter>GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BDXKEngine.h" />
+    <ClInclude Include="Source\GL.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ObjectBase.h">
+      <Filter>Type</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

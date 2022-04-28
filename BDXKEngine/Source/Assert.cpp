@@ -1,11 +1,22 @@
 #include "Assert.h"
-#include "String.h"
 #include "Debug.h"
 
-void Assert::IsSucceeded(LRESULT result, const char* errorLog)
+void Assert::IsSucceeded(LRESULT result, const wchar_t* errorLog)
 {
 	if (FAILED(result)) {
-		Debug::LogError(String(result, std::hex));
-		throw std::domain_error(errorLog);
+		std::wstringstream string;
+		string << "[0x";
+		string << std::uppercase << std::hex << (int)result;
+		string << "] " << errorLog;
+		Debug::LogError(string.str());
+		throw - 1;
+	}
+}
+
+void Assert::IsTrue(bool result, const wchar_t* errorLog)
+{
+	if (result == false) {
+		Debug::LogError(errorLog);
+		throw - 1;
 	}
 }

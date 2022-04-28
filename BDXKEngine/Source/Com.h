@@ -1,11 +1,11 @@
 #pragma once
 //__uuidof 获取UUID
-//IID_PPV_ARGS 自动安全配置接口指针
+//IID_PPV_ARGS 自动配置获取ID和指针转换
 //CComPtr 智能指针 【强烈推荐】
 
-#include <shobjidl.h> 
-#include<atlbase.h>
-#include"Assert.h"
+#include <shobjidl.h> //COM接口
+#include<atlbase.h> //智能COM指针
+
 class Com
 {
 public:

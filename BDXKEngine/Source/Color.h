@@ -2,7 +2,7 @@
 #include <d2d1.h>
 #include "Object.h"
 
-class Color :Object
+struct Color :public ObjectBase
 {
 public:
 	static const Color clear;

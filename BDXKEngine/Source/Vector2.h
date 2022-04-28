@@ -1,8 +1,8 @@
 #pragma once
 #include <d2d1.h>
-#include"Object.h"
+#include"ObjectBase.h"
 
-class Vector2 :public Object
+struct Vector2 :public ObjectBase
 {
 public:
 	static const Vector2 zero;

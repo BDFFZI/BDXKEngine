@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b1591743-e282-4de6-a261-205c66774d8a}</ProjectGuid>
-    <RootNamespace>BDXKEngine</RootNamespace>
+    <ProjectGuid>{d5b7541c-c0a7-46e5-86c0-b0002ef0369a}</ProjectGuid>
+    <RootNamespace>Shader</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,23 +72,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>.\</OutDir>
+    <IntDir>.\Object\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,7 +122,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d2d1.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,68 +141,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\ObjectBase.cpp" />
-    <ClCompile Include="Source\Mesh.cpp" />
-    <ClCompile Include="Play.cpp" />
-    <ClCompile Include="Source\GL.cpp" />
-    <ClCompile Include="Source\Renderer.cpp" />
-    <ClCompile Include="Source\List.cpp" />
-    <ClCompile Include="Source\Object.cpp" />
-    <ClCompile Include="Source\Matrix4x4.cpp" />
-    <ClCompile Include="Source\Cursor.cpp" />
-    <ClCompile Include="Source\Math.cpp" />
-    <ClCompile Include="Source\Rect.h" />
-    <ClCompile Include="Source\Component.cpp" />
-    <ClCompile Include="Source\GameObject.cpp" />
-    <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\Graphics.cpp" />
-    <ClCompile Include="Source\Assert.cpp" />
-    <ClCompile Include="Source\Com.cpp" />
-    <ClCompile Include="Source\Debug.cpp" />
-    <ClCompile Include="Source\Input.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Matrix3x2.cpp" />
-    <ClCompile Include="Source\Vector2.cpp" />
-    <ClCompile Include="Source\Window.cpp" />
-    <ClCompile Include="Source\String.cpp" />
-    <ClCompile Include="Source\WindowBase.cpp" />
-    <ClCompile Include="Source\Time.cpp" />
-    <ClCompile Include="Source\Screen.cpp" />
-    <ClCompile Include="Source\Transform.cpp" />
-    <ClCompile Include="Source\Vector3.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\ObjectBase.h" />
-    <ClInclude Include="Source\Mesh.h" />
-    <ClInclude Include="Source\GL.h" />
-    <ClInclude Include="Source\ComponentEvent.h" />
-    <ClInclude Include="Source\Renderer.h" />
-    <ClInclude Include="Source\List.h" />
-    <ClInclude Include="Source\Object.h" />
-    <ClInclude Include="Source\Matrix4x4.h" />
-    <ClInclude Include="Source\Cursor.h" />
-    <ClInclude Include="Source\Exception.h" />
-    <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\Matrix3x2.h" />
-    <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\GameObject.h" />
-    <ClInclude Include="Source\Math.h" />
-    <ClInclude Include="Source\Graphics.h" />
-    <ClInclude Include="Source\Assert.h" />
-    <ClInclude Include="Source\BDXKEngine.h" />
-    <ClInclude Include="Source\Com.h" />
-    <ClInclude Include="Source\Debug.h" />
-    <ClInclude Include="Source\Window.h" />
-    <ClInclude Include="Source\Test.h" />
-    <ClInclude Include="Source\WindowBase.h" />
-    <ClInclude Include="Source\String.h" />
-    <ClInclude Include="Source\Vector2.h" />
-    <ClInclude Include="Source\Color.h" />
-    <ClInclude Include="Source\Time.h" />
-    <ClInclude Include="Source\Vector2Int.h" />
-    <ClInclude Include="Source\Screen.h" />
-    <ClInclude Include="Source\Transform.h" />
-    <ClInclude Include="Source\Vector3.h" />
+    <FxCompile Include="PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
