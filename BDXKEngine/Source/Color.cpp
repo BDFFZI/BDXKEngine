@@ -19,15 +19,14 @@ Color::Color(float r, float g, float b) :Color(r, g, b, 1)
 
 }
 
-String Color::ToString()
-{
-	std::wstringstream string;
-	string << '(' << r << ',' << g << ',' << b << ',' << a << ')';
-	return string.str();
-}
-
 Color::operator D2D1_COLOR_F()
 {
 	return D2D1::ColorF(r, g, b, a);
 }
 
+const wchar_t* Color::ToString()
+{
+	std::wstringstream string;
+	string << '(' << r << ',' << g << ',' << b << ',' << a << ')';
+	return string.str().c_str();
+}

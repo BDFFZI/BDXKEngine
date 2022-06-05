@@ -1,5 +1,4 @@
 #include "String.h"
-#include <codecvt>
 
 std::wstring String::to_wstring(const std::string& input)
 {

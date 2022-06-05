@@ -1,5 +1,4 @@
 #include "WindowBase.h"
-#include "Exception.h"
 
 WindowBase::WindowBase(PCWSTR name)
 {
@@ -10,7 +9,7 @@ WindowBase::WindowBase(PCWSTR name)
 void WindowBase::Show()
 {
 	if (hwnd != NULL)
-		throw MisuseException(L"窗口正在显示中");
+		throw "窗口正在显示中";
 
 	//向操作系统注册窗口类
 	WNDCLASS windowClass = {};

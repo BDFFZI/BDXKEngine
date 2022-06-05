@@ -1,7 +1,6 @@
 #include "Math.h"
 #include <cmath>
 #include <algorithm>
-#include "Exception.h"
 
 const float Math::Pi = 3.1415926535897932384626433832795f;
 const float Math::Deg2Rad = Pi / 180;
@@ -21,7 +20,7 @@ float Math::Min(float a, float b) {
 float Math::Clamp(float value, float min, float max)
 {
 	if (min > max)
-		throw MisuseException(L"min不能大于max");
+		throw "min不能大于max";
 
 	if (value < min)
 		value = min;

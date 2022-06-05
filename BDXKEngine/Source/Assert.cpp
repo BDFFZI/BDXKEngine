@@ -1,5 +1,4 @@
 #include "Assert.h"
-#include "Debug.h"
 
 void Assert::IsSucceeded(LRESULT result, const wchar_t* errorLog)
 {
@@ -8,7 +7,7 @@ void Assert::IsSucceeded(LRESULT result, const wchar_t* errorLog)
 		string << "[0x";
 		string << std::uppercase << std::hex << (int)result;
 		string << "] " << errorLog;
-		Debug::LogError(string.str());
+		Debug::LogError(string.str().c_str());
 		throw - 1;
 	}
 }

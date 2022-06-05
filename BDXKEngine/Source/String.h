@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<sstream>
+#include <codecvt>
 
 ///模仿C# 自动ToString()和operator+
 class String :public std::wstring
@@ -46,6 +47,11 @@ public:
 		String str = *this;
 		str.append((String)value);
 		return str;
+	}
+
+	operator const wchar_t* ()
+	{
+		return c_str();
 	}
 };
 

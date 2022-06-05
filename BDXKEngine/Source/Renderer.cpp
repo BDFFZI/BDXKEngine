@@ -1,6 +1,5 @@
 #include "Renderer.h"
-#include "GameObject.h"
-#include "Graphics.h"
+
 
 void Renderer::Start()
 {
@@ -8,7 +7,7 @@ void Renderer::Start()
 }
 
 void Renderer::OnRenderObject() {
-	Graphics::SetMatrix(transform->GetLocalToWorldMatrix().ToMatrix3x2());
-	Graphics::SetBrushColor(color);
+	Graphics2D::SetMatrix(transform->GetLocalToWorldMatrix().ToMatrix3x2());
+	Graphics2D::SetBrushColor(color);
 	if (render != NULL)render();
 }

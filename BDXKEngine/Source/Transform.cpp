@@ -2,7 +2,7 @@
 
 Transform Transform::root = []() {
 	Transform transform;
-	transform.name = "[root] : class Transform";
+	transform.name = L"[root] : class Transform";
 	return transform;
 }();
 

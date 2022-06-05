@@ -1,11 +1,10 @@
 #pragma once
+#include<vector>
 #include "Component.h"
 #include "Vector3.h"
 #include "Matrix4x4.h"
-#include "List.h"
 
-class Transform :
-	public Component
+class Transform :public Component
 {
 public:
 	Transform* GetParent();
@@ -34,7 +33,7 @@ private:
 	Matrix4x4 localToWorldMatrix;
 
 	Transform* parent;
-	List<Transform*> children;
+	std::vector<Transform*> children;
 
 	void RenewPosition();
 	void RenewEulerAngles();

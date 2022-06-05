@@ -1,10 +1,9 @@
 #pragma once
-#include"ObjectBase.h"
 
-class Object :public ObjectBase
+class Object
 {
 public:
 	int id = -1;
-	String name = L"";
+	const wchar_t* name = L"";
 };
 

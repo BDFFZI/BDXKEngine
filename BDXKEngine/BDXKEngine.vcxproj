@@ -148,12 +148,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\ObjectBase.cpp" />
+    <ClCompile Include="Source\Graphics.cpp" />
+    <ClCompile Include="Source\Data.cpp" />
+    <ClCompile Include="Source\Graphics2D.cpp" />
+    <ClCompile Include="Source\Matrix3x2.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
-    <ClCompile Include="Play.cpp" />
     <ClCompile Include="Source\GL.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
-    <ClCompile Include="Source\List.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\Matrix4x4.cpp" />
     <ClCompile Include="Source\Cursor.cpp" />
@@ -162,13 +163,11 @@
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\Assert.cpp" />
     <ClCompile Include="Source\Com.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Matrix3x2.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\String.cpp" />
@@ -179,22 +178,22 @@
     <ClCompile Include="Source\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\ObjectBase.h" />
+    <ClInclude Include="Source\Graphics.h" />
+    <ClInclude Include="Source\Graphics2D.h" />
+    <ClInclude Include="Source\Matrix3x2.h" />
+    <ClInclude Include="Source\Reflection.h" />
+    <ClInclude Include="Source\Data.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\GL.h" />
     <ClInclude Include="Source\ComponentEvent.h" />
     <ClInclude Include="Source\Renderer.h" />
-    <ClInclude Include="Source\List.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Matrix4x4.h" />
     <ClInclude Include="Source\Cursor.h" />
-    <ClInclude Include="Source\Exception.h" />
     <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\Matrix3x2.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Math.h" />
-    <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\Assert.h" />
     <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\Com.h" />

@@ -1,8 +1,6 @@
 #include "Debug.h"
-#include<Windows.h>
-#include<iostream>
 
-void Debug::Log(String str)
+void Debug::Log(const wchar_t* str)
 {
 	using namespace std;
 	wcout << str << endl;
@@ -27,8 +25,7 @@ void Debug::Log(String str)
 /// µ­»ÆÉ«   = 14 |
 /// ÁÁ°×É«   = 15 |
 /// </summary>
-
-void Debug::Log(String str, int color)
+void Debug::Log(const wchar_t* str, int color)
 {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -37,12 +34,12 @@ void Debug::Log(String str, int color)
 	SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | 7);
 }
 
-void Debug::LogWarning(String str)
+void Debug::LogWarning(const wchar_t* str)
 {
 	Log(str, 6);
 }
 
-void Debug::LogError(String str)
+void Debug::LogError(const wchar_t* str)
 {
 	Log(str, 4);
 }

@@ -1,24 +1,24 @@
 #include "Cursor.h"
-#include "Screen.h"
 
 bool Cursor::visible = true;
 HCURSOR Cursor::hCursor = LoadCursor(NULL, IDC_HAND);
+Window* Cursor::window = NULL;
 
 void Cursor::SetLockState(bool value)
 {
-	Screen::window->ConfiningCursor(value);
+	window->ConfiningCursor(value);
 }
 
 void Cursor::SetVisible(bool value)
 {
 	visible = value;
-	Update();
+	UpdateShow();
 }
 
 void Cursor::SetCursor(wchar_t* value)
 {
 	hCursor = LoadCursor(NULL, value);
-	Update();
+	UpdateShow();
 
 	//HCURSOR hCursor = (HCURSOR)LoadImage(
 //	NULL,
@@ -30,7 +30,12 @@ void Cursor::SetCursor(wchar_t* value)
 //	);
 }
 
-void Cursor::Update()
+void Cursor::Initialize(Window* window)
+{
+	Cursor::window = window;
+}
+
+void Cursor::UpdateShow()
 {
 	if (visible)
 		::SetCursor(hCursor);

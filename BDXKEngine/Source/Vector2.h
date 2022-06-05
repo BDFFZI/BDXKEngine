@@ -1,8 +1,8 @@
 #pragma once
 #include <d2d1.h>
-#include"ObjectBase.h"
+#include <sstream>
 
-struct Vector2 :public ObjectBase
+struct Vector2
 {
 public:
 	static const Vector2 zero;
@@ -70,9 +70,9 @@ public:
 		return Vector2(x - value.x, y - value.y);
 	}
 
-	String ToString()override {
+	const wchar_t* ToString() {
 		std::wstringstream string;
 		string << '(' << x << ',' << y << ')';
-		return string.str();
+		return string.str().c_str();
 	}
 };

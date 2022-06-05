@@ -1,214 +1,218 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Type">
-      <UniqueIdentifier>{c9d0ce2c-705c-461f-a941-c7dc9116a6f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{9e7d04b0-bc01-4e99-acb6-890f6e6ebed2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
+    <Filter Include="Code">
+      <UniqueIdentifier>{9614757e-ef39-4163-99af-7b8314c7f5e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mathematics">
-      <UniqueIdentifier>{a3820dea-652f-4659-a1f9-1b9e47202379}</UniqueIdentifier>
+    <Filter Include="Code\Property">
+      <UniqueIdentifier>{15584889-4a36-4107-a55f-8a3b0912a2ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mathematics\Vector">
-      <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Type\Window">
-      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System">
-      <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Mathematics\Matrix">
+    <Filter Include="Code\Property\Matrix">
       <UniqueIdentifier>{0bf330c7-487c-4b42-ab17-8f98883caebb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Type\Container">
-      <UniqueIdentifier>{287ed0d2-3206-4d93-8cc8-57ce8cb9311a}</UniqueIdentifier>
+    <Filter Include="Code\Property\Vector">
+      <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject">
+    <Filter Include="Code\Property\Window">
+      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Behavior">
+      <UniqueIdentifier>{2546bae4-daf8-4c0f-90de-1cdeb0d2a97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function">
+      <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Graphics">
+      <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\GameObject">
       <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Component">
+    <Filter Include="Function\GameObject\Component">
       <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\System">
+      <UniqueIdentifier>{43a01084-98a4-47a7-9cec-fdc3313cc3c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\String.cpp">
-      <Filter>Type</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Window.cpp">
-      <Filter>Type\Window</Filter>
+      <Filter>Code\Property\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\WindowBase.cpp">
-      <Filter>Type\Window</Filter>
+      <Filter>Code\Property\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Com.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Assert.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Debug.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Color.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameObject.cpp">
-      <Filter>GameObject</Filter>
+      <Filter>Function\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector2.cpp">
-      <Filter>Mathematics\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rect.h">
-      <Filter>Mathematics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Math.cpp">
-      <Filter>Mathematics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Screen.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Time.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Cursor.cpp">
-      <Filter>System</Filter>
+      <Filter>Code\Property\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Transform.cpp">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector3.cpp">
-      <Filter>Mathematics\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Matrix3x2.cpp">
-      <Filter>Mathematics\Matrix</Filter>
+      <Filter>Code\Property\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Matrix4x4.cpp">
-      <Filter>Mathematics\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\List.cpp">
-      <Filter>Type\Container</Filter>
+      <Filter>Code\Property\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer.cpp">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object.cpp">
-      <Filter>GameObject</Filter>
+      <Filter>Function\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component.cpp">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\GL.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Function\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Play.cpp" />
     <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Function\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ObjectBase.cpp">
-      <Filter>Type</Filter>
+    <ClCompile Include="Source\Debug.cpp">
+      <Filter>Code\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Assert.cpp">
+      <Filter>Code\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math.cpp">
+      <Filter>Code\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Data.cpp">
+      <Filter>Code\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\String.cpp">
+      <Filter>Code\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rect.h">
+      <Filter>Code\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Color.cpp">
+      <Filter>Code\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cursor.cpp">
+      <Filter>Function\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>Function\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Screen.cpp">
+      <Filter>Function\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Time.cpp">
+      <Filter>Function\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Matrix3x2.cpp">
+      <Filter>Code\Property\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics2D.cpp">
+      <Filter>Function\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphics.cpp">
+      <Filter>Function\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
-      <Filter>Type\Window</Filter>
+      <Filter>Code\Property\Window</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window.h">
-      <Filter>Type\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\String.h">
-      <Filter>Type</Filter>
+      <Filter>Code\Property\Window</Filter>
     </ClInclude>
     <ClInclude Include="Source\Com.h">
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Source\Test.h" />
-    <ClInclude Include="Source\Assert.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Debug.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Color.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Math.h">
-      <Filter>Mathematics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameObject.h">
-      <Filter>GameObject</Filter>
+      <Filter>Function\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector2.h">
-      <Filter>Mathematics\Vector</Filter>
+      <Filter>Code\Property\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector2Int.h">
-      <Filter>Mathematics\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Exception.h">
-      <Filter>Type</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Input.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Screen.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Time.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Cursor.h">
-      <Filter>System</Filter>
+      <Filter>Code\Property\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Transform.h">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector3.h">
-      <Filter>Mathematics\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Matrix3x2.h">
-      <Filter>Mathematics\Matrix</Filter>
+      <Filter>Code\Property\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix4x4.h">
-      <Filter>Mathematics\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\List.h">
-      <Filter>Type\Container</Filter>
+      <Filter>Code\Property\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer.h">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object.h">
-      <Filter>GameObject</Filter>
+      <Filter>Function\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component.h">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\ComponentEvent.h">
-      <Filter>GameObject\Component</Filter>
+      <Filter>Function\GameObject\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\GL.h">
-      <Filter>Graphics</Filter>
+      <Filter>Function\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh.h">
-      <Filter>Graphics</Filter>
+      <Filter>Function\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ObjectBase.h">
-      <Filter>Type</Filter>
+    <ClInclude Include="Source\Debug.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Assert.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Data.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\String.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Color.h">
+      <Filter>Code\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Cursor.h">
+      <Filter>Function\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Input.h">
+      <Filter>Function\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Screen.h">
+      <Filter>Function\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Time.h">
+      <Filter>Function\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Reflection.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BDXKEngine.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Matrix3x2.h">
+      <Filter>Code\Property\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics2D.h">
+      <Filter>Function\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Graphics.h">
+      <Filter>Function\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

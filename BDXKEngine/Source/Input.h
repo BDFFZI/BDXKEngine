@@ -47,11 +47,8 @@ enum class KeyCode :int {
 	Shift = 0x10,
 };
 
-class BDXKEngine;
 class Input {
-	friend BDXKEngine;
 public:
-
 	static bool GetMouseButtonDown(int mouseButtonIndex);
 	static bool GetMouseButton(int mouseButtonIndex);
 	static bool GetMouseButtonUp(int mouseButtonIndex);
@@ -60,13 +57,14 @@ public:
 	static bool GetKeyDown(KeyCode keyCode);
 	static bool GetKey(KeyCode keyCode);
 	static bool GetKeyUp(KeyCode keyCode);
-private:
-	static void Update();
-
+protected:
 	static Vector2 mousePosition;
 	static Vector2 mouseScrollDelta;
-	static bool lastMouseButtonState[];
 	static bool mouseButtonState[];
-	static bool lastKeyboardState[];
 	static bool keyboardState[];
+
+	static void FlushState();
+private:
+	static bool lastMouseButtonState[];
+	static bool lastKeyboardState[];
 };

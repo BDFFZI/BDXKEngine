@@ -1,20 +1,18 @@
 #pragma once
+#include <chrono>
 
-class BDXKEngine;
 class Time
 {
-	friend BDXKEngine;
-
 public:
 	static float GetDeltaTime();
 	static float GetRealtimeSinceStartup();
+protected:
+	static void Initialize();
+	static void BeginFrame();
+	static void EndFrame();
 private:
 	static long startTime;
 	static long frameTime;
 	static float deltaTime;
-
-	static void Initialize();
-	static void BeginFrame();
-	static void EndFrame();
 };
 

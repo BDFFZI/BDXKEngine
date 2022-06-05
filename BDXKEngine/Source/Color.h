@@ -1,8 +1,8 @@
 #pragma once
 #include <d2d1.h>
-#include "Object.h"
+#include<sstream>
 
-struct Color :public ObjectBase
+struct Color
 {
 public:
 	static const Color clear;
@@ -20,7 +20,7 @@ public:
 	Color(float r, float g, float b, float a);
 	Color(float r, float g, float b);
 
-	String ToString()override;
+	const wchar_t* ToString();
 
 	operator D2D1_COLOR_F();
 };

@@ -1,10 +1,11 @@
 #pragma once
-#include "String.h"
+#include<Windows.h>
+#include<iostream>
 
-class Debug
+struct Debug
 {
 public:
-	static void Log(String str);
+	static void Log(const wchar_t* str);
 
 	/// <summary>
 	/// 输出带颜色的日志
@@ -25,11 +26,11 @@ public:
 	/// 淡黄色   = 14 |
 	/// 亮白色   = 15 |
 	/// </summary>
-	static void Log(String str, int color);
+	static void Log(const wchar_t* str, int color);
 
-	static void LogWarning(String str);
+	static void LogWarning(const wchar_t* str);
 
-	static void LogError(String str);
+	static void LogError(const wchar_t* str);
 };
 
 

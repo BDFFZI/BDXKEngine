@@ -61,7 +61,7 @@ public:
 		return x != value.x || y != value.y || z != value.z;
 	}
 
-	String ToString();
+	const wchar_t* ToString();
 
 	Vector3(D2D1_SIZE_F size);
 

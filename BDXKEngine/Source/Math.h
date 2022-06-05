@@ -1,6 +1,6 @@
 #pragma once
 
-class Math
+struct Math
 {
 public:
 	static const float Pi;

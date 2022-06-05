@@ -30,7 +30,6 @@
 #include "Com.h"
 #include "String.h"
 #include "Object.h"
-#include "List.h"
 #include "Color.h"
 #include "Rect.h"
 #include "Math.h"
@@ -45,7 +44,7 @@
 #include "WindowBase.h"
 #include "Window.h"
 //系统
-#include "Graphics.h"
+#include "Graphics2D.h"
 #include "Time.h"
 #include "Input.h"
 #include "Screen.h"
@@ -57,57 +56,38 @@
 #include "Transform.h"
 #include "Renderer.h"
 
-class BDXKEngine {
+class BDXKEngine :Time, Input, Screen, Cursor {
 public:
 	static void Run(std::function<void()> onStart)
 	{
 		std::setlocale(LC_ALL, "zh-CN");
 
 		//初始化
-		Window window = Window(L"BDXKEngine",
-			[](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
+		Window window = { L"BDXKEngine",
+			[&](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
 				switch (messageSign)
 				{
 				case WM_CREATE:
 				{
-					Graphics::SetRenderTarget(window->GetHwnd());
-					Screen::Initialize(window);
-					Time::Initialize();
+					Graphics2D::SetRenderTarget(window->GetHwnd());
 					return true;
 				}
 				case WM_PAINT:
 				{
 					Time::BeginFrame();
-					Graphics::BeginDraw();
-					Graphics::ClearCanvas();
+					Graphics2D::BeginDraw();
+					Graphics2D::ClearCanvas();
 
-					////统计待更新的物体，以层次结构为优先级
-					//List<MatrixBuffer*> list;
-					//list.push_back(&MatrixBuffer::root);
-					//for (int i = 0; i < list.size(); i++)
-					//{
-					//	for (MatrixBuffer* child : list[i]->children)
-					//	{
-					//		list.push_back(child);
-					//	}
-					//}
-					////更新物体，（第一个为系统根物体，跳过）
-					//std::for_each(
-					//	(list.begin() + 1), list.end(),
-					//	[](MatrixBuffer* item) {
-					//		item->GetGameObject()->Update();
-					//	}
-					//);
 					GameObject::Update();
 
-					Graphics::EndDraw();
+					Graphics2D::EndDraw();
 					Time::EndFrame();
-					Input::Update();
+					Input::FlushState();
 					return true;
 				}
 				case WM_SIZE:
 				{
-					Graphics::ResetCanvas();
+					Graphics2D::ResetCanvas();
 					window->RePaint();
 					return true;
 				}
@@ -115,7 +95,7 @@ public:
 				{
 					if (LOWORD(lparameter) == HTCLIENT)
 					{
-						Cursor::Update();
+						Cursor::UpdateShow();
 						return true;
 					}
 				}
@@ -199,7 +179,11 @@ public:
 				}
 				}
 				return false;
-			});
+			} };
+		Time::Initialize();
+		Screen::Initialize(&window);
+		Cursor::Initialize(&window);
+
 		window.Show();
 
 		//完成初始化后，正式循环前

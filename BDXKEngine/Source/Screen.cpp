@@ -1,5 +1,4 @@
 #include "Screen.h"
-#include "Com.h"
 
 Window* Screen::window;
 

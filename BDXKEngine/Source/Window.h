@@ -13,8 +13,6 @@ public:
 		std::function<bool(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
 	);
 
-	Window();
-
 	Rect GetRect();
 	Rect GetScreenRect();
 	Vector2 GetSize();

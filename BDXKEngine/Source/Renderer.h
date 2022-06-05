@@ -3,6 +3,8 @@
 #include"Component.h"
 #include"Transform.h"
 #include"Color.h"
+#include "GameObject.h"
+#include "Graphics2D.h"
 
 class Renderer :
 	public Component,

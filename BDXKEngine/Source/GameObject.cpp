@@ -1,14 +1,14 @@
 #include "GameObject.h"
 
-List<GameObject*> GameObject::gameObjects;
-List<Component*> GameObject::components;
-List<StartEvent*> GameObject::startEvents;
-List<UpdateEvent*> GameObject::updateEvents;
-List<LateUpdateEvent*> GameObject::lateUpdateEvents;
-List<OnRenderObjectEvent*> GameObject::onRenderObjectEvents;
-List<OnDrawGizmosEvent*> GameObject::onDrawGizmosEvents;
+std::vector<GameObject*> GameObject::gameObjects;
+std::vector<Component*> GameObject::components;
+std::vector<StartEvent*> GameObject::startEvents;
+std::vector<UpdateEvent*> GameObject::updateEvents;
+std::vector<LateUpdateEvent*> GameObject::lateUpdateEvents;
+std::vector<OnRenderObjectEvent*> GameObject::onRenderObjectEvents;
+std::vector<OnDrawGizmosEvent*> GameObject::onDrawGizmosEvents;
 
-GameObject::GameObject(String name) {
+GameObject::GameObject(const wchar_t* name) {
 	this->name = name;
 	transform = AddComponent<Transform>();
 	gameObjects.push_back(this);

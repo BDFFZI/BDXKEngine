@@ -100,7 +100,7 @@ bool Input::GetKeyUp(KeyCode keyCode)
 	return false;
 }
 
-void Input::Update()
+void Input::FlushState()
 {
 	for (int i = 0; i < 3; i++)
 	{

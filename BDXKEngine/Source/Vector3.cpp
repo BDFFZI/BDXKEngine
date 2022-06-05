@@ -1,11 +1,11 @@
 #include "Vector3.h"
-#include<cmath>
 
 const Vector3 Vector3::nan = {
 	std::nanf(NULL),
 	std::nanf(NULL),
 	std::nanf(NULL)
 };
+
 const Vector3 Vector3::zero = { 0,0,0 };
 const Vector3 Vector3::one = { 1,1,1 };
 const Vector3 Vector3::right = { 1,0,0 };
@@ -42,11 +42,11 @@ bool Vector3::IsNaN()
 	return std::isnan(x) || std::isnan(y) || std::isnan(z);
 }
 
-String Vector3::ToString()
+const wchar_t* Vector3::ToString()
 {
 	std::wstringstream string;
 	string << '(' << x << ',' << y << ',' << z << ')';
-	return string.str();
+	return string.str().c_str();
 }
 
 Vector3::Vector3(D2D1_SIZE_F size) :Vector3(size.width, size.height, 0) {
