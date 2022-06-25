@@ -42,13 +42,6 @@ bool Vector3::IsNaN()
 	return std::isnan(x) || std::isnan(y) || std::isnan(z);
 }
 
-const wchar_t* Vector3::ToString()
-{
-	std::wstringstream string;
-	string << '(' << x << ',' << y << ',' << z << ')';
-	return string.str().c_str();
-}
-
 Vector3::Vector3(D2D1_SIZE_F size) :Vector3(size.width, size.height, 0) {
 }
 
@@ -67,5 +60,3 @@ Vector3::operator POINT()
 
 	return point;
 }
-
-

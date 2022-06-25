@@ -1,7 +1,7 @@
 #include "Cursor.h"
 
 bool Cursor::visible = true;
-HCURSOR Cursor::hCursor = LoadCursor(NULL, IDC_HAND);
+HCURSOR Cursor::hCursor = LoadCursor(NULL, IDC_ARROW);
 Window* Cursor::window = NULL;
 
 void Cursor::SetLockState(bool value)
@@ -19,15 +19,6 @@ void Cursor::SetCursor(wchar_t* value)
 {
 	hCursor = LoadCursor(NULL, value);
 	UpdateShow();
-
-	//HCURSOR hCursor = (HCURSOR)LoadImage(
-//	NULL,
-//	L"C:\\Users\\BDFFZI\\Desktop\\icon.png",
-//	IMAGE_CURSOR,
-//	0,
-//	0,
-//	LR_LOADFROMFILE
-//	);
 }
 
 void Cursor::Initialize(Window* window)

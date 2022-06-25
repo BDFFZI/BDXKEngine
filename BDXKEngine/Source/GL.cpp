@@ -58,18 +58,18 @@ void GL::CreateSwapChain(HWND hwnd)
 void GL::CreateRenderTexture()
 {
 	CComPtr<ID3D11Texture2D> colorTexture;
-	CComPtr<ID3D11Texture2D> depthStencilTexture;
-
-	//获取颜色缓冲区并创建渲染视图为颜色缓冲区
+	//获取交换链中纹理并以其创建渲染视图
 	swapChain->GetBuffer(0, IID_PPV_ARGS(&colorTexture));
 	Assert::IsSucceeded(
 		device->CreateRenderTargetView(colorTexture, nullptr, &renderTargetView),
 		L"创建渲染视图失败"
 	);
-	//获取颜色缓冲区参数
+	//获取渲染视图参数
 	CD3D11_TEXTURE2D_DESC colorTextureDescription;
 	colorTexture->GetDesc(&colorTextureDescription);
-	//以该参数创建深度模板缓冲区
+
+
+	//以该参数创建用于深度模板测试的纹理
 	CD3D11_TEXTURE2D_DESC depthStencilTextureDescription(
 		DXGI_FORMAT_D24_UNORM_S8_UINT,
 		static_cast<UINT> (colorTextureDescription.Width),
@@ -78,6 +78,7 @@ void GL::CreateRenderTexture()
 		1, // Use a single mipmap level.
 		D3D11_BIND_DEPTH_STENCIL
 	);
+	CComPtr<ID3D11Texture2D> depthStencilTexture;
 	Assert::IsSucceeded(
 		device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture),
 		L"创建深度测试纹理失败"
@@ -89,12 +90,12 @@ void GL::CreateRenderTexture()
 		L"创建深度测试视图失败"
 	);
 
+	//设置视口
 	D3D11_VIEWPORT viewport = {};
 	viewport.Height = (float)colorTextureDescription.Height;
 	viewport.Width = (float)colorTextureDescription.Width;
 	viewport.MinDepth = 0;
 	viewport.MaxDepth = 1;
-
 	context->RSSetViewports(1, &viewport);
 }
 
@@ -184,7 +185,7 @@ void GL::Render(
 	context->PSSetShader(pixelShader, nullptr, 0);
 
 	//设置绘制目标
-	context->OMSetRenderTargets(1, &(renderTargetView.p), NULL);
+	context->OMSetRenderTargets(1, &renderTargetView.p, NULL);
 
 	//设置绘制模式
 	context->IASetPrimitiveTopology(drawMode);
@@ -194,13 +195,5 @@ void GL::Render(
 
 	//显示结果
 	swapChain->Present(0, 0);
-
-	//D3D11_VIEWPORT viewport;
-	//ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-	//viewport.TopLeftX = 0;
-	//viewport.TopLeftY = 0;
-	//viewport.Width = 800;
-	//viewport.Height = 600;
-	//context->RSSetViewports(1, &viewport);
 }
 

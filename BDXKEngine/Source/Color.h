@@ -19,6 +19,7 @@ public:
 
 	Color(float r, float g, float b, float a);
 	Color(float r, float g, float b);
+	Color();
 
 	const wchar_t* ToString();
 

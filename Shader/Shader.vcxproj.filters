@@ -4,4 +4,7 @@
     <FxCompile Include="VertexShader.hlsl" />
     <FxCompile Include="PixelShader.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="BDXKEngine.hlsli" />
+  </ItemGroup>
 </Project>

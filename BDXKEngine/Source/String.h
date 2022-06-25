@@ -3,7 +3,7 @@
 #include<sstream>
 #include <codecvt>
 
-///模仿C# 自动ToString()和operator+
+///模仿C# 自动ToString()和operator+ 请当成辅助工具来使用
 class String :public std::wstring
 {
 public:

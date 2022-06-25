@@ -5,35 +5,35 @@ std::vector<Component*> GameObject::components;
 std::vector<StartEvent*> GameObject::startEvents;
 std::vector<UpdateEvent*> GameObject::updateEvents;
 std::vector<LateUpdateEvent*> GameObject::lateUpdateEvents;
-std::vector<OnRenderObjectEvent*> GameObject::onRenderObjectEvents;
-std::vector<OnDrawGizmosEvent*> GameObject::onDrawGizmosEvents;
+std::vector<RenderObjectEvent*> GameObject::renderObjectEvents;
+std::vector<DrawGizmosEvent*> GameObject::drawGizmosEvents;
 
 GameObject::GameObject(const wchar_t* name) {
-	this->name = name;
-	transform = AddComponent<Transform>();
+	ObjectEditor::InitializeObject(this, (int)gameObjects.size() * 100, name);
 	gameObjects.push_back(this);
+	AddComponent<Transform>();
 }
 
 Transform* GameObject::GetTransform()
 {
-	return transform;
+	return GetComponent<Transform>();
 }
 
-void GameObject::Update()
+void GameObjectEditor::OnUpdate()
 {
-	for (StartEvent* pevent : startEvents)
-		pevent->Start();
-	startEvents.clear();
+	for (StartEvent* eventP : GameObject::startEvents)
+		TickEventEditor::Start(eventP);
+	GameObject::startEvents.clear();
 
-	for (UpdateEvent* pevent : updateEvents)
-		pevent->Update();
+	for (UpdateEvent* eventP : GameObject::updateEvents)
+		TickEventEditor::Update(eventP);
 
-	for (LateUpdateEvent* pevent : lateUpdateEvents)
-		pevent->LateUpdate();
+	for (LateUpdateEvent* eventP : GameObject::lateUpdateEvents)
+		TickEventEditor::LateUpdate(eventP);
 
-	for (OnRenderObjectEvent* pevent : onRenderObjectEvents)
-		pevent->OnRenderObject();
+	for (RenderObjectEvent* eventP : GameObject::renderObjectEvents)
+		TickEventEditor::RenderObject(eventP);
 
-	for (OnDrawGizmosEvent* pevent : onDrawGizmosEvents)
-		pevent->OnDrawGizmos();
+	for (DrawGizmosEvent* eventP : GameObject::drawGizmosEvents)
+		TickEventEditor::DrawGizmos(eventP);
 }

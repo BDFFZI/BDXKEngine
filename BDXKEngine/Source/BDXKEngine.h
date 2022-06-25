@@ -28,8 +28,6 @@
 //基本
 #include<algorithm>
 #include "Com.h"
-#include "String.h"
-#include "Object.h"
 #include "Color.h"
 #include "Rect.h"
 #include "Math.h"
@@ -39,67 +37,63 @@
 #include "Matrix4x4.h"
 #include "Mesh.h"
 //工具
+#include "String.h"
 #include "Debug.h"
 #include "Assert.h"
 #include "WindowBase.h"
 #include "Window.h"
 //系统
+#include "Graphics.h"
 #include "Graphics2D.h"
 #include "Time.h"
 #include "Input.h"
 #include "Screen.h"
 #include "Cursor.h"
 //组件
+#include "Object.h"
 #include "GameObject.h"
 #include "Component.h"
-#include "ComponentEvent.h"
 #include "Transform.h"
-#include "Renderer.h"
+#include "MeshRenderer.h"
+#include "Camera.h"
 
-class BDXKEngine :Time, Input, Screen, Cursor {
+class BDXKEngine :Time, Input, Screen, Cursor, Graphics, GameObjectEditor {
 public:
 	static void Run(std::function<void()> onStart)
 	{
 		std::setlocale(LC_ALL, "zh-CN");
 
-		//初始化
+		//启动窗口
 		Window window = { L"BDXKEngine",
 			[&](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
 				switch (messageSign)
 				{
-				case WM_CREATE:
+				case WM_CREATE://系统初始化
 				{
+					Time::Initialize();
+					Screen::Initialize(window);
+					Cursor::Initialize(window);
+					Graphics::Initialize(window->GetHwnd());
 					Graphics2D::SetRenderTarget(window->GetHwnd());
+
+					//完成初始化后，正式循环前
+					onStart();
 					return true;
 				}
-				case WM_PAINT:
+				case WM_PAINT://帧更新
 				{
 					Time::BeginFrame();
 					Graphics2D::BeginDraw();
-					Graphics2D::ClearCanvas();
 
-					GameObject::Update();
+					GameObjectEditor::OnUpdate();
 
 					Graphics2D::EndDraw();
 					Time::EndFrame();
 					Input::FlushState();
 					return true;
 				}
-				case WM_SIZE:
-				{
-					Graphics2D::ResetCanvas();
-					window->RePaint();
-					return true;
-				}
-				case WM_SETCURSOR:
-				{
-					if (LOWORD(lparameter) == HTCLIENT)
-					{
-						Cursor::UpdateShow();
-						return true;
-					}
-				}
-#pragma region 鼠标
+
+#pragma region 鼠标事件
 				case WM_MOUSEMOVE:
 				{
 					Input::mousePosition.x = (float)(lparameter << 48 >> 48);
@@ -108,7 +102,7 @@ public:
 				}
 				case WM_MOUSEWHEEL:
 				{
-					Input::mouseScrollDelta.y += GET_WHEEL_DELTA_WPARAM(wparameter) / 1000.0f;
+					Input::mouseScrollDelta += GET_WHEEL_DELTA_WPARAM(wparameter) / 1000.0f;
 					return true;
 				}
 				case WM_LBUTTONDOWN:
@@ -154,7 +148,7 @@ public:
 					return true;
 				}
 #pragma endregion
-#pragma region 键盘
+#pragma region 键盘事件
 				case WM_KEYDOWN:
 				{
 					Input::keyboardState[wparameter] = true;
@@ -166,6 +160,21 @@ public:
 					return true;
 				}
 #pragma endregion
+				case WM_SIZE:
+				{
+					Graphics2D::ResetCanvas();
+					window->RePaint();
+					return true;
+				}
+				case WM_SETCURSOR:
+				{
+					if (LOWORD(lparameter) == HTCLIENT)
+					{
+						Cursor::UpdateShow();
+						return true;
+					}
+					return false;
+				}
 				case WM_CLOSE:
 				{
 					if (MessageBox(window->GetHwnd(), L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
@@ -180,14 +189,8 @@ public:
 				}
 				return false;
 			} };
-		Time::Initialize();
-		Screen::Initialize(&window);
-		Cursor::Initialize(&window);
-
 		window.Show();
 
-		//完成初始化后，正式循环前
-		onStart();
 
 		//正式循环
 		HWND hwnd = window.GetHwnd();

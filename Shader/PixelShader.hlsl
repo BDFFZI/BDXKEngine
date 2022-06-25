@@ -3,7 +3,9 @@
 //    return color;
 //}
 
-float4 main() : SV_TARGET
+#include "VertexShader.hlsl"
+
+float4 main(Pixel pixel) : SV_TARGET
 {
-    return 1;
+    return pixel.color;
 }

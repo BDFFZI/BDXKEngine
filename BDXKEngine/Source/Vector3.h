@@ -1,11 +1,15 @@
 #pragma once
 #include<d2d1.h>
+#include<iomanip>
 #include"Vector2.h"
 
 struct Vector3
 {
 public:
-	static const Vector3 nan;//不要拿这个用作比较对象，nan无法比较，请使用IsNaN()
+	/// <summary>
+	/// 不要拿这个用作比较对象，nan无法比较，请使用IsNaN()
+	/// </summary>
+	static const Vector3 nan;
 	static const Vector3 zero;
 	static const Vector3 one;
 	static const Vector3 right;
@@ -43,6 +47,11 @@ public:
 		return Vector3(x / value, y / value, z / value);
 	}
 
+	Vector3 operator/=(float value) {
+		return *this = *this / value;
+	}
+
+
 	Vector3 operator+(Vector3 value)
 	{
 		return Vector3(x + value.x, y + value.y, z + value.z);
@@ -50,6 +59,11 @@ public:
 	Vector3 operator-(Vector3 value)
 	{
 		return Vector3(x - value.x, y - value.y, z - value.z);
+	}
+
+	Vector3 operator-()
+	{
+		return Vector3(-x, -y, -z);
 	}
 
 	bool operator==(Vector3 value)
@@ -61,13 +75,22 @@ public:
 		return x != value.x || y != value.y || z != value.z;
 	}
 
-	const wchar_t* ToString();
-
 	Vector3(D2D1_SIZE_F size);
+
+	Vector3(POINT point);
 
 	operator D2D1_POINT_2F();
 
-	Vector3(POINT point);
 	operator POINT();
+
+	std::wstring ToString(int precision = 4)
+	{
+		std::wstringstream string;
+		string << '('
+			<< std::setprecision(precision) << x << ','
+			<< std::setprecision(precision) << y << ','
+			<< std::setprecision(precision) << z << ')';
+		return string.str();
+	}
 };
 

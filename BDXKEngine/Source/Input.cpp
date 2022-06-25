@@ -46,7 +46,7 @@
 //const int KeyCode::LeftShift = 0xA1;
 
 Vector2 Input::mousePosition;
-Vector2 Input::mouseScrollDelta;
+float Input::mouseScrollDelta;
 bool Input::lastMouseButtonState[3];
 bool Input::mouseButtonState[3];
 bool Input::lastKeyboardState[256];
@@ -106,7 +106,7 @@ void Input::FlushState()
 	{
 		lastMouseButtonState[i] = mouseButtonState[i];
 	}
-	mouseScrollDelta.y *= 0.7f;
+	mouseScrollDelta *= 0.7f;
 
 	for (int i = 0; i < 256; i++)
 	{

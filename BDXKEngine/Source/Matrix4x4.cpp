@@ -60,6 +60,76 @@ Matrix4x4 Matrix4x4::Translate(Vector3 move)
 	};
 }
 
+float Matrix4x4::GetElement(int row, int column)
+{
+	return ((float*)this)[row * 4 + column];
+}
+Matrix3x3 Matrix4x4::GetComplementMinor(int row, int column)
+{
+	Matrix3x3 matrix{};
+
+	float* matrixPointer = (float*)&matrix;
+	int index = 0;
+	for (int rowIndex = 0; rowIndex < 4; rowIndex++)
+	{
+		for (int columnIndex = 0; columnIndex < 4; columnIndex++)
+		{
+			if (rowIndex != row && columnIndex != column)
+			{
+				matrixPointer[index++] = GetElement(rowIndex, columnIndex);
+			}
+		}
+	}
+
+	return matrix;
+}
+float Matrix4x4::GetDeterminant()
+{
+	//求余子式
+	float det00 = GetComplementMinor(0, 0).GetDeterminant();
+	float det01 = GetComplementMinor(0, 1).GetDeterminant();
+	float det02 = GetComplementMinor(0, 2).GetDeterminant();
+	float det03 = GetComplementMinor(0, 3).GetDeterminant();
+
+	//转为代数余子式
+	return m00 * det00 + m01 * -det01 + m02 * det02 + m03 * -det03;
+}
+Matrix4x4 Matrix4x4::GetInverse() {
+	//求余子式
+	float det00 = GetComplementMinor(0, 0).GetDeterminant();
+	float det01 = GetComplementMinor(0, 1).GetDeterminant();
+	float det02 = GetComplementMinor(0, 2).GetDeterminant();
+	float det03 = GetComplementMinor(0, 3).GetDeterminant();
+
+	//求行列式
+	float det = m00 * det00 + m01 * -det01 + m02 * det02 + m03 * -det03;
+	if (det == 0)
+		return {};
+
+	//求出全部余子式
+	float det10 = GetComplementMinor(1, 0).GetDeterminant();
+	float det11 = GetComplementMinor(1, 1).GetDeterminant();
+	float det12 = GetComplementMinor(1, 2).GetDeterminant();
+	float det13 = GetComplementMinor(1, 3).GetDeterminant();
+	float det20 = GetComplementMinor(2, 0).GetDeterminant();
+	float det21 = GetComplementMinor(2, 1).GetDeterminant();
+	float det22 = GetComplementMinor(2, 2).GetDeterminant();
+	float det23 = GetComplementMinor(2, 3).GetDeterminant();
+	float det30 = GetComplementMinor(3, 0).GetDeterminant();
+	float det31 = GetComplementMinor(3, 1).GetDeterminant();
+	float det32 = GetComplementMinor(3, 2).GetDeterminant();
+	float det33 = GetComplementMinor(3, 3).GetDeterminant();
+
+	//创建伴随矩阵
+	Matrix4x4 matrix{
+		det00,-det10,det20,-det30,
+		-det01,det11,-det21,det31,
+		det02,-det12,det22,-det32,
+		-det03,det13,-det23,det33,
+	};
+
+	return matrix / det;
+}
 Matrix4x4 Matrix4x4::GetTranspose()
 {
 	Matrix4x4 matrix{
@@ -71,6 +141,7 @@ Matrix4x4 Matrix4x4::GetTranspose()
 
 	return matrix;
 }
+
 Matrix3x2 Matrix4x4::ToMatrix3x2()
 {
 	Matrix4x4 matrix = GetTranspose();
@@ -122,10 +193,23 @@ Matrix4x4 Matrix4x4::operator*(Matrix4x4 append)
 
 	return matrix;
 }
+Matrix4x4 Matrix4x4::operator*(float value) {
+	Matrix4x4 matrix = *this;
+	matrix.m00 *= value; matrix.m01 *= value; matrix.m02 *= value; matrix.m03 *= value;
+	matrix.m10 *= value; matrix.m11 *= value; matrix.m12 *= value; matrix.m13 *= value;
+	matrix.m20 *= value; matrix.m21 *= value; matrix.m22 *= value; matrix.m23 *= value;
+	matrix.m30 *= value; matrix.m31 *= value; matrix.m32 *= value; matrix.m33 *= value;
+	return matrix;
+}
+Matrix4x4 Matrix4x4::operator/(float value) {
+	return this-> operator* (1 / value);
+}
 Matrix4x4 Matrix4x4::operator*=(Matrix4x4 append)
 {
-	return *this = *this * append;
+	return *this = this->operator* (append);
 }
+
+
 bool Matrix4x4::operator==(Matrix4x4 append)
 {
 	return

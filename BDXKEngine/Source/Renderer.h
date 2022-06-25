@@ -1,23 +1,30 @@
 #pragma once
-#include<functional>
-#include"Component.h"
-#include"Transform.h"
-#include"Color.h"
-#include "GameObject.h"
-#include "Graphics2D.h"
+#include "Component.h"
+#include "Graphics.h"
 
-class Renderer :
-	public Component,
-	public StartEvent,
-	public OnRenderObjectEvent
+class RendererEditor;
+class Renderer : public Component
 {
+	friend RendererEditor;
 public:
-	std::function<void()> render = NULL;
-	Color color = Color::white;
+	Shader* GetShader()
+	{
+		return shader;
+	}
+	void SetShader(Shader* shader)
+	{
+		this->shader = shader;
+	}
+protected:
+	virtual void OnRender() = 0;
 private:
-	Transform* transform = NULL;
+	Shader* shader;
+};
 
-	void Start()override;
-
-	void OnRenderObject() override;
+class RendererEditor {
+protected:
+	static void Render(Renderer* renderer)
+	{
+		renderer->OnRender();
+	}
 };

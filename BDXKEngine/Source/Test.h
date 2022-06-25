@@ -3,7 +3,7 @@
 
 class Test {
 public:
-	class TestMatrixAndInput :public Component, UpdateEvent, OnRenderObjectEvent
+	class TestMatrixAndInput :public Component, UpdateEvent, RenderObjectEvent
 	{
 	private:
 		Vector2 center = Vector2(Vector2::one) * 100;
@@ -11,7 +11,7 @@ public:
 		float sleep = 100;
 
 
-		void Update()override
+		void OnUpdate()override
 		{
 			//键盘
 			float move = Time::GetDeltaTime() * 100;
@@ -33,7 +33,7 @@ public:
 				center.x += move;
 
 			//鼠标
-			size += Input::GetMouseScrollDelta().y;
+			size += Input::GetMouseScrollDelta();
 
 			if (Input::GetMouseButtonDown(0))
 			{
@@ -65,7 +65,7 @@ public:
 	};
 
 	class TestObjectAndGraphics :public Component,
-		AwakeEvent, StartEvent, UpdateEvent, OnRenderObjectEvent, OnDrawGizmosEvent
+		AwakeEvent, StartEvent, UpdateEvent, RenderObjectEvent, DrawGizmosEvent
 	{
 	public:
 		float x = 100;
@@ -74,17 +74,17 @@ public:
 	private:
 		float y = 0;
 
-		void Awake()override {
+		void OnAwake()override {
 			Debug::Log(L"我出生了");
-			Debug::LogError((String)L"我的名字是" + GetGameObject()->name);
+			Debug::LogError((String)L"我的名字是" + GetGameObject()->GetName());
 		}
 
-		void Start()override {
+		void OnStart()override {
 			GameObject* gameObject = GetGameObject();
 			Debug::LogWarning(String("我已经准备好在横坐标") + x + "处画图");
 		}
 
-		void Update()override {
+		void OnUpdate()override {
 			y = Math::Sin(Time::GetRealtimeSinceStartup()) * 100;
 		}
 
@@ -113,29 +113,31 @@ public:
 		Debug::Log((String)"微软文档永远的神" + false + 123);
 	}
 
-	static void TestRender()
+	class TestRender :public GL
 	{
-		std::setlocale(LC_ALL, "zh-CN");
-
-		WindowBase window(L"Direct3D Test");
-		window.Show();
-
-		GL::CreateDevice();
-		GL::CreateSwapChain(window.GetHwnd());
-		GL::CreateRenderTexture();
-
-		Mesh mesh = {};
-
-		//检索消息队列
-		MSG msg = {};
-		while (GetMessage(&msg, NULL, 0, 0))
+		void Test()
 		{
-			//预处理后交给窗口过程响应
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-			mesh.Render();
+			std::setlocale(LC_ALL, "zh-CN");
+
+			WindowBase window(L"Direct3D Test");
+			window.Show();
+
+			GL::Initialize(window.GetHwnd());
+
+			Mesh mesh{};
+			Shader shader{};
+
+			//检索消息队列
+			MSG msg = {};
+			while (GetMessage(&msg, NULL, 0, 0))
+			{
+				//预处理后交给窗口过程响应
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+				Graphics::RenderMesh(&mesh, &shader);
+			}
 		}
-	}
+	};
 
 	static void TestWindowBase()
 	{
@@ -205,80 +207,8 @@ public:
 	}
 };
 
-namespace TestRelation {
-	class Controler :
-		public Component,
-		public StartEvent,
-		public UpdateEvent
-	{
-	public:
-		Transform* target = NULL;
-	private:
-		Transform* transform = NULL;
-		float scale = 1;
-
-		void Start()override
-		{
-			transform = GetGameObject()->GetTransform();
-		}
-
-		void Update()override
-		{
-			scale = Math::Clamp(scale + Input::GetMouseScrollDelta().y / 10, 0, 2);
-
-			transform->SetLocalScale((Vector2)Vector2::one * (scale + 0.1f));
-			transform->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * 100 });
-			transform->SetLocalPosition(Input::GetMousePosition());
-
-			if (target->GetParent() != NULL)
-			{
-				target->SetLocalEulerAngles({ 0,0,Time::GetRealtimeSinceStartup() * -100 });
-				target->SetLocalScale((Vector2)Vector2::one * (2 - scale + 0.1f));
-
-				if (Input::GetKeyDown(KeyCode::Esc))
-					target->SetParent(NULL);
-			}
-			else if (Input::GetKeyUp(KeyCode::Esc))
-			{
-				Debug::Log((String)transform->GetChild(0)->GetChildCount());
-				target->SetParent(transform->GetChild(0));
-			}
-
-		}
-	};
-
-	void Start()
-	{
-		BDXKEngine::Run([]() {
-			GameObject* circle = new GameObject(L"circle");
-			Renderer* circleRenderer = circle->AddComponent<Renderer>();
-			circleRenderer->render = []() {Graphics2D::DrawCircle(Vector2::zero, 10, true); };
-			circleRenderer->color = Color::red;
-			Controler* testComponent = circle->AddComponent<Controler>();
-
-			GameObject* square = new GameObject(L"square");
-			Renderer* squareRenderer = square->AddComponent<Renderer>();
-			squareRenderer->render = []() {Graphics2D::DrawRectangleCenter(Vector2::zero, (Vector2)Vector2::one * 100, false); };
-			squareRenderer->color = Color::green;
-			Transform* squareTransform = square->GetTransform();
-			squareTransform->SetLocalPosition({ 50,50,0 });
-			squareTransform->SetParent(circle->GetTransform());
-
-			GameObject* rectangle = new GameObject(L"rectangle");
-			Renderer* rectangleRenderer = rectangle->AddComponent<Renderer>();
-			rectangleRenderer->render = []() {Graphics2D::DrawRectangle(Vector2::zero, Vector2(100, 20), false); };
-			rectangleRenderer->color = Color::blue;
-			Transform* rectangleTransform = rectangle->GetTransform();
-			rectangleTransform->SetLocalPosition({ 50,50,0 });
-			rectangleTransform->SetParent(squareTransform);
-
-			testComponent->target = rectangleTransform;
-			});
-	}
-}
-
 namespace TestWindow {
-	void Start()
+	void OnStart()
 	{
 		Window window{
 			L"示例窗口",
@@ -322,7 +252,7 @@ namespace TestWindow {
 		return false;
 	}
 		};
-		
+
 		Test::TestWindow(window);
 	}
 }

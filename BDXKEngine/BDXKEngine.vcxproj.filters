@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Utility">
-      <UniqueIdentifier>{9e7d04b0-bc01-4e99-acb6-890f6e6ebed2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code">
       <UniqueIdentifier>{9614757e-ef39-4163-99af-7b8314c7f5e8}</UniqueIdentifier>
     </Filter>
@@ -25,17 +22,32 @@
     <Filter Include="Function">
       <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\Graphics">
-      <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Function\GameObject">
       <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\GameObject\Component">
+    <Filter Include="Function\Input">
+      <UniqueIdentifier>{1f654d21-2433-4f64-9eca-cf8fe1f674f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Time">
+      <UniqueIdentifier>{8dbeff17-481b-419c-b4a7-de8b3bc971d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Graphics">
+      <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\GameObject\Components">
       <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System">
-      <UniqueIdentifier>{43a01084-98a4-47a7-9cec-fdc3313cc3c4}</UniqueIdentifier>
+    <Filter Include="Function\GameObject\Event">
+      <UniqueIdentifier>{24e08028-7258-45fa-8add-dfe2f2b6ffc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Graphics\Screen">
+      <UniqueIdentifier>{df26c381-996c-474b-be0c-c8d18e0b904a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Graphics\Cursor">
+      <UniqueIdentifier>{cd59c6e8-d10f-48de-bc4d-3f69621ae45f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Graphics\GL">
+      <UniqueIdentifier>{f0569422-21a6-484a-b1bc-c258e4016c33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,9 +58,6 @@
       <Filter>Code\Property\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Com.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Function\GameObject</Filter>
     </ClCompile>
@@ -56,7 +65,7 @@
       <Filter>Code\Property\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Transform.cpp">
-      <Filter>Function\GameObject\Component</Filter>
+      <Filter>Function\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector3.cpp">
       <Filter>Code\Property\Vector</Filter>
@@ -65,19 +74,10 @@
       <Filter>Code\Property\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer.cpp">
-      <Filter>Function\GameObject\Component</Filter>
+      <Filter>Function\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Object.cpp">
       <Filter>Function\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Component.cpp">
-      <Filter>Function\GameObject\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GL.cpp">
-      <Filter>Function\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Function\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Debug.cpp">
       <Filter>Code\Behavior</Filter>
@@ -100,18 +100,6 @@
     <ClCompile Include="Source\Color.cpp">
       <Filter>Code\Property</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Cursor.cpp">
-      <Filter>Function\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input.cpp">
-      <Filter>Function\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Screen.cpp">
-      <Filter>Function\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Time.cpp">
-      <Filter>Function\System</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Matrix3x2.cpp">
       <Filter>Code\Property\Matrix</Filter>
     </ClCompile>
@@ -121,6 +109,48 @@
     <ClCompile Include="Source\Graphics.cpp">
       <Filter>Function\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>Function\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Com.cpp">
+      <Filter>Code\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Input.cpp">
+      <Filter>Function\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Cursor.cpp">
+      <Filter>Function\Graphics\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Screen.cpp">
+      <Filter>Function\Graphics\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Time.cpp">
+      <Filter>Function\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component.cpp">
+      <Filter>Function\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TickEvent.cpp">
+      <Filter>Function\GameObject\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRenderer.cpp">
+      <Filter>Function\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GL.cpp">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh.cpp">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shader.cpp">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Matrix3x3.cpp">
+      <Filter>Code\Property\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vector4.cpp">
+      <Filter>Code\Property\Vector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
@@ -128,9 +158,6 @@
     </ClInclude>
     <ClInclude Include="Source\Window.h">
       <Filter>Code\Property\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Com.h">
-      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Source\Test.h" />
     <ClInclude Include="Source\GameObject.h">
@@ -143,7 +170,7 @@
       <Filter>Code\Property\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Transform.h">
-      <Filter>Function\GameObject\Component</Filter>
+      <Filter>Function\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector3.h">
       <Filter>Code\Property\Vector</Filter>
@@ -152,22 +179,10 @@
       <Filter>Code\Property\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer.h">
-      <Filter>Function\GameObject\Component</Filter>
+      <Filter>Function\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object.h">
       <Filter>Function\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Component.h">
-      <Filter>Function\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ComponentEvent.h">
-      <Filter>Function\GameObject\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GL.h">
-      <Filter>Function\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mesh.h">
-      <Filter>Function\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Debug.h">
       <Filter>Code\Behavior</Filter>
@@ -187,23 +202,8 @@
     <ClInclude Include="Source\Color.h">
       <Filter>Code\Property</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Cursor.h">
-      <Filter>Function\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Input.h">
-      <Filter>Function\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Screen.h">
-      <Filter>Function\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Time.h">
-      <Filter>Function\System</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Reflection.h">
       <Filter>Code\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BDXKEngine.h">
-      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix3x2.h">
       <Filter>Code\Property\Matrix</Filter>
@@ -213,6 +213,52 @@
     </ClInclude>
     <ClInclude Include="Source\Graphics.h">
       <Filter>Function\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>Function\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Com.h">
+      <Filter>Code\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BDXKEngine.h" />
+    <ClInclude Include="Source\Input.h">
+      <Filter>Function\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Cursor.h">
+      <Filter>Function\Graphics\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Screen.h">
+      <Filter>Function\Graphics\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Time.h">
+      <Filter>Function\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component.h">
+      <Filter>Function\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TickEvent.h">
+      <Filter>Function\GameObject\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshRenderer.h">
+      <Filter>Function\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GL.h">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GLLayout.h">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shader.h">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh.h">
+      <Filter>Function\Graphics\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Matrix3x3.h">
+      <Filter>Code\Property\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vector4.h">
+      <Filter>Code\Property\Vector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

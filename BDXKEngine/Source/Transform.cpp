@@ -1,10 +1,7 @@
 #include "Transform.h"
 
-Transform Transform::root = []() {
-	Transform transform;
-	transform.name = L"[root] : class Transform";
-	return transform;
-}();
+
+Transform Transform::root{};
 
 Transform* Transform::GetParent()
 {
@@ -24,7 +21,7 @@ void Transform::SetParent(Transform* newparent)
 	RenewPosition();
 	RenewEulerAngles();
 	RenewScale();
-	RenewLocalToWorldMatrix();
+	RenewMatrix();
 }
 Transform* Transform::GetChild(int index)
 {
@@ -47,9 +44,27 @@ Vector3 Transform::GetScale()
 {
 	return scale;
 }
+
 Matrix4x4 Transform::GetLocalToWorldMatrix()
 {
 	return localToWorldMatrix;
+}
+Matrix4x4 Transform::GetWorldToLocalMatrix()
+{
+	return worldToLocalMatrix;
+}
+
+Vector3 Transform::GetLocalPosition()
+{
+	return localPosition;
+}
+Vector3 Transform::GetLocalEulerAngles()
+{
+	return localEulerAngles;
+}
+Vector3 Transform::GetLocalScale()
+{
+	return localScale;
 }
 
 void Transform::SetLocalPosition(Vector3 value)
@@ -57,7 +72,7 @@ void Transform::SetLocalPosition(Vector3 value)
 	localPosition = value;
 
 	RenewPosition();
-	RenewLocalToWorldMatrix();
+	RenewMatrix();
 }
 void Transform::SetLocalEulerAngles(Vector3 value)
 {
@@ -67,14 +82,14 @@ void Transform::SetLocalEulerAngles(Vector3 value)
 	localEulerAngles = value;
 
 	RenewEulerAngles();
-	RenewLocalToWorldMatrix();
+	RenewMatrix();
 }
 void Transform::SetLocalScale(Vector3 value)
 {
 	localScale = value;
 
 	RenewScale();
-	RenewLocalToWorldMatrix();
+	RenewMatrix();
 }
 
 Transform::Transform()
@@ -116,14 +131,17 @@ void Transform::RenewScale()
 	for (Transform* child : children)
 		child->RenewScale();
 }
-void Transform::RenewLocalToWorldMatrix()
+void Transform::RenewMatrix()
 {
 	localToWorldMatrix = parent->GetLocalToWorldMatrix();
 	localToWorldMatrix *= Matrix4x4::Translate(localPosition);
 	localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
 	localToWorldMatrix *= Matrix4x4::Scale(localScale);
+
+	worldToLocalMatrix = localToWorldMatrix.GetInverse();
+
 	for (Transform* child : children)
-		child->RenewLocalToWorldMatrix();
+		child->RenewMatrix();
 }
 
 

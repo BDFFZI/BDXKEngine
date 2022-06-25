@@ -1,33 +1,34 @@
 #include "Mesh.h"
 #include "Vector3.h"
+#include "Color.h"
+#include "GL.h"
+#include<vector>
 
 Mesh::Mesh()
 {
-	Vector3 vertices[] =
-	{
-		{ 0, 0, 0 },
-		{ 0,0.5f,0 },
-		{ 0.5f,0, 0 },
+	vertices = {
+		{{ -0.5f, -0.5f, -0.5f},{},{0,0,0}},
+		{{ -0.5f, -0.5f, 0.5f },{},{0,0,1}},
+		{{ 0.5f, -0.5f, 0.5f },{},{0,0,1}},
+		{{ 0.5f,-0.5f,-0.5f },{},{1,0,0}},
+		{{ -0.5f,0.5f,-0.5f },{},{0,1,0}},
+		{{ -0.5f,0.5f,0.5f },{},{0,0,1}},
+		{{0.5f,0.5f, 0.5f },{},{0,0,1}},
+		{{0.5f,0.5f, -0.5f },{},{1,1,0}}
 	};
-	UINT triangles[]{
-		0,1,2,
+	triangles = {//前后左右上下
+		0,4,7,
+		0,7,3,
+		2,6,5,
+		2,5,1,
+		1,5,4,
+		1,4,0,
+		3,7,6,
+		3,6,2,
+		4,5,6,
+		4,6,7,
+		0,3,2,
+		0,2,1
 	};
-
-	GL::CreateVertexBuffer(vertices, sizeof(vertices), &vertexBuffer);
-	GL::CreateIndexBuffer(triangles, sizeof(triangles), &indexBuffer);
-
-	D3D11_INPUT_ELEMENT_DESC vertexShaderInput[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	};
-
-	GL::CreateVertexShader("C:/Users/BDFFZI/Desktop/BDXKEngine/Shader/VertexShader.cso", vertexShaderInput, ARRAYSIZE(vertexShaderInput), &vertexShader, &inputLayout);
-	GL::CreatePixelShader("C:/Users/BDFFZI/Desktop/BDXKEngine/Shader/PixelShader.cso", &pixelShader);
-}
-
-void Mesh::Render()
-{
-	GL::Render(vertexBuffer, inputLayout, sizeof(Vector3), indexBuffer, DXGI_FORMAT_R32_UINT, 3, vertexShader, pixelShader, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	UploadMeshData();
 }

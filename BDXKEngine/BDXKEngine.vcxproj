@@ -148,6 +148,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Matrix3x3.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
+    <ClCompile Include="Source\MeshRenderer.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\Data.cpp" />
     <ClCompile Include="Source\Graphics2D.cpp" />
@@ -168,6 +172,7 @@
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\TickEvent.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\String.cpp" />
@@ -176,8 +181,14 @@
     <ClCompile Include="Source\Screen.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\Vector3.cpp" />
+    <ClCompile Include="Source\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Matrix3x3.h" />
+    <ClInclude Include="Source\GLLayout.h" />
+    <ClInclude Include="Source\Shader.h" />
+    <ClInclude Include="Source\MeshRenderer.h" />
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Graphics.h" />
     <ClInclude Include="Source\Graphics2D.h" />
     <ClInclude Include="Source\Matrix3x2.h" />
@@ -185,7 +196,7 @@
     <ClInclude Include="Source\Data.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\GL.h" />
-    <ClInclude Include="Source\ComponentEvent.h" />
+    <ClInclude Include="Source\TickEvent.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Matrix4x4.h" />
@@ -209,6 +220,7 @@
     <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\Vector3.h" />
+    <ClInclude Include="Source\Vector4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

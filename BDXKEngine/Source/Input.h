@@ -53,13 +53,13 @@ public:
 	static bool GetMouseButton(int mouseButtonIndex);
 	static bool GetMouseButtonUp(int mouseButtonIndex);
 	static Vector2 GetMousePosition() { return mousePosition; };
-	static Vector2 GetMouseScrollDelta() { return mouseScrollDelta; };
+	static float GetMouseScrollDelta() { return mouseScrollDelta; };
 	static bool GetKeyDown(KeyCode keyCode);
 	static bool GetKey(KeyCode keyCode);
 	static bool GetKeyUp(KeyCode keyCode);
 protected:
 	static Vector2 mousePosition;
-	static Vector2 mouseScrollDelta;
+	static float mouseScrollDelta;
 	static bool mouseButtonState[];
 	static bool keyboardState[];
 
