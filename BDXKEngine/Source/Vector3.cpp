@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include <cmath>
 
 const Vector3 Vector3::nan = {
 	std::nanf(NULL),
@@ -10,7 +11,7 @@ const Vector3 Vector3::zero = { 0,0,0 };
 const Vector3 Vector3::one = { 1,1,1 };
 const Vector3 Vector3::right = { 1,0,0 };
 const Vector3 Vector3::up = { 0,1,0 };
-const Vector3 Vector3::forward = { 0,0,1 };
+const Vector3 Vector3::front = { 0,0,1 };
 const Vector3 Vector3::left = { -1,0,0 };
 const Vector3 Vector3::down = { 0,-1,0 };
 const Vector3 Vector3::back = { 0,0,-1 };
@@ -40,6 +41,16 @@ Vector3::Vector3(Vector2 value)
 bool Vector3::IsNaN()
 {
 	return std::isnan(x) || std::isnan(y) || std::isnan(z);
+}
+
+float Vector3::GetMagnitude()
+{
+	return std::sqrtf(x * x + y * y + z * z);
+}
+
+Vector3 Vector3::GetNormalized()
+{
+	return *this / GetMagnitude();
 }
 
 Vector3::Vector3(D2D1_SIZE_F size) :Vector3(size.width, size.height, 0) {

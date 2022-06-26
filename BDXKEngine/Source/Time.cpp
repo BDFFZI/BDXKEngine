@@ -14,27 +14,40 @@ long Time::startTime = 0;
 long Time::frameTime = 0;
 float Time::deltaTime = 0;
 
-void Time::Initialize()
-{
-	Time::startTime = GetSystemTime();
-}
-
 float Time::GetRealtimeSinceStartup()
 {
 	return (GetSystemTime() - startTime) / unit;
+}
+float Time::GetDeltaTime()
+{
+	return deltaTime;
+}
+
+void Time::Initialize(std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
+{
+	Time::startTime = GetSystemTime();
+	*windowEvent = OnWindowMessage;
 }
 
 void Time::BeginFrame()
 {
 	Time::frameTime = GetSystemTime();
 }
-
 void Time::EndFrame()
 {
 	Time::deltaTime = (GetSystemTime() - Time::frameTime) / unit;
 }
 
-float Time::GetDeltaTime()
+void Time::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
-	return deltaTime;
+	switch (messageSign)
+	{
+	case WM_PAINT:
+	{
+		Time::EndFrame();
+		Time::BeginFrame();
+		break;
+	}
+	}
 }
+

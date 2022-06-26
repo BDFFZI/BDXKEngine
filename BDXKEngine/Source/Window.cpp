@@ -1,33 +1,14 @@
 #include "Window.h"
 
-Vector2Int Window::GetSize(HWND hwnd)
+Rect Window::GetRect(HWND hwnd)
 {
 	RECT rect;
 	GetClientRect(hwnd, &rect);
-	D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
-
-	return size;
-}
-
-Window::Window(const wchar_t* name,
-	std::function<bool(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
-) :WindowBase(name)
-{
-	this->messageEvent = messageEvent;
-}
-
-Rect Window::GetRect()
-{
-	RECT rect;
-	GetClientRect(hwnd, &rect);
-	D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
-
 	return rect;
 }
-
-Rect Window::GetScreenRect()
+Rect Window::GetScreenRect(HWND hwnd)
 {
-	Rect rect = GetRect();
+	Rect rect = GetRect(hwnd);
 	POINT min = rect.GetMin();
 	POINT max = rect.GetMax();
 	ClientToScreen(hwnd, &min);
@@ -35,18 +16,15 @@ Rect Window::GetScreenRect()
 
 	return Rect{ min ,max };
 }
-
-Vector2 Window::GetSize()
+Vector2 Window::GetSize(HWND hwnd)
 {
-	Rect rect = GetRect();
-	return rect.GetSize();
+	return GetRect(hwnd).GetSize();
 }
-
-void Window::ConfiningCursor(bool isOpen)
+void Window::ConfiningCursor(HWND hwnd, bool isOpen)
 {
 	if (isOpen)
 	{
-		RECT rect = GetScreenRect();
+		RECT rect = GetScreenRect(hwnd);
 		ClipCursor(&rect);
 	}
 	else
@@ -54,16 +32,55 @@ void Window::ConfiningCursor(bool isOpen)
 		ClipCursor(NULL);
 	}
 }
-
-LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
-{
-	if (messageEvent(this, messageSign, wparameter, lparameter))
-		return 0;
-	else
-		return DefWindowProc(hwnd, messageSign, wparameter, lparameter);
-}
-
-void Window::RePaint(bool clear)
+void Window::RePaint(HWND hwnd, bool clear)
 {
 	InvalidateRect(hwnd, NULL, clear);
 }
+
+Vector2 Window::GetCursorPos()
+{
+	POINT point;
+	::GetCursorPos(&point);
+	return point;
+}
+Vector2 Window::GetCursorMoveDelta() {
+	return cursorPos - lastCursorPos;
+}
+void Window::SetCursorLock(bool state)
+{
+	lockCursorPos = Window::GetCursorPos();
+	lastCursorPos = cursorPos;
+	cursorlock = state;
+}
+
+Window::Window(const wchar_t* name,
+	std::function<LRESULT(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
+) :WindowBase(name)
+{
+	cursorPos = GetCursorPos();
+	lastCursorPos = cursorPos;
+	this->messageEvent = messageEvent;
+}
+
+
+LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+{
+	LRESULT result = messageEvent(hwnd, messageSign, wparameter, lparameter);
+
+	switch (messageSign)
+	{
+	case WM_PAINT:
+		if (cursorlock)
+			SetCursorPos((int)(lockCursorPos.x + 0.5f), (int)(lockCursorPos.y + 0.5f));
+		else
+			lastCursorPos = cursorPos;
+		break;
+	case WM_MOUSEMOVE:
+		cursorPos.x = (float)(lparameter << 48 >> 48);
+		cursorPos.y = (float)(lparameter >> 16);
+		break;
+	}
+
+	return result;
+}
+

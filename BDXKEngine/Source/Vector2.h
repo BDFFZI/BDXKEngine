@@ -1,6 +1,7 @@
 #pragma once
 #include <d2d1.h>
 #include <sstream>
+#include <cmath>
 
 struct Vector2
 {
@@ -35,7 +36,6 @@ public:
 	{
 		return D2D1::Point2F(x, y);
 	}
-
 	operator POINT()
 	{
 		POINT point{};
@@ -43,6 +43,10 @@ public:
 		point.y = (LONG)y;
 
 		return point;
+	}
+	operator D2D1_SIZE_U()
+	{
+		return D2D1::SizeU((int)(x + 0.5f), (int)(y + 0.5f));
 	}
 
 	Vector2 operator+(float value)

@@ -61,136 +61,65 @@ public:
 		std::setlocale(LC_ALL, "zh-CN");
 
 		//启动窗口
-		Window window = { L"BDXKEngine",
-			[&](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
+		Window window = {
+			L"BDXKEngine",
+			[&](HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
 				switch (messageSign)
 				{
 				case WM_CREATE://系统初始化
 				{
-					Time::Initialize();
-					Screen::Initialize(window);
-					Cursor::Initialize(window);
-					Graphics::Initialize(window->GetHwnd());
-					Graphics2D::SetRenderTarget(window->GetHwnd());
+					Graphics::Initialize(window);
+					Graphics2D::SetRenderTarget(window);
 
 					//完成初始化后，正式循环前
 					onStart();
-					return true;
+					break;
 				}
 				case WM_PAINT://帧更新
 				{
-					Time::BeginFrame();
-					Graphics2D::BeginDraw();
-
 					GameObjectEditor::OnUpdate();
 
 					Graphics2D::EndDraw();
-					Time::EndFrame();
-					Input::FlushState();
-					return true;
+					Graphics2D::BeginDraw();
+					break;
 				}
-
-#pragma region 鼠标事件
-				case WM_MOUSEMOVE:
-				{
-					Input::mousePosition.x = (float)(lparameter << 48 >> 48);
-					Input::mousePosition.y = (float)(lparameter >> 16);
-					return true;
-				}
-				case WM_MOUSEWHEEL:
-				{
-					Input::mouseScrollDelta += GET_WHEEL_DELTA_WPARAM(wparameter) / 1000.0f;
-					return true;
-				}
-				case WM_LBUTTONDOWN:
-				{
-					Input::mouseButtonState[0] = true;
-					SetCapture(window->GetHwnd());
-					return true;
-				}
-				case WM_LBUTTONUP:
-				{
-					Input::mouseButtonState[0] = false;
-					if (Input::GetMouseButton(1) == false &&
-						Input::GetMouseButton(2) == false)
-						ReleaseCapture();
-					return true;
-				}
-				case WM_RBUTTONDOWN:
-				{
-					Input::mouseButtonState[1] = true;
-					SetCapture(window->GetHwnd());
-					return true;
-				}
-				case WM_RBUTTONUP:
-				{
-					Input::mouseButtonState[1] = false;
-					if (Input::GetMouseButton(0) == false &&
-						Input::GetMouseButton(2) == false)
-						ReleaseCapture();
-					return true;
-				}
-				case WM_MBUTTONDOWN:
-				{
-					Input::mouseButtonState[2] = true;
-					SetCapture(window->GetHwnd());
-					return true;
-				}
-				case WM_MBUTTONUP:
-				{
-					Input::mouseButtonState[2] = false;
-					if (Input::GetMouseButton(0) == false &&
-						Input::GetMouseButton(1) == false)
-						ReleaseCapture();
-					return true;
-				}
-#pragma endregion
-#pragma region 键盘事件
-				case WM_KEYDOWN:
-				{
-					Input::keyboardState[wparameter] = true;
-					return true;
-				}
-				case WM_KEYUP:
-				{
-					Input::keyboardState[wparameter] = false;
-					return true;
-				}
-#pragma endregion
 				case WM_SIZE:
 				{
 					Graphics2D::ResetCanvas();
-					window->RePaint();
-					return true;
-				}
-				case WM_SETCURSOR:
-				{
-					if (LOWORD(lparameter) == HTCLIENT)
-					{
-						Cursor::UpdateShow();
-						return true;
-					}
-					return false;
+					Window::RePaint(window);
+					break;
 				}
 				case WM_CLOSE:
 				{
-					if (MessageBox(window->GetHwnd(), L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
-						DestroyWindow(window->GetHwnd());
-					return true;
+					if (MessageBox(window, L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
+						DestroyWindow(window);
+					break;
 				}
 				case WM_DESTROY:
 				{
 					PostQuitMessage(0);
-					return true;
+					break;
 				}
 				}
-				return false;
-			} };
+
+				timeHandler(window,messageSign, wparameter, lparameter);
+				inputHandler(window, messageSign, wparameter, lparameter);
+				screenHandler(window, messageSign, wparameter, lparameter);
+				cursorHandler(window, messageSign, wparameter, lparameter);
+
+				return DefWindowProcW(window, messageSign, wparameter, lparameter);
+			}
+		};
 		window.Show();
 
+		//启动系统
+		HWND hwnd = window.GetHwnd();
+		Time::Initialize(&timeHandler);
+		Input::Initialize(&inputHandler);
+		Screen::Initialize(hwnd, &screenHandler);
+		Cursor::Initialize(hwnd, &cursorHandler);
 
 		//正式循环
-		HWND hwnd = window.GetHwnd();
 		MSG msg = {};
 		while (true)
 		{
@@ -205,4 +134,12 @@ public:
 			DispatchMessage(&msg);
 		}
 	}
+private:
+#define WindowEvent std::function<void(HWND window,UINT messageSign, WPARAM wparameter, LPARAM lparameter)>
+	static void NULLWindowEvent(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {}
+
+	inline static WindowEvent inputHandler = NULLWindowEvent;
+	inline static WindowEvent timeHandler = NULLWindowEvent;
+	inline static WindowEvent cursorHandler = NULLWindowEvent;
+	inline static WindowEvent screenHandler = NULLWindowEvent;
 };

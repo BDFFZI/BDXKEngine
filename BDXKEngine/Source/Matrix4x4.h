@@ -27,6 +27,8 @@ public:
 	Matrix4x4 GetInverse();
 	Matrix4x4 GetTranspose();
 	Matrix3x2 ToMatrix3x2();
+	Vector3 MultiplyVector(Vector3 value);
+
 
 	Matrix4x4();
 
@@ -43,16 +45,6 @@ public:
 	bool operator==(Matrix4x4 append);
 	bool operator!=(Matrix4x4 append);
 
-	std::wstring ToString()
-	{
-		std::wstringstream stream;
-		stream << "{" << std::endl;
-		stream << "\t" << m00 << "," << m01 << "," << m02 << "," << m03 << std::endl;
-		stream << "\t" << m10 << "," << m11 << "," << m12 << "," << m13 << std::endl;
-		stream << "\t" << m20 << "," << m21 << "," << m22 << "," << m23 << std::endl;
-		stream << "\t" << m30 << "," << m31 << "," << m32 << "," << m33 << std::endl;
-		stream << "}" << std::endl;
-		return stream.str();
-	}
+	std::wstring ToString();
 };
 

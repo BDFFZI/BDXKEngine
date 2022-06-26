@@ -1,5 +1,7 @@
 #pragma once
+#include<functional>
 #include "Vector2.h"
+#include "Window.h"
 
 enum class KeyCode :int {
 	Backspace = 0x08,
@@ -54,17 +56,22 @@ public:
 	static bool GetMouseButtonUp(int mouseButtonIndex);
 	static Vector2 GetMousePosition() { return mousePosition; };
 	static float GetMouseScrollDelta() { return mouseScrollDelta; };
+	static Vector2 GetMouseMoveDelta() { return Window::GetCursorMoveDelta(); };
 	static bool GetKeyDown(KeyCode keyCode);
 	static bool GetKey(KeyCode keyCode);
 	static bool GetKeyUp(KeyCode keyCode);
 protected:
-	static Vector2 mousePosition;
+	static void Initialize(std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+
+private:
 	static float mouseScrollDelta;
+	static Vector2 lastMousePosition;
+	static Vector2 mousePosition;
+	static bool lastMouseButtonState[];
 	static bool mouseButtonState[];
+	static bool lastKeyboardState[];
 	static bool keyboardState[];
 
 	static void FlushState();
-private:
-	static bool lastMouseButtonState[];
-	static bool lastKeyboardState[];
+	static void OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 };

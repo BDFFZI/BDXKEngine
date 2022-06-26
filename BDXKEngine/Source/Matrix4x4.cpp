@@ -34,13 +34,6 @@ Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
 		0,0,1,0,
 		0,0,0,1
 	};
-	float rx = radian.x;
-	Matrix4x4 x = {
-		1,0,0,0,
-		0,std::cos(rx),-std::sin(rx),0,
-		0,std::sin(rx),std::cos(rx),0,
-		0,0,0,1
-	};
 	float ry = radian.y;
 	Matrix4x4 y = {
 		std::cos(ry),0,std::sin(ry),0,
@@ -48,8 +41,16 @@ Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
 		-std::sin(ry),0,std::cos(ry),0,
 		0,0,0,1
 	};
+	float rx = radian.x;
+	Matrix4x4 x = {
+		1,0,0,0,
+		0,std::cos(rx),-std::sin(rx),0,
+		0,std::sin(rx),std::cos(rx),0,
+		0,0,0,1
+	};
 
-	return z * x * y;
+
+	return z * y * x;
 }
 Matrix4x4 Matrix4x4::Translate(Vector3 move)
 {
@@ -154,6 +155,15 @@ Matrix3x2 Matrix4x4::ToMatrix3x2()
 	);
 }
 
+Vector3 Matrix4x4::MultiplyVector(Vector3 value)
+{
+	Vector3 result{};
+	result.x = m00 * value.x + m01 * value.y + m02 * value.z;
+	result.y = m10 * value.x + m11 * value.y + m12 * value.z;
+	result.z = m20 * value.x + m21 * value.y + m22 * value.z;
+	return result;
+}
+
 Matrix4x4::Matrix4x4()
 {
 	m00 = 0; m01 = 0; m02 = 0; m03 = 0;
@@ -222,4 +232,16 @@ bool Matrix4x4::operator==(Matrix4x4 append)
 bool Matrix4x4::operator!=(Matrix4x4 append)
 {
 	return !(*this == append);
+}
+
+std::wstring Matrix4x4::ToString()
+{
+	std::wstringstream stream;
+	stream << "{" << std::endl;
+	stream << "\t" << m00 << "," << m01 << "," << m02 << "," << m03 << std::endl;
+	stream << "\t" << m10 << "," << m11 << "," << m12 << "," << m13 << std::endl;
+	stream << "\t" << m20 << "," << m21 << "," << m22 << "," << m23 << std::endl;
+	stream << "\t" << m30 << "," << m31 << "," << m32 << "," << m33 << std::endl;
+	stream << "}" << std::endl;
+	return stream.str();
 }

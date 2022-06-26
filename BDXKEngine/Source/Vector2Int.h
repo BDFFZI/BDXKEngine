@@ -25,9 +25,11 @@ public:
 
 	}
 
-	operator D2D1_SIZE_U()
+
+
+	operator Vector2()
 	{
-		return D2D1::SizeU(x, y);
+		return { (float)x,(float)y };
 	}
 
 	Vector2Int  operator/(float value)

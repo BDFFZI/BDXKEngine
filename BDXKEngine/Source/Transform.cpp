@@ -45,15 +45,6 @@ Vector3 Transform::GetScale()
 	return scale;
 }
 
-Matrix4x4 Transform::GetLocalToWorldMatrix()
-{
-	return localToWorldMatrix;
-}
-Matrix4x4 Transform::GetWorldToLocalMatrix()
-{
-	return worldToLocalMatrix;
-}
-
 Vector3 Transform::GetLocalPosition()
 {
 	return localPosition;
@@ -66,7 +57,6 @@ Vector3 Transform::GetLocalScale()
 {
 	return localScale;
 }
-
 void Transform::SetLocalPosition(Vector3 value)
 {
 	localPosition = value;
@@ -92,6 +82,28 @@ void Transform::SetLocalScale(Vector3 value)
 	RenewMatrix();
 }
 
+Matrix4x4 Transform::GetLocalToWorldMatrix()
+{
+	return localToWorldMatrix;
+}
+Matrix4x4 Transform::GetWorldToLocalMatrix()
+{
+	return worldToLocalMatrix;
+}
+
+Vector3 Transform::GetRight()
+{
+	return localToWorldMatrix.MultiplyVector(Vector3::right).GetNormalized();
+}
+Vector3 Transform::GetUp()
+{
+	return localToWorldMatrix.MultiplyVector(Vector3::up).GetNormalized();
+}
+Vector3 Transform::GetFront()
+{
+	return localToWorldMatrix.MultiplyVector(Vector3::front).GetNormalized();
+}
+
 Transform::Transform()
 {
 	parent = &root;
@@ -105,6 +117,7 @@ Transform::Transform()
 	eulerAngles = Vector3::zero;
 	scale = Vector3::one;
 	localToWorldMatrix = Matrix4x4::identity;
+	worldToLocalMatrix = Matrix4x4::identity;
 }
 
 void Transform::RenewPosition()
@@ -133,7 +146,7 @@ void Transform::RenewScale()
 }
 void Transform::RenewMatrix()
 {
-	localToWorldMatrix = parent->GetLocalToWorldMatrix();
+	localToWorldMatrix = parent->localToWorldMatrix;
 	localToWorldMatrix *= Matrix4x4::Translate(localPosition);
 	localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
 	localToWorldMatrix *= Matrix4x4::Scale(localScale);

@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Matrix3x3.cpp" />
     <ClCompile Include="Source\Rect.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
@@ -168,7 +169,6 @@
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
-    <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\TickEvent.cpp" />
     <ClCompile Include="Source\Vector2.cpp" />
@@ -182,6 +182,7 @@
     <ClCompile Include="Source\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Matrix3x3.h" />
     <ClInclude Include="Source\GLLayout.h" />
     <ClInclude Include="Source\Rect.h" />
@@ -194,19 +195,18 @@
     <ClInclude Include="Source\Reflection.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\GL.h" />
+    <ClInclude Include="Source\Test.h" />
     <ClInclude Include="Source\TickEvent.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Matrix4x4.h" />
     <ClInclude Include="Source\Cursor.h" />
-    <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Math.h" />
     <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\Window.h" />
-    <ClInclude Include="Source\Test.h" />
     <ClInclude Include="Source\WindowBase.h" />
     <ClInclude Include="Source\String.h" />
     <ClInclude Include="Source\Vector2.h" />

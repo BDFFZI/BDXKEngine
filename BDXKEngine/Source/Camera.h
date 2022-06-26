@@ -45,7 +45,7 @@ private:
 
 	void OnRenderObject()override
 	{
-		Vector3 viewSize = Screen::GetSize() / 1080 * 10;
+		Vector3 viewSize = Screen::GetSize() / 1080 * 20;
 
 		Matrix4x4 worldToCamera = transform->GetWorldToLocalMatrix();
 		Matrix4x4 cameraToView = Matrix4x4::Translate({ 0,0,-clippingPlanes.x })

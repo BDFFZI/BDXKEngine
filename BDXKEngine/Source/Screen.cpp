@@ -1,7 +1,22 @@
 #include "Screen.h"
+#include "Window.h"
 
-Window* Screen::window;
+HWND Screen::window{};
 
-void Screen::Initialize(Window* window) {
+
+
+Vector2 Screen::GetSize()
+{
+	return Window::GetSize(window);;
+}
+
+void Screen::Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
+{
 	Screen::window = window;
+	*windowEvent = OnWindowMessage;
+}
+
+void Screen::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+{
+
 }

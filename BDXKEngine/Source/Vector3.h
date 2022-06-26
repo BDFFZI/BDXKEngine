@@ -12,11 +12,11 @@ public:
 	static const Vector3 nan;
 	static const Vector3 zero;
 	static const Vector3 one;
-	static const Vector3 right;
 	static const Vector3 up;
-	static const Vector3 forward;
-	static const Vector3 left;
 	static const Vector3 down;
+	static const Vector3 left;
+	static const Vector3 right;
+	static const Vector3 front;
 	static const Vector3 back;
 
 	float x;
@@ -24,11 +24,12 @@ public:
 	float z;
 
 	Vector3();
-
 	Vector3(float x, float y, float z);
 	Vector3(Vector2 value);
 
 	bool IsNaN();
+	float GetMagnitude();
+	Vector3 GetNormalized();
 
 	Vector3 operator+(float value)
 	{
@@ -47,6 +48,7 @@ public:
 		return Vector3(x / value, y / value, z / value);
 	}
 
+
 	Vector3 operator/=(float value) {
 		return *this = *this / value;
 	}
@@ -59,6 +61,9 @@ public:
 	Vector3 operator-(Vector3 value)
 	{
 		return Vector3(x - value.x, y - value.y, z - value.z);
+	}
+	Vector3 operator+=(Vector3 value) {
+		return *this = *this + value;
 	}
 
 	Vector3 operator-()

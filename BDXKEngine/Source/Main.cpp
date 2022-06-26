@@ -11,48 +11,61 @@ class CameraController :public Component, public StartEvent, public UpdateEvent 
 
 	void OnUpdate()override
 	{
-		Vector3 localPosition = transform->GetLocalPosition();
+		Vector3 position = transform->GetPosition();
 		float deltaTime = Time::GetDeltaTime();
 
 		if (Input::GetKey(KeyCode::W))
 		{
-			localPosition.y += deltaTime * 3;
+			position += transform->GetFront() * deltaTime * 4;
 		}
 		if (Input::GetKey(KeyCode::S))
 		{
-			localPosition.y -= deltaTime * 3;
+			position += -transform->GetFront() * deltaTime * 4;
 		}
 		if (Input::GetKey(KeyCode::A))
 		{
-			localPosition.x -= deltaTime * 3;
+			position += -transform->GetRight() * deltaTime * 4;
 		}
 		if (Input::GetKey(KeyCode::D))
 		{
-			localPosition.x += deltaTime * 3;
+			position += transform->GetRight() * deltaTime * 4;
 		}
-		localPosition.z += Input::GetMouseScrollDelta();
-		transform->SetLocalPosition(localPosition);
+		if (Input::GetKey(KeyCode::Q))
+		{
+			position += -transform->GetUp() * deltaTime * 4;
+		}
+		if (Input::GetKey(KeyCode::E))
+		{
+			position += transform->GetUp() * deltaTime * 4;
+		}
 
-		Vector3 localEulerAngles = transform->GetLocalEulerAngles();
-		if (Input::GetKey(KeyCode::I))
-		{
-			localEulerAngles.x -= deltaTime * 20;
-		}
-		if (Input::GetKey(KeyCode::K))
-		{
-			localEulerAngles.x += deltaTime * 20;
-		}
-		if (Input::GetKey(KeyCode::J))
-		{
-			localEulerAngles.y -= deltaTime * 20;
-		}
-		if (Input::GetKey(KeyCode::L))
-		{
-			localEulerAngles.y += deltaTime * 20;
-		}
-		transform->SetLocalEulerAngles(localEulerAngles);
+		transform->SetLocalPosition(position);
 
-		Debug::Log(localEulerAngles.ToString().c_str());
+		if (Input::GetMouseButton(1))
+		{
+			Vector3 localEulerAngles = transform->GetLocalEulerAngles();
+			Vector2 mouseMoveDelta = Input::GetMouseMoveDelta();
+
+			localEulerAngles.y += mouseMoveDelta.x * deltaTime * 3;
+			localEulerAngles.x += mouseMoveDelta.y * deltaTime * 3;
+
+			transform->SetLocalEulerAngles(localEulerAngles);
+
+			Debug::Log(localEulerAngles.ToString().c_str());
+		}
+
+		if (Input::GetMouseButtonDown(1))
+		{
+			Cursor::SetLockState(true);
+			Cursor::SetVisible(false);
+		}
+		if (Input::GetMouseButtonUp(1))
+		{
+			Cursor::SetLockState(false);
+			Cursor::SetVisible(true);
+		}
+
+
 	}
 };
 
