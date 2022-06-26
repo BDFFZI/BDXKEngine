@@ -2,7 +2,7 @@
 #include "BDXKEngine.h"
 
 class CameraController :public Component, public StartEvent, public UpdateEvent {
-	Transform* transform;
+	Transform* transform{};
 
 	void OnStart()override
 	{
@@ -56,6 +56,7 @@ class CameraController :public Component, public StartEvent, public UpdateEvent 
 	}
 };
 
+
 int main()
 {
 	BDXKEngine::Run([&]() {
@@ -73,4 +74,9 @@ int main()
 		Transform* transform = renderer->GetTransform();
 		transform->SetLocalPosition({ 0,0,10 });
 		});
+}
+
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+{
+
 }

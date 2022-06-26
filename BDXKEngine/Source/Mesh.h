@@ -16,9 +16,9 @@ public:
 	}
 	int GetTrianglesCount()
 	{
-		return triangles.size();
+		return (int)triangles.size();
 	}
-	std::vector <int> GetTriangles()
+	std::vector <UINT32> GetTriangles()
 	{
 		return { triangles };
 	}
@@ -50,7 +50,7 @@ public:
 		}
 	}
 
-	void SetTriangles(std::vector <int> data)
+	void SetTriangles(std::vector <UINT32> data)
 	{
 		size_t size = data.size();
 		if (size % 3 != 0)
@@ -97,7 +97,7 @@ public:
 	}
 private:
 	std::vector<Vertex> vertices;
-	std::vector<int> triangles;
+	std::vector<UINT32> triangles;
 
 	CComPtr<ID3D11Buffer> vertexBuffer;
 	CComPtr<ID3D11Buffer> triangleBuffer;

@@ -1,3 +1,4 @@
+#include <cmath>
 #include "Matrix4x4.h"
 
 const Matrix4x4 Matrix4x4::zero = {
@@ -28,23 +29,23 @@ Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
 
 	float rz = radian.z;
 	Matrix4x4 z = {
-		Math::Cos(rz),-Math::Sin(rz),0,0,
-		Math::Sin(rz),Math::Cos(rz),0,0,
+		std::cos(rz),-std::sin(rz),0,0,
+		std::sin(rz),std::cos(rz),0,0,
 		0,0,1,0,
 		0,0,0,1
 	};
 	float rx = radian.x;
 	Matrix4x4 x = {
 		1,0,0,0,
-		0,Math::Cos(rx),-Math::Sin(rx),0,
-		0,Math::Sin(rx),Math::Cos(rx),0,
+		0,std::cos(rx),-std::sin(rx),0,
+		0,std::sin(rx),std::cos(rx),0,
 		0,0,0,1
 	};
 	float ry = radian.y;
 	Matrix4x4 y = {
-		Math::Cos(ry),0,Math::Sin(ry),0,
+		std::cos(ry),0,std::sin(ry),0,
 		0,1,0,0,
-		-Math::Sin(ry),0,Math::Cos(ry),0,
+		-std::sin(ry),0,std::cos(ry),0,
 		0,0,0,1
 	};
 

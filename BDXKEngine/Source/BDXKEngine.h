@@ -26,8 +26,6 @@
 //LPARAM = int
 
 //基本
-#include<algorithm>
-#include "Com.h"
 #include "Color.h"
 #include "Rect.h"
 #include "Math.h"
@@ -39,7 +37,6 @@
 //工具
 #include "String.h"
 #include "Debug.h"
-#include "Assert.h"
 #include "WindowBase.h"
 #include "Window.h"
 //系统

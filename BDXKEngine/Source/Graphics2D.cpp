@@ -1,6 +1,5 @@
 #include "Graphics2D.h"
-#include "Com.h"
-#include "Assert.h"
+#include <assert.h>
 #include "Window.h"
 
 HWND Graphics2D::hwnd = NULL;
@@ -15,7 +14,7 @@ void Graphics2D::SetRenderTarget(HWND hwnd)
 	Graphics2D::paintStruct = NULL;
 
 	LRESULT back = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
-	Assert::IsSucceeded(back, L"创建资源工厂失败");
+	assert(SUCCEEDED(back));// 创建资源工厂失败
 
 	CreateResources();
 }
@@ -88,7 +87,7 @@ void Graphics2D::DrawRectangleCenter(Vector2 center, Vector2 size, bool isFill)
 
 void Graphics2D::DrawRectangle(Vector2 origin, Vector2 size, bool isFill)
 {
-	const D2D1_RECT_F rect = D2D1::RectF(origin.x, origin.y, origin.x + size.x,origin.y + size.y);
+	const D2D1_RECT_F rect = D2D1::RectF(origin.x, origin.y, origin.x + size.x, origin.y + size.y);
 	if (isFill)
 		renderTarget->FillRectangle(rect, brush);
 	else
@@ -106,12 +105,12 @@ void Graphics2D::CreateResources()
 		D2D1::HwndRenderTargetProperties(hwnd, size),
 		&renderTarget
 	);
-	Assert::IsSucceeded(back, L"创建呈现器目标失败");
+	assert(SUCCEEDED(back));//创建呈现器目标失败
 
 	//创建画笔
 	D2D1_COLOR_F color = D2D1::ColorF(1, 1, 1);
 	back = renderTarget->CreateSolidColorBrush(color, &brush);
-	Assert::IsSucceeded(back, L"创建画笔失败");
+	assert(SUCCEEDED(back)); //创建画笔失败
 }
 
 void Graphics2D::DeleteResources()

@@ -1,7 +1,8 @@
 #pragma once
 #include<d2d1.h>
-#include "Vector2.h"
+#include<cmath>
 #include "Math.h"
+#include "Vector2.h"
 
 //https://docs.microsoft.com/en-us/windows/win32/learnwin32/appendix--matrix-transforms
 //DirectX使用行向量
@@ -30,8 +31,8 @@ public:
 	{
 		float radian = degree * Math::Deg2Rad;
 		return {
-			Math::Cos(radian),Math::Sin(radian),
-			-Math::Sin(radian),Math::Cos(radian),
+			std::cos(radian),std::sin(radian),
+			-std::sin(radian),std::cos(radian),
 			0,0
 		};
 	}

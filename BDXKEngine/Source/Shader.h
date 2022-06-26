@@ -1,5 +1,4 @@
 #pragma once
-#include "Com.h"
 #include "GLLayout.h"
 
 class ShaderEditor;

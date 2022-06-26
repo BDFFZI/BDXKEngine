@@ -1,6 +1,4 @@
 #include "GL.h"
-#include"Assert.h"
-#include"Debug.h"
 
 CComPtr<ID3D11Device> GL::device;
 CComPtr<ID3D11DeviceContext> GL::context;
@@ -28,7 +26,7 @@ void GL::CreateDevice() {
 		NULL,
 		&context
 	);
-	Assert::IsSucceeded(result, L"Direct3D设备创建失败");
+	assert(SUCCEEDED(result));// Direct3D设备创建是否成功
 }
 void GL::CreateSwapChain(HWND hwnd)
 {
@@ -37,9 +35,9 @@ void GL::CreateSwapChain(HWND hwnd)
 	CComPtr<IDXGIAdapter> dxglAdapter;
 	CComPtr<IDXGIFactory> dxglFactory;
 
-	Assert::IsSucceeded(device->QueryInterface(&dxglDevice), L"DXGI设备获取失败");
-	Assert::IsSucceeded(dxglDevice->GetAdapter(&dxglAdapter), L"DXGI适配器获取失败");
-	Assert::IsSucceeded(dxglAdapter->GetParent(IID_PPV_ARGS(&dxglFactory)), L"DXGI工厂获取失败");
+	assert(SUCCEEDED(device->QueryInterface(&dxglDevice)));//获取DXGI设备
+	assert(SUCCEEDED(dxglDevice->GetAdapter(&dxglAdapter)));//获取DXGI适配器
+	assert(SUCCEEDED(dxglAdapter->GetParent(IID_PPV_ARGS(&dxglFactory)))); //获取DXGI工厂
 
 	//交换链的属性配置
 	DXGI_SWAP_CHAIN_DESC swapChainProperty = {};//局部变量一定要初始化
@@ -51,23 +49,22 @@ void GL::CreateSwapChain(HWND hwnd)
 	swapChainProperty.SampleDesc.Count = 1;
 	swapChainProperty.SampleDesc.Quality = 0;
 	swapChainProperty.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+
 	//创建交换链
-	HRESULT result = dxglFactory->CreateSwapChain(device, &swapChainProperty, &swapChain);
-	Assert::IsSucceeded(result, L"Direct3D交换链创建失败");
+	assert(SUCCEEDED(dxglFactory->CreateSwapChain(device, &swapChainProperty, &swapChain)));
 }
 void GL::CreateRenderTexture()
 {
+	//获取交换链中渲染纹理
 	CComPtr<ID3D11Texture2D> colorTexture;
-	//获取交换链中纹理并以其创建渲染视图
 	swapChain->GetBuffer(0, IID_PPV_ARGS(&colorTexture));
-	Assert::IsSucceeded(
-		device->CreateRenderTargetView(colorTexture, nullptr, &renderTargetView),
-		L"创建渲染视图失败"
-	);
-	//获取渲染视图参数
+
+	//创建颜色输出视图
+	assert(SUCCEEDED(device->CreateRenderTargetView(colorTexture, nullptr, &renderTargetView)));
+
+	//获取渲染纹理参数
 	CD3D11_TEXTURE2D_DESC colorTextureDescription;
 	colorTexture->GetDesc(&colorTextureDescription);
-
 
 	//以该参数创建用于深度模板测试的纹理
 	CD3D11_TEXTURE2D_DESC depthStencilTextureDescription(
@@ -78,19 +75,16 @@ void GL::CreateRenderTexture()
 		1, // Use a single mipmap level.
 		D3D11_BIND_DEPTH_STENCIL
 	);
-	CComPtr<ID3D11Texture2D> depthStencilTexture;
-	Assert::IsSucceeded(
-		device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture),
-		L"创建深度测试纹理失败"
-	);
-	//并将其设为深度模板测试的视图
-	CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
-	Assert::IsSucceeded(
-		device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView),
-		L"创建深度测试视图失败"
-	);
 
-	//设置视口
+	//创建深度测试纹理
+	CComPtr<ID3D11Texture2D> depthStencilTexture;
+	assert(SUCCEEDED(device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture)));
+
+	//创建深度模板测试的视图
+	CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
+	assert(SUCCEEDED(device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView)));
+
+	//设置视口数据
 	D3D11_VIEWPORT viewport = {};
 	viewport.Height = (float)colorTextureDescription.Height;
 	viewport.Width = (float)colorTextureDescription.Width;
@@ -105,29 +99,28 @@ void GL::CreateVertexShader(const char* path, D3D11_INPUT_ELEMENT_DESC inputLayo
 	//读取顶点着色器二进制代码
 	FILE* vertexShaderFile;
 	fopen_s(&vertexShaderFile, path, "rb");
-	Assert::IsTrue(vertexShaderFile != nullptr, L"读取顶点着色器文件失败");
 	if (vertexShaderFile == 0)
-		throw "为了消除编辑器警告";
+		throw "顶点着色器文件打开失败";
 
 	char* vertexShaderBytes = new char[byteBufferSize];
 	size_t vertexShaderBytesSize = fread_s(vertexShaderBytes, byteBufferSize, 1, byteBufferSize, vertexShaderFile);
 	fclose(vertexShaderFile);
 	//创建顶点着色器
-	Assert::IsSucceeded(device->CreateVertexShader(
+	assert(SUCCEEDED(device->CreateVertexShader(
 		vertexShaderBytes,
 		vertexShaderBytesSize,
 		nullptr,
 		vertexShader
-	), L"创建顶点着色器失败");
+	)));
 
 	//创建语义信息
-	Assert::IsSucceeded(device->CreateInputLayout(
+	assert(SUCCEEDED(device->CreateInputLayout(
 		inputLayoutDescriptor,
 		inputLayoutDescriptorCount,
 		vertexShaderBytes,
 		vertexShaderBytesSize,
 		inputLayout
-	), L"声明语义信息失败");
+	)));
 
 	delete[] vertexShaderBytes;
 }
@@ -136,33 +129,37 @@ void GL::CreatePixelShader(const char* path, ID3D11PixelShader** pixelShader)
 	const int byteBufferSize = 32 * 1024;
 	//读取像素着色器二进制代码
 	FILE* pixelShaderFile;
-	fopen_s(&pixelShaderFile, "C:/Users/BDFFZI/Desktop/BDXKEngine/Shader/PixelShader.cso", "rb");
-	Assert::IsTrue(pixelShaderFile != nullptr, L"读取像素着色器文件失败");
+	fopen_s(&pixelShaderFile, path, "rb");
 	if (pixelShaderFile == 0)
-		throw "为了消除编辑器警告";
+		throw "像素着色器文件打开失败";
 
 	char* pixelShaderBytes = new char[byteBufferSize];
 	size_t pixelShaderBytesSize = fread_s(pixelShaderBytes, byteBufferSize, 1, byteBufferSize, pixelShaderFile);
 	fclose(pixelShaderFile);
+
 	//创建像素着色器
-	Assert::IsSucceeded(device->CreatePixelShader(
+	assert(SUCCEEDED(device->CreatePixelShader(
 		pixelShaderBytes,
 		pixelShaderBytesSize,
 		nullptr,
 		pixelShader
-	), L"创建像素着色器失败");
+	)));
 
 	delete[] pixelShaderBytes;
 }
 
-void GL::Clear(Color color)
+void GL::Clear(Color color, float depth, unsigned char stencil)
 {
 	const float teal[] = { color.r, color.g,color.b, color.a };
+	//重置绘制视图
 	context->ClearRenderTargetView(
 		renderTargetView,
 		teal
 	);
+	//重置深度模板测试视图
+	context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depth, stencil);
 }
+
 void GL::Render(
 	ID3D11Buffer* vertexBuffer, ID3D11InputLayout* inputLayout, int vertexSize,
 	ID3D11Buffer* indexBuffer, DXGI_FORMAT indexFormat, int indexsCount,
@@ -184,11 +181,11 @@ void GL::Render(
 	context->VSSetShader(vertexShader, nullptr, 0);
 	context->PSSetShader(pixelShader, nullptr, 0);
 
-	//设置绘制目标
-	context->OMSetRenderTargets(1, &renderTargetView.p, NULL);
-
 	//设置绘制模式
 	context->IASetPrimitiveTopology(drawMode);
+
+	//绑定颜色输出和深度模板测试用的视图(Present会导致解除绑定，所有每次都重新绑定)
+	context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
 
 	//开始绘制
 	context->DrawIndexed(indexsCount, 0, 0);

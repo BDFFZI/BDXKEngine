@@ -1,5 +1,5 @@
 #include "Transform.h"
-
+#include<cmath>
 
 Transform Transform::root{};
 
@@ -76,9 +76,9 @@ void Transform::SetLocalPosition(Vector3 value)
 }
 void Transform::SetLocalEulerAngles(Vector3 value)
 {
-	value.x = Math::Mod(value.x, 360);
-	value.y = Math::Mod(value.y, 360);
-	value.z = Math::Mod(value.z, 360);
+	value.x = (float)std::fmod(value.x, 360);
+	value.y = (float)std::fmod(value.y, 360);
+	value.z = (float)std::fmod(value.z, 360);
 	localEulerAngles = value;
 
 	RenewEulerAngles();
@@ -116,9 +116,9 @@ void Transform::RenewPosition()
 void Transform::RenewEulerAngles()
 {
 	Vector3 parentalEulerAngles = parent->GetEulerAngles();
-	eulerAngles.x = Math::Mod(parentalEulerAngles.x + localEulerAngles.x, 360);
-	eulerAngles.y = Math::Mod(parentalEulerAngles.y + localEulerAngles.y, 360);
-	eulerAngles.z = Math::Mod(parentalEulerAngles.z + localEulerAngles.z, 360);
+	eulerAngles.x = (float)std::fmod(parentalEulerAngles.x + localEulerAngles.x, 360);
+	eulerAngles.y = (float)std::fmod(parentalEulerAngles.y + localEulerAngles.y, 360);
+	eulerAngles.z = (float)std::fmod(parentalEulerAngles.z + localEulerAngles.z, 360);
 	for (Transform* child : children)
 		child->RenewEulerAngles();
 }

@@ -2,7 +2,9 @@
 struct Matrix3x3
 {
 	Matrix3x3() {
-
+		this->m00 = 0; this->m01 = 0; this->m02 = 0;
+		this->m10 = 0; this->m11 = 0; this->m12 = 0;
+		this->m20 = 0; this->m21 = 0; this->m22 = 0;
 	}
 
 	Matrix3x3(

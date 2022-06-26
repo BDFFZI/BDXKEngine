@@ -2,8 +2,7 @@
 #include <d3d11.h>
 #include <dxgi1_6.h>
 #include <cassert>
-#include "Com.h"
-#include "Assert.h"
+#include <atlbase.h>
 #include "Color.h"
 
 class GL
@@ -40,7 +39,7 @@ public:
 	static void CreateVertexShader(const char* path, D3D11_INPUT_ELEMENT_DESC vertexShaderInput[], int inputLayoutDescriptorCount, ID3D11VertexShader** vertexShader, ID3D11InputLayout** inputLayout);
 	static void CreatePixelShader(const char* path, ID3D11PixelShader** pixelShader);
 
-	static void Clear(Color color);
+	static void Clear(Color color, float depth, unsigned char stencil);
 	static void Render(
 		ID3D11Buffer* vertexBuffer, ID3D11InputLayout* inputLayout, int vertexSize,
 		ID3D11Buffer* indexBuffer, DXGI_FORMAT indexFormat, int indexsCount,

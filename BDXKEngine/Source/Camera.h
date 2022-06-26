@@ -23,14 +23,14 @@ public:
 
 
 private:
-	ClearFlags clearFlags;
-	Projection projection;
-	Color background;
-	Vector2 clippingPlanes;
-	float size;
-	float fieldOfView;
+	ClearFlags clearFlags{};
+	Projection projection{};
+	Color background{};
+	Vector2 clippingPlanes{};
+	float size{};
+	float fieldOfView{};
 
-	Transform* transform;
+	Transform* transform{};
 
 	void OnAwake() override
 	{

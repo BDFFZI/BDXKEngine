@@ -18,7 +18,7 @@ public:
 protected:
 	virtual void OnRender() = 0;
 private:
-	Shader* shader;
+	Shader* shader{};
 };
 
 class RendererEditor {

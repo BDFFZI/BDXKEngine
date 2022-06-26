@@ -21,6 +21,6 @@ protected:
 		Graphics::RenderMesh(mesh, GetShader());
 	}
 private:
-	Mesh* mesh;
+	Mesh* mesh{};
 };
 

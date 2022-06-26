@@ -4,21 +4,6 @@
     <Filter Include="Code">
       <UniqueIdentifier>{9614757e-ef39-4163-99af-7b8314c7f5e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Property">
-      <UniqueIdentifier>{15584889-4a36-4107-a55f-8a3b0912a2ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Property\Matrix">
-      <UniqueIdentifier>{0bf330c7-487c-4b42-ab17-8f98883caebb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Property\Vector">
-      <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Property\Window">
-      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Behavior">
-      <UniqueIdentifier>{2546bae4-daf8-4c0f-90de-1cdeb0d2a97b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Function">
       <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
     </Filter>
@@ -49,29 +34,44 @@
     <Filter Include="Function\Graphics\GL">
       <UniqueIdentifier>{f0569422-21a6-484a-b1bc-c258e4016c33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Helper">
+      <UniqueIdentifier>{2546bae4-daf8-4c0f-90de-1cdeb0d2a97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Window">
+      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Struct">
+      <UniqueIdentifier>{83358320-5f20-4156-8a97-1824a489ad5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Struct\Matrix">
+      <UniqueIdentifier>{0bf330c7-487c-4b42-ab17-8f98883caebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Struct\Vector">
+      <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Window.cpp">
-      <Filter>Code\Property\Window</Filter>
+      <Filter>Code\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\WindowBase.cpp">
-      <Filter>Code\Property\Window</Filter>
+      <Filter>Code\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\GameObject.cpp">
       <Filter>Function\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector2.cpp">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Transform.cpp">
       <Filter>Function\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector3.cpp">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Source\Matrix4x4.cpp">
-      <Filter>Code\Property\Matrix</Filter>
+      <Filter>Code\Struct\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Source\Renderer.cpp">
       <Filter>Function\GameObject\Components</Filter>
@@ -80,28 +80,16 @@
       <Filter>Function\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Source\Debug.cpp">
-      <Filter>Code\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Assert.cpp">
-      <Filter>Code\Behavior</Filter>
+      <Filter>Code\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Source\Math.cpp">
-      <Filter>Code\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Data.cpp">
-      <Filter>Code\Behavior</Filter>
+      <Filter>Code\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Source\String.cpp">
-      <Filter>Code\Behavior</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Rect.h">
-      <Filter>Code\Property</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Color.cpp">
-      <Filter>Code\Property</Filter>
+      <Filter>Code\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Source\Matrix3x2.cpp">
-      <Filter>Code\Property\Matrix</Filter>
+      <Filter>Code\Struct\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Source\Graphics2D.cpp">
       <Filter>Function\Graphics</Filter>
@@ -111,9 +99,6 @@
     </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Function\GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Com.cpp">
-      <Filter>Code\Behavior</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input.cpp">
       <Filter>Function\Input</Filter>
@@ -146,37 +131,40 @@
       <Filter>Function\Graphics\GL</Filter>
     </ClCompile>
     <ClCompile Include="Source\Matrix3x3.cpp">
-      <Filter>Code\Property\Matrix</Filter>
+      <Filter>Code\Struct\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Source\Vector4.cpp">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Color.cpp">
+      <Filter>Code\Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
-      <Filter>Code\Property\Window</Filter>
+      <Filter>Code\Window</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window.h">
-      <Filter>Code\Property\Window</Filter>
+      <Filter>Code\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Test.h" />
     <ClInclude Include="Source\GameObject.h">
       <Filter>Function\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector2.h">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector2Int.h">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Transform.h">
       <Filter>Function\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector3.h">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix4x4.h">
-      <Filter>Code\Property\Matrix</Filter>
+      <Filter>Code\Struct\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Source\Renderer.h">
       <Filter>Function\GameObject\Components</Filter>
@@ -185,28 +173,19 @@
       <Filter>Function\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Source\Debug.h">
-      <Filter>Code\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Assert.h">
-      <Filter>Code\Behavior</Filter>
+      <Filter>Code\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Source\Math.h">
-      <Filter>Code\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Data.h">
-      <Filter>Code\Behavior</Filter>
+      <Filter>Code\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Source\String.h">
-      <Filter>Code\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Color.h">
-      <Filter>Code\Property</Filter>
+      <Filter>Code\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Source\Reflection.h">
-      <Filter>Code\Behavior</Filter>
+      <Filter>Code\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix3x2.h">
-      <Filter>Code\Property\Matrix</Filter>
+      <Filter>Code\Struct\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics2D.h">
       <Filter>Function\Graphics</Filter>
@@ -216,9 +195,6 @@
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Function\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Com.h">
-      <Filter>Code\Behavior</Filter>
     </ClInclude>
     <ClInclude Include="Source\BDXKEngine.h" />
     <ClInclude Include="Source\Input.h">
@@ -255,10 +231,19 @@
       <Filter>Function\Graphics\GL</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix3x3.h">
-      <Filter>Code\Property\Matrix</Filter>
+      <Filter>Code\Struct\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vector4.h">
-      <Filter>Code\Property\Vector</Filter>
+      <Filter>Code\Struct\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Color.h">
+      <Filter>Code\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Rect.h">
+      <Filter>Code\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Test.h">
+      <Filter>Code\Struct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

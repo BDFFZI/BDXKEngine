@@ -124,6 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,11 +150,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Matrix3x3.cpp" />
+    <ClCompile Include="Source\Rect.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\MeshRenderer.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
-    <ClCompile Include="Source\Data.cpp" />
     <ClCompile Include="Source\Graphics2D.cpp" />
     <ClCompile Include="Source\Matrix3x2.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
@@ -163,12 +164,9 @@
     <ClCompile Include="Source\Matrix4x4.cpp" />
     <ClCompile Include="Source\Cursor.cpp" />
     <ClCompile Include="Source\Math.cpp" />
-    <ClCompile Include="Source\Rect.h" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\Assert.cpp" />
-    <ClCompile Include="Source\Com.cpp" />
     <ClCompile Include="Source\Debug.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -186,6 +184,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Matrix3x3.h" />
     <ClInclude Include="Source\GLLayout.h" />
+    <ClInclude Include="Source\Rect.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\MeshRenderer.h" />
     <ClInclude Include="Source\Camera.h" />
@@ -193,7 +192,6 @@
     <ClInclude Include="Source\Graphics2D.h" />
     <ClInclude Include="Source\Matrix3x2.h" />
     <ClInclude Include="Source\Reflection.h" />
-    <ClInclude Include="Source\Data.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\GL.h" />
     <ClInclude Include="Source\TickEvent.h" />
@@ -205,9 +203,7 @@
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\GameObject.h" />
     <ClInclude Include="Source\Math.h" />
-    <ClInclude Include="Source\Assert.h" />
     <ClInclude Include="Source\BDXKEngine.h" />
-    <ClInclude Include="Source\Com.h" />
     <ClInclude Include="Source\Debug.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Test.h" />

@@ -1,6 +1,6 @@
 #pragma once
 #include <d2d1.h>
-#include "Com.h"
+#include <atlbase.h>
 #include "Vector2.h"
 #include "Color.h"
 #include "Matrix3x2.h"
