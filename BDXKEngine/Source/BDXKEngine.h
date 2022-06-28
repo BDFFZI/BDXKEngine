@@ -53,6 +53,7 @@
 #include "Transform.h"
 #include "MeshRenderer.h"
 #include "Camera.h"
+#include "Animator.h"
 
 class BDXKEngine :Time, Input, Screen, Cursor, Graphics, GameObjectEditor {
 public:

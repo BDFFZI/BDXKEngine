@@ -157,6 +157,12 @@
     <ClCompile Include="Source\Shader.cpp">
       <Filter>Function\System\Graphics\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GUI.cpp">
+      <Filter>Function\System\Display\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Animator.cpp">
+      <Filter>Function\GameObject\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
@@ -259,6 +265,12 @@
     </ClInclude>
     <ClInclude Include="Source\Shader.h">
       <Filter>Function\System\Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GUI.h">
+      <Filter>Function\System\Display\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Animator.h">
+      <Filter>Function\GameObject\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

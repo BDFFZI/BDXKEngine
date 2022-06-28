@@ -149,6 +149,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Animator.cpp" />
+    <ClCompile Include="Source\GUI.cpp" />
     <ClCompile Include="Source\Input.cpp" />
     <ClCompile Include="Source\Matrix3x3.cpp" />
     <ClCompile Include="Source\Rect.cpp" />
@@ -182,6 +184,8 @@
     <ClCompile Include="Source\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Animator.h" />
+    <ClInclude Include="Source\GUI.h" />
     <ClInclude Include="Source\Input.h" />
     <ClInclude Include="Source\Matrix3x3.h" />
     <ClInclude Include="Source\GLLayout.h" />

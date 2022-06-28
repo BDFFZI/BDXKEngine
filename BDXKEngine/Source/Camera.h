@@ -45,9 +45,9 @@ private:
 
 	void OnRenderObject()override
 	{
-		Vector3 viewSize = Screen::GetSize() / 1080 * 20;
-
+		//获取相机矩阵和投影矩阵
 		Matrix4x4 worldToCamera = transform->GetWorldToLocalMatrix();
+		Vector3 viewSize = Screen::GetSize() / 1080 * 20;
 		Matrix4x4 cameraToView = {
 			//控制画面缩放并避免受窗口大小影响
 			3600 / fieldOfView / viewSize.x,0,0,0,
@@ -58,15 +58,17 @@ private:
 			0,0,1,0
 		};
 
+		//设置渲染环境
+		Graphics::Clear(background);
+
 		//获取所有渲染物体
 		std::vector<Renderer*> renderers = FindObjectsOfType<Renderer*>();
 		for (Renderer* renderer : renderers)
 		{
+			//获取物体矩阵
 			Transform* rendererTransform = renderer->GetGameObject()->GetTransform();
 			Matrix4x4 localToWorld = rendererTransform->GetLocalToWorldMatrix();
-
-			//设置渲染环境
-			Graphics::Clear(background);
+			//设置渲染矩阵
 			Graphics::UpdateMatrix({
 		localToWorld,
 		worldToCamera,
