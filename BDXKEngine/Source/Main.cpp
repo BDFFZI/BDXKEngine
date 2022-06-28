@@ -1,7 +1,7 @@
 ﻿#include "Test.h"
 #include "BDXKEngine.h"
 
-class CameraController :public Component, public StartEvent, public UpdateEvent {
+class CameraController :public Component, public StartEvent, public UpdateEvent, public DrawGizmosEvent {
 	Transform* transform{};
 
 	void OnStart()override
@@ -46,12 +46,21 @@ class CameraController :public Component, public StartEvent, public UpdateEvent 
 			Vector3 localEulerAngles = transform->GetLocalEulerAngles();
 			Vector2 mouseMoveDelta = Input::GetMouseMoveDelta();
 
-			localEulerAngles.y += mouseMoveDelta.x * deltaTime * 3;
-			localEulerAngles.x += mouseMoveDelta.y * deltaTime * 3;
+			localEulerAngles.y += mouseMoveDelta.x * deltaTime * 5;
+			localEulerAngles.x += mouseMoveDelta.y * deltaTime * 5;
+
+			if (Input::GetKey(KeyCode::Z))
+			{
+				localEulerAngles.z += deltaTime * 20;
+			}
+			if (Input::GetKey(KeyCode::X))
+			{
+				localEulerAngles.z -= deltaTime * 20;
+			}
 
 			transform->SetLocalEulerAngles(localEulerAngles);
 
-			Debug::Log(localEulerAngles.ToString().c_str());
+			Debug::Log(Input::GetMousePosition().ToString().c_str());
 		}
 
 		if (Input::GetMouseButtonDown(1))
@@ -64,8 +73,10 @@ class CameraController :public Component, public StartEvent, public UpdateEvent 
 			Cursor::SetLockState(false);
 			Cursor::SetVisible(true);
 		}
+	}
 
-
+	void OnDrawGizmos()override {
+		GL2D::DrawCircle(Input::GetMousePosition(), 10, true);
 	}
 };
 

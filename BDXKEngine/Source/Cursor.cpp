@@ -7,7 +7,7 @@ HWND Cursor::window{};
 
 void Cursor::SetLockState(bool state)
 {
-	Window::SetCursorLock(state);
+	Window::SetCursorLock(window, state);
 }
 
 void Cursor::SetVisible(bool value)

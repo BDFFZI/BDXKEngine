@@ -41,7 +41,7 @@
 #include "Window.h"
 //系统
 #include "Graphics.h"
-#include "Graphics2D.h"
+#include "GL2D.h"
 #include "Time.h"
 #include "Input.h"
 #include "Screen.h"
@@ -68,8 +68,11 @@ public:
 				{
 				case WM_CREATE://系统初始化
 				{
-					Graphics::Initialize(window);
-					Graphics2D::SetRenderTarget(window);
+					Time::Initialize(&timeHandler);
+					Input::Initialize(window,&inputHandler);
+					Screen::Initialize(window, &screenHandler);
+					Cursor::Initialize(window, &cursorHandler);
+					Graphics::Initialize(window,&graphicsHandler);
 
 					//完成初始化后，正式循环前
 					onStart();
@@ -78,14 +81,10 @@ public:
 				case WM_PAINT://帧更新
 				{
 					GameObjectEditor::OnUpdate();
-
-					Graphics2D::EndDraw();
-					Graphics2D::BeginDraw();
 					break;
 				}
 				case WM_SIZE:
 				{
-					Graphics2D::ResetCanvas();
 					Window::RePaint(window);
 					break;
 				}
@@ -93,7 +92,7 @@ public:
 				{
 					if (MessageBox(window, L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
 						DestroyWindow(window);
-					break;
+					return LRESULT{0};
 				}
 				case WM_DESTROY:
 				{
@@ -106,20 +105,15 @@ public:
 				inputHandler(window, messageSign, wparameter, lparameter);
 				screenHandler(window, messageSign, wparameter, lparameter);
 				cursorHandler(window, messageSign, wparameter, lparameter);
+				graphicsHandler(window, messageSign, wparameter, lparameter);
 
 				return DefWindowProcW(window, messageSign, wparameter, lparameter);
 			}
 		};
 		window.Show();
 
-		//启动系统
-		HWND hwnd = window.GetHwnd();
-		Time::Initialize(&timeHandler);
-		Input::Initialize(&inputHandler);
-		Screen::Initialize(hwnd, &screenHandler);
-		Cursor::Initialize(hwnd, &cursorHandler);
-
 		//正式循环
+		HWND hwnd = window.GetHwnd();
 		MSG msg = {};
 		while (true)
 		{
@@ -142,4 +136,5 @@ private:
 	inline static WindowEvent timeHandler = NULLWindowEvent;
 	inline static WindowEvent cursorHandler = NULLWindowEvent;
 	inline static WindowEvent screenHandler = NULLWindowEvent;
+	inline static WindowEvent graphicsHandler = NULLWindowEvent;
 };

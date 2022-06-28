@@ -31,6 +31,18 @@ float Rect::GetYMin() { return y; }
 float Rect::GetXMax() { return x + width; }
 float Rect::GetYMax() { return y + height; }
 
+void Rect::SetSize(Vector2 size)
+{
+	width = size.x;
+	height = size.y;
+}
+
+void Rect::SetPosition(Vector2 position)
+{
+	x = position.x;
+	y = position.y;
+}
+
 Rect::operator RECT()
 {
 	RECT rect{};

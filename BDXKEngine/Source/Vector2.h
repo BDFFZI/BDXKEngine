@@ -74,9 +74,9 @@ public:
 		return Vector2(x - value.x, y - value.y);
 	}
 
-	const wchar_t* ToString() {
+	const std::wstring ToString() {
 		std::wstringstream string;
 		string << '(' << x << ',' << y << ')';
-		return string.str().c_str();
+		return string.str();
 	}
 };

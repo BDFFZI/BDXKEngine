@@ -27,13 +27,7 @@ Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
 {
 	Vector3 radian = degree * Math::Deg2Rad;
 
-	float rz = radian.z;
-	Matrix4x4 z = {
-		std::cos(rz),-std::sin(rz),0,0,
-		std::sin(rz),std::cos(rz),0,0,
-		0,0,1,0,
-		0,0,0,1
-	};
+
 	float ry = radian.y;
 	Matrix4x4 y = {
 		std::cos(ry),0,std::sin(ry),0,
@@ -48,9 +42,16 @@ Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
 		0,std::sin(rx),std::cos(rx),0,
 		0,0,0,1
 	};
+	float rz = radian.z;
+	Matrix4x4 z = {
+		std::cos(rz),-std::sin(rz),0,0,
+		std::sin(rz),std::cos(rz),0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
 
-
-	return z * y * x;
+	//旋转顺序很重要，用摄像机试一试就知道
+	return y * x * z;
 }
 Matrix4x4 Matrix4x4::Translate(Vector3 move)
 {

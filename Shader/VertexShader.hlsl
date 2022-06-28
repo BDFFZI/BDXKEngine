@@ -27,8 +27,6 @@ Pixel main(Vertex vertex)
     float4 position = float4(vertex.position, 1);
     position = mul(LocalToWorld, position);
     position = mul(WorldToCamera, position);
-    
-    position.xy *= 60 / position.z;
     position = mul(CameraToView, position);
     
     Pixel pixed;

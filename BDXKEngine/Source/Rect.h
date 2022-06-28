@@ -16,10 +16,13 @@ struct Rect
 	Vector2 GetSize();
 	Vector2 GetMin();
 	Vector2 GetMax();
-	float GetXMin();;
-	float GetYMin();;
-	float GetXMax();;
-	float GetYMax();;
+	float GetXMin();
+	float GetYMin();
+	float GetXMax();
+	float GetYMax();
+
+	void SetSize(Vector2 size);
+	void SetPosition(Vector2 position);
 
 	operator RECT();
 };

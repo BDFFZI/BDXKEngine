@@ -61,11 +61,10 @@ public:
 	static bool GetKey(KeyCode keyCode);
 	static bool GetKeyUp(KeyCode keyCode);
 protected:
-	static void Initialize(std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+	static void Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
 
 private:
 	static float mouseScrollDelta;
-	static Vector2 lastMousePosition;
 	static Vector2 mousePosition;
 	static bool lastMouseButtonState[];
 	static bool mouseButtonState[];

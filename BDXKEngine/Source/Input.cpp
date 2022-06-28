@@ -2,7 +2,6 @@
 #include "Window.h"
 
 float Input::mouseScrollDelta;
-Vector2 Input::lastMousePosition;
 Vector2 Input::mousePosition;
 bool Input::lastMouseButtonState[3];
 bool Input::mouseButtonState[3];
@@ -53,18 +52,15 @@ bool Input::GetKeyUp(KeyCode keyCode)
 	return false;
 }
 
-void Input::Initialize(std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
+void Input::Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
 {
-	Vector2 position = Window::GetCursorPos();
-	mousePosition = position;
-	lastMousePosition = position;
+	mousePosition = Window::GetCursorLocalPosition(window);
 	*windowEvent = OnWindowMessage;
 }
 
 void Input::FlushState()
 {
 	mouseScrollDelta *= 0.7f;
-	lastMousePosition = mousePosition;
 
 	for (int i = 0; i < 3; i++)
 	{

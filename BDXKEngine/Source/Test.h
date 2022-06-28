@@ -57,10 +57,10 @@ public:
 			matrix *= Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * sleep);
 			matrix *= Matrix3x2::Translate(center);
 
-			Graphics2D::SetMatrix(matrix);
-			Graphics2D::SetBrushColor(Color::blue);
+			GL2D::SetMatrix(matrix);
+			GL2D::SetBrushColor(Color::blue);
 
-			Graphics2D::DrawRectangleCenter(Vector2(0, 0), Vector2(100, 50), true);
+			GL2D::DrawRectangleCenter(Vector2(0, 0), Vector2(100, 50), true);
 		}
 	};
 
@@ -89,18 +89,18 @@ public:
 		}
 
 		void OnRenderObject() override {
-			Graphics2D::SetBrushColor({ 0, 1, 0, 0.5f });
-			Graphics2D::DrawCircle({ x,200 + y }, 100, true);
-			Graphics2D::SetBrushColor({ 1, 0, 0, 0.5f });
-			Graphics2D::DrawCircle({ x + 50,200 + (1 - y) }, 100, true);
+			GL2D::SetBrushColor({ 0, 1, 0, 0.5f });
+			GL2D::DrawCircle({ x,200 + y }, 100, true);
+			GL2D::SetBrushColor({ 1, 0, 0, 0.5f });
+			GL2D::DrawCircle({ x + 50,200 + (1 - y) }, 100, true);
 		}
 
 		void OnDrawGizmos() override
 		{
-			if (rotate)Graphics2D::SetMatrix(Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * 10));
-			Graphics2D::SetBrushColor(Color::blue);
-			Graphics2D::DrawRectangle(Vector2(x, 100), Vector2(x + 50, 300), false);
-			Graphics2D::SetMatrix();
+			if (rotate)GL2D::SetMatrix(Matrix3x2::Rotate(Time::GetRealtimeSinceStartup() * 10));
+			GL2D::SetBrushColor(Color::blue);
+			GL2D::DrawRectangle(Vector2(x, 100), Vector2(x + 50, 300), false);
+			GL2D::SetMatrix();
 		}
 	};
 

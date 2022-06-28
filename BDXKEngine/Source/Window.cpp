@@ -1,16 +1,9 @@
 #include "Window.h"
 
-Rect Window::GetRect(HWND hwnd)
-{
-	RECT rect;
-	GetClientRect(hwnd, &rect);
-	return rect;
-}
 Rect Window::GetScreenRect(HWND hwnd)
 {
-	Rect rect = GetRect(hwnd);
-	POINT min = rect.GetMin();
-	POINT max = rect.GetMax();
+	POINT min{};
+	POINT max = GetSize(hwnd);
 	ClientToScreen(hwnd, &min);
 	ClientToScreen(hwnd, &max);
 
@@ -18,7 +11,9 @@ Rect Window::GetScreenRect(HWND hwnd)
 }
 Vector2 Window::GetSize(HWND hwnd)
 {
-	return GetRect(hwnd).GetSize();
+	RECT rect;
+	GetClientRect(hwnd, &rect);
+	return { (float)rect.right,(float)rect.bottom };
 }
 void Window::ConfiningCursor(HWND hwnd, bool isOpen)
 {
@@ -37,19 +32,29 @@ void Window::RePaint(HWND hwnd, bool clear)
 	InvalidateRect(hwnd, NULL, clear);
 }
 
-Vector2 Window::GetCursorPos()
+Vector2 Window::GetCursorLocalPosition(HWND hwnd)
 {
+	Rect rect = GetScreenRect(hwnd);
+
 	POINT point;
-	::GetCursorPos(&point);
-	return point;
+	GetCursorPos(&point);
+
+	return (Vector2)point - rect.GetMin();
+}
+void Window::SetCursorLocalPosition(HWND hwnd, Vector2 localPosition)
+{
+	Rect rect = GetScreenRect(hwnd);
+	Vector2 position = rect.GetMin() + localPosition;
+
+	SetCursorPos((int)(position.x + 0.5f), (int)(position.y + 0.5f));
 }
 Vector2 Window::GetCursorMoveDelta() {
 	return cursorPos - lastCursorPos;
 }
-void Window::SetCursorLock(bool state)
+void Window::SetCursorLock(HWND hwnd, bool state)
 {
-	lockCursorPos = Window::GetCursorPos();
-	lastCursorPos = cursorPos;
+	lockCursorPos = Window::GetCursorLocalPosition(hwnd);
+	lastCursorPos = lockCursorPos;
 	cursorlock = state;
 }
 
@@ -57,7 +62,7 @@ Window::Window(const wchar_t* name,
 	std::function<LRESULT(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
 ) :WindowBase(name)
 {
-	cursorPos = GetCursorPos();
+	cursorPos = GetCursorLocalPosition(hwnd);
 	lastCursorPos = cursorPos;
 	this->messageEvent = messageEvent;
 }
@@ -71,7 +76,7 @@ LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparam
 	{
 	case WM_PAINT:
 		if (cursorlock)
-			SetCursorPos((int)(lockCursorPos.x + 0.5f), (int)(lockCursorPos.y + 0.5f));
+			SetCursorLocalPosition(hwnd, { lockCursorPos.x,lockCursorPos.y });
 		else
 			lastCursorPos = cursorPos;
 		break;

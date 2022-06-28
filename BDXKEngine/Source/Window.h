@@ -6,14 +6,14 @@
 class Window : public WindowBase
 {
 public:
-	static Rect GetRect(HWND hwnd);
 	static Rect GetScreenRect(HWND hwnd);
 	static Vector2 GetSize(HWND hwnd);
 	static void ConfiningCursor(HWND hwnd, bool isOpen);
 	static void RePaint(HWND hwnd, bool clear = true);
-	static Vector2 GetCursorPos();
+	static Vector2 GetCursorLocalPosition(HWND hwnd);
+	static void SetCursorLocalPosition(HWND hwnd, Vector2 localPosition);
 	static Vector2 GetCursorMoveDelta();
-	static void SetCursorLock(bool state);
+	static void SetCursorLock(HWND hwnd, bool state);
 
 	Window(const wchar_t* name,
 		std::function<LRESULT(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent

@@ -156,7 +156,7 @@
     <ClCompile Include="Source\MeshRenderer.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Graphics.cpp" />
-    <ClCompile Include="Source\Graphics2D.cpp" />
+    <ClCompile Include="Source\GL2D.cpp" />
     <ClCompile Include="Source\Matrix3x2.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\GL.cpp" />
@@ -190,7 +190,7 @@
     <ClInclude Include="Source\MeshRenderer.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Graphics.h" />
-    <ClInclude Include="Source\Graphics2D.h" />
+    <ClInclude Include="Source\GL2D.h" />
     <ClInclude Include="Source\Matrix3x2.h" />
     <ClInclude Include="Source\Reflection.h" />
     <ClInclude Include="Source\Mesh.h" />
