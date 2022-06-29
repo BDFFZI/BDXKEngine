@@ -1,33 +1,40 @@
 #pragma once
 #include <functional>
+#include <vector>
 #include "WindowBase.h"
 #include "Rect.h"
 
+
 class Window : public WindowBase
 {
-public:
-	static Rect GetScreenRect(HWND hwnd);
-	static Vector2 GetSize(HWND hwnd);
-	static void ConfiningCursor(HWND hwnd, bool isOpen);
-	static void RePaint(HWND hwnd, bool clear = true);
-	static Vector2 GetCursorLocalPosition(HWND hwnd);
-	static void SetCursorLocalPosition(HWND hwnd, Vector2 localPosition);
-	static Vector2 GetCursorMoveDelta();
-	static void SetCursorLock(HWND hwnd, bool state);
+#define MessageHandler std::function<LRESULT(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>
+#define MessageListener std::function<void(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>
 
-	Window(const wchar_t* name,
-		std::function<LRESULT(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
-	);
+public:
+	Window(const wchar_t* name, MessageHandler messageHandler);
+
+	void AddMessageListener(MessageListener messageListener);
+
+	Rect GetScreenRect();
+	Vector2 GetSize();
+	Vector2 GetCursorLocalPosition();
+	Vector2 GetCursorMoveDelta();
+
+	void ConfiningCursor(bool isOpen);
+	void SetCursorLocalPosition(Vector2 localPosition);
+	void SetCursorLock(bool state);
 
 protected:
+	void RePaint(bool clear = true);
 	LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter) override;
 private:
-	std::function<LRESULT(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent;
+	MessageHandler messageHandler;
+	std::vector<MessageListener> messageListeners;
 
-	inline static Vector2 lockCursorPos{};
-	inline static Vector2 lastCursorPos{};
-	inline static Vector2 cursorPos{};
-	inline static bool cursorlock{};
+	Vector2 lockCursorPos{};
+	Vector2 lastCursorPos{};
+	Vector2 cursorPos{};
+	bool cursorlock{};
 
 };
 

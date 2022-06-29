@@ -7,6 +7,10 @@ const Color Color::red = Color(1, 0, 0);
 const Color Color::green = Color(0, 1, 0);
 const Color Color::blue = Color(0, 0, 1);
 const Color Color::gray = Color(0.5f, 0.5f, 0.5f);
+const Color Color::yellow = Color(1, 1, 0);
+const Color Color::lightRed = { 1,0.5f,0.5f };
+const Color Color::lightGreen = { 0.5f,1,0.5f };
+const Color Color::lightBlue = { 0.5f,0.5f,1 };
 
 Color::Color(float r, float g, float b, float a)
 {

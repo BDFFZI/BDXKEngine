@@ -2,6 +2,7 @@
 #include <chrono>
 #include <functional>
 #include <Windows.h>
+#include "Window.h"
 
 class Time
 {
@@ -9,7 +10,7 @@ public:
 	static float GetDeltaTime();
 	static float GetRealtimeSinceStartup();
 protected:
-	static void Initialize(std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+	static void Initialize(Window* window);
 private:
 	static long startTime;
 	static long frameTime;
@@ -17,6 +18,6 @@ private:
 
 	static void BeginFrame();
 	static void EndFrame();
-	static void OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 };
 

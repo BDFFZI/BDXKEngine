@@ -55,13 +55,13 @@
     <Filter Include="Function\System\Screen">
       <UniqueIdentifier>{df26c381-996c-474b-be0c-c8d18e0b904a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics">
+    <Filter Include="Function\System\Display\Graphics">
       <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\Resource">
+    <Filter Include="Function\System\Display\Graphics\Resource">
       <UniqueIdentifier>{ff41c842-872c-4b42-a00a-c821c9eccd4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\Interface">
+    <Filter Include="Function\System\Display\Graphics\Interface">
       <UniqueIdentifier>{f0569422-21a6-484a-b1bc-c258e4016c33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -107,7 +107,7 @@
       <Filter>Code\Struct\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Source\Graphics.cpp">
-      <Filter>Function\System\Graphics</Filter>
+      <Filter>Function\System\Display\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Function\GameObject\Components</Filter>
@@ -131,7 +131,7 @@
       <Filter>Function\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="Source\GL.cpp">
-      <Filter>Function\System\Graphics\Interface</Filter>
+      <Filter>Function\System\Display\Graphics\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Source\Matrix3x3.cpp">
       <Filter>Code\Struct\Matrix</Filter>
@@ -149,13 +149,13 @@
       <Filter>Function\System\Input</Filter>
     </ClCompile>
     <ClCompile Include="Source\GL2D.cpp">
-      <Filter>Function\System\Graphics\Interface</Filter>
+      <Filter>Function\System\Display\Graphics\Interface</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh.cpp">
-      <Filter>Function\System\Graphics\Resource</Filter>
+      <Filter>Function\System\Display\Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\Shader.cpp">
-      <Filter>Function\System\Graphics\Resource</Filter>
+      <Filter>Function\System\Display\Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Source\GUI.cpp">
       <Filter>Function\System\Display\GUI</Filter>
@@ -211,7 +211,7 @@
       <Filter>Code\Struct\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics.h">
-      <Filter>Function\System\Graphics</Filter>
+      <Filter>Function\System\Display\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Function\GameObject\Components</Filter>
@@ -236,7 +236,7 @@
       <Filter>Function\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="Source\GL.h">
-      <Filter>Function\System\Graphics\Interface</Filter>
+      <Filter>Function\System\Display\Graphics\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix3x3.h">
       <Filter>Code\Struct\Matrix</Filter>
@@ -255,16 +255,16 @@
       <Filter>Function\System\Input</Filter>
     </ClInclude>
     <ClInclude Include="Source\GL2D.h">
-      <Filter>Function\System\Graphics\Interface</Filter>
+      <Filter>Function\System\Display\Graphics\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Source\GLLayout.h">
-      <Filter>Function\System\Graphics\Resource</Filter>
+      <Filter>Function\System\Display\Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh.h">
-      <Filter>Function\System\Graphics\Resource</Filter>
+      <Filter>Function\System\Display\Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\Shader.h">
-      <Filter>Function\System\Graphics\Resource</Filter>
+      <Filter>Function\System\Display\Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Source\GUI.h">
       <Filter>Function\System\Display\GUI</Filter>

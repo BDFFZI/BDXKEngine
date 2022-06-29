@@ -51,19 +51,11 @@ public:
 		ID3D11VertexShader* vertexShader, ID3D11PixelShader* pixelShader,
 		D3D11_PRIMITIVE_TOPOLOGY drawMode);
 
-	static CComPtr<ID3D11Texture2D> GetRenderTargetTexture() {
-		CComPtr<ID3D11Texture2D> renderTargetTexture;
-		swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
-		return renderTargetTexture;
-	};
+	static CComPtr<ID3D11Texture2D> GetRenderTargetTexture();;
 protected:
-	static void Initialize(HWND window)
-	{
-		GL::CreateDevice();
-		GL::CreateSwapChain(window);
-		GL::CreateRenderTexture();
-	}
+	static GL* Initialize(HWND window);
 private:
+
 	static CComPtr<ID3D11Device> device;
 	static CComPtr<ID3D11DeviceContext> context;
 	static CComPtr<IDXGISwapChain1> swapChain;
@@ -75,4 +67,6 @@ private:
 	static void CreateSwapChain(HWND hwnd);
 	static void CreateRenderTexture();
 };
+
+
 

@@ -1,5 +1,6 @@
 #include "Time.h"
 
+
 constexpr float unit = 1000;
 
 long GetSystemTime()
@@ -23,10 +24,10 @@ float Time::GetDeltaTime()
 	return deltaTime;
 }
 
-void Time::Initialize(std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
+void Time::Initialize(Window* window)
 {
 	Time::startTime = GetSystemTime();
-	*windowEvent = OnWindowMessage;
+	window->AddMessageListener(OnWindowMessage);
 }
 
 void Time::BeginFrame()
@@ -38,7 +39,7 @@ void Time::EndFrame()
 	Time::deltaTime = (GetSystemTime() - Time::frameTime) / unit;
 }
 
-void Time::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+void Time::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
 	switch (messageSign)
 	{

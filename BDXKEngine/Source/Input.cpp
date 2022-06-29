@@ -1,6 +1,6 @@
 #include "Input.h"
-#include "Window.h"
 
+Window* Input::window{};
 float Input::mouseScrollDelta;
 Vector2 Input::mousePosition;
 bool Input::lastMouseButtonState[3];
@@ -52,10 +52,12 @@ bool Input::GetKeyUp(KeyCode keyCode)
 	return false;
 }
 
-void Input::Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
+Input* Input::Initialize(Window* window)
 {
-	mousePosition = Window::GetCursorLocalPosition(window);
-	*windowEvent = OnWindowMessage;
+	Input::window = window;
+	mousePosition = window->GetCursorLocalPosition();
+	window->AddMessageListener(OnWindowMessage);
+	return new Input{};
 }
 
 void Input::FlushState()
@@ -71,7 +73,7 @@ void Input::FlushState()
 		lastKeyboardState[i] = keyboardState[i];
 	}
 }
-void Input::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+void Input::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
 	switch (messageSign)
 	{
@@ -95,43 +97,31 @@ void Input::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LP
 	case WM_LBUTTONDOWN:
 	{
 		Input::mouseButtonState[0] = true;
-		SetCapture(window);
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
 		Input::mouseButtonState[0] = false;
-		if (Input::GetMouseButton(1) == false &&
-			Input::GetMouseButton(2) == false)
-			ReleaseCapture();
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
 		Input::mouseButtonState[1] = true;
-		SetCapture(window);
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		Input::mouseButtonState[1] = false;
-		if (Input::GetMouseButton(0) == false &&
-			Input::GetMouseButton(2) == false)
-			ReleaseCapture();
 		break;
 	}
 	case WM_MBUTTONDOWN:
 	{
 		Input::mouseButtonState[2] = true;
-		SetCapture(window);
 		break;
 	}
 	case WM_MBUTTONUP:
 	{
 		Input::mouseButtonState[2] = false;
-		if (Input::GetMouseButton(0) == false &&
-			Input::GetMouseButton(1) == false)
-			ReleaseCapture();
 		break;
 	}
 #pragma endregion

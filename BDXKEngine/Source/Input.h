@@ -56,14 +56,15 @@ public:
 	static bool GetMouseButtonUp(int mouseButtonIndex);
 	static Vector2 GetMousePosition() { return mousePosition; };
 	static float GetMouseScrollDelta() { return mouseScrollDelta; };
-	static Vector2 GetMouseMoveDelta() { return Window::GetCursorMoveDelta(); };
+	static Vector2 GetMouseMoveDelta() { return window->GetCursorMoveDelta(); };
 	static bool GetKeyDown(KeyCode keyCode);
 	static bool GetKey(KeyCode keyCode);
 	static bool GetKeyUp(KeyCode keyCode);
 protected:
-	static void Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+	static Input* Initialize(Window* window);
 
 private:
+	static Window* window;
 	static float mouseScrollDelta;
 	static Vector2 mousePosition;
 	static bool lastMouseButtonState[];
@@ -72,5 +73,5 @@ private:
 	static bool keyboardState[];
 
 	static void FlushState();
-	static void OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 };

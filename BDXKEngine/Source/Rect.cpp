@@ -1,11 +1,20 @@
 #include "Rect.h"
 
+Rect Rect::zero = zero;
+
 Rect::Rect()
 {
 	x = 0;
 	y = 0;
 	width = 0;
 	height = 0;
+}
+Rect::Rect(float x, float y, float width, float height)
+{
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
 }
 Rect::Rect(Vector2 min, Vector2 max)
 {
@@ -31,6 +40,13 @@ float Rect::GetYMin() { return y; }
 float Rect::GetXMax() { return x + width; }
 float Rect::GetYMax() { return y + height; }
 
+bool Rect::Contains(Vector2 position)
+{
+	if (position.x < x || position.x > GetXMax() || position.y < y || position.y > GetYMax())
+		return false;
+	return true;
+}
+
 void Rect::SetSize(Vector2 size)
 {
 	width = size.x;
@@ -41,6 +57,11 @@ void Rect::SetPosition(Vector2 position)
 {
 	x = position.x;
 	y = position.y;
+}
+
+bool Rect::operator==(Rect rect)
+{
+	return x == rect.x && y == rect.y && width == rect.width && height == rect.height;
 }
 
 Rect::operator RECT()

@@ -30,25 +30,25 @@ void Graphics::Clear(Color color)
 	GL::Clear(color, 1, 0);
 }
 
-Graphics Graphics::Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent)
+Graphics* Graphics::Initialize(Window* window, GL** gl, GL2D** gl2d)
 {
 	//初始化Direct3D
-	GL::Initialize(window);
+	*gl = GL::Initialize(window->GetHwnd());
 	GL::CreateBuffer(&renderingMatrix, sizeof(renderingMatrix), D3D11_BIND_CONSTANT_BUFFER, &renderingMatrixBuffer);
 	GL::SetVertexConstantBuffer(&renderingMatrixBuffer.p);
 
 	//利用Direct3D的渲染纹理初始化Direct2D，以便实现两者的互操作性
 	CComPtr<IDXGISurface> dxgiSurface;
 	assert(SUCCEEDED(GL::GetRenderTargetTexture()->QueryInterface(&dxgiSurface)));
-	GL2D::Initialize(dxgiSurface);
+	*gl2d = GL2D::Initialize(dxgiSurface);
 
-	*windowEvent = OnWindowMessage;
+	window->AddMessageListener(OnWindowMessage);
 	GL::Begin();
 	GL2D::BeginDraw();
-	return {};
+	return new Graphics();
 }
 
-void Graphics::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+void Graphics::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
 	switch (messageSign)
 	{
@@ -64,7 +64,7 @@ void Graphics::OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter,
 		GL::End();
 		break;
 	case WM_SIZE:
-		Rect rect = { Vector2::zero ,Window::GetSize(window) };
+		Rect rect = { Vector2::zero ,window->GetSize() };
 		GL2D::ReleaseResources();//释放对Direct3D渲染纹理的引用，从而使Direct3D可以重新创建纹理
 		GL::Viewport(rect);
 

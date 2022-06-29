@@ -4,6 +4,7 @@
 #include "GL2D.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "Window.h"
 
 class Graphics :GL, GL2D, MeshEditor, ShaderEditor
 {
@@ -17,13 +18,13 @@ public:
 	static void RenderMesh(Mesh* mesh, Shader* shader);
 	static void Clear(Color color = Color::clear);
 protected:
-	static Graphics Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+	static Graphics* Initialize(Window* window, GL** gl, GL2D** gl2d);
 private:
-	Graphics() {};
 
 	static CComPtr<ID3D11Buffer> renderingMatrixBuffer;
 	static RenderingMatrix renderingMatrix;
 
-	static void OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 };
+
 

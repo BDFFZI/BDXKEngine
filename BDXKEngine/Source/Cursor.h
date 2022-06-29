@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
-#include <Windows.h>
-#include "Vector2.h"
+#include "Window.h"
+#include "Input.h"
 
 class Cursor
 {
@@ -10,14 +10,14 @@ public:
 	static void SetVisible(bool value);
 	static void SetCursor(wchar_t* value);
 protected:
-	static void Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+	static Cursor* Initialize(Input* input, Window* window);
 private:
 	static bool visible;
 	static HCURSOR hCursor;
-	static HWND window;
+	static Window* window;
 
 	static void UpdateShow();
 
-	static void OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 };
 

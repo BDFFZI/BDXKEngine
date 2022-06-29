@@ -74,7 +74,7 @@ void GL::CreateRenderTexture()
 	Viewport({ {0,0},{(float)colorTextureDescription.Width,(float)colorTextureDescription.Height } });
 }
 
-void GL::CreateVertexShader(const char* path, D3D11_INPUT_ELEMENT_DESC inputLayoutDescriptor[], int inputLayoutDescriptorCount, 
+void GL::CreateVertexShader(const char* path, D3D11_INPUT_ELEMENT_DESC inputLayoutDescriptor[], int inputLayoutDescriptorCount,
 	ID3D11VertexShader** vertexShader, ID3D11InputLayout** inputLayout)
 {
 	const int byteBufferSize = 32 * 1024;
@@ -224,5 +224,19 @@ void GL::Render(
 
 	//¿ªÊ¼»æÖÆ
 	context->DrawIndexed(indexsCount, 0, 0);
+}
+
+CComPtr<ID3D11Texture2D> GL::GetRenderTargetTexture() {
+	CComPtr<ID3D11Texture2D> renderTargetTexture;
+	swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
+	return renderTargetTexture;
+}
+
+GL* GL::Initialize(HWND window)
+{
+	GL::CreateDevice();
+	GL::CreateSwapChain(window);
+	GL::CreateRenderTexture();
+	return new GL();
 }
 

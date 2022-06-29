@@ -1,16 +1,14 @@
 #pragma once
 #include <functional>
-#include "Vector2Int.h"
+#include "Window.h"
 
 class Screen
 {
 public:
 	static Vector2 GetSize();
 protected:
-	static void Initialize(HWND window, std::function<void(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)>* windowEvent);
+	static void Initialize(Window* window);
 
 private:
-	static HWND window;
-
-	static void OnWindowMessage(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+	inline static Window* window{};
 };

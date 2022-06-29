@@ -3,6 +3,7 @@
 
 class CameraController :public Component, public StartEvent, public UpdateEvent, public DrawGizmosEvent {
 	Transform* transform{};
+	std::wstring text{ L"Hello BDXKEngine" };
 
 	void OnStart()override
 	{
@@ -60,7 +61,6 @@ class CameraController :public Component, public StartEvent, public UpdateEvent,
 
 			transform->SetLocalEulerAngles(localEulerAngles);
 
-			//Debug::Log(Input::GetMousePosition().ToString().c_str());
 		}
 
 		if (Input::GetMouseButtonDown(1))
@@ -76,8 +76,14 @@ class CameraController :public Component, public StartEvent, public UpdateEvent,
 	}
 
 	void OnDrawGizmos()override {
-		GL2D::DrawCircle(Input::GetMousePosition(), 10, true);
-		GL2D::DrawRectangle({ 10,10 }, { 180,30 }, true);
+		Vector2 size = Screen::GetSize();
+
+		text = GUI::TextArea({ 10,10,180,500 }, text);
+		GUI::TextArea({ 200,10,180,30 }, Input::GetMousePosition().ToString());
+		if (GUI::Button({ 10,size.y - 40,180,30 }, L"按钮"))
+		{
+			text.append(L"+1");
+		}
 	}
 };
 
@@ -138,7 +144,6 @@ int main()
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetShader(shader);
 			Transform* transform = center->GetTransform();
-			//transform->SetParent(camera->GetTransform());
 			transform->SetLocalPosition({ 0,0,10 });
 			Animator* animator = center->AddComponent<Animator>();
 			animator->SetAnimation([](Transform* transform)
@@ -180,5 +185,5 @@ int main()
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
-
+	main();
 }

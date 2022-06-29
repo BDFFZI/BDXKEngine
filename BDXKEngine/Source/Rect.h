@@ -3,7 +3,10 @@
 
 struct Rect
 {
+	static Rect zero;
+
 	Rect();
+	Rect(float x, float y, float width, float height);
 	Rect(Vector2 min, Vector2 max);
 	Rect(RECT rect);
 
@@ -20,9 +23,11 @@ struct Rect
 	float GetYMin();
 	float GetXMax();
 	float GetYMax();
+	bool Contains(Vector2 position);
 
 	void SetSize(Vector2 size);
 	void SetPosition(Vector2 position);
 
+	bool operator==(Rect rect);
 	operator RECT();
 };

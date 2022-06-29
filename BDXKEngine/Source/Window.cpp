@@ -1,25 +1,50 @@
 #include "Window.h"
 
-Rect Window::GetScreenRect(HWND hwnd)
+Window::Window(const wchar_t* name, MessageHandler messageHandler) :WindowBase(name)
+{
+	cursorPos = GetCursorLocalPosition();
+	lastCursorPos = cursorPos;
+	this->messageHandler = messageHandler;
+}
+
+void Window::AddMessageListener(MessageListener messageListener)
+{
+	messageListeners.push_back(messageListener);
+}
+
+Rect Window::GetScreenRect()
 {
 	POINT min{};
-	POINT max = GetSize(hwnd);
+	POINT max = GetSize();
 	ClientToScreen(hwnd, &min);
 	ClientToScreen(hwnd, &max);
 
 	return Rect{ min ,max };
 }
-Vector2 Window::GetSize(HWND hwnd)
+Vector2 Window::GetSize()
 {
 	RECT rect;
 	GetClientRect(hwnd, &rect);
 	return { (float)rect.right,(float)rect.bottom };
 }
-void Window::ConfiningCursor(HWND hwnd, bool isOpen)
+Vector2 Window::GetCursorLocalPosition()
+{
+	Rect rect = GetScreenRect();
+
+	POINT point;
+	GetCursorPos(&point);
+
+	return (Vector2)point - rect.GetMin();
+}
+Vector2 Window::GetCursorMoveDelta() {
+	return cursorPos - lastCursorPos;
+}
+
+void Window::ConfiningCursor(bool isOpen)
 {
 	if (isOpen)
 	{
-		RECT rect = GetScreenRect(hwnd);
+		RECT rect = GetScreenRect();
 		ClipCursor(&rect);
 	}
 	else
@@ -27,56 +52,36 @@ void Window::ConfiningCursor(HWND hwnd, bool isOpen)
 		ClipCursor(NULL);
 	}
 }
-void Window::RePaint(HWND hwnd, bool clear)
+void Window::SetCursorLock(bool state)
 {
-	InvalidateRect(hwnd, NULL, clear);
+	lockCursorPos = Window::GetCursorLocalPosition();
+	lastCursorPos = lockCursorPos;
+	cursorlock = state;
 }
-
-Vector2 Window::GetCursorLocalPosition(HWND hwnd)
+void Window::SetCursorLocalPosition(Vector2 localPosition)
 {
-	Rect rect = GetScreenRect(hwnd);
-
-	POINT point;
-	GetCursorPos(&point);
-
-	return (Vector2)point - rect.GetMin();
-}
-void Window::SetCursorLocalPosition(HWND hwnd, Vector2 localPosition)
-{
-	Rect rect = GetScreenRect(hwnd);
+	Rect rect = GetScreenRect();
 	Vector2 position = rect.GetMin() + localPosition;
 
 	SetCursorPos((int)(position.x + 0.5f), (int)(position.y + 0.5f));
 }
-Vector2 Window::GetCursorMoveDelta() {
-	return cursorPos - lastCursorPos;
-}
-void Window::SetCursorLock(HWND hwnd, bool state)
-{
-	lockCursorPos = Window::GetCursorLocalPosition(hwnd);
-	lastCursorPos = lockCursorPos;
-	cursorlock = state;
-}
 
-Window::Window(const wchar_t* name,
-	std::function<LRESULT(HWND window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)> messageEvent
-) :WindowBase(name)
+void Window::RePaint(bool clear)
 {
-	cursorPos = GetCursorLocalPosition(hwnd);
-	lastCursorPos = cursorPos;
-	this->messageEvent = messageEvent;
+	InvalidateRect(hwnd, NULL, clear);
 }
-
 
 LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
-	LRESULT result = messageEvent(hwnd, messageSign, wparameter, lparameter);
+	LRESULT result = messageHandler(this, messageSign, wparameter, lparameter);
+	for (MessageListener listener : messageListeners)
+		listener(this, messageSign, wparameter, lparameter);
 
 	switch (messageSign)
 	{
 	case WM_PAINT:
 		if (cursorlock)
-			SetCursorLocalPosition(hwnd, { lockCursorPos.x,lockCursorPos.y });
+			SetCursorLocalPosition({ lockCursorPos.x,lockCursorPos.y });
 		else
 			lastCursorPos = cursorPos;
 		break;
@@ -84,6 +89,11 @@ LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparam
 		cursorPos.x = (float)(lparameter << 48 >> 48);
 		cursorPos.y = (float)(lparameter >> 16);
 		break;
+	case WM_SIZE:
+	{
+		RePaint();
+		break;
+	}
 	}
 
 	return result;

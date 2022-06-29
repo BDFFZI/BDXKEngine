@@ -1,6 +1,7 @@
 #include "GL2D.h"
 #include <assert.h>
 
+CComPtr<IDWriteFactory> GL2D::writeFactory = NULL;
 CComPtr<ID2D1Factory> GL2D::factory = NULL;
 CComPtr<ID2D1RenderTarget> GL2D::renderTarget = NULL;
 CComPtr<ID2D1SolidColorBrush> GL2D::brush = NULL;
@@ -51,12 +52,30 @@ void GL2D::DrawRectangleCenter(Vector2 center, Vector2 size, bool isFill)
 	DrawRectangle(center - size / 2, size, isFill);
 }
 
-void GL2D::Initialize(CComPtr<IDXGISurface> renderTargetTexture)
+void GL2D::DrawTextf(Rect rect, std::wstring text, int fontSize )
+{
+	IDWriteTextFormat* textFormat;
+	LRESULT result = writeFactory->CreateTextFormat(L"Arial", NULL,
+		DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
+		(float)fontSize, L"zh-cn", &textFormat);
+	assert(SUCCEEDED(result));//字体格式创建失败
+
+	D2D1_RECT_F d2d1Rect{ rect.x,rect.y,rect.GetXMax(),rect.GetYMax() };
+	renderTarget->DrawTextW(text.c_str(), (UINT32)text.size(), textFormat, d2d1Rect, brush);
+
+	textFormat->Release();
+}
+
+GL2D* GL2D::Initialize(CComPtr<IDXGISurface> renderTargetTexture)
 {
 	LRESULT back = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
 	assert(SUCCEEDED(back));// 创建资源工厂失败
-
 	CreateResources(renderTargetTexture);
+
+	back = DWriteCreateFactory(DWRITE_FACTORY_TYPE_ISOLATED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&writeFactory));
+	assert(SUCCEEDED(back));// 创建写字资源工厂失败
+
+	return new GL2D{};
 }
 
 void GL2D::DrawRectangle(Vector2 origin, Vector2 size, bool isFill)
@@ -66,6 +85,11 @@ void GL2D::DrawRectangle(Vector2 origin, Vector2 size, bool isFill)
 		renderTarget->FillRectangle(rect, brush);
 	else
 		renderTarget->DrawRectangle(rect, brush);
+}
+
+void GL2D::DrawRectangle(Rect rect, bool isFill)
+{
+	DrawRectangle(rect.GetPosition(), rect.GetSize(), isFill);
 }
 
 void GL2D::CreateResources(CComPtr<IDXGISurface> renderTargetTexture)
