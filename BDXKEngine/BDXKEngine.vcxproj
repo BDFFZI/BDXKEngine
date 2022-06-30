@@ -127,7 +127,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d2d1.lib;dwrite.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Event.cpp" />
     <ClCompile Include="Source\Animator.cpp" />
     <ClCompile Include="Source\GUI.cpp" />
     <ClCompile Include="Source\Input.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Source\Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Event.h" />
     <ClInclude Include="Source\Animator.h" />
     <ClInclude Include="Source\GUI.h" />
     <ClInclude Include="Source\Input.h" />

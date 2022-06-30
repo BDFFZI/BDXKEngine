@@ -46,6 +46,7 @@
 #include "Input.h"
 #include "Screen.h"
 #include "Cursor.h"
+#include "Event.h"
 #include "GUI.h"
 //组件
 #include "Object.h"
@@ -57,7 +58,7 @@
 #include "Animator.h"
 
 
-class BDXKEngine :Time, Input, Screen, Cursor, Graphics, GUI, GameObjectEditor {
+class BDXKEngine :Time, Input, Screen, Cursor, Graphics, Event, GUI, GameObjectEditor, TransformEditor {
 public:
 	static void Run(std::function<void()> onStart)
 	{
@@ -72,13 +73,14 @@ public:
 				case WM_CREATE://系统初始化
 				{
 					Time::Initialize(window);
-					Input* input = Input::Initialize(window);
 					Screen::Initialize(window);
+					Input* input = Input::Initialize(window);
 					Cursor* cursor = Cursor::Initialize(input,window);
+					Event* event = Event::Initialize(input, window);
 					::GL* gl = nullptr;
 					::GL2D* gl2d = nullptr;
 					Graphics* graphics = Graphics::Initialize(window, &gl, &gl2d);
-					GUI::Initialize(gl2d, input, window);
+					GUI::Initialize(gl2d, event, window);
 
 					//完成初始化后，正式循环前
 					onStart();
@@ -87,6 +89,7 @@ public:
 				case WM_PAINT://帧更新
 				{
 					GameObjectEditor::OnUpdate();
+					ShowSceneInfo();
 					break;
 				}
 				//case WM_CLOSE:
@@ -122,5 +125,69 @@ public:
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+	}
+
+private:
+	inline static std::wstring sceneInfo{ L"Hello BDXKEngine" };
+
+	static void ShowSceneInfo()
+	{
+		float drawY = 10;
+		std::vector<Transform*> rootTransforms = TransformEditor::GetRootTransforms();
+		for (Transform* transform : rootTransforms)
+		{
+			drawY = ShowGameObjectInfo(transform->GetGameObject(), drawY);
+		}
+		GUI::TextArea({ 10,drawY,180,20 }, std::to_wstring(1 / Time::GetDeltaTime()));
+
+		Vector2 screenSize = Screen::GetSize();
+		Rect rect{};
+		rect.SetSize(screenSize / 4);
+		rect.SetPosition({ screenSize.x - rect.width - 10, 10 });
+		sceneInfo = GUI::TextArea(rect, sceneInfo);
+	}
+	static float ShowGameObjectInfo(GameObject* target, float drawY, int order = 0)
+	{
+		float drawX = (float)(10 + order * 30);
+		//显示GameObject
+		GUI::TextArea({ drawX,drawY,160,20 }, target->GetName());
+		//添加Transform事件
+		Transform* transform = target->GetTransform();
+		{
+			Rect transformRect = { drawX + 165,drawY,160,15 };
+			//使其可拖拽
+			if (Event::IsDrag(transformRect, transform))
+			{
+				::GL2D::DrawRectangleCenter(Input::GetMousePosition(), transformRect.GetSize(), false);
+			}
+			//使其可拖入
+			Transform* otherTransform;
+			if (Event::IsDrop(transformRect, (Component**)&otherTransform))
+			{
+				if (otherTransform != nullptr)
+					otherTransform->SetParent(transform);
+			}
+		}
+		//显示Components
+		std::vector<Component*> components = target->GetComponents();
+		for (Component* component : components)
+		{
+			drawX += 165;
+			Rect rect = { drawX,drawY,160,15 };
+			GUI::TextArea(rect, component->GetName(), 15);
+			if (Event::IsFocus(rect))sceneInfo = component->ToString();
+		}
+		//显示子物体
+		if (transform->GetChildCount() != 0)
+		{
+			drawY += 25;
+			for (int index = 0; index < transform->GetChildCount(); index++)
+			{
+				drawY = ShowGameObjectInfo(transform->GetChild(index)->GetGameObject(), drawY, order + 1);
+			}
+			return drawY;
+		}
+
+		return drawY + 25;
 	}
 };

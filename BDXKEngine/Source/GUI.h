@@ -4,19 +4,28 @@
 #include "Rect.h"
 #include "GL2D.h"
 #include "Input.h"
+#include "Event.h"
 
 class GUI
 {
 public:
 	static bool Button(Rect rect, std::wstring text);
-	static std::wstring TextArea(Rect rect, std::wstring text);
-	static bool IsClick(Rect rect);
+	static std::wstring TextArea(Rect rect, std::wstring text, int fontSize = 20);
+	template<typename TValue>
+	static void Array(Rect rect, TValue* array, int count)
+	{
+		std::wstringstream stream{};
+		stream << '{';
+		for (int i = 0; i < count; i++)
+			stream << std::to_wstring(*(array + i)) << ',';
+		stream << '}';
+
+		TextArea(rect, stream.str());
+	}
 protected:
-	static GUI Initialize(GL2D* graphics, Input* input, Window* window);
+	static GUI Initialize(GL2D* graphics, Event* event, Window* window);
 private:
 	static Window* window;
-	static Rect clicking;
-	static Rect clicked;
 	static std::wstringstream charStream;
 	static int deleteStream;
 

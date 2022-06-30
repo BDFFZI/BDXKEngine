@@ -2,8 +2,6 @@
 #include <cmath>
 
 Window* GUI::window;
-Rect GUI::clicking = Rect::zero;
-Rect GUI::clicked = Rect::zero;
 std::wstringstream GUI::charStream{};
 int GUI::deleteStream{};
 
@@ -18,24 +16,26 @@ int FontSize = 20;
 
 bool GUI::Button(Rect rect, std::wstring text)
 {
+	Color background = Event::IsDrag(rect) ? Color::yellow : Color::green;
+
 	//可视化UI
-	GL2D::SetBrushColor(rect == clicking ? Color::yellow : Color::green);
+	background.a -= 0.5f;
+	GL2D::SetBrushColor(background);
 	GL2D::DrawRectangle(rect, true);
 	GL2D::SetBrushColor(Color::black);
 	GL2D::DrawTextf(rect, text, FontSize);
 
-	return IsClick(rect);
+	return Event::IsClick(rect);
 }
 
-std::wstring GUI::TextArea(Rect rect, std::wstring text)
+std::wstring GUI::TextArea(Rect rect, std::wstring text, int fontSize)
 {
-	IsClick(rect);
-
-	//可视化UI
-	if (rect == clicking)
-		GL2D::SetBrushColor(Color::gray);
-	else if (rect == clicked)//有焦点的时候接受文字输入
+	Color background;
+	if (Event::IsDrag(rect))
+		background = Color::gray;
+	else if (Event::IsFocus(rect))//有焦点的时候接受文字输入
 	{
+		background = Color::lightBlue;
 		//删除
 		if (deleteStream != 0)
 		{
@@ -53,49 +53,21 @@ std::wstring GUI::TextArea(Rect rect, std::wstring text)
 		//输入
 		text.append(charStream.str().c_str());
 		charStream.str(L"");
-
-
-		GL2D::SetBrushColor(Color::lightBlue);
 	}
-	else
-		GL2D::SetBrushColor(Color::white);
+	else background = Color::white;
+
+	background.a -= 0.5f;
+	GL2D::SetBrushColor(background);
 	GL2D::DrawRectangle(rect, true);
 	GL2D::SetBrushColor(Color::black);
-	GL2D::DrawTextf(rect, text, FontSize);
+	GL2D::DrawTextf(rect, text, fontSize);
 
 	return text;
 }
 
-//点击事件处理
-//原理：
-//鼠标同一时间只能处于一个范围中。
-//当鼠标被按下后，等待它的只能是抬起。
-//以此产生了一种锁定状态
-bool GUI::IsClick(Rect rect)
-{
-	if (rect.Contains(window->GetCursorLocalPosition()) && Input::GetMouseButtonDown(0))
-	{
-		//在有效范围内点击，锁定该事件，等待抬起鼠标时验证
-		clicking = rect;
-	}
-	else if (Input::GetMouseButtonUp(0)
-		&& rect == clicking)//闲杂人等勿扰
-	{
-		//鼠标在原位置抬起，事件有效
-		if (clicking.Contains(window->GetCursorLocalPosition()))
-		{
-			clicked = clicking;
-			clicking = Rect::zero;
-			return true;
-		}
 
-		clicking = Rect::zero;
-	}
 
-	return false;
-}
-
-GUI GUI::Initialize(GL2D* graphics, Input* input, Window* window)
+GUI GUI::Initialize(GL2D* graphics, Event* event, Window* window)
 {
 	GUI::window = window;
 	window->AddMessageListener(OnWindowMessage);
@@ -104,17 +76,8 @@ GUI GUI::Initialize(GL2D* graphics, Input* input, Window* window)
 }
 
 void GUI::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
-	switch (messageSign)
-	{
-	case WM_LBUTTONDOWN:
-		clicked = Rect::zero;
-		charStream.str(L"");
-		deleteStream = 0;
-		break;
-	}
-
 	//文字输入
-	if (clicked != Rect::zero) {
+	if (Event::HasFocus()) {
 		switch (messageSign)
 		{
 		case WM_CHAR:
@@ -123,5 +86,10 @@ void GUI::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, L
 			if ((KeyCode)wparameter == KeyCode::Backspace)
 				deleteStream++;
 		}
+	}
+	else
+	{
+		charStream.str(L"");
+		deleteStream = 0;
 	}
 }

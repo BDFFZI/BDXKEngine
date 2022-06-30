@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include<string>
 
 class ObjectEditor;
 class Object
@@ -27,15 +28,15 @@ public:
 	int GetID() {
 		return id;
 	}
-	const wchar_t* GetName()
+	std::wstring GetName()
 	{
 		return name;
 	}
-	void SetName(const wchar_t* name)
+	void SetName(std::wstring name)
 	{
 		this->name = name;
 	}
-	virtual const wchar_t* ToString()
+	virtual std::wstring ToString()
 	{
 		return name;
 	}
@@ -43,7 +44,7 @@ private:
 	static std::vector<Object*> objects;//所有物体
 
 	int id;
-	const wchar_t* name;
+	std::wstring name;
 };
 
 class ObjectEditor {

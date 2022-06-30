@@ -62,15 +62,15 @@ public:
 	static bool GetKeyUp(KeyCode keyCode);
 protected:
 	static Input* Initialize(Window* window);
+	static void SetEnable(bool state);
 
 private:
 	static Window* window;
 	static float mouseScrollDelta;
 	static Vector2 mousePosition;
-	static bool lastMouseButtonState[];
-	static bool mouseButtonState[];
-	static bool lastKeyboardState[];
-	static bool keyboardState[];
+	static bool mouseButtonState[3][3];
+	static bool keyboardState[256][3];
+	static bool enable;
 
 	static void FlushState();
 	static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);

@@ -3,51 +3,50 @@
 Window* Input::window{};
 float Input::mouseScrollDelta;
 Vector2 Input::mousePosition;
-bool Input::lastMouseButtonState[3];
-bool Input::mouseButtonState[3];
-bool Input::lastKeyboardState[256];
-bool Input::keyboardState[256];
+bool Input::mouseButtonState[3][3];
+bool Input::keyboardState[256][3];
+bool Input::enable{ true };
 
 bool Input::GetMouseButtonDown(int mouseButtonIndex)
 {
-	if (lastMouseButtonState[mouseButtonIndex] == false &&
-		mouseButtonState[mouseButtonIndex] == true)
+	if (mouseButtonState[mouseButtonIndex][0] == false &&
+		mouseButtonState[mouseButtonIndex][1] == true)
 		return true;
 	return false;
 }
 bool Input::GetMouseButton(int mouseButtonIndex)
 {
-	if (lastMouseButtonState[mouseButtonIndex] == true &&
-		mouseButtonState[mouseButtonIndex] == true)
+	if (mouseButtonState[mouseButtonIndex][0] == true &&
+		mouseButtonState[mouseButtonIndex][1] == true)
 		return true;
 	return false;
 }
 bool Input::GetMouseButtonUp(int mouseButtonIndex)
 {
-	if (lastMouseButtonState[mouseButtonIndex] == true &&
-		mouseButtonState[mouseButtonIndex] == false)
+	if (mouseButtonState[mouseButtonIndex][0] == true &&
+		mouseButtonState[mouseButtonIndex][1] == false)
 		return true;
 	return false;
 }
 
 bool Input::GetKeyDown(KeyCode keyCode)
 {
-	if (lastKeyboardState[(int)keyCode] == false &&
-		keyboardState[(int)keyCode] == true)
+	if (keyboardState[(int)keyCode][0] == false &&
+		keyboardState[(int)keyCode][1] == true)
 		return true;
 	return false;
 }
 bool Input::GetKey(KeyCode keyCode)
 {
-	if (lastKeyboardState[(int)keyCode] == true &&
-		keyboardState[(int)keyCode] == true)
+	if (keyboardState[(int)keyCode][0] == true &&
+		keyboardState[(int)keyCode][1] == true)
 		return true;
 	return false;
 }
 bool Input::GetKeyUp(KeyCode keyCode)
 {
-	if (lastKeyboardState[(int)keyCode] == true &&
-		keyboardState[(int)keyCode] == false)
+	if (keyboardState[(int)keyCode][0] == true &&
+		keyboardState[(int)keyCode][1] == false)
 		return true;
 	return false;
 }
@@ -60,82 +59,93 @@ Input* Input::Initialize(Window* window)
 	return new Input{};
 }
 
+void Input::SetEnable(bool state)
+{
+	enable = state;
+}
+
 void Input::FlushState()
 {
 	mouseScrollDelta *= 0.7f;
 
 	for (int i = 0; i < 3; i++)
 	{
-		lastMouseButtonState[i] = mouseButtonState[i];
+		mouseButtonState[i][0] = mouseButtonState[i][1];
+		mouseButtonState[i][1] = mouseButtonState[i][2];
 	}
 	for (int i = 0; i < 256; i++)
 	{
-		lastKeyboardState[i] = keyboardState[i];
+		keyboardState[i][0] = keyboardState[i][1];
+		keyboardState[i][1] = keyboardState[i][2];
 	}
 }
 void Input::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 {
-	switch (messageSign)
-	{
-	case WM_PAINT:
+	if (messageSign == WM_PAINT)
 	{
 		Input::FlushState();
-		break;
 	}
+	else if (enable)
+	{
+		switch (messageSign)
+		{
 #pragma region 鼠标事件
-	case WM_MOUSEMOVE:
-	{
-		Input::mousePosition.x = (float)(lparameter << 48 >> 48);
-		Input::mousePosition.y = (float)(lparameter >> 16);
-		break;
-	}
-	case WM_MOUSEWHEEL:
-	{
-		Input::mouseScrollDelta += GET_WHEEL_DELTA_WPARAM(wparameter) / 1000.0f;
-		break;
-	}
-	case WM_LBUTTONDOWN:
-	{
-		Input::mouseButtonState[0] = true;
-		break;
-	}
-	case WM_LBUTTONUP:
-	{
-		Input::mouseButtonState[0] = false;
-		break;
-	}
-	case WM_RBUTTONDOWN:
-	{
-		Input::mouseButtonState[1] = true;
-		break;
-	}
-	case WM_RBUTTONUP:
-	{
-		Input::mouseButtonState[1] = false;
-		break;
-	}
-	case WM_MBUTTONDOWN:
-	{
-		Input::mouseButtonState[2] = true;
-		break;
-	}
-	case WM_MBUTTONUP:
-	{
-		Input::mouseButtonState[2] = false;
-		break;
-	}
+		case WM_MOUSEMOVE:
+		{
+			Input::mousePosition.x = (float)(lparameter << 48 >> 48);
+			Input::mousePosition.y = (float)(lparameter >> 16);
+			break;
+		}
+		case WM_MOUSEWHEEL:
+		{
+			Input::mouseScrollDelta += GET_WHEEL_DELTA_WPARAM(wparameter) / 1000.0f;
+			break;
+		}
+		case WM_LBUTTONDOWN:
+		{
+			Input::mouseButtonState[0][2] = true;
+			break;
+		}
+		case WM_LBUTTONUP:
+		{
+			Input::mouseButtonState[0][2] = false;
+			break;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			Input::mouseButtonState[1][2] = true;
+			break;
+		}
+		case WM_RBUTTONUP:
+		{
+			Input::mouseButtonState[1][2] = false;
+			break;
+		}
+		case WM_MBUTTONDOWN:
+		{
+			Input::mouseButtonState[2][2] = true;
+			break;
+		}
+		case WM_MBUTTONUP:
+		{
+			Input::mouseButtonState[2][2] = false;
+			break;
+		}
 #pragma endregion
 #pragma region 键盘事件
-	case WM_KEYDOWN:
-	{
-		Input::keyboardState[wparameter] = true;
-		break;
-	}
-	case WM_KEYUP:
-	{
-		Input::keyboardState[wparameter] = false;
-		break;
-	}
+		case WM_KEYDOWN:
+		{
+			Input::keyboardState[wparameter][2] = true;
+			break;
+		}
+		case WM_KEYUP:
+		{
+			Input::keyboardState[wparameter][2] = false;
+			break;
+		}
 #pragma endregion
+		}
+
 	}
+
 }

@@ -14,6 +14,11 @@ GameObject::GameObject(const wchar_t* name) {
 	AddComponent<Transform>();
 }
 
+std::vector<Component*> GameObject::GetComponents()
+{
+	return ownedComponents;
+}
+
 Transform* GameObject::GetTransform()
 {
 	return GetComponent<Transform>();

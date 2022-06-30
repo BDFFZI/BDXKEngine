@@ -3,6 +3,8 @@
 #include<map>
 #include "TickEvent.h"
 #include "String.h"
+#include "Object.h"
+#include "Component.h"
 #include "Transform.h"
 
 class GameObjectEditor;
@@ -47,6 +49,7 @@ public:
 		}
 		return NULL;
 	}
+	std::vector<Component*> GetComponents();
 	Transform* GetTransform();
 private:
 	static std::vector<GameObject*> gameObjects;//所有物体

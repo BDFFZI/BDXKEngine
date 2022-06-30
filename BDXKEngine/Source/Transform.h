@@ -4,8 +4,10 @@
 #include "Vector3.h"
 #include "Matrix4x4.h"
 
+class TransformEditor;
 class Transform :public Component
 {
+	friend TransformEditor;
 public:
 	Transform* GetParent();
 	void SetParent(Transform* parent);
@@ -30,9 +32,11 @@ public:
 	Vector3 GetUp();
 	Vector3 GetFront();
 
+	std::wstring ToString()override;
+
 	Transform();
 private:
-	static Transform root;
+	static std::vector<Transform*> rootTransforms;
 
 	Vector3 localPosition;
 	Vector3 localEulerAngles;
@@ -51,4 +55,13 @@ private:
 	void RenewEulerAngles();
 	void RenewScale();
 	void RenewMatrix();
+};
+
+class TransformEditor
+{
+protected:
+	static std::vector<Transform*> GetRootTransforms()
+	{
+		return Transform::rootTransforms;
+	}
 };

@@ -1,22 +1,22 @@
 #include "Transform.h"
 #include<cmath>
+#include "GameObject.h"
 
-Transform Transform::root{};
+std::vector<Transform*> Transform::rootTransforms{};
 
 Transform* Transform::GetParent()
 {
-	if (parent == &root)
-		return NULL;
 	return parent;
 }
 void Transform::SetParent(Transform* newparent)
 {
 	//解绑旧父物体
-	this->parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
+	if (parent != nullptr)parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
+	else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
 	//设置新父物体
-	this->parent = (newparent == NULL ? &root : newparent);
+	this->parent = newparent;
 	//绑定新父物体
-	this->parent->children.push_back(this);
+	if (parent != nullptr)parent->children.push_back(this);
 
 	RenewPosition();
 	RenewEulerAngles();
@@ -104,10 +104,20 @@ Vector3 Transform::GetFront()
 	return localToWorldMatrix.MultiplyVector(Vector3::front).GetNormalized();
 }
 
+inline std::wstring Transform::ToString() {
+	std::wstringstream stream;
+	stream << L"位置：" << localPosition.ToString() << std::endl;
+	stream << L"旋转：" << localEulerAngles.ToString() << std::endl;
+	stream << L"缩放：" << localScale.ToString() << std::endl;
+	stream << L"父亲：" << (parent != nullptr ? parent->GetGameObject()->GetName() : L"nullptr") << std::endl;
+	stream << L"孩子数量：" << std::to_wstring(GetChildCount()) << std::endl;
+	return stream.str();
+}
+
 Transform::Transform()
 {
-	parent = &root;
-	root.children.push_back(this);
+	parent = nullptr;
+	rootTransforms.push_back(this);
 
 	localPosition = Vector3::zero;
 	localEulerAngles = Vector3::zero;
@@ -116,19 +126,24 @@ Transform::Transform()
 	position = Vector3::zero;
 	eulerAngles = Vector3::zero;
 	scale = Vector3::one;
+
 	localToWorldMatrix = Matrix4x4::identity;
 	worldToLocalMatrix = Matrix4x4::identity;
 }
 
 void Transform::RenewPosition()
 {
-	position = parent->GetPosition() + localPosition;
+	Vector3 parentalPosition = parent == nullptr ? Vector3::zero : parent->GetPosition();
+
+	position = parentalPosition + localPosition;
+
 	for (Transform* child : children)
 		child->RenewPosition();
 }
 void Transform::RenewEulerAngles()
 {
-	Vector3 parentalEulerAngles = parent->GetEulerAngles();
+	Vector3 parentalEulerAngles = parent == nullptr ? Vector3::zero : parent->GetEulerAngles();
+
 	eulerAngles.x = (float)std::fmod(parentalEulerAngles.x + localEulerAngles.x, 360);
 	eulerAngles.y = (float)std::fmod(parentalEulerAngles.y + localEulerAngles.y, 360);
 	eulerAngles.z = (float)std::fmod(parentalEulerAngles.z + localEulerAngles.z, 360);
@@ -137,16 +152,18 @@ void Transform::RenewEulerAngles()
 }
 void Transform::RenewScale()
 {
-	Vector3 parentalScale = parent->GetScale();
+	Vector3 parentalScale = parent == nullptr ? Vector3::one : parent->GetScale();
+
 	scale.x = parentalScale.x * localScale.x;
 	scale.y = parentalScale.y * localScale.y;
 	scale.z = parentalScale.z * localScale.z;
+
 	for (Transform* child : children)
 		child->RenewScale();
 }
 void Transform::RenewMatrix()
 {
-	localToWorldMatrix = parent->localToWorldMatrix;
+	localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
 	localToWorldMatrix *= Matrix4x4::Translate(localPosition);
 	localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
 	localToWorldMatrix *= Matrix4x4::Scale(localScale);

@@ -163,6 +163,9 @@
     <ClCompile Include="Source\Animator.cpp">
       <Filter>Function\GameObject\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Event.cpp">
+      <Filter>Function\System\Display\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WindowBase.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="Source\Animator.h">
       <Filter>Function\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event.h">
+      <Filter>Function\System\Display\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,8 +3,7 @@
 
 class CameraController :public Component, public StartEvent, public UpdateEvent, public DrawGizmosEvent {
 	Transform* transform{};
-	std::wstring text{ L"Hello BDXKEngine" };
-
+	std::wstring text{ L"我是一个输入框。" };
 	void OnStart()override
 	{
 		transform = GetGameObject()->GetTransform();
@@ -77,16 +76,14 @@ class CameraController :public Component, public StartEvent, public UpdateEvent,
 
 	void OnDrawGizmos()override {
 		Vector2 size = Screen::GetSize();
-
-		text = GUI::TextArea({ 10,10,180,500 }, text);
-		GUI::TextArea({ 200,10,180,30 }, Input::GetMousePosition().ToString());
 		if (GUI::Button({ 10,size.y - 40,180,30 }, L"按钮"))
 		{
-			text.append(L"+1");
+			Debug::Log(L"Hello BDXKEngine");
 		}
+		GUI::TextArea({ 200,size.y - 40,200,30 }, L"鼠标位置:" + Input::GetMousePosition().ToString());
+		text = GUI::TextArea({ 410,size.y - 40,size.x - 420,30 }, text);
 	}
 };
-
 
 int main()
 {

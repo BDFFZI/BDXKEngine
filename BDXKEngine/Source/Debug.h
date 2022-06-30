@@ -5,7 +5,7 @@
 struct Debug
 {
 public:
-	static void Log(const wchar_t* str);
+	static void Log(std::wstring str);
 
 	/// <summary>
 	/// 输出带颜色的日志
@@ -26,11 +26,11 @@ public:
 	/// 淡黄色   = 14 |
 	/// 亮白色   = 15 |
 	/// </summary>
-	static void Log(const wchar_t* str, int color);
+	static void Log(std::wstring str, int color);
 
-	static void LogWarning(const wchar_t* str);
+	static void LogWarning(std::wstring str);
 
-	static void LogError(const wchar_t* str);
+	static void LogError(std::wstring str);
 };
 
 
