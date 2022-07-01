@@ -20,7 +20,7 @@ bool Event::IsDrag(Rect rect, Component* dragSource)
 		if (Event::dragSource != dragSource)
 		{
 			if (Event::dragSource == nullptr)Event::dragSource = dragSource;
-			else throw L"事件冲突，同一位置设置了两个不一样的拖拽事件。";
+			else throw std::exception("事件冲突，同一位置设置了两个不一样的拖拽事件。");
 		}
 		return true;
 	}
@@ -45,6 +45,15 @@ bool Event::IsFocus(Rect rect)
 {
 	MarkEvent(rect);
 	return focus == rect;
+}
+
+void Event::Use()
+{
+	drag = Rect::zero;
+	drop = Rect::zero;
+	click = Rect::zero;
+	focus = Rect::zero;
+	dragSource = nullptr;
 }
 
 bool Event::HasClick()

@@ -24,6 +24,7 @@
     <ProjectGuid>{b1591743-e282-4de6-a261-205c66774d8a}</ProjectGuid>
     <RootNamespace>BDXKEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>BDXKRuntime</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -84,6 +85,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>Output\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Output\Object\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -122,14 +125,18 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;FBXSDK_SHARED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d2d1.lib;dwrite.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;dwrite.lib;d3d11.lib;libfbxsdk.lib;libfbxsdk-md.lib;libfbxsdk-mt.lib;libxml2-md.lib;libxml2-mt.lib;zlib-md.lib;zlib-mt.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\lib\vs2017\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <EmbedManagedResourceFile>libfbxsdk.dll;%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,80 +156,82 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Event.cpp" />
-    <ClCompile Include="Source\Animator.cpp" />
-    <ClCompile Include="Source\GUI.cpp" />
-    <ClCompile Include="Source\Input.cpp" />
-    <ClCompile Include="Source\Matrix3x3.cpp" />
-    <ClCompile Include="Source\Rect.cpp" />
-    <ClCompile Include="Source\Shader.cpp" />
-    <ClCompile Include="Source\MeshRenderer.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
-    <ClCompile Include="Source\Graphics.cpp" />
-    <ClCompile Include="Source\GL2D.cpp" />
-    <ClCompile Include="Source\Matrix3x2.cpp" />
-    <ClCompile Include="Source\Mesh.cpp" />
-    <ClCompile Include="Source\GL.cpp" />
-    <ClCompile Include="Source\Renderer.cpp" />
-    <ClCompile Include="Source\Object.cpp" />
-    <ClCompile Include="Source\Matrix4x4.cpp" />
-    <ClCompile Include="Source\Cursor.cpp" />
-    <ClCompile Include="Source\Math.cpp" />
-    <ClCompile Include="Source\Component.cpp" />
-    <ClCompile Include="Source\GameObject.cpp" />
-    <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\Debug.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\TickEvent.cpp" />
-    <ClCompile Include="Source\Vector2.cpp" />
-    <ClCompile Include="Source\Window.cpp" />
-    <ClCompile Include="Source\String.cpp" />
-    <ClCompile Include="Source\WindowBase.cpp" />
-    <ClCompile Include="Source\Time.cpp" />
-    <ClCompile Include="Source\Screen.cpp" />
-    <ClCompile Include="Source\Transform.cpp" />
-    <ClCompile Include="Source\Vector3.cpp" />
-    <ClCompile Include="Source\Vector4.cpp" />
+    <ClCompile Include="MeshImporter.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Matrix3x3.cpp" />
+    <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="GL2D.cpp" />
+    <ClCompile Include="Matrix3x2.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="GL.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="Math.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TickEvent.cpp" />
+    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="String.cpp" />
+    <ClCompile Include="WindowBase.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Vector4.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Event.h" />
-    <ClInclude Include="Source\Animator.h" />
-    <ClInclude Include="Source\GUI.h" />
-    <ClInclude Include="Source\Input.h" />
-    <ClInclude Include="Source\Matrix3x3.h" />
-    <ClInclude Include="Source\GLLayout.h" />
-    <ClInclude Include="Source\Rect.h" />
-    <ClInclude Include="Source\Shader.h" />
-    <ClInclude Include="Source\MeshRenderer.h" />
-    <ClInclude Include="Source\Camera.h" />
-    <ClInclude Include="Source\Graphics.h" />
-    <ClInclude Include="Source\GL2D.h" />
-    <ClInclude Include="Source\Matrix3x2.h" />
-    <ClInclude Include="Source\Reflection.h" />
-    <ClInclude Include="Source\Mesh.h" />
-    <ClInclude Include="Source\GL.h" />
-    <ClInclude Include="Source\Test.h" />
-    <ClInclude Include="Source\TickEvent.h" />
-    <ClInclude Include="Source\Renderer.h" />
-    <ClInclude Include="Source\Object.h" />
-    <ClInclude Include="Source\Matrix4x4.h" />
-    <ClInclude Include="Source\Cursor.h" />
-    <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\GameObject.h" />
-    <ClInclude Include="Source\Math.h" />
-    <ClInclude Include="Source\BDXKEngine.h" />
-    <ClInclude Include="Source\Debug.h" />
-    <ClInclude Include="Source\Window.h" />
-    <ClInclude Include="Source\WindowBase.h" />
-    <ClInclude Include="Source\String.h" />
-    <ClInclude Include="Source\Vector2.h" />
-    <ClInclude Include="Source\Color.h" />
-    <ClInclude Include="Source\Time.h" />
-    <ClInclude Include="Source\Vector2Int.h" />
-    <ClInclude Include="Source\Screen.h" />
-    <ClInclude Include="Source\Transform.h" />
-    <ClInclude Include="Source\Vector3.h" />
-    <ClInclude Include="Source\Vector4.h" />
+    <ClInclude Include="MeshImporter.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="GUI.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Matrix3x3.h" />
+    <ClInclude Include="GLLayout.h" />
+    <ClInclude Include="Rect.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GL2D.h" />
+    <ClInclude Include="Matrix3x2.h" />
+    <ClInclude Include="Reflection.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="GL.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="TickEvent.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="Cursor.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="BDXKEngine.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowBase.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="Vector2Int.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vector4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

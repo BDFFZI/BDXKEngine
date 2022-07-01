@@ -6,6 +6,17 @@ void Debug::Log(std::wstring str)
 	wcout << str << endl;
 }
 
+void Debug::Log(std::string str)
+{
+	using namespace std;
+	cout << str << endl;
+}
+
+void Debug::Log(std::exception str)
+{
+	Log((String)str.what());
+}
+
 /// <summary>
 /// 输出带颜色的日志
 /// 黑色     = 0  | 

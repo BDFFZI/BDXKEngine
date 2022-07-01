@@ -1,5 +1,6 @@
 #include "Transform.h"
 #include<cmath>
+#include<exception>
 #include "GameObject.h"
 
 std::vector<Transform*> Transform::rootTransforms{};
@@ -10,6 +11,18 @@ Transform* Transform::GetParent()
 }
 void Transform::SetParent(Transform* newparent)
 {
+	if (newparent != nullptr)
+	{
+		Transform* newUpLayer = newparent;
+		do {
+			if (this == newUpLayer)
+			{
+				throw std::exception("你在试图让一个父物体或自身成为其的孩子，这会导致嵌套循环，是不允许的。");
+			}
+			newUpLayer = newUpLayer->parent;
+		} while (newUpLayer != nullptr);
+	}
+
 	//解绑旧父物体
 	if (parent != nullptr)parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
 	else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
@@ -17,6 +30,7 @@ void Transform::SetParent(Transform* newparent)
 	this->parent = newparent;
 	//绑定新父物体
 	if (parent != nullptr)parent->children.push_back(this);
+	else rootTransforms.push_back(this);
 
 	RenewPosition();
 	RenewEulerAngles();

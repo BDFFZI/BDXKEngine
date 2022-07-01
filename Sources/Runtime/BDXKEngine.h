@@ -138,8 +138,27 @@ private:
 		{
 			drawY = ShowGameObjectInfo(transform->GetGameObject(), drawY);
 		}
-		GUI::TextArea({ 10,drawY,180,20 }, std::to_wstring(1 / Time::GetDeltaTime()));
 
+		//显示帧率
+		GUI::TextArea({ 10,drawY,180,25 }, L"帧率:" + std::to_wstring(1 / Time::GetDeltaTime()));
+		drawY += 30;
+
+		//收集无父亲节点
+		{
+			Rect orphanBox{ 10,drawY,100,25 };
+			GUI::TextArea(orphanBox, L"孤儿箱");
+			Transform* transform;
+			if (Event::IsDrop(orphanBox, (Component**)&transform))
+			{
+				if (transform != nullptr)
+				{
+					transform->SetParent(nullptr);
+				}
+			}
+		}
+
+
+		//显示描述
 		Vector2 screenSize = Screen::GetSize();
 		Rect rect{};
 		rect.SetSize(screenSize / 4);
@@ -165,7 +184,17 @@ private:
 			if (Event::IsDrop(transformRect, (Component**)&otherTransform))
 			{
 				if (otherTransform != nullptr)
-					otherTransform->SetParent(transform);
+				{
+					try
+					{
+						otherTransform->SetParent(transform);
+						Event::Use();
+					}
+					catch (std::exception e)
+					{
+						Debug::Log(e);
+					}
+				}
 			}
 		}
 		//显示Components

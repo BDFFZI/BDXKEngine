@@ -1,5 +1,6 @@
 ﻿#include "Test.h"
 #include "BDXKEngine.h"
+#include<fbxsdk.h>
 
 class CameraController :public Component, public StartEvent, public UpdateEvent, public DrawGizmosEvent {
 	Transform* transform{};
@@ -11,7 +12,7 @@ class CameraController :public Component, public StartEvent, public UpdateEvent,
 
 	void OnUpdate()override
 	{
-		Vector3 position = transform->GetPosition();
+		Vector3 position = transform->GetLocalPosition();
 		float deltaTime = Time::GetDeltaTime();
 
 		if (Input::GetKey(KeyCode::W))
@@ -85,10 +86,56 @@ class CameraController :public Component, public StartEvent, public UpdateEvent,
 	}
 };
 
+#define GetResourcesPath(Type,Name) "C:/Users/BDFFZI/Desktop/BDXKEngine/Resources/"#Type"/"#Name"";
+
 int main()
 {
-	BDXKEngine::Run([&]() {
+	const char* fileName = GetResourcesPath(Meshes,Cube.fbx);
+	Debug::Log(fileName);
+	//初始化FbxManager环境
+	FbxManager* manager = FbxManager::Create();
+	FbxIOSettings* ioSettings = FbxIOSettings::Create(manager, "FbxIOSettings");
+	manager->SetIOSettings(ioSettings);
+	//创建导入器
+	FbxImporter* importer = FbxImporter::Create(manager, "FbxImporter");
+	assert(importer->Initialize(fileName));
+	//导入Fbx数据
+	FbxScene* scene = FbxScene::Create(manager, "FbxScene");
+	importer->Import(scene);
+	importer->Destroy();
+	//解析Fbx数据
+	FbxNode* node = scene->GetRootNode();
+	if (node != nullptr)
+	{
+		FbxNode* child = node->GetChild(0);
+		Debug::Log(child->GetName());
+		FbxMesh* mesh = child->GetMesh();
+		fbxsdk::FbxVector4* vertices = mesh->GetControlPoints();
+		int vertexCount = mesh->GetControlPointsCount();
 
+		for (int i = 0; i < vertexCount; i++)
+		{
+			fbxsdk::FbxVector4 vector4 = *(vertices + i);
+			//Debug::Log((String)mesh-> mesh->GetPolygonVertex(i / 3, i % 3));
+			std::wstringstream stream;
+			stream << "(" << vector4[0] << "," << vector4[1] << "," << vector4[2] << "," << vector4[3] << ")";
+
+			Debug::Log(stream.str());
+		}
+
+		mesh->Destroy();
+	}
+
+	node->Destroy();
+	scene->Destroy();
+	ioSettings->Destroy();
+	manager->Destroy();
+
+	return 0;
+
+	BDXKEngine::Run([&]() {
+		Mesh* mesh = new Mesh{};
+		Shader* shader = new Shader{};
 
 		GameObject* camera = new GameObject(L"Camera");
 		{
@@ -98,8 +145,6 @@ int main()
 
 		GameObject* aureole = new GameObject(L"Aureole");
 		{
-			Mesh* mesh = new Mesh{};
-			Shader* shader = new Shader{};
 			MeshRenderer* meshRenderer = aureole->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetShader(shader);
@@ -123,8 +168,6 @@ int main()
 
 		GameObject* ground = new GameObject(L"Ground");
 		{
-			Mesh* mesh = new Mesh{};
-			Shader* shader = new Shader{};
 			MeshRenderer* meshRenderer = ground->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetShader(shader);
@@ -135,8 +178,6 @@ int main()
 
 		GameObject* center = new GameObject(L"Center");
 		{
-			Mesh* mesh = new Mesh{};
-			Shader* shader = new Shader{};
 			MeshRenderer* meshRenderer = center->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetShader(shader);
@@ -154,8 +195,6 @@ int main()
 
 		GameObject* box = new GameObject(L"Box");
 		{
-			Mesh* mesh = new Mesh{};
-			Shader* shader = new Shader{};
 			MeshRenderer* meshRenderer = box->AddComponent<MeshRenderer>();
 			meshRenderer->SetMesh(mesh);
 			meshRenderer->SetShader(shader);

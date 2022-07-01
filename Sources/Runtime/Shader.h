@@ -8,10 +8,10 @@ class Shader
 public:
 	Shader()
 	{
-		GL::CreateVertexShader("C:/Users/BDFFZI/Desktop/BDXKEngine/Shader/VertexShader.cso",
+		GL::CreateVertexShader("C:/Users/BDFFZI/Desktop/BDXKEngine/Resources/Shaders/VertexShader.cso",
 			(D3D11_INPUT_ELEMENT_DESC*)VertexDescription, ARRAYSIZE(VertexDescription),
 			&vertexShader.p, &inputLayout.p);
-		GL::CreatePixelShader("C:/Users/BDFFZI/Desktop/BDXKEngine/Shader/PixelShader.cso",
+		GL::CreatePixelShader("C:/Users/BDFFZI/Desktop/BDXKEngine/Resources/Shaders/PixelShader.cso",
 			&pixelShader.p);
 	}
 private:

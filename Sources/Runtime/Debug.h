@@ -1,11 +1,15 @@
 #pragma once
 #include<Windows.h>
 #include<iostream>
+#include"String.h"
 
 struct Debug
 {
 public:
 	static void Log(std::wstring str);
+	static void Log(std::string str);
+
+	static void Log(std::exception str);
 
 	/// <summary>
 	/// 输出带颜色的日志

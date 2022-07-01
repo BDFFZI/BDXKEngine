@@ -82,7 +82,7 @@ void GL::CreateVertexShader(const char* path, D3D11_INPUT_ELEMENT_DESC inputLayo
 	FILE* vertexShaderFile;
 	fopen_s(&vertexShaderFile, path, "rb");
 	if (vertexShaderFile == 0)
-		throw "顶点着色器文件打开失败";
+		throw std::exception("顶点着色器文件打开失败");
 
 	char* vertexShaderBytes = new char[byteBufferSize];
 	size_t vertexShaderBytesSize = fread_s(vertexShaderBytes, byteBufferSize, 1, byteBufferSize, vertexShaderFile);
@@ -113,7 +113,7 @@ void GL::CreatePixelShader(const char* path, ID3D11PixelShader** pixelShader)
 	FILE* pixelShaderFile;
 	fopen_s(&pixelShaderFile, path, "rb");
 	if (pixelShaderFile == 0)
-		throw "像素着色器文件打开失败";
+		throw std::exception("像素着色器文件打开失败");
 
 	char* pixelShaderBytes = new char[byteBufferSize];
 	size_t pixelShaderBytesSize = fread_s(pixelShaderBytes, byteBufferSize, 1, byteBufferSize, pixelShaderFile);

@@ -12,6 +12,7 @@ public:
 	static bool IsDrag(Rect rect);
 	static bool IsDrop(Rect rect, Component** dragSource = nullptr);
 	static bool IsFocus(Rect rect);
+	static void Use();
 
 	static bool HasClick();
 	static bool HasDrag();
