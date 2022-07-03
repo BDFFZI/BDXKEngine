@@ -107,15 +107,15 @@ Matrix4x4 Transform::GetWorldToLocalMatrix()
 
 Vector3 Transform::GetRight()
 {
-	return localToWorldMatrix.MultiplyVector(Vector3::right).GetNormalized();
+	return localToWorldMatrix.MultiplyVector(Vector3::right);
 }
 Vector3 Transform::GetUp()
 {
-	return localToWorldMatrix.MultiplyVector(Vector3::up).GetNormalized();
+	return localToWorldMatrix.MultiplyVector(Vector3::up);
 }
 Vector3 Transform::GetFront()
 {
-	return localToWorldMatrix.MultiplyVector(Vector3::front).GetNormalized();
+	return localToWorldMatrix.MultiplyVector(Vector3::front);
 }
 
 inline std::wstring Transform::ToString() {

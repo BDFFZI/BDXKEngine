@@ -16,11 +16,11 @@ public:
 protected:
 	void OnRender()override
 	{
-		if (mesh == NULL || GetShader() == NULL)
+		if (mesh == NULL)
 			return;
-		Graphics::RenderMesh(mesh, GetShader());
+		Graphics::DrawMeshNow(mesh);
 	}
 private:
-	Mesh* mesh{};
+	Mesh* mesh = nullptr;
 };
 

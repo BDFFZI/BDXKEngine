@@ -25,23 +25,28 @@
 //WPARAM = uint
 //LPARAM = int
 
-//基本
+//基础数据结构
 #include "Color.h"
 #include "Rect.h"
-#include "Math.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Matrix3x2.h"
 #include "Matrix4x4.h"
-#include "Mesh.h"
 //工具
+#include "Math.h"
 #include "String.h"
 #include "Debug.h"
 #include "WindowBase.h"
 #include "Window.h"
+//DirectX接口封装
+#include "GL.h"
+#include "GL2D.h"
+//DirectX接口封装数据结构
+#include "Mesh.h"
+#include "Shader.h"
+#include "Texture2D.h"
 //系统
 #include "Graphics.h"
-#include "GL2D.h"
 #include "Time.h"
 #include "Input.h"
 #include "Screen.h"
@@ -147,7 +152,7 @@ private:
 		{
 			Rect orphanBox{ 10,drawY,100,25 };
 			GUI::TextArea(orphanBox, L"孤儿箱");
-			Transform* transform;
+			Transform* transform = nullptr;
 			if (Event::IsDrop(orphanBox, (Component**)&transform))
 			{
 				if (transform != nullptr)
@@ -180,7 +185,7 @@ private:
 				::GL2D::DrawRectangleCenter(Input::GetMousePosition(), transformRect.GetSize(), false);
 			}
 			//使其可拖入
-			Transform* otherTransform;
+			Transform* otherTransform = nullptr;
 			if (Event::IsDrop(transformRect, (Component**)&otherTransform))
 			{
 				if (otherTransform != nullptr)

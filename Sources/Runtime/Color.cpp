@@ -11,6 +11,7 @@ const Color Color::yellow = Color(1, 1, 0);
 const Color Color::lightRed = { 1,0.5f,0.5f };
 const Color Color::lightGreen = { 0.5f,1,0.5f };
 const Color Color::lightBlue = { 0.5f,0.5f,1 };
+const Color Color::lightYellow = { 1,1,0.5f };
 
 Color::Color(float r, float g, float b, float a)
 {
@@ -33,9 +34,9 @@ Color::operator D2D1_COLOR_F()
 	return D2D1::ColorF(r, g, b, a);
 }
 
-const wchar_t* Color::ToString()
+std::wstring Color::ToString()
 {
 	std::wstringstream string;
 	string << '(' << r << ',' << g << ',' << b << ',' << a << ')';
-	return string.str().c_str();
+	return string.str();
 }

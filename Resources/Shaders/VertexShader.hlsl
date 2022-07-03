@@ -1,36 +1,26 @@
-//struct VOut
-//{
-//    float4 position : SV_POSITION;
-//    float4 color : COLOR;
-//};
-
-//VOut main(float4 position : POSITION, float4 color : COLOR)
-//{
-//    VOut output;
-
-//    output.position = position;
-//    output.color = color;
-
-//    return output;
-//}
-
 #include "BDXKEngine.hlsli"
 
 struct Pixel
 {
-    float4 position : SV_POSITION;
-    float4 color : COLOR;
+    float4 svPosition : SV_POSITION;
+    float3 position : POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
 };
 
 Pixel main(Vertex vertex)
 {
-    float4 position = float4(vertex.position, 1);
-    position = mul(LocalToWorld, position);
-    position = mul(WorldToCamera, position);
-    position = mul(CameraToView, position);
-    
     Pixel pixed;
-    pixed.position = position;
-    pixed.color = vertex.color;
+    float4 svPosition = float4(vertex.position, 1);
+    
+    svPosition = mul(LocalToWorld, svPosition);
+    pixed.position = svPosition.xyz;
+    
+    svPosition = mul(WorldToCamera, svPosition);
+    svPosition = mul(CameraToView, svPosition);
+    pixed.svPosition = svPosition;
+    
+    pixed.normal = LocalToWorldVector(vertex.normal);
+    pixed.uv = vertex.uv;
     return pixed;
 }

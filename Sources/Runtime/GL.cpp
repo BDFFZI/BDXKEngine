@@ -42,7 +42,7 @@ void GL::CreateSwapChain(HWND hwnd)
 
 	UINT m4xMsaaQuality;
 	device->CheckMultisampleQualityLevels(
-		DXGI_FORMAT_B8G8R8A8_UNORM, 4, &m4xMsaaQuality);    // 注意此处DXGI_FORMAT_B8G8R8A8_UNORM
+		DXGI_FORMAT_B8G8R8A8_UNORM, 4, &m4xMsaaQuality);
 	assert(m4xMsaaQuality > 0);
 
 
@@ -61,17 +61,6 @@ void GL::CreateSwapChain(HWND hwnd)
 	//创建交换链
 	assert(SUCCEEDED(dxglFactory->CreateSwapChainForHwnd(device, hwnd, &swapChainProperty, &fullScreenDesc, nullptr, &swapChain)));
 
-}
-void GL::CreateRenderTexture()
-{
-	//交换链默认带有渲染纹理，获取其参数
-	CComPtr<ID3D11Texture2D> renderTargetTexture;
-	swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture.p));
-	CD3D11_TEXTURE2D_DESC colorTextureDescription;
-	renderTargetTexture->GetDesc(&colorTextureDescription);
-	renderTargetTexture = nullptr;
-
-	Viewport({ {0,0},{(float)colorTextureDescription.Width,(float)colorTextureDescription.Height } });
 }
 
 void GL::CreateVertexShader(const char* path, D3D11_INPUT_ELEMENT_DESC inputLayoutDescriptor[], int inputLayoutDescriptorCount,
@@ -130,42 +119,154 @@ void GL::CreatePixelShader(const char* path, ID3D11PixelShader** pixelShader)
 	delete[] pixelShaderBytes;
 }
 
-void GL::Viewport(Rect rect)
+void GL::CreateTexture2D(unsigned int width, unsigned int height, ID3D11Texture2D** texture, ID3D11ShaderResourceView** resourceView)
 {
+	D3D11_TEXTURE2D_DESC textureDescription = CD3D11_TEXTURE2D_DESC(DXGI_FORMAT_R32G32B32A32_FLOAT, width, height);
+	textureDescription.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+
+	assert(SUCCEEDED(device->CreateTexture2D(&textureDescription, nullptr, texture)));
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC resourceDescription{};
+	resourceDescription.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	resourceDescription.Format = textureDescription.Format;
+	resourceDescription.Texture2D = D3D11_TEX2D_SRV{};
+
+	assert(SUCCEEDED(device->CreateShaderResourceView(*texture, nullptr, resourceView)));
+}
+void GL::CreateSamplerState(ID3D11SamplerState** samplerState)
+{
+	D3D11_SAMPLER_DESC samplerDescription{};
+	samplerDescription.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+
+	device->CreateSamplerState(&samplerDescription, samplerState);
+}
+
+void GL::CreateBlendState(D3D11_BLEND sourceColor, D3D11_BLEND destinationColor, ID3D11BlendState** blendState)
+{
+	D3D11_RENDER_TARGET_BLEND_DESC renderTargetBlendDescription{};
+	renderTargetBlendDescription.BlendEnable = true;
+	renderTargetBlendDescription.SrcBlend = sourceColor;
+	renderTargetBlendDescription.DestBlend = destinationColor;
+	renderTargetBlendDescription.BlendOp = D3D11_BLEND_OP_ADD;
+	renderTargetBlendDescription.SrcBlendAlpha = D3D11_BLEND_ONE;
+	renderTargetBlendDescription.DestBlendAlpha = D3D11_BLEND_ONE;
+	renderTargetBlendDescription.BlendOpAlpha = D3D11_BLEND_OP_MAX;
+	renderTargetBlendDescription.RenderTargetWriteMask = 15;
+
+	D3D11_BLEND_DESC blendDescription{};
+	blendDescription.RenderTarget[0] = renderTargetBlendDescription;
+
+	HRESULT result = device->CreateBlendState(&blendDescription, blendState);
+	assert(SUCCEEDED(result));
+}
+
+void GL::CreateDepthStencilState(float depthOffset, bool writeDepth, bool testDepth, ID3D11DepthStencilState** depthStencilState)
+{
+	D3D11_DEPTH_STENCIL_DESC description{};
+	description.DepthEnable = testDepth;
+	description.DepthWriteMask = writeDepth ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
+	description.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+
+	device->CreateDepthStencilState(&description, depthStencilState);
+}
+
+// 设置当前渲染管线中用于的着色器
+void GL::SetShader(ID3D11VertexShader* vertexShader, ID3D11InputLayout* vertexShaderInputLayout, ID3D11PixelShader* pixelShader)
+{
+	context->IASetInputLayout(vertexShaderInputLayout);//有关顶点着色器的输入布局
+	context->VSSetShader(vertexShader, nullptr, 0);
+	context->PSSetShader(pixelShader, nullptr, 0);
+}
+// 设置当前渲染管线中的顶点索引数据
+void GL::SetBuffer(ID3D11Buffer* vertexBuffer, int vertexSize, ID3D11Buffer* indexBuffer, DXGI_FORMAT indexFormat)
+{
+	//绑定顶点数据
+	UINT stride = vertexSize;
+	UINT offset = 0;
+	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+
+	//绑定索引数据
+	context->IASetIndexBuffer(indexBuffer, indexFormat, 0);
+}
+// 设置当前渲染管线中的常量缓冲区
+void GL::SetConstantBuffer(unsigned int startSlot, ID3D11Buffer** buffer)
+{
+	context->VSSetConstantBuffers(startSlot, 1, buffer);
+	context->PSSetConstantBuffers(startSlot, 1, buffer);
+}
+// 设置当前渲染管线中的着色器资源
+void GL::SetShaderResource(unsigned int startSlot, ID3D11ShaderResourceView** resource)
+{
+	context->VSSetShaderResources(startSlot, 1, resource);
+	context->PSSetShaderResources(startSlot, 1, resource);
+}
+// 设置着色器采样纹理时的方式
+void GL::SetSamplerState(ID3D11SamplerState** samplerState)
+{
+	context->VSSetSamplers(0, 1, samplerState);
+	context->PSSetSamplers(0, 1, samplerState);
+}
+// 设置渲染时的颜色混合方式
+void GL::SetBlendState(ID3D11BlendState* blendState)
+{
+	//设置混合方式
+	context->OMSetBlendState(blendState, nullptr, 0xffffffff);
+}
+
+// 设置渲染时对深度模板缓冲区的影响方式
+void GL::SetDepthStencilState(ID3D11DepthStencilState* depthStencilState)
+{
+	context->OMSetDepthStencilState(depthStencilState, 0);
+}
+// 设置渲染到的目标纹理
+void GL::SetRenderTexture(ID3D11Texture2D* renderTargetTexture) {
+	CComPtr<ID3D11Texture2D> defaultTexture;
+	if (renderTargetTexture == nullptr)//未空时使用默认渲染纹理
+	{
+		swapChain->GetBuffer(0, IID_PPV_ARGS(&defaultTexture.p));
+		renderTargetTexture = defaultTexture.p;
+	}
+
 	renderTargetView = nullptr;
 	depthStencilView = nullptr;
 
-	//重置渲染纹理大小
-	swapChain->ResizeBuffers(2, (UINT)rect.width, (UINT)rect.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
-	//获取渲染纹理及其参数
-	CComPtr<ID3D11Texture2D> renderTargetTexture;
-	swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture.p));
+	HRESULT result = 0;
+
+	//获取渲染纹理参数
 	CD3D11_TEXTURE2D_DESC colorTextureDescription;
 	renderTargetTexture->GetDesc(&colorTextureDescription);
-
-	//创建渲染目标纹理视图
-	assert(SUCCEEDED(device->CreateRenderTargetView(renderTargetTexture, nullptr, &renderTargetView)));
-
-	//以该参数创建用于深度模板测试的纹理
+	//以该参数创建用于深度模板测试的纹理参数
 	CD3D11_TEXTURE2D_DESC depthStencilTextureDescription(
 		DXGI_FORMAT_D24_UNORM_S8_UINT,
 		static_cast<UINT> (colorTextureDescription.Width),
 		static_cast<UINT> (colorTextureDescription.Height),
-		1, // This depth stencil view has only one texture.
-		1, // Use a single mipmap level.
+		1,
+		0,
 		D3D11_BIND_DEPTH_STENCIL
 	);
+
 	//创建深度测试纹理
 	CComPtr<ID3D11Texture2D> depthStencilTexture;
 	assert(SUCCEEDED(device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture.p)));
+
+	//创建渲染目标纹理视图
+	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+	renderTargetViewDesc.Format = colorTextureDescription.Format;
+	renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	renderTargetViewDesc.Texture2D.MipSlice = 0;
+	result = device->CreateRenderTargetView(renderTargetTexture, &renderTargetViewDesc, &renderTargetView.p);
+	assert(SUCCEEDED(result));
 	//创建深度模板测试的视图
 	CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
-	assert(SUCCEEDED(device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView)));
+	assert(SUCCEEDED(device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView.p)));
 
-	//重新绑定上新创建的视图
+	//绑定上新创建的视图
 	context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
 
-	//设置视口数据
+	//调整视口数据至与新视图大小一致
 	D3D11_VIEWPORT viewport = {};
 	viewport.Height = (float)colorTextureDescription.Height;
 	viewport.Width = (float)colorTextureDescription.Width;
@@ -174,54 +275,51 @@ void GL::Viewport(Rect rect)
 	context->RSSetViewports(1, &viewport);
 }
 
-void GL::Begin()
+void GL::Viewport(Rect rect)
 {
-	//绑定颜色输出和深度模板测试用的视图(Present会导致解除绑定，所有每次都重新绑定)
-	context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
-}
+	//提前释放，不然会因为使用中而无法重置纹理大小
+	renderTargetView = nullptr;
+	depthStencilView = nullptr;
 
+	//重置渲染纹理大小
+	swapChain->ResizeBuffers(2, (UINT)rect.width, (UINT)rect.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
+
+	SetRenderTexture(NULL);
+}
+void GL::Begin(D3D11_PRIMITIVE_TOPOLOGY drawMode)
+{
+	//绑定颜色输出和深度模板测试用的视图(Present会导致解除绑定，所以每次都重新绑定)
+	context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
+
+	//设置绘制模式
+	context->IASetPrimitiveTopology(drawMode);
+}
 void GL::End()
 {
 	//显示结果
 	swapChain->Present(0, 0);
 }
 
-void GL::Clear(Color color, float depth, unsigned char stencil)
+void GL::Clear(bool clearDepth, bool clearColor, Color backgroundColor, float depth)
 {
-	const float teal[] = { color.r, color.g,color.b, color.a };
 	//重置绘制视图
-	context->ClearRenderTargetView(
-		renderTargetView,
-		teal
-	);
+	if (clearColor == true)
+	{
+		const float teal[] = { backgroundColor.r, backgroundColor.g,backgroundColor.b, backgroundColor.a };
+		context->ClearRenderTargetView(
+			renderTargetView,
+			teal
+		);
+	}
+
 	//重置深度模板测试视图
-	context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depth, stencil);
+	if (clearDepth)
+	{
+		context->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, depth, 0);
+	}
 }
-
-void GL::Render(
-	ID3D11Buffer* vertexBuffer, ID3D11InputLayout* inputLayout, int vertexSize,
-	ID3D11Buffer* indexBuffer, DXGI_FORMAT indexFormat, int indexsCount,
-	ID3D11VertexShader* vertexShader, ID3D11PixelShader* pixelShader,
-	D3D11_PRIMITIVE_TOPOLOGY drawMode)
+void GL::Render(int indexsCount)
 {
-	//绑定顶点数据
-	UINT stride = vertexSize;
-	UINT offset = 0;
-	context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-
-	//绑定顶点信息
-	context->IASetInputLayout(inputLayout);
-
-	//绑定索引数据
-	context->IASetIndexBuffer(indexBuffer, indexFormat, 0);
-
-	//绑定着色器
-	context->VSSetShader(vertexShader, nullptr, 0);
-	context->PSSetShader(pixelShader, nullptr, 0);
-
-	//设置绘制模式
-	context->IASetPrimitiveTopology(drawMode);
-
 	//开始绘制
 	context->DrawIndexed(indexsCount, 0, 0);
 }
@@ -236,7 +334,7 @@ GL* GL::Initialize(HWND window)
 {
 	GL::CreateDevice();
 	GL::CreateSwapChain(window);
-	GL::CreateRenderTexture();
+	SetRenderTexture(NULL);
 	return new GL();
 }
 

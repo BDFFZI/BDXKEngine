@@ -7,18 +7,18 @@ class Renderer : public Component
 {
 	friend RendererEditor;
 public:
-	Shader* GetShader()
+	Material* GetMaterial()
 	{
-		return shader;
+		return material;
 	}
-	void SetShader(Shader* shader)
+	void SetMaterial(Material* shader)
 	{
-		this->shader = shader;
+		this->material = shader;
 	}
 protected:
 	virtual void OnRender() = 0;
 private:
-	Shader* shader{};
+	Material* material = nullptr;
 };
 
 class RendererEditor {

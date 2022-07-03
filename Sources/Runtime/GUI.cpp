@@ -1,5 +1,6 @@
 #include "GUI.h"
 #include <cmath>
+#include <algorithm>
 
 Window* GUI::window;
 std::wstringstream GUI::charStream{};
@@ -63,6 +64,24 @@ std::wstring GUI::TextArea(Rect rect, std::wstring text, int fontSize)
 	GL2D::DrawTextf(rect, text, fontSize);
 
 	return text;
+}
+
+float GUI::Slider(Rect rect, float value, float leftValue, float rightValue)
+{
+	Color fontColor = Color::green;
+	if (Event::IsDrag(rect))
+	{
+		value += window->GetCursorMoveDelta().x / 200;
+		value = std::clamp(value, leftValue, rightValue);
+		fontColor = Color::blue;
+	}
+
+	GL2D::SetBrushColor(Color::white);
+	GL2D::DrawRectangle(rect, true);
+	GL2D::SetBrushColor(fontColor);
+	GL2D::DrawTextf(rect, std::to_wstring(value), 20);
+
+	return value;
 }
 
 

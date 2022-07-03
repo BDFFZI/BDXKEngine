@@ -8,11 +8,11 @@ class Object
 	friend ObjectEditor;
 public:
 	template<typename TObject>
-	static std::vector<TObject> FindObjectsOfType()
+	static std::vector<TObject*> FindObjectsOfType()
 	{
-		std::vector<TObject> result{};
+		std::vector<TObject*> result{};
 		for (Object* object : objects) {
-			TObject item = dynamic_cast<TObject>(object);
+			TObject* item = dynamic_cast<TObject*>(object);
 			if (item != NULL)result.push_back(item);
 		}
 

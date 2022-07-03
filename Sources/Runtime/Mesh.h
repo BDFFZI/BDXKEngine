@@ -1,14 +1,18 @@
 #pragma once
 #include<exception>
 #include<vector>
-#include "GLLayout.h"
+#include"GLLayout.h"
+#include"MeshImporter.h"
 
 class MeshEditor;
 class Mesh
 {
 	friend MeshEditor;
 public:
+	static Mesh* CreateCube();
+
 	Mesh();
+	Mesh(StaticMesh staticMesh);
 
 	int GetVerticesCount()
 	{
@@ -18,7 +22,7 @@ public:
 	{
 		return (int)triangles.size();
 	}
-	std::vector <UINT32> GetTriangles()
+	std::vector <unsigned int> GetTriangles()
 	{
 		return { triangles };
 	}
@@ -30,6 +34,7 @@ public:
 		{
 			positions[index] = vertices[index].position;
 		}
+		return positions;
 	}
 	std::vector <Vector3> GetNormals()
 	{
@@ -39,15 +44,27 @@ public:
 		{
 			normals[index] = vertices[index].normal;
 		}
+		return normals;
 	}
-	void GetColors(std::vector <Color> data)
+	std::vector<Vector2> GetUVs()
 	{
-		size_t size = data.size();
-		vertices.resize(size);
+		size_t size = vertices.size();
+		std::vector <Vector2> uvs{ size };
 		for (int index = 0; index < size; index++)
 		{
-			vertices[index].color = data[index];
+			uvs[index] = vertices[index].uv;
 		}
+		return uvs;
+	}
+	std::vector<Color> GetColors()
+	{
+		size_t size = vertices.size();
+		std::vector <Color> colors{ size };
+		for (int index = 0; index < size; index++)
+		{
+			colors[index] = vertices[index].color;
+		}
+		return colors;
 	}
 
 	void SetTriangles(std::vector <UINT32> data)
@@ -80,13 +97,22 @@ public:
 			vertices[index].normal = data[index];
 		}
 	}
-	std::vector <Color> SetColors()
+	void SetUVs(std::vector<Vector2> data)
 	{
-		size_t size = vertices.size();
-		std::vector <Color> colors{ size };
+		size_t size = data.size();
+		vertices.resize(size);
 		for (int index = 0; index < size; index++)
 		{
-			colors[index] = vertices[index].color;
+			vertices[index].uv = data[index];
+		}
+	}
+	void SetColors(std::vector<Color> data)
+	{
+		size_t size = data.size();
+		vertices.resize(size);
+		for (int index = 0; index < size; index++)
+		{
+			vertices[index].color = data[index];
 		}
 	}
 
