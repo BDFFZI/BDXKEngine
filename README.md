@@ -15,5 +15,8 @@
 ## 第三方依赖
 由于Github有上传大小限制，而部分第三方库过于庞大，因此只能手动配置  
 目前使用的第三方库有：
-* DirectX
+* DirectX (WindowSDK直接包含这玩意)
 * FBX SDK
+* Window 10 SDK
+* ATL
+很可能不止上述内容，但主要有意识的去使用的便是这些
