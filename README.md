@@ -13,5 +13,5 @@
 ## 第三方依赖
 由于Github有上传大小限制，而部分第三方库过于庞大，因为只能手动配置
 目前使用的第三方库有：
-DirectX
-FBX SDK
+* DirectX
+* FBX SDK
