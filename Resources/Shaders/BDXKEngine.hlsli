@@ -42,5 +42,5 @@ float3 LocalToWorldVector(float3 verctor)
     float4x4 localToWorldVector = LocalToWorld;
     localToWorldVector._14_24_34_44 = float4(0, 0, 0, 1);
     
-    return mul(localToWorldVector, float4(verctor, 1));
+    return (float3)mul(localToWorldVector, float4(verctor, 1));
 }

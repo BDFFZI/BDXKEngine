@@ -7,35 +7,8 @@
     <Filter Include="Function">
       <UniqueIdentifier>{a6427add-cc35-491d-9624-b3a85d4a7be1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\GameObject">
-      <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\GameObject\Components">
-      <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\GameObject\Event">
-      <UniqueIdentifier>{24e08028-7258-45fa-8add-dfe2f2b6ffc2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System">
-      <UniqueIdentifier>{b0384e1e-c21c-4c3e-a89d-1923293665f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System\Time">
-      <UniqueIdentifier>{8dbeff17-481b-419c-b4a7-de8b3bc971d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System\Input">
-      <UniqueIdentifier>{e8cca2d0-356b-47f6-a4e0-e185030a9782}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System\Cursor">
-      <UniqueIdentifier>{cd59c6e8-d10f-48de-bc4d-3f69621ae45f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System\Screen">
-      <UniqueIdentifier>{df26c381-996c-474b-be0c-c8d18e0b904a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{ddeb776a-2c15-4811-afff-fd997ad4ce09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\GameObject\Components\Render">
-      <UniqueIdentifier>{6e654417-a6e9-4d03-9905-e4929c6dc3a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Data">
       <UniqueIdentifier>{83358320-5f20-4156-8a97-1824a489ad5d}</UniqueIdentifier>
@@ -52,32 +25,62 @@
     <Filter Include="Code\Window">
       <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics">
-      <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
+    <Filter Include="Function\Framework">
+      <UniqueIdentifier>{12ff5f6b-e8b5-436b-b086-794a811f2ceb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\GL">
-      <UniqueIdentifier>{f0569422-21a6-484a-b1bc-c258e4016c33}</UniqueIdentifier>
+    <Filter Include="Function\Framework\GameObject">
+      <UniqueIdentifier>{708c58e9-7a34-4eb3-a4b9-afd60e967e5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\GL\Data">
-      <UniqueIdentifier>{09042b4b-69e0-463d-9bf0-fba57af5dbb4}</UniqueIdentifier>
+    <Filter Include="Function\Framework\Components">
+      <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\GL\Data\Texture">
-      <UniqueIdentifier>{df2d8a5d-73d6-4fd9-911e-a841bf89a219}</UniqueIdentifier>
+    <Filter Include="Function\Framework\Components\Render">
+      <UniqueIdentifier>{6e654417-a6e9-4d03-9905-e4929c6dc3a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\GL\Data\Mesh">
-      <UniqueIdentifier>{a3a3698e-85a3-4831-9b03-3e46b98b163f}</UniqueIdentifier>
+    <Filter Include="Function\Display">
+      <UniqueIdentifier>{99d84b40-d5ef-4ef3-b72a-167b5752d3eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\Graphics\GL\Data\Shader">
-      <UniqueIdentifier>{2aad24ff-a547-457b-b905-e860c63dc896}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System\Graphics\GL\Data\Material">
-      <UniqueIdentifier>{fccfd2ed-c023-498b-8677-c3b68061bd11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Function\System\Gizmos">
+    <Filter Include="Function\Display\Gizmos">
       <UniqueIdentifier>{b8b52944-3719-41fb-b60b-6443768d1cd6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Function\System\GUI">
+    <Filter Include="Function\Display\GUI">
       <UniqueIdentifier>{fbaff9ef-e2fa-4665-95f1-c6ef33a7c0f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics">
+      <UniqueIdentifier>{0ca4261d-2e6a-44b2-a87e-2cbbdb5304b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics\GL">
+      <UniqueIdentifier>{f0569422-21a6-484a-b1bc-c258e4016c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics\GL\Data">
+      <UniqueIdentifier>{09042b4b-69e0-463d-9bf0-fba57af5dbb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics\GL\Data\Texture">
+      <UniqueIdentifier>{df2d8a5d-73d6-4fd9-911e-a841bf89a219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics\GL\Data\Mesh">
+      <UniqueIdentifier>{a3a3698e-85a3-4831-9b03-3e46b98b163f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics\GL\Data\Shader">
+      <UniqueIdentifier>{2aad24ff-a547-457b-b905-e860c63dc896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Display\Graphics\GL\Data\Material">
+      <UniqueIdentifier>{fccfd2ed-c023-498b-8677-c3b68061bd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Other">
+      <UniqueIdentifier>{1ee6cb09-acd5-4d05-ab8c-96286d6fd7a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Other\Cursor">
+      <UniqueIdentifier>{cd59c6e8-d10f-48de-bc4d-3f69621ae45f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Other\Input">
+      <UniqueIdentifier>{e8cca2d0-356b-47f6-a4e0-e185030a9782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Other\Screen">
+      <UniqueIdentifier>{df26c381-996c-474b-be0c-c8d18e0b904a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function\Other\Time">
+      <UniqueIdentifier>{8dbeff17-481b-419c-b4a7-de8b3bc971d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,22 +91,19 @@
       <Filter>Code\Window</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Function\GameObject</Filter>
+      <Filter>Function\Framework\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
       <Filter>Code\Data\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Function\GameObject\Components</Filter>
+      <Filter>Function\Framework\Components</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <Filter>Code\Data\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4x4.cpp">
       <Filter>Code\Data\Matrix</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Function\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
       <Filter>Code\Helper</Filter>
@@ -118,22 +118,16 @@
       <Filter>Code\Data\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
-      <Filter>Function\System\Cursor</Filter>
+      <Filter>Function\Other\Cursor</Filter>
     </ClCompile>
     <ClCompile Include="Screen.cpp">
-      <Filter>Function\System\Screen</Filter>
+      <Filter>Function\Other\Screen</Filter>
     </ClCompile>
     <ClCompile Include="Time.cpp">
-      <Filter>Function\System\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Function\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="TickEvent.cpp">
-      <Filter>Function\GameObject\Event</Filter>
+      <Filter>Function\Other\Time</Filter>
     </ClCompile>
     <ClCompile Include="GL.cpp">
-      <Filter>Function\System\Graphics\GL</Filter>
+      <Filter>Function\Display\Graphics\GL</Filter>
     </ClCompile>
     <ClCompile Include="Matrix3x3.cpp">
       <Filter>Code\Data\Matrix</Filter>
@@ -148,52 +142,61 @@
       <Filter>Code\Data</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Function\System\Input</Filter>
+      <Filter>Function\Other\Input</Filter>
     </ClCompile>
     <ClCompile Include="GL2D.cpp">
-      <Filter>Function\System\Graphics\GL</Filter>
+      <Filter>Function\Display\Graphics\GL</Filter>
     </ClCompile>
     <ClCompile Include="GUI.cpp">
-      <Filter>Function\System\GUI</Filter>
+      <Filter>Function\Display\GUI</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
-      <Filter>Function\GameObject\Components</Filter>
+      <Filter>Function\Framework\Components</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>Function\System\GUI</Filter>
+      <Filter>Function\Display\GUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshImporter.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Function\System\Graphics</Filter>
+      <Filter>Function\Display\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Function\System\Graphics\GL\Data\Texture</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
-      <Filter>Function\System\Graphics\GL\Data\Texture</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Function\System\Graphics\GL\Data\Mesh</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Function\System\Graphics\GL\Data\Shader</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Function\System\Graphics\GL\Data\Material</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Function\Framework\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Function\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEvent.cpp">
+      <Filter>Function\Display</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +207,7 @@
       <Filter>Code\Window</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Function\GameObject</Filter>
+      <Filter>Function\Framework\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>Code\Data\Vector</Filter>
@@ -213,16 +216,13 @@
       <Filter>Code\Data\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Function\GameObject\Components</Filter>
+      <Filter>Function\Framework\Components</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>Code\Data\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4.h">
       <Filter>Code\Data\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Function\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
       <Filter>Code\Helper</Filter>
@@ -241,22 +241,16 @@
     </ClInclude>
     <ClInclude Include="BDXKEngine.h" />
     <ClInclude Include="Cursor.h">
-      <Filter>Function\System\Cursor</Filter>
+      <Filter>Function\Other\Cursor</Filter>
     </ClInclude>
     <ClInclude Include="Screen.h">
-      <Filter>Function\System\Screen</Filter>
+      <Filter>Function\Other\Screen</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
-      <Filter>Function\System\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Function\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="TickEvent.h">
-      <Filter>Function\GameObject\Event</Filter>
+      <Filter>Function\Other\Time</Filter>
     </ClInclude>
     <ClInclude Include="GL.h">
-      <Filter>Function\System\Graphics\GL</Filter>
+      <Filter>Function\Display\Graphics\GL</Filter>
     </ClInclude>
     <ClInclude Include="Matrix3x3.h">
       <Filter>Code\Data\Matrix</Filter>
@@ -271,55 +265,67 @@
       <Filter>Code\Data</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
-      <Filter>Function\System\Input</Filter>
+      <Filter>Function\Other\Input</Filter>
     </ClInclude>
     <ClInclude Include="GL2D.h">
-      <Filter>Function\System\Graphics\GL</Filter>
+      <Filter>Function\Display\Graphics\GL</Filter>
     </ClInclude>
     <ClInclude Include="GUI.h">
-      <Filter>Function\System\GUI</Filter>
+      <Filter>Function\Display\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>Function\GameObject\Components</Filter>
+      <Filter>Function\Framework\Components</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Function\System\GUI</Filter>
+      <Filter>Function\Display\GUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshImporter.h">
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
-      <Filter>Function\GameObject\Components\Render</Filter>
+      <Filter>Function\Framework\Components\Render</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Function\System\Graphics</Filter>
+      <Filter>Function\Display\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="GLLayout.h">
-      <Filter>Function\System\Graphics\GL\Data</Filter>
+      <Filter>Function\Display\Graphics\GL\Data</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Function\System\Graphics\GL\Data\Texture</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
-      <Filter>Function\System\Graphics\GL\Data\Texture</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Function\System\Graphics\GL\Data\Mesh</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Function\System\Graphics\GL\Data\Shader</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Function\System\Graphics\GL\Data\Material</Filter>
+      <Filter>Function\Display\Graphics\GL\Data\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Function\Framework\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Function\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="TickEvent.h">
+      <Filter>Function\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderEvent.h">
+      <Filter>Function\Display</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

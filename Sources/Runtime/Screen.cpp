@@ -1,12 +1,14 @@
 #include "Screen.h"
 #include "Window.h"
 
-Vector2 Screen::GetSize()
-{
-	return window->GetSize();
-}
+namespace BDXKEngine {
+	Vector2 Screen::GetSize()
+	{
+		return window->GetSize();
+	}
 
-void Screen::Initialize(Window* window)
-{
-	Screen::window = window;
+	void Screen::Initialize(Window* window)
+	{
+		Screen::window = window;
+	}
 }

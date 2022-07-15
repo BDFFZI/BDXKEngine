@@ -1,6 +1,8 @@
 #include "Shader.h"
 
-PassType Shader::GetPassType()
-{
-	return passType;
+namespace BDXKEngine {
+	PassType Shader::GetPassType()
+	{
+		return passType;
+	}
 }

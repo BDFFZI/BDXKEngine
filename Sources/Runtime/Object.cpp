@@ -1,4 +1,5 @@
 #include "Object.h"
 
-std::vector<Object*> Object::objects;
-
+namespace BDXKEngine {
+	std::vector<Object*> Object::objects;
+}

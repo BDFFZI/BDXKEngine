@@ -4,6 +4,26 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CameraController.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="CameraController.h">
+      <Filter>Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialHUD.h">
+      <Filter>Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneHUD.h">
+      <Filter>Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CreationMenu.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{516ad53a-ce22-4396-bb10-f663c64fc711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Components">
+      <UniqueIdentifier>{803133de-ed57-4b17-bbc9-e4c45529376b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

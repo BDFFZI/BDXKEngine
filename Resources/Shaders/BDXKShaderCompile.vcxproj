@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BDXKEngine.hlsli" />
-    <None Include="VertexShader.cso" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
