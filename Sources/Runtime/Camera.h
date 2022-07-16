@@ -20,7 +20,7 @@ namespace BDXKEngine {
 		Perspective
 	};
 
-	class Camera :public Component, public AwakeEvent, public RenderObjectEvent, RendererEditor
+	class Camera :public Component, public AwakeEvent, public RenderObjectEvent, RendererEditor, LightEditor
 	{
 	public:
 		void SetClearFlags(ClearFlags clearFlags);

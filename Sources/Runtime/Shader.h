@@ -5,7 +5,6 @@
 
 namespace BDXKEngine {
 	enum class PassType {
-		Always,
 		ForwardBase,
 		ForwardAdd,
 	};

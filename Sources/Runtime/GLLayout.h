@@ -35,7 +35,7 @@ namespace BDXKEngine {
 		Directional,
 		Point,
 		Spot,
-		Area
+		//Area
 	};
 
 	// 控制渲染开销，如精度更高的像素光照，或节省性能的顶点光照

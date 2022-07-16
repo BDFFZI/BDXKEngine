@@ -42,13 +42,13 @@ namespace BDXKEngine {
 			eventP->OnDrawGizmos();
 		}
 
-		static std::vector<RenderObjectEvent*>* GetRenderObjectEvents()
+		static std::vector<RenderObjectEvent*>& GetRenderObjectEvents()
 		{
-			return &RenderObjectEvent::renderObjectEvents;
+			return RenderObjectEvent::renderObjectEvents;
 		}
-		static std::vector<DrawGizmosEvent*>* GetDrawGizmosEvents()
+		static std::vector<DrawGizmosEvent*>& GetDrawGizmosEvents()
 		{
-			return &DrawGizmosEvent::drawGizmosEvents;
+			return DrawGizmosEvent::drawGizmosEvents;
 		}
 	};
 }

@@ -17,10 +17,12 @@ namespace BDXKEngine {
 	public:
 		Material(std::vector<Shader*> shaders);
 
-		int FindPass(PassType passType);
 
 		std::vector<Shader*> GetShaders();
+		int GetRenderQueue();
 		int GetPassCount();
+		PassType GetPassType(int index);
+
 
 		void SetShaders(std::vector<Shader*> shader);
 		void SetTexture(int id, Texture* texture);
@@ -32,6 +34,7 @@ namespace BDXKEngine {
 		std::map<int, Texture*> textures;
 		CComPtr<ID3D11SamplerState> samplerState;
 
+		int renderQueue;
 		Parameters parameters;
 		CComPtr<ID3D11Buffer> parametersBuffer;
 	};

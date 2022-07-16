@@ -3,9 +3,6 @@
 #include "Window.h"
 
 namespace BDXKEngine {
-	std::vector<RenderObjectEvent*>* Graphics::renderObjectEvents = nullptr;
-	std::vector<DrawGizmosEvent*>* Graphics::drawGizmosEvents = nullptr;
-
 	WorldInfo Graphics::worldInfo = {};
 	LightInfo Graphics::lightInfo = {};
 
@@ -59,10 +56,6 @@ namespace BDXKEngine {
 		GL::CreateBuffer(&lightInfo, sizeof(LightInfo), D3D11_BIND_CONSTANT_BUFFER, &lightInfoBuffer);
 		GL::SetConstantBuffer(1, &lightInfoBuffer.p);
 
-		//获取渲染事件
-		renderObjectEvents = GetRenderObjectEvents();
-		drawGizmosEvents = GetDrawGizmosEvents();
-
 		window->AddMessageListener(OnWindowMessage);
 
 		return new Graphics();
@@ -73,12 +66,17 @@ namespace BDXKEngine {
 		switch (messageSign)
 		{
 		case WM_PAINT:
+		{
 			GL::Begin(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+			//获取渲染事件
+			std::vector<RenderObjectEvent*>& renderObjectEvents = RenderEventEditor::GetRenderObjectEvents();
+			std::vector<DrawGizmosEvent*>& drawGizmosEvents = RenderEventEditor::GetDrawGizmosEvents();
 
 			//绘制普通物体
 			std::for_each(
-				renderObjectEvents->begin(),
-				renderObjectEvents->end(),
+				renderObjectEvents.begin(),
+				renderObjectEvents.end(),
 				[](RenderObjectEvent* eventP) {
 					RenderObject(eventP);
 				}
@@ -87,8 +85,8 @@ namespace BDXKEngine {
 			//绘制UI，后期物体等
 			GL2D::BeginDraw();
 			std::for_each(
-				drawGizmosEvents->begin(),
-				drawGizmosEvents->end(),
+				drawGizmosEvents.begin(),
+				drawGizmosEvents.end(),
 				[](DrawGizmosEvent* eventP) {
 					DrawGizmos(eventP);
 				}
@@ -97,15 +95,18 @@ namespace BDXKEngine {
 
 			GL::End();
 			break;
+		}
 		case WM_SIZE:
+		{
 			GL2D::ReleaseResources();//释放对Direct3D渲染纹理的引用，从而使Direct3D可以重新创建纹理
 
-			//重新调整纹理大小
+//重新调整纹理大小
 			Rect rect = { Vector2::zero ,window->GetSize() };
 			GL::Viewport(rect);
 
 			GL2D::CreateResources(GetIDXGISurface());//使用Direct3D新创建的纹理
 			break;
+		}
 		}
 	}
 

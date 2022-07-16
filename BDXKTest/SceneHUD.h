@@ -58,7 +58,7 @@ namespace BDXKEditor {
 			//显示子物体
 			if (transform->GetChildCount() != 0)
 			{
-				drawY += 25;
+				drawY += 30;
 				for (int index = 0; index < transform->GetChildCount(); index++)
 				{
 					drawY = ShowGameObjectInfo(transform->GetChild(index)->GetGameObject(), drawY, order + 1);
@@ -82,7 +82,7 @@ namespace BDXKEditor {
 			GUI::TextArea({ 10,drawY,180,25 }, L"帧率:" + std::to_wstring(1 / Time::GetDeltaTime()));
 			drawY += 30;
 
-			//收集无父亲节点
+			//孤儿箱:用来将节点父亲设为空
 			{
 				Rect orphanBox{ 10,drawY,100,25 };
 				GUI::TextArea(orphanBox, L"孤儿箱");

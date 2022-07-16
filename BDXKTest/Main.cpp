@@ -1,4 +1,5 @@
 ﻿#include "Test.h"
+using namespace BDXKEngine;
 
 int main()
 {

@@ -31,33 +31,22 @@ namespace BDXKEngine {
 		worldInfo.environment = background * 0.5f;
 
 		//获取所有可渲染物体
-		std::vector<Renderer*> renderers = FindObjectsOfType<Renderer>();
+		std::vector<Renderer*>& renderers = RendererEditor::GetRenderers();
 		//渲染排序 TODO
 		//遮挡剔除 TODO
 
 		//获取所有可渲染灯光,(优先级排序 TODO)
-		std::vector<Light*> lights = FindObjectsOfType<Light>();
-		int lightsCount = (int)lights.size();
-		//解析灯光，获取向渲染管线传输的数据
-		std::vector<LightInfo> lightInfos{ lights.size() };
-		std::vector<PassType> passTypes{ lights.size() };
+		std::vector<Light*>& lights = LightEditor::GetLights();
+		unsigned long lightsCount = (int)lights.size();
+		//解析灯光，获取用来向渲染管线传输的数据
+		std::vector<LightInfo> lightInfos{ lightsCount };
+		std::vector<PassType> lightPasses{ lightsCount };
 		if (lightsCount != 0)
 		{
 			for (int i = 0; i < lightsCount; i++)
 			{
-				Light* light = lights[i];
-				Transform* lightTransform = light->GetGameObject()->GetTransform();
-				LightInfo lightInfo{
-					Vector4(lightTransform->GetPosition(),1),
-					Vector4(lightTransform->GetFront().GetNormalized(),1),
-					light->GetColor() * light->GetIntensity(),
-					light->GetType(),
-					light->GetRenderMode(),
-					i
-				};
-
-				lightInfos[i] = lightInfo;
-				passTypes[i] = PassType::ForwardAdd;
+				lightInfos[i] = LightEditor::GetLightInfo(lights[i]);
+				lightPasses[i] = PassType::ForwardAdd;
 			}
 
 			//寻找最亮的方向光始或第一个光源，其始终使用ForwardBase
@@ -65,15 +54,16 @@ namespace BDXKEngine {
 			int intensity = 0;
 			for (int i = 0; i < lightsCount; i++)
 			{
-				if (lights[i]->GetType() == LightType::Directional && lights[i]->GetIntensity() > intensity)
+				Light* light = lights[i];
+				if (light->GetType() == LightType::Directional && light->GetIntensity() > intensity)
 				{
 					mainLight = i;
-					intensity = lights[i]->GetIntensity();
+					intensity = light->GetIntensity();
 				}
 			}
-			passTypes[mainLight] = PassType::ForwardBase;
+			lightPasses[mainLight] = PassType::ForwardBase;
 		}
-		else//没灯光时总不能不让他渲染吧，那就搞个不发光的平行光
+		else//没灯光时总不能不让他渲染吧，那就搞个假的的平行光
 		{
 			lightInfos.push_back({
 				Vector4({},1),
@@ -83,7 +73,7 @@ namespace BDXKEngine {
 				RenderMode::Important,
 				0
 				});
-			passTypes.push_back(PassType::ForwardBase);
+			lightPasses.push_back(PassType::ForwardBase);
 			lightsCount++;
 		}
 
@@ -111,23 +101,21 @@ namespace BDXKEngine {
 			//设置渲染管线的渲染矩阵
 			Graphics::UpdateWorldInfo(worldInfo);
 
-			//每一次光照都是一次Pass
-			for (int i = 0; i < lightsCount; i++)
+			//每个灯光都需要单独渲染一遍
+			for (int lightIndex = 0; lightIndex < lightsCount; lightIndex++)
 			{
-				//获取Pass数据
-				PassType& passType = passTypes[i];
+				Graphics::UpdateLightInfo(lightInfos[lightIndex]);//将该灯光信息上传渲染管线
+				PassType& lightPass = lightPasses[lightIndex];//获取Pass类型，每一次光照都是一次Pass
+				//渲染符合该类型的Pass
 				Material* material = renderer->GetMaterial();
-				int passIndex = material->FindPass(passType);
-				if (passIndex != -1)
+				int passCount = material->GetPassCount();
+				for (int passIndex = 0; passIndex < passCount; passIndex++)
 				{
-					//设置渲染管线的灯光信息
-					Graphics::UpdateLightInfo(lightInfos[i]);
-
-					//设置Pass信息
-					material->SetPass(passIndex);
-
-					//渲染
-					RendererEditor::Render(renderer);
+					if (material->GetPassType(passIndex) == lightPass)
+					{
+						material->SetPass(passIndex);//将该Pass信息上传渲染管线
+						RendererEditor::Render(renderer);//启动渲染管线进行渲染
+					}
 				}
 			}
 		}

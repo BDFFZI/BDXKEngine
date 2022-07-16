@@ -26,9 +26,6 @@ namespace BDXKEngine {
 	protected:
 		static Graphics* Initialize(Window* window, GL** gl, GL2D** gl2d);
 	private:
-		static std::vector<RenderObjectEvent*>* renderObjectEvents;
-		static std::vector<DrawGizmosEvent*>* drawGizmosEvents;
-
 		static WorldInfo worldInfo;
 		static LightInfo lightInfo;
 

@@ -17,13 +17,25 @@ namespace BDXKEngine {
 			this->material = shader;
 		}
 	protected:
+		Renderer()
+		{
+			renderers.push_back(this);
+		}
+
 		virtual void OnRender() = 0;
 	private:
+		static std::vector<Renderer*> renderers;
+
 		Material* material = nullptr;
 	};
 
 	class RendererEditor {
 	protected:
+		static std::vector<Renderer*>& GetRenderers()
+		{
+			return Renderer::renderers;
+		}
+
 		static void Render(Renderer* renderer)
 		{
 			renderer->OnRender();

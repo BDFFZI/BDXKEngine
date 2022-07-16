@@ -8,14 +8,16 @@ namespace Assembly {
 
 	void CreateDefaultScene()
 	{
+		GameObject* camera = CreationMenu::Camera(L"摄像机");
 		GameObject* sun = CreationMenu::Light::DirectionalLight(L"太阳");
 		GameObject* ground = CreationMenu::Object3D::Plane(L"地面");
 		GameObject* sphere = CreationMenu::Object3D::Sphere(L"球");
+		//球的展示位置
 		{
 			Transform* transform = sphere->GetTransform();
 			transform->SetLocalPosition({ 0,0.5f,0 });
 		}
-		GameObject* camera = CreationMenu::Camera(L"摄像机");
+		//增加材质控制
 		{
 			MaterialHUD* materialHUD = camera->AddComponent<MaterialHUD>();
 			materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());

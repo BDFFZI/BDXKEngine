@@ -11,23 +11,22 @@ namespace BDXKEngine {
 		GL::CreateSamplerState(&samplerState.p);
 	}
 
-	int Material::FindPass(PassType passType)
-	{
-		for (int i = 0; i < shaders.size(); i++)
-		{
-			if (shaders[i]->GetPassType() == passType)
-				return i;
-		}
 
-		return -1;
-	}
 
 	std::vector<Shader*> Material::GetShaders() {
 		return shaders;
 	}
+	int Material::GetRenderQueue()
+	{
+		return renderQueue;
+	}
 	int Material::GetPassCount()
 	{
 		return (int)shaders.size();
+	}
+	PassType Material::GetPassType(int index)
+	{
+		return shaders[index]->GetPassType();
 	}
 
 	void Material::SetShaders(std::vector<Shader*> shader)
