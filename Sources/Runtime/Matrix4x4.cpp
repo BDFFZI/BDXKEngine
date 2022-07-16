@@ -166,6 +166,15 @@ namespace BDXKEngine {
 		return result;
 	}
 
+	Vector3 Matrix4x4::MultiplyPoint(Vector3 value)
+	{
+		Vector3 result{};
+		result.x = m00 * value.x + m01 * value.y + m02 * value.z + m03 * 1;
+		result.y = m10 * value.x + m11 * value.y + m12 * value.z + m13 * 1;
+		result.z = m20 * value.x + m21 * value.y + m22 * value.z + m23 * 1;
+		return result;
+	}
+
 	Matrix4x4::Matrix4x4()
 	{
 		m00 = 0; m01 = 0; m02 = 0; m03 = 0;

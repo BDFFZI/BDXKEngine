@@ -14,7 +14,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\lib\vs2017\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>d3d11.lib;d2d1.lib;dwrite.lib;libfbxsdk.lib;libfbxsdk-md.lib;libfbxsdk-mt.lib;libxml2-md.lib;libxml2-mt.lib;zlib-md.lib;zlib-mt.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3DCompiler.lib;d3d11.lib;d2d1.lib;dwrite.lib;libfbxsdk.lib;libfbxsdk-md.lib;libfbxsdk-mt.lib;libxml2-md.lib;libxml2-mt.lib;zlib-md.lib;zlib-mt.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>

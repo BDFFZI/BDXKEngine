@@ -29,6 +29,7 @@ namespace BDXKEngine {
 		Matrix4x4 GetTranspose();
 		Matrix3x2 ToMatrix3x2();
 		Vector3 MultiplyVector(Vector3 value);
+		Vector3 MultiplyPoint(Vector3 value);
 
 
 		Matrix4x4();

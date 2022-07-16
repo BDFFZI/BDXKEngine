@@ -4,7 +4,7 @@ int main()
 {
 	BDXKEngine::Engine::Run(
 		[&]() {
-			Assembly::Run2();
+			Assembly::Run1();
 		}
 	);
 

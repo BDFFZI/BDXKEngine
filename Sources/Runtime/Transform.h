@@ -18,20 +18,20 @@ namespace BDXKEngine {
 		Vector3 GetPosition();
 		Vector3 GetEulerAngles();
 		Vector3 GetScale();
-
 		Vector3 GetLocalPosition();
 		Vector3 GetLocalEulerAngles();
 		Vector3 GetLocalScale();
+		Matrix4x4 GetLocalToWorldMatrix();
+		Matrix4x4 GetWorldToLocalMatrix();
+		Vector3 GetRight();
+		Vector3 GetUp();
+		Vector3 GetFront();
+
 		void SetLocalPosition(Vector3 value);
 		void SetLocalEulerAngles(Vector3 value);
 		void SetLocalScale(Vector3 value);
 
-		Matrix4x4 GetLocalToWorldMatrix();
-		Matrix4x4 GetWorldToLocalMatrix();
 
-		Vector3 GetRight();
-		Vector3 GetUp();
-		Vector3 GetFront();
 
 		std::wstring ToString()override;
 
@@ -51,6 +51,8 @@ namespace BDXKEngine {
 
 		Transform* parent;
 		std::vector<Transform*> children;
+
+		void RenewSelfMatrix();
 
 		void RenewPosition();
 		void RenewEulerAngles();

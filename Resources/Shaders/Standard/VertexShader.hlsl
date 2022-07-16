@@ -1,4 +1,4 @@
-#include "BDXKEngine.hlsli"
+#include "..\BDXKEngine.hlsli"
 
 struct Pixel
 {

@@ -21,26 +21,16 @@ namespace BDXKEngine {
 		}
 
 		Object() {
-			id = 0;
 			name = L"New Object";
+			id = objects.size();
 			objects.push_back(this);
 		}
 
-		int GetID() {
-			return id;
-		}
-		std::wstring GetName()
-		{
-			return name;
-		}
-		void SetName(std::wstring name)
-		{
-			this->name = name;
-		}
-		virtual std::wstring ToString()
-		{
-			return name;
-		}
+		int GetID();
+		std::wstring GetName();
+		void SetName(std::wstring name);
+
+		virtual std::wstring ToString();
 	private:
 		static std::vector<Object*> objects;//所有物体
 
@@ -50,16 +40,8 @@ namespace BDXKEngine {
 
 	class ObjectEditor {
 	protected:
-		static void InitializeObject(Object* object, int id, const wchar_t* name)
-		{
-			object->id = id;
-			object->name = name;
-		}
-
-		static void SetID(Object* object, int id)
-		{
-			object->id = id;
-		}
+		//static void InitializeObject(Object* object, int id, std::wstring name);
+		//static void SetID(Object* object, int id);
 	};
 }
 

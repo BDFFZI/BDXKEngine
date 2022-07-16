@@ -6,8 +6,8 @@ namespace BDXKEditor {
 	class MaterialHUD :public Component, public DrawGizmosEvent {
 	public:
 		std::vector<Material*> materials;
-		float metallic = 0.9f;
-		float smoothness = 0.5f;
+		float metallic = 0;
+		float smoothness = 0;
 
 	private:
 		void OnDrawGizmos()override {

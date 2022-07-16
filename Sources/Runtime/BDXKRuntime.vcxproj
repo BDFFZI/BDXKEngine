@@ -118,8 +118,19 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile />
     <ClCompile />
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bleed.cpp" />
+    <ClCompile Include="Blend.cpp" />
+    <ClCompile Include="Cull.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
@@ -158,8 +169,11 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
+    <ClCompile Include="ZTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blend.h" />
+    <ClInclude Include="Cull.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshImporter.h" />
@@ -203,6 +217,7 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
+    <ClInclude Include="ZTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

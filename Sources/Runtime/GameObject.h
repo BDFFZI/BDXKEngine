@@ -13,14 +13,16 @@ namespace BDXKEngine {
 	{
 		friend GameObjectEditor;
 	public:
-		GameObject(const wchar_t* name = L"New GameObject");
+		static GameObject* Find(std::wstring name);
+
+		GameObject(std::wstring name = L"New GameObject");
 
 		template<typename TComponent>
 		TComponent* AddComponent() {
 			//初始化Component
 			TComponent* component = new TComponent();
 			component->gameObject = this;
-			ObjectEditor::InitializeObject(component, this->GetID() + (int)ownedComponents.size(), (String)typeid(TComponent).name());
+			component->SetName((String)typeid(TComponent).name());
 			//注册组件
 			components.push_back(component);
 			ownedComponents.push_back(component);
@@ -36,6 +38,7 @@ namespace BDXKEngine {
 
 			return component;
 		};
+
 		template<typename TComponent>
 		TComponent* GetComponent() {
 			for (Component* component : ownedComponents)
@@ -48,6 +51,7 @@ namespace BDXKEngine {
 		}
 		std::vector<Component*> GetComponents();
 		Transform* GetTransform();
+
 	private:
 		static std::vector<GameObject*> gameObjects;//所有物体
 		static std::vector<Component*> components;//所有组件

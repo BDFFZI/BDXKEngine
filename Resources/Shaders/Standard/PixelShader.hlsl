@@ -4,7 +4,7 @@ float4 main(Pixel pixel) : SV_TARGET
 {
     pixel.normal = normalize(pixel.normal);
     //外部数据
-    float4 albedo = texture2D0.Sample(texture2DSampler, pixel.uv);
+    float4 albedo = Texture2D0.Sample(Texture2DSampler, pixel.uv);
     float metallic = Parameter0.x;
     float smoothness = Parameter0.y;
     //计算数据

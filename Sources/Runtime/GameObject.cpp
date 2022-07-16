@@ -7,10 +7,17 @@ namespace BDXKEngine {
 	std::vector<UpdateEvent*> GameObject::updateEvents;
 	std::vector<LateUpdateEvent*> GameObject::lateUpdateEvents;
 
-	GameObject::GameObject(const wchar_t* name) {
-		ObjectEditor::InitializeObject(this, (int)gameObjects.size() * 100, name);
-		gameObjects.push_back(this);
+	GameObject* GameObject::Find(std::wstring name)
+	{
+		return *std::find_if(gameObjects.begin(), gameObjects.end(), [=](GameObject* gameObject) {
+			return gameObject->GetName() == name;
+			});
+	}
+
+	GameObject::GameObject(std::wstring name) {
+		SetName(name);
 		AddComponent<Transform>();
+		gameObjects.push_back(this);
 	}
 
 	std::vector<Component*> GameObject::GetComponents()

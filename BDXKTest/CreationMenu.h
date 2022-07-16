@@ -3,6 +3,7 @@
 #include "SceneHUD.h"
 
 #define GetResourcesPath(Type,Name) "../Resources/"#Type"/"#Name""
+#define GetResourcesPathW(Type,Name) L"../Resources/"#Type"/"#Name""
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
@@ -10,19 +11,19 @@ namespace BDXKEditor {
 	namespace CreationMenu {
 		class Object3D {
 		public:
-			static Transform* Cube(const wchar_t* name = L"Cube", Color color = Color::white)
+			static GameObject* Cube(const wchar_t* name = L"Cube", Color color = Color::white)
 			{
-				return CreateObject3D(GetResourcesPath(Meshes, Cube.fbx), name, color)->GetTransform();
+				return CreateObject3D(GetResourcesPath(Meshes, Cube.fbx), name, color);
 			}
-			static Transform* Plane(const wchar_t* name = L"Plane", Color color = Color::white)
+			static GameObject* Plane(const wchar_t* name = L"Plane", Color color = Color::white)
 			{
-				Transform* plane = Cube(name, color);
+				Transform* plane = Cube(name, color)->GetTransform();
 				plane->SetLocalScale({ 10,0.01f,10 });
-				plane->SetLocalPosition({ 0,-0.005f,10 });
-				return plane;
+				plane->SetLocalPosition({ 0,-0.005f,0 });
+				return plane->GetGameObject();
 			}
-			static Transform* Sphere(const wchar_t* name = L"Sphere", Color color = Color::white) {
-				return CreateObject3D(GetResourcesPath(Meshes, Sphere.fbx), name, color)->GetTransform();
+			static GameObject* Sphere(const wchar_t* name = L"Sphere", Color color = Color::white) {
+				return CreateObject3D(GetResourcesPath(Meshes, Sphere.fbx), name, color);
 			}
 		private:
 			static GameObject* CreateObject3D(const char* meshPath, const wchar_t* name, Color color = Color::white)
@@ -33,17 +34,18 @@ namespace BDXKEditor {
 				Mesh* mesh = new Mesh(meshSource);
 				//加载着色器
 				Shader* baseShader = new Shader{
-				(char*)GetResourcesPath(Shaders,VertexShader.cso),
-				(char*)GetResourcesPath(Shaders,PixelShader.cso),
-				PassType::ForwardBase,
-				true
+					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),
+					GetResourcesPathW(Shaders,Standard\\PixelShader.hlsl),
+					PassType::ForwardBase
 				};
+
 				Shader* addShader = new Shader{
-					(char*)GetResourcesPath(Shaders,VertexShader.cso),
-					(char*)GetResourcesPath(Shaders,PixelShader.cso),
+					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),
+					GetResourcesPathW(Shaders,Standard\\PixelShader.hlsl),
 					PassType::ForwardAdd,
-					false
 				};
+				addShader->SetBlend(Blend::Additive);
+
 				//创建纹理
 				Texture2D* texture2d = new Texture2D{ color };
 				//创建材质球
@@ -61,37 +63,36 @@ namespace BDXKEditor {
 
 		class Light {
 		public:
-			static BDXKEngine::Light* DirectionalLight(const wchar_t* name = L"DirectionalLight")
+			static GameObject* DirectionalLight(const wchar_t* name = L"DirectionalLight")
 			{
-				BDXKEngine::Light* light = CreateLight(LightType::Directional);
+				GameObject* light = CreateLight(LightType::Directional, name);
 				Transform* transform = light->GetTransform();
 				transform->SetLocalEulerAngles({ 45,-45,0 });
 				return light;
 			}
-			static BDXKEngine::Light* PointLight(const wchar_t* name = L"PointLight")
+			static GameObject* PointLight(const wchar_t* name = L"PointLight")
 			{
-				return CreateLight(LightType::Point);
+				return CreateLight(LightType::Point, name);
 			}
 		private:
-			static BDXKEngine::Light* CreateLight(LightType lightType, const wchar_t* name = L"Light")
+			static GameObject* CreateLight(LightType lightType, const wchar_t* name = L"Light")
 			{
 				GameObject* lightObj = new GameObject(name);
 				BDXKEngine::Light* light = lightObj->AddComponent<BDXKEngine::Light>();
 				light->SetColor(Color::white);
 				light->SetIntensity(0.5f);
 				light->SetLightType(lightType);
-				return light;
+				return lightObj;
 			}
 		};
 
-		static BDXKEngine::Camera* Camera(const wchar_t* name = L"Camera")
+		static GameObject* Camera(const wchar_t* name = L"Camera")
 		{
 			GameObject* camera = new GameObject(name);
 			camera->AddComponent<BDXKEngine::Camera>();
 			camera->AddComponent<CameraController>();
 			camera->AddComponent<SceneHUD>();
-			camera->GetTransform()->SetLocalPosition({ 0,2.5f,-10 });
-			return camera->GetComponent<BDXKEngine::Camera>();
+			return camera;
 		}
 	}
 }

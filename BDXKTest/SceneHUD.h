@@ -11,11 +11,15 @@ namespace BDXKEditor {
 		{
 			float drawX = (float)(10 + order * 30);
 			//显示GameObject
-			GUI::TextArea({ drawX,drawY,160,20 }, target->GetName());
+			{
+				Rect rect = { drawX,drawY,160,25 };
+				GUI::TextArea(rect, target->GetName());
+				if (Event::IsFocus(rect))sceneInfo = target->ToString();
+			}
 			//添加Transform事件
 			Transform* transform = target->GetTransform();
 			{
-				Rect transformRect = { drawX + 165,drawY,160,15 };
+				Rect transformRect = { drawX + 165,drawY,160,20 };
 				//使其可拖拽
 				if (Event::IsDrag(transformRect, transform))
 				{
@@ -44,8 +48,11 @@ namespace BDXKEditor {
 			for (Component* component : components)
 			{
 				drawX += 165;
-				Rect rect = { drawX,drawY,160,15 };
-				GUI::TextArea(rect, component->GetName(), 15);
+				Rect rect = { drawX,drawY,160,20 };
+
+				String fullName = typeid(*component).name();
+				GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
+
 				if (Event::IsFocus(rect))sceneInfo = component->ToString();
 			}
 			//显示子物体
@@ -59,7 +66,7 @@ namespace BDXKEditor {
 				return drawY;
 			}
 
-			return drawY + 25;
+			return drawY + 30;
 		}
 
 		void OnDrawGizmos()override

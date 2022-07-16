@@ -23,11 +23,11 @@ cbuffer Parameters : register(b2)
     float4 Parameter3;
 };
 
-Texture2D texture2D0 : register(t0);
-Texture2D texture2D1 : register(t1);
-Texture2D texture2D2 : register(t2);
-Texture2D texture2D3 : register(t3);
-SamplerState texture2DSampler : register(s0);
+Texture2D Texture2D0 : register(t0);
+Texture2D Texture2D1 : register(t1);
+Texture2D Texture2D2 : register(t2);
+Texture2D Texture2D3 : register(t3);
+SamplerState Texture2DSampler : register(s0);
 
 struct Vertex
 {

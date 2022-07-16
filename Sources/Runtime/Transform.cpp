@@ -33,10 +33,9 @@ namespace BDXKEngine {
 		if (parent != nullptr)parent->children.push_back(this);
 		else rootTransforms.push_back(this);
 
-		RenewPosition();
-		RenewEulerAngles();
 		RenewScale();
-		RenewMatrix();
+		RenewEulerAngles();
+		RenewPosition();
 	}
 	Transform* Transform::GetChild(int index)
 	{
@@ -59,7 +58,6 @@ namespace BDXKEngine {
 	{
 		return scale;
 	}
-
 	Vector3 Transform::GetLocalPosition()
 	{
 		return localPosition;
@@ -72,31 +70,6 @@ namespace BDXKEngine {
 	{
 		return localScale;
 	}
-	void Transform::SetLocalPosition(Vector3 value)
-	{
-		localPosition = value;
-
-		RenewPosition();
-		RenewMatrix();
-	}
-	void Transform::SetLocalEulerAngles(Vector3 value)
-	{
-		value.x = (float)std::fmod(value.x, 360);
-		value.y = (float)std::fmod(value.y, 360);
-		value.z = (float)std::fmod(value.z, 360);
-		localEulerAngles = value;
-
-		RenewEulerAngles();
-		RenewMatrix();
-	}
-	void Transform::SetLocalScale(Vector3 value)
-	{
-		localScale = value;
-
-		RenewScale();
-		RenewMatrix();
-	}
-
 	Matrix4x4 Transform::GetLocalToWorldMatrix()
 	{
 		return localToWorldMatrix;
@@ -105,7 +78,6 @@ namespace BDXKEngine {
 	{
 		return worldToLocalMatrix;
 	}
-
 	Vector3 Transform::GetRight()
 	{
 		return localToWorldMatrix.MultiplyVector(Vector3::right);
@@ -119,8 +91,28 @@ namespace BDXKEngine {
 		return localToWorldMatrix.MultiplyVector(Vector3::front);
 	}
 
+	void Transform::SetLocalPosition(Vector3 value)
+	{
+		localPosition = value;
+		RenewPosition();
+	}
+	void Transform::SetLocalEulerAngles(Vector3 value)
+	{
+		value.x = (float)std::fmod(value.x, 360);
+		value.y = (float)std::fmod(value.y, 360);
+		value.z = (float)std::fmod(value.z, 360);
+		localEulerAngles = value;
+		RenewEulerAngles();
+	}
+	void Transform::SetLocalScale(Vector3 value)
+	{
+		localScale = value;
+		RenewScale();
+	}
+
 	inline std::wstring Transform::ToString() {
 		std::wstringstream stream;
+		stream << Object::ToString() << std::endl;
 		stream << L"位置：" << localPosition.ToString() << std::endl;
 		stream << L"旋转：" << localEulerAngles.ToString() << std::endl;
 		stream << L"缩放：" << localScale.ToString() << std::endl;
@@ -146,11 +138,21 @@ namespace BDXKEngine {
 		worldToLocalMatrix = Matrix4x4::identity;
 	}
 
+	void Transform::RenewSelfMatrix()
+	{
+		localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
+		//函数的计算顺序是从右到左，和书写顺序相反[Scale(Rotate(Translate(vector)))]
+		localToWorldMatrix *= Matrix4x4::Translate(localPosition);
+		localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
+		localToWorldMatrix *= Matrix4x4::Scale(localScale);
+
+		worldToLocalMatrix = localToWorldMatrix.GetInverse();
+	}
+
 	void Transform::RenewPosition()
 	{
-		Vector3 parentalPosition = parent == nullptr ? Vector3::zero : parent->GetPosition();
-
-		position = parentalPosition + localPosition;
+		position = parent == nullptr ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
+		RenewSelfMatrix();
 
 		for (Transform* child : children)
 			child->RenewPosition();
@@ -162,8 +164,11 @@ namespace BDXKEngine {
 		eulerAngles.x = (float)std::fmod(parentalEulerAngles.x + localEulerAngles.x, 360);
 		eulerAngles.y = (float)std::fmod(parentalEulerAngles.y + localEulerAngles.y, 360);
 		eulerAngles.z = (float)std::fmod(parentalEulerAngles.z + localEulerAngles.z, 360);
+
 		for (Transform* child : children)
 			child->RenewEulerAngles();
+
+		RenewPosition();
 	}
 	void Transform::RenewScale()
 	{
@@ -175,16 +180,12 @@ namespace BDXKEngine {
 
 		for (Transform* child : children)
 			child->RenewScale();
+
+		RenewPosition();
 	}
 	void Transform::RenewMatrix()
 	{
-		localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
-		localToWorldMatrix *= Matrix4x4::Translate(localPosition);
-		localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
-		localToWorldMatrix *= Matrix4x4::Scale(localScale);
-
-		worldToLocalMatrix = localToWorldMatrix.GetInverse();
-
+		RenewSelfMatrix();
 		for (Transform* child : children)
 			child->RenewMatrix();
 	}
