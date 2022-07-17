@@ -5,10 +5,11 @@
 #include "RenderEvent.h"
 #include "Texture2D.h"
 #include "Graphics.h"
+#include "Renderer.h"
 
 namespace BDXKEngine {
 	class LightEditor;
-	class Light :public Component, public RenderObjectEvent
+	class Light :public Component, public RenderObjectEvent, RendererEditor
 	{
 		friend LightEditor;
 
@@ -48,7 +49,7 @@ namespace BDXKEngine {
 			shadow = new Texture2D{ 1024,1024 };
 		}
 	private:
-		static std::vector<Light*> lights;
+		static std::vector<ObjectPtr<Light>> lights;
 
 		LightType type = LightType::Directional;
 		Color color = Color::white;
@@ -61,6 +62,8 @@ namespace BDXKEngine {
 			Graphics::SetRenderTarget(shadow);
 
 			//“ı”∞
+			//std::vector<Renderer*>& renderers = RendererEditor::GetRenderers();
+
 
 			Graphics::SetRenderTarget(nullptr);
 		}
@@ -68,9 +71,9 @@ namespace BDXKEngine {
 
 	class LightEditor {
 	protected:
-		static LightInfo GetLightInfo(Light* light, int order = 0)
+		static LightInfo GetLightInfo(ObjectPtr<Light> light, int order = 0)
 		{
-			Transform* lightTransform = light->GetGameObject()->GetTransform();
+			ObjectPtr<Transform> lightTransform = light->GetGameObject()->GetTransform();
 			LightInfo lightInfo{
 				Vector4(lightTransform->GetPosition(),1),
 				Vector4(lightTransform->GetFront().GetNormalized(),1),
@@ -82,7 +85,7 @@ namespace BDXKEngine {
 
 			return lightInfo;
 		}
-		static std::vector<Light*>& GetLights()
+		static std::vector<ObjectPtr<Light>>& GetLights()
 		{
 			return Light::lights;
 		}

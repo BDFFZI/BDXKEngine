@@ -3,6 +3,6 @@
 
 
 namespace BDXKEngine {
-	GameObject* Component::GetGameObject() { return gameObject; }
-	Transform* Component::GetTransform() { return GetGameObject()->GetComponent<Transform>(); }
+	ObjectPtr<GameObject> Component::GetGameObject() { return gameObject; }
+	ObjectPtr<Transform> Component::GetTransform() { return GetGameObject()->GetComponent<Transform>(); }
 }

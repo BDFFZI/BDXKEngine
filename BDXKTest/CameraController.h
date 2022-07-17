@@ -4,7 +4,7 @@
 namespace BDXKEditor {
 	using namespace BDXKEngine;
 	class CameraController :public Component, public StartEvent, public UpdateEvent, public DrawGizmosEvent {
-		Transform* transform{};
+		ObjectPtr<Transform> transform{};
 		std::wstring text{ L"我是一个输入框。" };
 		void OnStart()override
 		{

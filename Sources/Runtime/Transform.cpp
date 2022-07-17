@@ -4,17 +4,17 @@
 #include "GameObject.h"
 
 namespace BDXKEngine {
-	std::vector<Transform*> Transform::rootTransforms{};
+	std::vector<ObjectPtr<Transform>> Transform::rootTransforms{};
 
-	Transform* Transform::GetParent()
+	ObjectPtr<Transform> Transform::GetParent()
 	{
 		return parent;
 	}
-	void Transform::SetParent(Transform* newparent)
+	void Transform::SetParent(ObjectPtr<Transform> newparent)
 	{
 		if (newparent != nullptr)
 		{
-			Transform* newUpLayer = newparent;
+			ObjectPtr<Transform> newUpLayer = newparent;
 			do {
 				if (this == newUpLayer)
 				{
@@ -37,7 +37,7 @@ namespace BDXKEngine {
 		RenewEulerAngles();
 		RenewPosition();
 	}
-	Transform* Transform::GetChild(int index)
+	ObjectPtr<Transform> Transform::GetChild(int index)
 	{
 		return children[index];
 	}
@@ -154,7 +154,7 @@ namespace BDXKEngine {
 		position = parent == nullptr ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
 		RenewSelfMatrix();
 
-		for (Transform* child : children)
+		for (ObjectPtr<Transform>& child : children)
 			child->RenewPosition();
 	}
 	void Transform::RenewEulerAngles()
@@ -165,7 +165,7 @@ namespace BDXKEngine {
 		eulerAngles.y = (float)std::fmod(parentalEulerAngles.y + localEulerAngles.y, 360);
 		eulerAngles.z = (float)std::fmod(parentalEulerAngles.z + localEulerAngles.z, 360);
 
-		for (Transform* child : children)
+		for (ObjectPtr<Transform>& child : children)
 			child->RenewEulerAngles();
 
 		RenewPosition();
@@ -178,7 +178,7 @@ namespace BDXKEngine {
 		scale.y = parentalScale.y * localScale.y;
 		scale.z = parentalScale.z * localScale.z;
 
-		for (Transform* child : children)
+		for (ObjectPtr<Transform>& child : children)
 			child->RenewScale();
 
 		RenewPosition();
@@ -186,7 +186,7 @@ namespace BDXKEngine {
 	void Transform::RenewMatrix()
 	{
 		RenewSelfMatrix();
-		for (Transform* child : children)
+		for (ObjectPtr<Transform>& child : children)
 			child->RenewMatrix();
 	}
 }

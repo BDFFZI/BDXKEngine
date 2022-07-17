@@ -10,9 +10,9 @@ namespace BDXKEngine {
 	{
 		friend TransformEditor;
 	public:
-		Transform* GetParent();
-		void SetParent(Transform* parent);
-		Transform* GetChild(int index);
+		ObjectPtr<Transform> GetParent();
+		void SetParent(ObjectPtr<Transform> parent);
+		ObjectPtr<Transform> GetChild(int index);
 		int GetChildCount();
 
 		Vector3 GetPosition();
@@ -37,7 +37,7 @@ namespace BDXKEngine {
 
 		Transform();
 	private:
-		static std::vector<Transform*> rootTransforms;
+		static std::vector<ObjectPtr<Transform>> rootTransforms;
 
 		Vector3 localPosition;
 		Vector3 localEulerAngles;
@@ -49,8 +49,8 @@ namespace BDXKEngine {
 		Matrix4x4 localToWorldMatrix;
 		Matrix4x4 worldToLocalMatrix;
 
-		Transform* parent;
-		std::vector<Transform*> children;
+		ObjectPtr<Transform> parent;
+		std::vector<ObjectPtr<Transform>> children;
 
 		void RenewSelfMatrix();
 
@@ -63,7 +63,7 @@ namespace BDXKEngine {
 	class TransformEditor
 	{
 	protected:
-		static std::vector<Transform*> GetRootTransforms()
+		static std::vector< ObjectPtr<Transform>> GetRootTransforms()
 		{
 			return Transform::rootTransforms;
 		}

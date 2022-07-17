@@ -9,13 +9,13 @@ namespace BDXKEngine {
 	class Animator :public Component, public AwakeEvent, public LateUpdateEvent
 	{
 	public:
-		void SetAnimation(std::function<void(Transform* transfom)> animation)
+		void SetAnimation(std::function<void(ObjectPtr<Transform> transfom)> animation)
 		{
 			this->animation = animation;
 		}
 	private:
-		std::function<void(Transform* transfom)> animation{};
-		Transform* transform{};
+		std::function<void(ObjectPtr<Transform> transfom)> animation{};
+		ObjectPtr<Transform> transform{};
 
 		void OnAwake()override {
 			transform = GetGameObject()->GetTransform();

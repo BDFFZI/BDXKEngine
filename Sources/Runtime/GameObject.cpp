@@ -1,15 +1,14 @@
 #include "GameObject.h"
 
 namespace BDXKEngine {
-	std::vector<GameObject*> GameObject::gameObjects;
-	std::vector<Component*> GameObject::components;
-	std::vector<StartEvent*> GameObject::startEvents;
-	std::vector<UpdateEvent*> GameObject::updateEvents;
-	std::vector<LateUpdateEvent*> GameObject::lateUpdateEvents;
+	std::vector<ObjectPtr<GameObject>> GameObject::allGameObjects;
+	std::vector<StartEvent*> GameObject::allStartEvents;
+	std::vector<UpdateEvent*> GameObject::allUpdateEvents;
+	std::vector<LateUpdateEvent*> GameObject::allLateUpdateEvents;
 
-	GameObject* GameObject::Find(std::wstring name)
+	ObjectPtr<GameObject> GameObject::Find(std::wstring name)
 	{
-		return *std::find_if(gameObjects.begin(), gameObjects.end(), [=](GameObject* gameObject) {
+		return *std::find_if(allGameObjects.begin(), allGameObjects.end(), [=](ObjectPtr<GameObject> gameObject) {
 			return gameObject->GetName() == name;
 			});
 	}
@@ -17,29 +16,37 @@ namespace BDXKEngine {
 	GameObject::GameObject(std::wstring name) {
 		SetName(name);
 		AddComponent<Transform>();
-		gameObjects.push_back(this);
+		allGameObjects.push_back(ObjectPtr<GameObject>{this});
 	}
 
-	std::vector<Component*> GameObject::GetComponents()
+	std::vector<ObjectPtr<Component>> GameObject::GetComponents()
 	{
-		return ownedComponents;
+		return components;
 	}
 
-	Transform* GameObject::GetTransform()
+	ObjectPtr<Transform> GameObject::GetTransform()
 	{
 		return GetComponent<Transform>();
 	}
 
-	void GameObjectEditor::OnUpdate()
+	void GameObjectEditor::Update()
 	{
-		for (StartEvent* eventP : GameObject::startEvents)
+		for (StartEvent* eventP : GameObject::allStartEvents)
 			TickEventEditor::Start(eventP);
-		GameObject::startEvents.clear();
+		GameObject::allStartEvents.clear();
 
-		for (UpdateEvent* eventP : GameObject::updateEvents)
+		for (UpdateEvent* eventP : GameObject::allUpdateEvents)
 			TickEventEditor::Update(eventP);
 
-		for (LateUpdateEvent* eventP : GameObject::lateUpdateEvents)
+		for (LateUpdateEvent* eventP : GameObject::allLateUpdateEvents)
 			TickEventEditor::LateUpdate(eventP);
+	}
+	void GameObjectEditor::Release()
+	{
+		for (ObjectPtr<GameObject>& gameObject : GameObject::allGameObjects)
+		{
+			Object::Destroy(gameObject);
+		}
+		GameObject::allGameObjects.clear();
 	}
 }

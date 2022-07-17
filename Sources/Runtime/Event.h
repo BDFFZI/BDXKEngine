@@ -9,9 +9,9 @@ namespace BDXKEngine {
 	{
 	public:
 		static bool IsClick(Rect rect);
-		static bool IsDrag(Rect rect, Component* dragSource);
+		static bool IsDrag(Rect rect, ObjectPtr<Component> dragSource);
 		static bool IsDrag(Rect rect);
-		static bool IsDrop(Rect rect, Component** dragSource = nullptr);
+		static bool IsDrop(Rect rect, ObjectPtr<Component>* dragSource = nullptr);
 		static bool IsFocus(Rect rect);
 		static void Use();
 
@@ -26,7 +26,7 @@ namespace BDXKEngine {
 		static Rect drop;
 		static Rect click;
 		static Rect focus;
-		static Component* dragSource;
+		static ObjectPtr<Component> dragSource;
 
 		static void MarkEvent(Rect rect);
 		static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);

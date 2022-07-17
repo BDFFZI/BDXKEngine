@@ -58,55 +58,64 @@
     <Filter Include="Function\Framework\Components\Render">
       <UniqueIdentifier>{6e654417-a6e9-4d03-9905-e4929c6dc3a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code">
+    <Filter Include="Base">
       <UniqueIdentifier>{9614757e-ef39-4163-99af-7b8314c7f5e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Helper">
+    <Filter Include="Base\Helper">
       <UniqueIdentifier>{2546bae4-daf8-4c0f-90de-1cdeb0d2a97b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Window">
-      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
+    <Filter Include="Base\Data">
+      <UniqueIdentifier>{4e2e0666-ddd9-4f92-a47c-812508a9dc49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Data">
-      <UniqueIdentifier>{83358320-5f20-4156-8a97-1824a489ad5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Data\Matrix">
+    <Filter Include="Base\Data\Matrix">
       <UniqueIdentifier>{0bf330c7-487c-4b42-ab17-8f98883caebb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Data\Vector">
+    <Filter Include="Base\Data\Color">
+      <UniqueIdentifier>{7a0468c8-1bc3-409b-950b-c65a87091861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Data\Rect">
+      <UniqueIdentifier>{a16a1d74-a1fc-4045-b71c-2a11fbe5be26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Data\Vector">
       <UniqueIdentifier>{afa25b51-70a0-4044-a087-fd0881418a21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Window">
+      <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base\Object">
+      <UniqueIdentifier>{bacfa15d-97af-44dc-bcaa-905705b4c3f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
-      <Filter>Code\Window</Filter>
+      <Filter>Base\Window</Filter>
     </ClCompile>
     <ClCompile Include="WindowBase.cpp">
-      <Filter>Code\Window</Filter>
+      <Filter>Base\Window</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
-      <Filter>Code\Data\Vector</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Function\Framework\Components</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
-      <Filter>Code\Data\Vector</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4x4.cpp">
-      <Filter>Code\Data\Matrix</Filter>
+      <Filter>Base\Data\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClCompile>
     <ClCompile Include="String.cpp">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClCompile>
     <ClCompile Include="Matrix3x2.cpp">
-      <Filter>Code\Data\Matrix</Filter>
+      <Filter>Base\Data\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>Function\System\Cursor</Filter>
@@ -121,16 +130,10 @@
       <Filter>Function\System\Graphics\GL</Filter>
     </ClCompile>
     <ClCompile Include="Matrix3x3.cpp">
-      <Filter>Code\Data\Matrix</Filter>
+      <Filter>Base\Data\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cpp">
-      <Filter>Code\Data\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Color.cpp">
-      <Filter>Code\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Rect.cpp">
-      <Filter>Code\Data</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Function\System\Input</Filter>
@@ -180,9 +183,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>Function\System\Graphics\Data\Material</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Function\Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Bleed.cpp">
       <Filter>Function\System\Graphics\GL\Commands</Filter>
     </ClCompile>
@@ -202,43 +202,52 @@
     <ClCompile Include="RenderEvent.cpp">
       <Filter>Function\System\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>Base\Data\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Base\Data\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Base\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowBase.h">
-      <Filter>Code\Window</Filter>
+      <Filter>Base\Window</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Code\Window</Filter>
+      <Filter>Base\Window</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
-      <Filter>Code\Data\Vector</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Vector2Int.h">
-      <Filter>Code\Data\Vector</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Function\Framework\Components</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
-      <Filter>Code\Data\Vector</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4x4.h">
-      <Filter>Code\Data\Matrix</Filter>
+      <Filter>Base\Data\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClInclude>
     <ClInclude Include="String.h">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Reflection.h">
-      <Filter>Code\Helper</Filter>
+      <Filter>Base\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Matrix3x2.h">
-      <Filter>Code\Data\Matrix</Filter>
+      <Filter>Base\Data\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="BDXKEngine.h" />
     <ClInclude Include="Cursor.h">
@@ -254,16 +263,10 @@
       <Filter>Function\System\Graphics\GL</Filter>
     </ClInclude>
     <ClInclude Include="Matrix3x3.h">
-      <Filter>Code\Data\Matrix</Filter>
+      <Filter>Base\Data\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
-      <Filter>Code\Data\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Code\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Rect.h">
-      <Filter>Code\Data</Filter>
+      <Filter>Base\Data\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Function\System\Input</Filter>
@@ -316,9 +319,6 @@
     <ClInclude Include="Material.h">
       <Filter>Function\System\Graphics\Data\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Function\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="TickEvent.h">
       <Filter>Function\Framework</Filter>
     </ClInclude>
@@ -339,6 +339,21 @@
     </ClInclude>
     <ClInclude Include="RenderEvent.h">
       <Filter>Function\System\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Base\Data\Rect</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Base\Data\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPtr.h">
+      <Filter>Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DestroyEvent.h">
+      <Filter>Base\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

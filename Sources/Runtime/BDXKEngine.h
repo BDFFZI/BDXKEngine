@@ -54,7 +54,7 @@
 #include "Event.h"
 #include "GUI.h"
 //组件
-#include "Object.h"
+#include "ObjectPtr.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
@@ -95,7 +95,12 @@ namespace BDXKEngine {
 					case WM_PAINT:
 					{
 						//帧更新
-						GameObjectEditor::OnUpdate();
+						GameObjectEditor::Update();
+						break;
+					}
+					case WM_DESTROY:
+					{
+						GameObjectEditor::Release();
 						break;
 					}
 					//case WM_CLOSE:
@@ -104,11 +109,7 @@ namespace BDXKEngine {
 					//		DestroyWindow(window->GetHwnd());
 					//	return LRESULT{0};
 					//}
-					//case WM_DESTROY:
-					//{
-					//	PostQuitMessage(0);
-					//	break;
-					//}
+
 					}
 
 					return DefWindowProcW(window->GetHwnd(), messageSign, wparameter, lparameter);

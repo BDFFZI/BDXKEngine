@@ -6,22 +6,9 @@ namespace BDXKEngine {
 	class MeshRenderer :public Renderer
 	{
 	public:
-		Mesh* GetMesh()
-		{
-			return mesh;
-		}
 		void SetMesh(Mesh* mesh)
 		{
-			this->mesh = mesh;
+			Renderer::SetMesh(mesh);
 		}
-	protected:
-		void OnRender()override
-		{
-			if (mesh == NULL)
-				return;
-			Graphics::DrawMeshNow(mesh);
-		}
-	private:
-		Mesh* mesh = nullptr;
 	};
 }

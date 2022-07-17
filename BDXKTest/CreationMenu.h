@@ -11,22 +11,22 @@ namespace BDXKEditor {
 	namespace CreationMenu {
 		class Object3D {
 		public:
-			static GameObject* Cube(const wchar_t* name = L"Cube", Color color = Color::white)
+			static ObjectPtr<GameObject> Cube(const wchar_t* name = L"Cube", Color color = Color::white)
 			{
 				return CreateObject3D(GetResourcesPath(Meshes, Cube.fbx), name, color);
 			}
-			static GameObject* Plane(const wchar_t* name = L"Plane", Color color = Color::white)
+			static ObjectPtr<GameObject> Plane(const wchar_t* name = L"Plane", Color color = Color::white)
 			{
-				Transform* plane = Cube(name, color)->GetTransform();
+				ObjectPtr<Transform> plane = Cube(name, color)->GetTransform();
 				plane->SetLocalScale({ 10,0.01f,10 });
 				plane->SetLocalPosition({ 0,-0.005f,0 });
 				return plane->GetGameObject();
 			}
-			static GameObject* Sphere(const wchar_t* name = L"Sphere", Color color = Color::white) {
+			static ObjectPtr<GameObject> Sphere(const wchar_t* name = L"Sphere", Color color = Color::white) {
 				return CreateObject3D(GetResourcesPath(Meshes, Sphere.fbx), name, color);
 			}
 		private:
-			static GameObject* CreateObject3D(const char* meshPath, const wchar_t* name, Color color = Color::white)
+			static ObjectPtr<GameObject> CreateObject3D(const char* meshPath, const wchar_t* name, Color color = Color::white)
 			{
 				//加载网格
 				StaticMesh meshSource = MeshImporter::ImportFbx((char*)meshPath);
@@ -52,8 +52,8 @@ namespace BDXKEditor {
 				Material* material = new Material{ {baseShader,addShader} };
 				material->SetTexture(0, texture2d);
 				//创建物体
-				GameObject* gameObject = new GameObject(name);
-				MeshRenderer* meshRenderer = gameObject->AddComponent<MeshRenderer>();
+				ObjectPtr<GameObject> gameObject = { new GameObject(name) };
+				ObjectPtr<MeshRenderer> meshRenderer = gameObject->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(mesh);
 				meshRenderer->SetMaterial(material);
 
@@ -63,22 +63,22 @@ namespace BDXKEditor {
 
 		class Light {
 		public:
-			static GameObject* DirectionalLight(const wchar_t* name = L"DirectionalLight")
+			static ObjectPtr<GameObject> DirectionalLight(const wchar_t* name = L"DirectionalLight")
 			{
-				GameObject* light = CreateLight(LightType::Directional, name);
-				Transform* transform = light->GetTransform();
+				ObjectPtr<GameObject> light = CreateLight(LightType::Directional, name);
+				ObjectPtr<Transform> transform = light->GetTransform();
 				transform->SetLocalEulerAngles({ 45,-45,0 });
 				return light;
 			}
-			static GameObject* PointLight(const wchar_t* name = L"PointLight")
+			static ObjectPtr<GameObject> PointLight(const wchar_t* name = L"PointLight")
 			{
 				return CreateLight(LightType::Point, name);
 			}
 		private:
-			static GameObject* CreateLight(LightType lightType, const wchar_t* name = L"Light")
+			static ObjectPtr<GameObject> CreateLight(LightType lightType, const wchar_t* name = L"Light")
 			{
-				GameObject* lightObj = new GameObject(name);
-				BDXKEngine::Light* light = lightObj->AddComponent<BDXKEngine::Light>();
+				ObjectPtr<GameObject> lightObj = new GameObject(name);
+				ObjectPtr<BDXKEngine::Light> light = lightObj->AddComponent<BDXKEngine::Light>();
 				light->SetColor(Color::white);
 				light->SetIntensity(0.5f);
 				light->SetLightType(lightType);
@@ -86,9 +86,9 @@ namespace BDXKEditor {
 			}
 		};
 
-		static GameObject* Camera(const wchar_t* name = L"Camera")
+		static ObjectPtr<GameObject> Camera(const wchar_t* name = L"Camera")
 		{
-			GameObject* camera = new GameObject(name);
+			ObjectPtr<GameObject> camera = new GameObject(name);
 			camera->AddComponent<BDXKEngine::Camera>();
 			camera->AddComponent<CameraController>();
 			camera->AddComponent<SceneHUD>();

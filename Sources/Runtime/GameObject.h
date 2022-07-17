@@ -3,7 +3,7 @@
 #include<map>
 #include "TickEvent.h"
 #include "String.h"
-#include "Object.h"
+#include "ObjectPtr.h"
 #include "Component.h"
 #include "Transform.h"
 
@@ -13,58 +13,59 @@ namespace BDXKEngine {
 	{
 		friend GameObjectEditor;
 	public:
-		static GameObject* Find(std::wstring name);
+		static ObjectPtr<GameObject> Find(std::wstring name);
 
 		GameObject(std::wstring name = L"New GameObject");
 
 		template<typename TComponent>
-		TComponent* AddComponent() {
+		ObjectPtr<TComponent> AddComponent() {
 			//初始化Component
-			TComponent* component = new TComponent();
+			ObjectPtr<TComponent> component{ new TComponent() };
 			component->gameObject = this;
 			component->SetName((String)typeid(TComponent).name());
 			//注册组件
-			components.push_back(component);
-			ownedComponents.push_back(component);
+			components.push_back({ component });
 			//注册事件
-			AwakeEvent* awakeEvent = dynamic_cast<AwakeEvent*>(component);
-			if (awakeEvent != NULL) TickEventEditor::Awake(awakeEvent);
-			StartEvent* startEvent = dynamic_cast<StartEvent*>(component);
-			if (startEvent != NULL) startEvents.push_back(startEvent);
-			UpdateEvent* updateEvent = dynamic_cast<UpdateEvent*>(component);
-			if (updateEvent != NULL) updateEvents.push_back(updateEvent);
-			LateUpdateEvent* lateUpdateEvent = dynamic_cast<LateUpdateEvent*>(component);
-			if (lateUpdateEvent != NULL) lateUpdateEvents.push_back(lateUpdateEvent);
+			AwakeEvent* awakeEvent = dynamic_cast<AwakeEvent*>(component.GetPtr());
+			if (awakeEvent != nullptr) TickEventEditor::Awake(awakeEvent);
+			StartEvent* startEvent = dynamic_cast<StartEvent*>(component.GetPtr());
+			if (startEvent != nullptr) allStartEvents.push_back(startEvent);
+			UpdateEvent* updateEvent = dynamic_cast<UpdateEvent*>(component.GetPtr());
+			if (updateEvent != nullptr) allUpdateEvents.push_back(updateEvent);
+			LateUpdateEvent* lateUpdateEvent = dynamic_cast<LateUpdateEvent*>(component.GetPtr());
+			if (lateUpdateEvent != nullptr) allLateUpdateEvents.push_back(lateUpdateEvent);
 
 			return component;
 		};
 
 		template<typename TComponent>
-		TComponent* GetComponent() {
-			for (Component* component : ownedComponents)
+		ObjectPtr<TComponent> GetComponent() {
+			for (ObjectPtr<Component>& component : components)
 			{
-				TComponent* target = dynamic_cast<TComponent*>(component);
-				if (target != NULL)
+				ObjectPtr<TComponent> target = component.As<TComponent>();
+				if (target != nullptr)
 					return target;
 			}
-			return NULL;
+			return nullptr;
 		}
-		std::vector<Component*> GetComponents();
-		Transform* GetTransform();
+		std::vector<ObjectPtr<Component>> GetComponents();
+		ObjectPtr<Transform> GetTransform();
 
 	private:
-		static std::vector<GameObject*> gameObjects;//所有物体
-		static std::vector<Component*> components;//所有组件
+		//所有物体
+		static std::vector<ObjectPtr<GameObject>> allGameObjects;
 		//所有事件
-		static std::vector<StartEvent*> startEvents;
-		static std::vector<UpdateEvent*> updateEvents;
-		static std::vector<LateUpdateEvent*> lateUpdateEvents;
+		static std::vector<StartEvent*> allStartEvents;
+		static std::vector<UpdateEvent*> allUpdateEvents;
+		static std::vector<LateUpdateEvent*> allLateUpdateEvents;
 
-		std::vector<Component*> ownedComponents;//当前物体拥有的
+		//当前物体拥有的组件
+		std::vector<ObjectPtr<Component>> components;
 	};
 
 	class GameObjectEditor {
 	protected:
-		static void OnUpdate();
+		static void Update();
+		static void Release();
 	};
 }

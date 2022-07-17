@@ -6,7 +6,7 @@ namespace BDXKEngine {
 	Rect Event::drop = Rect::zero;
 	Rect Event::click = Rect::zero;
 	Rect Event::focus = Rect::zero;
-	Component* Event::dragSource = nullptr;
+	ObjectPtr<Component> Event::dragSource = nullptr;
 	Window* Event::window = nullptr;
 
 	bool Event::IsClick(Rect rect)
@@ -14,7 +14,7 @@ namespace BDXKEngine {
 		MarkEvent(rect);
 		return click == rect;
 	}
-	bool Event::IsDrag(Rect rect, Component* dragSource)
+	bool Event::IsDrag(Rect rect, ObjectPtr<Component> dragSource)
 	{
 		if (IsDrag(rect))
 		{
@@ -32,7 +32,7 @@ namespace BDXKEngine {
 		MarkEvent(rect);
 		return drag == rect;
 	}
-	bool Event::IsDrop(Rect rect, Component** dragSource)
+	bool Event::IsDrop(Rect rect, ObjectPtr<Component>* dragSource)
 	{
 		MarkEvent(rect);
 		if (drop == rect)

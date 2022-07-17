@@ -33,7 +33,7 @@ namespace BDXKEngine {
 		float fieldOfView = 60;
 		float size = 1;//TODO
 
-		Transform* transform{};
+		ObjectPtr<Transform> transform{};
 
 		void OnAwake() override
 		{

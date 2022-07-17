@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Graphics.h"
+#include <queue>
 
 namespace BDXKEngine {
 	class RendererEditor;
@@ -8,37 +9,50 @@ namespace BDXKEngine {
 	{
 		friend RendererEditor;
 	public:
-		Material* GetMaterial()
-		{
-			return material;
-		}
-		void SetMaterial(Material* shader)
-		{
-			this->material = shader;
-		}
+		Material* GetMaterial();
+		Mesh* GetMesh();
+		bool GetCastShadows();
+		bool GetReceiveShadows();
+
+		void SetMaterial(Material* shader);
+		void SetCastShadows(bool castShadows);
+		void SetReceiveShadows(bool receiveShadows);
 	protected:
-		Renderer()
-		{
-			renderers.push_back(this);
-		}
+		Renderer();
 
-		virtual void OnRender() = 0;
+		void SetMesh(Mesh* mesh);
 	private:
-		static std::vector<Renderer*> renderers;
+		static std::vector<ObjectPtr<Renderer>> renderers;
 
-		Material* material = nullptr;
+		Material* material;
+		Mesh* mesh;
+		bool castShadows;
+		bool receiveShadows;
 	};
 
 	class RendererEditor {
 	protected:
-		static std::vector<Renderer*>& GetRenderers()
+		static std::vector<ObjectPtr<Renderer>>& GetRenderers()
 		{
 			return Renderer::renderers;
 		}
 
-		static void Render(Renderer* renderer)
+		static std::vector<ObjectPtr<Renderer>> GetRenderersQueue()
 		{
-			renderer->OnRender();
+			std::vector<ObjectPtr<Renderer>> queue = Renderer::renderers;
+			std::sort(
+				queue.begin(),
+				queue.end(),
+				[](ObjectPtr<Renderer>& a, ObjectPtr<Renderer>& b) {
+					return a->GetMaterial()->GetRenderQueue() > b->GetMaterial()->GetRenderQueue();
+				}
+			);
+			return queue;
+		}
+
+		static Mesh* GetMesh(Renderer* renderer)
+		{
+			return renderer->GetMesh();
 		}
 	};
 }

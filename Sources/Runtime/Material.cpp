@@ -11,12 +11,10 @@ namespace BDXKEngine {
 		GL::CreateSamplerState(&samplerState.p);
 	}
 
-
-
 	std::vector<Shader*> Material::GetShaders() {
 		return shaders;
 	}
-	int Material::GetRenderQueue()
+	Material::RenderQueue Material::GetRenderQueue()
 	{
 		return renderQueue;
 	}
@@ -35,14 +33,18 @@ namespace BDXKEngine {
 			throw std::exception("shader²»ÔÊÐíÎª¿Õ");
 		this->shaders = shader;
 	}
-	void Material::SetTexture(int id, Texture* texture)
+	void Material::SetRenderQueue(RenderQueue renderQueue)
 	{
-		textures[id] = texture;
+		this->renderQueue = renderQueue;
 	}
-	void Material::SetFloat(int id, float value)
+	void Material::SetTexture(int instanceID, Texture* texture)
 	{
-		float* target = (float*)&parameters;
-		*(target + id) = value;
+		textures[instanceID] = texture;
+	}
+	void Material::SetFloat(int instanceID, float value)
+	{
+		float* object = (float*)&parameters;
+		*(object + instanceID) = value;
 	}
 	void Material::SetPass(int index)
 	{

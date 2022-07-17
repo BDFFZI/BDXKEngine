@@ -7,10 +7,7 @@ namespace BDXKEngine {
 	struct Debug
 	{
 	public:
-		static void Log(std::wstring str);
-		static void Log(std::string str);
-
-		static void Log(std::exception str);
+		static void Log(String str);
 
 		/// <summary>
 		/// 输出带颜色的日志

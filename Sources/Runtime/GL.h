@@ -101,7 +101,7 @@ namespace BDXKEngine {
 
 		static void CreateDevice();
 		static void CreateSwapChain(HWND hwnd);
-		static void CompileShader(const wchar_t* path, const char* entrypoint, const char* target, ID3DBlob** blob);
+		static void CompileShader(const wchar_t* path, const char* entrypoint, const char* object, ID3DBlob** blob);
 	};
 }
 

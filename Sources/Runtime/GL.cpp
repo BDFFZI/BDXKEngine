@@ -322,13 +322,13 @@ namespace BDXKEngine {
 		));
 
 	}
-	void GL::CompileShader(const wchar_t* path, const char* entrypoint, const char* target, ID3DBlob** blob) {
+	void GL::CompileShader(const wchar_t* path, const char* entrypoint, const char* object, ID3DBlob** blob) {
 		CComPtr<ID3DBlob> compileError;
 		HRESULT result = D3DCompileFromFile(path,
 			nullptr,
 			D3D_COMPILE_STANDARD_FILE_INCLUDE,
 			entrypoint,
-			target,
+			object,
 			D3DCOMPILE_DEBUG,
 			0,
 			blob,

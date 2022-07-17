@@ -1,10 +1,12 @@
 #pragma once
 #include<vector>
+#include<unordered_set>
 #include<string>
+#include "DestroyEvent.h"
 
 namespace BDXKEngine {
 	class ObjectEditor;
-	class Object
+	class Object :DestoryEventEditor
 	{
 		friend ObjectEditor;
 	public:
@@ -19,29 +21,50 @@ namespace BDXKEngine {
 
 			return result;
 		}
+		static void Destroy(Object* object);
 
-		Object() {
-			name = L"New Object";
-			id = objects.size();
-			objects.push_back(this);
+		Object();
+		virtual ~Object();;
+
+		bool operator ==(Object* other)
+		{
+			if (instanceID == other->instanceID)
+				return true;
+			else if (IsNull() && other->IsNull())
+				return true;
+
+			return false;
+		}
+		bool operator !=(Object* other)
+		{
+			return !(*this == other);
 		}
 
-		int GetID();
+		unsigned int GetInstanceID();
 		std::wstring GetName();
+
 		void SetName(std::wstring name);
 
 		virtual std::wstring ToString();
 	private:
-		static std::vector<Object*> objects;//所有物体
+		static std::vector<Object*> objects;//当前存在的物体
+		static std::unordered_set<unsigned int> instanceIDStates;
+		static unsigned int instanceIDCount;
 
-		int id;
+		unsigned int instanceID;
 		std::wstring name;
+
+		bool IsNull()
+		{
+			return instanceIDStates.count(instanceID) == 0;
+		}
 	};
 
 	class ObjectEditor {
 	protected:
-		//static void InitializeObject(Object* object, int id, std::wstring name);
-		//static void SetID(Object* object, int id);
+		bool GetIDState(unsigned int instanceID) {
+			return Object::instanceIDStates.count(instanceID) != 0;
+		}
 	};
 }
 

@@ -1,21 +1,10 @@
 #include "Debug.h"
 
 namespace BDXKEngine {
-	void Debug::Log(std::wstring str)
+	void Debug::Log(String str)
 	{
 		using namespace std;
 		wcout << str << endl;
-	}
-
-	void Debug::Log(std::string str)
-	{
-		using namespace std;
-		cout << str << endl;
-	}
-
-	void Debug::Log(std::exception str)
-	{
-		Log((String)str.what());
 	}
 
 	/// <summary>

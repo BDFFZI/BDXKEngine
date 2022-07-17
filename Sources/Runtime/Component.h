@@ -1,5 +1,5 @@
 #pragma once
-#include "Object.h"
+#include "ObjectPtr.h"
 
 namespace BDXKEngine {
 	class GameObject;
@@ -10,11 +10,11 @@ namespace BDXKEngine {
 		friend GameObject;
 	public:
 		//设为虚函数是为了转为多态类型
-		GameObject* GetGameObject();
-		Transform* GetTransform();
+		ObjectPtr<GameObject> GetGameObject();
+		ObjectPtr<Transform> GetTransform();
 	protected:
 
 	private:
-		GameObject* gameObject = 0;
+		ObjectPtr<GameObject> gameObject = 0;
 	};
 }

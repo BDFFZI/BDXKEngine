@@ -31,12 +31,12 @@ namespace BDXKEngine {
 		worldInfo.environment = background * 0.5f;
 
 		//获取所有可渲染物体
-		std::vector<Renderer*>& renderers = RendererEditor::GetRenderers();
+		std::vector<ObjectPtr<Renderer>> renderers = RendererEditor::GetRenderersQueue();
 		//渲染排序 TODO
 		//遮挡剔除 TODO
 
 		//获取所有可渲染灯光,(优先级排序 TODO)
-		std::vector<Light*>& lights = LightEditor::GetLights();
+		std::vector<ObjectPtr<Light>>& lights = LightEditor::GetLights();
 		unsigned long lightsCount = (int)lights.size();
 		//解析灯光，获取用来向渲染管线传输的数据
 		std::vector<LightInfo> lightInfos{ lightsCount };
@@ -54,7 +54,7 @@ namespace BDXKEngine {
 			int intensity = 0;
 			for (int i = 0; i < lightsCount; i++)
 			{
-				Light* light = lights[i];
+				ObjectPtr<Light> light = lights[i];
 				if (light->GetType() == LightType::Directional && light->GetIntensity() > intensity)
 				{
 					mainLight = i;
@@ -93,28 +93,30 @@ namespace BDXKEngine {
 		}
 
 		//渲染物体
-		for (Renderer* renderer : renderers)
+		for (ObjectPtr<Renderer> renderer : renderers)
 		{
-			//获取物体矩阵
-			Transform* rendererTransform = renderer->GetGameObject()->GetTransform();
+			//获取该物体的渲染管线资源
+			Mesh* mesh = renderer->GetMesh();//获取网格
+			Material* material = renderer->GetMaterial();//获取材质
+			ObjectPtr<Transform> rendererTransform = renderer->GetGameObject()->GetTransform();//获取物体矩阵
 			worldInfo.localToWorld = rendererTransform->GetLocalToWorldMatrix();
-			//设置渲染管线的渲染矩阵
+			//上传渲染矩阵至渲染管线
 			Graphics::UpdateWorldInfo(worldInfo);
 
 			//每个灯光都需要单独渲染一遍
 			for (int lightIndex = 0; lightIndex < lightsCount; lightIndex++)
 			{
-				Graphics::UpdateLightInfo(lightInfos[lightIndex]);//将该灯光信息上传渲染管线
+				Graphics::UpdateLightInfo(lightInfos[lightIndex]);//上传灯光信息至渲染管线
 				PassType& lightPass = lightPasses[lightIndex];//获取Pass类型，每一次光照都是一次Pass
+
 				//渲染符合该类型的Pass
-				Material* material = renderer->GetMaterial();
 				int passCount = material->GetPassCount();
 				for (int passIndex = 0; passIndex < passCount; passIndex++)
 				{
 					if (material->GetPassType(passIndex) == lightPass)
 					{
 						material->SetPass(passIndex);//将该Pass信息上传渲染管线
-						RendererEditor::Render(renderer);//启动渲染管线进行渲染
+						Graphics::DrawMeshNow(mesh);//启动渲染管线进行渲染
 					}
 				}
 			}

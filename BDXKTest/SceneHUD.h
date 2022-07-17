@@ -7,7 +7,7 @@ namespace BDXKEditor {
 	private:
 		inline static std::wstring sceneInfo{ L"Hello BDXKEngine" };
 
-		float ShowGameObjectInfo(GameObject* target, float drawY, int order = 0)
+		float ShowGameObjectInfo(ObjectPtr<GameObject> target, float drawY, int order = 0)
 		{
 			float drawX = (float)(10 + order * 30);
 			//显示GameObject
@@ -17,7 +17,7 @@ namespace BDXKEditor {
 				if (Event::IsFocus(rect))sceneInfo = target->ToString();
 			}
 			//添加Transform事件
-			Transform* transform = target->GetTransform();
+			ObjectPtr<Transform> transform = target->GetTransform();
 			{
 				Rect transformRect = { drawX + 165,drawY,160,20 };
 				//使其可拖拽
@@ -26,8 +26,8 @@ namespace BDXKEditor {
 					GL2D::DrawRectangleCenter(Input::GetMousePosition(), transformRect.GetSize(), false);
 				}
 				//使其可拖入
-				Transform* otherTransform = nullptr;
-				if (Event::IsDrop(transformRect, (Component**)&otherTransform))
+				ObjectPtr<Transform> otherTransform = nullptr;
+				if (Event::IsDrop(transformRect, (ObjectPtr<Component>*) & otherTransform))
 				{
 					if (otherTransform != nullptr)
 					{
@@ -44,13 +44,13 @@ namespace BDXKEditor {
 				}
 			}
 			//显示Components
-			std::vector<Component*> components = target->GetComponents();
-			for (Component* component : components)
+			std::vector<ObjectPtr<Component>> components = target->GetComponents();
+			for (ObjectPtr<Component> component : components)
 			{
 				drawX += 165;
 				Rect rect = { drawX,drawY,160,20 };
 
-				String fullName = typeid(*component).name();
+				String fullName = typeid(*component.GetPtr()).name();
 				GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
 
 				if (Event::IsFocus(rect))sceneInfo = component->ToString();
@@ -72,8 +72,8 @@ namespace BDXKEditor {
 		void OnDrawGizmos()override
 		{
 			float drawY = 10;
-			std::vector<Transform*> rootTransforms = TransformEditor::GetRootTransforms();
-			for (Transform* transform : rootTransforms)
+			std::vector<ObjectPtr<Transform>> rootTransforms = TransformEditor::GetRootTransforms();
+			for (ObjectPtr<Transform> transform : rootTransforms)
 			{
 				drawY = ShowGameObjectInfo(transform->GetGameObject(), drawY);
 			}
@@ -86,8 +86,8 @@ namespace BDXKEditor {
 			{
 				Rect orphanBox{ 10,drawY,100,25 };
 				GUI::TextArea(orphanBox, L"孤儿箱");
-				Transform* transform = nullptr;
-				if (Event::IsDrop(orphanBox, (Component**)&transform))
+				ObjectPtr<Transform> transform = nullptr;
+				if (Event::IsDrop(orphanBox, (ObjectPtr<Component>*) & transform))
 				{
 					if (transform != nullptr)
 					{
