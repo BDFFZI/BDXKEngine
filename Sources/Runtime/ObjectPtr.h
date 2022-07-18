@@ -2,10 +2,10 @@
 #include <exception>
 #include <unordered_map>
 #include "Object.h"
-#include "Debug.h"
 
 namespace BDXKEngine {
-	inline static std::unordered_map<unsigned int, int> objectIDRefCount = {};
+	//内联变量：确保全局唯一
+	inline std::unordered_map<unsigned int, int> objectIDRefCount;
 
 	template<typename TObject>
 	struct ObjectPtr : ObjectEditor
@@ -26,15 +26,11 @@ namespace BDXKEngine {
 					objectIDRefCount[objectID] = 1;
 				else
 					objectIDRefCount[objectID]++;
-
-				Debug::Log((String)L"+ " + objectID);
 			}
 
 		}
 		ObjectPtr() :ObjectPtr(nullptr) {};
-		ObjectPtr(const ObjectPtr& sharedPtr) :ObjectPtr(sharedPtr.object)
-		{
-		}
+		ObjectPtr(const ObjectPtr& sharedPtr) :ObjectPtr(sharedPtr.object) {}
 		~ObjectPtr()
 		{
 			if (object != nullptr)
@@ -96,16 +92,12 @@ namespace BDXKEngine {
 
 		void AddRef(const ObjectPtr& sharedPtr)
 		{
-			Debug::Log((String)L"+ " + objectID);
-
 			object = sharedPtr.object;
 			objectID = sharedPtr.objectID;
 			objectIDRefCount[objectID]++;
 		}
 		void RemoveRef()
 		{
-			Debug::Log((String)L"- " + objectID);
-
 			int refCount = objectIDRefCount[objectID] - 1;
 			if (refCount == 0)
 			{

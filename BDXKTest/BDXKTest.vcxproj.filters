@@ -2,10 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Test.h" />
     <ClInclude Include="CameraController.h">
       <Filter>Editor\Components</Filter>
     </ClInclude>
@@ -18,6 +16,15 @@
     <ClInclude Include="CreationMenu.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoDestroy.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateCube.h">
+      <Filter>Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Editor">
@@ -25,6 +32,9 @@
     </Filter>
     <Filter Include="Editor\Components">
       <UniqueIdentifier>{803133de-ed57-4b17-bbc9-e4c45529376b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{c7839ef6-9bcd-4d73-924b-9f2417cd3096}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

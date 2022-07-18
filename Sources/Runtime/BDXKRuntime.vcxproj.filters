@@ -108,9 +108,6 @@
     <ClCompile Include="Debug.cpp">
       <Filter>Base\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>Base\Helper</Filter>
-    </ClCompile>
     <ClCompile Include="String.cpp">
       <Filter>Base\Helper</Filter>
     </ClCompile>
@@ -319,9 +316,6 @@
     <ClInclude Include="Material.h">
       <Filter>Function\System\Graphics\Data\Material</Filter>
     </ClInclude>
-    <ClInclude Include="TickEvent.h">
-      <Filter>Function\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Blend.h">
       <Filter>Function\System\Graphics\GL\Commands</Filter>
     </ClInclude>
@@ -350,9 +344,6 @@
       <Filter>Base\Object</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPtr.h">
-      <Filter>Base\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="DestroyEvent.h">
       <Filter>Base\Object</Filter>
     </ClInclude>
   </ItemGroup>

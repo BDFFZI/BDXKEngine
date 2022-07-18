@@ -2,9 +2,6 @@
 
 namespace BDXKEngine {
 	std::vector<ObjectPtr<GameObject>> GameObject::allGameObjects;
-	std::vector<StartEvent*> GameObject::allStartEvents;
-	std::vector<UpdateEvent*> GameObject::allUpdateEvents;
-	std::vector<LateUpdateEvent*> GameObject::allLateUpdateEvents;
 
 	ObjectPtr<GameObject> GameObject::Find(std::wstring name)
 	{
@@ -16,7 +13,7 @@ namespace BDXKEngine {
 	GameObject::GameObject(std::wstring name) {
 		SetName(name);
 		AddComponent<Transform>();
-		allGameObjects.push_back(ObjectPtr<GameObject>{this});
+		allGameObjects.push_back(this);
 	}
 
 	std::vector<ObjectPtr<Component>> GameObject::GetComponents()
@@ -31,22 +28,21 @@ namespace BDXKEngine {
 
 	void GameObjectEditor::Update()
 	{
-		for (StartEvent* eventP : GameObject::allStartEvents)
-			TickEventEditor::Start(eventP);
-		GameObject::allStartEvents.clear();
+		for (StartEvent* eventP : Component::allStartEvents)
+			eventP->OnStart();
+		Component::allStartEvents.clear();
 
-		for (UpdateEvent* eventP : GameObject::allUpdateEvents)
-			TickEventEditor::Update(eventP);
+		for (UpdateEvent* eventP : Component::allUpdateEvents)
+			eventP->OnUpdate();
 
-		for (LateUpdateEvent* eventP : GameObject::allLateUpdateEvents)
-			TickEventEditor::LateUpdate(eventP);
+		for (LateUpdateEvent* eventP : Component::allLateUpdateEvents)
+			eventP->OnLateUpdate();
 	}
 	void GameObjectEditor::Release()
 	{
-		for (ObjectPtr<GameObject>& gameObject : GameObject::allGameObjects)
-		{
+		std::vector<ObjectPtr<GameObject>> allGameObjects = GameObject::allGameObjects;
+		for (auto gameObject : allGameObjects)
 			Object::Destroy(gameObject);
-		}
-		GameObject::allGameObjects.clear();
+		allGameObjects.clear();
 	}
 }

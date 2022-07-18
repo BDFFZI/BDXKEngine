@@ -138,6 +138,26 @@ namespace BDXKEngine {
 		worldToLocalMatrix = Matrix4x4::identity;
 	}
 
+	void Transform::OnDestroy()
+	{
+		for (ObjectPtr<Transform> child : children)
+			Destroy(child->GetGameObject());
+		children.clear();
+
+		if (parent == nullptr)
+		{
+			rootTransforms.erase(std::find_if(
+				rootTransforms.begin(),
+				rootTransforms.end(),
+				[=](ObjectPtr<Transform>& item) {
+					return item->GetInstanceID() == this->GetInstanceID();
+				}
+			));
+		}
+
+		Component::OnDestroy();
+	}
+
 	void Transform::RenewSelfMatrix()
 	{
 		localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();

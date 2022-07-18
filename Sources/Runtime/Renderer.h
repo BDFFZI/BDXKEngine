@@ -1,7 +1,7 @@
 #pragma once
+#include <queue>
 #include "Component.h"
 #include "Graphics.h"
-#include <queue>
 
 namespace BDXKEngine {
 	class RendererEditor;
@@ -18,16 +18,37 @@ namespace BDXKEngine {
 		void SetCastShadows(bool castShadows);
 		void SetReceiveShadows(bool receiveShadows);
 	protected:
-		Renderer();
-
 		void SetMesh(Mesh* mesh);
 	private:
-		static std::vector<ObjectPtr<Renderer>> renderers;
+		static std::vector<ObjectPtr<Renderer>> renderers;//”…Rendererπ‹¿Ì
 
 		Material* material;
 		Mesh* mesh;
 		bool castShadows;
 		bool receiveShadows;
+
+		void OnAwake()override
+		{
+			Component::OnAwake();
+
+			material = nullptr;
+			mesh = nullptr;
+			castShadows = true;
+			receiveShadows = true;
+			renderers.push_back(this);
+		}
+
+		void OnDestroy()override {
+			renderers.erase(std::find_if(
+				renderers.begin(),
+				renderers.end(),
+				[=](ObjectPtr<Renderer>& item) {
+					return item->GetInstanceID() == this->GetInstanceID();
+				}
+			));
+
+			Component::OnDestroy();
+		}
 	};
 
 	class RendererEditor {

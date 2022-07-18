@@ -6,6 +6,7 @@
 #include "Texture2D.h"
 #include "Graphics.h"
 #include "Renderer.h"
+#include "Transform.h"
 
 namespace BDXKEngine {
 	class LightEditor;

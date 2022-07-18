@@ -36,13 +36,4 @@ void BDXKEngine::Renderer::SetReceiveShadows(bool receiveShadows)
 	this->receiveShadows = receiveShadows;
 }
 
-BDXKEngine::Renderer::Renderer()
-{
-	material = nullptr;
-	mesh = nullptr;
-	castShadows = true;
-	receiveShadows = true;
-	renderers.push_back({ this });
-}
-
 

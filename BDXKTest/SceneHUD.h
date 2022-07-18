@@ -50,7 +50,8 @@ namespace BDXKEditor {
 				drawX += 165;
 				Rect rect = { drawX,drawY,160,20 };
 
-				String fullName = typeid(*component.GetPtr()).name();
+				Component* componentPtr = component.GetPtr();
+				String fullName = typeid(*componentPtr).name();
 				GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
 
 				if (Event::IsFocus(rect))sceneInfo = component->ToString();
@@ -103,6 +104,16 @@ namespace BDXKEditor {
 			rect.SetSize(screenSize / 4);
 			rect.SetPosition({ screenSize.x - rect.width - 10, 10 });
 			sceneInfo = GUI::TextArea(rect, sceneInfo);
+		}
+
+		std::wstring ToString()override {
+			std::wstringstream stream;
+			stream << Object::ToString() << std::endl;
+			for (std::pair<unsigned int, int> pair : objectIDRefCount)
+			{
+				stream << pair.first << L" : " << pair.second << std::endl;
+			}
+			return stream.str();
 		}
 	};
 }

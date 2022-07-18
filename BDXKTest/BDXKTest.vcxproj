@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sources\Runtime\BDXKRuntime.vcxproj">
@@ -28,7 +27,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoDestroy.h" />
     <ClInclude Include="CameraController.h" />
+    <ClInclude Include="CreateCube.h" />
     <ClInclude Include="CreationMenu.h" />
     <ClInclude Include="MaterialHUD.h" />
     <ClInclude Include="SceneHUD.h" />

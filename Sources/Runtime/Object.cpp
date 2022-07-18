@@ -7,8 +7,7 @@ namespace BDXKEngine {
 		if (object == nullptr || object->IsNull())
 			return;
 
-		DestoryEvent* destoryEvent = dynamic_cast<DestoryEvent*>(object);
-		if (destoryEvent != nullptr)DestoryEventEditor::Destory(destoryEvent);
+		object->OnDestroy();
 
 		instanceIDStates.erase(object->instanceID);
 		objects.erase(std::find(objects.begin(), objects.end(), object));
@@ -23,10 +22,10 @@ namespace BDXKEngine {
 		instanceIDStates.insert(instanceID);
 		objects.push_back(this);
 
-		//Debug::Log((String)L"Create " + instanceID);
+		Debug::Log((String)L"Object Create " + instanceID);
 	}
 	Object::~Object() {
-		//Debug::Log((String)L"Delete " + instanceID);
+		Debug::Log((String)L"Object Delete " + instanceID + " " + GetName());
 	}
 
 	unsigned int Object::GetInstanceID() {
@@ -46,6 +45,11 @@ namespace BDXKEngine {
 	std::wstring Object::ToString()
 	{
 		return name + L"\n" + std::to_wstring(instanceID);
+	}
+
+	inline bool Object::IsNull()
+	{
+		return instanceIDStates.count(instanceID) == 0;
 	}
 
 	std::vector<Object*> Object::objects = {};

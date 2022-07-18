@@ -1,15 +1,16 @@
 #pragma once
 #include<vector>
 #include<map>
-#include "TickEvent.h"
+#include<algorithm>
 #include "String.h"
 #include "ObjectPtr.h"
 #include "Component.h"
 #include "Transform.h"
 
 namespace BDXKEngine {
+	class Transform;
 	class GameObjectEditor;
-	class GameObject :public Object, ObjectEditor, TickEventEditor
+	class GameObject :public Object
 	{
 		friend GameObjectEditor;
 	public:
@@ -20,20 +21,13 @@ namespace BDXKEngine {
 		template<typename TComponent>
 		ObjectPtr<TComponent> AddComponent() {
 			//初始化Component
-			ObjectPtr<TComponent> component{ new TComponent() };
+			ObjectPtr<TComponent> component = { new TComponent() };
 			component->gameObject = this;
 			component->SetName((String)typeid(TComponent).name());
-			//注册组件
-			components.push_back({ component });
-			//注册事件
-			AwakeEvent* awakeEvent = dynamic_cast<AwakeEvent*>(component.GetPtr());
-			if (awakeEvent != nullptr) TickEventEditor::Awake(awakeEvent);
-			StartEvent* startEvent = dynamic_cast<StartEvent*>(component.GetPtr());
-			if (startEvent != nullptr) allStartEvents.push_back(startEvent);
-			UpdateEvent* updateEvent = dynamic_cast<UpdateEvent*>(component.GetPtr());
-			if (updateEvent != nullptr) allUpdateEvents.push_back(updateEvent);
-			LateUpdateEvent* lateUpdateEvent = dynamic_cast<LateUpdateEvent*>(component.GetPtr());
-			if (lateUpdateEvent != nullptr) allLateUpdateEvents.push_back(lateUpdateEvent);
+			//添加组件至自身
+			components.push_back(component.As<Component>());
+			//触发唤醒事件
+			((Component*)component.GetPtr())->OnAwake();
 
 			return component;
 		};
@@ -52,15 +46,27 @@ namespace BDXKEngine {
 		ObjectPtr<Transform> GetTransform();
 
 	private:
-		//所有物体
+		//所有物体(由GameObject负责增减)
 		static std::vector<ObjectPtr<GameObject>> allGameObjects;
-		//所有事件
-		static std::vector<StartEvent*> allStartEvents;
-		static std::vector<UpdateEvent*> allUpdateEvents;
-		static std::vector<LateUpdateEvent*> allLateUpdateEvents;
 
-		//当前物体拥有的组件
+		//当前物体拥有的组件(由GameObject负责增减)
 		std::vector<ObjectPtr<Component>> components;
+
+		void OnDestroy()override
+		{
+			for (ObjectPtr<Component>& component : components)
+				Destroy(component);
+			components.clear();
+			allGameObjects.erase(std::find_if(
+				allGameObjects.begin(),
+				allGameObjects.end(),
+				[=](ObjectPtr<GameObject>& item) {
+					return item->GetInstanceID() == this->GetInstanceID();
+				}
+			));
+
+			Object::OnDestroy();
+		}
 	};
 
 	class GameObjectEditor {

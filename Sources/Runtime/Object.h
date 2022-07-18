@@ -1,12 +1,12 @@
 #pragma once
 #include<vector>
 #include<unordered_set>
+#include<unordered_map>
 #include<string>
-#include "DestroyEvent.h"
 
 namespace BDXKEngine {
 	class ObjectEditor;
-	class Object :DestoryEventEditor
+	class Object
 	{
 		friend ObjectEditor;
 	public:
@@ -24,7 +24,7 @@ namespace BDXKEngine {
 		static void Destroy(Object* object);
 
 		Object();
-		virtual ~Object();;
+		virtual ~Object();
 
 		bool operator ==(Object* other)
 		{
@@ -46,6 +46,8 @@ namespace BDXKEngine {
 		void SetName(std::wstring name);
 
 		virtual std::wstring ToString();
+	protected:
+		virtual void OnDestroy() {}
 	private:
 		static std::vector<Object*> objects;//当前存在的物体
 		static std::unordered_set<unsigned int> instanceIDStates;
@@ -54,10 +56,7 @@ namespace BDXKEngine {
 		unsigned int instanceID;
 		std::wstring name;
 
-		bool IsNull()
-		{
-			return instanceIDStates.count(instanceID) == 0;
-		}
+		bool IsNull();
 	};
 
 	class ObjectEditor {

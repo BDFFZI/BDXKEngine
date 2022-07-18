@@ -1,12 +1,11 @@
 #pragma once
 #include<functional>
 #include"Component.h"
-#include"TickEvent.h"
 #include"Transform.h"
 #include"GameObject.h"
 
 namespace BDXKEngine {
-	class Animator :public Component, public AwakeEvent, public LateUpdateEvent
+	class Animator :public Component, public LateUpdateEvent
 	{
 	public:
 		void SetAnimation(std::function<void(ObjectPtr<Transform> transfom)> animation)
@@ -18,6 +17,8 @@ namespace BDXKEngine {
 		ObjectPtr<Transform> transform{};
 
 		void OnAwake()override {
+			Component::OnAwake();
+
 			transform = GetGameObject()->GetTransform();
 		}
 

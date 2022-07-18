@@ -3,9 +3,9 @@
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
-	class CameraController :public Component, public StartEvent, public UpdateEvent, public DrawGizmosEvent {
+	class CameraController :public Component, public StartEvent, public UpdateEvent {
 		ObjectPtr<Transform> transform{};
-		std::wstring text{ L"我是一个输入框。" };
+
 		void OnStart()override
 		{
 			transform = GetGameObject()->GetTransform();
@@ -73,18 +73,6 @@ namespace BDXKEditor {
 				Cursor::SetLockState(false);
 				Cursor::SetVisible(true);
 			}
-		}
-
-		void OnDrawGizmos()override {
-			Vector2 size = Screen::GetSize();
-			if (GUI::Button({ 10,size.y - 40,180,30 }, L"按钮"))
-			{
-				Debug::Log(L"Hello BDXKEngine");
-			}
-			GUI::TextArea({ 200,size.y - 40,200,30 }, L"鼠标位置:" + Input::GetMousePosition().ToString());
-			text = GUI::TextArea({ 410,size.y - 40,size.x - 420,30 }, text);
-
-			GUI::TextArea({ size.x / 2 - 6,size.y / 2 - 6,3,3 }, L"");
 		}
 	};
 }

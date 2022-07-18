@@ -151,7 +151,6 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="Math.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -172,7 +171,6 @@
   <ItemGroup>
     <ClInclude Include="Blend.h" />
     <ClInclude Include="Cull.h" />
-    <ClInclude Include="DestroyEvent.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshImporter.h" />
@@ -196,7 +194,6 @@
     <ClInclude Include="ObjectPtr.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="TickEvent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Matrix4x4.h" />

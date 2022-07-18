@@ -1,6 +1,7 @@
 #pragma once
-#include<vector>
+#include <vector>
 #include "Component.h"
+#include "Transform.h"
 #include "Vector3.h"
 #include "Matrix4x4.h"
 
@@ -31,11 +32,11 @@ namespace BDXKEngine {
 		void SetLocalEulerAngles(Vector3 value);
 		void SetLocalScale(Vector3 value);
 
-
-
 		std::wstring ToString()override;
 
 		Transform();
+	protected:
+		void OnDestroy()override;
 	private:
 		static std::vector<ObjectPtr<Transform>> rootTransforms;
 
