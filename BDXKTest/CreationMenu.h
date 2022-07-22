@@ -30,16 +30,14 @@ namespace BDXKEditor {
 			{
 				//加载网格
 				StaticMesh meshSource = MeshImporter::ImportFbx((char*)meshPath);
-				//创建网格
-				Mesh* mesh = new Mesh(meshSource);
+				ObjectPtr<Mesh> mesh = new Mesh(meshSource);
 				//加载着色器
-				Shader* baseShader = new Shader{
+				ObjectPtr<Shader> baseShader = new Shader{
 					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),
 					GetResourcesPathW(Shaders,Standard\\PixelShader.hlsl),
 					PassType::ForwardBase
 				};
-
-				Shader* addShader = new Shader{
+				ObjectPtr<Shader> addShader = new Shader{
 					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),
 					GetResourcesPathW(Shaders,Standard\\PixelShader.hlsl),
 					PassType::ForwardAdd,
@@ -47,10 +45,10 @@ namespace BDXKEditor {
 				addShader->SetBlend(Blend::Additive);
 
 				//创建纹理
-				Texture2D* texture2d = new Texture2D{ color };
+				ObjectPtr<Texture2D> texture2d = new Texture2D{ color };
 				//创建材质球
-				Material* material = new Material{ {baseShader,addShader} };
-				material->SetTexture(0, texture2d);
+				ObjectPtr<Material> material = new Material{ {baseShader,addShader} };
+				material->SetTexture(0, texture2d.As<Texture>());
 				//创建物体
 				ObjectPtr<GameObject> gameObject = { new GameObject(name) };
 				ObjectPtr<MeshRenderer> meshRenderer = gameObject->AddComponent<MeshRenderer>();

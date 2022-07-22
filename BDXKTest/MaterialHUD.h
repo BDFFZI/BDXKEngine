@@ -5,7 +5,7 @@ namespace BDXKEditor {
 	using namespace BDXKEngine;
 	class MaterialHUD :public Component, public DrawGizmosEvent {
 	public:
-		std::vector<Material*> materials;
+		std::vector<ObjectPtr<Material>> materials;
 		float metallic = 0;
 		float smoothness = 0;
 
@@ -27,7 +27,7 @@ namespace BDXKEditor {
 			std::for_each(
 				materials.begin(),
 				materials.end(),
-				[&](Material* material)
+				[&](ObjectPtr<Material> material)
 				{
 					material->SetFloat(0, metallic);
 					material->SetFloat(1, smoothness);

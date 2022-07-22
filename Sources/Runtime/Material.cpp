@@ -2,7 +2,7 @@
 #include <algorithm>
 
 namespace BDXKEngine {
-	Material::Material(std::vector<Shader*> shaders)
+	Material::Material(std::vector<ObjectPtr<Shader>> shaders) :Object(L"New Material")
 	{
 		SetShaders(shaders);
 		//创建图形资源
@@ -11,7 +11,7 @@ namespace BDXKEngine {
 		GL::CreateSamplerState(&samplerState.p);
 	}
 
-	std::vector<Shader*> Material::GetShaders() {
+	std::vector<ObjectPtr<Shader>> Material::GetShaders() {
 		return shaders;
 	}
 	Material::RenderQueue Material::GetRenderQueue()
@@ -27,7 +27,7 @@ namespace BDXKEngine {
 		return shaders[index]->GetPassType();
 	}
 
-	void Material::SetShaders(std::vector<Shader*> shader)
+	void Material::SetShaders(std::vector<ObjectPtr<Shader>> shader)
 	{
 		if (shader.size() == 0)
 			throw std::exception("shader不允许为空");
@@ -37,7 +37,7 @@ namespace BDXKEngine {
 	{
 		this->renderQueue = renderQueue;
 	}
-	void Material::SetTexture(int instanceID, Texture* texture)
+	void Material::SetTexture(int instanceID, ObjectPtr<Texture> texture)
 	{
 		textures[instanceID] = texture;
 	}

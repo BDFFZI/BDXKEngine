@@ -12,6 +12,7 @@ namespace BDXKEngine {
 	class GameObjectEditor;
 	class GameObject :public Object
 	{
+		friend Component;
 		friend GameObjectEditor;
 	public:
 		static ObjectPtr<GameObject> Find(std::wstring name);
@@ -24,13 +25,14 @@ namespace BDXKEngine {
 			ObjectPtr<TComponent> component = { new TComponent() };
 			component->gameObject = this;
 			component->SetName((String)typeid(TComponent).name());
-			//添加组件至自身
-			components.push_back(component.As<Component>());
 			//触发唤醒事件
 			((Component*)component.GetPtr())->OnAwake();
 
 			return component;
 		};
+
+
+		std::vector<ObjectPtr<Component>> GetComponents();
 
 		template<typename TComponent>
 		ObjectPtr<TComponent> GetComponent() {
@@ -42,31 +44,16 @@ namespace BDXKEngine {
 			}
 			return nullptr;
 		}
-		std::vector<ObjectPtr<Component>> GetComponents();
 		ObjectPtr<Transform> GetTransform();
 
 	private:
 		//所有物体(由GameObject负责增减)
 		static std::vector<ObjectPtr<GameObject>> allGameObjects;
 
-		//当前物体拥有的组件(由GameObject负责增减)
+		//当前物体拥有的组件(由Component负责增减)
 		std::vector<ObjectPtr<Component>> components;
 
-		void OnDestroy()override
-		{
-			for (ObjectPtr<Component>& component : components)
-				Destroy(component);
-			components.clear();
-			allGameObjects.erase(std::find_if(
-				allGameObjects.begin(),
-				allGameObjects.end(),
-				[=](ObjectPtr<GameObject>& item) {
-					return item->GetInstanceID() == this->GetInstanceID();
-				}
-			));
-
-			Object::OnDestroy();
-		}
+		void OnDestroy()override;
 	};
 
 	class GameObjectEditor {

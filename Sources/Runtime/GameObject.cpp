@@ -10,8 +10,7 @@ namespace BDXKEngine {
 			});
 	}
 
-	GameObject::GameObject(std::wstring name) {
-		SetName(name);
+	GameObject::GameObject(std::wstring name) :Object(name) {
 		AddComponent<Transform>();
 		allGameObjects.push_back(this);
 	}
@@ -24,6 +23,21 @@ namespace BDXKEngine {
 	ObjectPtr<Transform> GameObject::GetTransform()
 	{
 		return GetComponent<Transform>();
+	}
+
+	void GameObject::OnDestroy()
+	{
+		std::vector<ObjectPtr<Component>> components = this->components;
+		for (ObjectPtr<Component>& component : components)
+			Destroy(component.GetPtr());
+
+		allGameObjects.erase(std::find(
+			allGameObjects.begin(),
+			allGameObjects.end(),
+			ObjectPtr<GameObject>{this}
+		));
+
+		Object::OnDestroy();
 	}
 
 	void GameObjectEditor::Update()
@@ -42,7 +56,7 @@ namespace BDXKEngine {
 	{
 		std::vector<ObjectPtr<GameObject>> allGameObjects = GameObject::allGameObjects;
 		for (auto gameObject : allGameObjects)
-			Object::Destroy(gameObject);
+			Object::Destroy(gameObject.GetPtr());
 		allGameObjects.clear();
 	}
 }

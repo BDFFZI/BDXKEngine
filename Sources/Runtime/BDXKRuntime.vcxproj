@@ -180,6 +180,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="GLLayout.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderEvent.h" />
     <ClInclude Include="Shader.h" />

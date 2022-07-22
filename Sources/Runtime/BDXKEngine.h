@@ -53,6 +53,7 @@
 #include "Cursor.h"
 #include "Event.h"
 #include "GUI.h"
+#include "Random.h"
 //×é¼þ
 #include "ObjectPtr.h"
 #include "GameObject.h"

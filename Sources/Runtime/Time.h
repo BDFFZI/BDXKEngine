@@ -8,11 +8,13 @@ namespace BDXKEngine {
 	class Time
 	{
 	public:
-		static float GetDeltaTime();
 		static float GetRealtimeSinceStartup();
+		static float GetDeltaTime();
+		static float GetFrameCount();
 	protected:
 		static void Initialize(Window* window);
 	private:
+		static int frameCount;
 		static long startTime;
 		static long frameTime;
 		static float deltaTime;

@@ -6,6 +6,23 @@
 namespace BDXKEngine {
 	std::vector<ObjectPtr<Transform>> Transform::rootTransforms{};
 
+	Transform::Transform() :Component(L"New Transform")
+	{
+		parent = nullptr;
+		rootTransforms.push_back(this);
+
+		localPosition = Vector3::zero;
+		localEulerAngles = Vector3::zero;
+		localScale = Vector3::one;
+
+		position = Vector3::zero;
+		eulerAngles = Vector3::zero;
+		scale = Vector3::one;
+
+		localToWorldMatrix = Matrix4x4::identity;
+		worldToLocalMatrix = Matrix4x4::identity;
+	}
+
 	ObjectPtr<Transform> Transform::GetParent()
 	{
 		return parent;
@@ -121,27 +138,10 @@ namespace BDXKEngine {
 		return stream.str();
 	}
 
-	Transform::Transform()
-	{
-		parent = nullptr;
-		rootTransforms.push_back(this);
-
-		localPosition = Vector3::zero;
-		localEulerAngles = Vector3::zero;
-		localScale = Vector3::one;
-
-		position = Vector3::zero;
-		eulerAngles = Vector3::zero;
-		scale = Vector3::one;
-
-		localToWorldMatrix = Matrix4x4::identity;
-		worldToLocalMatrix = Matrix4x4::identity;
-	}
-
 	void Transform::OnDestroy()
 	{
 		for (ObjectPtr<Transform> child : children)
-			Destroy(child->GetGameObject());
+			Destroy(child->GetGameObject().GetPtr());
 		children.clear();
 
 		if (parent == nullptr)

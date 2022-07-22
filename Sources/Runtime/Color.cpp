@@ -34,7 +34,6 @@ namespace BDXKEngine {
 	{
 		return D2D1::ColorF(r, g, b, a);
 	}
-
 	std::wstring Color::ToString()
 	{
 		std::wstringstream string;

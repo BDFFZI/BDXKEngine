@@ -3,11 +3,15 @@ using namespace BDXKEngine;
 
 std::vector<ObjectPtr<Renderer>> Renderer::renderers;
 
-Material* BDXKEngine::Renderer::GetMaterial()
+BDXKEngine::Renderer::Renderer(std::wstring name) :Component(name)
+{
+}
+
+ObjectPtr<Material> BDXKEngine::Renderer::GetMaterial()
 {
 	return material;
 }
-Mesh* BDXKEngine::Renderer::GetMesh()
+ObjectPtr<Mesh> BDXKEngine::Renderer::GetMesh()
 {
 	return mesh;
 }
@@ -19,11 +23,11 @@ bool BDXKEngine::Renderer::GetReceiveShadows()
 	return receiveShadows;
 }
 
-void BDXKEngine::Renderer::SetMaterial(Material* shader)
+void BDXKEngine::Renderer::SetMaterial(ObjectPtr<Material> shader)
 {
 	this->material = shader;
 }
-void BDXKEngine::Renderer::SetMesh(Mesh* mesh)
+void BDXKEngine::Renderer::SetMesh(ObjectPtr<Mesh> mesh)
 {
 	this->mesh = mesh;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include "ObjectPtr.h"
 #include "Component.h"
 #include "Graphics.h"
 
@@ -9,21 +10,23 @@ namespace BDXKEngine {
 	{
 		friend RendererEditor;
 	public:
-		Material* GetMaterial();
-		Mesh* GetMesh();
+		Renderer(std::wstring name = L"New Renderer");
+
+		ObjectPtr<Material> GetMaterial();
+		ObjectPtr<Mesh> GetMesh();
 		bool GetCastShadows();
 		bool GetReceiveShadows();
 
-		void SetMaterial(Material* shader);
+		void SetMaterial(ObjectPtr<Material> shader);
 		void SetCastShadows(bool castShadows);
 		void SetReceiveShadows(bool receiveShadows);
 	protected:
-		void SetMesh(Mesh* mesh);
+		void SetMesh(ObjectPtr<Mesh> mesh);
 	private:
 		static std::vector<ObjectPtr<Renderer>> renderers;//”…Rendererπ‹¿Ì
 
-		Material* material;
-		Mesh* mesh;
+		ObjectPtr<Material> material;
+		ObjectPtr<Mesh> mesh;
 		bool castShadows;
 		bool receiveShadows;
 
@@ -71,7 +74,7 @@ namespace BDXKEngine {
 			return queue;
 		}
 
-		static Mesh* GetMesh(Renderer* renderer)
+		static ObjectPtr<Mesh> GetMesh(ObjectPtr<Renderer> renderer)
 		{
 			return renderer->GetMesh();
 		}

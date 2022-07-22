@@ -20,8 +20,8 @@ namespace BDXKEngine {
 		static void UpdateWorldInfo(WorldInfo worldInfo);
 		static void UpdateLightInfo(LightInfo lightInfo);
 
-		static void DrawMeshNow(Mesh* mesh);
-		static void SetRenderTarget(Texture2D* texture);
+		static void DrawMeshNow(ObjectPtr<Mesh> mesh);
+		static void SetRenderTarget(ObjectPtr<Texture2D> texture);
 		static void Flush();
 	protected:
 		static Graphics* Initialize(Window* window, GL** gl, GL2D** gl2d);

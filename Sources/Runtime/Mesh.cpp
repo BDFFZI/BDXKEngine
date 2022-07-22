@@ -5,9 +5,9 @@
 #include<vector>
 
 namespace BDXKEngine {
-	Mesh* Mesh::CreateCube()
+	ObjectPtr<Mesh> Mesh::CreateCube()
 	{
-		Mesh* mesh = new Mesh();
+		ObjectPtr<Mesh> mesh = ObjectPtr<Mesh>{ new Mesh() };
 		mesh->vertices = {
 		{{ -0.5f, -0.5f, -0.5f},{},{}, {0,0,0}},
 		{{ -0.5f, -0.5f, 0.5f },{},{}, {0,0,1}},
@@ -37,12 +37,12 @@ namespace BDXKEngine {
 		return mesh;
 	}
 
-	Mesh::Mesh()
+	Mesh::Mesh() :Object(L"New Mesh")
 	{
 
 	}
 
-	Mesh::Mesh(StaticMesh staticMesh)
+	Mesh::Mesh(StaticMesh staticMesh) : Mesh()
 	{
 		SetTriangles(staticMesh.triangles);
 		SetPositions(staticMesh.positions);

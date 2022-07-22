@@ -1,16 +1,17 @@
 #pragma once
-#include<exception>
-#include<vector>
-#include"GLLayout.h"
-#include"MeshImporter.h"
+#include <exception>
+#include <vector>
+#include "ObjectPtr.h"
+#include "GLLayout.h"
+#include "MeshImporter.h"
 
 namespace BDXKEngine {
 	class MeshEditor;
-	class Mesh
+	class Mesh :public Object
 	{
 		friend MeshEditor;
 	public:
-		static Mesh* CreateCube();
+		static ObjectPtr<Mesh> CreateCube();
 
 		Mesh();
 		Mesh(StaticMesh staticMesh);
@@ -132,12 +133,12 @@ namespace BDXKEngine {
 
 	class MeshEditor {
 	protected:
-		static CComPtr<ID3D11Buffer> GetVertexBuffer(Mesh* mesh)
+		static CComPtr<ID3D11Buffer> GetVertexBuffer(ObjectPtr<Mesh> mesh)
 		{
 			return mesh->vertexBuffer;
 		}
 
-		static CComPtr<ID3D11Buffer> GetTriangleBuffer(Mesh* mesh)
+		static CComPtr<ID3D11Buffer> GetTriangleBuffer(ObjectPtr<Mesh> mesh)
 		{
 			return mesh->triangleBuffer;
 		}

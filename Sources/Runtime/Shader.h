@@ -1,4 +1,5 @@
 #pragma once
+#include "ObjectPtr.h"
 #include "GLLayout.h"
 #include "Blend.h"
 #include "ZTest.h"
@@ -10,7 +11,7 @@ namespace BDXKEngine {
 	};
 
 	class ShaderEditor;
-	class Shader
+	class Shader :public Object
 	{
 		friend ShaderEditor;
 	public:
@@ -36,7 +37,7 @@ namespace BDXKEngine {
 
 	class ShaderEditor {
 	protected:
-		static void SetPass(Shader* shader)
+		static void SetPass(ObjectPtr<Shader> shader)
 		{
 			GL::SetShader(shader->vertexShader, shader->inputLayout, shader->pixelShader);
 			GL::SetBlend(&shader->blend);

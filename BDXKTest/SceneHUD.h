@@ -21,7 +21,7 @@ namespace BDXKEditor {
 			{
 				Rect transformRect = { drawX + 165,drawY,160,20 };
 				//使其可拖拽
-				if (Event::IsDrag(transformRect, transform))
+				if (Event::IsDrag(transformRect, transform.As<Component>()))
 				{
 					GL2D::DrawRectangleCenter(Input::GetMousePosition(), transformRect.GetSize(), false);
 				}
@@ -72,6 +72,7 @@ namespace BDXKEditor {
 
 		void OnDrawGizmos()override
 		{
+			//显示所有游戏物体
 			float drawY = 10;
 			std::vector<ObjectPtr<Transform>> rootTransforms = TransformEditor::GetRootTransforms();
 			for (ObjectPtr<Transform> transform : rootTransforms)
@@ -79,23 +80,7 @@ namespace BDXKEditor {
 				drawY = ShowGameObjectInfo(transform->GetGameObject(), drawY);
 			}
 
-			//显示帧率
-			GUI::TextArea({ 10,drawY,180,25 }, L"帧率:" + std::to_wstring(1 / Time::GetDeltaTime()));
-			drawY += 30;
 
-			//孤儿箱:用来将节点父亲设为空
-			{
-				Rect orphanBox{ 10,drawY,100,25 };
-				GUI::TextArea(orphanBox, L"孤儿箱");
-				ObjectPtr<Transform> transform = nullptr;
-				if (Event::IsDrop(orphanBox, (ObjectPtr<Component>*) & transform))
-				{
-					if (transform != nullptr)
-					{
-						transform->SetParent(nullptr);
-					}
-				}
-			}
 
 
 			//显示描述
@@ -104,6 +89,24 @@ namespace BDXKEditor {
 			rect.SetSize(screenSize / 4);
 			rect.SetPosition({ screenSize.x - rect.width - 10, 10 });
 			sceneInfo = GUI::TextArea(rect, sceneInfo);
+
+			//显示帧率
+			rect.y += rect.height + 10;
+			rect.height = 25;
+			GUI::TextArea(rect, L"帧率:" + std::to_wstring(1 / Time::GetDeltaTime()));
+
+			//孤儿箱:用来将节点父亲设为空
+			rect.y += rect.height + 10;
+			rect.height = 25;
+			GUI::TextArea(rect, L"孤儿箱");
+			ObjectPtr<Transform> transform = nullptr;
+			if (Event::IsDrop(rect, (ObjectPtr<Component>*) & transform))
+			{
+				if (transform != nullptr)
+				{
+					transform->SetParent(nullptr);
+				}
+			}
 		}
 
 		std::wstring ToString()override {

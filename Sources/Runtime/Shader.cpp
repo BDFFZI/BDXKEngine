@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 namespace BDXKEngine {
-	Shader::Shader(const wchar_t* vertexShaderhlsl, const wchar_t* pixelShaderhlsl, PassType passType)
+	Shader::Shader(const wchar_t* vertexShaderhlsl, const wchar_t* pixelShaderhlsl, PassType passType) :Object(L"New Shader")
 	{
 		GL::CreateVertexShader(
 			vertexShaderhlsl,

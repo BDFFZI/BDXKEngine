@@ -8,6 +8,8 @@ namespace BDXKEngine {
 	class Animator :public Component, public LateUpdateEvent
 	{
 	public:
+		Animator();
+
 		void SetAnimation(std::function<void(ObjectPtr<Transform> transfom)> animation)
 		{
 			this->animation = animation;

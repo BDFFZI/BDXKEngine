@@ -346,5 +346,8 @@
     <ClInclude Include="ObjectPtr.h">
       <Filter>Base\Object</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Function\System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

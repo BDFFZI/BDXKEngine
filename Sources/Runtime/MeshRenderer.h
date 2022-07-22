@@ -6,7 +6,9 @@ namespace BDXKEngine {
 	class MeshRenderer :public Renderer
 	{
 	public:
-		void SetMesh(Mesh* mesh)
+		MeshRenderer();
+
+		void SetMesh(ObjectPtr<Mesh> mesh)
 		{
 			Renderer::SetMesh(mesh);
 		}

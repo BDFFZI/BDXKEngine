@@ -19,7 +19,7 @@ namespace Assembly {
 
 			if (GUI::Button({ 10,size.y - 40,180,30 }, L"放置方块"))
 			{
-				ObjectPtr<Transform> cube = CreationMenu::Object3D::Cube()->GetTransform();
+				ObjectPtr<Transform> cube = CreationMenu::Object3D::Cube(L"自毁装置")->GetTransform();
 				cube->SetLocalPosition(transform->GetPosition());
 				cube->SetLocalEulerAngles(transform->GetEulerAngles());
 				cube->GetGameObject()->AddComponent<AutoDestroy>();

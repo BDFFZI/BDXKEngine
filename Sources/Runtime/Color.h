@@ -34,6 +34,10 @@ namespace BDXKEngine {
 		{
 			return { r * value,g * value ,b * value ,a * value };
 		}
+		Color operator/(float value)
+		{
+			return *this * (1 / value);
+		}
 
 		operator D2D1_COLOR_F();
 	};

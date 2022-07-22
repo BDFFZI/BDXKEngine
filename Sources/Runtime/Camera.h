@@ -22,6 +22,8 @@ namespace BDXKEngine {
 	class Camera :public Component, public RenderObjectEvent, RendererEditor, LightEditor
 	{
 	public:
+		Camera();
+
 		void SetClearFlags(ClearFlags clearFlags);
 		void SetBackground(Color color);
 	private:

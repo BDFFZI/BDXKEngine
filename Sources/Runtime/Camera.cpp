@@ -2,6 +2,10 @@
 #include <algorithm>
 
 namespace BDXKEngine {
+	Camera::Camera() :Component(L"New Camera")
+	{
+	}
+
 	void Camera::SetClearFlags(ClearFlags clearFlags)
 	{
 		this->clearFlags = clearFlags;
@@ -96,8 +100,8 @@ namespace BDXKEngine {
 		for (ObjectPtr<Renderer> renderer : renderers)
 		{
 			//获取该物体的渲染管线资源
-			Mesh* mesh = renderer->GetMesh();//获取网格
-			Material* material = renderer->GetMaterial();//获取材质
+			ObjectPtr<Mesh> mesh = renderer->GetMesh();//获取网格
+			ObjectPtr<Material> material = renderer->GetMaterial();//获取材质
 			ObjectPtr<Transform> rendererTransform = renderer->GetGameObject()->GetTransform();//获取物体矩阵
 			worldInfo.localToWorld = rendererTransform->GetLocalToWorldMatrix();
 			//上传渲染矩阵至渲染管线

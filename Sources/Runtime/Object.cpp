@@ -4,25 +4,27 @@
 namespace BDXKEngine {
 	void Object::Destroy(Object* object)
 	{
-		if (object == nullptr || object->IsNull())
+		if (object == nullptr || object->IsNull() || object->isDestroyed == true)
 			return;
 
+		object->isDestroyed = true;
 		object->OnDestroy();
 
-		instanceIDStates.erase(object->instanceID);
-		objects.erase(std::find(objects.begin(), objects.end(), object));
+		instanceIDStates.erase(object->instanceID);//标记为不存在
+		objects.erase(std::find(objects.begin(), objects.end(), object));//移除指针存档
+
 
 		delete object;
 	}
 
 
-	Object::Object() {
-		name = L"New Object";
+	Object::Object(std::wstring name) {
+		this->name = name;
 		instanceID = ++instanceIDCount;
 		instanceIDStates.insert(instanceID);
 		objects.push_back(this);
 
-		Debug::Log((String)L"Object Create " + instanceID);
+		Debug::Log((String)L"Object Create " + instanceID + " " + GetName());
 	}
 	Object::~Object() {
 		Debug::Log((String)L"Object Delete " + instanceID + " " + GetName());

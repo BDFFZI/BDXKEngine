@@ -15,6 +15,8 @@ namespace BDXKEngine {
 		friend LightEditor;
 
 	public:
+		Light();
+
 		LightType GetType()
 		{
 			return type;
@@ -43,12 +45,6 @@ namespace BDXKEngine {
 		{
 			this->intensity = intensity;
 		}
-
-		Light()
-		{
-			lights.push_back(this);
-			shadow = new Texture2D{ 1024,1024 };
-		}
 	private:
 		static std::vector<ObjectPtr<Light>> lights;
 
@@ -56,7 +52,7 @@ namespace BDXKEngine {
 		Color color = Color::white;
 		float intensity = 1;
 		RenderMode renderMode = RenderMode::Important;
-		Texture2D* shadow;
+		ObjectPtr<Texture2D> shadow;
 
 		void OnRenderObject()override
 		{

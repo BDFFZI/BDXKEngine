@@ -10,7 +10,7 @@ namespace BDXKEngine {
 		return (long)currentTime.count();
 	}
 
-
+	int Time::frameCount = 0;
 	long Time::startTime = 0;
 	long Time::frameTime = 0;
 	float Time::deltaTime = 0;
@@ -23,10 +23,16 @@ namespace BDXKEngine {
 	{
 		return deltaTime;
 	}
+	float Time::GetFrameCount()
+	{
+		return frameCount;
+	}
 
 	void Time::Initialize(Window* window)
 	{
 		Time::startTime = GetSystemTime();
+		Time::BeginFrame();
+
 		window->AddMessageListener(OnWindowMessage);
 	}
 
@@ -46,6 +52,7 @@ namespace BDXKEngine {
 		case WM_PAINT:
 		{
 			Time::EndFrame();
+			frameCount++;
 			Time::BeginFrame();
 			break;
 		}

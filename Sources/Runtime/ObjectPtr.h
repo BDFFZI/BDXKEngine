@@ -7,6 +7,8 @@ namespace BDXKEngine {
 	//内联变量：确保全局唯一
 	inline std::unordered_map<unsigned int, int> objectIDRefCount;
 
+	/// 使用备注：
+	/// 1.别在构造函数中使用
 	template<typename TObject>
 	struct ObjectPtr : ObjectEditor
 	{
@@ -53,7 +55,7 @@ namespace BDXKEngine {
 				throw std::exception("目标引用为空");
 			return object;
 		}
-		bool operator ==(ObjectPtr& other)
+		bool operator ==(const ObjectPtr& other)
 		{
 			if (object == other.object)
 				return true;
@@ -62,18 +64,9 @@ namespace BDXKEngine {
 
 			return false;
 		}
-		bool operator !=(ObjectPtr& other)
+		bool operator !=(const ObjectPtr& other)
 		{
 			return !(*this == other);
-		}
-
-		template<typename TTargetObject>
-		operator ObjectPtr<TTargetObject>()
-		{
-			return As<TTargetObject>();
-		}
-		operator TObject* () {
-			return GetPtr();
 		}
 
 		template<typename TTargetObject>
@@ -113,7 +106,7 @@ namespace BDXKEngine {
 			object = nullptr;
 			objectID = 0;
 		}
-		bool IsNull()
+		bool IsNull()const
 		{
 			return object == nullptr || ObjectEditor::GetIDState(objectID) == false;
 		}

@@ -25,13 +25,13 @@ namespace BDXKEngine {
 		GL::UpdateBuffer(lightInfoBuffer, &lightInfo);
 	}
 
-	void Graphics::DrawMeshNow(Mesh* mesh)
+	void Graphics::DrawMeshNow(ObjectPtr<Mesh> mesh)
 	{
 		GL::SetBuffer(GetVertexBuffer(mesh), sizeof(Vertex), GetTriangleBuffer(mesh), DXGI_FORMAT_R32_UINT);
 		GL::Render(mesh->GetTrianglesCount());
 	}
 
-	void Graphics::SetRenderTarget(Texture2D* texture) {
+	void Graphics::SetRenderTarget(ObjectPtr<Texture2D> texture) {
 		GL2D::ReleaseResources();
 		GL::SetRenderTexture(texture == nullptr ? nullptr : Texture2DEditor::GetGLTexture2D(texture));
 		GL2D::CreateResources(GetIDXGISurface());

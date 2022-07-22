@@ -4,7 +4,7 @@
 #include"String.h"
 
 namespace BDXKEngine {
-	struct Debug
+	class Debug
 	{
 	public:
 		static void Log(String str);

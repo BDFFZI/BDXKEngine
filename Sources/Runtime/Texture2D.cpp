@@ -2,7 +2,10 @@
 #include "Graphics.h"
 
 namespace BDXKEngine {
-	Texture2D::Texture2D(unsigned int width, unsigned int height)
+	Texture2D::Texture2D() :Texture(L"New Texture2D")
+	{
+	}
+	Texture2D::Texture2D(unsigned int width, unsigned int height) : Texture2D()
 	{
 		ID3D11ShaderResourceView* resourceView;
 		GL::CreateTexture2D(width, height, &texture2D.p, &resourceView);
@@ -11,10 +14,13 @@ namespace BDXKEngine {
 
 	Texture2D::Texture2D(Color color) :Texture2D(1, 1)
 	{
-		Graphics::SetRenderTarget(this);
+		GL::SetRenderTexture(texture2D);
 		GL::Begin(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		GL::Clear(true, true, Color::white);
+		GL::Clear(true, true, color);
 		GL::End();
-		Graphics::SetRenderTarget(nullptr);
+		GL::SetRenderTexture(nullptr);
+	}
+	Texture2D::Texture2D(char* filePath) :Texture2D() {
+
 	}
 }

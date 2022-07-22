@@ -1,13 +1,15 @@
 #pragma once
 #include <map>
 #include <vector>
+#include "ObjectPtr.h"
 #include "Shader.h"
 #include "Texture.h"
 
 
 namespace BDXKEngine {
-	class Material :ShaderEditor, TextureEditor
+	class Material :public Object, ShaderEditor, TextureEditor
 	{
+	public:
 		enum class RenderQueue {
 			Background = 1000,
 			Geometry = 2000,
@@ -22,25 +24,25 @@ namespace BDXKEngine {
 			Vector4 parameter2;
 			Vector4 parameter3;
 		};
-	public:
-		Material(std::vector<Shader*> shaders);
+
+		Material(std::vector<ObjectPtr<Shader>> shaders);
 
 
-		std::vector<Shader*> GetShaders();
+		std::vector<ObjectPtr<Shader>> GetShaders();
 		RenderQueue GetRenderQueue();
 		int GetPassCount();
 		PassType GetPassType(int index);
 
 
-		void SetShaders(std::vector<Shader*> shader);
+		void SetShaders(std::vector<ObjectPtr<Shader>> shader);
 		void SetRenderQueue(RenderQueue renderQueue);
-		void SetTexture(int instanceID, Texture* texture);
+		void SetTexture(int instanceID, ObjectPtr<Texture> texture);
 		void SetFloat(int instanceID, float value);
 		/// 用当前材质的所有物填充渲染管线
 		void SetPass(int index);
 	private:
-		std::vector<Shader*> shaders;
-		std::map<int, Texture*> textures;
+		std::vector< ObjectPtr<Shader>> shaders;
+		std::map<int, ObjectPtr<Texture>> textures;
 		CComPtr<ID3D11SamplerState> samplerState;
 
 		RenderQueue renderQueue;
