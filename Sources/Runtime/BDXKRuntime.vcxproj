@@ -201,7 +201,6 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Math.h" />
     <ClInclude Include="BDXKEngine.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Window.h" />

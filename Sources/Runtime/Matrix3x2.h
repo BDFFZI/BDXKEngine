@@ -1,7 +1,6 @@
 #pragma once
 #include<d2d1.h>
 #include<cmath>
-#include "Math.h"
 #include "Vector2.h"
 
 //https://docs.microsoft.com/en-us/windows/win32/learnwin32/appendix--matrix-transforms
@@ -30,7 +29,7 @@ namespace BDXKEngine {
 		}
 		static Matrix3x2 Rotate(float degree)
 		{
-			float radian = degree * Math::Deg2Rad;
+			float radian = degree / 180 * M_PI;
 			return {
 				std::cos(radian),std::sin(radian),
 				-std::sin(radian),std::cos(radian),

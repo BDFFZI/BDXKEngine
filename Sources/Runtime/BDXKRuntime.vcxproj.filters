@@ -234,9 +234,6 @@
     <ClInclude Include="Debug.h">
       <Filter>Base\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Base\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="String.h">
       <Filter>Base\Helper</Filter>
     </ClInclude>

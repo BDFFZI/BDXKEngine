@@ -26,7 +26,7 @@ namespace BDXKEngine {
 	}
 	Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
 	{
-		Vector3 radian = degree * Math::Deg2Rad;
+		Vector3 radian = degree / 180 * M_PI;
 
 
 		float ry = radian.y;

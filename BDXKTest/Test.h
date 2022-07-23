@@ -18,7 +18,7 @@ namespace Assembly {
 			ObjectPtr<Transform> transform = sphere->GetTransform();
 			transform->SetLocalPosition({ 0,0.5f,0 });
 		}
-		//增加材质控制
+		//增加材质控制并调整位置
 		{
 			ObjectPtr<MaterialHUD> materialHUD = camera->AddComponent<MaterialHUD>();
 			materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());

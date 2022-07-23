@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include "Vector3.h"
-#include "Math.h"
 #include "Matrix3x2.h"
 #include "Matrix3x3.h"
 

@@ -7,8 +7,8 @@ int main()
 	BDXKEngine::Engine::Run(
 		[&]() {
 			Assembly::TestLight();
-			ObjectPtr<GameObject> camera = GameObject::Find(L"摄像机");
-			camera->AddComponent<Assembly::CreateCube>();
+			ObjectPtr<Camera> camera = GameObject::Find(L"摄像机")->GetComponent<Camera>();
+			camera->GetGameObject()->AddComponent<Assembly::CreateCube>();
 		}
 	);
 }
