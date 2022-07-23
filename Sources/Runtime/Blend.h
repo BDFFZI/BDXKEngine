@@ -25,6 +25,7 @@ namespace BDXKEngine {
 			Add = D3D11_BLEND_OP_ADD,
 		};
 
+		static Blend Opaque;
 		static Blend Multiply;
 		static Blend Additive;
 

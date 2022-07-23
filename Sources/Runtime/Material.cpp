@@ -6,7 +6,6 @@ namespace BDXKEngine {
 	{
 		SetShaders(shaders);
 		//创建图形资源
-		parameters = {};
 		GL::CreateConstantBuffer(&parameters, sizeof(Parameters), &parametersBuffer.p);
 		GL::CreateSamplerState(&samplerState.p);
 	}
@@ -14,7 +13,7 @@ namespace BDXKEngine {
 	std::vector<ObjectPtr<Shader>> Material::GetShaders() {
 		return shaders;
 	}
-	Material::RenderQueue Material::GetRenderQueue()
+	RenderQueue Material::GetRenderQueue()
 	{
 		return renderQueue;
 	}
@@ -37,14 +36,14 @@ namespace BDXKEngine {
 	{
 		this->renderQueue = renderQueue;
 	}
-	void Material::SetTexture(int instanceID, ObjectPtr<Texture> texture)
+	void Material::SetTexture(int slotIndex, ObjectPtr<Texture> texture)
 	{
-		textures[instanceID] = texture;
+		textures[slotIndex] = texture;
 	}
-	void Material::SetFloat(int instanceID, float value)
+	void Material::SetFloat(int slotIndex, float value)
 	{
 		float* object = (float*)&parameters;
-		*(object + instanceID) = value;
+		*(object + slotIndex) = value;
 	}
 	void Material::SetPass(int index)
 	{
@@ -57,7 +56,7 @@ namespace BDXKEngine {
 		GL::SetSamplerState(&samplerState.p);
 		//设置常量
 		GL::UpdateBuffer(parametersBuffer.p, &parameters);
-		GL::SetConstantBuffer(2, &parametersBuffer.p);
+		GL::SetConstantBuffer(4, &parametersBuffer.p);
 		//设置着色器
 		ShaderEditor::SetPass(shaders[index]);
 	}

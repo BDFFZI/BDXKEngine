@@ -7,24 +7,28 @@ namespace BDXKEngine {
 	void GL::CreateVertexShader(const wchar_t* path, D3D11_INPUT_ELEMENT_DESC inputLayoutDescriptor[], int inputLayoutDescriptorCount,
 		ID3D11VertexShader** vertexShader, ID3D11InputLayout** inputLayout)
 	{
+		HRESULT result;
+
 		CComPtr<ID3DBlob> blob;
 		CompileShader(path, "main", "vs_5_0", &blob.p);
 		//创建顶点着色器
-		assert(SUCCEEDED(device->CreateVertexShader(
+		result = device->CreateVertexShader(
 			blob->GetBufferPointer(),
 			blob->GetBufferSize(),
 			nullptr,
 			vertexShader
-		)));
+		);
+		assert(SUCCEEDED(result));
 
 		//创建语义信息
-		assert(SUCCEEDED(device->CreateInputLayout(
+		result = device->CreateInputLayout(
 			inputLayoutDescriptor,
 			inputLayoutDescriptorCount,
 			blob->GetBufferPointer(),
 			blob->GetBufferSize(),
 			inputLayout
-		)));
+		);
+		assert(SUCCEEDED(result));
 	}
 	void GL::CreatePixelShader(const wchar_t* path, ID3D11PixelShader** pixelShader)
 	{
@@ -214,6 +218,10 @@ namespace BDXKEngine {
 	void GL::End()
 	{
 		//显示结果
+		swapChain->Present(0, 0);
+	}
+	void GL::Flush()
+	{
 		swapChain->Present(0, 0);
 	}
 	void GL::Clear(bool clearDepth, bool clearColor, Color backgroundColor, float depth)

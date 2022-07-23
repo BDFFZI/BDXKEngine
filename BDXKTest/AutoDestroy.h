@@ -24,11 +24,18 @@ namespace Assembly {
 			if (Time::GetRealtimeSinceStartup() - time > 2)
 				Destroy(animator.GetPtr());
 			if (Time::GetRealtimeSinceStartup() - time > 4)
-				Destroy(GetGameObject().GetPtr());
+			{
+				ObjectPtr<GameObject> gameObject = GetGameObject();
+				Destroy(this);
+				Destroy(gameObject.GetPtr());
+			}
 			if ((int)std::fmodf(Time::GetFrameCount() - time, 100) == 0)
 			{
 				Debug::Log(L"Ëæ»ú:" + Random::ColorHSV().ToString());
-				meshRenderer->GetMaterial()->SetTexture(0, new Texture2D(Random::ColorHSV()));
+				Color color = Random::ColorHSV();
+				color.a = 0.3f;
+
+				meshRenderer->GetMaterial()->SetTexture(0, new Texture2D(color));
 			}
 		}
 

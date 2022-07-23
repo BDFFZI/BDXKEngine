@@ -21,7 +21,7 @@ namespace BDXKEngine {
 	public:
 		static void CreateVertexShader(const wchar_t* path, D3D11_INPUT_ELEMENT_DESC vertexShaderInput[], int inputLayoutDescriptorCount, ID3D11VertexShader** vertexShader, ID3D11InputLayout** inputLayout);
 		static void CreatePixelShader(const wchar_t* path, ID3D11PixelShader** pixelShader);
-		
+
 		template<typename Vertex>
 		static void CreateVertexBuffer(Vertex vertices[], int verticesSize, ID3D11Buffer** vertexBuffer)
 		{
@@ -82,8 +82,9 @@ namespace BDXKEngine {
 
 		/// TODO 有一个BUG，因为渲染纹理被GL2D占用着，故若没有和GL2D配合使用会导致无法重置纹理大小
 		static void Viewport(Rect rect = {});
-		static void Begin(D3D11_PRIMITIVE_TOPOLOGY drawMode);
+		static void Begin(D3D11_PRIMITIVE_TOPOLOGY drawMode = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		static void End();
+		static void Flush();
 		static void Clear(bool clearDepth, bool clearColor, Color backgroundColor = Color::clear, float depth = 1.0f);
 		static void Render(int indexsCount);
 

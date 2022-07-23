@@ -15,7 +15,7 @@ namespace BDXKEngine {
 	Texture2D::Texture2D(Color color) :Texture2D(1, 1)
 	{
 		GL::SetRenderTexture(texture2D);
-		GL::Begin(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		GL::Begin();
 		GL::Clear(true, true, color);
 		GL::End();
 		GL::SetRenderTexture(nullptr);

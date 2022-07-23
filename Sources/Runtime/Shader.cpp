@@ -1,21 +1,21 @@
 #include "Shader.h"
 
 namespace BDXKEngine {
-	Shader::Shader(const wchar_t* vertexShaderhlsl, const wchar_t* pixelShaderhlsl, PassType passType) :Object(L"New Shader")
+	Shader::Shader(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType) :Object(L"New Shader")
 	{
 		GL::CreateVertexShader(
-			vertexShaderhlsl,
+			vertexShaderhlsl.c_str(),
 			(D3D11_INPUT_ELEMENT_DESC*)VertexDescription,
 			ARRAYSIZE(VertexDescription),
 			&vertexShader.p, &inputLayout.p
 		);
 		GL::CreatePixelShader(
-			pixelShaderhlsl,
+			pixelShaderhlsl.c_str(),
 			&pixelShader.p
 		);
 
 		SetPassType(passType);
-		SetBlend({});
+		SetBlend(Blend::Opaque);
 		SetZTest({});
 	}
 

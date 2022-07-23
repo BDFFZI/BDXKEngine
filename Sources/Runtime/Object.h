@@ -66,6 +66,8 @@ namespace BDXKEngine {
 	class ObjectEditor {
 	protected:
 		bool GetIDState(unsigned int instanceID) const {
+			if (Object::instanceIDStates.size() == 0)
+				return false;
 			return Object::instanceIDStates.count(instanceID) != 0;
 		}
 	};

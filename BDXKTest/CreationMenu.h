@@ -2,9 +2,6 @@
 #include "CameraController.h"
 #include "SceneHUD.h"
 
-#define GetResourcesPath(Type,Name) "../Resources/"#Type"/"#Name""
-#define GetResourcesPathW(Type,Name) L"../Resources/"#Type"/"#Name""
-
 namespace BDXKEditor {
 	using namespace BDXKEngine;
 
@@ -30,7 +27,7 @@ namespace BDXKEditor {
 			{
 				//加载网格
 				StaticMesh meshSource = MeshImporter::ImportFbx((char*)meshPath);
-				ObjectPtr<Mesh> mesh = new Mesh(meshSource);
+				ObjectPtr<Mesh> mesh = meshSource.CreateMesh();
 				//加载着色器
 				ObjectPtr<Shader> baseShader = new Shader{
 					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),

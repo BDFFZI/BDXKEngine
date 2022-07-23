@@ -15,7 +15,7 @@ namespace BDXKEngine {
 	{
 		friend ShaderEditor;
 	public:
-		Shader(const wchar_t* vertexShaderhlsl, const wchar_t* pixelShaderhlsl, PassType passType);
+		Shader(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType);
 
 		PassType GetPassType();
 		Blend GetBlend();

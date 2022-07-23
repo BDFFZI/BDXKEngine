@@ -41,15 +41,4 @@ namespace BDXKEngine {
 	{
 
 	}
-
-	Mesh::Mesh(StaticMesh staticMesh) : Mesh()
-	{
-		SetTriangles(staticMesh.triangles);
-		SetPositions(staticMesh.positions);
-		SetNormals(staticMesh.normals);
-		SetUVs(staticMesh.uvs);
-		SetColors(staticMesh.colors);
-
-		UploadMeshData();
-	}
 }

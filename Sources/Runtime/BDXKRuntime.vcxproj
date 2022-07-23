@@ -127,7 +127,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bleed.cpp" />
-    <ClCompile Include="Blend.cpp" />
     <ClCompile Include="Cull.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -139,6 +138,7 @@
     <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderEvent.cpp" />
+    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="Blend.h" />
     <ClInclude Include="Cull.h" />
+    <ClInclude Include="GraphicsSettings.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshImporter.h" />
@@ -180,9 +181,11 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="GLLayout.h" />
+    <ClInclude Include="QualitySettings.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderEvent.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Camera.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="GL.h" />
     <ClInclude Include="ObjectPtr.h" />
+    <ClInclude Include="ShaderImporter.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Renderer.h" />

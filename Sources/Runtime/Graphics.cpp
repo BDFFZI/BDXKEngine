@@ -4,10 +4,14 @@
 
 namespace BDXKEngine {
 	WorldInfo Graphics::worldInfo = {};
+	CameraInfo Graphics::cameraInfo = {};
 	LightInfo Graphics::lightInfo = {};
+	ObjectInfo Graphics::objectInfo = {};
 
 	CComPtr<ID3D11Buffer> Graphics::worldInfoBuffer = nullptr;
+	CComPtr<ID3D11Buffer> Graphics::cameraInfoBuffer = nullptr;
 	CComPtr<ID3D11Buffer> Graphics::lightInfoBuffer = nullptr;
+	CComPtr<ID3D11Buffer> Graphics::objectInfoBuffer = nullptr;
 
 	/// <summary>
 	/// 默认情况下HLSL以列向量的顺序方式接受数据，而矩阵传输是以行向量传入的
@@ -19,10 +23,21 @@ namespace BDXKEngine {
 		Graphics::worldInfo = worldInfo;
 		GL::UpdateBuffer(worldInfoBuffer, &worldInfo);
 	}
+	void Graphics::UpdateCameraInfo(CameraInfo cameraInfo)
+	{
+		Graphics::cameraInfo = cameraInfo;
+		GL::UpdateBuffer(cameraInfoBuffer, &cameraInfo);
+	}
 	void Graphics::UpdateLightInfo(LightInfo lightInfo)
 	{
 		Graphics::lightInfo = lightInfo;
 		GL::UpdateBuffer(lightInfoBuffer, &lightInfo);
+	}
+
+	void Graphics::UpdateObjectInfo(ObjectInfo objectInfo)
+	{
+		Graphics::objectInfo = objectInfo;
+		GL::UpdateBuffer(objectInfoBuffer, &objectInfo);
 	}
 
 	void Graphics::DrawMeshNow(ObjectPtr<Mesh> mesh)
@@ -37,11 +52,6 @@ namespace BDXKEngine {
 		GL2D::CreateResources(GetIDXGISurface());
 	}
 
-	void Graphics::Flush()
-	{
-		GL::End();
-	}
-
 	Graphics* Graphics::Initialize(Window* window, GL** gl, GL2D** gl2d)
 	{
 		//初始化Direct3D
@@ -49,12 +59,15 @@ namespace BDXKEngine {
 		//初始化Direct2D，利用Direct3D的渲染纹理以便实现两者的互操作性
 		*gl2d = GL2D::Initialize(GetIDXGISurface());
 
-		//创建渲染缓冲区
+		//创建渲染用的通用常量缓冲区
 		GL::CreateBuffer(&worldInfo, sizeof(WorldInfo), D3D11_BIND_CONSTANT_BUFFER, &worldInfoBuffer);
 		GL::SetConstantBuffer(0, &worldInfoBuffer.p);
-		//创建光照信息缓冲区
+		GL::CreateBuffer(&cameraInfo, sizeof(CameraInfo), D3D11_BIND_CONSTANT_BUFFER, &cameraInfoBuffer);
+		GL::SetConstantBuffer(1, &cameraInfoBuffer.p);
 		GL::CreateBuffer(&lightInfo, sizeof(LightInfo), D3D11_BIND_CONSTANT_BUFFER, &lightInfoBuffer);
-		GL::SetConstantBuffer(1, &lightInfoBuffer.p);
+		GL::SetConstantBuffer(2, &lightInfoBuffer.p);
+		GL::CreateBuffer(&objectInfo, sizeof(ObjectInfo), D3D11_BIND_CONSTANT_BUFFER, &objectInfoBuffer);
+		GL::SetConstantBuffer(3, &objectInfoBuffer.p);
 
 		window->AddMessageListener(OnWindowMessage);
 

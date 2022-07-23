@@ -3,7 +3,6 @@
 #include <vector>
 #include "ObjectPtr.h"
 #include "GLLayout.h"
-#include "MeshImporter.h"
 
 namespace BDXKEngine {
 	class MeshEditor;
@@ -14,7 +13,6 @@ namespace BDXKEngine {
 		static ObjectPtr<Mesh> CreateCube();
 
 		Mesh();
-		Mesh(StaticMesh staticMesh);
 
 		int GetVerticesCount()
 		{

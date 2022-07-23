@@ -10,12 +10,12 @@ float4 main(Pixel pixel) : SV_TARGET
     //计算数据
     float3 lightNormal = 0;
     float3 lightColor = 0;
-    if (LightInfos.x == 0)//平行光
+    if (LightFactorInt.x == 0)//平行光
     {
         lightNormal = LightNormal.xyz;
         lightColor = LightColor.rgb;
     }
-    else if (LightInfos.x == 1)//点光
+    else if (LightFactorInt.x == 1)//点光
     {
         lightNormal = normalize(pixel.position - LightPosition.xyz);
         lightColor = LightColor.rgb * clamp(1 / distance(pixel.position, LightPosition.xyz), 0, 1);
@@ -29,5 +29,5 @@ float4 main(Pixel pixel) : SV_TARGET
     float specular = pow(max(0, dot(reflect(lightNormal, pixel.normal), normalize(CameraPosition.xyz - pixel.position))), smoothness * 128 + 1) * 2;
     float3 specularColor = albedo.rgb * lightColor * specular * smoothness;
     //混合
-    return float4(diffusionColor * clamp(2 - metallic - smoothness, 0, 1) + specularColor, 1);
+    return float4(diffusionColor * clamp(2 - metallic - smoothness, 0, 1) + specularColor, albedo.a);
 }

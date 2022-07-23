@@ -1,21 +1,30 @@
 cbuffer WorldInfo : register(b0)
 {
-    row_major float4x4 LocalToWorld;
-    row_major float4x4 WorldToCamera;
-    row_major float4x4 CameraToView;
-    float4 CameraPosition;
     float4 Environment;
 };
 
-cbuffer LightInfo : register(b1)
+cbuffer CameraInfo : register(b1)
+{
+    row_major float4x4 WorldToCamera;
+    row_major float4x4 CameraToView;
+    float4 CameraPosition;
+}
+
+cbuffer LightInfo : register(b2)
 {
     float4 LightPosition;
     float4 LightNormal;
     float4 LightColor;
-    int3 LightInfos; //x:LightType,y:lightRenderMode,z:lightOrder
+    float4 LightFactorFloat;
+    int4 LightFactorInt; //x:LightType,y:lightRenderMode,z:lightOrder,w:Пе
 };
 
-cbuffer Parameters : register(b2)
+cbuffer ObjectInfo : register(b3)
+{
+    row_major float4x4 LocalToWorld;
+}
+
+cbuffer Parameters : register(b4)
 {
     float4 Parameter0;
     float4 Parameter1;
@@ -42,5 +51,5 @@ float3 LocalToWorldVector(float3 verctor)
     float4x4 localToWorldVector = LocalToWorld;
     localToWorldVector._14_24_34_44 = float4(0, 0, 0, 1);
     
-    return (float3)mul(localToWorldVector, float4(verctor, 1));
+    return (float3) mul(localToWorldVector, float4(verctor, 1));
 }

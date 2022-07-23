@@ -3,6 +3,8 @@
   <ItemGroup>
     <FxCompile Include="Standard\PixelShader.hlsl" />
     <FxCompile Include="Standard\VertexShader.hlsl" />
+    <FxCompile Include="ShadowMap\VertexShader.hlsl" />
+    <FxCompile Include="ShadowMap\PixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BDXKEngine.hlsli" />

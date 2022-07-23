@@ -24,6 +24,8 @@ namespace BDXKEngine {
 	public:
 		Camera();
 
+		float GetAspectRatio();
+
 		void SetClearFlags(ClearFlags clearFlags);
 		void SetBackground(Color color);
 		void SetNearClipPlane(float distance);

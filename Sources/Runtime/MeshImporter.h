@@ -3,6 +3,7 @@
 #include<vector>
 #include<cassert>
 #include<fbxsdk.h>
+#include"Mesh.h"
 #include"Vector3.h"
 #include"Color.h"
 #include"Debug.h"
@@ -46,6 +47,19 @@ namespace BDXKEngine {
 			}
 
 			return string.str();
+		}
+
+
+		ObjectPtr<Mesh> CreateMesh()
+		{
+			ObjectPtr<Mesh> mesh = new Mesh();
+			mesh->SetTriangles(triangles);
+			mesh->SetPositions(positions);
+			mesh->SetNormals(normals);
+			mesh->SetUVs(uvs);
+			mesh->SetColors(colors);
+			mesh->UploadMeshData();
+			return mesh;
 		}
 	};
 

@@ -7,10 +7,11 @@
 #include "Graphics.h"
 #include "Renderer.h"
 #include "Transform.h"
+#include "GraphicsSettings.h"
 
 namespace BDXKEngine {
 	class LightEditor;
-	class Light :public Component, public RenderObjectEvent, RendererEditor
+	class Light :public Component, public LateUpdateEvent, RendererEditor, ShaderEditor
 	{
 		friend LightEditor;
 
@@ -45,6 +46,8 @@ namespace BDXKEngine {
 		{
 			this->intensity = intensity;
 		}
+
+		ObjectPtr<Texture2D> shadowMap;
 	private:
 		static std::vector<ObjectPtr<Light>> lights;
 
@@ -52,18 +55,8 @@ namespace BDXKEngine {
 		Color color = Color::white;
 		float intensity = 1;
 		RenderMode renderMode = RenderMode::Important;
-		ObjectPtr<Texture2D> shadow;
 
-		void OnRenderObject()override
-		{
-			Graphics::SetRenderTarget(shadow);
-
-			//“ı”∞
-			//std::vector<Renderer*>& renderers = RendererEditor::GetRenderers();
-
-
-			Graphics::SetRenderTarget(nullptr);
-		}
+		void OnLateUpdate()override;
 	};
 
 	class LightEditor {
@@ -75,6 +68,7 @@ namespace BDXKEngine {
 				Vector4(lightTransform->GetPosition(),1),
 				Vector4(lightTransform->GetFront().GetNormalized(),1),
 				light->GetColor() * light->GetIntensity(),
+				{},
 				light->GetType(),
 				light->GetRenderMode(),
 				order

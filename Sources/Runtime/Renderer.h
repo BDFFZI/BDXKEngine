@@ -68,7 +68,7 @@ namespace BDXKEngine {
 				queue.begin(),
 				queue.end(),
 				[](ObjectPtr<Renderer>& a, ObjectPtr<Renderer>& b) {
-					return a->GetMaterial()->GetRenderQueue() > b->GetMaterial()->GetRenderQueue();
+					return a->GetMaterial()->GetRenderQueue() < b->GetMaterial()->GetRenderQueue();
 				}
 			);
 			return queue;

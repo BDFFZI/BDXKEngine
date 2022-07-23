@@ -25,27 +25,28 @@
 //WPARAM = uint
 //LPARAM = int
 
-//基础数据结构
+//基础层：公共数据类型，统一各模块交流的语言 >> 扩展标准库
+#include "ObjectPtr.h"
 #include "Color.h"
 #include "Rect.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Matrix3x2.h"
 #include "Matrix4x4.h"
-//工具
-#include "Math.h"
+//平台层：对操作系统以及各种非标准库的封装 >> 扩展标准库
 #include "String.h"
 #include "Debug.h"
 #include "WindowBase.h"
 #include "Window.h"
-//DirectX接口封装
 #include "GL.h"
 #include "GL2D.h"
-//DirectX接口封装数据结构
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture2D.h"
-//系统
+//资源层：对各种外部文件包括引擎持久化资源的表示和读写 >> 引擎启动和运行的数据源头，未来编辑器的编辑目标
+#include "Resources.h"
+#include "MeshImporter.h"
+//功能层：引擎运行中提供的各种运行时功能 >> 引擎可以正常运行了
 #include "Graphics.h"
 #include "Time.h"
 #include "Input.h"
@@ -54,14 +55,16 @@
 #include "Event.h"
 #include "GUI.h"
 #include "Random.h"
-//组件
-#include "ObjectPtr.h"
+//框架层：在此组织和使用下层的各种功能 >> 用户控制引擎的接口
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
 #include "Camera.h"
 #include "Animator.h"
+
+#define GetResourcesPath(Type,Name) "../Resources/"#Type"/"#Name""
+#define GetResourcesPathW(Type,Name) L"../Resources/"#Type"/"#Name""
 
 namespace BDXKEngine {
 	class Engine :Time, Input, Screen, Cursor, Graphics, Event, GUI, GameObjectEditor, TransformEditor {
@@ -78,7 +81,7 @@ namespace BDXKEngine {
 					{
 					case WM_CREATE:
 					{
-						//系统初始化
+						//功能初始化
 						Time::Initialize(window);
 						Screen::Initialize(window);
 						Input* input = Input::Initialize(window);
@@ -88,6 +91,9 @@ namespace BDXKEngine {
 						GL2D* gl2d = nullptr;
 						Graphics* graphics = Graphics::Initialize(window, &gl, &gl2d);
 						GUI::Initialize(gl2d, event, window);
+
+						//创建配置信息，这将影响框架层中部分模块使用功能层的方式
+						CreateSettings();
 
 						//完成初始化后，正式循环前
 						onStart();
@@ -102,6 +108,7 @@ namespace BDXKEngine {
 					case WM_DESTROY:
 					{
 						GameObjectEditor::Release();
+						ReleaseSettings();
 						break;
 					}
 					//case WM_CLOSE:
@@ -131,6 +138,18 @@ namespace BDXKEngine {
 				if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
 					PostMessage(hwnd, WM_PAINT, NULL, NULL);
 			}
+		}
+	private:
+		static void CreateSettings() {
+			GraphicsSettings::shadowShader = new Shader(
+				GetResourcesPathW(Shaders, ShadowMap\\VertexShader.hlsl),
+				GetResourcesPathW(Shaders, ShadowMap\\PixelShader.hlsl),
+				PassType::ForwardBase
+			);
+		}
+		static void ReleaseSettings()
+		{
+			Object::Destroy(GraphicsSettings::shadowShader.GetPtr());
 		}
 	};
 }

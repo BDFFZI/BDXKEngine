@@ -7,6 +7,12 @@ namespace BDXKEngine {
 	{
 	}
 
+	float Camera::GetAspectRatio()
+	{
+		Vector3 viewSize = Screen::GetSize();
+		return viewSize.x / viewSize.y;
+	}
+
 	void Camera::SetClearFlags(ClearFlags clearFlags)
 	{
 		this->clearFlags = clearFlags;
@@ -28,30 +34,10 @@ namespace BDXKEngine {
 
 	void Camera::OnRenderObject()
 	{
-		//计算相机矩阵和投影矩阵，填充世界信息
-		WorldInfo worldInfo{};
-		worldInfo.worldToCamera = transform->GetWorldToLocalMatrix();
+		//上传相机信息和世界信息
+		Graphics::UpdateWorldInfo(WorldInfo{ { background * 0.5f } });
+		Graphics::UpdateCameraInfo(CameraInfo{ transform->GetWorldToLocalMatrix() ,fieldOfView,GetAspectRatio(),nearClipPlane,farClipPlane });
 
-		Vector3 viewSize = Screen::GetSize();
-		float aspectRatio = viewSize.x / viewSize.y;
-		float unitClipPlaneHalfHeight = std::tan(fieldOfView / 2 / 180 * M_PI);
-		//裁剪面的作用是使当深度等于远界面时最终深度恰好为1，等于近截面时恰好为0
-		//而最终深度计算结果=(az+b)/z
-		//故我们的目标便是求该式中的a和b
-		//列出二元一次方程组，利用代入消元法求解得出如下结论
-		float ClipPlaneParameterB = farClipPlane * nearClipPlane / (nearClipPlane - farClipPlane);
-		float ClipPlaneParameterA = -ClipPlaneParameterB / nearClipPlane;
-
-		worldInfo.cameraToView = {
-			//控制视野范围并避免受窗口大小缩放影响
-			1 / unitClipPlaneHalfHeight / aspectRatio,0,0,0,
-			0,1 / unitClipPlaneHalfHeight,0,0,
-			0,0,ClipPlaneParameterA,ClipPlaneParameterB,
-			//利用齐次坐标中的w分量实现近大远小公式 xy / z
-			0,0,1,0
-		};
-		worldInfo.cameraPosition = Vector4(transform->GetPosition(), 1);
-		worldInfo.environment = background * 0.5f;
 
 		//获取所有可渲染物体
 		std::vector<ObjectPtr<Renderer>> renderers = RendererEditor::GetRenderersQueue();
@@ -92,6 +78,7 @@ namespace BDXKEngine {
 				Vector4({},1),
 				Vector4(Vector3::front,1),
 				Color::clear,
+				{},
 				LightType::Directional,
 				RenderMode::Important,
 				0
@@ -118,19 +105,19 @@ namespace BDXKEngine {
 		//渲染物体
 		for (ObjectPtr<Renderer> renderer : renderers)
 		{
+			//上传物体信息至渲染管线
+			ObjectPtr<Transform> rendererTransform = renderer->GetGameObject()->GetTransform();//获取物体矩阵
+			Graphics::UpdateObjectInfo(ObjectInfo{ rendererTransform->GetLocalToWorldMatrix() });
+
 			//获取该物体的渲染管线资源
 			ObjectPtr<Mesh> mesh = renderer->GetMesh();//获取网格
 			ObjectPtr<Material> material = renderer->GetMaterial();//获取材质
-			ObjectPtr<Transform> rendererTransform = renderer->GetGameObject()->GetTransform();//获取物体矩阵
-			worldInfo.localToWorld = rendererTransform->GetLocalToWorldMatrix();
-			//上传渲染矩阵至渲染管线
-			Graphics::UpdateWorldInfo(worldInfo);
 
 			//每个灯光都需要单独渲染一遍
 			for (int lightIndex = 0; lightIndex < lightsCount; lightIndex++)
 			{
-				Graphics::UpdateLightInfo(lightInfos[lightIndex]);//上传灯光信息至渲染管线
 				PassType& lightPass = lightPasses[lightIndex];//获取Pass类型，每一次光照都是一次Pass
+				Graphics::UpdateLightInfo(lightInfos[lightIndex]);//上传灯光信息至渲染管线
 
 				//渲染符合该类型的Pass
 				int passCount = material->GetPassCount();

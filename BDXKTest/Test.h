@@ -41,31 +41,33 @@ namespace Assembly {
 			transform->SetParent(GameObject::Find(L"摄像机")->GetTransform());
 			transform->SetLocalPosition({ 0,0,1 });
 
-			ObjectPtr<Animator> animator = aureole->AddComponent<Animator>();
-			animator->SetAnimation([](ObjectPtr<Transform> transform)
-				{
-					Vector3 position = transform->GetLocalPosition();
-					position.x = std::cosf(Time::GetRealtimeSinceStartup()) * 0.3f;
-					position.y = std::sinf(Time::GetRealtimeSinceStartup()) * 0.3f;
-					transform->SetLocalPosition(position);
+			//ObjectPtr<Animator> animator = aureole->AddComponent<Animator>();
+			//animator->SetAnimation([](ObjectPtr<Transform> transform)
+			//	{
+			//		Vector3 position = transform->GetLocalPosition();
+			//		position.x = std::cosf(Time::GetRealtimeSinceStartup()) * 0.3f;
+			//		position.y = std::sinf(Time::GetRealtimeSinceStartup()) * 0.3f;
+			//		transform->SetLocalPosition(position);
 
-					Vector3 eulerAngles = transform->GetLocalEulerAngles();
-					eulerAngles.z -= 90 * Time::GetDeltaTime();
-					transform->SetLocalEulerAngles(eulerAngles);
-				});
+			//		Vector3 eulerAngles = transform->GetLocalEulerAngles();
+			//		eulerAngles.z -= 90 * Time::GetDeltaTime();
+			//		transform->SetLocalEulerAngles(eulerAngles);
+			//	});
 		}
 
-		ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"小球");
+		//ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"小球");
+		ObjectPtr<GameObject> sphere = new GameObject(L"小球");
+		ObjectPtr<Light> sphere_light;
 		{
 			ObjectPtr<Transform> transform = sphere->GetTransform();
 			transform->SetParent(aureole->GetTransform());
 			transform->SetLocalScale({ 0.1f,0.1f,0.1f });
 
-			ObjectPtr<Light> light = CreationMenu::Light::PointLight(L"红色点光源")->GetComponent<Light>();
-			light->SetLightType(LightType::Point);
-			light->SetColor(Color::red);
-			light->SetIntensity(0.5f);
-			light->GetTransform()->SetParent(sphere->GetTransform());
+			sphere_light = CreationMenu::Light::PointLight(L"红色点光源")->GetComponent<Light>();
+			sphere_light->SetLightType(LightType::Point);
+			sphere_light->SetColor(Color::red);
+			sphere_light->SetIntensity(0.5f);
+			sphere_light->GetTransform()->SetParent(sphere->GetTransform());
 
 		}
 
@@ -73,7 +75,9 @@ namespace Assembly {
 		{
 			ObjectPtr<Transform> transform = cube->GetTransform();
 			transform->SetParent(aureole->GetTransform());
-			transform->SetLocalScale({ 0.2f,0.05f,0.05f });
+			transform->SetLocalScale({ 1.0f,1.0f,0.05f });
+			ObjectPtr<MeshRenderer> meshRenderer = cube->GetComponent<MeshRenderer>();
+			meshRenderer->GetMaterial()->SetTexture(0, sphere_light->shadowMap.As<Texture>());
 		}
 	}
 }
