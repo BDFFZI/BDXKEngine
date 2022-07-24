@@ -3,6 +3,7 @@
 #include <d2d1.h>
 #include <dwrite.h>
 #include <atlbase.h>
+#include "GL.h"
 #include "Vector2.h"
 #include "Color.h"
 #include "Matrix3x2.h"
@@ -12,7 +13,7 @@ namespace BDXKEngine {
 	class GL2D
 	{
 	public:
-		static void CreateResources(CComPtr<IDXGISurface> renderTargetTexture);
+		static void CreateResources(ObjectPtr<Texture2D> renderTargetTexture);
 		static void ReleaseResources();
 
 		static void ClearCanvas(Color color = Color::black);
@@ -30,7 +31,8 @@ namespace BDXKEngine {
 		static void DrawRectangleCenter(Vector2 center, Vector2 size, bool isFill);
 		static void DrawTextf(Rect rect, std::wstring text, int fontSize);
 	protected:
-		static GL2D* Initialize(CComPtr<IDXGISurface> renderTargetTexture);
+		/// 仅能使用GL的默认交换链贴图
+		static GL2D* Initialize(ObjectPtr<Texture2D> renderTargetTexture);
 	private:
 
 		static CComPtr<IDWriteFactory> writeFactory;//资源工厂

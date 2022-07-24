@@ -5,6 +5,7 @@ namespace BDXKEngine {
 	Material::Material(std::vector<ObjectPtr<Shader>> shaders) :Object(L"New Material")
 	{
 		SetShaders(shaders);
+		textures.resize(4);
 		//创建图形资源
 		GL::CreateConstantBuffer(&parameters, sizeof(Parameters), &parametersBuffer.p);
 		GL::CreateSamplerState(&samplerState.p);
@@ -48,15 +49,14 @@ namespace BDXKEngine {
 	void Material::SetPass(int index)
 	{
 		//设置纹理
-		for (auto index = textures.begin(); index != textures.end(); index++)
-		{
-			ID3D11ShaderResourceView* view = GetResourceView(index->second);
-			GL::SetShaderResource(index->first, &view);
-		}
+		for (int index = 0; index < 4; index++)
+			GL::SetTexture(index, textures[index]);
 		GL::SetSamplerState(&samplerState.p);
+
 		//设置常量
 		GL::UpdateBuffer(parametersBuffer.p, &parameters);
 		GL::SetConstantBuffer(4, &parametersBuffer.p);
+
 		//设置着色器
 		ShaderEditor::SetPass(shaders[index]);
 	}

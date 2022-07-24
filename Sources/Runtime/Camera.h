@@ -32,12 +32,12 @@ namespace BDXKEngine {
 		void SetFarClipPlane(float distance);
 	private:
 		ClearFlags clearFlags = ClearFlags::Color;
-		Projection projection = Projection::Orthographic;// TODO
+		Projection projection = Projection::Perspective;
 		Color background = Color::gray;
 		float nearClipPlane = 0.3f;
 		float farClipPlane = 1000;
 		float fieldOfView = 60;
-		float size = 1;// TODO
+		float size = 5;
 
 		ObjectPtr<Transform> transform{};
 

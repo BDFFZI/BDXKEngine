@@ -18,34 +18,14 @@ namespace BDXKEngine {
 	public:
 		Light();
 
-		LightType GetType()
-		{
-			return type;
-		}
-		Color GetColor()
-		{
-			return color;
-		}
-		float GetIntensity()
-		{
-			return intensity;
-		}
-		RenderMode GetRenderMode()
-		{
-			return renderMode;
-		}
+		LightType GetType();
+		Color GetColor();
+		float GetIntensity();
+		RenderMode GetRenderMode();
 
-		void SetLightType(LightType type) {
-			this->type = type;
-		}
-		void SetColor(Color color)
-		{
-			this->color = color;
-		}
-		void SetIntensity(float intensity)
-		{
-			this->intensity = intensity;
-		}
+		void SetLightType(LightType type);
+		void SetColor(Color color);
+		void SetIntensity(float intensity);
 
 		ObjectPtr<Texture2D> shadowMap;
 	private:
@@ -56,30 +36,20 @@ namespace BDXKEngine {
 		float intensity = 1;
 		RenderMode renderMode = RenderMode::Important;
 
+		LightInfo GetLightInfo(int order = 0);
+		ShadowInfo GetShadowInfo();
+
+		void OnAwake()override;
 		void OnLateUpdate()override;
+		void OnDestroy()override;
 	};
 
 	class LightEditor {
 	protected:
-		static LightInfo GetLightInfo(ObjectPtr<Light> light, int order = 0)
-		{
-			ObjectPtr<Transform> lightTransform = light->GetGameObject()->GetTransform();
-			LightInfo lightInfo{
-				Vector4(lightTransform->GetPosition(),1),
-				Vector4(lightTransform->GetFront().GetNormalized(),1),
-				light->GetColor() * light->GetIntensity(),
-				{},
-				light->GetType(),
-				light->GetRenderMode(),
-				order
-			};
-
-			return lightInfo;
-		}
-		static std::vector<ObjectPtr<Light>>& GetLights()
-		{
-			return Light::lights;
-		}
+		static ObjectPtr<Texture2D> GetShadowMap(ObjectPtr<Light> light);
+		static LightInfo GetLightInfo(ObjectPtr<Light> light, int order = 0);
+		static ShadowInfo GetShadowInfo(ObjectPtr<Light> light);
+		static std::vector<ObjectPtr<Light>>& GetLights();
 	};
 }
 

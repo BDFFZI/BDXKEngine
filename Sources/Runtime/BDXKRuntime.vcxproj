@@ -128,7 +128,10 @@
   <ItemGroup>
     <ClCompile Include="Bleed.cpp" />
     <ClCompile Include="Cull.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="GraphicsInfo.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -171,8 +174,11 @@
   <ItemGroup>
     <ClInclude Include="Blend.h" />
     <ClInclude Include="Cull.h" />
+    <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="GraphicsInfo.h" />
     <ClInclude Include="GraphicsSettings.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="Event.h" />
@@ -185,6 +191,7 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderEvent.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="MeshRenderer.h" />

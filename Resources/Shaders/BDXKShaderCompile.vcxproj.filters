@@ -5,6 +5,8 @@
     <FxCompile Include="Standard\VertexShader.hlsl" />
     <FxCompile Include="ShadowMap\VertexShader.hlsl" />
     <FxCompile Include="ShadowMap\PixelShader.hlsl" />
+    <FxCompile Include="Blit\VertexShader.hlsl" />
+    <FxCompile Include="Blit\PixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BDXKEngine.hlsli" />

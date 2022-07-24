@@ -8,7 +8,7 @@ namespace BDXKEngine {
 	inline std::unordered_map<unsigned int, int> objectIDRefCount;
 
 	/// 使用备注：
-	/// 1.别在构造函数中使用
+	/// 1.在构造函数中使用时记得SuppressDestroy
 	template<typename TObject>
 	struct ObjectPtr : ObjectEditor
 	{
@@ -49,7 +49,7 @@ namespace BDXKEngine {
 
 			return *this;
 		}
-		TObject* operator->()
+		TObject* operator->()const
 		{
 			if (IsNull())
 				throw std::exception("目标引用为空");
@@ -79,9 +79,14 @@ namespace BDXKEngine {
 		{
 			return IsNull() ? nullptr : object;
 		}
+		void SuppressDestroy()
+		{
+			isSuppressDestroy = true;
+		}
 	private:
 		TObject* object;
 		unsigned int objectID;
+		bool isSuppressDestroy = false;
 
 		void AddRef(const ObjectPtr& sharedPtr)
 		{
@@ -95,7 +100,7 @@ namespace BDXKEngine {
 			if (refCount == 0)
 			{
 				objectIDRefCount.erase(objectID);
-				if (ObjectEditor::GetIDState(objectID))
+				if (ObjectEditor::GetIDState(objectID) && isSuppressDestroy == false)
 					Object::Destroy((Object*)object);
 			}
 			else

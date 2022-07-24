@@ -3,22 +3,22 @@
 #include "ObjectPtr.h"
 
 namespace BDXKEngine {
-	class GameObjectEditor;
+	class GameObjectManager;
 	class GameObject;
 	class Transform;
 
 	class StartEvent {
-		friend GameObjectEditor;
+		friend GameObjectManager;
 	protected:
 		virtual void OnStart() = 0;
 	};
 	class UpdateEvent {
-		friend GameObjectEditor;
+		friend GameObjectManager;
 	protected:
 		virtual void OnUpdate() = 0;
 	};
 	class LateUpdateEvent {
-		friend GameObjectEditor;
+		friend GameObjectManager;
 	protected:
 		virtual void OnLateUpdate() = 0;
 	};
@@ -27,7 +27,7 @@ namespace BDXKEngine {
 	class Component :public Object
 	{
 		friend GameObject;
-		friend GameObjectEditor;
+		friend GameObjectManager;
 	public:
 		Component(std::wstring name = L"New Component");
 

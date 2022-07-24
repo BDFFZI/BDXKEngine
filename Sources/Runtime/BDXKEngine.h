@@ -56,6 +56,7 @@
 #include "GUI.h"
 #include "Random.h"
 //框架层：在此组织和使用下层的各种功能 >> 用户控制引擎的接口
+#include "GameObjectManager.h"
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
@@ -63,11 +64,8 @@
 #include "Camera.h"
 #include "Animator.h"
 
-#define GetResourcesPath(Type,Name) "../Resources/"#Type"/"#Name""
-#define GetResourcesPathW(Type,Name) L"../Resources/"#Type"/"#Name""
-
 namespace BDXKEngine {
-	class Engine :Time, Input, Screen, Cursor, Graphics, Event, GUI, GameObjectEditor, TransformEditor {
+	class Engine :Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager {
 	public:
 		static void Run(::std::function<void()> onStart)
 		{
@@ -81,33 +79,35 @@ namespace BDXKEngine {
 					{
 					case WM_CREATE:
 					{
+						GameObjectManager* gameObjectManager = GameObjectManager::Initialize(window);
 						//功能初始化
 						Time::Initialize(window);
 						Screen::Initialize(window);
 						Input* input = Input::Initialize(window);
 						Cursor* cursor = Cursor::Initialize(input,window);
 						Event* event = Event::Initialize(input, window);
-						GL* gl = nullptr;
+						GL* gl = GL::Initialize(window->GetHwnd());
 						GL2D* gl2d = nullptr;
-						Graphics* graphics = Graphics::Initialize(window, &gl, &gl2d);
-						GUI::Initialize(gl2d, event, window);
+						Graphics* graphics = Graphics::Initialize(window, gl, new Material{ {
+								new Shader(
+									GetResourcesPathW(Shaders, Blit\\VertexShader.hlsl),
+									GetResourcesPathW(Shaders, Blit\\PixelShader.hlsl),
+									PassType::ForwardBase
+								)
+							} },
+							&gl2d);
+						GUI* gui = GUI::Initialize(gl2d, event, window);
 
 						//创建配置信息，这将影响框架层中部分模块使用功能层的方式
 						CreateSettings();
 
-						//完成初始化后，正式循环前
+						//完成初始化后，正式循环前，触发事件回调
 						onStart();
-						break;
-					}
-					case WM_PAINT:
-					{
-						//帧更新
-						GameObjectEditor::Update();
+
 						break;
 					}
 					case WM_DESTROY:
 					{
-						GameObjectEditor::Release();
 						ReleaseSettings();
 						break;
 					}
@@ -117,7 +117,6 @@ namespace BDXKEngine {
 					//		DestroyWindow(window->GetHwnd());
 					//	return LRESULT{0};
 					//}
-
 					}
 
 					return DefWindowProcW(window->GetHwnd(), messageSign, wparameter, lparameter);
@@ -141,15 +140,17 @@ namespace BDXKEngine {
 		}
 	private:
 		static void CreateSettings() {
-			GraphicsSettings::shadowShader = new Shader(
-				GetResourcesPathW(Shaders, ShadowMap\\VertexShader.hlsl),
-				GetResourcesPathW(Shaders, ShadowMap\\PixelShader.hlsl),
-				PassType::ForwardBase
-			);
+			GraphicsSettings::shadowMapMaterial = new Material{ {
+				new Shader(
+					GetResourcesPathW(Shaders, ShadowMap\\VertexShader.hlsl),
+					GetResourcesPathW(Shaders, ShadowMap\\PixelShader.hlsl),
+					PassType::ForwardBase
+				)
+			} };
 		}
 		static void ReleaseSettings()
 		{
-			Object::Destroy(GraphicsSettings::shadowShader.GetPtr());
+			Object::Destroy(GraphicsSettings::shadowMapMaterial.GetPtr());
 		}
 	};
 }

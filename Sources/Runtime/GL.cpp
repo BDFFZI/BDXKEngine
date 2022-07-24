@@ -1,6 +1,8 @@
 #include "GL.h"
 #include <d3dcompiler.h>
 #include <exception>
+#include "Texture2D.h"
+#include "Mesh.h"
 
 namespace BDXKEngine {
 
@@ -44,23 +46,6 @@ namespace BDXKEngine {
 		)));
 	}
 
-	void GL::CreateTexture2D(unsigned int width, unsigned int height, ID3D11Texture2D** texture, ID3D11ShaderResourceView** resourceView)
-	{
-		D3D11_TEXTURE2D_DESC textureDescription = CD3D11_TEXTURE2D_DESC(
-			DXGI_FORMAT_R32G32B32A32_FLOAT,
-			width,
-			height);
-		textureDescription.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-
-		assert(SUCCEEDED(device->CreateTexture2D(&textureDescription, nullptr, texture)));
-
-		D3D11_SHADER_RESOURCE_VIEW_DESC resourceDescription{};
-		resourceDescription.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		resourceDescription.Format = textureDescription.Format;
-		resourceDescription.Texture2D = D3D11_TEX2D_SRV{};
-
-		assert(SUCCEEDED(device->CreateShaderResourceView(*texture, nullptr, resourceView)));
-	}
 	void GL::CreateSamplerState(ID3D11SamplerState** samplerState)
 	{
 		D3D11_SAMPLER_DESC samplerDescription{};
@@ -108,15 +93,15 @@ namespace BDXKEngine {
 		context->PSSetShader(pixelShader, nullptr, 0);
 	}
 	// 设置当前渲染管线中的顶点索引数据
-	void GL::SetBuffer(ID3D11Buffer* vertexBuffer, int vertexSize, ID3D11Buffer* indexBuffer, DXGI_FORMAT indexFormat)
+	void GL::SetMesh(ObjectPtr<Mesh> mesh)
 	{
 		//绑定顶点数据
-		UINT stride = vertexSize;
+		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
-		context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer.p, &stride, &offset);
 
 		//绑定索引数据
-		context->IASetIndexBuffer(indexBuffer, indexFormat, 0);
+		context->IASetIndexBuffer(mesh->triangleBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 	// 设置当前渲染管线中的常量缓冲区
 	void GL::SetConstantBuffer(unsigned int startSlot, ID3D11Buffer** buffer)
@@ -125,10 +110,14 @@ namespace BDXKEngine {
 		context->PSSetConstantBuffers(startSlot, 1, buffer);
 	}
 	// 设置当前渲染管线中的着色器资源
-	void GL::SetShaderResource(unsigned int startSlot, ID3D11ShaderResourceView** resource)
+	void GL::SetTexture(unsigned int startSlot, ObjectPtr<Texture> texture)
 	{
-		context->VSSetShaderResources(startSlot, 1, resource);
-		context->PSSetShaderResources(startSlot, 1, resource);
+		ID3D11ShaderResourceView* resourceView = nullptr;
+		if (texture != nullptr)
+			resourceView = texture->textureView.p;
+
+		context->VSSetShaderResources(startSlot, 1, &resourceView);
+		context->PSSetShaderResources(startSlot, 1, &resourceView);
 	}
 	// 设置着色器采样纹理时的方式
 	void GL::SetSamplerState(ID3D11SamplerState** samplerState)
@@ -137,13 +126,12 @@ namespace BDXKEngine {
 		context->PSSetSamplers(0, 1, samplerState);
 	}
 	// 设置渲染到的目标纹理
-	void GL::SetRenderTexture(ID3D11Texture2D* renderTargetTexture) {
-		CComPtr<ID3D11Texture2D> defaultTexture;
-		if (renderTargetTexture == nullptr)//未空时使用默认渲染纹理
-		{
-			swapChain->GetBuffer(0, IID_PPV_ARGS(&defaultTexture.p));
-			renderTargetTexture = defaultTexture.p;
-		}
+	void GL::SetRenderTarget(ObjectPtr<Texture2D> renderTargetTexture) {
+		CComPtr<ID3D11Texture2D> targetTexture;
+		if (renderTargetTexture != nullptr)
+			targetTexture = renderTargetTexture->texture2D;
+		else//未空时使用默认渲染纹理
+			swapChain->GetBuffer(0, IID_PPV_ARGS(&targetTexture.p));
 
 		renderTargetView = nullptr;
 		depthStencilView = nullptr;
@@ -152,7 +140,7 @@ namespace BDXKEngine {
 
 		//获取渲染纹理参数
 		CD3D11_TEXTURE2D_DESC colorTextureDescription;
-		renderTargetTexture->GetDesc(&colorTextureDescription);
+		targetTexture->GetDesc(&colorTextureDescription);
 		//以该参数创建用于深度模板测试的纹理参数
 		CD3D11_TEXTURE2D_DESC depthStencilTextureDescription(
 			DXGI_FORMAT_D24_UNORM_S8_UINT,
@@ -172,7 +160,7 @@ namespace BDXKEngine {
 		renderTargetViewDesc.Format = colorTextureDescription.Format;
 		renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 		renderTargetViewDesc.Texture2D.MipSlice = 0;
-		result = device->CreateRenderTargetView(renderTargetTexture, &renderTargetViewDesc, &renderTargetView.p);
+		result = device->CreateRenderTargetView(targetTexture, &renderTargetViewDesc, &renderTargetView.p);
 		assert(SUCCEEDED(result));
 		//创建深度模板测试的视图
 		CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
@@ -196,7 +184,7 @@ namespace BDXKEngine {
 		context->OMSetDepthStencilState(zTest->depthStencilState, 0);
 	}
 
-	void GL::Viewport(Rect rect)
+	void GL::ResetRenderTarget(Rect rect)
 	{
 		//提前释放，不然会因为使用中而无法重置纹理大小
 		renderTargetView = nullptr;
@@ -205,7 +193,7 @@ namespace BDXKEngine {
 		//重置渲染纹理大小
 		swapChain->ResizeBuffers(2, (UINT)rect.width, (UINT)rect.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
 
-		SetRenderTexture(NULL);
+		SetRenderTarget(nullptr);
 	}
 	void GL::Begin(D3D11_PRIMITIVE_TOPOLOGY drawMode)
 	{
@@ -248,17 +236,19 @@ namespace BDXKEngine {
 		context->DrawIndexed(indexsCount, 0, 0);
 	}
 
-	CComPtr<ID3D11Texture2D> GL::GetRenderTargetTexture() {
+	ObjectPtr<Texture2D> GL::GetRenderTarget() {
 		CComPtr<ID3D11Texture2D> renderTargetTexture;
 		swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
-		return renderTargetTexture;
+
+		ObjectPtr<Texture2D> result = new Texture2D(renderTargetTexture);
+		return result;
 	}
 
 	GL* GL::Initialize(HWND window)
 	{
 		GL::CreateDevice();
 		GL::CreateSwapChain(window);
-		SetRenderTexture(NULL);
+		SetRenderTarget(NULL);
 		return new GL();
 	}
 
@@ -309,12 +299,12 @@ namespace BDXKEngine {
 
 		//交换链的属性配置
 		DXGI_SWAP_CHAIN_DESC1 swapChainProperty = {};//局部变量一定要初始化
-		swapChainProperty.BufferCount = 2;
+		swapChainProperty.BufferCount = 1;
 		swapChainProperty.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 		swapChainProperty.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		swapChainProperty.SampleDesc.Count = 1;
 		swapChainProperty.SampleDesc.Quality = 0;
-		swapChainProperty.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+		swapChainProperty.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDesc = {};
 		fullScreenDesc.Windowed = true;

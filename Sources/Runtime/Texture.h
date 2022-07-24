@@ -1,27 +1,22 @@
 #pragma once
-#include "GL.h"
+#include <d3d11_1.h>
+#include <dxgi.h>
+#include <atlbase.h>
 #include "ObjectPtr.h"
+#include "GL.h"
 
 namespace BDXKEngine {
-	class TextureEditor;
-	class Texture :public Object
+	class Texture :public Object, protected GL
 	{
-		friend TextureEditor;
+		friend GL;
 	protected:
 		Texture(std::wstring name = L"New Texture");
 
-		void SetTextureView(ID3D11ShaderResourceView* textureView) {
-			this->textureView.p = textureView;
+		void SetTextureView(CComPtr<ID3D11ShaderResourceView> textureView) {
+			this->textureView = textureView;
 		}
 	private:
-		CComPtr<ID3D11ShaderResourceView> textureView;
-	};
-
-	class TextureEditor {
-	protected:
-		CComPtr<ID3D11ShaderResourceView> GetResourceView(ObjectPtr<Texture> texture) {
-			return texture->textureView;
-		}
+		CComPtr<ID3D11ShaderResourceView> textureView = nullptr;
 	};
 }
 

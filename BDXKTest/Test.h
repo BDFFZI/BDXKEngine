@@ -13,6 +13,11 @@ namespace Assembly {
 		ObjectPtr<GameObject> sun = CreationMenu::Light::DirectionalLight(L"太阳");
 		ObjectPtr<GameObject> ground = CreationMenu::Object3D::Plane(L"地面");
 		ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"球");
+		//太阳
+		{
+			ObjectPtr<Transform> transform = sun->GetTransform();
+			transform->SetLocalEulerAngles({ 45,-45,0 });
+		}
 		//球的展示位置
 		{
 			ObjectPtr<Transform> transform = sphere->GetTransform();
@@ -31,6 +36,37 @@ namespace Assembly {
 
 
 	}
+	void TestShadow()
+	{
+		CreateDefaultScene();
+
+		ObjectPtr<GameObject> camera = GameObject::Find(L"摄像机");
+		ObjectPtr<GameObject> cube = CreationMenu::Object3D::Cube(L"阴影贴图显示器");
+		ObjectPtr<Light> directionallight = CreationMenu::Light::DirectionalLight(L"红色平行光")->GetComponent<Light>();
+		//红色光源
+		{
+			directionallight->SetColor(Color::red);
+			directionallight->SetIntensity(0.5f);
+			directionallight->GetTransform()->SetParent(cube->GetTransform());
+		}
+		//阴影贴图显示器
+		{
+			ObjectPtr<Transform> transform = cube->GetTransform();
+			transform->SetParent(camera->GetTransform());
+			transform->SetLocalPosition({ 0,0,1 });
+
+			ObjectPtr<MeshRenderer> meshRenderer = cube->GetComponent<MeshRenderer>();
+			ObjectPtr < Material> material = meshRenderer->GetMaterial();
+			material->SetRenderQueue(RenderQueue::Overlay);
+			material->GetShaders()[0]->SetBlend(Blend::Multiply);
+			material->SetTexture(0, GameObject::Find(L"太阳")->GetComponent<Light>()->shadowMap.As<Texture>());
+		}
+
+
+
+
+
+	}
 	void TestLight()
 	{
 		CreateDefaultScene();
@@ -39,24 +75,23 @@ namespace Assembly {
 		{
 			ObjectPtr<Transform> transform = aureole->GetTransform();
 			transform->SetParent(GameObject::Find(L"摄像机")->GetTransform());
-			transform->SetLocalPosition({ 0,0,1 });
+			transform->SetLocalPosition({ 0,0,0.7f });
 
-			//ObjectPtr<Animator> animator = aureole->AddComponent<Animator>();
-			//animator->SetAnimation([](ObjectPtr<Transform> transform)
-			//	{
-			//		Vector3 position = transform->GetLocalPosition();
-			//		position.x = std::cosf(Time::GetRealtimeSinceStartup()) * 0.3f;
-			//		position.y = std::sinf(Time::GetRealtimeSinceStartup()) * 0.3f;
-			//		transform->SetLocalPosition(position);
+			ObjectPtr<Animator> animator = aureole->AddComponent<Animator>();
+			animator->SetAnimation([](ObjectPtr<Transform> transform)
+				{
+					Vector3 position = transform->GetLocalPosition();
+					position.x = std::cosf(Time::GetRealtimeSinceStartup()) * 0.3f;
+					position.y = std::sinf(Time::GetRealtimeSinceStartup()) * 0.3f;
+					transform->SetLocalPosition(position);
 
-			//		Vector3 eulerAngles = transform->GetLocalEulerAngles();
-			//		eulerAngles.z -= 90 * Time::GetDeltaTime();
-			//		transform->SetLocalEulerAngles(eulerAngles);
-			//	});
+					Vector3 eulerAngles = transform->GetLocalEulerAngles();
+					eulerAngles.z -= 90 * Time::GetDeltaTime();
+					transform->SetLocalEulerAngles(eulerAngles);
+				});
 		}
 
-		//ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"小球");
-		ObjectPtr<GameObject> sphere = new GameObject(L"小球");
+		ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"小球");
 		ObjectPtr<Light> sphere_light;
 		{
 			ObjectPtr<Transform> transform = sphere->GetTransform();
@@ -68,16 +103,13 @@ namespace Assembly {
 			sphere_light->SetColor(Color::red);
 			sphere_light->SetIntensity(0.5f);
 			sphere_light->GetTransform()->SetParent(sphere->GetTransform());
-
 		}
 
 		ObjectPtr<GameObject> cube = CreationMenu::Object3D::Cube(L"棍子");
 		{
 			ObjectPtr<Transform> transform = cube->GetTransform();
 			transform->SetParent(aureole->GetTransform());
-			transform->SetLocalScale({ 1.0f,1.0f,0.05f });
-			ObjectPtr<MeshRenderer> meshRenderer = cube->GetComponent<MeshRenderer>();
-			meshRenderer->GetMaterial()->SetTexture(0, sphere_light->shadowMap.As<Texture>());
+			transform->SetLocalScale({ 0.2f,0.05f,0.05f });
 		}
 	}
 }

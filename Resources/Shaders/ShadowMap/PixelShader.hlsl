@@ -2,6 +2,5 @@
 
 float4 main(Pixel pixel) : SV_TARGET
 {
-    return 1;
-    //return float4(pixel.position, 1.0f);
+    return float4(pixel.lightposition, 0.1f); //透明度设为0.1f纯粹是为了看阴影贴图方便
 }

@@ -4,6 +4,6 @@
 
 namespace BDXKEngine {
 	struct GraphicsSettings {
-		inline static ObjectPtr<Shader> shadowShader;
+		inline static ObjectPtr<Material> shadowMapMaterial;
 	};
 }

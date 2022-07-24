@@ -60,10 +60,7 @@ namespace BDXKEditor {
 		public:
 			static ObjectPtr<GameObject> DirectionalLight(const wchar_t* name = L"DirectionalLight")
 			{
-				ObjectPtr<GameObject> light = CreateLight(LightType::Directional, name);
-				ObjectPtr<Transform> transform = light->GetTransform();
-				transform->SetLocalEulerAngles({ 45,-45,0 });
-				return light;
+				return CreateLight(LightType::Directional, name);
 			}
 			static ObjectPtr<GameObject> PointLight(const wchar_t* name = L"PointLight")
 			{

@@ -9,11 +9,11 @@
 
 namespace BDXKEngine {
 	class Transform;
-	class GameObjectEditor;
+	class GameObjectManager;
 	class GameObject :public Object
 	{
 		friend Component;
-		friend GameObjectEditor;
+		friend GameObjectManager;
 	public:
 		static ObjectPtr<GameObject> Find(std::wstring name);
 
@@ -54,11 +54,5 @@ namespace BDXKEngine {
 		std::vector<ObjectPtr<Component>> components;
 
 		void OnDestroy()override;
-	};
-
-	class GameObjectEditor {
-	protected:
-		static void Update();
-		static void Release();
 	};
 }

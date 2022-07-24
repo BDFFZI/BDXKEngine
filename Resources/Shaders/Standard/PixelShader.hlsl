@@ -20,6 +20,7 @@ float4 main(Pixel pixel) : SV_TARGET
         lightNormal = normalize(pixel.position - LightPosition.xyz);
         lightColor = LightColor.rgb * clamp(1 / distance(pixel.position, LightPosition.xyz), 0, 1);
     }
+    lightColor *= DecodeShadowMap(pixel.position);
     //渲染
     
     //漫射光+环境光

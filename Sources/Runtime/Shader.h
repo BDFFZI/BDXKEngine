@@ -8,6 +8,7 @@ namespace BDXKEngine {
 	enum class PassType {
 		ForwardBase,
 		ForwardAdd,
+		ShadowCaster
 	};
 
 	class ShaderEditor;

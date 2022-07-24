@@ -39,22 +39,4 @@ namespace BDXKEngine {
 
 		Object::OnDestroy();
 	}
-
-	void GameObjectEditor::Update()
-	{
-		for (StartEvent*& eventP : std::vector<StartEvent*>{ Component::allStartEvents })
-			eventP->OnStart();
-		Component::allStartEvents.clear();
-
-		for (UpdateEvent*& eventP : std::vector<UpdateEvent*>{ Component::allUpdateEvents })
-			eventP->OnUpdate();
-
-		for (LateUpdateEvent*& eventP : std::vector<LateUpdateEvent*>{ Component::allLateUpdateEvents })
-			eventP->OnLateUpdate();
-	}
-	void GameObjectEditor::Release()
-	{
-		for (ObjectPtr<GameObject> gameObject : std::vector<ObjectPtr<GameObject>>{ GameObject::allGameObjects })
-			Object::Destroy(gameObject.GetPtr());
-	}
 }

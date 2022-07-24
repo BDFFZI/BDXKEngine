@@ -88,6 +88,9 @@
     <Filter Include="4_Framework\Settings">
       <UniqueIdentifier>{0a089f27-ec09-412f-9e24-56505e2f7dda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3_Function\Random">
+      <UniqueIdentifier>{31f22c0a-cd66-4f4c-9590-babd4839b3d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -212,6 +215,15 @@
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>2_Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>1_Platform\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>4_Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsInfo.cpp">
+      <Filter>3_Function\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,9 +360,6 @@
     <ClInclude Include="String.h">
       <Filter>1_Platform\Extend</Filter>
     </ClInclude>
-    <ClInclude Include="Random.h">
-      <Filter>3_Function</Filter>
-    </ClInclude>
     <ClInclude Include="MeshImporter.h">
       <Filter>2_Resources\Importer</Filter>
     </ClInclude>
@@ -362,6 +371,19 @@
     </ClInclude>
     <ClInclude Include="GraphicsSettings.h">
       <Filter>4_Framework\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>3_Function\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>1_Platform\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>4_Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsInfo.h">
+      <Filter>3_Function\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

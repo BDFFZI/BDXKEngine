@@ -2,23 +2,20 @@
 
 struct Pixel
 {
-    float4 svPosition : SV_POSITION;
-    float3 position : POSITION;
+    float4 clipPosition : SV_POSITION;
+    float3 lightposition : POSITION;
 };
 
 Pixel main(Vertex vertex)
 {
     Pixel pixed;
     
-    float4 svPosition = float4(vertex.position, 1);
-    svPosition = mul(LocalToWorld, svPosition);
-    svPosition = mul(WorldToCamera, svPosition);
-    svPosition = mul(CameraToView, svPosition);
-    //svPosition.y = 1 - svPosition.y;
-    pixed.svPosition = svPosition;
-    
-    //pixed.position = svPosition / svPosition.w;
-    //pixed.position.y *= -1;
+    float4 clipPosition = float4(vertex.position, 1);
+    clipPosition = mul(ObjectToWorld, clipPosition);
+    clipPosition = mul(WorldToLightView, clipPosition);
+    pixed.lightposition = clipPosition.xyz;
+    clipPosition = mul(ViewToLightClip, clipPosition);
+    pixed.clipPosition = clipPosition;
     
     return pixed;
 }

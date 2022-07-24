@@ -15,7 +15,7 @@ namespace BDXKEngine {
 		Overlay = 4000,
 	};
 
-	class Material :public Object, ShaderEditor, TextureEditor
+	class Material :public Object, ShaderEditor
 	{
 	public:
 		Material(std::vector<ObjectPtr<Shader>> shaders);
@@ -41,11 +41,12 @@ namespace BDXKEngine {
 		};
 
 		std::vector<ObjectPtr<Shader>> shaders;
-		std::map<int, ObjectPtr<Texture>> textures;
+		std::vector<ObjectPtr<Texture>> textures;
+		Parameters parameters = {};
+
 		CComPtr<ID3D11SamplerState> samplerState;
+		CComPtr<ID3D11Buffer> parametersBuffer;
 
 		RenderQueue renderQueue = RenderQueue::Geometry;
-		Parameters parameters = {};
-		CComPtr<ID3D11Buffer> parametersBuffer;
 	};
 }

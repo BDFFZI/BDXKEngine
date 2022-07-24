@@ -1,11 +1,12 @@
 #include "GL2D.h"
 #include <assert.h>
+#include "Texture2D.h"
 
 namespace BDXKEngine {
-	CComPtr<IDWriteFactory> GL2D::writeFactory = NULL;
-	CComPtr<ID2D1Factory> GL2D::factory = NULL;
-	CComPtr<ID2D1RenderTarget> GL2D::renderTarget = NULL;
-	CComPtr<ID2D1SolidColorBrush> GL2D::brush = NULL;
+	CComPtr<IDWriteFactory> GL2D::writeFactory = nullptr;
+	CComPtr<ID2D1Factory> GL2D::factory = nullptr;
+	CComPtr<ID2D1RenderTarget> GL2D::renderTarget = nullptr;
+	CComPtr<ID2D1SolidColorBrush> GL2D::brush = nullptr;
 
 	void GL2D::ClearCanvas(Color color)
 	{
@@ -67,7 +68,7 @@ namespace BDXKEngine {
 		textFormat->Release();
 	}
 
-	GL2D* GL2D::Initialize(CComPtr<IDXGISurface> renderTargetTexture)
+	GL2D* GL2D::Initialize(ObjectPtr<Texture2D> renderTargetTexture)
 	{
 		LRESULT back = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
 		assert(SUCCEEDED(back));// 创建资源工厂失败
@@ -93,7 +94,7 @@ namespace BDXKEngine {
 		DrawRectangle(rect.GetPosition(), rect.GetSize(), isFill);
 	}
 
-	void GL2D::CreateResources(CComPtr<IDXGISurface> renderTargetTexture)
+	void GL2D::CreateResources(ObjectPtr<Texture2D> renderTargetTexture)
 	{
 		//使用窗口作为呈现器
 		//RECT rect;
@@ -111,7 +112,7 @@ namespace BDXKEngine {
 			D2D1_RENDER_TARGET_TYPE_DEFAULT,
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)
 		);
-		assert(SUCCEEDED(factory->CreateDxgiSurfaceRenderTarget(renderTargetTexture, &props, &renderTarget.p)));
+		assert(SUCCEEDED(factory->CreateDxgiSurfaceRenderTarget(renderTargetTexture->GetDXGISurface(), &props, &renderTarget.p)));
 
 		//创建画笔
 		D2D1_COLOR_F color = D2D1::ColorF(1, 1, 1);
@@ -119,7 +120,7 @@ namespace BDXKEngine {
 	}
 	void GL2D::ReleaseResources()
 	{
-		renderTarget = NULL;
-		brush = NULL;
+		renderTarget = nullptr;
+		brush = nullptr;
 	}
 }

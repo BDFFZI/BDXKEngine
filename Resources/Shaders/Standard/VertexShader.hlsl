@@ -13,14 +13,14 @@ Pixel main(Vertex vertex)
     Pixel pixed;
     float4 svPosition = float4(vertex.position, 1);
     
-    svPosition = mul(LocalToWorld, svPosition);
+    svPosition = mul(ObjectToWorld, svPosition);
     pixed.position = svPosition.xyz;
     
-    svPosition = mul(WorldToCamera, svPosition);
-    svPosition = mul(CameraToView, svPosition);
+    svPosition = mul(WorldToView, svPosition);
+    svPosition = mul(ViewToClip, svPosition);
     pixed.svPosition = svPosition;
     
-    pixed.normal = LocalToWorldVector(vertex.normal);
+    pixed.normal = ObjectToWorldVector(vertex.normal);//TODO 会受缩放影响
     pixed.uv = vertex.uv;
     return pixed;
 }

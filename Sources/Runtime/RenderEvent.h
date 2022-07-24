@@ -3,10 +3,10 @@
 
 namespace BDXKEngine {
 
-	class RenderEventEditor;
+	class Graphics;
 
 	class RenderObjectEvent {
-		friend RenderEventEditor;
+		friend Graphics;
 	protected:
 		RenderObjectEvent()
 		{
@@ -19,7 +19,7 @@ namespace BDXKEngine {
 	};
 
 	class DrawGizmosEvent {
-		friend RenderEventEditor;
+		friend Graphics;
 	protected:
 		DrawGizmosEvent()
 		{
@@ -29,26 +29,5 @@ namespace BDXKEngine {
 		virtual void OnDrawGizmos() = 0;
 	private:
 		static std::vector<DrawGizmosEvent*> drawGizmosEvents;
-	};
-
-	class RenderEventEditor {
-	protected:
-		static void RenderObject(RenderObjectEvent* eventP)
-		{
-			eventP->OnRenderObject();
-		}
-		static void DrawGizmos(DrawGizmosEvent* eventP)
-		{
-			eventP->OnDrawGizmos();
-		}
-
-		static std::vector<RenderObjectEvent*>& GetRenderObjectEvents()
-		{
-			return RenderObjectEvent::renderObjectEvents;
-		}
-		static std::vector<DrawGizmosEvent*>& GetDrawGizmosEvents()
-		{
-			return DrawGizmosEvent::drawGizmosEvents;
-		}
 	};
 }
