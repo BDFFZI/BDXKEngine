@@ -62,8 +62,7 @@ void Graphics::DrawMeshNow(ObjectPtr<Mesh> mesh)
 }
 void Graphics::DrawTexture(Rect screenRect, ObjectPtr<Texture2D> texture)
 {
-	ObjectPtr<Texture2D> canvas = GetRenderTarget();
-	Vector2 screenSize = { (float)canvas->GetWidth(), (float)canvas->GetHeight() };
+	Vector2 screenSize = { (float)texture->GetWidth(), (float)texture->GetHeight() };
 	Vector3 minPosition = ScreenToViewPos(screenSize, screenRect.GetMin());
 	Vector3 maxPosition = ScreenToViewPos(screenSize, screenRect.GetMax());
 
@@ -93,25 +92,20 @@ void Graphics::DrawTexture(Rect screenRect, ObjectPtr<Texture2D> texture)
 		screenSize.x / screenSize.y,
 		0, 1, screenSize.y
 	));
+	GL::SetTexture(0, texture.As<Texture>());
+
 	DrawMeshNow(mesh);
 }
 void Graphics::Blit(ObjectPtr<Texture2D> source, ObjectPtr<Texture2D> dest, ObjectPtr<Material> blitMaterial)
 {
 	GL::SetRenderTarget(dest);
-	GL::Begin();
-
 	blitMaterial->SetPass(0);
 	DrawTexture({ 0,0,(float)source->GetWidth(),(float)source->GetHeight() }, source);
-
-	GL::End();
 	GL::SetRenderTarget(nullptr);
 }
 
-Graphics* Graphics::Initialize(Window* window, GL* gl, ObjectPtr<Material> blitMaterial, GL2D** gl2d)
+Graphics* Graphics::Initialize(Window* window, GL* gl, GL2D* gl2d, ObjectPtr<Material> blitMaterial)
 {
-	//初始化Direct2D，利用Direct3D的渲染纹理以便实现两者的互操作性
-	*gl2d = GL2D::Initialize(GL::GetRenderTarget());
-
 	//创建渲染用的通用常量缓冲区
 	GL::CreateBuffer(&worldInfo, sizeof(WorldInfo), D3D11_BIND_CONSTANT_BUFFER, &worldInfoBuffer);
 	GL::SetConstantBuffer(0, &worldInfoBuffer.p);
@@ -135,11 +129,11 @@ void Graphics::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparamet
 	{
 	case WM_PAINT:
 	{
-		GL::Begin();
-
 		//获取渲染事件
 		std::vector<RenderObjectEvent*>& renderObjectEvents = RenderObjectEvent::renderObjectEvents;
 		std::vector<DrawGizmosEvent*>& drawGizmosEvents = DrawGizmosEvent::drawGizmosEvents;
+
+		GL::SetRenderTarget(nullptr);
 
 		//绘制普通物体
 		std::for_each(
@@ -161,15 +155,7 @@ void Graphics::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparamet
 		);
 		GL2D::EndDraw();//顺序很重要，Direct2D的渲染结果最终需要Direct3D来显示
 
-		GL::End();
-
-		//清理缓冲区
-		SetTexture(0, nullptr);
-		SetTexture(1, nullptr);
-		SetTexture(2, nullptr);
-		SetTexture(3, nullptr);
-		SetTexture(4, nullptr);
-		SetTexture(5, nullptr);
+		GL::Present();//显示到屏幕上
 
 		break;
 	}
@@ -179,9 +165,9 @@ void Graphics::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparamet
 
 		//重新调整纹理大小
 		Rect rect = { Vector2::zero ,window->GetSize() };
-		GL::ResetRenderTarget(rect);
+		GL::ResizeDefaultRenderTarget(rect);
 
-		GL2D::CreateResources(GL::GetRenderTarget());//使用Direct3D新创建的纹理
+		GL2D::CreateResources();//使用Direct3D新创建的纹理
 		break;
 	}
 	case WM_DESTROY:

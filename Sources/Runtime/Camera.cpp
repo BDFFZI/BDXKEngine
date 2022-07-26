@@ -148,5 +148,12 @@ namespace BDXKEngine {
 				}
 			}
 		}
+
+		//清理渲染管线
+		GL::SetTexture(0, nullptr);
+		GL::SetTexture(1, nullptr);
+		GL::SetTexture(2, nullptr);
+		GL::SetTexture(3, nullptr);
+		GL::SetTexture(4, nullptr);//阴影贴图
 	}
 }

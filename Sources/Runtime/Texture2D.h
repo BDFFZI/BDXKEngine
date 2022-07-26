@@ -17,10 +17,11 @@ namespace BDXKEngine {
 		unsigned int GetHeight();
 	private:
 		Texture2D();
-		Texture2D(CComPtr<ID3D11Texture2D> texture2D);
 
-		CComPtr<ID3D11Texture2D> texture2D = nullptr;
 		D3D11_TEXTURE2D_DESC texture2DDescription;
-		CComPtr<IDXGISurface> GetDXGISurface();
+		CComPtr<ID3D11Texture2D> texture2D = nullptr;
+		CComPtr<ID3D11RenderTargetView> texture2DView = nullptr;
+		CComPtr<ID3D11Texture2D> texture2DDepth = nullptr;
+		CComPtr<ID3D11DepthStencilView> texture2DDepthView = nullptr;
 	};
 }

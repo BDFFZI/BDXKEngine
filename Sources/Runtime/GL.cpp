@@ -126,53 +126,34 @@ namespace BDXKEngine {
 		context->PSSetSamplers(0, 1, samplerState);
 	}
 	// 设置渲染到的目标纹理
-	void GL::SetRenderTarget(ObjectPtr<Texture2D> renderTargetTexture) {
-		CComPtr<ID3D11Texture2D> targetTexture;
-		if (renderTargetTexture != nullptr)
-			targetTexture = renderTargetTexture->texture2D;
-		else//未空时使用默认渲染纹理
-			swapChain->GetBuffer(0, IID_PPV_ARGS(&targetTexture.p));
+	void GL::SetRenderTarget(ObjectPtr<Texture2D> texture2D) {
+		if (texture2D != nullptr)
+		{
+			renderTargetView = texture2D->texture2DView;
+			depthStencilView = texture2D->texture2DDepthView;
+			//调整视口数据至与新纹理大小一致
+			D3D11_VIEWPORT viewport = {};
+			viewport.Height = (float)texture2D->GetHeight();
+			viewport.Width = (float)texture2D->GetWidth();
+			viewport.MinDepth = 0;
+			viewport.MaxDepth = 1;
+			context->RSSetViewports(1, &viewport);
+		}
+		else//未空时使用默认值
+		{
+			renderTargetView = defaultRenderTargetView;
+			depthStencilView = defaultDepthStencilView;
+			//调整视口数据至与新纹理大小一致
+			D3D11_VIEWPORT viewport = {};
+			viewport.Height = (float)defaultRenderTargetDescription.Height;
+			viewport.Width = (float)defaultRenderTargetDescription.Width;
+			viewport.MinDepth = 0;
+			viewport.MaxDepth = 1;
+			context->RSSetViewports(1, &viewport);
+		}
 
-		renderTargetView = nullptr;
-		depthStencilView = nullptr;
-
-		HRESULT result = 0;
-
-		//获取渲染纹理参数
-		CD3D11_TEXTURE2D_DESC colorTextureDescription;
-		targetTexture->GetDesc(&colorTextureDescription);
-		//以该参数创建用于深度模板测试的纹理参数
-		CD3D11_TEXTURE2D_DESC depthStencilTextureDescription(
-			DXGI_FORMAT_D24_UNORM_S8_UINT,
-			static_cast<UINT> (colorTextureDescription.Width),
-			static_cast<UINT> (colorTextureDescription.Height),
-			1,
-			0,
-			D3D11_BIND_DEPTH_STENCIL
-		);
-
-		//创建深度测试纹理
-		CComPtr<ID3D11Texture2D> depthStencilTexture;
-		assert(SUCCEEDED(device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture.p)));
-
-		//创建渲染目标纹理视图
-		D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-		renderTargetViewDesc.Format = colorTextureDescription.Format;
-		renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-		renderTargetViewDesc.Texture2D.MipSlice = 0;
-		result = device->CreateRenderTargetView(targetTexture, &renderTargetViewDesc, &renderTargetView.p);
-		assert(SUCCEEDED(result));
-		//创建深度模板测试的视图
-		CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
-		assert(SUCCEEDED(device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &depthStencilView.p)));
-
-		//调整视口数据至与新视图大小一致
-		D3D11_VIEWPORT viewport = {};
-		viewport.Height = (float)colorTextureDescription.Height;
-		viewport.Width = (float)colorTextureDescription.Width;
-		viewport.MinDepth = 0;
-		viewport.MaxDepth = 1;
-		context->RSSetViewports(1, &viewport);
+		//设置渲染目标
+		context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
 	}
 	void GL::SetBlend(Blend* blend)
 	{
@@ -184,44 +165,13 @@ namespace BDXKEngine {
 		context->OMSetDepthStencilState(zTest->depthStencilState, 0);
 	}
 
-	void GL::ResetRenderTarget(Rect rect)
-	{
-		//提前释放，不然会因为使用中而无法重置纹理大小
-		renderTargetView = nullptr;
-		depthStencilView = nullptr;
-
-		//重置渲染纹理大小
-		swapChain->ResizeBuffers(2, (UINT)rect.width, (UINT)rect.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
-
-		SetRenderTarget(nullptr);
-	}
-	void GL::Begin(D3D11_PRIMITIVE_TOPOLOGY drawMode)
-	{
-		//绑定颜色输出和深度模板测试用的视图(Present会导致解除绑定，所以每次都重新绑定)
-		context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
-
-		//设置绘制模式
-		context->IASetPrimitiveTopology(drawMode);
-	}
-	void GL::End()
-	{
-		//显示结果
-		swapChain->Present(0, 0);
-	}
-	void GL::Flush()
-	{
-		swapChain->Present(0, 0);
-	}
 	void GL::Clear(bool clearDepth, bool clearColor, Color backgroundColor, float depth)
 	{
 		//重置绘制视图
 		if (clearColor == true)
 		{
 			const float teal[] = { backgroundColor.r, backgroundColor.g,backgroundColor.b, backgroundColor.a };
-			context->ClearRenderTargetView(
-				renderTargetView,
-				teal
-			);
+			context->ClearRenderTargetView(renderTargetView, teal);
 		}
 
 		//重置深度模板测试视图
@@ -236,26 +186,21 @@ namespace BDXKEngine {
 		context->DrawIndexed(indexsCount, 0, 0);
 	}
 
-	ObjectPtr<Texture2D> GL::GetRenderTarget() {
-		CComPtr<ID3D11Texture2D> renderTargetTexture;
-		swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
-
-		ObjectPtr<Texture2D> result = new Texture2D(renderTargetTexture);
-		return result;
-	}
-
 	GL* GL::Initialize(HWND window)
 	{
 		GL::CreateDevice();
 		GL::CreateSwapChain(window);
-		SetRenderTarget(NULL);
+		ResizeDefaultRenderTarget();
+		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		return new GL();
 	}
 
 	CComPtr<ID3D11Device> GL::device;
 	CComPtr<ID3D11DeviceContext> GL::context;
 	CComPtr<IDXGISwapChain1> GL::swapChain;
-
+	D3D11_TEXTURE2D_DESC GL::defaultRenderTargetDescription;
+	CComPtr<ID3D11RenderTargetView> GL::defaultRenderTargetView;
+	CComPtr<ID3D11DepthStencilView> GL::defaultDepthStencilView;
 	CComPtr<ID3D11RenderTargetView> GL::renderTargetView;
 	CComPtr<ID3D11DepthStencilView> GL::depthStencilView;
 
@@ -299,12 +244,12 @@ namespace BDXKEngine {
 
 		//交换链的属性配置
 		DXGI_SWAP_CHAIN_DESC1 swapChainProperty = {};//局部变量一定要初始化
-		swapChainProperty.BufferCount = 1;
+		swapChainProperty.BufferCount = 2;
 		swapChainProperty.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 		swapChainProperty.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		swapChainProperty.SampleDesc.Count = 1;
 		swapChainProperty.SampleDesc.Quality = 0;
-		swapChainProperty.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+		swapChainProperty.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDesc = {};
 		fullScreenDesc.Windowed = true;
@@ -339,5 +284,55 @@ namespace BDXKEngine {
 			throw std::exception("编译着色器失败");
 		}
 	}
+
+	CComPtr<ID3D11Texture2D> GL::GetDefaultRenderTarget() {
+		CComPtr<ID3D11Texture2D> renderTargetTexture;
+		swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
+		return renderTargetTexture;
+	}
+	void GL::ResizeDefaultRenderTarget(Rect rect)
+	{
+		HRESULT result = 0;
+
+		//需要重置纹理大小，但视图一直占用着纹理而导致没法重置，所以要先释放视图
+		if (renderTargetView == defaultRenderTargetView)renderTargetView = nullptr;
+		if (depthStencilView == defaultDepthStencilView)depthStencilView = nullptr;
+		defaultRenderTargetView = nullptr;
+		defaultDepthStencilView = nullptr;
+
+		//重置渲染纹理大小
+		swapChain->ResizeBuffers(2, (UINT)rect.width, (UINT)rect.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
+
+		//重新创建视图
+
+		//获取屏幕渲染目标纹理及其参数
+		CComPtr<ID3D11Texture2D> targetTexture = nullptr;
+		swapChain->GetBuffer(0, IID_PPV_ARGS(&targetTexture.p));
+		targetTexture->GetDesc(&defaultRenderTargetDescription);
+		//以该参数创建用于深度模板测试的纹理
+		CComPtr<ID3D11Texture2D> depthStencilTexture = nullptr;
+		D3D11_TEXTURE2D_DESC depthStencilTextureDescription = {};
+		depthStencilTextureDescription.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilTextureDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		depthStencilTextureDescription.Width = static_cast<UINT> (defaultRenderTargetDescription.Width);
+		depthStencilTextureDescription.Height = static_cast<UINT> (defaultRenderTargetDescription.Height);
+		depthStencilTextureDescription.ArraySize = 1;
+		depthStencilTextureDescription.SampleDesc = { 1,0 };
+		result = device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture.p);
+		assert(SUCCEEDED(result));
+		//创建渲染目标纹理视图
+		CD3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{ D3D11_RTV_DIMENSION_TEXTURE2D };
+		result = device->CreateRenderTargetView(targetTexture, &renderTargetViewDesc, &defaultRenderTargetView.p);
+		assert(SUCCEEDED(result));
+		//创建深度模板测试的视图
+		CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{ D3D11_DSV_DIMENSION_TEXTURE2D };
+		result = device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &defaultDepthStencilView.p);
+		assert(SUCCEEDED(result));
+	}
+	void GL::Present()
+	{
+		swapChain->Present(0, 0);
+	}
+
 }
 

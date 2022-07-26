@@ -87,15 +87,14 @@ namespace BDXKEngine {
 						Cursor* cursor = Cursor::Initialize(input,window);
 						Event* event = Event::Initialize(input, window);
 						GL* gl = GL::Initialize(window->GetHwnd());
-						GL2D* gl2d = nullptr;
-						Graphics* graphics = Graphics::Initialize(window, gl, new Material{ {
+						GL2D* gl2d = GL2D::Initialize(gl);
+						Graphics* graphics = Graphics::Initialize(window, gl, gl2d, new Material{ {
 								new Shader(
 									GetResourcesPathW(Shaders, Blit\\VertexShader.hlsl),
 									GetResourcesPathW(Shaders, Blit\\PixelShader.hlsl),
 									PassType::ForwardBase
 								)
-							} },
-							&gl2d);
+							} });
 						GUI* gui = GUI::Initialize(gl2d, event, window);
 
 						//创建配置信息，这将影响框架层中部分模块使用功能层的方式

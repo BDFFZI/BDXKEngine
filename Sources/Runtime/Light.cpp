@@ -29,7 +29,7 @@ void Light::SetLightType(LightType type) {
 	switch (type)
 	{
 	case LightType::Directional:
-		shadowMap = new Texture2D{ 2048,2048 };
+		shadowMap = new Texture2D{ 1024,1024 };
 		break;
 	case LightType::Point:
 		shadowMap = new Texture2D{ 512,512 };
@@ -98,20 +98,19 @@ void BDXKEngine::Light::OnAwake()
 
 	Component::OnAwake();
 }
-void BDXKEngine::Light::OnLateUpdate()
+void BDXKEngine::Light::OnRenderObject()
 {
 	//渲染阴影贴图
 	std::vector<ObjectPtr<Renderer>> renderers = RendererEditor::GetRenderersQueue();
 
 	GL::SetRenderTarget(shadowMap);
-	GL::Begin();
 
 	//重置纹理
 	GL::Clear(true, true);
 	//设置深度绘制着色器
 	GraphicsSettings::shadowMapMaterial->SetPass(0);
 	//设置阴影信息
-	Graphics::UpdateShadowInfo(GetShadowInfo(),nullptr);
+	Graphics::UpdateShadowInfo(GetShadowInfo(), nullptr);
 
 	//渲染深度信息
 	for (ObjectPtr<Renderer>& renderer : renderers)
@@ -121,7 +120,6 @@ void BDXKEngine::Light::OnLateUpdate()
 		Graphics::DrawMeshNow(renderer->GetMesh());
 	}
 
-	GL::End();
 	GL::SetRenderTarget(nullptr);
 }
 void BDXKEngine::Light::OnDestroy()

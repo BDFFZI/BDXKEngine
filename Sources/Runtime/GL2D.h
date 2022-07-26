@@ -10,10 +10,10 @@
 #include "Rect.h"
 
 namespace BDXKEngine {
-	class GL2D
+	class GL2D :protected GL
 	{
 	public:
-		static void CreateResources(ObjectPtr<Texture2D> renderTargetTexture);
+		static void CreateResources();
 		static void ReleaseResources();
 
 		static void ClearCanvas(Color color = Color::black);
@@ -32,7 +32,7 @@ namespace BDXKEngine {
 		static void DrawTextf(Rect rect, std::wstring text, int fontSize);
 	protected:
 		/// 仅能使用GL的默认交换链贴图
-		static GL2D* Initialize(ObjectPtr<Texture2D> renderTargetTexture);
+		static GL2D* Initialize(GL* gl);
 	private:
 
 		static CComPtr<IDWriteFactory> writeFactory;//资源工厂

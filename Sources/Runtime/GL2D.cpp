@@ -68,11 +68,11 @@ namespace BDXKEngine {
 		textFormat->Release();
 	}
 
-	GL2D* GL2D::Initialize(ObjectPtr<Texture2D> renderTargetTexture)
+	GL2D* GL2D::Initialize(GL* gl)
 	{
 		LRESULT back = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
 		assert(SUCCEEDED(back));// 创建资源工厂失败
-		CreateResources(renderTargetTexture);
+		CreateResources();
 
 		back = DWriteCreateFactory(DWRITE_FACTORY_TYPE_ISOLATED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&writeFactory));
 		assert(SUCCEEDED(back));// 创建写字资源工厂失败
@@ -94,9 +94,11 @@ namespace BDXKEngine {
 		DrawRectangle(rect.GetPosition(), rect.GetSize(), isFill);
 	}
 
-	void GL2D::CreateResources(ObjectPtr<Texture2D> renderTargetTexture)
+	void GL2D::CreateResources()
 	{
-		//使用窗口作为呈现器
+		HRESULT result = 0;
+
+		//使用窗口作为渲染目标
 		//RECT rect;
 		//GetClientRect(hwnd, &rect);
 		//D2D1_SIZE_U size = D2D1::SizeU(rect.right, rect.bottom);
@@ -107,12 +109,18 @@ namespace BDXKEngine {
 		//);
 		//assert(SUCCEEDED(back));//创建呈现器目标失败
 
-		//利用纹理创建呈现器目标
-		D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(
+		//获取GL的默认渲染目标的DXGI底层资源
+		CComPtr<IDXGISurface> dxgiSurface = nullptr;
+		result = GL::GetDefaultRenderTarget()->QueryInterface(&dxgiSurface.p);
+		assert(SUCCEEDED(result));
+
+		//创建渲染目标
+		D2D1_RENDER_TARGET_PROPERTIES properties = D2D1::RenderTargetProperties(
 			D2D1_RENDER_TARGET_TYPE_DEFAULT,
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)
 		);
-		assert(SUCCEEDED(factory->CreateDxgiSurfaceRenderTarget(renderTargetTexture->GetDXGISurface(), &props, &renderTarget.p)));
+		result = factory->CreateDxgiSurfaceRenderTarget(dxgiSurface, &properties, &renderTarget.p);
+		assert(SUCCEEDED(result));
 
 		//创建画笔
 		D2D1_COLOR_F color = D2D1::ColorF(1, 1, 1);

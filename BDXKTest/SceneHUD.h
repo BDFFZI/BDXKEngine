@@ -5,7 +5,8 @@ namespace BDXKEditor {
 	using namespace BDXKEngine;
 	class SceneHUD :public Component, public DrawGizmosEvent, TransformEditor {
 	private:
-		inline static std::wstring sceneInfo{ L"Hello BDXKEngine" };
+		std::wstring sceneInfo{ L"Hello BDXKEngine" };
+		int frameRate = 0;
 
 		float ShowGameObjectInfo(ObjectPtr<GameObject> target, float drawY, int order = 0)
 		{
@@ -93,7 +94,7 @@ namespace BDXKEditor {
 			//显示帧率
 			rect.y += rect.height + 10;
 			rect.height = 25;
-			GUI::TextArea(rect, L"帧率:" + std::to_wstring(1 / Time::GetDeltaTime()));
+			GUI::TextArea(rect, L"帧率:" + std::to_wstring(frameRate = (int)std::lerp(frameRate, 1 / Time::GetDeltaTime(), 0.01f)));
 
 			//孤儿箱:用来将节点父亲设为空
 			rect.y += rect.height + 10;

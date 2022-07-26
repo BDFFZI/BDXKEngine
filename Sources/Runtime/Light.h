@@ -11,7 +11,7 @@
 
 namespace BDXKEngine {
 	class LightEditor;
-	class Light :public Component, public LateUpdateEvent, RendererEditor, ShaderEditor
+	class Light :public Component, public RenderObjectEvent, RendererEditor, ShaderEditor
 	{
 		friend LightEditor;
 
@@ -40,7 +40,7 @@ namespace BDXKEngine {
 		ShadowInfo GetShadowInfo();
 
 		void OnAwake()override;
-		void OnLateUpdate()override;
+		void OnRenderObject()override;
 		void OnDestroy()override;
 	};
 

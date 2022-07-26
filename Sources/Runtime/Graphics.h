@@ -10,7 +10,7 @@
 #include "GraphicsInfo.h"
 
 namespace BDXKEngine {
-	class Graphics :protected GL, protected GL2D, ShaderEditor
+	class Graphics : protected GL2D, ShaderEditor
 	{
 	public:
 		/// <summary>
@@ -22,13 +22,13 @@ namespace BDXKEngine {
 		static void UpdateCameraInfo(CameraInfo lightInfo);
 		static void UpdateLightInfo(LightInfo lightInfo);
 		static void UpdateObjectInfo(ObjectInfo lightInfo);
-		static void UpdateShadowInfo(ShadowInfo shadowInfo,ObjectPtr<Texture2D> shadowMap);
+		static void UpdateShadowInfo(ShadowInfo shadowInfo, ObjectPtr<Texture2D> shadowMap);
 
 		static void DrawMeshNow(ObjectPtr<Mesh> mesh);
 		static void DrawTexture(Rect screenRect, ObjectPtr<Texture2D> texture);
 		static void Blit(ObjectPtr<Texture2D> source, ObjectPtr<Texture2D> dest, ObjectPtr<Material> material = blitMaterial);
 	protected:
-		static Graphics* Initialize(Window* window, GL* gl, ObjectPtr<Material> blitMaterial, GL2D** gl2d);
+		static Graphics* Initialize(Window* window, GL* gl, GL2D* gl2d, ObjectPtr<Material> blitMaterial);
 	private:
 		static WorldInfo worldInfo;
 		static CameraInfo cameraInfo;
