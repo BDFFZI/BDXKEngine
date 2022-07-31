@@ -81,7 +81,7 @@ namespace BDXKEditor {
 		static ObjectPtr<GameObject> Camera(const wchar_t* name = L"Camera")
 		{
 			ObjectPtr<GameObject> camera = new GameObject(name);
-			camera->AddComponent<BDXKEngine::Camera>();
+			camera->AddComponent<BDXKEngine::Camera>()->SetClearFlags(ClearFlags::Skybox);
 			camera->AddComponent<CameraController>();
 			camera->AddComponent<SceneHUD>();
 			return camera;

@@ -2,6 +2,7 @@
 #include <d3dcompiler.h>
 #include <exception>
 #include "Texture2D.h"
+#include "TextureCube.h"
 #include "Mesh.h"
 
 namespace BDXKEngine {
@@ -45,7 +46,6 @@ namespace BDXKEngine {
 			pixelShader
 		)));
 	}
-
 	void GL::CreateSamplerState(ID3D11SamplerState** samplerState)
 	{
 		D3D11_SAMPLER_DESC samplerDescription{};
@@ -55,6 +55,11 @@ namespace BDXKEngine {
 		samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 
 		device->CreateSamplerState(&samplerDescription, samplerState);
+	}
+
+	ObjectPtr<Texture2D> GL::GetRenderTarget()
+	{
+		return renderTexture;
 	}
 
 	void GL::UpdateBlend(Blend* blend)
@@ -85,6 +90,7 @@ namespace BDXKEngine {
 		device->CreateDepthStencilState(&description, &zTest->depthStencilState.p);
 	}
 
+
 	// 设置当前渲染管线中用于的着色器
 	void GL::SetShader(ID3D11VertexShader* vertexShader, ID3D11InputLayout* vertexShaderInputLayout, ID3D11PixelShader* pixelShader)
 	{
@@ -114,7 +120,7 @@ namespace BDXKEngine {
 	{
 		ID3D11ShaderResourceView* resourceView = nullptr;
 		if (texture != nullptr)
-			resourceView = texture->textureView.p;
+			resourceView = texture->GetResourceView().p;
 
 		context->VSSetShaderResources(startSlot, 1, &resourceView);
 		context->PSSetShaderResources(startSlot, 1, &resourceView);
@@ -126,15 +132,16 @@ namespace BDXKEngine {
 		context->PSSetSamplers(0, 1, samplerState);
 	}
 	// 设置渲染到的目标纹理
-	void GL::SetRenderTarget(ObjectPtr<Texture2D> texture2D) {
-		if (texture2D != nullptr)
+	void GL::SetRenderTarget(ObjectPtr<Texture2D> renderTexture) {
+		GL::renderTexture = renderTexture;
+		if (renderTexture != nullptr)
 		{
-			renderTargetView = texture2D->texture2DView;
-			depthStencilView = texture2D->texture2DDepthView;
+			renderTargetView = renderTexture->renderTextureRTV;
+			depthStencilView = renderTexture->depthTextureDSV;
 			//调整视口数据至与新纹理大小一致
 			D3D11_VIEWPORT viewport = {};
-			viewport.Height = (float)texture2D->GetHeight();
-			viewport.Width = (float)texture2D->GetWidth();
+			viewport.Height = (float)renderTexture->GetHeight();
+			viewport.Width = (float)renderTexture->GetWidth();
 			viewport.MinDepth = 0;
 			viewport.MaxDepth = 1;
 			context->RSSetViewports(1, &viewport);
@@ -155,6 +162,37 @@ namespace BDXKEngine {
 		//设置渲染目标
 		context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
 	}
+	void GL::SetRenderTarget(ObjectPtr<TextureCube> textureCube, int index)
+	{
+		if (textureCube != nullptr)
+		{
+			renderTargetView = textureCube->renderTextureRTV[index];
+			depthStencilView = textureCube->depthTextureDSV;
+			//调整视口数据至与新纹理大小一致
+			D3D11_VIEWPORT viewport = {};
+			viewport.Height = (float)textureCube->GetHeight();
+			viewport.Width = (float)textureCube->GetWidth();
+			viewport.MinDepth = 0;
+			viewport.MaxDepth = 1;
+			context->RSSetViewports(1, &viewport);
+		}
+		else//未空时使用默认值
+		{
+			renderTargetView = defaultRenderTargetView;
+			depthStencilView = defaultDepthStencilView;
+			//调整视口数据至与新纹理大小一致
+			D3D11_VIEWPORT viewport = {};
+			viewport.Height = (float)defaultRenderTargetDescription.Height;
+			viewport.Width = (float)defaultRenderTargetDescription.Width;
+			viewport.MinDepth = 0;
+			viewport.MaxDepth = 1;
+			context->RSSetViewports(1, &viewport);
+		}
+
+		//设置渲染目标
+		context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
+	}
+
 	void GL::SetBlend(Blend* blend)
 	{
 		//设置混合方式
@@ -186,23 +224,24 @@ namespace BDXKEngine {
 		context->DrawIndexed(indexsCount, 0, 0);
 	}
 
-	GL* GL::Initialize(HWND window)
+	GL* GL::Initialize(Window* window)
 	{
 		GL::CreateDevice();
-		GL::CreateSwapChain(window);
-		ResizeDefaultRenderTarget();
+		GL::CreateSwapChain(window->GetHwnd());
+		ResizeDefaultRenderTarget(window->GetScreenRect().GetSize());
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		return new GL();
 	}
 
-	CComPtr<ID3D11Device> GL::device;
-	CComPtr<ID3D11DeviceContext> GL::context;
-	CComPtr<IDXGISwapChain1> GL::swapChain;
-	D3D11_TEXTURE2D_DESC GL::defaultRenderTargetDescription;
-	CComPtr<ID3D11RenderTargetView> GL::defaultRenderTargetView;
-	CComPtr<ID3D11DepthStencilView> GL::defaultDepthStencilView;
-	CComPtr<ID3D11RenderTargetView> GL::renderTargetView;
-	CComPtr<ID3D11DepthStencilView> GL::depthStencilView;
+	CComPtr<ID3D11Device> GL::device = nullptr;
+	CComPtr<ID3D11DeviceContext> GL::context = nullptr;
+	CComPtr<IDXGISwapChain1> GL::swapChain = nullptr;
+	D3D11_TEXTURE2D_DESC GL::defaultRenderTargetDescription = {};
+	CComPtr<ID3D11RenderTargetView> GL::defaultRenderTargetView = nullptr;
+	CComPtr<ID3D11DepthStencilView> GL::defaultDepthStencilView = nullptr;
+	CComPtr<ID3D11RenderTargetView> GL::renderTargetView = nullptr;
+	CComPtr<ID3D11DepthStencilView> GL::depthStencilView = nullptr;
+	ObjectPtr<Texture2D> GL::renderTexture = nullptr;
 
 	void GL::CreateDevice() {
 		D3D_FEATURE_LEVEL levels[] = {
@@ -290,7 +329,7 @@ namespace BDXKEngine {
 		swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
 		return renderTargetTexture;
 	}
-	void GL::ResizeDefaultRenderTarget(Rect rect)
+	void GL::ResizeDefaultRenderTarget(Vector2 size)
 	{
 		HRESULT result = 0;
 
@@ -301,7 +340,7 @@ namespace BDXKEngine {
 		defaultDepthStencilView = nullptr;
 
 		//重置渲染纹理大小
-		swapChain->ResizeBuffers(2, (UINT)rect.width, (UINT)rect.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
+		swapChain->ResizeBuffers(2, (UINT)size.x, (UINT)size.y, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
 
 		//重新创建视图
 

@@ -35,6 +35,9 @@ namespace BDXKEngine {
 
 		CComPtr<ID3D11Buffer> vertexBuffer;
 		CComPtr<ID3D11Buffer> triangleBuffer;
+
+		void ResetVerticesBuffer();
+		void ResetTrianglesBuffer();
 	};
 }
 

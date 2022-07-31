@@ -25,7 +25,7 @@ namespace BDXKEngine {
 			TextArea(rect, stream.str());
 		}
 	protected:
-		static GUI* Initialize(GL2D* graphics, Event* event, Window* window);
+		static GUI* Initialize(Event* event, Window* window);
 	private:
 		static Window* window;
 		static std::wstringstream charStream;

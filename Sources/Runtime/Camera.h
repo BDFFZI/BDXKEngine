@@ -41,13 +41,7 @@ namespace BDXKEngine {
 
 		ObjectPtr<Transform> transform{};
 
-		void OnAwake() override
-		{
-			Component::OnAwake();
-
-			transform = GetGameObject()->GetTransform();
-		}
-
+		void OnAwake() override;
 		void OnRenderObject()override;
 	};
 }

@@ -39,7 +39,6 @@ namespace BDXKEngine {
 
 	Mesh::Mesh() :Object(L"New Mesh")
 	{
-
 	}
 	int Mesh::GetVerticesCount()
 	{
@@ -99,8 +98,11 @@ namespace BDXKEngine {
 		size_t size = data.size();
 		if (size % 3 != 0)
 			throw std::exception("三角形数量有问题");
-
-		triangles.resize(size);
+		if (triangles.size() != size)
+		{
+			triangles.resize(size);
+			ResetTrianglesBuffer();
+		}
 		for (int index = 0; index < size; index++)
 		{
 			triangles[index] = data[index];
@@ -109,7 +111,11 @@ namespace BDXKEngine {
 	void Mesh::SetPositions(std::vector<Vector3> data)
 	{
 		size_t size = data.size();
-		vertices.resize(size);
+		if (vertices.size() != size)
+		{
+			vertices.resize(size);
+			ResetVerticesBuffer();
+		}
 		for (int index = 0; index < size; index++)
 		{
 			vertices[index].position = data[index];
@@ -118,7 +124,11 @@ namespace BDXKEngine {
 	void Mesh::SetNormals(std::vector<Vector3> data)
 	{
 		size_t size = data.size();
-		vertices.resize(size);
+		if (vertices.size() != size)
+		{
+			vertices.resize(size);
+			ResetVerticesBuffer();
+		}
 		for (int index = 0; index < size; index++)
 		{
 			vertices[index].normal = data[index];
@@ -127,7 +137,11 @@ namespace BDXKEngine {
 	void Mesh::SetUVs(std::vector<Vector2> data)
 	{
 		size_t size = data.size();
-		vertices.resize(size);
+		if (vertices.size() != size)
+		{
+			vertices.resize(size);
+			ResetVerticesBuffer();
+		}
 		for (int index = 0; index < size; index++)
 		{
 			vertices[index].uv = { data[index].x,1 - data[index].y };
@@ -136,7 +150,11 @@ namespace BDXKEngine {
 	void Mesh::SetColors(std::vector<Color> data)
 	{
 		size_t size = data.size();
-		vertices.resize(size);
+		if (vertices.size() != size)
+		{
+			vertices.resize(size);
+			ResetVerticesBuffer();
+		}
 		for (int index = 0; index < size; index++)
 		{
 			vertices[index].color = data[index];
@@ -145,7 +163,17 @@ namespace BDXKEngine {
 
 	void Mesh::UploadMeshData()
 	{
+		GL::UpdateBuffer(vertexBuffer, vertices.data());
+		GL::UpdateBuffer(triangleBuffer, triangles.data());
+	}
+	void Mesh::ResetVerticesBuffer()
+	{
+		vertexBuffer = nullptr;
 		GL::CreateBuffer(vertices.data(), (int)(vertices.size() * sizeof(Vertex)), D3D11_BIND_VERTEX_BUFFER, &vertexBuffer.p);
-		GL::CreateBuffer(triangles.data(), (int)(triangles.size() * sizeof(int)), D3D11_BIND_INDEX_BUFFER, &triangleBuffer.p);
+	}
+	void Mesh::ResetTrianglesBuffer()
+	{
+		triangleBuffer = nullptr;
+		GL::CreateBuffer(triangles.data(), (int)(triangles.size() * sizeof(unsigned int)), D3D11_BIND_INDEX_BUFFER, &triangleBuffer.p);
 	}
 }

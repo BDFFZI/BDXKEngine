@@ -43,6 +43,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture2D.h"
+#include "TextureCube.h"
 //资源层：对各种外部文件包括引擎持久化资源的表示和读写 >> 引擎启动和运行的数据源头，未来编辑器的编辑目标
 #include "Resources.h"
 #include "MeshImporter.h"
@@ -65,7 +66,9 @@
 #include "Animator.h"
 
 namespace BDXKEngine {
-	class Engine :Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager {
+
+
+	class Engine :Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager {
 	public:
 		static void Run(::std::function<void()> onStart)
 		{
@@ -80,22 +83,19 @@ namespace BDXKEngine {
 					case WM_CREATE:
 					{
 						GameObjectManager* gameObjectManager = GameObjectManager::Initialize(window);
-						//功能初始化
+						//平台层初始化
+						GL* gl = GL::Initialize(window);
+						GL2D* gl2d = GL2D::Initialize(gl);
+						//资源层初始化
+						Resources* resources = Resources::Initialize(window, gl);
+						//功能层初始化
 						Time::Initialize(window);
 						Screen::Initialize(window);
 						Input* input = Input::Initialize(window);
 						Cursor* cursor = Cursor::Initialize(input,window);
 						Event* event = Event::Initialize(input, window);
-						GL* gl = GL::Initialize(window->GetHwnd());
-						GL2D* gl2d = GL2D::Initialize(gl);
-						Graphics* graphics = Graphics::Initialize(window, gl, gl2d, new Material{ {
-								new Shader(
-									GetResourcesPathW(Shaders, Blit\\VertexShader.hlsl),
-									GetResourcesPathW(Shaders, Blit\\PixelShader.hlsl),
-									PassType::ForwardBase
-								)
-							} });
-						GUI* gui = GUI::Initialize(gl2d, event, window);
+						Graphics* graphics = Graphics::Initialize(window);
+						GUI* gui = GUI::Initialize(event, window);
 
 						//创建配置信息，这将影响框架层中部分模块使用功能层的方式
 						CreateSettings();
@@ -138,18 +138,13 @@ namespace BDXKEngine {
 			}
 		}
 	private:
-		static void CreateSettings() {
-			GraphicsSettings::shadowMapMaterial = new Material{ {
-				new Shader(
-					GetResourcesPathW(Shaders, ShadowMap\\VertexShader.hlsl),
-					GetResourcesPathW(Shaders, ShadowMap\\PixelShader.hlsl),
-					PassType::ForwardBase
-				)
-			} };
-		}
-		static void ReleaseSettings()
+		static void CreateSettings()
 		{
-			Object::Destroy(GraphicsSettings::shadowMapMaterial.GetPtr());
+
+		}
+
+		static void ReleaseSettings() {
+			skyboxMaterial = nullptr;
 		}
 	};
 }

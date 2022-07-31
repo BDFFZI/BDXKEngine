@@ -3,6 +3,7 @@
 #include <dxgi.h>
 #include <cassert>
 #include <atlbase.h>
+#include "Window.h"
 #include "Color.h"
 #include "Rect.h"
 #include "ObjectPtr.h"
@@ -19,6 +20,7 @@ namespace BDXKEngine {
 
 	class Texture;
 	class Texture2D;
+	class TextureCube;
 	class Mesh;
 	class GL
 	{
@@ -36,10 +38,12 @@ namespace BDXKEngine {
 			CD3D11_BUFFER_DESC desc(bufferSize, bindFlag);
 			D3D11_SUBRESOURCE_DATA data = { source ,0,0 };
 
-			assert(SUCCEEDED(device->CreateBuffer(&desc, &data, buffer)));
+			HRESULT result = device->CreateBuffer(&desc, &data, buffer);
+			assert(SUCCEEDED(result));
 		}
-
 		static void CreateSamplerState(ID3D11SamplerState** samplerState);
+
+		static ObjectPtr<Texture2D> GetRenderTarget();
 
 		static void UpdateBlend(Blend* blend);
 		static void UpdateZTest(ZTest* zTest);
@@ -48,6 +52,8 @@ namespace BDXKEngine {
 		{
 			context->UpdateSubresource(buffer, 0, nullptr, source, 0, 0);
 		}
+
+
 
 		/// 设置当前渲染管线中用于的着色器
 		static void SetShader(ID3D11VertexShader* vertexShader, ID3D11InputLayout* vertexShaderInputLayout, ID3D11PixelShader* pixelShader);
@@ -60,7 +66,9 @@ namespace BDXKEngine {
 		/// 设置着色器采样纹理时的方式
 		static void SetSamplerState(ID3D11SamplerState** samplerState);
 		/// 设置要渲染到的目标纹理，为空时设置回默认目标即屏幕,Present会导致解除绑定，所以每次都重新绑定
-		static void SetRenderTarget(ObjectPtr<Texture2D> renderTargetTexture);
+		static void SetRenderTarget(ObjectPtr<Texture2D> renderTexture);
+		static void SetRenderTarget(ObjectPtr<TextureCube> textureCube, int index);
+
 		/// 设置渲染时的颜色混合方式
 		static void SetBlend(Blend* blend);
 		/// 设置渲染时对深度模板缓冲区的影响方式
@@ -69,7 +77,7 @@ namespace BDXKEngine {
 		static void Clear(bool clearDepth, bool clearColor, Color backgroundColor = Color::clear, float depth = 1.0f);
 		static void Render(int indexsCount);
 	protected:
-		static GL* Initialize(HWND window);
+		static GL* Initialize(Window* window);
 
 		static CComPtr<ID3D11Device> device;
 		static CComPtr<ID3D11DeviceContext> context;
@@ -80,13 +88,14 @@ namespace BDXKEngine {
 		//清除渲染和深度模板时用得上
 		static CComPtr<ID3D11RenderTargetView> renderTargetView;
 		static CComPtr<ID3D11DepthStencilView> depthStencilView;
+		static ObjectPtr<Texture2D> renderTexture;
 
 		static void CreateDevice();
 		static void CreateSwapChain(HWND hwnd);
 		static void CompileShader(const wchar_t* path, const char* entrypoint, const char* object, ID3DBlob** blob);
 
 		/// 若使用了GL2D功能，则可能出现因为渲染纹理被GL2D占用而导致无法重置纹理大小，所以要配合GL2D那边的资源释放
-		static void ResizeDefaultRenderTarget(Rect rect = {});
+		static void ResizeDefaultRenderTarget(Vector2 size);
 		static CComPtr<ID3D11Texture2D> GetDefaultRenderTarget();
 
 		/// 将默认渲染目标的画面呈现到屏幕上

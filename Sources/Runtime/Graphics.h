@@ -1,11 +1,13 @@
 #pragma once
 #include <functional>
+#include "Resources.h"
 #include "GL.h"
 #include "GL2D.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "Window.h"
 #include "Texture2D.h"
+#include "TextureCube.h"
 #include "RenderEvent.h"
 #include "GraphicsInfo.h"
 
@@ -20,22 +22,23 @@ namespace BDXKEngine {
 		/// <param name="matrix"></param>
 		static void UpdateWorldInfo(WorldInfo worldInfo);
 		static void UpdateCameraInfo(CameraInfo lightInfo);
-		static void UpdateLightInfo(LightInfo lightInfo);
 		static void UpdateObjectInfo(ObjectInfo lightInfo);
-		static void UpdateShadowInfo(ShadowInfo shadowInfo, ObjectPtr<Texture2D> shadowMap);
+		static void UpdateLightInfo(LightInfo lightInfo, ShadowInfo shadowInfo, ObjectPtr<Texture> shadowMap);
+		static void UpdateShadowInfo(ShadowInfo shadowInfo);
 
 		static void DrawMeshNow(ObjectPtr<Mesh> mesh);
-		static void DrawTexture(Rect screenRect, ObjectPtr<Texture2D> texture);
-		static void Blit(ObjectPtr<Texture2D> source, ObjectPtr<Texture2D> dest, ObjectPtr<Material> material = blitMaterial);
+		static void DrawTexture(ObjectPtr<Texture2D> texture, Rect screenRect);
+		static void Blit(ObjectPtr<Texture2D> source, ObjectPtr<Texture2D> dest, ObjectPtr<Material> material = Resources::GetBlitMaterial());
 	protected:
-		static Graphics* Initialize(Window* window, GL* gl, GL2D* gl2d, ObjectPtr<Material> blitMaterial);
+		static Graphics* Initialize(Window* window);
 	private:
+		static Window* window;
 		static WorldInfo worldInfo;
 		static CameraInfo cameraInfo;
 		static LightInfo lightInfo;
 		static ObjectInfo objectInfo;
 		static ShadowInfo shadowInfo;
-		static ObjectPtr<Material> blitMaterial;
+		static ObjectPtr<Mesh> drawTextureMesh;
 
 		static CComPtr<ID3D11Buffer> worldInfoBuffer;
 		static CComPtr<ID3D11Buffer> cameraInfoBuffer;

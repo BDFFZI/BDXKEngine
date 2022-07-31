@@ -34,7 +34,8 @@ namespace Assembly {
 	{
 		CreateDefaultScene();
 
-
+		ObjectPtr<Camera> camera = GameObject::Find(L"摄像机")->GetComponent<Camera>();
+		camera->GetGameObject()->AddComponent<Assembly::CreateCube>();
 	}
 	void TestShadow()
 	{
@@ -42,13 +43,14 @@ namespace Assembly {
 
 		ObjectPtr<GameObject> camera = GameObject::Find(L"摄像机");
 		ObjectPtr<GameObject> cube = CreationMenu::Object3D::Cube(L"阴影贴图显示器");
-		//ObjectPtr<Light> pointlight = CreationMenu::Light::PointLight(L"红色点光源")->GetComponent<Light>();
-		////红色光源
-		//{
-		//	pointlight->SetColor(Color::red);
-		//	pointlight->SetIntensity(0.5f);
-		//	pointlight->GetTransform()->SetParent(cube->GetTransform());
-		//}
+		ObjectPtr<Light> pointlight = CreationMenu::Light::PointLight(L"红色点光源")->GetComponent<Light>();
+		//红色光源
+		{
+			pointlight->SetColor(Color::red);
+			pointlight->SetIntensity(0.5f);
+			pointlight->GetTransform()->SetParent(cube->GetTransform());
+			GraphicsSettings::skybox = pointlight->shadowMapCube;
+		}
 		//阴影贴图显示器
 		{
 			ObjectPtr<Transform> transform = cube->GetTransform();
@@ -61,11 +63,6 @@ namespace Assembly {
 			material->GetShaders()[0]->SetBlend(Blend::Multiply);
 			material->SetTexture(0, GameObject::Find(L"太阳")->GetComponent<Light>()->shadowMap.As<Texture>());
 		}
-
-
-
-
-
 	}
 	void TestLight()
 	{

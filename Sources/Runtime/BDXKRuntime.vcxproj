@@ -130,6 +130,7 @@
     <ClCompile Include="Cull.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsInfo.cpp" />
+    <ClCompile Include="GraphicsSettings.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureCube.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="String.cpp" />
@@ -191,7 +193,6 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderEvent.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="MeshRenderer.h" />
@@ -214,6 +215,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="BDXKEngine.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="TextureCube.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowBase.h" />
     <ClInclude Include="String.h" />

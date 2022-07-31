@@ -16,12 +16,20 @@ namespace BDXKEngine {
 		unsigned int GetWidth();
 		unsigned int GetHeight();
 	private:
+		static ObjectPtr<Texture2D> active;
+
 		Texture2D();
 
-		D3D11_TEXTURE2D_DESC texture2DDescription;
-		CComPtr<ID3D11Texture2D> texture2D = nullptr;
-		CComPtr<ID3D11RenderTargetView> texture2DView = nullptr;
-		CComPtr<ID3D11Texture2D> texture2DDepth = nullptr;
-		CComPtr<ID3D11DepthStencilView> texture2DDepthView = nullptr;
+		D3D11_TEXTURE2D_DESC renderTextureDesc;
+
+		CComPtr<ID3D11Texture2D> renderTexture = nullptr;
+		CComPtr<ID3D11ShaderResourceView> renderTextureSRV = nullptr;
+		CComPtr<ID3D11RenderTargetView> renderTextureRTV = nullptr;
+
+		CComPtr<ID3D11Texture2D> depthTexture = nullptr;
+		CComPtr<ID3D11DepthStencilView> depthTextureDSV = nullptr;
+
+
+		CComPtr<ID3D11ShaderResourceView> GetResourceView();
 	};
 }

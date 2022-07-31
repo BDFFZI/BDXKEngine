@@ -1,4 +1,4 @@
-//顶点
+//GL层
 struct Vertex
 {
     float3 position : POSITION;
@@ -6,21 +6,52 @@ struct Vertex
     float2 uv : TEXCOORD;
     float4 color : COLOR;
 };
+
+cbuffer Parameters : register(b0)
+{
+    float4 float0_3;
+    float4 float4_7;
+    float4 vector0;
+    float4 vector1;
+    float4 vector2;
+    float4 vector3;
+    float4 vector4;
+    float4 vector5;
+    row_major float4x4 matrix0;
+    row_major float4x4 matrix1;
+    row_major float4x4 matrix2;
+    row_major float4x4 matrix3;
+};
+
+Texture2D Texture2D0 : register(t0);
+Texture2D Texture2D1 : register(t1);
+Texture2D Texture2D2 : register(t2);
+Texture2D Texture2D3 : register(t3);
+
+SamplerState Texture2DSampler : register(s0);
+
+//Graphics层-------------------------------------------------------------------------------------
+
 //世界
-cbuffer WorldInfo : register(b0)
+cbuffer WorldInfo : register(b1)
 {
     float4 Environment;
     float4 Time;
 };
 //相机
-cbuffer CameraInfo : register(b1)
+cbuffer CameraInfo : register(b2)
 {
     row_major float4x4 WorldToView;
     row_major float4x4 ViewToClip;
     float4 CameraPosition;
 }
+//物体
+cbuffer ObjectInfo : register(b3)
+{
+    row_major float4x4 ObjectToWorld;
+}
 //灯光
-cbuffer LightInfo : register(b2)
+cbuffer LightInfo : register(b4)
 {
     float4 LightPosition;
     float4 LightNormal;
@@ -28,33 +59,17 @@ cbuffer LightInfo : register(b2)
     float4 LightFactorFloat;
     int4 LightFactorInt; //x:LightType,y:lightRenderMode,z:lightOrder,w:空
 };
-//物体
-cbuffer ObjectInfo : register(b3)
-{
-    row_major float4x4 ObjectToWorld;
-}
-//材质
-cbuffer Parameters : register(b4)
-{
-    float4 Parameter0;
-    float4 Parameter1;
-    float4 Parameter2;
-    float4 Parameter3;
-};
 //阴影
 cbuffer ShadowInfo : register(b5)
 {
     row_major float4x4 WorldToLightView;
     row_major float4x4 ViewToLightClip;
 }
+
+
 Texture2D ShadowMap : register(t4);
-
-
-Texture2D Texture2D0 : register(t0);
-Texture2D Texture2D1 : register(t1);
-Texture2D Texture2D2 : register(t2);
-Texture2D Texture2D3 : register(t3);
-SamplerState Texture2DSampler : register(s0);
+TextureCube ShadowMapCube : register(t5);
+TextureCube Skybox : register(t6);
 
 
 float3 ObjectToWorldVector(float3 worldVector)
@@ -82,12 +97,28 @@ float2 ClipToUVPos(float4 clipPosition)
 
 float DecodeShadowMap(float3 worldPosition)
 {
-    float4 view = mul(WorldToLightView, float4(worldPosition, 1));
-    float4 clip = mul(ViewToLightClip, view);
-    float4 viewOfMap = ShadowMap.Sample(Texture2DSampler, ClipToUVPos(clip));
+    float depth;
+    float depthOfMap;
+    
+    if (LightFactorInt.x == 1)
+    {
+        depthOfMap = ShadowMapCube.Sample(Texture2DSampler, worldPosition - LightPosition.xyz).z;
+        depth = distance(worldPosition, LightPosition.xyz);
+    }
+    else
+    {
+        float4 view = mul(WorldToLightView, float4(worldPosition, 1));
+        float4 clip = mul(ViewToLightClip, view);
+        depthOfMap = ShadowMap.Sample(Texture2DSampler, ClipToUVPos(clip)).z;
+        depth = view.z;
+    }
 
-    if (view.z > viewOfMap.z + 0.01f)
+    if (depth > depthOfMap + 0.01f)
         return 0;
     else
         return 1;
 }
+//float3 DecodeSkybox(float3 worldPosition)
+//{
+//    return ;
+//}

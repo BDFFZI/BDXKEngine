@@ -1,8 +1,10 @@
 #include "Camera.h"
 #include <algorithm>
 #include <cmath>
+#include "Resources.h"
 #include "Time.h"
 #include "Debug.h"
+#include "Screen.h"
 
 namespace BDXKEngine {
 	Camera::Camera() :Component(L"New Camera")
@@ -43,34 +45,14 @@ namespace BDXKEngine {
 		farClipPlane = std::fmax(nearClipPlane + 0.01f, distance);
 	}
 
+	void Camera::OnAwake()
+	{
+		Component::OnAwake();
+
+		transform = GetGameObject()->GetTransform();
+	}
 	void Camera::OnRenderObject()
 	{
-		//上传世界信息
-		Graphics::UpdateWorldInfo(WorldInfo{
-			{ background * 0.5f },
-			{{Time::GetRealtimeSinceStartup(),0,0},0}
-			});
-		//上传相机信息
-		switch (projection)
-		{
-		case Projection::Orthographic:
-			Graphics::UpdateCameraInfo(CameraInfo::Orthographic(
-				transform->GetPosition(),
-				transform->GetWorldToLocalMatrix(),
-				GetAspectRatio(),
-				nearClipPlane, farClipPlane,
-				size));
-			break;
-		case Projection::Perspective:
-			Graphics::UpdateCameraInfo(CameraInfo::Perspective(
-				transform->GetPosition(),
-				transform->GetWorldToLocalMatrix(),
-				GetAspectRatio(),
-				nearClipPlane, farClipPlane,
-				fieldOfView));
-			break;
-		}
-
 		//获取所有可渲染物体
 		std::vector<ObjectPtr<Renderer>> renderers = RendererEditor::GetRenderersQueue();
 		//渲染排序 TODO
@@ -103,21 +85,54 @@ namespace BDXKEngine {
 		}
 
 
-		//开始渲染场景，注意没灯光时不会触发渲染
+		//开始渲染场景
 
-		//渲染背景
+		//渲染背景,在上传相机世界数据等之前使用，否则会覆盖数据
 		switch (clearFlags)
 		{
 		case ClearFlags::Color:
 			GL::Clear(true, true, background);
 			break;
 		case ClearFlags::Skybox://天空盒 TODO
+			GL::Clear(true, true);
+			Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());
+			Resources::GetSkyboxMaterial()->SetVector(0, Vector4{ transform->GetPosition(),1 });
+			Resources::GetSkyboxMaterial()->SetPass(0);
+			GL::SetTexture(6, GraphicsSettings::skybox.As<Texture>());
+			Graphics::DrawTexture(Resources::GetWhiteTexture(), { Vector2::zero,Screen::GetSize() });
 			break;
 		case ClearFlags::Not:
 			break;
 		}
 
-		//渲染物体
+		//上传世界信息
+		Graphics::UpdateWorldInfo(WorldInfo{
+			{ background * 0.5f },
+			{{Time::GetRealtimeSinceStartup(),0,0},0}
+			});
+
+		//上传相机信息
+		switch (projection)
+		{
+		case Projection::Orthographic:
+			Graphics::UpdateCameraInfo(CameraInfo::Orthographic(
+				transform->GetPosition(),
+				transform->GetWorldToLocalMatrix(),
+				GetAspectRatio(),
+				nearClipPlane, farClipPlane,
+				size));
+			break;
+		case Projection::Perspective:
+			Graphics::UpdateCameraInfo(CameraInfo::Perspective(
+				transform->GetPosition(),
+				transform->GetWorldToLocalMatrix(),
+				GetAspectRatio(),
+				nearClipPlane, farClipPlane,
+				fieldOfView));
+			break;
+		}
+
+		//渲染物体，注意没灯光时不会触发渲染
 		for (ObjectPtr<Renderer> renderer : renderers)
 		{
 			//上传物体信息至渲染管线
@@ -132,8 +147,11 @@ namespace BDXKEngine {
 			for (int lightIndex = 0; lightIndex < lightsCount; lightIndex++)
 			{
 				//上传灯光和阴影信息至渲染管线
-				Graphics::UpdateLightInfo(LightEditor::GetLightInfo(lights[lightIndex]));
-				Graphics::UpdateShadowInfo(LightEditor::GetShadowInfo(lights[lightIndex]), LightEditor::GetShadowMap(lights[lightIndex]));
+				Graphics::UpdateLightInfo(
+					LightEditor::GetLightInfo(lights[lightIndex], lightIndex),
+					LightEditor::GetShadowInfo(lights[lightIndex]),
+					LightEditor::GetShadowMap(lights[lightIndex])
+				);
 
 				//渲染符合该类型的Pass
 				PassType& lightPass = lightPasses[lightIndex];//获取Pass类型，每一次光照都是一次Pass
@@ -154,6 +172,10 @@ namespace BDXKEngine {
 		GL::SetTexture(1, nullptr);
 		GL::SetTexture(2, nullptr);
 		GL::SetTexture(3, nullptr);
-		GL::SetTexture(4, nullptr);//阴影贴图
+		//阴影贴图
+		GL::SetTexture(4, nullptr);
+		GL::SetTexture(5, nullptr);
+		//天空盒
+		GL::SetTexture(6, nullptr);
 	}
 }

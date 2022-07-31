@@ -1,8 +1,4 @@
 #pragma once
-#include <d3d11_1.h>
-#include <dxgi.h>
-#include <atlbase.h>
-#include "ObjectPtr.h"
 #include "GL.h"
 
 namespace BDXKEngine {
@@ -10,13 +6,11 @@ namespace BDXKEngine {
 	{
 		friend GL;
 	protected:
+		static void CreateDepthStencil(unsigned int width, unsigned int height, ID3D11Texture2D** renderTexture, ID3D11DepthStencilView** depthStencilView);
+		
 		Texture(std::wstring name = L"New Texture");
 
-		void SetTextureView(CComPtr<ID3D11ShaderResourceView> textureView) {
-			this->textureView = textureView;
-		}
-	private:
-		CComPtr<ID3D11ShaderResourceView> textureView = nullptr;
+		virtual CComPtr<ID3D11ShaderResourceView> GetResourceView() = 0;
 	};
 }
 

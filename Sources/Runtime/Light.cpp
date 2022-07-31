@@ -32,7 +32,7 @@ void Light::SetLightType(LightType type) {
 		shadowMap = new Texture2D{ 1024,1024 };
 		break;
 	case LightType::Point:
-		shadowMap = new Texture2D{ 512,512 };
+		shadowMapCube = new TextureCube{ 512,512 };
 		break;
 	default:
 		throw 0;
@@ -66,63 +66,95 @@ ShadowInfo Light::GetShadowInfo()
 {
 	ObjectPtr<Transform> transform = GetTransform();
 
-	ShadowInfo shadowInfo;
-	shadowInfo.worldToLightView = transform->GetWorldToLocalMatrix();
-	switch (type)
-	{
-	case BDXKEngine::LightType::Directional:
-		shadowInfo.viewToLightClip = CameraInfo::Orthographic(
+	ShadowInfo shadowInfo{
+		transform->GetWorldToLocalMatrix(),
+		CameraInfo::Orthographic(
 			transform->GetPosition(),
 			transform->GetWorldToLocalMatrix(),
 			1, -25, 25, 25
-		).viewToClip;
-		break;
-	case BDXKEngine::LightType::Point:
-		shadowInfo.viewToLightClip = CameraInfo::Perspective(
-			transform->GetPosition(),
-			transform->GetWorldToLocalMatrix(),
-			1, 0.01f, 25, 90
-		).viewToClip;
-		break;
-	default:
-		throw 0;
-	}
+		).viewToClip
+	};
 
 	return shadowInfo;
 }
+ObjectPtr<Texture> Light::GetShadowMap()
+{
+	if (type == LightType::Point)
+		return shadowMapCube.As<Texture>();
+	else
+		return shadowMap.As<Texture>();
+}
 
-void BDXKEngine::Light::OnAwake()
+void Light::OnAwake()
 {
 	lights.push_back(this);
 	SetLightType(type);
 
 	Component::OnAwake();
 }
-void BDXKEngine::Light::OnRenderObject()
+void Light::OnRenderObject()
 {
-	//渲染阴影贴图
+	//获取投射阴影的物体
 	std::vector<ObjectPtr<Renderer>> renderers = RendererEditor::GetRenderersQueue();
-
-	GL::SetRenderTarget(shadowMap);
-
-	//重置纹理
-	GL::Clear(true, true);
 	//设置深度绘制着色器
-	GraphicsSettings::shadowMapMaterial->SetPass(0);
-	//设置阴影信息
-	Graphics::UpdateShadowInfo(GetShadowInfo(), nullptr);
+	Resources::GetShadowMapMaterial()->SetPass(0);
 
 	//渲染深度信息
-	for (ObjectPtr<Renderer>& renderer : renderers)
+	if (type == LightType::Point)
 	{
-		ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
-		Graphics::UpdateObjectInfo({ rendererTransform->GetLocalToWorldMatrix() });
-		Graphics::DrawMeshNow(renderer->GetMesh());
+		ObjectPtr<Transform> transform = GetTransform();
+		Vector3 rotations[] = {
+			{0,90,0},{0,-90,0},
+			{-90,0,0},{90,0,0},
+			{0,0,0},{0,180,0},
+		};
+
+		for (int index = 0; index < 6; index++)
+		{
+			Graphics::UpdateLightInfo(
+				GetLightInfo(),
+				ShadowInfo{
+					Matrix4x4::TRS(transform->GetPosition(),rotations[index],Vector3::one).GetInverse(),
+					Matrix4x4::Perspective(90,1,0.01f,25)
+				},
+				nullptr
+			);
+
+			GL::SetRenderTarget(shadowMapCube, index);
+			GL::Clear(true, true);
+
+			for (ObjectPtr<Renderer>& renderer : renderers)
+			{
+				ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
+				Graphics::UpdateObjectInfo({ rendererTransform->GetLocalToWorldMatrix() });
+				Graphics::DrawMeshNow(renderer->GetMesh());
+			}
+		}
+	}
+	else
+	{
+		//设置灯光阴影信息
+		Graphics::UpdateLightInfo(
+			GetLightInfo(),
+			GetShadowInfo(),
+			nullptr
+		);
+
+		//设置阴影贴图
+		GL::SetRenderTarget(shadowMap);
+		GL::Clear(true, true);
+
+		for (ObjectPtr<Renderer>& renderer : renderers)
+		{
+			ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
+			Graphics::UpdateObjectInfo({ rendererTransform->GetLocalToWorldMatrix() });
+			Graphics::DrawMeshNow(renderer->GetMesh());
+		}
 	}
 
 	GL::SetRenderTarget(nullptr);
 }
-void BDXKEngine::Light::OnDestroy()
+void Light::OnDestroy()
 {
 	lights.erase(std::find(
 		lights.begin(),
@@ -133,19 +165,20 @@ void BDXKEngine::Light::OnDestroy()
 	Component::OnDestroy();
 }
 
-ObjectPtr<Texture2D> BDXKEngine::LightEditor::GetShadowMap(ObjectPtr<Light> light)
-{
-	return light->shadowMap;
-}
-LightInfo BDXKEngine::LightEditor::GetLightInfo(ObjectPtr<Light> light, int order)
+
+LightInfo LightEditor::GetLightInfo(ObjectPtr<Light> light, int order)
 {
 	return light->GetLightInfo(order);
 }
-ShadowInfo BDXKEngine::LightEditor::GetShadowInfo(ObjectPtr<Light> light)
+ShadowInfo LightEditor::GetShadowInfo(ObjectPtr<Light> light)
 {
 	return light->GetShadowInfo();
 }
-std::vector<ObjectPtr<Light>>& BDXKEngine::LightEditor::GetLights()
+ObjectPtr<Texture> LightEditor::GetShadowMap(ObjectPtr<Light> light)
+{
+	return light->GetShadowMap();
+}
+std::vector<ObjectPtr<Light>>& LightEditor::GetLights()
 {
 	return Light::lights;
 }

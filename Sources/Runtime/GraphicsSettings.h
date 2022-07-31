@@ -1,9 +1,9 @@
 #pragma once
 #include "ObjectPtr.h"
-#include "Shader.h"
+#include "TextureCube.h"
 
 namespace BDXKEngine {
 	struct GraphicsSettings {
-		inline static ObjectPtr<Material> shadowMapMaterial;
+		static ObjectPtr<TextureCube> skybox;
 	};
 }

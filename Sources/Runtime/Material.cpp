@@ -37,14 +37,30 @@ namespace BDXKEngine {
 	{
 		this->renderQueue = renderQueue;
 	}
-	void Material::SetTexture(int slotIndex, ObjectPtr<Texture> texture)
-	{
-		textures[slotIndex] = texture;
-	}
+
 	void Material::SetFloat(int slotIndex, float value)
 	{
-		float* object = (float*)&parameters;
-		*(object + slotIndex) = value;
+		if (slotIndex < 0 || slotIndex >= 8)
+			throw std::exception("超出容量范围");
+		((float*)&parameters)[slotIndex] = value;
+	}
+	void Material::SetVector(int slotIndex, Vector4 value)
+	{
+		if (slotIndex < 0 || slotIndex >= 6)
+			throw std::exception("超出容量范围");
+		((Vector4*)&parameters)[2 + slotIndex] = value;
+	}
+	void Material::SetMatrix(int slotIndex, Matrix4x4 value)
+	{
+		if (slotIndex < 0 || slotIndex >= 4)
+			throw std::exception("超出容量范围");
+		((Matrix4x4*)&parameters)[2 + slotIndex] = value;
+	}
+	void Material::SetTexture(int slotIndex, ObjectPtr<Texture> texture)
+	{
+		if (slotIndex < 0 || slotIndex >= 4)
+			throw std::exception("超出容量范围");
+		textures[slotIndex] = texture;
 	}
 	void Material::SetPass(int index)
 	{
@@ -55,7 +71,7 @@ namespace BDXKEngine {
 
 		//设置常量
 		GL::UpdateBuffer(parametersBuffer.p, &parameters);
-		GL::SetConstantBuffer(4, &parametersBuffer.p);
+		GL::SetConstantBuffer(0, &parametersBuffer.p);
 
 		//设置着色器
 		ShaderEditor::SetPass(shaders[index]);

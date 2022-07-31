@@ -225,6 +225,12 @@
     <ClCompile Include="GraphicsInfo.cpp">
       <Filter>3_Function\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="TextureCube.cpp">
+      <Filter>1_Platform\GL\Resources\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsSettings.cpp">
+      <Filter>4_Framework\Settings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowBase.h">
@@ -378,12 +384,14 @@
     <ClInclude Include="Manager.h">
       <Filter>1_Platform\Window</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="GameObjectManager.h">
       <Filter>4_Framework</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsInfo.h">
       <Filter>3_Function\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCube.h">
+      <Filter>1_Platform\GL\Resources\Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

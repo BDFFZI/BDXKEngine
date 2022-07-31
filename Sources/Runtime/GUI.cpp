@@ -87,7 +87,7 @@ namespace BDXKEngine {
 
 
 
-	GUI* GUI::Initialize(GL2D* graphics, Event* event, Window* window)
+	GUI* GUI::Initialize(Event* event, Window* window)
 	{
 		GUI::window = window;
 		window->AddMessageListener(OnWindowMessage);

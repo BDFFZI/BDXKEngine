@@ -64,6 +64,41 @@ namespace BDXKEngine {
 		};
 	}
 
+	Matrix4x4 Matrix4x4::Ortho(float halfWidth, float halfhHeight, float nearClipPlane, float farClipPlane)
+	{
+		float ClipPlaneParameterA = 1 / (farClipPlane - nearClipPlane);
+		float ClipPlaneParameterB = -ClipPlaneParameterA * nearClipPlane;
+		return {
+			1 / halfWidth,0,0,0,
+			0,1 / halfhHeight,0,0,
+			0,0,ClipPlaneParameterA,ClipPlaneParameterB,
+			0,0,0,1
+		};
+	}
+	Matrix4x4 Matrix4x4::Perspective(float fieldOfView, float aspectRatio, float nearClipPlane, float farClipPlane)
+	{
+		float unitClipPlaneHalfHeight = std::tan(fieldOfView / 2 / 180 * M_PI);
+		//裁剪面的作用是使当深度等于远截面时最终深度恰好为1，等于近截面时恰好为0
+		//而最终深度计算结果=(az+b)/z
+		//故我们的目标便是求该式中的a和b
+		//列出二元一次方程组，利用代入消元法求解得出如下结论
+		float ClipPlaneParameterB = farClipPlane * nearClipPlane / (nearClipPlane - farClipPlane);
+		float ClipPlaneParameterA = -ClipPlaneParameterB / nearClipPlane;
+		return {
+			//控制视野范围并避免受窗口大小缩放影响
+			1 / unitClipPlaneHalfHeight / aspectRatio ,0,0,0,
+			0,1 / unitClipPlaneHalfHeight,0,0,
+			0,0,ClipPlaneParameterA,ClipPlaneParameterB,
+			//利用齐次坐标中的w分量实现近大远小公式 xy / z
+			0,0,1,0
+		};
+	}
+	Matrix4x4 Matrix4x4::TRS(Vector3 position, Vector3 eulerAngles, Vector3 scale)
+	{
+		//矩阵的计算顺序是从右到左[Translate(Rotate(Scale(vector)))]
+		return Translate(position) * Rotate(eulerAngles) * Scale(scale);
+	}
+
 	float Matrix4x4::GetElement(int row, int column)
 	{
 		return ((float*)this)[row * 4 + column];

@@ -7,6 +7,8 @@
     <FxCompile Include="ShadowMap\PixelShader.hlsl" />
     <FxCompile Include="Blit\VertexShader.hlsl" />
     <FxCompile Include="Blit\PixelShader.hlsl" />
+    <FxCompile Include="Skybox\PixelShader.hlsl" />
+    <FxCompile Include="Skybox\VertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BDXKEngine.hlsli" />

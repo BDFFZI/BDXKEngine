@@ -10,7 +10,7 @@ namespace BDXKEngine {
 	protected:
 		RenderObjectEvent()
 		{
-			renderObjectEvents.push_back(this);
+			renderObjectEvents.insert(renderObjectEvents.begin(), this);
 		}
 
 		virtual void OnRenderObject() = 0;
@@ -23,7 +23,7 @@ namespace BDXKEngine {
 	protected:
 		DrawGizmosEvent()
 		{
-			drawGizmosEvents.push_back(this);
+			drawGizmosEvents.insert(drawGizmosEvents.begin(), this);
 		}
 
 		virtual void OnDrawGizmos() = 0;

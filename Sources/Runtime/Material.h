@@ -28,16 +28,26 @@ namespace BDXKEngine {
 
 		void SetShaders(std::vector<ObjectPtr<Shader>> shader);
 		void SetRenderQueue(RenderQueue renderQueue);
-		void SetTexture(int slotIndex, ObjectPtr<Texture> texture);
 		void SetFloat(int slotIndex, float value);
+		void SetVector(int slotIndex, Vector4 value);
+		void SetMatrix(int slotIndex, Matrix4x4 value);
+		void SetTexture(int slotIndex, ObjectPtr<Texture> texture);
 		/// 用当前材质的所有物填充渲染管线
 		void SetPass(int index);
 	private:
 		struct Parameters {
-			Vector4 parameter0;
-			Vector4 parameter1;
-			Vector4 parameter2;
-			Vector4 parameter3;
+			Vector4 float0_3;
+			Vector4 float4_7;
+			Vector4 vector0;
+			Vector4 vector1;
+			Vector4 vector2;
+			Vector4 vector3;
+			Vector4 vector4;
+			Vector4 vector5;
+			Matrix4x4 matrix0;
+			Matrix4x4 matrix1;
+			Matrix4x4 matrix2;
+			Matrix4x4 matrix3;
 		};
 
 		std::vector<ObjectPtr<Shader>> shaders;

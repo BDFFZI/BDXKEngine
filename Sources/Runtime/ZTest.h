@@ -19,8 +19,8 @@ namespace BDXKEngine {
 		};
 
 		Operation operation = Operation::LEqual;
-		float factor = 0;
-		float units = 0;
+		float factor = 0;//缩放深度
+		float units = 0;//偏移深度
 		bool write = true;
 		bool clip = true;
 	private:

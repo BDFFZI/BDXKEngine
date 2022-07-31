@@ -161,11 +161,8 @@ namespace BDXKEngine {
 	void Transform::RenewSelfMatrix()
 	{
 		localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
-		//函数的计算顺序是从右到左，和书写顺序相反[Scale(Rotate(Translate(vector)))]
-		localToWorldMatrix *= Matrix4x4::Translate(localPosition);
-		localToWorldMatrix *= Matrix4x4::Rotate(localEulerAngles);
-		localToWorldMatrix *= Matrix4x4::Scale(localScale);
-
+		
+		localToWorldMatrix = localToWorldMatrix * Matrix4x4::TRS(localPosition, localEulerAngles, localScale);
 		worldToLocalMatrix = localToWorldMatrix.GetInverse();
 	}
 
