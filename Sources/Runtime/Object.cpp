@@ -2,7 +2,7 @@
 #include "Debug.h"
 
 namespace BDXKEngine {
-	void Object::Destroy(Object* object)
+	void Object::DestroyImmediate(Object* object)
 	{
 		if (object == nullptr || object->IsNull() || object->isDestroyed == true)
 			return;

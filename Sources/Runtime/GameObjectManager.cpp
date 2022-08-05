@@ -26,7 +26,7 @@ void GameObjectManager::OnWindowMessage(Window* window, UINT messageSign, WPARAM
 	case WM_DESTROY:
 	{
 		for (ObjectPtr<GameObject> gameObject : std::vector<ObjectPtr<GameObject>>{ GameObject::allGameObjects })
-			Object::Destroy(gameObject.GetPtr());
+			Object::DestroyImmediate(gameObject.GetPtr());
 		break;
 	}
 	}

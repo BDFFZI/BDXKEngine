@@ -22,12 +22,13 @@ namespace Assembly {
 
 		void OnUpdate()override {
 			if (Time::GetRealtimeSinceStartup() - time > 2)
-				Destroy(animator.GetPtr());
+				DestroyImmediate(animator.GetPtr());
 			if (Time::GetRealtimeSinceStartup() - time > 4)
 			{
 				ObjectPtr<GameObject> gameObject = GetGameObject();
-				Destroy(this);
-				Destroy(gameObject.GetPtr());
+				DestroyImmediate(this);
+				DestroyImmediate(gameObject.GetPtr());
+				return;
 			}
 			if ((int)std::fmodf(Time::GetFrameCount() - time, 100) == 0)
 			{

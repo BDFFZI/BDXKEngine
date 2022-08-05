@@ -101,7 +101,7 @@ namespace BDXKEngine {
 			{
 				objectIDRefCount.erase(objectID);
 				if (ObjectEditor::GetIDState(objectID) && isSuppressDestroy == false)
-					Object::Destroy((Object*)object);
+					Object::DestroyImmediate((Object*)object);
 			}
 			else
 			{
@@ -141,7 +141,7 @@ namespace BDXKEngine {
 //	A0 = nullptr;
 //	ObjectPtr<Data> B = A;
 //	Debug::Log(A->name);
-//	Object::Destroy(B);
+//	Object::DestroyImmediate(B);
 //	if (A != nullptr)Debug::Log(A->name);
 //
 //	ObjectPtr<Data> C = { new Data{ L"C"} };

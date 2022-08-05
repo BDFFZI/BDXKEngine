@@ -141,7 +141,7 @@ namespace BDXKEngine {
 	void Transform::OnDestroy()
 	{
 		for (ObjectPtr<Transform> child : children)
-			Destroy(child->GetGameObject().GetPtr());
+			DestroyImmediate(child->GetGameObject().GetPtr());
 		children.clear();
 
 		if (parent == nullptr)
