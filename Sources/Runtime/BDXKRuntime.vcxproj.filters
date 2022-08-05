@@ -7,24 +7,6 @@
     <Filter Include="1_Platform\GL">
       <UniqueIdentifier>{f0569422-21a6-484a-b1bc-c258e4016c33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Platform\GL\Commands">
-      <UniqueIdentifier>{fc3c49b4-6991-4e02-81ee-5b3de3f129ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Platform\GL\Resources">
-      <UniqueIdentifier>{66a77074-b5c1-4971-a144-eced6e70c775}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Platform\GL\Resources\Material">
-      <UniqueIdentifier>{fccfd2ed-c023-498b-8677-c3b68061bd11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Platform\GL\Resources\Mesh">
-      <UniqueIdentifier>{a3a3698e-85a3-4831-9b03-3e46b98b163f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Platform\GL\Resources\Shader">
-      <UniqueIdentifier>{2aad24ff-a547-457b-b905-e860c63dc896}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Platform\GL\Resources\Texture">
-      <UniqueIdentifier>{df2d8a5d-73d6-4fd9-911e-a841bf89a219}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1_Platform\Window">
       <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
     </Filter>
@@ -90,6 +72,27 @@
     </Filter>
     <Filter Include="3_Function\Random">
       <UniqueIdentifier>{31f22c0a-cd66-4f4c-9590-babd4839b3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Commands">
+      <UniqueIdentifier>{fc3c49b4-6991-4e02-81ee-5b3de3f129ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Resources">
+      <UniqueIdentifier>{2b00ec22-ccc0-4c2a-895c-5df384f19ec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Resources\Buffer">
+      <UniqueIdentifier>{c3e7d86e-466c-4aa0-a54a-e23c479777f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Resources\Material">
+      <UniqueIdentifier>{fccfd2ed-c023-498b-8677-c3b68061bd11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Resources\Mesh">
+      <UniqueIdentifier>{a3a3698e-85a3-4831-9b03-3e46b98b163f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Resources\Shader">
+      <UniqueIdentifier>{2aad24ff-a547-457b-b905-e860c63dc896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Platform\GL\Resources\Texture">
+      <UniqueIdentifier>{df2d8a5d-73d6-4fd9-911e-a841bf89a219}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +234,9 @@
     <ClCompile Include="GraphicsSettings.cpp">
       <Filter>4_Framework\Settings</Filter>
     </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>1_Platform\GL\Resources\Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowBase.h">
@@ -357,9 +363,6 @@
     <ClInclude Include="ObjectPtr.h">
       <Filter>0_Base\Object</Filter>
     </ClInclude>
-    <ClInclude Include="GLLayout.h">
-      <Filter>1_Platform\GL\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="QualitySettings.h">
       <Filter>4_Framework\Settings</Filter>
     </ClInclude>
@@ -392,6 +395,12 @@
     </ClInclude>
     <ClInclude Include="TextureCube.h">
       <Filter>1_Platform\GL\Resources\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>1_Platform\GL\Resources\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GLLayout.h">
+      <Filter>1_Platform\GL\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

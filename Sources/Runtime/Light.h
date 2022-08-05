@@ -13,7 +13,7 @@
 
 namespace BDXKEngine {
 	class LightEditor;
-	class Light :public Component, public RenderObjectEvent, RendererEditor, ShaderEditor
+	class Light :public Component, public RenderObjectEvent, RendererEditor
 	{
 		friend LightEditor;
 

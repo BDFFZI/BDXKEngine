@@ -20,8 +20,9 @@ namespace BDXKEngine {
 
 		Texture2D();
 
-		D3D11_TEXTURE2D_DESC renderTextureDesc;
+		CComPtr<ID3D11SamplerState> samplerState;
 
+		D3D11_TEXTURE2D_DESC renderTextureDesc;
 		CComPtr<ID3D11Texture2D> renderTexture = nullptr;
 		CComPtr<ID3D11ShaderResourceView> renderTextureSRV = nullptr;
 		CComPtr<ID3D11RenderTargetView> renderTextureRTV = nullptr;
@@ -31,5 +32,6 @@ namespace BDXKEngine {
 
 
 		CComPtr<ID3D11ShaderResourceView> GetResourceView();
+		CComPtr<ID3D11SamplerState> GetSamplerState();
 	};
 }

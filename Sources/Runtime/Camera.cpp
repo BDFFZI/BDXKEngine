@@ -94,12 +94,16 @@ namespace BDXKEngine {
 			GL::Clear(true, true, background);
 			break;
 		case ClearFlags::Skybox://Ìì¿ÕºÐ TODO
-			GL::Clear(true, true);
-			Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());
-			Resources::GetSkyboxMaterial()->SetVector(0, Vector4{ transform->GetPosition(),1 });
-			Resources::GetSkyboxMaterial()->SetPass(0);
-			GL::SetTexture(6, GraphicsSettings::skybox.As<Texture>());
-			Graphics::DrawTexture(Resources::GetWhiteTexture(), { Vector2::zero,Screen::GetSize() });
+			if (GraphicsSettings::skybox != nullptr)
+			{
+				GL::Clear(true, true);
+				Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());
+				Resources::GetSkyboxMaterial()->SetVector(0, Vector4{ transform->GetPosition(),1 });
+				Resources::GetSkyboxMaterial()->SetPass(0);
+				GL::SetTexture(6, GraphicsSettings::skybox.As<Texture>());
+				Graphics::DrawTexture(Resources::GetWhiteTexture(), { Vector2::zero,Screen::GetSize() });
+			}
+			else GL::Clear(true, true, background);
 			break;
 		case ClearFlags::Not:
 			break;

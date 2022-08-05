@@ -4,6 +4,7 @@
 #include "ObjectPtr.h"
 #include "GLLayout.h"
 #include "GL.h"
+#include "Buffer.h"
 
 namespace BDXKEngine {
 	class Mesh :public Object, GL
@@ -22,7 +23,7 @@ namespace BDXKEngine {
 		std::vector<Vector2> GetUVs();
 		std::vector<Color> GetColors();
 
-		void SetTriangles(std::vector <UINT32> data);
+		void SetTriangles(std::vector <unsigned int> data);
 		void SetPositions(std::vector <Vector3> data);
 		void SetNormals(std::vector <Vector3> data);
 		void SetUVs(std::vector<Vector2> data);
@@ -31,10 +32,10 @@ namespace BDXKEngine {
 		void UploadMeshData();
 	private:
 		std::vector<Vertex> vertices;
-		std::vector<UINT32> triangles;
+		std::vector<unsigned int> triangles;
 
-		CComPtr<ID3D11Buffer> vertexBuffer;
-		CComPtr<ID3D11Buffer> triangleBuffer;
+		ObjectPtr<Buffer> vertexBuffer;
+		ObjectPtr<Buffer> triangleBuffer;
 
 		void ResetVerticesBuffer();
 		void ResetTrianglesBuffer();

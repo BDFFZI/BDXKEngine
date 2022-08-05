@@ -1,12 +1,8 @@
 #pragma once
 #include <d3d11.h>
-#include <atlbase.h>
 
 namespace BDXKEngine {
-	class GL;
 	struct ZTest {
-		friend GL;
-
 		enum class Operation
 		{
 			Less = D3D11_COMPARISON_LESS,
@@ -23,7 +19,5 @@ namespace BDXKEngine {
 		float units = 0;//Æ«ÒÆÉî¶È
 		bool write = true;
 		bool clip = true;
-	private:
-		CComPtr<ID3D11DepthStencilState> depthStencilState;
 	};
 }

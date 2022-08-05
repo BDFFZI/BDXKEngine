@@ -28,6 +28,9 @@ namespace BDXKEngine {
 
 		//创建深度纹理
 		CreateDepthStencil(width, height, &depthTexture.p, &depthTextureDSV.p);
+
+		//创建采样器
+		CreateSamplerState(&samplerState.p);
 	}
 	Texture2D::Texture2D(Color color) :Texture2D(1, 1)
 	{
@@ -58,5 +61,9 @@ namespace BDXKEngine {
 	CComPtr<ID3D11ShaderResourceView> Texture2D::GetResourceView()
 	{
 		return renderTextureSRV;
+	}
+	CComPtr<ID3D11SamplerState> Texture2D::GetSamplerState()
+	{
+		return samplerState;
 	}
 }

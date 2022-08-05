@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bleed.cpp" />
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Cull.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicsInfo.cpp" />
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blend.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="Cull.h" />
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicsInfo.h" />

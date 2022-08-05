@@ -1,102 +1,27 @@
 #include "GL.h"
-#include <d3dcompiler.h>
 #include <exception>
 #include "Texture2D.h"
 #include "TextureCube.h"
 #include "Mesh.h"
+#include "Buffer.h"
+#include "Shader.h"
 
 namespace BDXKEngine {
-
-	void GL::CreateVertexShader(const wchar_t* path, D3D11_INPUT_ELEMENT_DESC inputLayoutDescriptor[], int inputLayoutDescriptorCount,
-		ID3D11VertexShader** vertexShader, ID3D11InputLayout** inputLayout)
-	{
-		HRESULT result;
-
-		CComPtr<ID3DBlob> blob;
-		CompileShader(path, "main", "vs_5_0", &blob.p);
-		//创建顶点着色器
-		result = device->CreateVertexShader(
-			blob->GetBufferPointer(),
-			blob->GetBufferSize(),
-			nullptr,
-			vertexShader
-		);
-		assert(SUCCEEDED(result));
-
-		//创建语义信息
-		result = device->CreateInputLayout(
-			inputLayoutDescriptor,
-			inputLayoutDescriptorCount,
-			blob->GetBufferPointer(),
-			blob->GetBufferSize(),
-			inputLayout
-		);
-		assert(SUCCEEDED(result));
-	}
-	void GL::CreatePixelShader(const wchar_t* path, ID3D11PixelShader** pixelShader)
-	{
-		CComPtr<ID3DBlob> blob;
-		CompileShader(path, "main", "ps_5_0", &blob.p);
-
-		//创建像素着色器
-		assert(SUCCEEDED(device->CreatePixelShader(
-			blob->GetBufferPointer(),
-			blob->GetBufferSize(),
-			nullptr,
-			pixelShader
-		)));
-	}
-	void GL::CreateSamplerState(ID3D11SamplerState** samplerState)
-	{
-		D3D11_SAMPLER_DESC samplerDescription{};
-		samplerDescription.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-		samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-
-		device->CreateSamplerState(&samplerDescription, samplerState);
-	}
-
 	ObjectPtr<Texture2D> GL::GetRenderTarget()
 	{
 		return renderTexture;
 	}
 
-	void GL::UpdateBlend(Blend* blend)
-	{
-		D3D11_RENDER_TARGET_BLEND_DESC renderTargetBlendDescription{};
-		renderTargetBlendDescription.BlendEnable = blend->state;
-		renderTargetBlendDescription.SrcBlend = (D3D11_BLEND)blend->sourceFactor;
-		renderTargetBlendDescription.DestBlend = (D3D11_BLEND)blend->destinationFactor;
-		renderTargetBlendDescription.BlendOp = (D3D11_BLEND_OP)blend->operation;
-		renderTargetBlendDescription.SrcBlendAlpha = D3D11_BLEND_ONE;
-		renderTargetBlendDescription.DestBlendAlpha = D3D11_BLEND_ONE;
-		renderTargetBlendDescription.BlendOpAlpha = D3D11_BLEND_OP_MAX;
-		renderTargetBlendDescription.RenderTargetWriteMask = 15;
-
-		D3D11_BLEND_DESC blendDescription{};
-		blendDescription.RenderTarget[0] = renderTargetBlendDescription;
-
-		HRESULT result = device->CreateBlendState(&blendDescription, &blend->blendState.p);
-		assert(SUCCEEDED(result));
-	}
-	void GL::UpdateZTest(ZTest* zTest)
-	{
-		D3D11_DEPTH_STENCIL_DESC description{};
-		description.DepthEnable = true;
-		description.DepthWriteMask = zTest->write ? D3D11_DEPTH_WRITE_MASK_ALL : D3D11_DEPTH_WRITE_MASK_ZERO;
-		description.DepthFunc = (D3D11_COMPARISON_FUNC)zTest->operation;
-
-		device->CreateDepthStencilState(&description, &zTest->depthStencilState.p);
-	}
-
-
 	// 设置当前渲染管线中用于的着色器
-	void GL::SetShader(ID3D11VertexShader* vertexShader, ID3D11InputLayout* vertexShaderInputLayout, ID3D11PixelShader* pixelShader)
+	void GL::SetShader(ObjectPtr<Shader> shader)
 	{
-		context->IASetInputLayout(vertexShaderInputLayout);//有关顶点着色器的输入布局
-		context->VSSetShader(vertexShader, nullptr, 0);
-		context->PSSetShader(pixelShader, nullptr, 0);
+		context->IASetInputLayout(shader->inputLayout);//有关顶点着色器的输入布局
+		context->VSSetShader(shader->vertexShader, nullptr, 0);
+		context->PSSetShader(shader->pixelShader, nullptr, 0);
+
+		//设置管线渲染选项
+		context->OMSetBlendState(shader->blendState, nullptr, 0xffffffff);
+		context->OMSetDepthStencilState(shader->depthStencilState, 0);
 	}
 	// 设置当前渲染管线中的顶点索引数据
 	void GL::SetMesh(ObjectPtr<Mesh> mesh)
@@ -104,32 +29,38 @@ namespace BDXKEngine {
 		//绑定顶点数据
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
-		context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer.p, &stride, &offset);
+		context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer->buffer.p, &stride, &offset);
 
 		//绑定索引数据
-		context->IASetIndexBuffer(mesh->triangleBuffer, DXGI_FORMAT_R32_UINT, 0);
+		context->IASetIndexBuffer(mesh->triangleBuffer->buffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 	// 设置当前渲染管线中的常量缓冲区
-	void GL::SetConstantBuffer(unsigned int startSlot, ID3D11Buffer** buffer)
+	void GL::SetBuffer(unsigned int startSlot, ObjectPtr<Buffer> buffer)
 	{
-		context->VSSetConstantBuffers(startSlot, 1, buffer);
-		context->PSSetConstantBuffers(startSlot, 1, buffer);
+		ID3D11Buffer* d3dBuffer = nullptr;
+		if (buffer != nullptr)
+		{
+			if (buffer->bindFlag != D3D11_BIND_CONSTANT_BUFFER)
+				throw std::exception("不支持除常量缓冲区以外的类型");
+			d3dBuffer = buffer->buffer;
+		}
+
+		context->VSSetConstantBuffers(startSlot, 1, &d3dBuffer);
+		context->PSSetConstantBuffers(startSlot, 1, &d3dBuffer);
 	}
 	// 设置当前渲染管线中的着色器资源
 	void GL::SetTexture(unsigned int startSlot, ObjectPtr<Texture> texture)
 	{
 		ID3D11ShaderResourceView* resourceView = nullptr;
+		ID3D11SamplerState* samplerState = nullptr;
 		if (texture != nullptr)
+		{
 			resourceView = texture->GetResourceView().p;
+			samplerState = texture->GetSamplerState().p;
+		}
 
-		context->VSSetShaderResources(startSlot, 1, &resourceView);
 		context->PSSetShaderResources(startSlot, 1, &resourceView);
-	}
-	// 设置着色器采样纹理时的方式
-	void GL::SetSamplerState(ID3D11SamplerState** samplerState)
-	{
-		context->VSSetSamplers(0, 1, samplerState);
-		context->PSSetSamplers(0, 1, samplerState);
+		context->PSSetSamplers(startSlot, 1, &samplerState);
 	}
 	// 设置渲染到的目标纹理
 	void GL::SetRenderTarget(ObjectPtr<Texture2D> renderTexture) {
@@ -193,16 +124,6 @@ namespace BDXKEngine {
 		context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
 	}
 
-	void GL::SetBlend(Blend* blend)
-	{
-		//设置混合方式
-		context->OMSetBlendState(blend->blendState, nullptr, 0xffffffff);
-	}
-	void GL::SetZTest(ZTest* zTest)
-	{
-		context->OMSetDepthStencilState(zTest->depthStencilState, 0);
-	}
-
 	void GL::Clear(bool clearDepth, bool clearColor, Color backgroundColor, float depth)
 	{
 		//重置绘制视图
@@ -230,6 +151,7 @@ namespace BDXKEngine {
 		GL::CreateSwapChain(window->GetHwnd());
 		ResizeDefaultRenderTarget(window->GetScreenRect().GetSize());
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 		return new GL();
 	}
 
@@ -304,31 +226,13 @@ namespace BDXKEngine {
 		));
 
 	}
-	void GL::CompileShader(const wchar_t* path, const char* entrypoint, const char* object, ID3DBlob** blob) {
-		CComPtr<ID3DBlob> compileError;
-		HRESULT result = D3DCompileFromFile(path,
-			nullptr,
-			D3D_COMPILE_STANDARD_FILE_INCLUDE,
-			entrypoint,
-			object,
-			D3DCOMPILE_DEBUG,
-			0,
-			blob,
-			&compileError.p
-		);
-
-		if (FAILED(result))
-		{
-			char* errorInfo = (char*)compileError->GetBufferPointer();
-			throw std::exception("编译着色器失败");
-		}
-	}
 
 	CComPtr<ID3D11Texture2D> GL::GetDefaultRenderTarget() {
 		CComPtr<ID3D11Texture2D> renderTargetTexture;
 		swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
 		return renderTargetTexture;
 	}
+
 	void GL::ResizeDefaultRenderTarget(Vector2 size)
 	{
 		HRESULT result = 0;
@@ -372,6 +276,5 @@ namespace BDXKEngine {
 	{
 		swapChain->Present(0, 0);
 	}
-
 }
 

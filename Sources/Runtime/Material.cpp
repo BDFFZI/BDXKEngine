@@ -6,9 +6,7 @@ namespace BDXKEngine {
 	{
 		SetShaders(shaders);
 		textures.resize(4);
-		//创建图形资源
-		GL::CreateConstantBuffer(&parameters, sizeof(Parameters), &parametersBuffer.p);
-		GL::CreateSamplerState(&samplerState.p);
+		parametersBuffer = new Buffer(BufferTarget::Constant, sizeof(Parameters));
 	}
 
 	std::vector<ObjectPtr<Shader>> Material::GetShaders() {
@@ -67,13 +65,12 @@ namespace BDXKEngine {
 		//设置纹理
 		for (int index = 0; index < 4; index++)
 			GL::SetTexture(index, textures[index]);
-		GL::SetSamplerState(&samplerState.p);
 
 		//设置常量
-		GL::UpdateBuffer(parametersBuffer.p, &parameters);
-		GL::SetConstantBuffer(0, &parametersBuffer.p);
+		parametersBuffer->SetData(&parameters);
+		GL::SetBuffer(0, parametersBuffer);
 
 		//设置着色器
-		ShaderEditor::SetPass(shaders[index]);
+		GL::SetShader(shaders[index]);
 	}
 }

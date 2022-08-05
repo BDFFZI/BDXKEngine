@@ -1,4 +1,5 @@
 #pragma once
+#include "GL.h"
 #include "ObjectPtr.h"
 #include "GLLayout.h"
 #include "Blend.h"
@@ -11,10 +12,9 @@ namespace BDXKEngine {
 		ShadowCaster
 	};
 
-	class ShaderEditor;
-	class Shader :public Object
+	class Shader :public Object, GL
 	{
-		friend ShaderEditor;
+		friend GL;
 	public:
 		Shader(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType);
 
@@ -31,31 +31,11 @@ namespace BDXKEngine {
 		Blend blend;
 		ZTest zTest;
 
+		CComPtr<ID3D11BlendState> blendState;
+		CComPtr<ID3D11DepthStencilState> depthStencilState;
+
 		CComPtr<ID3D11InputLayout> inputLayout;
 		CComPtr<ID3D11VertexShader> vertexShader;
 		CComPtr<ID3D11PixelShader> pixelShader;
-	};
-
-	class ShaderEditor {
-	protected:
-		static void SetPass(ObjectPtr<Shader> shader)
-		{
-			GL::SetShader(shader->vertexShader, shader->inputLayout, shader->pixelShader);
-			GL::SetBlend(&shader->blend);
-			GL::SetZTest(&shader->zTest);
-		}
-
-		static CComPtr<ID3D11InputLayout> GetInputLayout(Shader* shader)
-		{
-			return shader->inputLayout;
-		}
-		static CComPtr<ID3D11VertexShader> GetVertexShader(Shader* shader)
-		{
-			return shader->vertexShader;
-		}
-		static CComPtr<ID3D11PixelShader> GetPixelShader(Shader* shader)
-		{
-			return shader->pixelShader;
-		}
 	};
 }

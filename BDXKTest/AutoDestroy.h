@@ -31,7 +31,7 @@ namespace Assembly {
 			}
 			if ((int)std::fmodf(Time::GetFrameCount() - time, 100) == 0)
 			{
-				Debug::Log(L"Ëæ»ú:" + Random::ColorHSV().ToString());
+				Debug::Log(std::to_wstring(GetInstanceID()) + L" Ëæ»ú:" + Random::ColorHSV().ToString());
 				Color color = Random::ColorHSV();
 				color.a = 0.3f;
 

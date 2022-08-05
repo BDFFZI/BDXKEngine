@@ -15,8 +15,9 @@ namespace BDXKEngine {
 		unsigned int GetWidth();
 		unsigned int GetHeight();
 	private:
-		D3D11_TEXTURE2D_DESC renderTextureDesc;
+		CComPtr<ID3D11SamplerState> samplerState;
 
+		D3D11_TEXTURE2D_DESC renderTextureDesc;
 		CComPtr<ID3D11Texture2D> renderTexture = nullptr;
 		CComPtr<ID3D11ShaderResourceView> renderTextureSRV = nullptr;
 		std::vector<CComPtr<ID3D11RenderTargetView>> renderTextureRTV = {};
@@ -25,6 +26,7 @@ namespace BDXKEngine {
 		CComPtr<ID3D11DepthStencilView> depthTextureDSV = {};
 
 		CComPtr<ID3D11ShaderResourceView> GetResourceView()override;
+		CComPtr<ID3D11SamplerState> GetSamplerState()override;
 	};
 }
 

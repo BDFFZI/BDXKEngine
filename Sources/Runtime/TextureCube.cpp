@@ -39,6 +39,9 @@ TextureCube::TextureCube(int width, int height)
 
 	//创建深度纹理
 	CreateDepthStencil(width, height, &depthTexture.p, &depthTextureDSV.p);
+
+	//创建采样器
+	CreateSamplerState(&samplerState.p);
 }
 
 unsigned int TextureCube::GetWidth()
@@ -54,4 +57,9 @@ unsigned int TextureCube::GetHeight()
 CComPtr<ID3D11ShaderResourceView> TextureCube::GetResourceView()
 {
 	return renderTextureSRV;
+}
+
+CComPtr<ID3D11SamplerState> BDXKEngine::TextureCube::GetSamplerState()
+{
+	return samplerState;
 }

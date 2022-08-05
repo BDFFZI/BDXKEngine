@@ -26,17 +26,6 @@ RenderMode Light::GetRenderMode()
 
 void Light::SetLightType(LightType type) {
 	this->type = type;
-	switch (type)
-	{
-	case LightType::Directional:
-		shadowMap = new Texture2D{ 1024,1024 };
-		break;
-	case LightType::Point:
-		shadowMapCube = new TextureCube{ 512,512 };
-		break;
-	default:
-		throw 0;
-	}
 }
 void Light::SetColor(Color color)
 {
@@ -88,7 +77,9 @@ ObjectPtr<Texture> Light::GetShadowMap()
 void Light::OnAwake()
 {
 	lights.push_back(this);
-	SetLightType(type);
+
+	shadowMap = new Texture2D{ 1024,1024 };
+	shadowMapCube = new TextureCube{ 512,512 };
 
 	Component::OnAwake();
 }

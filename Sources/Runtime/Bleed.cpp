@@ -11,7 +11,6 @@ BDXKEngine::Blend::Blend()
 	sourceFactor = Factor::One;
 	destinationFactor = Factor::One;
 	operation = Operation::Add;
-	blendState = nullptr;
 }
 
 BDXKEngine::Blend::Blend(bool state, Factor sourceFactor, Factor destinationFactor, Operation operation)
@@ -20,5 +19,4 @@ BDXKEngine::Blend::Blend(bool state, Factor sourceFactor, Factor destinationFact
 	this->sourceFactor = sourceFactor;
 	this->destinationFactor = destinationFactor;
 	this->operation = operation;
-	this->blendState = nullptr;
 }

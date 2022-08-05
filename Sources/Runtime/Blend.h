@@ -1,12 +1,8 @@
 #pragma once
 #include <d3d11.h>
-#include <atlbase.h>
 
 namespace BDXKEngine {
-	class GL;
 	struct Blend {
-		friend GL;
-
 		enum class Factor {
 			Zero = D3D11_BLEND_ZERO,
 			One = D3D11_BLEND_ONE,
@@ -36,7 +32,5 @@ namespace BDXKEngine {
 		Factor sourceFactor;
 		Factor destinationFactor;
 		Operation operation;
-	private:
-		CComPtr<ID3D11BlendState> blendState;
 	};
 }

@@ -28,7 +28,10 @@ Texture2D Texture2D1 : register(t1);
 Texture2D Texture2D2 : register(t2);
 Texture2D Texture2D3 : register(t3);
 
-SamplerState Texture2DSampler : register(s0);
+SamplerState SamplerState0 : register(s0);
+SamplerState SamplerState1 : register(s1);
+SamplerState SamplerState2 : register(s2);
+SamplerState SamplerState3 : register(s3);
 
 //Graphics²ã-------------------------------------------------------------------------------------
 
@@ -68,8 +71,11 @@ cbuffer ShadowInfo : register(b5)
 
 
 Texture2D ShadowMap : register(t4);
+SamplerState ShadowMapSampler : register(s4);
 TextureCube ShadowMapCube : register(t5);
+SamplerState ShadowMapCubeSampler : register(s5);
 TextureCube Skybox : register(t6);
+SamplerState SkyboxSampler : register(s6);
 
 
 float3 ObjectToWorldVector(float3 worldVector)
@@ -102,14 +108,14 @@ float DecodeShadowMap(float3 worldPosition)
     
     if (LightFactorInt.x == 1)
     {
-        depthOfMap = ShadowMapCube.Sample(Texture2DSampler, worldPosition - LightPosition.xyz).z;
+        depthOfMap = ShadowMapCube.Sample(ShadowMapCubeSampler, worldPosition - LightPosition.xyz).z;
         depth = distance(worldPosition, LightPosition.xyz);
     }
     else
     {
         float4 view = mul(WorldToLightView, float4(worldPosition, 1));
         float4 clip = mul(ViewToLightClip, view);
-        depthOfMap = ShadowMap.Sample(Texture2DSampler, ClipToUVPos(clip)).z;
+        depthOfMap = ShadowMap.Sample(ShadowMapSampler, ClipToUVPos(clip)).z;
         depth = view.z;
     }
 

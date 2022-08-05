@@ -3,6 +3,7 @@
 #include <vector>
 #include "ObjectPtr.h"
 #include "Shader.h"
+#include "Buffer.h"
 #include "Texture.h"
 
 
@@ -15,7 +16,7 @@ namespace BDXKEngine {
 		Overlay = 4000,
 	};
 
-	class Material :public Object, ShaderEditor
+	class Material :public Object
 	{
 	public:
 		Material(std::vector<ObjectPtr<Shader>> shaders);
@@ -50,13 +51,12 @@ namespace BDXKEngine {
 			Matrix4x4 matrix3;
 		};
 
+		RenderQueue renderQueue = RenderQueue::Geometry;
+
 		std::vector<ObjectPtr<Shader>> shaders;
 		std::vector<ObjectPtr<Texture>> textures;
-		Parameters parameters = {};
 
-		CComPtr<ID3D11SamplerState> samplerState;
-		CComPtr<ID3D11Buffer> parametersBuffer;
-
-		RenderQueue renderQueue = RenderQueue::Geometry;
+		Parameters parameters;
+		ObjectPtr<Buffer> parametersBuffer;
 	};
 }

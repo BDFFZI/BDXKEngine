@@ -12,7 +12,7 @@
 #include "GraphicsInfo.h"
 
 namespace BDXKEngine {
-	class Graphics : protected GL2D, ShaderEditor
+	class Graphics : protected GL2D
 	{
 	public:
 		/// <summary>
@@ -24,7 +24,6 @@ namespace BDXKEngine {
 		static void UpdateCameraInfo(CameraInfo lightInfo);
 		static void UpdateObjectInfo(ObjectInfo lightInfo);
 		static void UpdateLightInfo(LightInfo lightInfo, ShadowInfo shadowInfo, ObjectPtr<Texture> shadowMap);
-		static void UpdateShadowInfo(ShadowInfo shadowInfo);
 
 		static void DrawMeshNow(ObjectPtr<Mesh> mesh);
 		static void DrawTexture(ObjectPtr<Texture2D> texture, Rect screenRect);
@@ -32,19 +31,16 @@ namespace BDXKEngine {
 	protected:
 		static Graphics* Initialize(Window* window);
 	private:
-		static Window* window;
-		static WorldInfo worldInfo;
-		static CameraInfo cameraInfo;
-		static LightInfo lightInfo;
-		static ObjectInfo objectInfo;
-		static ShadowInfo shadowInfo;
-		static ObjectPtr<Mesh> drawTextureMesh;
+		static ObjectPtr<Buffer> worldInfoBuffer;
+		static ObjectPtr<Buffer> cameraInfoBuffer;
+		static ObjectPtr<Buffer> lightInfoBuffer;
+		static ObjectPtr<Buffer> objectInfoBuffer;
+		static ObjectPtr<Buffer> shadowInfoBuffer;
 
-		static CComPtr<ID3D11Buffer> worldInfoBuffer;
-		static CComPtr<ID3D11Buffer> cameraInfoBuffer;
-		static CComPtr<ID3D11Buffer> lightInfoBuffer;
-		static CComPtr<ID3D11Buffer> objectInfoBuffer;
-		static CComPtr<ID3D11Buffer> shadowInfoBuffer;
+		static Window* window;
+		static ObjectPtr<Mesh> drawTextureMesh;
+		static ObjectPtr<Texture> defaultTexture2D;
+		static ObjectPtr<Texture> defaultTextureCube;
 
 		static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	};

@@ -163,17 +163,15 @@ namespace BDXKEngine {
 
 	void Mesh::UploadMeshData()
 	{
-		GL::UpdateBuffer(vertexBuffer, vertices.data());
-		GL::UpdateBuffer(triangleBuffer, triangles.data());
+		vertexBuffer->SetData(vertices.data());
+		triangleBuffer->SetData(triangles.data());
 	}
 	void Mesh::ResetVerticesBuffer()
 	{
-		vertexBuffer = nullptr;
-		GL::CreateBuffer(vertices.data(), (int)(vertices.size() * sizeof(Vertex)), D3D11_BIND_VERTEX_BUFFER, &vertexBuffer.p);
+		vertexBuffer = new Buffer(BufferTarget::Vertex, (int)(vertices.size() * sizeof(Vertex)));
 	}
 	void Mesh::ResetTrianglesBuffer()
 	{
-		triangleBuffer = nullptr;
-		GL::CreateBuffer(triangles.data(), (int)(triangles.size() * sizeof(unsigned int)), D3D11_BIND_INDEX_BUFFER, &triangleBuffer.p);
+		triangleBuffer = new Buffer(BufferTarget::Index, (int)(triangles.size() * sizeof(unsigned int)));
 	}
 }
