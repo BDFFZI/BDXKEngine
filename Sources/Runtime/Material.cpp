@@ -27,8 +27,6 @@ namespace BDXKEngine {
 
 	void Material::SetShaders(std::vector<ObjectPtr<Shader>> shader)
 	{
-		if (shader.size() == 0)
-			throw std::exception("shader²»ÔÊÐíÎª¿Õ");
 		this->shaders = shader;
 	}
 	void Material::SetRenderQueue(RenderQueue renderQueue)

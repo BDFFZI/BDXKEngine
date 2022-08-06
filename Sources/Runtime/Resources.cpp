@@ -1,10 +1,13 @@
 #include "Resources.h"
+#include "MeshImporter.h"
 
 namespace BDXKEngine {
 	ObjectPtr<Material> Resources::shadowMapMaterial = nullptr;
 	ObjectPtr<Material> Resources::skyboxMaterial = nullptr;
 	ObjectPtr<Material> Resources::blitMaterial = nullptr;
 	ObjectPtr<Texture2D> Resources::whiteTexture = nullptr;
+	ObjectPtr<Mesh> Resources::cubeMesh = nullptr;
+	ObjectPtr<Mesh> Resources::sphereMesh = nullptr;
 
 	ObjectPtr<Material> Resources::GetShadowMapMaterial()
 	{
@@ -21,6 +24,14 @@ namespace BDXKEngine {
 	ObjectPtr<Texture2D> Resources::GetWhiteTexture()
 	{
 		return whiteTexture;
+	}
+	ObjectPtr<Mesh> Resources::GetCubeMesh()
+	{
+		return cubeMesh;
+	}
+	ObjectPtr<Mesh> Resources::GetSphereMesh()
+	{
+		return sphereMesh;
 	}
 
 	Resources* BDXKEngine::Resources::Initialize(Window* window, GL* gl)
@@ -55,6 +66,9 @@ namespace BDXKEngine {
 		//°×É«ÌùÍ¼
 		whiteTexture = new Texture2D(Color::white);
 
+		cubeMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Cube.fbx)).CreateMesh();
+		sphereMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Sphere.fbx)).CreateMesh();
+
 		window->AddMessageListener(OnWindowMessage);
 		return new Resources();
 	}
@@ -84,6 +98,8 @@ namespace BDXKEngine {
 			skyboxMaterial = nullptr;
 			blitMaterial = nullptr;
 			whiteTexture = nullptr;
+			cubeMesh = nullptr;
+			sphereMesh = nullptr;
 			break;
 		}
 	}

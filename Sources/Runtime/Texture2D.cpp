@@ -40,9 +40,6 @@ namespace BDXKEngine {
 		GL::Clear(true, true, color);
 		GL::SetRenderTarget(nullptr);
 	}
-	Texture2D::Texture2D(char* filePath) :Texture2D() {
-
-	}
 
 	unsigned int Texture2D::GetWidth()
 	{

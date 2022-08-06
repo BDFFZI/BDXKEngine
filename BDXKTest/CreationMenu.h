@@ -10,7 +10,7 @@ namespace BDXKEditor {
 		public:
 			static ObjectPtr<GameObject> Cube(const wchar_t* name = L"Cube", Color color = Color::white)
 			{
-				return CreateObject3D(GetResourcesPath(Meshes, Cube.fbx), name, color);
+				return CreateObject3D(Resources::GetCubeMesh(), name, color);
 			}
 			static ObjectPtr<GameObject> Plane(const wchar_t* name = L"Plane", Color color = Color::white)
 			{
@@ -20,14 +20,11 @@ namespace BDXKEditor {
 				return plane->GetGameObject();
 			}
 			static ObjectPtr<GameObject> Sphere(const wchar_t* name = L"Sphere", Color color = Color::white) {
-				return CreateObject3D(GetResourcesPath(Meshes, Sphere.fbx), name, color);
+				return CreateObject3D(Resources::GetSphereMesh(), name, color);
 			}
 		private:
-			static ObjectPtr<GameObject> CreateObject3D(const char* meshPath, const wchar_t* name, Color color = Color::white)
+			static ObjectPtr<GameObject> CreateObject3D(ObjectPtr<Mesh> mesh, const wchar_t* name, Color color = Color::white)
 			{
-				//加载网格
-				StaticMesh meshSource = MeshImporter::ImportFbx((char*)meshPath);
-				ObjectPtr<Mesh> mesh = meshSource.CreateMesh();
 				//加载着色器
 				ObjectPtr<Shader> baseShader = new Shader{
 					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),

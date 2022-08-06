@@ -11,7 +11,6 @@ namespace BDXKEngine {
 	public:
 		Texture2D(unsigned int width, unsigned int height);
 		Texture2D(Color color);
-		Texture2D(char* filePath);
 
 		unsigned int GetWidth();
 		unsigned int GetHeight();

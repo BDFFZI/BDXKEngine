@@ -1,7 +1,7 @@
 #include "Buffer.h"
 
 namespace BDXKEngine {
-	Buffer::Buffer(BufferTarget target, int size)
+	Buffer::Buffer(BufferTarget target, int size) :Object(L"New Buffer")
 	{
 		CD3D11_BUFFER_DESC desc(size, bindFlag = (D3D11_BIND_FLAG)target);
 		HRESULT result = device->CreateBuffer(&desc, nullptr, &buffer.p);
