@@ -6,7 +6,7 @@
 namespace Assembly {
 	using namespace BDXKEngine;
 	using namespace BDXKEditor;
-	class CreateCube :public Component, public DrawGizmosEvent {
+	class CreateCube :public Component, public DrawGizmosHandler {
 		ObjectPtr<Transform> transform;
 
 		void OnAwake()override {

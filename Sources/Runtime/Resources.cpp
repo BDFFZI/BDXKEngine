@@ -69,8 +69,15 @@ namespace BDXKEngine {
 		cubeMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Cube.fbx)).CreateMesh();
 		sphereMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Sphere.fbx)).CreateMesh();
 
-		window->AddMessageListener(OnWindowMessage);
-		return new Resources();
+		window->AddDestroyEvent([]() {
+			shadowMapMaterial = nullptr;
+			skyboxMaterial = nullptr;
+			blitMaterial = nullptr;
+			whiteTexture = nullptr;
+			cubeMesh = nullptr;
+			sphereMesh = nullptr;
+			});
+		return nullptr;
 	}
 
 	std::map<size_t, std::function<ObjectPtr<Object>(std::wstring path)>> Resources::creator = {
@@ -88,19 +95,4 @@ namespace BDXKEngine {
 
 		}
 	};
-
-	void Resources::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
-	{
-		switch (messageSign)
-		{
-		case WM_DESTROY:
-			shadowMapMaterial = nullptr;
-			skyboxMaterial = nullptr;
-			blitMaterial = nullptr;
-			whiteTexture = nullptr;
-			cubeMesh = nullptr;
-			sphereMesh = nullptr;
-			break;
-		}
-	}
 }

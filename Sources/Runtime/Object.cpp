@@ -17,6 +17,15 @@ namespace BDXKEngine {
 		delete object;
 	}
 
+	void Object::Destory(Object* object)
+	{
+	}
+
+	Object* Object::Instantiate(Object* object)
+	{
+		return nullptr;
+	}
+
 
 	Object::Object(std::wstring name) {
 		this->name = name;

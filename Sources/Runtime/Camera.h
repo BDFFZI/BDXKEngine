@@ -19,7 +19,7 @@ namespace BDXKEngine {
 		Perspective
 	};
 
-	class Camera :public Component, public RenderObjectEvent, RendererEditor, LightEditor
+	class Camera :public Component, public RenderObjectHandler, RendererEditor, LightEditor
 	{
 	public:
 		Camera();

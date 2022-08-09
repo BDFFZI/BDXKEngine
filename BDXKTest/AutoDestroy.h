@@ -3,7 +3,7 @@
 
 namespace Assembly {
 	using namespace BDXKEngine;
-	class AutoDestroy :public Component, public UpdateEvent {
+	class AutoDestroy :public Component, public UpdateHandler {
 		float time;
 		ObjectPtr<Animator> animator;
 		ObjectPtr<MeshRenderer> meshRenderer;

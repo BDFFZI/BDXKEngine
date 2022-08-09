@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Color.h"
 #include "GLLayout.h"
-#include "RenderEvent.h"
+#include "RendererEvent.h"
 #include "Resources.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
@@ -13,7 +13,7 @@
 
 namespace BDXKEngine {
 	class LightEditor;
-	class Light :public Component, public RenderObjectEvent, RendererEditor
+	class Light :public Component, public RenderObjectHandler, RendererEditor
 	{
 		friend LightEditor;
 

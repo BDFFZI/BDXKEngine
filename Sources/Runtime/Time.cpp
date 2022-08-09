@@ -33,7 +33,11 @@ namespace BDXKEngine {
 		Time::startTime = GetSystemTime();
 		Time::BeginFrame();
 
-		window->AddMessageListener(OnWindowMessage);
+		window->AddRenewEvent([]() {
+			Time::EndFrame();
+			frameCount++;
+			Time::BeginFrame();
+			});
 	}
 
 	void Time::BeginFrame()
@@ -43,19 +47,5 @@ namespace BDXKEngine {
 	void Time::EndFrame()
 	{
 		Time::deltaTime = (GetSystemTime() - Time::frameTime) / unit;
-	}
-
-	void Time::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
-	{
-		switch (messageSign)
-		{
-		case WM_PAINT:
-		{
-			Time::EndFrame();
-			frameCount++;
-			Time::BeginFrame();
-			break;
-		}
-		}
 	}
 }

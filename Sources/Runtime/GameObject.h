@@ -9,11 +9,11 @@
 
 namespace BDXKEngine {
 	class Transform;
-	class GameObjectManager;
+	class WorldManager;
 	class GameObject :public Object
 	{
 		friend Component;
-		friend GameObjectManager;
+		friend WorldManager;
 	public:
 		static ObjectPtr<GameObject> Find(std::wstring name);
 

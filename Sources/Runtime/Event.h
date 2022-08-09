@@ -1,6 +1,5 @@
 #pragma once
 #include "Rect.h"
-#include "Window.h"
 #include "Input.h"
 #include "Component.h"
 
@@ -29,6 +28,5 @@ namespace BDXKEngine {
 		static ObjectPtr<Component> dragSource;
 
 		static void MarkEvent(Rect rect);
-		static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	};
 }

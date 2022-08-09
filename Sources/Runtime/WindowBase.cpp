@@ -4,13 +4,6 @@ namespace BDXKEngine {
 	WindowBase::WindowBase(PCWSTR name)
 	{
 		this->name = name;
-		this->hwnd = NULL;
-	}
-
-	void WindowBase::Show()
-	{
-		if (hwnd != NULL)
-			throw "窗口正在显示中";
 
 		//向操作系统注册窗口类
 		WNDCLASS windowClass = {};
@@ -19,7 +12,7 @@ namespace BDXKEngine {
 		RegisterClass(&windowClass);
 
 		//创建窗口
-		HWND hwnd = CreateWindowEx(
+		hwnd = CreateWindowEx(
 			0,//窗口行为
 			name, //窗口类名称
 			name,//窗口标题
@@ -31,7 +24,10 @@ namespace BDXKEngine {
 			NULL,//实例句柄,默认
 			this//附加的数据
 		);
+	}
 
+	void WindowBase::Show()
+	{
 		//显示窗口
 		ShowWindow(hwnd, SW_SHOWDEFAULT);
 	}

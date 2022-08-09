@@ -3,7 +3,7 @@
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
-	class MaterialHUD :public Component, public DrawGizmosEvent {
+	class MaterialHUD :public Component, public DrawGizmosHandler {
 	public:
 		std::vector<ObjectPtr<Material>> materials;
 		float metallic = 0;

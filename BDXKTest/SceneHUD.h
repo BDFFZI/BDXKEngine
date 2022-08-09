@@ -3,7 +3,7 @@
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
-	class SceneHUD :public Component, public DrawGizmosEvent, TransformEditor {
+	class SceneHUD :public Component, public DrawGizmosHandler, TransformEditor {
 	private:
 		std::wstring sceneInfo{ L"Hello BDXKEngine" };
 		int frameRate = 0;

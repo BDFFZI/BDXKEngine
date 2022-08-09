@@ -1,11 +1,12 @@
 #pragma once
 #include<functional>
+#include"BehaviorEvent.h"
 #include"Component.h"
 #include"Transform.h"
 #include"GameObject.h"
 
 namespace BDXKEngine {
-	class Animator :public Component, public UpdateEvent
+	class Animator :public Component, public UpdateHandler
 	{
 	public:
 		Animator();

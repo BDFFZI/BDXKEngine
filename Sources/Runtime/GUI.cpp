@@ -90,27 +90,19 @@ namespace BDXKEngine {
 	GUI* GUI::Initialize(Event* event, Window* window)
 	{
 		GUI::window = window;
-		window->AddMessageListener(OnWindowMessage);
-
-		return {};
-	}
-
-	void GUI::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
-		//Œƒ◊÷ ‰»Î
-		if (Event::HasFocus()) {
-			switch (messageSign)
-			{
-			case WM_CHAR:
-				charStream << (wchar_t)wparameter;
-			case WM_KEYDOWN:
-				if ((KeyCode)wparameter == KeyCode::Backspace)
-					deleteStream++;
-			}
-		}
-		else
-		{
+		window->AddCharacterEvent([](wchar_t character) {
+			if (Event::HasFocus)
+				charStream << character;
+			});
+		window->AddKeyCodeEvent([](KeyCode keyCode, bool state) {
+			if (Event::HasFocus() && keyCode == KeyCode::Backspace)
+				deleteStream++;
+			});
+		window->AddRenewEvent([]() {
 			charStream.str(L"");
 			deleteStream = 0;
-		}
+			});
+
+		return new GUI();
 	}
 }

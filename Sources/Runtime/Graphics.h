@@ -8,7 +8,6 @@
 #include "Window.h"
 #include "Texture2D.h"
 #include "TextureCube.h"
-#include "RenderEvent.h"
 #include "GraphicsInfo.h"
 
 namespace BDXKEngine {
@@ -41,8 +40,6 @@ namespace BDXKEngine {
 		static ObjectPtr<Mesh> drawTextureMesh;
 		static ObjectPtr<Texture> defaultTexture2D;
 		static ObjectPtr<Texture> defaultTextureCube;
-
-		static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	};
 }
 

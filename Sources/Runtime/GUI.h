@@ -1,9 +1,6 @@
 #pragma once
-#include <string>
-#include <functional>
 #include "Rect.h"
 #include "GL2D.h"
-#include "Input.h"
 #include "Event.h"
 
 namespace BDXKEngine {
@@ -30,8 +27,6 @@ namespace BDXKEngine {
 		static Window* window;
 		static std::wstringstream charStream;
 		static int deleteStream;
-
-		static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	};
 }
 

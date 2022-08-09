@@ -22,6 +22,8 @@ namespace BDXKEngine {
 			return result;
 		}
 		static void DestroyImmediate(Object* object);
+		static void Destory(Object* object);
+		static Object* Instantiate(Object* object);
 
 		Object(std::wstring name = L"New Object");
 		virtual ~Object();

@@ -94,6 +94,12 @@
     <Filter Include="1_Platform\GL\Resources\Texture">
       <UniqueIdentifier>{df2d8a5d-73d6-4fd9-911e-a841bf89a219}</UniqueIdentifier>
     </Filter>
+    <Filter Include="4_Framework\Manager">
+      <UniqueIdentifier>{05d7b131-8181-42fe-a5ee-6ddd876a87d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Function\Manager">
+      <UniqueIdentifier>{17bc66e2-ddd3-4395-8d49-6d0b700b629d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -198,9 +204,6 @@
     <ClCompile Include="ZTest.cpp">
       <Filter>1_Platform\GL\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="RenderEvent.cpp">
-      <Filter>3_Function\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Rect.cpp">
       <Filter>0_Base\Rect</Filter>
     </ClCompile>
@@ -219,12 +222,6 @@
     <ClCompile Include="Resources.cpp">
       <Filter>2_Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>1_Platform\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObjectManager.cpp">
-      <Filter>4_Framework</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsInfo.cpp">
       <Filter>3_Function\Graphics</Filter>
     </ClCompile>
@@ -236,6 +233,18 @@
     </ClCompile>
     <ClCompile Include="Buffer.cpp">
       <Filter>1_Platform\GL\Resources\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializable.cpp">
+      <Filter>0_Base\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldManager.cpp">
+      <Filter>4_Framework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorEvent.cpp">
+      <Filter>3_Function\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererEvent.cpp">
+      <Filter>3_Function\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,9 +357,6 @@
     <ClInclude Include="ZTest.h">
       <Filter>1_Platform\GL\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="RenderEvent.h">
-      <Filter>3_Function\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Rect.h">
       <Filter>0_Base\Rect</Filter>
     </ClInclude>
@@ -384,12 +390,6 @@
     <ClInclude Include="Random.h">
       <Filter>3_Function\Random</Filter>
     </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>1_Platform\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectManager.h">
-      <Filter>4_Framework</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsInfo.h">
       <Filter>3_Function\Graphics</Filter>
     </ClInclude>
@@ -401,6 +401,18 @@
     </ClInclude>
     <ClInclude Include="GLLayout.h">
       <Filter>1_Platform\GL\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializable.h">
+      <Filter>0_Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldManager.h">
+      <Filter>4_Framework\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorEvent.h">
+      <Filter>3_Function\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererEvent.h">
+      <Filter>3_Function\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

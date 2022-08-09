@@ -100,8 +100,13 @@ namespace BDXKEngine {
 			if (refCount == 0)
 			{
 				objectIDRefCount.erase(objectID);
-				if (ObjectEditor::GetIDState(objectID) && isSuppressDestroy == false)
-					Object::DestroyImmediate((Object*)object);
+				if (ObjectEditor::GetIDState(objectID))
+				{
+					if (isSuppressDestroy == false)
+						Object::DestroyImmediate((Object*)object);
+					else
+						isSuppressDestroy = false;
+				}
 			}
 			else
 			{

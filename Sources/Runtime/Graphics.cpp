@@ -111,9 +111,8 @@ namespace BDXKEngine
 		GL::SetBuffer(4, lightInfoBuffer);
 		GL::SetBuffer(5, shadowInfoBuffer);
 
-		Graphics::window = window;
-		window->AddMessageListener(OnWindowMessage);
-
+		defaultTexture2D = new Texture2D(1, 1);
+		defaultTextureCube = new TextureCube(1, 1);
 		drawTextureMesh = new Mesh();
 		drawTextureMesh->SetTriangles({
 			0,1,3,
@@ -126,65 +125,13 @@ namespace BDXKEngine
 			{0,0},
 			});
 
-		defaultTexture2D = new Texture2D(1, 1);
-		defaultTextureCube = new TextureCube(1, 1);
-
-		return new Graphics{};
-	}
-
-	void Graphics::OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
-	{
-		switch (messageSign)
-		{
-		case WM_PAINT:
-		{
-			//获取渲染事件
-			std::vector<RenderObjectEvent*>& renderObjectEvents = RenderObjectEvent::renderObjectEvents;
-			std::vector<DrawGizmosEvent*>& drawGizmosEvents = DrawGizmosEvent::drawGizmosEvents;
-
-			GL::SetRenderTarget(nullptr);
-
-			//绘制普通物体
-			std::for_each(
-				renderObjectEvents.begin(),
-				renderObjectEvents.end(),
-				[](RenderObjectEvent* eventP) {
-					eventP->OnRenderObject();
-				}
-			);
-
-			//绘制UI，后期物体等
-			GL2D::BeginDraw();
-			std::for_each(
-				drawGizmosEvents.begin(),
-				drawGizmosEvents.end(),
-				[](DrawGizmosEvent* eventP) {
-					eventP->OnDrawGizmos();
-				}
-			);
-			GL2D::EndDraw();//顺序很重要，Direct2D的渲染结果最终需要Direct3D来显示
-
-			GL::Present();//显示到屏幕上
-
-			break;
-		}
-		case WM_SIZE:
-		{
-			GL2D::ReleaseResources();//释放对Direct3D渲染纹理的引用，从而使Direct3D可以重新创建纹理
-
-			//重新调整纹理大小
-			Rect rect = { Vector2::zero ,window->GetSize() };
-			GL::ResizeDefaultRenderTarget(rect.GetSize());
-
-			GL2D::CreateResources();//使用Direct3D新创建的纹理
-			break;
-		}
-		case WM_DESTROY:
-			return;
+		Graphics::window = window;
+		window->AddDestroyEvent([]() {
 			drawTextureMesh = nullptr;
 			defaultTexture2D = nullptr;
 			defaultTextureCube = nullptr;
-			break;
-		}
+			});
+
+		return nullptr;
 	}
 }

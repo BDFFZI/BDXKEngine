@@ -1,6 +1,5 @@
 #pragma once
 #include <map>
-#include <functional>
 #include "Window.h"
 #include "Material.h"
 #include "Texture2D.h"
@@ -36,8 +35,6 @@ namespace BDXKEngine {
 		static Resources* Initialize(Window* window, GL* gl);
 	private:
 		static std::map<size_t, std::function<ObjectPtr<Object>(std::wstring path)>> creator;
-
-		static void OnWindowMessage(Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 	};
 }
 

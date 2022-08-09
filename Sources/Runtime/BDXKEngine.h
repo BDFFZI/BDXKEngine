@@ -57,7 +57,10 @@
 #include "GUI.h"
 #include "Random.h"
 //框架层：在此组织和使用下层的各种功能 >> 用户控制引擎的接口
-#include "GameObjectManager.h"
+#include "RendererEvent.h"
+#include "BehaviorEvent.h"
+#include "WorldManager.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
@@ -68,59 +71,47 @@
 namespace BDXKEngine {
 
 
-	class Engine :Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager {
+	class Engine :Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, WorldManager {
 	public:
 		static void Run(::std::function<void()> onStart)
 		{
 			std::setlocale(LC_ALL, "zh-CN");
 
 			//启动窗口
-			Window window = {
-				L"BDXKEngine",
-				[&](Window* window, UINT messageSign, WPARAM wparameter, LPARAM lparameter) {
-					switch (messageSign)
-					{
-					case WM_CREATE:
-					{
-						GameObjectManager* gameObjectManager = GameObjectManager::Initialize(window);
-						//平台层初始化
-						GL* gl = GL::Initialize(window);
-						GL2D* gl2d = GL2D::Initialize(gl);
-						//资源层初始化
-						Resources* resources = Resources::Initialize(window, gl);
-						//功能层初始化
-						Time::Initialize(window);
-						Screen::Initialize(window);
-						Input* input = Input::Initialize(window);
-						Cursor* cursor = Cursor::Initialize(input,window);
-						Event* event = Event::Initialize(input, window);
-						Graphics* graphics = Graphics::Initialize(window);
-						GUI* gui = GUI::Initialize(event, window);
+			Window window = { L"BDXKEngine" };
 
-						//创建配置信息，这将影响框架层中部分模块使用功能层的方式
-						CreateSettings();
 
-						//完成初始化后，正式循环前，触发事件回调
-						onStart();
 
-						break;
-					}
-					case WM_DESTROY:
-					{
-						ReleaseSettings();
-						break;
-					}
-					//case WM_CLOSE:
-					//{
-					//	if (MessageBox(window->GetHwnd(), L"确定关闭？", L"关闭窗口", MB_OKCANCEL) == IDOK)
-					//		DestroyWindow(window->GetHwnd());
-					//	return LRESULT{0};
-					//}
-					}
+			//平台层初始化
+			GL* gl = GL::Initialize(&window);
+			GL2D* gl2d = GL2D::Initialize(gl);
+			//资源层初始化
+			Resources* resources = Resources::Initialize(&window, gl);
+			//功能层初始化
+			BehaviorManager* behaviorManager = BehaviorManager::Initialize(&window);
+			RendererManager* rendererManager = RendererManager::Initialize(&window);
+			Time::Initialize(&window);
+			Screen::Initialize(&window);
+			Input* input = Input::Initialize(&window);
+			Cursor* cursor = Cursor::Initialize(input, &window);
+			Event* event = Event::Initialize(input, &window);
+			Graphics* graphics = Graphics::Initialize(&window);
+			GUI* gui = GUI::Initialize(event, &window);
+			//框架层初始化
+			WorldManager* worldManager = WorldManager::Initialize(&window);
 
-					return DefWindowProcW(window->GetHwnd(), messageSign, wparameter, lparameter);
-				}
-			};
+
+
+			//创建配置信息，这将影响框架层中部分模块使用功能层的方式
+			CreateSettings();
+
+			//完成初始化后，正式循环前，触发事件回调
+			onStart();
+
+
+			window.AddDestroyEvent([]() {
+				ReleaseSettings();
+				});
 			window.Show();
 
 			//正式循环

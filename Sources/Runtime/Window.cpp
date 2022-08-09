@@ -1,16 +1,43 @@
 #include "Window.h"
 
 namespace BDXKEngine {
-	Window::Window(const wchar_t* name, MessageHandler messageHandler) :WindowBase(name)
+	Window::Window(const wchar_t* name) :WindowBase(name)
 	{
 		cursorPos = GetCursorLocalPosition();
 		lastCursorPos = cursorPos;
-		this->messageHandler = messageHandler;
 	}
 
-	void Window::AddMessageListener(MessageListener messageListener)
+	void Window::AddRenewEvent(RenewEvent renewEvent)
 	{
-		messageListeners.push_back(messageListener);
+		renewEvents.push_back(renewEvent);
+	}
+	void Window::AddResizeEvent(ResizeEvent resizeEvent)
+	{
+		resizeEvents.push_back(resizeEvent);
+	}
+	void Window::AddDestroyEvent(DestroyEvent destroyEvent)
+	{
+		destroyEvents.push_back(destroyEvent);
+	}
+	void Window::AddMouseMoveEvent(MouseMoveEvent mouseMoveEvent)
+	{
+		mouseMoveEvents.push_back(mouseMoveEvent);
+	}
+	void Window::AddMouseWheelEvent(MouseWheelEvent mouseWheelEvent)
+	{
+		mouseWheelEvents.push_back(mouseWheelEvent);
+	}
+	void Window::AddMouseButtonEvent(MouseButtonEvent mouseButtonEvent)
+	{
+		mouseButtonEvents.push_back(mouseButtonEvent);
+	}
+	void Window::AddKeyCodeEvent(KeyCodeEvent keyCodeEvent)
+	{
+		keyCodeEvents.push_back(keyCodeEvent);
+	}
+	void Window::AddCharacterEvent(CharacterEvent characterEvent)
+	{
+		characterEvents.push_back(characterEvent);
 	}
 
 	Rect Window::GetScreenRect()
@@ -41,7 +68,13 @@ namespace BDXKEngine {
 		return cursorPos - lastCursorPos;
 	}
 
-	void Window::ConfiningCursor(bool isOpen)
+	void Window::SetCursorTrack(bool state) {
+		if (state)
+			SetCapture(hwnd);
+		else
+			ReleaseCapture();
+	}
+	void Window::SetCursorConfining(bool isOpen)
 	{
 		if (isOpen)
 		{
@@ -59,6 +92,13 @@ namespace BDXKEngine {
 		lastCursorPos = lockCursorPos;
 		cursorlock = state;
 	}
+	void Window::SetCursorVisible(bool state)
+	{
+		if (state)
+			SetCursor(LoadCursor(NULL, IDC_ARROW));
+		else
+			SetCursor(NULL);
+	}
 	void Window::SetCursorLocalPosition(Vector2 localPosition)
 	{
 		Rect rect = GetScreenRect();
@@ -67,36 +107,121 @@ namespace BDXKEngine {
 		SetCursorPos((int)(position.x + 0.5f), (int)(position.y + 0.5f));
 	}
 
-	void Window::RePaint(bool clear)
-	{
-		InvalidateRect(hwnd, NULL, clear);
-	}
-
 	LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 	{
-		LRESULT result = messageHandler(this, messageSign, wparameter, lparameter);
-		for (MessageListener listener : messageListeners)
-			listener(this, messageSign, wparameter, lparameter);
-
 		switch (messageSign)
 		{
 		case WM_PAINT:
+		{
 			if (cursorlock)
 				SetCursorLocalPosition({ lockCursorPos.x,lockCursorPos.y });
 			else
 				lastCursorPos = cursorPos;
+
+			for (auto& renewEvent : renewEvents)
+				renewEvent();
 			break;
+		}
 		case WM_MOUSEMOVE:
-			cursorPos.x = (float)(lparameter << 48 >> 48);
+		{
+			cursorPos.x = (float)(lparameter & 0xffff);
 			cursorPos.y = (float)(lparameter >> 16);
+			for (auto& mouseMoveEvent : mouseMoveEvents)
+				mouseMoveEvent(cursorPos);
 			break;
+		}
+		case WM_CHAR:
+		{
+			wchar_t character = (wchar_t)wparameter;
+			for (auto& characterEvent : characterEvents)
+				characterEvent(character);
+			break;
+		}
+		case WM_KEYDOWN:
+		{
+			KeyCode keyCode = (KeyCode)wparameter;
+			for (auto& keyCodeEvent : keyCodeEvents)
+				keyCodeEvent(keyCode, true);
+			break;
+		}
+		case WM_KEYUP:
+		{
+			KeyCode keyCode = (KeyCode)wparameter;
+			for (auto& keyCodeEvent : keyCodeEvents)
+				keyCodeEvent(keyCode, false);
+			break;
+		}
+#pragma region 鼠标事件（除了移动鼠标事件）
+		case WM_LBUTTONDOWN:
+		{
+			for (auto& mouseButtonEvent : mouseButtonEvents)
+				mouseButtonEvent(0, true);
+			break;
+		}
+		case WM_LBUTTONUP:
+		{
+			for (auto& mouseButtonEvent : mouseButtonEvents)
+				mouseButtonEvent(0, false);
+			break;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			for (auto& mouseButtonEvent : mouseButtonEvents)
+				mouseButtonEvent(1, true);
+			break;
+		}
+		case WM_RBUTTONUP:
+		{
+			for (auto& mouseButtonEvent : mouseButtonEvents)
+				mouseButtonEvent(1, false);
+			break;
+		}
+
+		case WM_MOUSEWHEEL:
+		{
+			Vector2 delta = { 0,GET_WHEEL_DELTA_WPARAM(wparameter) / 120.0f };
+			for (auto& mouseWheelEvent : mouseWheelEvents)
+				mouseWheelEvent(delta);
+			break;
+		}
+		case WM_MBUTTONDOWN:
+		{
+			for (auto& mouseButtonEvent : mouseButtonEvents)
+				mouseButtonEvent(2, true);
+			break;
+		}
+		case WM_MBUTTONUP:
+		{
+			for (auto& mouseButtonEvent : mouseButtonEvents)
+				mouseButtonEvent(2, false);
+			break;
+		}
+#pragma endregion
+		case WM_SETCURSOR:
+		{
+			if (LOWORD(lparameter) == HTCLIENT)
+				break;
+		}
 		case WM_SIZE:
 		{
-			RePaint();
+			InvalidateRect(hwnd, NULL, true);
+
+			Vector2 size = {
+				(float)(lparameter & 0xffff),
+				(float)(lparameter >> 16)
+			};
+			for (auto& resizeEvent : resizeEvents)
+				resizeEvent(size);
+			break;
+		}
+		case WM_DESTROY:
+		{
+			for (auto& destroyEvent : destroyEvents)
+				destroyEvent();
 			break;
 		}
 		}
 
-		return result;
+		return DefWindowProcW(hwnd, messageSign, wparameter, lparameter);
 	}
 }
