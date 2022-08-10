@@ -35,7 +35,7 @@ namespace BDXKEngine {
 		static void Clear(bool clearDepth, bool clearColor, Color backgroundColor = Color::clear, float depth = 1.0f);
 		static void Render(int indexsCount);
 	protected:
-		static GL* Initialize(Window* window);
+		static void Initialize(Window* window);
 
 		static CComPtr<ID3D11Device> device;
 		static CComPtr<ID3D11DeviceContext> context;

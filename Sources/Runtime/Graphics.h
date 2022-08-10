@@ -28,7 +28,7 @@ namespace BDXKEngine {
 		static void DrawTexture(ObjectPtr<Texture2D> texture, Rect screenRect);
 		static void Blit(ObjectPtr<Texture2D> source, ObjectPtr<Texture2D> dest, ObjectPtr<Material> material = Resources::GetBlitMaterial());
 	protected:
-		static Graphics* Initialize(Window* window);
+		static void Initialize(Window* window);
 	private:
 		static ObjectPtr<Buffer> worldInfoBuffer;
 		static ObjectPtr<Buffer> cameraInfoBuffer;

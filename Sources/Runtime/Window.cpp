@@ -83,7 +83,7 @@ namespace BDXKEngine {
 		}
 		else
 		{
-			ClipCursor(NULL);
+			ClipCursor(nullptr);
 		}
 	}
 	void Window::SetCursorLock(bool state)
@@ -94,11 +94,11 @@ namespace BDXKEngine {
 	}
 	void Window::SetCursorVisible(bool state)
 	{
-		if (state)
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
-		else
-			SetCursor(NULL);
+		cursorVisible = state;
+		UpdateCursor();
 	}
+
+
 	void Window::SetCursorLocalPosition(Vector2 localPosition)
 	{
 		Rect rect = GetScreenRect();
@@ -107,19 +107,28 @@ namespace BDXKEngine {
 		SetCursorPos((int)(position.x + 0.5f), (int)(position.y + 0.5f));
 	}
 
+	void Window::UpdateCursor()
+	{
+		if (cursorVisible)
+			SetCursor(hCursor);
+		else
+			SetCursor(nullptr);
+	}
+
 	LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
 	{
 		switch (messageSign)
 		{
 		case WM_PAINT:
 		{
+			for (auto& renewEvent : renewEvents)
+				renewEvent();
+
+			//为了让用户能获取到鼠标增量，放后执行
 			if (cursorlock)
 				SetCursorLocalPosition({ lockCursorPos.x,lockCursorPos.y });
 			else
 				lastCursorPos = cursorPos;
-
-			for (auto& renewEvent : renewEvents)
-				renewEvent();
 			break;
 		}
 		case WM_MOUSEMOVE:
@@ -200,11 +209,12 @@ namespace BDXKEngine {
 		case WM_SETCURSOR:
 		{
 			if (LOWORD(lparameter) == HTCLIENT)
-				break;
+				UpdateCursor();
+			break;
 		}
 		case WM_SIZE:
 		{
-			InvalidateRect(hwnd, NULL, true);
+			InvalidateRect(hwnd, nullptr, true);
 
 			Vector2 size = {
 				(float)(lparameter & 0xffff),

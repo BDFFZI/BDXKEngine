@@ -1,8 +1,6 @@
 #include "Event.h"
 
 namespace BDXKEngine {
-	inline int mouseButtonUpFrame = -1;
-
 	Rect Event::drag = Rect::zero;
 	Rect Event::drop = Rect::zero;
 	Rect Event::click = Rect::zero;
@@ -71,29 +69,23 @@ namespace BDXKEngine {
 		return focus != Rect::zero;
 	}
 
-	Event* Event::Initialize(Input* input, Window* window)
+	void Event::Initialize(Window* window)
 	{
 		Event::window = window;
 		window->AddRenewEvent([]() {
-			//回收发生的事件
-
-			if (mouseButtonUpFrame > -1)mouseButtonUpFrame--;
-			if (mouseButtonUpFrame == 0) {
-				drag = Rect::zero;
-				drop = Rect::zero;
-				click = Rect::zero;
-				dragSource = nullptr;
-			};
-
 			if (Input::GetMouseButtonDown(0))
 			{
 				focus = Rect::zero;
 			}
-			if (Input::GetMouseButtonUp(0) || Input::GetMouseButtonUp(1))
-				mouseButtonUpFrame = 1;
+			//回收发生的事件
+			if (Input::GetMouseButtonUp(0))
+			{
+				drag = Rect::zero;
+				drop = Rect::zero;
+				click = Rect::zero;
+				dragSource = nullptr;
+			}
 			});
-
-		return new Event();
 	}
 
 	/// <summary>

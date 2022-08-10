@@ -32,7 +32,7 @@ namespace BDXKEngine {
 		static ObjectPtr<Mesh> cubeMesh;
 		static ObjectPtr<Mesh> sphereMesh;
 
-		static Resources* Initialize(Window* window, GL* gl);
+		static void Initialize(Window* window);
 	private:
 		static std::map<size_t, std::function<ObjectPtr<Object>(std::wstring path)>> creator;
 	};

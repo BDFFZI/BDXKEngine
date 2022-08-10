@@ -68,7 +68,7 @@ namespace BDXKEngine {
 		textFormat->Release();
 	}
 
-	GL2D* GL2D::Initialize(GL* gl)
+	void GL2D::Initialize()
 	{
 		LRESULT back = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
 		assert(SUCCEEDED(back));// 创建资源工厂失败
@@ -76,8 +76,6 @@ namespace BDXKEngine {
 
 		back = DWriteCreateFactory(DWRITE_FACTORY_TYPE_ISOLATED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&writeFactory));
 		assert(SUCCEEDED(back));// 创建写字资源工厂失败
-
-		return new GL2D{};
 	}
 
 	void GL2D::DrawRectangle(Vector2 origin, Vector2 size, bool isFill)

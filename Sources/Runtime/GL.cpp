@@ -145,14 +145,12 @@ namespace BDXKEngine {
 		context->DrawIndexed(indexsCount, 0, 0);
 	}
 
-	GL* GL::Initialize(Window* window)
+	void GL::Initialize(Window* window)
 	{
 		GL::CreateDevice();
 		GL::CreateSwapChain(window->GetHwnd());
 		ResizeDefaultRenderTarget(window->GetScreenRect().GetSize());
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		return new GL();
 	}
 
 	CComPtr<ID3D11Device> GL::device = nullptr;

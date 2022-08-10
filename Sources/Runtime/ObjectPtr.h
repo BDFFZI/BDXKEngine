@@ -4,121 +4,110 @@
 #include "Object.h"
 
 namespace BDXKEngine {
-	//内联变量：确保全局唯一
-	inline std::unordered_map<unsigned int, int> objectIDRefCount;
-
-	/// 使用备注：
-	/// 1.在构造函数中使用时记得SuppressDestroy
 	template<typename TObject>
-	struct ObjectPtr : ObjectEditor
+	struct ObjectPtr
 	{
 	public:
-		ObjectPtr(TObject* target)
+		ObjectPtr() {
+			instanceID = 0;
+			refCount = nullptr;
+		}
+		ObjectPtr(Object* object)
 		{
-			if (target == nullptr)
+			if (object == nullptr)
 			{
-				object = nullptr;
-				objectID = 0;
+				instanceID = 0;
+				refCount = nullptr;
 			}
 			else
 			{
-				object = target;
-				objectID = ((Object*)target)->GetInstanceID();
-				if (objectIDRefCount.count(objectID) == 0)
-					objectIDRefCount[objectID] = 1;
-				else
-					objectIDRefCount[objectID]++;
+				instanceID = object->GetInstanceID();
+				refCount = new int(1);
 			}
-
 		}
-		ObjectPtr() :ObjectPtr(nullptr) {};
-		ObjectPtr(const ObjectPtr& sharedPtr) :ObjectPtr(sharedPtr.object) {}
-		~ObjectPtr()
-		{
-			if (object != nullptr)
-				RemoveRef();
+		ObjectPtr(const ObjectPtr& objectPtr) {
+			if ((Object*)objectPtr == nullptr)
+			{
+				instanceID = 0;
+				refCount = nullptr;
+			}
+			else
+			{
+				AddRef(objectPtr);
+			}
 		}
-
-		ObjectPtr& operator=(const ObjectPtr& sharedPtr)
+		ObjectPtr& operator=(const ObjectPtr& objectPtr)
 		{
-			if (object != nullptr)
+			if (refCount != nullptr)
 				RemoveRef();
 
-			if (sharedPtr.object != nullptr)
-				AddRef(sharedPtr);
+			if (objectPtr.object != nullptr)
+				AddRef(objectPtr);
 
 			return *this;
 		}
-		TObject* operator->()const
+
+		~ObjectPtr()
 		{
-			if (IsNull())
-				throw std::exception("目标引用为空");
-			return object;
+			if (refCount != nullptr)
+				RemoveRef();
 		}
+
+		//内容比较
 		bool operator ==(const ObjectPtr& other)
 		{
-			if (object == other.object)
-				return true;
-			else if (other.IsNull() && IsNull())
-				return true;
-
-			return false;
+			Object* object = *this;
+			Object* otherObject = other;
+			return object == otherObject;
 		}
 		bool operator !=(const ObjectPtr& other)
 		{
 			return !(*this == other);
 		}
 
+		//提取内容
+		operator Object* ()
+		{
+			return Object::FindObjectOfInstanceID(instanceID);
+		}
+		TObject* operator->()const
+		{
+			Object* object = *this;
+			if (object == nullptr)
+				throw std::exception("目标引用为空");
+			return static_cast<TObject*>(object);
+		}
 		template<typename TTargetObject>
 		ObjectPtr<TTargetObject> As()
 		{
-			TObject* source = GetPtr();
-			return dynamic_cast<TTargetObject*>(source);
-		}
-		TObject* GetPtr()
-		{
-			return IsNull() ? nullptr : object;
-		}
-		void SuppressDestroy()
-		{
-			isSuppressDestroy = true;
+			Object* object = *this;
+			return dynamic_cast<TTargetObject*>(object);
 		}
 	private:
-		TObject* object;
-		unsigned int objectID;
-		bool isSuppressDestroy = false;
+		unsigned int instanceID;
+		unsigned int* refCount;
 
-		void AddRef(const ObjectPtr& sharedPtr)
+		void AddRef(const ObjectPtr& objectPtr)
 		{
-			object = sharedPtr.object;
-			objectID = sharedPtr.objectID;
-			objectIDRefCount[objectID]++;
+			instanceID = objectPtr.instanceID;
+			refCount = objectPtr.refCount;
+			*refCount++;
 		}
 		void RemoveRef()
 		{
-			int refCount = objectIDRefCount[objectID] - 1;
-			if (refCount == 0)
+			*refCount--;
+			if (*refCount == 0)
 			{
-				objectIDRefCount.erase(objectID);
-				if (ObjectEditor::GetIDState(objectID))
+				delete refCount;
+				Object* object = (Object*)*this;
+				if (object != nullptr)
 				{
-					if (isSuppressDestroy == false)
-						Object::DestroyImmediate((Object*)object);
-					else
-						isSuppressDestroy = false;
+					Object::Destroy(object);
 				}
 			}
-			else
-			{
-				objectIDRefCount[objectID] = refCount;
-			}
 
-			object = nullptr;
-			objectID = 0;
-		}
-		bool IsNull()const
-		{
-			return object == nullptr || ObjectEditor::GetIDState(objectID) == false;
+			instanceID = 0;
+			refCount = nullptr;
 		}
 	};
 }

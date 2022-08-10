@@ -87,7 +87,7 @@ namespace BDXKEngine {
 
 
 
-	GUI* GUI::Initialize(Event* event, Window* window)
+	void GUI::Initialize(Window* window)
 	{
 		GUI::window = window;
 		window->AddCharacterEvent([](wchar_t character) {
@@ -102,7 +102,5 @@ namespace BDXKEngine {
 			charStream.str(L"");
 			deleteStream = 0;
 			});
-
-		return new GUI();
 	}
 }

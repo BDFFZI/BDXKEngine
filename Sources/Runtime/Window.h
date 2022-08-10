@@ -95,12 +95,15 @@ namespace BDXKEngine {
 		std::vector<KeyCodeEvent> keyCodeEvents;
 		std::vector<CharacterEvent> characterEvents;
 
-		LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter) override;
-	private:
 		Vector2 lockCursorPos = {};
 		Vector2 lastCursorPos = {};
 		Vector2 cursorPos = {};
-		bool cursorlock = {};
-		HCURSOR hCursor = {};
+		bool cursorlock = false;
+		bool cursorVisible = true;
+		HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
+
+		void UpdateCursor();
+
+		LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter) override;
 	};
 }

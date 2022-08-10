@@ -18,7 +18,7 @@ namespace BDXKEngine {
 		static bool HasDrag();
 		static bool HasFocus();
 	protected:
-		static Event* Initialize(Input* input, Window* window);
+		static void Initialize(Window* window);
 	private:
 		static Window* window;
 		static Rect drag;

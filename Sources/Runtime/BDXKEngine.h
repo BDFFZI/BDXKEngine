@@ -80,38 +80,31 @@ namespace BDXKEngine {
 			//启动窗口
 			Window window = { L"BDXKEngine" };
 
-
-
 			//平台层初始化
-			GL* gl = GL::Initialize(&window);
-			GL2D* gl2d = GL2D::Initialize(gl);
+			GL::Initialize(&window);
+			GL2D::Initialize();
 			//资源层初始化
-			Resources* resources = Resources::Initialize(&window, gl);
-			//功能层初始化
-			BehaviorManager* behaviorManager = BehaviorManager::Initialize(&window);
-			RendererManager* rendererManager = RendererManager::Initialize(&window);
-			Time::Initialize(&window);
-			Screen::Initialize(&window);
-			Input* input = Input::Initialize(&window);
-			Cursor* cursor = Cursor::Initialize(input, &window);
-			Event* event = Event::Initialize(input, &window);
-			Graphics* graphics = Graphics::Initialize(&window);
-			GUI* gui = GUI::Initialize(event, &window);
-			//框架层初始化
-			WorldManager* worldManager = WorldManager::Initialize(&window);
+			Resources::Initialize(&window);
+			//上面三层是静态的，顺序初始化，以便初始化无异常
 
-
-
-			//创建配置信息，这将影响框架层中部分模块使用功能层的方式
+			//创建配置信息，这将影响框架层中部分模块的运作方式
 			CreateSettings();
+
+			//下面两层是动态的，倒序初始化（因为会影响事件顺序），以便使用环境无异常
+			BehaviorManager::Initialize(&window);
+			RendererManager::Initialize(&window);
+			WorldManager::Initialize(&window);
+			GUI::Initialize(&window);
+			Event::Initialize(&window);
+			Graphics::Initialize(&window);
+			Screen::Initialize(&window);
+			Cursor::Initialize(&window);
+			Input::Initialize(&window);
+			Time::Initialize(&window);
 
 			//完成初始化后，正式循环前，触发事件回调
 			onStart();
 
-
-			window.AddDestroyEvent([]() {
-				ReleaseSettings();
-				});
 			window.Show();
 
 			//正式循环
@@ -127,6 +120,8 @@ namespace BDXKEngine {
 				if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
 					PostMessage(hwnd, WM_PAINT, NULL, NULL);
 			}
+
+			ReleaseSettings();
 		}
 	private:
 		static void CreateSettings()

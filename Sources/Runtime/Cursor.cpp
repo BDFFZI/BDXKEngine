@@ -1,8 +1,8 @@
 #include "Cursor.h"
 
 namespace BDXKEngine {
-	bool Cursor::visible = true;
-	Window* Cursor::window{};
+	Window* Cursor::window = nullptr;
+	int Cursor::mouseButtonTime = 0;
 
 	void Cursor::SetLockState(bool state)
 	{
@@ -11,13 +11,19 @@ namespace BDXKEngine {
 
 	void Cursor::SetVisible(bool value)
 	{
-		visible = value;
 		window->SetCursorVisible(value);
 	}
 
-	Cursor* Cursor::Initialize(Input* input, Window* window)
+	void Cursor::Initialize(Window* window)
 	{
 		Cursor::window = window;
-		return nullptr;
+		window->AddMouseButtonEvent([=](int buttonButton, bool state) {
+			if (state)
+				mouseButtonTime++;
+			else
+				mouseButtonTime--;
+
+			window->SetCursorTrack(mouseButtonTime != 0);
+			});
 	}
 }

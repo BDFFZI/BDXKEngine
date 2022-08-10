@@ -32,7 +32,7 @@ namespace BDXKEngine {
 		static void DrawTextf(Rect rect, std::wstring text, int fontSize);
 	protected:
 		/// 仅能使用GL的默认交换链贴图
-		static GL2D* Initialize(GL* gl);
+		static void Initialize();
 	private:
 
 		static CComPtr<IDWriteFactory> writeFactory;//资源工厂

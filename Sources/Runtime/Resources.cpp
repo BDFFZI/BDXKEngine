@@ -34,7 +34,7 @@ namespace BDXKEngine {
 		return sphereMesh;
 	}
 
-	Resources* BDXKEngine::Resources::Initialize(Window* window, GL* gl)
+	void BDXKEngine::Resources::Initialize(Window* window)
 	{
 		//ªÊ÷∆“ı”∞Ã˘Õº
 		shadowMapMaterial = new Material{ {new Shader(
@@ -77,7 +77,6 @@ namespace BDXKEngine {
 			cubeMesh = nullptr;
 			sphereMesh = nullptr;
 			});
-		return nullptr;
 	}
 
 	std::map<size_t, std::function<ObjectPtr<Object>(std::wstring path)>> Resources::creator = {

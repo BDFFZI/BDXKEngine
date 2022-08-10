@@ -26,4 +26,16 @@ namespace BDXKEngine {
 	private:
 		ObjectPtr<GameObject> gameObject = nullptr;
 	};
+
+	class AwakeHandler {
+		friend Object;
+	protected:
+		virtual void OnAwake() = 0;
+	};
+
+	class DestroyHandler {
+		friend Object;
+	protected:
+		virtual void OnAwake() = 0;
+	};
 }

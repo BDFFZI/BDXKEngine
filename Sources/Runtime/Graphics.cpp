@@ -96,7 +96,7 @@ namespace BDXKEngine
 		GL::SetRenderTarget(nullptr);
 	}
 
-	Graphics* Graphics::Initialize(Window* window)
+	void Graphics::Initialize(Window* window)
 	{
 		//创建渲染用的通用常量缓冲区
 		worldInfoBuffer = new Buffer(BufferTarget::Constant, sizeof(WorldInfo));
@@ -131,7 +131,5 @@ namespace BDXKEngine
 			defaultTexture2D = nullptr;
 			defaultTextureCube = nullptr;
 			});
-
-		return nullptr;
 	}
 }

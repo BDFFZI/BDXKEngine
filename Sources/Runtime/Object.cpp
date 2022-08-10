@@ -1,37 +1,17 @@
 #include "Object.h"
+#include "ObjectPtr.h"
 #include "Debug.h"
 
 namespace BDXKEngine {
-	void Object::DestroyImmediate(Object* object)
-	{
-		if (object == nullptr || object->IsNull() || object->isDestroyed == true)
-			return;
-
-		object->isDestroyed = true;
-		object->OnDestroy();
-
-		instanceIDStates.erase(object->instanceID);//标记为不存在
-		objects.erase(std::find(objects.begin(), objects.end(), object));//移除指针存档
-
-
-		delete object;
-	}
-
-	void Object::Destory(Object* object)
-	{
-	}
-
-	Object* Object::Instantiate(Object* object)
-	{
-		return nullptr;
-	}
-
+	unsigned int Object::instanceIDCount = 0;
+	std::map<unsigned int, Object*> Object::allObjects = {};
+	std::vector<Object*> Object::activateBuffer;
+	std::vector<Object*> Object::destroyBuffer;
 
 	Object::Object(std::wstring name) {
 		this->name = name;
 		instanceID = ++instanceIDCount;
-		instanceIDStates.insert(instanceID);
-		objects.push_back(this);
+		allObjects[instanceID] = this;
 
 		Debug::Log((String)L"Object Create " + instanceID + " " + GetName());
 	}
@@ -57,13 +37,4 @@ namespace BDXKEngine {
 	{
 		return name + L"\n" + std::to_wstring(instanceID);
 	}
-
-	inline bool Object::IsNull()
-	{
-		return instanceIDStates.count(instanceID) == 0;
-	}
-
-	std::vector<Object*> Object::objects = {};
-	std::unordered_set<unsigned int> Object::instanceIDStates = {};
-	unsigned int Object::instanceIDCount = 0;
 }

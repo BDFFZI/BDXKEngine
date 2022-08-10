@@ -52,7 +52,7 @@ namespace BDXKEngine {
 		return false;
 	}
 
-	Input* Input::Initialize(Window* window)
+	void Input::Initialize(Window* window)
 	{
 		Input::window = window;
 		window->AddRenewEvent([]() {
@@ -81,7 +81,5 @@ namespace BDXKEngine {
 		window->AddKeyCodeEvent([](KeyCode keyCode, bool state) {
 			Input::keyboardState[(int)keyCode][2] = state;
 			});
-
-		return new Input{};
 	}
 }

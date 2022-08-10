@@ -14,7 +14,7 @@ namespace BDXKEngine {
 		static bool GetKey(KeyCode keyCode);
 		static bool GetKeyUp(KeyCode keyCode);
 	protected:
-		static Input* Initialize(Window* window);
+		static void Initialize(Window* window);
 	private:
 		static Window* window;
 		static Vector2 mouseScrollDelta;

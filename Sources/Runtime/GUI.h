@@ -22,7 +22,7 @@ namespace BDXKEngine {
 			TextArea(rect, stream.str());
 		}
 	protected:
-		static GUI* Initialize(Event* event, Window* window);
+		static void Initialize(Window* window);
 	private:
 		static Window* window;
 		static std::wstringstream charStream;
