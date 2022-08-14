@@ -6,23 +6,6 @@
 namespace BDXKEngine {
 	std::vector<ObjectPtr<Transform>> Transform::rootTransforms{};
 
-	Transform::Transform() :Component(L"New Transform")
-	{
-		parent = nullptr;
-		rootTransforms.push_back(this);
-
-		localPosition = Vector3::zero;
-		localEulerAngles = Vector3::zero;
-		localScale = Vector3::one;
-
-		position = Vector3::zero;
-		eulerAngles = Vector3::zero;
-		scale = Vector3::one;
-
-		localToWorldMatrix = Matrix4x4::identity;
-		worldToLocalMatrix = Matrix4x4::identity;
-	}
-
 	ObjectPtr<Transform> Transform::GetParent()
 	{
 		return parent;
@@ -31,9 +14,10 @@ namespace BDXKEngine {
 	{
 		if (newparent != nullptr)
 		{
+			ObjectPtr<Transform> current = this;
 			ObjectPtr<Transform> newUpLayer = newparent;
 			do {
-				if (this == newUpLayer)
+				if (newUpLayer == current)
 				{
 					throw std::exception("你在试图让一个父物体或自身成为其的孩子，这会导致嵌套循环，是不允许的。");
 				}
@@ -138,10 +122,27 @@ namespace BDXKEngine {
 		return stream.str();
 	}
 
-	void Transform::OnDestroy()
+	void Transform::Import(Reader* reader)
+	{
+		parent = nullptr;
+		rootTransforms.push_back(this);
+
+		localPosition = Vector3::zero;
+		localEulerAngles = Vector3::zero;
+		localScale = Vector3::one;
+
+		position = Vector3::zero;
+		eulerAngles = Vector3::zero;
+		scale = Vector3::one;
+
+		localToWorldMatrix = Matrix4x4::identity;
+		worldToLocalMatrix = Matrix4x4::identity;
+	}
+
+	void Transform::Destroy()
 	{
 		for (ObjectPtr<Transform> child : children)
-			DestroyImmediate(child->GetGameObject().GetPtr());
+			Object::Destroy(child->GetGameObject());
 		children.clear();
 
 		if (parent == nullptr)
@@ -155,13 +156,13 @@ namespace BDXKEngine {
 			));
 		}
 
-		Component::OnDestroy();
+		Component::Destroy();
 	}
 
 	void Transform::RenewSelfMatrix()
 	{
 		localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
-		
+
 		localToWorldMatrix = localToWorldMatrix * Matrix4x4::TRS(localPosition, localEulerAngles, localScale);
 		worldToLocalMatrix = localToWorldMatrix.GetInverse();
 	}

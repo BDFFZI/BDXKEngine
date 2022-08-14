@@ -13,12 +13,17 @@ namespace BDXKEngine {
 	{
 		friend GL;
 	public:
-		Buffer(BufferTarget target, int size);
-
-		void SetData(void* data);
+		void SetData(char* data);
+		void GetData(char* data);
 	private:
-		D3D11_BIND_FLAG bindFlag;
+		BufferTarget target;
+		int size;
+		std::unique_ptr<char> data;
+
 		CComPtr<ID3D11Buffer> buffer;
+
+		void Transfer(TransferBase& transfer)override;
+		void Awake()override;
 	};
 }
 

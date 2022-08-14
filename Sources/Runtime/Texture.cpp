@@ -1,9 +1,5 @@
 #include "Texture.h"
 
-BDXKEngine::Texture::Texture(std::wstring name) :Object(name)
-{
-}
-
 void BDXKEngine::Texture::CreateDepthStencil(unsigned int width, unsigned int height, ID3D11Texture2D** renderTexture, ID3D11DepthStencilView** depthStencilView)
 {
 	D3D11_TEXTURE2D_DESC texture2DDepthDescription = D3D11_TEXTURE2D_DESC{};

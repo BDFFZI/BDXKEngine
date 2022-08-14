@@ -4,65 +4,70 @@
 #include "Object.h"
 
 namespace BDXKEngine {
-	template<typename TObject>
-	struct ObjectPtr
-	{
+	struct ObjectPtrBase {
 	public:
-		ObjectPtr() {
+		ObjectPtrBase() {
 			instanceID = 0;
-			refCount = nullptr;
 		}
-		ObjectPtr(Object* object)
+		ObjectPtrBase(Object* object)
 		{
 			if (object == nullptr)
 			{
 				instanceID = 0;
-				refCount = nullptr;
 			}
 			else
 			{
 				instanceID = object->GetInstanceID();
-				refCount = new int(1);
+				auto refCount = refCountMap.find(instanceID);
+				if (refCount == refCountMap.end())
+					refCountMap[instanceID] = 1;
+				else
+					refCountMap[instanceID] = refCount->second + 1;
 			}
 		}
-		ObjectPtr(const ObjectPtr& objectPtr) {
-			if ((Object*)objectPtr == nullptr)
+		ObjectPtrBase(const ObjectPtrBase& objectPtr) {
+			if ((ObjectPtrBase)objectPtr == nullptr)
 			{
 				instanceID = 0;
-				refCount = nullptr;
 			}
 			else
 			{
 				AddRef(objectPtr);
 			}
 		}
-		ObjectPtr& operator=(const ObjectPtr& objectPtr)
+		ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr)
 		{
-			if (refCount != nullptr)
+			if (instanceID != 0)
 				RemoveRef();
 
-			if (objectPtr.object != nullptr)
+			if (objectPtr.instanceID != 0)
 				AddRef(objectPtr);
 
 			return *this;
 		}
 
-		~ObjectPtr()
+		~ObjectPtrBase()
 		{
-			if (refCount != nullptr)
+			if (instanceID != 0)
 				RemoveRef();
 		}
 
 		//内容比较
-		bool operator ==(const ObjectPtr& other)
+		bool operator ==(const ObjectPtrBase& other)
 		{
 			Object* object = *this;
-			Object* otherObject = other;
+			Object* otherObject = (ObjectPtrBase)other;
 			return object == otherObject;
 		}
-		bool operator !=(const ObjectPtr& other)
+		bool operator !=(const ObjectPtrBase& other)
 		{
 			return !(*this == other);
+		}
+		bool operator ==(const std::nullptr_t other) {
+			return Object::FindObjectOfInstanceID(instanceID) == nullptr;
+		}
+		bool operator !=(const std::nullptr_t other) {
+			return Object::FindObjectOfInstanceID(instanceID) != nullptr;
 		}
 
 		//提取内容
@@ -70,36 +75,30 @@ namespace BDXKEngine {
 		{
 			return Object::FindObjectOfInstanceID(instanceID);
 		}
-		TObject* operator->()const
-		{
-			Object* object = *this;
-			if (object == nullptr)
-				throw std::exception("目标引用为空");
-			return static_cast<TObject*>(object);
-		}
+
 		template<typename TTargetObject>
 		ObjectPtr<TTargetObject> As()
 		{
 			Object* object = *this;
 			return dynamic_cast<TTargetObject*>(object);
 		}
-	private:
+	protected:
 		unsigned int instanceID;
-		unsigned int* refCount;
+	private:
+		inline static std::map<unsigned int, int> refCountMap;
 
-		void AddRef(const ObjectPtr& objectPtr)
+		void AddRef(const ObjectPtrBase& objectPtr)
 		{
 			instanceID = objectPtr.instanceID;
-			refCount = objectPtr.refCount;
-			*refCount++;
+			refCountMap[instanceID]++;
 		}
 		void RemoveRef()
 		{
-			*refCount--;
-			if (*refCount == 0)
+			int refCount = refCountMap[instanceID]--;
+			if (refCount == 0)
 			{
-				delete refCount;
-				Object* object = (Object*)*this;
+				refCountMap.erase(instanceID);
+				Object* object = *this;
 				if (object != nullptr)
 				{
 					Object::Destroy(object);
@@ -107,7 +106,19 @@ namespace BDXKEngine {
 			}
 
 			instanceID = 0;
-			refCount = nullptr;
+		}
+	};
+
+	template<typename TObject>
+	struct ObjectPtr :public ObjectPtrBase
+	{
+	public:
+		TObject* operator->()const
+		{
+			Object* object = *this;
+			if (object == nullptr)
+				throw std::exception("目标引用为空");
+			return static_cast<TObject*>(object);
 		}
 	};
 }

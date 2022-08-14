@@ -11,8 +11,6 @@ namespace BDXKEngine {
 	{
 		friend TransformEditor;
 	public:
-		Transform();
-
 		ObjectPtr<Transform> GetParent();
 		void SetParent(ObjectPtr<Transform> parent);
 		ObjectPtr<Transform> GetChild(int index);
@@ -36,7 +34,8 @@ namespace BDXKEngine {
 
 		std::wstring ToString()override;
 	protected:
-		void OnDestroy()override;
+		void Import(Reader* reader)override;
+		void Destroy()override;
 	private:
 		static std::vector<ObjectPtr<Transform>> rootTransforms;
 

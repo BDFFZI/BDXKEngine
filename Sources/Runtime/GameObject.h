@@ -17,22 +17,15 @@ namespace BDXKEngine {
 	public:
 		static ObjectPtr<GameObject> Find(std::wstring name);
 
-		GameObject(std::wstring name = L"New GameObject");
-
 		template<typename TComponent>
 		ObjectPtr<TComponent> AddComponent() {
 			//初始化Component
-			ObjectPtr<TComponent> component = { new TComponent() };
+			ObjectPtr<TComponent> component = Instantiate<TComponent>(nullptr);
 			component->gameObject = this;
 			component->SetName((String)typeid(TComponent).name());
-			//触发唤醒事件
-			((Component*)component.GetPtr())->OnAwake();
 
 			return component;
 		};
-
-
-		std::vector<ObjectPtr<Component>> GetComponents();
 
 		template<typename TComponent>
 		ObjectPtr<TComponent> GetComponent() {
@@ -46,6 +39,7 @@ namespace BDXKEngine {
 		}
 		ObjectPtr<Transform> GetTransform();
 
+		std::vector<ObjectPtr<Component>> GetComponents();
 	private:
 		//所有物体(由GameObject负责增减)
 		static std::vector<ObjectPtr<GameObject>> allGameObjects;
@@ -53,6 +47,7 @@ namespace BDXKEngine {
 		//当前物体拥有的组件(由Component负责增减)
 		std::vector<ObjectPtr<Component>> components;
 
-		void OnDestroy()override;
+		void Awake()override;
+		void Destroy()override;
 	};
 }

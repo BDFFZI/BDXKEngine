@@ -9,14 +9,12 @@ namespace BDXKEngine {
 	class Animator :public Component, public UpdateHandler
 	{
 	public:
-		Animator();
-
 		void SetAnimation(std::function<void(ObjectPtr<Transform> transfom)> animation);
 	private:
 		std::function<void(ObjectPtr<Transform> transfom)> animation{};
 		ObjectPtr<Transform> transform{};
 
-		void OnAwake()override;
+		void Awake()override;
 		void OnUpdate()override;
 	};
 }

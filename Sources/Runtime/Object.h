@@ -1,9 +1,11 @@
 #pragma once
-#include<vector>
-#include<map>
-#include<unordered_set>
-#include<unordered_map>
-#include<string>
+#include <vector>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include "String"
+#include "BinaryReader.h"
+#include "BinaryWriter.h"
 
 /// <summary>
 /// 创建：
@@ -24,20 +26,29 @@ namespace BDXKEngine {
 		friend ObjectManager;
 	public:
 		template<typename TObject>
-		static TObject* PreInstantiate(std::wstring data)
+		static TObject* InstantiateNoAwake(TransferBase& reader)
 		{
 			TObject* result = new TObject();
-			result->Import(data);
+			result->TransferBase(reader);
 			return result;
 		}
 		template<typename TObject>
-		static TObject* Instantiate(TObject* object)
+		static TObject* Instantiate(TObject* source)
 		{
-			TObject* result = new TObject();
-			result->Import(object->Export());
-			result->MarkActivating();
+			std::stringstream stream;
+			//获取旧物体数据
+			Object* sourceObject = static_cast<Object*>(source);
+			BinaryWriter writer = { stream };
+			sourceObject->TransferBase(writer);
+			//写入新物体数据
+			TObject* destination = new TObject();
+			Object* destinationObject = static_cast<Object*>(destination);
+			BinaryReader reader = { stream };
+			destinationObject->TransferBase(reader);
+
+			destinationObject->MarkActivating();
 			FlushActivateBuffer();
-			return result;
+			return destination;
 		}
 
 		static void Destroy(Object* object) {
@@ -73,8 +84,7 @@ namespace BDXKEngine {
 				return nullptr;
 		}
 
-		Object(std::wstring name = L"New Object");
-		~Object();
+
 
 		unsigned int GetInstanceID();
 		std::wstring GetName();
@@ -82,16 +92,24 @@ namespace BDXKEngine {
 		void SetName(std::wstring name);
 
 		virtual std::wstring ToString();
+
+		//bool operator==(std::nullptr_t null)
+		//{
+		//	return allObjects.contains(instanceID);
+		//}
+		//bool operator!=(std::nullptr_t null)
+		//{
+		//	return allObjects.contains(instanceID) == false;
+		//}
 	protected:
 		static unsigned int instanceIDCount;//为0代表None占位符
 		static std::map<unsigned int, Object*> allObjects;//当前所有物体
 		static std::vector<Object*> activateBuffer;
 		static std::vector<Object*> destroyBuffer;
 
-		virtual void Awake() = 0;
-		virtual void Destroy() = 0;
-		virtual void Import(std::wstring data) = 0;
-		virtual std::wstring Export() = 0;
+		virtual void Awake();
+		virtual void Destroy();
+		virtual void Transfer(TransferBase& transfer) = 0;
 
 		//用于嵌套数据结构。请以此标记子物体，以告知Object需要批量处理
 		virtual void MarkActivating() {
@@ -102,7 +120,11 @@ namespace BDXKEngine {
 			if (isDestroying == false)destroyBuffer.push_back(this);
 			isDestroying = true;
 		};
+
+		Object();
+		~Object();
 	private:
+
 		static void FlushActivateBuffer()
 		{
 			for (auto& object : activateBuffer)

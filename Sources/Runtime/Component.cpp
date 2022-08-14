@@ -3,21 +3,19 @@
 
 
 namespace BDXKEngine {
-	Component::Component(std::wstring name) :Object(name)
-	{
-	}
-
 	ObjectPtr<GameObject> Component::GetGameObject() { return gameObject; }
 	ObjectPtr<Transform> Component::GetTransform() { return GetGameObject()->GetComponent<Transform>(); }
 
-	void Component::OnAwake()
+	void Component::Awake()
 	{
+		Object::Awake();
+
 		gameObject->components.push_back(this);
 	}
-	void Component::OnDestroy()
+	void Component::Destroy()
 	{
 		gameObject->components.erase(std::find(gameObject->components.begin(), gameObject->components.end(), ObjectPtr<Component>{this}));
 
-		Object::OnDestroy();
+		Object::Destroy();
 	}
 }

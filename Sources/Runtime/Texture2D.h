@@ -9,15 +9,13 @@ namespace BDXKEngine {
 		friend GL;
 		friend GL2D;
 	public:
-		Texture2D(unsigned int width, unsigned int height);
-		Texture2D(Color color);
+		static ObjectPtr<Texture2D> Create(unsigned int width, unsigned int height);
+		static ObjectPtr<Texture2D> Create(Color color);
 
 		unsigned int GetWidth();
 		unsigned int GetHeight();
 	private:
 		static ObjectPtr<Texture2D> active;
-
-		Texture2D();
 
 		CComPtr<ID3D11SamplerState> samplerState;
 

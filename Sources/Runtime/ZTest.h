@@ -14,6 +14,8 @@ namespace BDXKEngine {
 			Always = D3D11_COMPARISON_ALWAYS,
 		};
 
+		static ZTest Default;
+
 		Operation operation = Operation::LEqual;
 		float factor = 0;//缩放深度
 		float units = 0;//偏移深度

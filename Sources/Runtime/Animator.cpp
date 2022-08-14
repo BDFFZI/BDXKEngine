@@ -1,16 +1,13 @@
 #include "Animator.h"
 
-BDXKEngine::Animator::Animator() :Component(L"New Animator")
-{
-}
 
 void BDXKEngine::Animator::SetAnimation(std::function<void(ObjectPtr<Transform>transfom)> animation)
 {
 	this->animation = animation;
 }
 
-void BDXKEngine::Animator::OnAwake() {
-	Component::OnAwake();
+void BDXKEngine::Animator::Awake() {
+	Component::Awake();
 
 	transform = GetGameObject()->GetTransform();
 }

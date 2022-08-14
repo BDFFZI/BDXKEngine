@@ -22,48 +22,21 @@ namespace BDXKEngine {
 		}
 	}
 
-	Shader::Shader(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType) :Object(L"New Shader")
+	ObjectPtr<Shader> Shader::Create(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType)
 	{
-		HRESULT result;
+		std::stringstream stream = {};
 
-		//编译顶点着色器
-		CComPtr<ID3DBlob> vertexBlob;
-		CompileShader(vertexShaderhlsl.c_str(), "main", "vs_5_0", &vertexBlob.p);
-		//创建顶点着色器
-		result = device->CreateVertexShader(
-			vertexBlob->GetBufferPointer(),
-			vertexBlob->GetBufferSize(),
-			nullptr,
-			&vertexShader.p
-		);
-		assert(SUCCEEDED(result));
+		BinaryWriter writer = { stream };
+		writer.TransferString(&vertexShaderhlsl);
+		writer.TransferString(&pixelShaderhlsl);
+		writer.TransferInt(reinterpret_cast<int*>(&passType));
+		writer.TransferData(reinterpret_cast<char*>(&Blend::Opaque), sizeof(Blend));
+		writer.TransferData(reinterpret_cast<char*>(&ZTest::Default), sizeof(ZTest));
 
-		//编译像素着色器
-		CComPtr<ID3DBlob> pixelBlob;
-		CompileShader(pixelShaderhlsl.c_str(), "main", "ps_5_0", &pixelBlob.p);
-		//创建像素着色器
-		result = device->CreatePixelShader(
-			pixelBlob->GetBufferPointer(),
-			pixelBlob->GetBufferSize(),
-			nullptr,
-			&pixelShader.p
-		);
-		assert(SUCCEEDED(result));
+		BinaryReader reader = { stream };
+		ObjectPtr<Shader> shader = { Object::InstantiateNoAwake<Shader>(reader) };
 
-		//创建语义信息
-		result = device->CreateInputLayout(
-			VertexDescription,
-			ARRAYSIZE(VertexDescription),
-			vertexBlob->GetBufferPointer(),
-			vertexBlob->GetBufferSize(),
-			&inputLayout.p
-		);
-		assert(SUCCEEDED(result));
-
-		SetPassType(passType);
-		//初始化管线选项
-		SetBlend(Blend::Opaque);
-		SetZTest({});
+		return shader;
 	}
 
 	PassType Shader::GetPassType()
@@ -111,5 +84,56 @@ namespace BDXKEngine {
 		description.DepthFunc = (D3D11_COMPARISON_FUNC)zTest.operation;
 		HRESULT result = device->CreateDepthStencilState(&description, &depthStencilState.p);
 		assert(SUCCEEDED(result));
+	}
+
+	void Shader::Transfer(TransferBase& transfer)
+	{
+		transfer.TransferString(&vertexShaderhlsl);
+		transfer.TransferString(&pixelShaderhlsl);
+		transfer.TransferInt(reinterpret_cast<int*>(&passType));
+		transfer.TransferData(reinterpret_cast<char*>(&blend), sizeof(Blend));
+		transfer.TransferData(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
+	}
+	void Shader::Awake()
+	{
+		HRESULT result;
+		//编译顶点着色器
+		CComPtr<ID3DBlob> vertexBlob;
+		CompileShader(vertexShaderhlsl.c_str(), "main", "vs_5_0", &vertexBlob.p);
+		//创建顶点着色器
+		result = device->CreateVertexShader(
+			vertexBlob->GetBufferPointer(),
+			vertexBlob->GetBufferSize(),
+			nullptr,
+			&vertexShader.p
+		);
+		assert(SUCCEEDED(result));
+
+		//编译像素着色器
+		CComPtr<ID3DBlob> pixelBlob;
+		CompileShader(pixelShaderhlsl.c_str(), "main", "ps_5_0", &pixelBlob.p);
+		//创建像素着色器
+		result = device->CreatePixelShader(
+			pixelBlob->GetBufferPointer(),
+			pixelBlob->GetBufferSize(),
+			nullptr,
+			&pixelShader.p
+		);
+		assert(SUCCEEDED(result));
+
+		//创建语义信息
+		result = device->CreateInputLayout(
+			VertexDescription,
+			ARRAYSIZE(VertexDescription),
+			vertexBlob->GetBufferPointer(),
+			vertexBlob->GetBufferSize(),
+			&inputLayout.p
+		);
+		assert(SUCCEEDED(result));
+
+		SetPassType(passType);
+		//初始化管线选项
+		SetBlend(blend);
+		SetZTest(zTest);
 	}
 }

@@ -19,7 +19,7 @@ namespace BDXKEngine {
 	class Material :public Object
 	{
 	public:
-		Material(std::vector<ObjectPtr<Shader>> shaders);
+		static void Create(ObjectTransfer& data,std::vector<ObjectPtr<Shader>> shaders);
 
 		std::vector<ObjectPtr<Shader>> GetShaders();
 		RenderQueue GetRenderQueue();
@@ -58,5 +58,7 @@ namespace BDXKEngine {
 
 		Parameters parameters;
 		ObjectPtr<Buffer> parametersBuffer;
+
+		void 
 	};
 }

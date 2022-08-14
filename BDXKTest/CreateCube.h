@@ -9,8 +9,8 @@ namespace Assembly {
 	class CreateCube :public Component, public DrawGizmosHandler {
 		ObjectPtr<Transform> transform;
 
-		void OnAwake()override {
-			Component::OnAwake();
+		void Awake()override {
+			Component::Awake();
 			transform = GetTransform();
 		}
 

@@ -13,29 +13,15 @@ namespace BDXKEngine {
 		friend GameObject;
 		friend WorldManager;
 	public:
-		Component(std::wstring name = L"New Component");
-
 		//设为虚函数是为了转为多态类型
 		ObjectPtr<GameObject> GetGameObject();
 		ObjectPtr<Transform> GetTransform();
 	protected:
 		//完全创建之后。重写时请务必回调
-		virtual void OnAwake();
+		void Awake() override;
 		//完全删除之前。重写时请务必回调
-		void OnDestroy()override;
+		void Destroy()override;
 	private:
 		ObjectPtr<GameObject> gameObject = nullptr;
-	};
-
-	class AwakeHandler {
-		friend Object;
-	protected:
-		virtual void OnAwake() = 0;
-	};
-
-	class DestroyHandler {
-		friend Object;
-	protected:
-		virtual void OnAwake() = 0;
 	};
 }

@@ -97,6 +97,12 @@
     <Filter Include="4_Framework\Manager">
       <UniqueIdentifier>{05d7b131-8181-42fe-a5ee-6ddd876a87d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_Platform\IO">
+      <UniqueIdentifier>{9447dcf4-5e4a-46ac-95ed-e02bc5655bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Base\Transfer">
+      <UniqueIdentifier>{8f73850e-002a-40e4-9de9-985e29b6098b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -228,9 +234,6 @@
     <ClCompile Include="Buffer.cpp">
       <Filter>1_Platform\GL\Resources\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="Serializable.cpp">
-      <Filter>0_Base\Object</Filter>
-    </ClCompile>
     <ClCompile Include="WorldManager.cpp">
       <Filter>4_Framework\Manager</Filter>
     </ClCompile>
@@ -243,6 +246,7 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>3_Function\Cursor</Filter>
     </ClCompile>
+    <ClCompile Include="BinaryReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowBase.h">
@@ -396,9 +400,6 @@
     <ClInclude Include="GLLayout.h">
       <Filter>1_Platform\GL\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Serializable.h">
-      <Filter>0_Base\Object</Filter>
-    </ClInclude>
     <ClInclude Include="WorldManager.h">
       <Filter>4_Framework\Manager</Filter>
     </ClInclude>
@@ -410,6 +411,15 @@
     </ClInclude>
     <ClInclude Include="Cursor.h">
       <Filter>3_Function\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryWriter.h">
+      <Filter>0_Base\Transfer</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryReader.h">
+      <Filter>0_Base\Transfer</Filter>
+    </ClInclude>
+    <ClInclude Include="TransferBase.h">
+      <Filter>0_Base\Transfer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

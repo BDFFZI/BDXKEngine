@@ -37,17 +37,17 @@ namespace BDXKEngine {
 	void BDXKEngine::Resources::Initialize(Window* window)
 	{
 		//绘制阴影贴图
-		shadowMapMaterial = new Material{ {new Shader(
+		shadowMapMaterial = Material::Create({ Shader::Create(
 			GetResourcesPathW(Shaders, ShadowMap\\VertexShader.hlsl),
 			GetResourcesPathW(Shaders, ShadowMap\\PixelShader.hlsl),
 			PassType::ForwardBase
-		)} };
+		) });
 		//绘制天空盒
-		skyboxMaterial = new Material{ {new Shader(
+		skyboxMaterial = Material::Create({ Shader::Create(
 			GetResourcesPathW(Shaders, Skybox\\VertexShader.hlsl),
 			GetResourcesPathW(Shaders, Skybox\\PixelShader.hlsl),
 			PassType::ForwardBase
-		)} };
+		) });
 		for (ObjectPtr<Shader> shader : skyboxMaterial->GetShaders())
 		{
 			ZTest ztest = {};
@@ -56,15 +56,15 @@ namespace BDXKEngine {
 			shader->SetZTest(ztest);
 		}
 		//位块传输
-		blitMaterial = new Material{ {
-			new Shader(
+		blitMaterial = Material::Create({
+			Shader::Create(
 				GetResourcesPathW(Shaders, Blit\\VertexShader.hlsl),
 				GetResourcesPathW(Shaders, Blit\\PixelShader.hlsl),
 				PassType::ForwardBase
 			)
-		} };
+			});
 		//白色贴图
-		whiteTexture = new Texture2D(Color::white);
+		whiteTexture = Texture2D::Create(Color::white);
 
 		cubeMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Cube.fbx)).CreateMesh();
 		sphereMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Sphere.fbx)).CreateMesh();
@@ -78,20 +78,4 @@ namespace BDXKEngine {
 			sphereMesh = nullptr;
 			});
 	}
-
-	std::map<size_t, std::function<ObjectPtr<Object>(std::wstring path)>> Resources::creator = {
-		{
-			typeid(Shader).hash_code(),
-			[](std::wstring path) {
-				return new Shader(
-					path + L"/VertexShader.hlsl",
-					path + L"/PixelShader.hlsl",
-					PassType::ForwardBase
-				);
-			}
-		},
-		{
-
-		}
-	};
 }

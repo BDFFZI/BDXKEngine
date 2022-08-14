@@ -10,7 +10,7 @@ namespace BDXKEngine {
 	{
 		friend GL;
 	public:
-		TextureCube(int width, int height);
+		static ObjectPtr<TextureCube> Create(int width, int height);
 
 		unsigned int GetWidth();
 		unsigned int GetHeight();

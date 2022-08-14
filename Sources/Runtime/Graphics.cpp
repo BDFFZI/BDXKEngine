@@ -99,11 +99,11 @@ namespace BDXKEngine
 	void Graphics::Initialize(Window* window)
 	{
 		//创建渲染用的通用常量缓冲区
-		worldInfoBuffer = new Buffer(BufferTarget::Constant, sizeof(WorldInfo));
-		cameraInfoBuffer = new Buffer(BufferTarget::Constant, sizeof(CameraInfo));
-		objectInfoBuffer = new Buffer(BufferTarget::Constant, sizeof(ObjectInfo));
-		lightInfoBuffer = new Buffer(BufferTarget::Constant, sizeof(LightInfo));
-		shadowInfoBuffer = new Buffer(BufferTarget::Constant, sizeof(ShadowInfo));
+		worldInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(WorldInfo));
+		cameraInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(CameraInfo));
+		objectInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(ObjectInfo));
+		lightInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(LightInfo));
+		shadowInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(ShadowInfo));
 		//设置缓冲区
 		GL::SetBuffer(1, worldInfoBuffer);
 		GL::SetBuffer(2, cameraInfoBuffer);
@@ -111,9 +111,9 @@ namespace BDXKEngine
 		GL::SetBuffer(4, lightInfoBuffer);
 		GL::SetBuffer(5, shadowInfoBuffer);
 
-		defaultTexture2D = new Texture2D(1, 1);
-		defaultTextureCube = new TextureCube(1, 1);
-		drawTextureMesh = new Mesh();
+		defaultTexture2D = Texture2D::Create(1, 1).As<Texture>();
+		defaultTextureCube = TextureCube::Create(1, 1).As<Texture>();
+		drawTextureMesh = Object::Instantiate<Mesh>(nullptr);
 		drawTextureMesh->SetTriangles({
 			0,1,3,
 			3,1,2

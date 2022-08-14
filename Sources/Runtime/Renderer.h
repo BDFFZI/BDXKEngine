@@ -10,8 +10,6 @@ namespace BDXKEngine {
 	{
 		friend RendererEditor;
 	public:
-		Renderer(std::wstring name = L"New Renderer");
-
 		ObjectPtr<Material> GetMaterial();
 		ObjectPtr<Mesh> GetMesh();
 		bool GetCastShadows();
@@ -30,9 +28,9 @@ namespace BDXKEngine {
 		bool castShadows;
 		bool receiveShadows;
 
-		void OnAwake()override
+		void Awake()override
 		{
-			Component::OnAwake();
+			Component::Awake();
 
 			material = nullptr;
 			mesh = nullptr;
@@ -41,7 +39,7 @@ namespace BDXKEngine {
 			renderers.push_back(this);
 		}
 
-		void OnDestroy()override {
+		void Destroy()override {
 			renderers.erase(std::find_if(
 				renderers.begin(),
 				renderers.end(),
@@ -50,7 +48,7 @@ namespace BDXKEngine {
 				}
 			));
 
-			Component::OnDestroy();
+			Component::Destroy();
 		}
 	};
 

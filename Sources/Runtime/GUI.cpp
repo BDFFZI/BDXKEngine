@@ -91,7 +91,7 @@ namespace BDXKEngine {
 	{
 		GUI::window = window;
 		window->AddCharacterEvent([](wchar_t character) {
-			if (Event::HasFocus)
+			if (Event::HasFocus())
 				charStream << character;
 			});
 		window->AddKeyCodeEvent([](KeyCode keyCode, bool state) {

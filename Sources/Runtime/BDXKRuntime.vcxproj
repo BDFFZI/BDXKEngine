@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BehaviorEvent.cpp" />
+    <ClCompile Include="BinaryReader.cpp" />
     <ClCompile Include="Bleed.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Cull.cpp" />
@@ -144,7 +145,6 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RendererEvent.cpp" />
     <ClCompile Include="Resources.cpp" />
-    <ClCompile Include="Serializable.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -177,9 +177,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorEvent.h" />
+    <ClInclude Include="BinaryReader.h" />
+    <ClInclude Include="BinaryWriter.h" />
     <ClInclude Include="Blend.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Cull.h" />
+    <ClInclude Include="TransferBase.h" />
     <ClInclude Include="WorldManager.h" />
     <ClInclude Include="GraphicsInfo.h" />
     <ClInclude Include="GraphicsSettings.h" />
@@ -197,7 +200,6 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RendererEvent.h" />
     <ClInclude Include="Resources.h" />
-    <ClInclude Include="Serializable.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Camera.h" />

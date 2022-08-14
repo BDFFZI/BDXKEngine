@@ -3,10 +3,6 @@ using namespace BDXKEngine;
 
 std::vector<ObjectPtr<Light>> Light::lights;
 
-Light::Light() :Component(L"New Light")
-{
-}
-
 LightType Light::GetType()
 {
 	return type;
@@ -74,14 +70,14 @@ ObjectPtr<Texture> Light::GetShadowMap()
 		return shadowMap.As<Texture>();
 }
 
-void Light::OnAwake()
+void Light::Awake()
 {
 	lights.push_back(this);
 
-	shadowMap = new Texture2D{ 1024,1024 };
-	shadowMapCube = new TextureCube{ 512,512 };
+	shadowMap = Texture2D::Create(1024, 1024);
+	shadowMapCube = TextureCube::Create(512, 512);
 
-	Component::OnAwake();
+	Component::Awake();
 }
 void Light::OnRenderObject()
 {
@@ -145,7 +141,7 @@ void Light::OnRenderObject()
 
 	GL::SetRenderTarget(nullptr);
 }
-void Light::OnDestroy()
+void Light::Destroy()
 {
 	lights.erase(std::find(
 		lights.begin(),
@@ -153,7 +149,7 @@ void Light::OnDestroy()
 		ObjectPtr<Light>{this}
 	));
 
-	Component::OnDestroy();
+	Component::Destroy();
 }
 
 

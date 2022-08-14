@@ -29,10 +29,10 @@ namespace BDXKEngine {
 		//绑定顶点数据
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
-		context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer->buffer.p, &stride, &offset);
+		context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer->glBuffer.p, &stride, &offset);
 
 		//绑定索引数据
-		context->IASetIndexBuffer(mesh->triangleBuffer->buffer, DXGI_FORMAT_R32_UINT, 0);
+		context->IASetIndexBuffer(mesh->triangleBuffer->glBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 	// 设置当前渲染管线中的常量缓冲区
 	void GL::SetBuffer(unsigned int startSlot, ObjectPtr<Buffer> buffer)
@@ -42,7 +42,7 @@ namespace BDXKEngine {
 		{
 			if (buffer->bindFlag != D3D11_BIND_CONSTANT_BUFFER)
 				throw std::exception("不支持除常量缓冲区以外的类型");
-			d3dBuffer = buffer->buffer;
+			d3dBuffer = buffer->glBuffer;
 		}
 
 		context->VSSetConstantBuffers(startSlot, 1, &d3dBuffer);

@@ -5,41 +5,6 @@
 #include<vector>
 
 namespace BDXKEngine {
-	ObjectPtr<Mesh> Mesh::CreateCube()
-	{
-		ObjectPtr<Mesh> mesh = ObjectPtr<Mesh>{ new Mesh() };
-		mesh->vertices = {
-		{{ -0.5f, -0.5f, -0.5f},{},{}, {0,0,0}},
-		{{ -0.5f, -0.5f, 0.5f },{},{}, {0,0,1}},
-		{{ 0.5f, -0.5f, 0.5f },{},{}, {0,0,1}},
-		{{ 0.5f,-0.5f,-0.5f },{},{}, {1,0,0}},
-		{{ -0.5f,0.5f,-0.5f },{},{}, {0,1,0}},
-		{{ -0.5f,0.5f,0.5f },{},{}, {0,0,1}},
-		{{0.5f,0.5f, 0.5f },{},{}, {0,0,1}},
-		{{0.5f,0.5f, -0.5f },{},{}, {1,1,0}}
-		};
-		mesh->triangles = {//前后左右上下
-			0,4,7,
-			0,7,3,
-			2,6,5,
-			2,5,1,
-			1,5,4,
-			1,4,0,
-			3,7,6,
-			3,6,2,
-			4,5,6,
-			4,6,7,
-			0,3,2,
-			0,2,1
-		};
-		mesh->UploadMeshData();
-
-		return mesh;
-	}
-
-	Mesh::Mesh() :Object(L"New Mesh")
-	{
-	}
 	int Mesh::GetVerticesCount()
 	{
 		return (int)vertices.size();
@@ -168,10 +133,10 @@ namespace BDXKEngine {
 	}
 	void Mesh::ResetVerticesBuffer()
 	{
-		vertexBuffer = new Buffer(BufferTarget::Vertex, (int)(vertices.size() * sizeof(Vertex)));
+		vertexBuffer = Buffer::Create(BufferTarget::Vertex, (int)(vertices.size() * sizeof(Vertex)));
 	}
 	void Mesh::ResetTrianglesBuffer()
 	{
-		triangleBuffer = new Buffer(BufferTarget::Index, (int)(triangles.size() * sizeof(unsigned int)));
+		triangleBuffer = Buffer::Create(BufferTarget::Index, (int)(triangles.size() * sizeof(unsigned int)));
 	}
 }

@@ -37,7 +37,7 @@ namespace Assembly {
 	}
 	void TestLight()
 	{
-		ObjectPtr<GameObject> aureole = new GameObject(L"¹â»·");
+		ObjectPtr<GameObject> aureole = Object::Instantiate<GameObject>(nullptr);
 		{
 			ObjectPtr<Transform> transform = aureole->GetTransform();
 			transform->SetParent(GameObject::Find(L"ÉãÏñ»ú")->GetTransform());

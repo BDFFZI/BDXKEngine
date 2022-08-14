@@ -8,15 +8,12 @@ namespace BDXKEngine {
 	std::vector<Object*> Object::activateBuffer;
 	std::vector<Object*> Object::destroyBuffer;
 
-	Object::Object(std::wstring name) {
-		this->name = name;
+	Object::Object() {
 		instanceID = ++instanceIDCount;
+		this->name = std::to_wstring(instanceID);
 		allObjects[instanceID] = this;
-
-		Debug::Log((String)L"Object Create " + instanceID + " " + GetName());
 	}
 	Object::~Object() {
-		Debug::Log((String)L"Object Delete " + instanceID + " " + GetName());
 	}
 
 	unsigned int Object::GetInstanceID() {
@@ -32,6 +29,13 @@ namespace BDXKEngine {
 		this->name = name;
 	}
 
+	void Object::Awake() {
+		SetName((String)(typeid(*this).name()));
+		Debug::Log((String)L"Object Awake " + instanceID + " " + GetName());
+	}
+	void Object::Destroy() {
+		Debug::Log((String)L"Object Destroy " + instanceID + " " + GetName());
+	}
 
 	std::wstring Object::ToString()
 	{

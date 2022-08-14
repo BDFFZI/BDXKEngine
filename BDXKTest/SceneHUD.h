@@ -51,7 +51,7 @@ namespace BDXKEditor {
 				drawX += 165;
 				Rect rect = { drawX,drawY,160,20 };
 
-				Component* componentPtr = component.GetPtr();
+				Component* componentPtr = static_cast<Component*>((Object*)component);
 				String fullName = typeid(*componentPtr).name();
 				GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
 
@@ -108,16 +108,6 @@ namespace BDXKEditor {
 					transform->SetParent(nullptr);
 				}
 			}
-		}
-
-		std::wstring ToString()override {
-			std::wstringstream stream;
-			stream << Object::ToString() << std::endl;
-			for (std::pair<unsigned int, int> pair : objectIDRefCount)
-			{
-				stream << pair.first << L" : " << pair.second << std::endl;
-			}
-			return stream.str();
 		}
 	};
 }

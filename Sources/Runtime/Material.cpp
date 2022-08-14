@@ -2,11 +2,13 @@
 #include <algorithm>
 
 namespace BDXKEngine {
-	Material::Material(std::vector<ObjectPtr<Shader>> shaders) :Object(L"New Material")
+	ObjectTransfer Material::Create(std::vector<ObjectPtr<Shader>> shaders)
 	{
-		SetShaders(shaders);
-		textures.resize(4);
-		parametersBuffer = new Buffer(BufferTarget::Constant, sizeof(Parameters));
+		ObjectPtr<Material> material = Instantiate<Material>(nullptr);
+		material->SetShaders(shaders);
+		material->textures.resize(4);
+		material->parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
+		return material;
 	}
 
 	std::vector<ObjectPtr<Shader>> Material::GetShaders() {
@@ -70,5 +72,12 @@ namespace BDXKEngine {
 
 		//ÉèÖÃ×ÅÉ«Æ÷
 		GL::SetShader(shaders[index]);
+	}
+
+	void Material::Import(ObjectTransfer& data)
+	{
+	}
+	void Material::Export(ObjectTransfer& data)
+	{
 	}
 }

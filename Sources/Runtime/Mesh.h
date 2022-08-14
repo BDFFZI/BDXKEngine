@@ -11,10 +11,6 @@ namespace BDXKEngine {
 	{
 		friend GL;
 	public:
-		static ObjectPtr<Mesh> CreateCube();
-
-		Mesh();
-
 		int GetVerticesCount();
 		int GetTrianglesCount();
 		std::vector <unsigned int> GetTriangles();

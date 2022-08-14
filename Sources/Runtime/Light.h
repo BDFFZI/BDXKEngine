@@ -18,8 +18,6 @@ namespace BDXKEngine {
 		friend LightEditor;
 
 	public:
-		Light();
-
 		LightType GetType();
 		Color GetColor();
 		float GetIntensity();
@@ -44,9 +42,9 @@ namespace BDXKEngine {
 		ShadowInfo GetShadowInfo();
 		ObjectPtr<Texture> GetShadowMap();
 
-		void OnAwake()override;
+		void Awake()override;
 		void OnRenderObject()override;
-		void OnDestroy()override;
+		void Destroy()override;
 	};
 
 	class LightEditor {

@@ -3,10 +3,6 @@ using namespace BDXKEngine;
 
 std::vector<ObjectPtr<Renderer>> Renderer::renderers;
 
-BDXKEngine::Renderer::Renderer(std::wstring name) :Component(name)
-{
-}
-
 ObjectPtr<Material> BDXKEngine::Renderer::GetMaterial()
 {
 	return material;

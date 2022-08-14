@@ -7,10 +7,6 @@
 #include "Screen.h"
 
 namespace BDXKEngine {
-	Camera::Camera() :Component(L"New Camera")
-	{
-	}
-
 	float Camera::GetAspectRatio()
 	{
 		Vector3 viewSize = Screen::GetSize();
@@ -45,9 +41,9 @@ namespace BDXKEngine {
 		farClipPlane = std::fmax(nearClipPlane + 0.01f, distance);
 	}
 
-	void Camera::OnAwake()
+	void Camera::Awake()
 	{
-		Component::OnAwake();
+		Component::Awake();
 
 		transform = GetGameObject()->GetTransform();
 	}

@@ -22,8 +22,6 @@ namespace BDXKEngine {
 	class Camera :public Component, public RenderObjectHandler, RendererEditor, LightEditor
 	{
 	public:
-		Camera();
-
 		float GetAspectRatio();
 
 		void SetClearFlags(ClearFlags clearFlags);
@@ -41,7 +39,7 @@ namespace BDXKEngine {
 
 		ObjectPtr<Transform> transform{};
 
-		void OnAwake() override;
+		void Awake() override;
 		void OnRenderObject()override;
 	};
 }

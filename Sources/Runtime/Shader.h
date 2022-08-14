@@ -16,7 +16,7 @@ namespace BDXKEngine {
 	{
 		friend GL;
 	public:
-		Shader(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType);
+		static ObjectPtr<Shader> Create(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType);
 
 		PassType GetPassType();
 		Blend GetBlend();
@@ -27,6 +27,8 @@ namespace BDXKEngine {
 		void SetBlend(Blend blend);
 		void SetZTest(ZTest zTest);
 	private:
+		std::wstring vertexShaderhlsl;
+		std::wstring pixelShaderhlsl;
 		PassType passType;
 		Blend blend;
 		ZTest zTest;
@@ -37,5 +39,9 @@ namespace BDXKEngine {
 		CComPtr<ID3D11InputLayout> inputLayout;
 		CComPtr<ID3D11VertexShader> vertexShader;
 		CComPtr<ID3D11PixelShader> pixelShader;
+
+
+		void Transfer(TransferBase& transfer)override;
+		void Awake()override;
 	};
 }
