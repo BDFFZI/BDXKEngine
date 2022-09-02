@@ -1,6 +1,15 @@
 #include "Buffer.h"
 
 namespace BDXKEngine {
+	ObjectPtr<Buffer> Buffer::Create(BufferTarget target, int size)
+	{
+		return { Object::InstantiateNoAwake<Buffer>(
+			[=](Exporter& exporter) {
+				exporter.TransferInt(static_cast<int>(target));
+				exporter.TransferInt(size);
+			}
+		) };
+	}
 	void Buffer::SetData(char* data) {
 		context->UpdateSubresource(buffer, 0, nullptr, data, 0, 0);
 		std::memcpy(this->data.get(), data, size);
@@ -11,17 +20,21 @@ namespace BDXKEngine {
 		std::memcpy(data, this->data.get(), size);
 	}
 
-	void Buffer::Transfer(TransferBase& transfer)
+	void Buffer::Export(Exporter& exporter)
 	{
-		transfer.TransferInt(reinterpret_cast<int*>(&target));
-		transfer.TransferInt(&size);
-		transfer.TransferBytes(&data, size);
+		exporter.TransferInt(static_cast<int>(target));
+		exporter.TransferInt(size);
+	}
+	void Buffer::Import(Importer& importer)
+	{
+		target = static_cast<BufferTarget>(importer.TransferInt());
+		size = importer.TransferInt();
 	}
 	void Buffer::Awake()
 	{
+		data = std::unique_ptr<char>(new char[size]);
 		CD3D11_BUFFER_DESC desc(size, (D3D11_BIND_FLAG)target);
-		D3D11_SUBRESOURCE_DATA glData = { data.get() };
-		HRESULT result = device->CreateBuffer(&desc, &glData, &buffer.p);
+		HRESULT result = device->CreateBuffer(&desc, nullptr, &buffer.p);
 		assert(SUCCEEDED(result));
 	}
 }

@@ -113,6 +113,15 @@ namespace BDXKEngine {
 	struct ObjectPtr :public ObjectPtrBase
 	{
 	public:
+		ObjectPtr() :ObjectPtrBase() {
+		}
+		ObjectPtr(Object* object) :ObjectPtrBase(object)
+		{
+		}
+		ObjectPtr(const ObjectPtrBase& objectPtr) :ObjectPtrBase(objectPtr) {
+		}
+
+
 		TObject* operator->()const
 		{
 			Object* object = *this;

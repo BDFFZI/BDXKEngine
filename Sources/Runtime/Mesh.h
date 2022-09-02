@@ -11,6 +11,8 @@ namespace BDXKEngine {
 	{
 		friend GL;
 	public:
+		static ObjectPtr<Mesh> Create();
+
 		int GetVerticesCount();
 		int GetTrianglesCount();
 		std::vector <unsigned int> GetTriangles();
@@ -35,6 +37,10 @@ namespace BDXKEngine {
 
 		void ResetVerticesBuffer();
 		void ResetTrianglesBuffer();
+
+		void Export(Exporter& exporter) override;
+		void Import(Importer& importer) override;
+		void Awake()override;
 	};
 }
 

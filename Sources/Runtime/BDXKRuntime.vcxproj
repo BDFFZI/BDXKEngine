@@ -177,12 +177,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BehaviorEvent.h" />
-    <ClInclude Include="BinaryReader.h" />
-    <ClInclude Include="BinaryWriter.h" />
+    <ClInclude Include="BinaryImporter.h" />
+    <ClInclude Include="BinaryExporter.h" />
     <ClInclude Include="Blend.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="Cull.h" />
-    <ClInclude Include="TransferBase.h" />
+    <ClInclude Include="Importer.h" />
+    <ClInclude Include="Exporter.h" />
+    <ClInclude Include="Serializable.h" />
     <ClInclude Include="WorldManager.h" />
     <ClInclude Include="GraphicsInfo.h" />
     <ClInclude Include="GraphicsSettings.h" />

@@ -19,7 +19,7 @@ namespace BDXKEngine {
 	class Material :public Object
 	{
 	public:
-		static void Create(ObjectTransfer& data,std::vector<ObjectPtr<Shader>> shaders);
+		static ObjectPtr<Material> Create(std::vector<ObjectPtr<Shader>> shaders);
 
 		std::vector<ObjectPtr<Shader>> GetShaders();
 		RenderQueue GetRenderQueue();
@@ -52,13 +52,17 @@ namespace BDXKEngine {
 		};
 
 		RenderQueue renderQueue = RenderQueue::Geometry;
-
 		std::vector<ObjectPtr<Shader>> shaders;
-		std::vector<ObjectPtr<Texture>> textures;
-
+		ObjectPtr<Texture> texture0;
+		ObjectPtr<Texture> texture1;
+		ObjectPtr<Texture> texture2;
+		ObjectPtr<Texture> texture3;
 		Parameters parameters;
+
 		ObjectPtr<Buffer> parametersBuffer;
 
-		void 
+		void Export(Exporter& exporter) override;
+		void Import(Importer& importer) override;
+		void Awake()override;
 	};
 }

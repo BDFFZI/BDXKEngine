@@ -2,13 +2,26 @@
 #include <algorithm>
 
 namespace BDXKEngine {
-	ObjectTransfer Material::Create(std::vector<ObjectPtr<Shader>> shaders)
+	ObjectPtr<Material> Material::Create(std::vector<ObjectPtr<Shader>> shaders)
 	{
-		ObjectPtr<Material> material = Instantiate<Material>(nullptr);
-		material->SetShaders(shaders);
-		material->textures.resize(4);
-		material->parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
-		return material;
+		return { Object::InstantiateNoAwake<Shader>(
+			[=](Exporter& exporter) {
+				exporter.TransferInt(static_cast<int>(RenderQueue::Geometry));
+
+				exporter.TransferInt(shaders.size());
+				for (ObjectPtr<Shader> shader : shaders)
+					exporter.TransferObject(shader);
+
+				ObjectPtr<Object> object = nullptr;
+				exporter.TransferObject(object);
+				exporter.TransferObject(object);
+				exporter.TransferObject(object);
+				exporter.TransferObject(object);
+
+				Parameters parameters = {};
+				exporter.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
+			}
+		) };
 	}
 
 	std::vector<ObjectPtr<Shader>> Material::GetShaders() {
@@ -58,26 +71,58 @@ namespace BDXKEngine {
 	{
 		if (slotIndex < 0 || slotIndex >= 4)
 			throw std::exception("超出容量范围");
-		textures[slotIndex] = texture;
+		(&texture0)[slotIndex] = texture;
 	}
 	void Material::SetPass(int index)
 	{
 		//设置纹理
-		for (int index = 0; index < 4; index++)
-			GL::SetTexture(index, textures[index]);
+		GL::SetTexture(0, texture0);
+		GL::SetTexture(1, texture1);
+		GL::SetTexture(2, texture2);
+		GL::SetTexture(3, texture3);
 
 		//设置常量
-		parametersBuffer->SetData(&parameters);
+		parametersBuffer->SetData(reinterpret_cast<char*>(&parameters));
 		GL::SetBuffer(0, parametersBuffer);
 
 		//设置着色器
 		GL::SetShader(shaders[index]);
 	}
 
-	void Material::Import(ObjectTransfer& data)
+	void Material::Export(Exporter& exporter)
 	{
+		exporter.TransferInt(static_cast<int>(renderQueue));
+
+		exporter.TransferInt(shaders.size());
+		for (ObjectPtr<Shader>& shader : shaders)
+			exporter.TransferObject(shader);
+
+		exporter.TransferObject(texture0);
+		exporter.TransferObject(texture1);
+		exporter.TransferObject(texture2);
+		exporter.TransferObject(texture3);
+		exporter.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
 	}
-	void Material::Export(ObjectTransfer& data)
+	void Material::Import(Importer& importer)
 	{
+		renderQueue = static_cast<RenderQueue>(importer.TransferInt());
+
+		int shadersCount = importer.TransferInt();
+		for (int i = 0; i < shadersCount; i++)
+		{
+			ObjectPtr<Shader> shader = nullptr;
+			importer.TransferObject(shader);
+			shaders.push_back(shader);
+		}
+
+		importer.TransferObject(texture0);
+		importer.TransferObject(texture1);
+		importer.TransferObject(texture2);
+		importer.TransferObject(texture3);
+		importer.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
+	}
+	void Material::Awake()
+	{
+		parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
 	}
 }

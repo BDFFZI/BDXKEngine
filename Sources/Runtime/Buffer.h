@@ -9,20 +9,23 @@ namespace BDXKEngine {
 		Constant = D3D11_BIND_CONSTANT_BUFFER,
 	};
 
-	class Buffer :public Object, GL
+	class Buffer : public Object, GL
 	{
 		friend GL;
 	public:
+		static ObjectPtr<Buffer> Create(BufferTarget target, int size);
+
 		void SetData(char* data);
 		void GetData(char* data);
 	private:
 		BufferTarget target;
 		int size;
-		std::unique_ptr<char> data;
 
+		std::unique_ptr<char> data;
 		CComPtr<ID3D11Buffer> buffer;
 
-		void Transfer(TransferBase& transfer)override;
+		void Export(Exporter& exporter) override;
+		void Import(Importer& importer) override;
 		void Awake()override;
 	};
 }

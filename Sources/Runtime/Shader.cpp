@@ -24,19 +24,15 @@ namespace BDXKEngine {
 
 	ObjectPtr<Shader> Shader::Create(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType)
 	{
-		std::stringstream stream = {};
-
-		BinaryWriter writer = { stream };
-		writer.TransferString(&vertexShaderhlsl);
-		writer.TransferString(&pixelShaderhlsl);
-		writer.TransferInt(reinterpret_cast<int*>(&passType));
-		writer.TransferData(reinterpret_cast<char*>(&Blend::Opaque), sizeof(Blend));
-		writer.TransferData(reinterpret_cast<char*>(&ZTest::Default), sizeof(ZTest));
-
-		BinaryReader reader = { stream };
-		ObjectPtr<Shader> shader = { Object::InstantiateNoAwake<Shader>(reader) };
-
-		return shader;
+		return { Object::InstantiateNoAwake<Shader>(
+			[=](Exporter& exporter) {
+				exporter.TransferString(vertexShaderhlsl);
+				exporter.TransferString(pixelShaderhlsl);
+				exporter.TransferInt(static_cast<int>(passType));
+				exporter.TransferBytes(reinterpret_cast<char*>(&Blend::Opaque), sizeof(Blend));
+				exporter.TransferBytes(reinterpret_cast<char*>(&ZTest::Default), sizeof(ZTest));
+			}
+		) };
 	}
 
 	PassType Shader::GetPassType()
@@ -86,13 +82,21 @@ namespace BDXKEngine {
 		assert(SUCCEEDED(result));
 	}
 
-	void Shader::Transfer(TransferBase& transfer)
+	void Shader::Import(Importer& importer)
 	{
-		transfer.TransferString(&vertexShaderhlsl);
-		transfer.TransferString(&pixelShaderhlsl);
-		transfer.TransferInt(reinterpret_cast<int*>(&passType));
-		transfer.TransferData(reinterpret_cast<char*>(&blend), sizeof(Blend));
-		transfer.TransferData(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
+		vertexShaderhlsl = importer.TransferString();
+		pixelShaderhlsl = importer.TransferString();
+		passType = static_cast<PassType>(importer.TransferInt());
+		importer.TransferBytes(reinterpret_cast<char*>(&blend), sizeof(Blend));
+		importer.TransferBytes(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
+	}
+	void Shader::Export(Exporter& exporter)
+	{
+		exporter.TransferString(vertexShaderhlsl);
+		exporter.TransferString(pixelShaderhlsl);
+		exporter.TransferInt(static_cast<int>(passType));
+		exporter.TransferBytes(reinterpret_cast<char*>(&blend), sizeof(Blend));
+		exporter.TransferBytes(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
 	}
 	void Shader::Awake()
 	{

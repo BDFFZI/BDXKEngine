@@ -3,9 +3,11 @@
 #include <map>
 #include <unordered_set>
 #include <unordered_map>
+#include <functional>
 #include "String"
-#include "BinaryReader.h"
-#include "BinaryWriter.h"
+#include "Serializable.h"
+#include "BinaryImporter.h"
+#include "BinaryExporter.h"
 
 /// <summary>
 /// 创建：
@@ -21,30 +23,44 @@
 
 namespace BDXKEngine {
 	class ObjectManager;
-	class Object
+	class Object :public Serializable
 	{
 		friend ObjectManager;
 	public:
 		template<typename TObject>
-		static TObject* InstantiateNoAwake(TransferBase& reader)
+		static TObject* InstantiateNoAwake(Importer& importer)
 		{
 			TObject* result = new TObject();
-			result->TransferBase(reader);
+			result->Import(importer);
 			return result;
 		}
+		template<typename TObject>
+		static TObject* InstantiateNoAwake(std::function<void(Exporter& exporter)> serialize)
+		{
+			std::stringstream stream = {};
+			BinaryExporter exporter = { stream };
+			serialize(exporter);
+
+			TObject* result = new TObject();
+			BinaryImporter importer = { stream };
+			result->Import(importer);
+			return result;
+		}
+
+
 		template<typename TObject>
 		static TObject* Instantiate(TObject* source)
 		{
 			std::stringstream stream;
 			//获取旧物体数据
 			Object* sourceObject = static_cast<Object*>(source);
-			BinaryWriter writer = { stream };
-			sourceObject->TransferBase(writer);
+			BinaryExporter exporter = { stream };
+			sourceObject->Export(exporter);
 			//写入新物体数据
 			TObject* destination = new TObject();
 			Object* destinationObject = static_cast<Object*>(destination);
-			BinaryReader reader = { stream };
-			destinationObject->TransferBase(reader);
+			BinaryImporter importer = { stream };
+			destinationObject->Import(importer);
 
 			destinationObject->MarkActivating();
 			FlushActivateBuffer();
@@ -84,8 +100,6 @@ namespace BDXKEngine {
 				return nullptr;
 		}
 
-
-
 		unsigned int GetInstanceID();
 		std::wstring GetName();
 
@@ -109,7 +123,6 @@ namespace BDXKEngine {
 
 		virtual void Awake();
 		virtual void Destroy();
-		virtual void Transfer(TransferBase& transfer) = 0;
 
 		//用于嵌套数据结构。请以此标记子物体，以告知Object需要批量处理
 		virtual void MarkActivating() {
@@ -156,6 +169,14 @@ namespace BDXKEngine {
 		{
 			Object::FlushDestroyBuffer();
 		}
+
+		static std::wstring InstanceIDToGuid(unsigned int instanceID) {
+
+		};
+
+		static unsigned int GuidToInstanceID(std::wstring guid) {
+
+		};
 	};
 }
 

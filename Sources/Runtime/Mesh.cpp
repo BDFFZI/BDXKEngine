@@ -5,6 +5,13 @@
 #include<vector>
 
 namespace BDXKEngine {
+	ObjectPtr<Mesh> Mesh::Create()
+	{
+		return InstantiateNoAwake<Mesh>([](Exporter& exporter) {
+			exporter.TransferInt(0);
+			exporter.TransferInt(0);
+			});
+	}
 	int Mesh::GetVerticesCount()
 	{
 		return (int)vertices.size();
@@ -128,8 +135,8 @@ namespace BDXKEngine {
 
 	void Mesh::UploadMeshData()
 	{
-		vertexBuffer->SetData(vertices.data());
-		triangleBuffer->SetData(triangles.data());
+		vertexBuffer->SetData(reinterpret_cast<char*>(vertices.data()));
+		triangleBuffer->SetData(reinterpret_cast<char*>(triangles.data()));
 	}
 	void Mesh::ResetVerticesBuffer()
 	{
@@ -138,5 +145,28 @@ namespace BDXKEngine {
 	void Mesh::ResetTrianglesBuffer()
 	{
 		triangleBuffer = Buffer::Create(BufferTarget::Index, (int)(triangles.size() * sizeof(unsigned int)));
+	}
+
+	void Mesh::Export(Exporter& exporter)
+	{
+		exporter.TransferInt(vertices.size());
+		exporter.TransferBytes(vertices.data(), vertices.size() * sizeof(Vertex));
+		exporter.TransferInt(triangles.size());
+		exporter.TransferBytes(triangles.data(), triangles.size() * sizeof(unsigned int));
+	}
+	void Mesh::Import(Importer& importer)
+	{
+		int verticesCount = importer.TransferInt();
+		vertices.resize(verticesCount / sizeof(Vertex));
+		importer.TransferBytes(vertices.data(), verticesCount);
+
+		int trianglesCount = importer.TransferInt();
+		triangles.resize(trianglesCount / sizeof(unsigned int));
+		importer.TransferBytes(triangles.data(), trianglesCount);
+	}
+	void Mesh::Awake()
+	{
+		ResetVerticesBuffer();
+		ResetTrianglesBuffer();
 	}
 }

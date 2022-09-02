@@ -412,13 +412,19 @@
     <ClInclude Include="Cursor.h">
       <Filter>3_Function\Cursor</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryWriter.h">
+    <ClInclude Include="BinaryExporter.h">
       <Filter>0_Base\Transfer</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryReader.h">
+    <ClInclude Include="BinaryImporter.h">
       <Filter>0_Base\Transfer</Filter>
     </ClInclude>
-    <ClInclude Include="TransferBase.h">
+    <ClInclude Include="Exporter.h">
+      <Filter>0_Base\Transfer</Filter>
+    </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>0_Base\Transfer</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializable.h">
       <Filter>0_Base\Transfer</Filter>
     </ClInclude>
   </ItemGroup>
