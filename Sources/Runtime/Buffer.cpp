@@ -11,7 +11,7 @@ namespace BDXKEngine {
 		) };
 	}
 	void Buffer::SetData(char* data) {
-		context->UpdateSubresource(buffer, 0, nullptr, data, 0, 0);
+		context->UpdateSubresource(glBuffer, 0, nullptr, data, 0, 0);
 		std::memcpy(this->data.get(), data, size);
 	}
 
@@ -22,19 +22,19 @@ namespace BDXKEngine {
 
 	void Buffer::Export(Exporter& exporter)
 	{
-		exporter.TransferInt(static_cast<int>(target));
+		exporter.TransferInt(static_cast<int>(bindFlag));
 		exporter.TransferInt(size);
 	}
 	void Buffer::Import(Importer& importer)
 	{
-		target = static_cast<BufferTarget>(importer.TransferInt());
+		bindFlag = static_cast<D3D11_BIND_FLAG>(importer.TransferInt());
 		size = importer.TransferInt();
 	}
 	void Buffer::Awake()
 	{
 		data = std::unique_ptr<char>(new char[size]);
-		CD3D11_BUFFER_DESC desc(size, (D3D11_BIND_FLAG)target);
-		HRESULT result = device->CreateBuffer(&desc, nullptr, &buffer.p);
+		CD3D11_BUFFER_DESC desc(size, bindFlag);
+		HRESULT result = device->CreateBuffer(&desc, nullptr, &glBuffer.p);
 		assert(SUCCEEDED(result));
 	}
 }

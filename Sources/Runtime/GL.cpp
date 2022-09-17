@@ -38,7 +38,7 @@ namespace BDXKEngine {
 	void GL::SetBuffer(unsigned int startSlot, ObjectPtr<Buffer> buffer)
 	{
 		ID3D11Buffer* d3dBuffer = nullptr;
-		if (buffer != nullptr)
+		if (buffer.IsNull() == false)
 		{
 			if (buffer->bindFlag != D3D11_BIND_CONSTANT_BUFFER)
 				throw std::exception("不支持除常量缓冲区以外的类型");
@@ -53,7 +53,7 @@ namespace BDXKEngine {
 	{
 		ID3D11ShaderResourceView* resourceView = nullptr;
 		ID3D11SamplerState* samplerState = nullptr;
-		if (texture != nullptr)
+		if (texture.IsNull() == false)
 		{
 			resourceView = texture->GetResourceView().p;
 			samplerState = texture->GetSamplerState().p;
@@ -65,7 +65,7 @@ namespace BDXKEngine {
 	// 设置渲染到的目标纹理
 	void GL::SetRenderTarget(ObjectPtr<Texture2D> renderTexture) {
 		GL::renderTexture = renderTexture;
-		if (renderTexture != nullptr)
+		if (renderTexture.IsNull() == false)
 		{
 			renderTargetView = renderTexture->renderTextureRTV;
 			depthStencilView = renderTexture->depthTextureDSV;
@@ -95,7 +95,7 @@ namespace BDXKEngine {
 	}
 	void GL::SetRenderTarget(ObjectPtr<TextureCube> textureCube, int index)
 	{
-		if (textureCube != nullptr)
+		if (textureCube.IsNull() == false)
 		{
 			renderTargetView = textureCube->renderTextureRTV[index];
 			depthStencilView = textureCube->depthTextureDSV;

@@ -4,7 +4,7 @@
 
 namespace BDXKEngine {
 	class Serializable {
-		virtual void Import(Importer& transfer) = 0;
-		virtual void Export(Exporter& transfer) = 0;
+		virtual void Import(Importer& importer) = 0;
+		virtual void Export(Exporter& exporter) = 0;
 	};
 }

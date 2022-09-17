@@ -90,7 +90,7 @@ namespace BDXKEngine {
 			GL::Clear(true, true, background);
 			break;
 		case ClearFlags::Skybox://Ìì¿ÕºÐ TODO
-			if (GraphicsSettings::skybox != nullptr)
+			if (GraphicsSettings::skybox.IsNull() == false)
 			{
 				GL::Clear(true, true);
 				Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());

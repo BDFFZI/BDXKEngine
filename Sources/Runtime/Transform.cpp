@@ -12,7 +12,7 @@ namespace BDXKEngine {
 	}
 	void Transform::SetParent(ObjectPtr<Transform> newparent)
 	{
-		if (newparent != nullptr)
+		if (newparent.IsNull() == false)
 		{
 			ObjectPtr<Transform> current = this;
 			ObjectPtr<Transform> newUpLayer = newparent;
@@ -22,16 +22,16 @@ namespace BDXKEngine {
 					throw std::exception("你在试图让一个父物体或自身成为其的孩子，这会导致嵌套循环，是不允许的。");
 				}
 				newUpLayer = newUpLayer->parent;
-			} while (newUpLayer != nullptr);
+			} while (newUpLayer.IsNull() == false);
 		}
 
 		//解绑旧父物体
-		if (parent != nullptr)parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
+		if (parent.IsNull() == false)parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
 		else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
 		//设置新父物体
 		this->parent = newparent;
 		//绑定新父物体
-		if (parent != nullptr)parent->children.push_back(this);
+		if (parent.IsNull() == false)parent->children.push_back(this);
 		else rootTransforms.push_back(this);
 
 		RenewScale();
@@ -117,35 +117,35 @@ namespace BDXKEngine {
 		stream << L"位置：" << localPosition.ToString() << std::endl;
 		stream << L"旋转：" << localEulerAngles.ToString() << std::endl;
 		stream << L"缩放：" << localScale.ToString() << std::endl;
-		stream << L"父亲：" << (parent != nullptr ? parent->GetGameObject()->GetName() : L"nullptr") << std::endl;
+		stream << L"父亲：" << (parent.IsNull() == false ? parent->GetGameObject()->GetName() : L"nullptr") << std::endl;
 		stream << L"孩子数量：" << std::to_wstring(GetChildCount()) << std::endl;
 		return stream.str();
 	}
 
-	void Transform::Import(Reader* reader)
-	{
-		parent = nullptr;
-		rootTransforms.push_back(this);
+	//void Transform::Import(Reader* reader)
+	//{
+	//	parent = nullptr;
+	//	rootTransforms.push_back(this);
 
-		localPosition = Vector3::zero;
-		localEulerAngles = Vector3::zero;
-		localScale = Vector3::one;
+	//	localPosition = Vector3::zero;
+	//	localEulerAngles = Vector3::zero;
+	//	localScale = Vector3::one;
 
-		position = Vector3::zero;
-		eulerAngles = Vector3::zero;
-		scale = Vector3::one;
+	//	position = Vector3::zero;
+	//	eulerAngles = Vector3::zero;
+	//	scale = Vector3::one;
 
-		localToWorldMatrix = Matrix4x4::identity;
-		worldToLocalMatrix = Matrix4x4::identity;
-	}
+	//	localToWorldMatrix = Matrix4x4::identity;
+	//	worldToLocalMatrix = Matrix4x4::identity;
+	//}
 
 	void Transform::Destroy()
 	{
 		for (ObjectPtr<Transform> child : children)
-			Object::Destroy(child->GetGameObject());
+			Object::Destroy(child->GetGameObject().GetPtr());
 		children.clear();
 
-		if (parent == nullptr)
+		if (parent.IsNull())
 		{
 			rootTransforms.erase(std::find_if(
 				rootTransforms.begin(),
@@ -161,7 +161,7 @@ namespace BDXKEngine {
 
 	void Transform::RenewSelfMatrix()
 	{
-		localToWorldMatrix = parent == nullptr ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
+		localToWorldMatrix = parent.IsNull() ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
 
 		localToWorldMatrix = localToWorldMatrix * Matrix4x4::TRS(localPosition, localEulerAngles, localScale);
 		worldToLocalMatrix = localToWorldMatrix.GetInverse();
@@ -169,7 +169,7 @@ namespace BDXKEngine {
 
 	void Transform::RenewPosition()
 	{
-		position = parent == nullptr ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
+		position = parent.IsNull() ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
 		RenewSelfMatrix();
 
 		for (ObjectPtr<Transform>& child : children)
@@ -177,7 +177,7 @@ namespace BDXKEngine {
 	}
 	void Transform::RenewEulerAngles()
 	{
-		Vector3 parentalEulerAngles = parent == nullptr ? Vector3::zero : parent->GetEulerAngles();
+		Vector3 parentalEulerAngles = parent.IsNull() ? Vector3::zero : parent->GetEulerAngles();
 
 		eulerAngles.x = (float)std::fmod(parentalEulerAngles.x + localEulerAngles.x, 360);
 		eulerAngles.y = (float)std::fmod(parentalEulerAngles.y + localEulerAngles.y, 360);
@@ -190,7 +190,7 @@ namespace BDXKEngine {
 	}
 	void Transform::RenewScale()
 	{
-		Vector3 parentalScale = parent == nullptr ? Vector3::one : parent->GetScale();
+		Vector3 parentalScale = parent.IsNull() ? Vector3::one : parent->GetScale();
 
 		scale.x = parentalScale.x * localScale.x;
 		scale.y = parentalScale.y * localScale.y;

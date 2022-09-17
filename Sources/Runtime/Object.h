@@ -30,9 +30,9 @@ namespace BDXKEngine {
 		template<typename TObject>
 		static TObject* InstantiateNoAwake(Importer& importer)
 		{
-			TObject* result = new TObject();
+			Object* result = new TObject();
 			result->Import(importer);
-			return result;
+			return static_cast<TObject*>(result);
 		}
 		template<typename TObject>
 		static TObject* InstantiateNoAwake(std::function<void(Exporter& exporter)> serialize)
@@ -41,13 +41,11 @@ namespace BDXKEngine {
 			BinaryExporter exporter = { stream };
 			serialize(exporter);
 
-			TObject* result = new TObject();
+			Object* result = new TObject();
 			BinaryImporter importer = { stream };
 			result->Import(importer);
-			return result;
+			return static_cast<TObject*>(result);
 		}
-
-
 		template<typename TObject>
 		static TObject* Instantiate(TObject* source)
 		{
@@ -105,6 +103,8 @@ namespace BDXKEngine {
 
 		void SetName(std::wstring name);
 
+		void Import(Importer& transfer)override {};
+		void Export(Exporter& transfer)override {};
 		virtual std::wstring ToString();
 
 		//bool operator==(std::nullptr_t null)
@@ -137,7 +137,6 @@ namespace BDXKEngine {
 		Object();
 		~Object();
 	private:
-
 		static void FlushActivateBuffer()
 		{
 			for (auto& object : activateBuffer)
@@ -163,20 +162,5 @@ namespace BDXKEngine {
 		bool isActivating = false;
 	};
 
-	class ObjectManager {
-	protected:
-		void FlushDestroyBuffer()
-		{
-			Object::FlushDestroyBuffer();
-		}
-
-		static std::wstring InstanceIDToGuid(unsigned int instanceID) {
-
-		};
-
-		static unsigned int GuidToInstanceID(std::wstring guid) {
-
-		};
-	};
 }
 

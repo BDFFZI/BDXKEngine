@@ -18,11 +18,11 @@ namespace BDXKEngine {
 		void SetData(char* data);
 		void GetData(char* data);
 	private:
-		BufferTarget target;
 		int size;
-
 		std::unique_ptr<char> data;
-		CComPtr<ID3D11Buffer> buffer;
+		D3D11_BIND_FLAG bindFlag;
+		CComPtr<ID3D11Buffer> glBuffer;
+
 
 		void Export(Exporter& exporter) override;
 		void Import(Importer& importer) override;

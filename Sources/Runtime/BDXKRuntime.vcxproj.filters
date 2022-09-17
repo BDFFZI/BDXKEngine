@@ -103,6 +103,9 @@
     <Filter Include="0_Base\Transfer">
       <UniqueIdentifier>{8f73850e-002a-40e4-9de9-985e29b6098b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0_Base\Transfer\Binary">
+      <UniqueIdentifier>{b317e1e3-37fa-4ae1-9bf3-db6c31f5b4c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -246,7 +249,15 @@
     <ClCompile Include="Cursor.cpp">
       <Filter>3_Function\Cursor</Filter>
     </ClCompile>
-    <ClCompile Include="BinaryReader.cpp" />
+    <ClCompile Include="BinaryImporter.cpp">
+      <Filter>0_Base\Transfer\Binary</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>0_Base\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryExporter.cpp">
+      <Filter>0_Base\Transfer\Binary</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowBase.h">
@@ -412,12 +423,6 @@
     <ClInclude Include="Cursor.h">
       <Filter>3_Function\Cursor</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryExporter.h">
-      <Filter>0_Base\Transfer</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryImporter.h">
-      <Filter>0_Base\Transfer</Filter>
-    </ClInclude>
     <ClInclude Include="Exporter.h">
       <Filter>0_Base\Transfer</Filter>
     </ClInclude>
@@ -426,6 +431,18 @@
     </ClInclude>
     <ClInclude Include="Serializable.h">
       <Filter>0_Base\Transfer</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryExporter.h">
+      <Filter>0_Base\Transfer\Binary</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryImporter.h">
+      <Filter>0_Base\Transfer\Binary</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>0_Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPtrBase.h">
+      <Filter>0_Base\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

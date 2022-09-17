@@ -1,114 +1,7 @@
 #pragma once
-#include <exception>
-#include <unordered_map>
-#include "Object.h"
+#include "ObjectPtrBase.h"
 
 namespace BDXKEngine {
-	struct ObjectPtrBase {
-	public:
-		ObjectPtrBase() {
-			instanceID = 0;
-		}
-		ObjectPtrBase(Object* object)
-		{
-			if (object == nullptr)
-			{
-				instanceID = 0;
-			}
-			else
-			{
-				instanceID = object->GetInstanceID();
-				auto refCount = refCountMap.find(instanceID);
-				if (refCount == refCountMap.end())
-					refCountMap[instanceID] = 1;
-				else
-					refCountMap[instanceID] = refCount->second + 1;
-			}
-		}
-		ObjectPtrBase(const ObjectPtrBase& objectPtr) {
-			if ((ObjectPtrBase)objectPtr == nullptr)
-			{
-				instanceID = 0;
-			}
-			else
-			{
-				AddRef(objectPtr);
-			}
-		}
-		ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr)
-		{
-			if (instanceID != 0)
-				RemoveRef();
-
-			if (objectPtr.instanceID != 0)
-				AddRef(objectPtr);
-
-			return *this;
-		}
-
-		~ObjectPtrBase()
-		{
-			if (instanceID != 0)
-				RemoveRef();
-		}
-
-		//内容比较
-		bool operator ==(const ObjectPtrBase& other)
-		{
-			Object* object = *this;
-			Object* otherObject = (ObjectPtrBase)other;
-			return object == otherObject;
-		}
-		bool operator !=(const ObjectPtrBase& other)
-		{
-			return !(*this == other);
-		}
-		bool operator ==(const std::nullptr_t other) {
-			return Object::FindObjectOfInstanceID(instanceID) == nullptr;
-		}
-		bool operator !=(const std::nullptr_t other) {
-			return Object::FindObjectOfInstanceID(instanceID) != nullptr;
-		}
-
-		//提取内容
-		operator Object* ()
-		{
-			return Object::FindObjectOfInstanceID(instanceID);
-		}
-
-		template<typename TTargetObject>
-		ObjectPtr<TTargetObject> As()
-		{
-			Object* object = *this;
-			return dynamic_cast<TTargetObject*>(object);
-		}
-	protected:
-		unsigned int instanceID;
-	private:
-		inline static std::map<unsigned int, int> refCountMap;
-
-		void AddRef(const ObjectPtrBase& objectPtr)
-		{
-			instanceID = objectPtr.instanceID;
-			refCountMap[instanceID]++;
-		}
-		void RemoveRef()
-		{
-			int refCount = refCountMap[instanceID]--;
-			if (refCount == 0)
-			{
-				refCountMap.erase(instanceID);
-				Object* object = *this;
-				if (object != nullptr)
-				{
-					Object::Destroy(object);
-				}
-			}
-
-			instanceID = 0;
-		}
-	};
-
 	template<typename TObject>
 	struct ObjectPtr :public ObjectPtrBase
 	{
@@ -121,10 +14,15 @@ namespace BDXKEngine {
 		ObjectPtr(const ObjectPtrBase& objectPtr) :ObjectPtrBase(objectPtr) {
 		}
 
-
+		template<typename TTargetObject>
+		ObjectPtr<TTargetObject> As()
+		{
+			Object* object = GetPtr();
+			return dynamic_cast<TTargetObject*>(object);
+		}
 		TObject* operator->()const
 		{
-			Object* object = *this;
+			Object* object = GetPtr();
 			if (object == nullptr)
 				throw std::exception("目标引用为空");
 			return static_cast<TObject*>(object);

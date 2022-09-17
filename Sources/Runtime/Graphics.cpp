@@ -27,20 +27,20 @@ namespace BDXKEngine
 	/// </summary>
 	/// <param name="matrix"></param>
 	void Graphics::UpdateWorldInfo(WorldInfo worldInfo) {
-		worldInfoBuffer->SetData(&worldInfo);
+		worldInfoBuffer->SetData(reinterpret_cast<char*>(&worldInfo));
 	}
 	void Graphics::UpdateCameraInfo(CameraInfo cameraInfo)
 	{
-		cameraInfoBuffer->SetData(&cameraInfo);
+		cameraInfoBuffer->SetData(reinterpret_cast<char*>(&cameraInfo));
 	}
 	void Graphics::UpdateObjectInfo(ObjectInfo objectInfo)
 	{
-		objectInfoBuffer->SetData(&objectInfo);
+		objectInfoBuffer->SetData(reinterpret_cast<char*>(&objectInfo));
 	}
 	void Graphics::UpdateLightInfo(LightInfo lightInfo, ShadowInfo shadowInfo, ObjectPtr<Texture> shadowMap)
 	{
-		lightInfoBuffer->SetData(&lightInfo);
-		shadowInfoBuffer->SetData(&shadowInfo);
+		lightInfoBuffer->SetData(reinterpret_cast<char*>(&lightInfo));
+		shadowInfoBuffer->SetData(reinterpret_cast<char*>(&shadowInfo));
 		if (lightInfo.lightType == LightType::Point)
 		{
 			GL::SetTexture(4, defaultTexture2D);
@@ -62,7 +62,7 @@ namespace BDXKEngine
 	{
 		ObjectPtr<Texture2D> renderTarget = GL::GetRenderTarget();
 		Vector2 screenSize;
-		if (renderTarget != nullptr)
+		if (renderTarget.IsNull() == false)
 			screenSize = { (float)renderTarget->GetWidth(), (float)renderTarget->GetHeight() };
 		else
 			screenSize = window->GetSize();

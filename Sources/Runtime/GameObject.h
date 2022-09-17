@@ -32,7 +32,7 @@ namespace BDXKEngine {
 			for (ObjectPtr<Component>& component : components)
 			{
 				ObjectPtr<TComponent> target = component.As<TComponent>();
-				if (target != nullptr)
+				if (target.IsNull() == false)
 					return target;
 			}
 			return nullptr;

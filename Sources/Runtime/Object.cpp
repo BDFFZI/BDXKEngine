@@ -1,5 +1,4 @@
 #include "Object.h"
-#include "ObjectPtr.h"
 #include "Debug.h"
 
 namespace BDXKEngine {

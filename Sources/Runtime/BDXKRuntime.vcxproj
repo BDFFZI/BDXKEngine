@@ -127,10 +127,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BehaviorEvent.cpp" />
-    <ClCompile Include="BinaryReader.cpp" />
+    <ClCompile Include="BinaryExporter.cpp" />
+    <ClCompile Include="BinaryImporter.cpp" />
     <ClCompile Include="Bleed.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Cull.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="WorldManager.cpp" />
     <ClCompile Include="GraphicsInfo.cpp" />
     <ClCompile Include="GraphicsSettings.cpp" />
@@ -184,6 +186,8 @@
     <ClInclude Include="Cull.h" />
     <ClInclude Include="Importer.h" />
     <ClInclude Include="Exporter.h" />
+    <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="ObjectPtrBase.h" />
     <ClInclude Include="Serializable.h" />
     <ClInclude Include="WorldManager.h" />
     <ClInclude Include="GraphicsInfo.h" />

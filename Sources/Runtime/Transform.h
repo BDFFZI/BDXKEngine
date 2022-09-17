@@ -34,7 +34,7 @@ namespace BDXKEngine {
 
 		std::wstring ToString()override;
 	protected:
-		void Import(Reader* reader)override;
+		//void Import(Reader* reader)override;
 		void Destroy()override;
 	private:
 		static std::vector<ObjectPtr<Transform>> rootTransforms;

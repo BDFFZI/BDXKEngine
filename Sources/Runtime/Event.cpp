@@ -19,7 +19,7 @@ namespace BDXKEngine {
 		{
 			if (Event::dragSource != dragSource)
 			{
-				if (Event::dragSource == nullptr)Event::dragSource = dragSource;
+				if (Event::dragSource.IsNull())Event::dragSource = dragSource;
 				else throw std::exception("事件冲突，同一位置设置了两个不一样的拖拽事件。");
 			}
 			return true;

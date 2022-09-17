@@ -32,7 +32,7 @@ namespace BDXKEngine {
 	{
 		std::vector<ObjectPtr<Component>> components = this->components;
 		for (ObjectPtr<Component>& component : components)
-			Object::Destroy(component);
+			Object::Destroy(component.GetPtr());
 
 		allGameObjects.erase(std::find(
 			allGameObjects.begin(),

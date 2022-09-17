@@ -5,7 +5,7 @@ namespace BDXKEngine {
 	{
 		window->AddDestroyEvent([]() {
 			for (ObjectPtr<GameObject> gameObject : std::vector<ObjectPtr<GameObject>>{ GameObject::allGameObjects })
-				Object::DestroyImmediate(gameObject);
+				Object::DestroyImmediate(gameObject.GetPtr());
 			});
 		return nullptr;
 	}
