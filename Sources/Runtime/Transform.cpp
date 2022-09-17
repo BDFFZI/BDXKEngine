@@ -111,7 +111,7 @@ namespace BDXKEngine {
 		RenewScale();
 	}
 
-	inline std::wstring Transform::ToString() {
+	std::wstring Transform::ToString() {
 		std::wstringstream stream;
 		stream << Object::ToString() << std::endl;
 		stream << L"Î»ÖÃ£º" << localPosition.ToString() << std::endl;

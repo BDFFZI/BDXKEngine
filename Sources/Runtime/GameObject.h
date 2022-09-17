@@ -8,7 +8,6 @@
 #include "Transform.h"
 
 namespace BDXKEngine {
-	class Transform;
 	class WorldManager;
 	class GameObject :public Object
 	{

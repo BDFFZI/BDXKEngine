@@ -51,7 +51,7 @@ namespace BDXKEditor {
 				drawX += 165;
 				Rect rect = { drawX,drawY,160,20 };
 
-				Component* componentPtr = static_cast<Component*>((Object*)component);
+				Component* componentPtr = static_cast<Component*>(component.GetPtr());
 				String fullName = typeid(*componentPtr).name();
 				GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
 
