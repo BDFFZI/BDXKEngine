@@ -40,7 +40,7 @@ namespace BDXKEngine {
 		ID3D11Buffer* d3dBuffer = nullptr;
 		if (buffer.IsNull() == false)
 		{
-			if (buffer->bindFlag != D3D11_BIND_CONSTANT_BUFFER)
+			if (buffer->target != BufferTarget::Constant)
 				throw std::exception("不支持除常量缓冲区以外的类型");
 			d3dBuffer = buffer->glBuffer;
 		}
@@ -77,7 +77,7 @@ namespace BDXKEngine {
 			viewport.MaxDepth = 1;
 			context->RSSetViewports(1, &viewport);
 		}
-		else//未空时使用默认值
+		else//为空时使用默认值
 		{
 			renderTargetView = defaultRenderTargetView;
 			depthStencilView = defaultDepthStencilView;

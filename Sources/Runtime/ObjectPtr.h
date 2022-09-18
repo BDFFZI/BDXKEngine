@@ -10,23 +10,43 @@ namespace BDXKEngine {
 		}
 		ObjectPtr(Object* object) :ObjectPtrBase(object)
 		{
+			ptr = (TObject*)GetObjectBase();
 		}
 		ObjectPtr(const ObjectPtrBase& objectPtr) :ObjectPtrBase(objectPtr) {
+			ptr = (TObject*)GetObjectBase();
 		}
 
 		template<typename TTargetObject>
-		ObjectPtr<TTargetObject> As()
+		ObjectPtr<TTargetObject> ToObjectPtr()
 		{
-			Object* object = GetPtr();
+			Object* object = GetObjectBase();
 			return dynamic_cast<TTargetObject*>(object);
+		}
+		TObject* ToObject()
+		{
+			return static_cast<TObject*>(GetObjectBase());
 		}
 		TObject* operator->()const
 		{
-			Object* object = GetPtr();
+			Object* object = GetObjectBase();
 			if (object == nullptr)
 				throw std::exception("目标引用为空");
 			return static_cast<TObject*>(object);
 		}
+	protected:
+		TObject* ptr = nullptr;
+
+		virtual void AddRef(const unsigned int refInstanceID)override
+		{
+			ObjectPtrBase::AddRef(refInstanceID);
+			ptr = (TObject*)GetObjectBase();
+		}
+		virtual void RemoveRef()override
+		{
+			ObjectPtrBase::RemoveRef();
+			ptr = nullptr;
+		}
+
 	};
 }
 

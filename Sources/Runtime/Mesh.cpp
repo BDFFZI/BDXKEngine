@@ -7,10 +7,11 @@
 namespace BDXKEngine {
 	ObjectPtr<Mesh> Mesh::Create()
 	{
-		return InstantiateNoAwake<Mesh>([](Exporter& exporter) {
-			exporter.TransferInt(0);
-			exporter.TransferInt(0);
-			});
+		Mesh mesh = {};
+		mesh.vertices = { Vertex{} };
+		mesh.triangles = { 0,0,0 };
+
+		return Instantiate<Mesh>(&mesh);
 	}
 	int Mesh::GetVerticesCount()
 	{
@@ -149,6 +150,8 @@ namespace BDXKEngine {
 
 	void Mesh::Export(Exporter& exporter)
 	{
+		Object::Export(exporter);
+
 		exporter.TransferInt(vertices.size());
 		exporter.TransferBytes(vertices.data(), vertices.size() * sizeof(Vertex));
 		exporter.TransferInt(triangles.size());
@@ -156,13 +159,15 @@ namespace BDXKEngine {
 	}
 	void Mesh::Import(Importer& importer)
 	{
+		Object::Import(importer);
+
 		int verticesCount = importer.TransferInt();
-		vertices.resize(verticesCount / sizeof(Vertex));
-		importer.TransferBytes(vertices.data(), verticesCount);
+		vertices.resize(verticesCount);
+		importer.TransferBytes(vertices.data(), verticesCount * sizeof(Vertex));
 
 		int trianglesCount = importer.TransferInt();
-		triangles.resize(trianglesCount / sizeof(unsigned int));
-		importer.TransferBytes(triangles.data(), trianglesCount);
+		triangles.resize(trianglesCount);
+		importer.TransferBytes(triangles.data(), trianglesCount * sizeof(unsigned int));
 	}
 	void Mesh::Awake()
 	{

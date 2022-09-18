@@ -10,34 +10,6 @@ namespace BDXKEngine {
 	{
 		return parent;
 	}
-	void Transform::SetParent(ObjectPtr<Transform> newparent)
-	{
-		if (newparent.IsNull() == false)
-		{
-			ObjectPtr<Transform> current = this;
-			ObjectPtr<Transform> newUpLayer = newparent;
-			do {
-				if (newUpLayer == current)
-				{
-					throw std::exception("你在试图让一个父物体或自身成为其的孩子，这会导致嵌套循环，是不允许的。");
-				}
-				newUpLayer = newUpLayer->parent;
-			} while (newUpLayer.IsNull() == false);
-		}
-
-		//解绑旧父物体
-		if (parent.IsNull() == false)parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
-		else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
-		//设置新父物体
-		this->parent = newparent;
-		//绑定新父物体
-		if (parent.IsNull() == false)parent->children.push_back(this);
-		else rootTransforms.push_back(this);
-
-		RenewScale();
-		RenewEulerAngles();
-		RenewPosition();
-	}
 	ObjectPtr<Transform> Transform::GetChild(int index)
 	{
 		return children[index];
@@ -46,7 +18,6 @@ namespace BDXKEngine {
 	{
 		return (int)children.size();
 	}
-
 	Vector3 Transform::GetPosition()
 	{
 		return position;
@@ -92,6 +63,34 @@ namespace BDXKEngine {
 		return localToWorldMatrix.MultiplyVector(Vector3::front);
 	}
 
+	void Transform::SetParent(ObjectPtr<Transform> newparent)
+	{
+		if (newparent.IsNull() == false)
+		{
+			ObjectPtr<Transform> current = this;
+			ObjectPtr<Transform> newUpLayer = newparent;
+			do {
+				if (newUpLayer == current)
+				{
+					throw std::exception("你在试图让一个父物体或自身成为其的孩子，这会导致嵌套循环，是不允许的。");
+				}
+				newUpLayer = newUpLayer->parent;
+			} while (newUpLayer.IsNull() == false);
+		}
+
+		//解绑旧父物体
+		if (parent.IsNull() == false)parent->children.erase(std::find(parent->children.begin(), parent->children.end(), this));
+		else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
+		//设置新父物体
+		this->parent = newparent;
+		//绑定新父物体
+		if (parent.IsNull() == false)parent->children.push_back(this);
+		else rootTransforms.push_back(this);
+
+		RenewScale();
+		RenewEulerAngles();
+		RenewPosition();
+	}
 	void Transform::SetLocalPosition(Vector3 value)
 	{
 		localPosition = value;
@@ -110,55 +109,6 @@ namespace BDXKEngine {
 		localScale = value;
 		RenewScale();
 	}
-
-	std::wstring Transform::ToString() {
-		std::wstringstream stream;
-		stream << Object::ToString() << std::endl;
-		stream << L"位置：" << localPosition.ToString() << std::endl;
-		stream << L"旋转：" << localEulerAngles.ToString() << std::endl;
-		stream << L"缩放：" << localScale.ToString() << std::endl;
-		stream << L"父亲：" << (parent.IsNull() == false ? parent->GetGameObject()->GetName() : L"nullptr") << std::endl;
-		stream << L"孩子数量：" << std::to_wstring(GetChildCount()) << std::endl;
-		return stream.str();
-	}
-
-	//void Transform::Import(Reader* reader)
-	//{
-	//	parent = nullptr;
-	//	rootTransforms.push_back(this);
-
-	//	localPosition = Vector3::zero;
-	//	localEulerAngles = Vector3::zero;
-	//	localScale = Vector3::one;
-
-	//	position = Vector3::zero;
-	//	eulerAngles = Vector3::zero;
-	//	scale = Vector3::one;
-
-	//	localToWorldMatrix = Matrix4x4::identity;
-	//	worldToLocalMatrix = Matrix4x4::identity;
-	//}
-
-	void Transform::Destroy()
-	{
-		for (ObjectPtr<Transform> child : children)
-			Object::Destroy(child->GetGameObject().GetPtr());
-		children.clear();
-
-		if (parent.IsNull())
-		{
-			rootTransforms.erase(std::find_if(
-				rootTransforms.begin(),
-				rootTransforms.end(),
-				[=](ObjectPtr<Transform>& item) {
-					return item->GetInstanceID() == this->GetInstanceID();
-				}
-			));
-		}
-
-		Component::Destroy();
-	}
-
 	void Transform::RenewSelfMatrix()
 	{
 		localToWorldMatrix = parent.IsNull() ? Matrix4x4::identity : parent->GetLocalToWorldMatrix();
@@ -166,7 +116,6 @@ namespace BDXKEngine {
 		localToWorldMatrix = localToWorldMatrix * Matrix4x4::TRS(localPosition, localEulerAngles, localScale);
 		worldToLocalMatrix = localToWorldMatrix.GetInverse();
 	}
-
 	void Transform::RenewPosition()
 	{
 		position = parent.IsNull() ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
@@ -206,6 +155,44 @@ namespace BDXKEngine {
 		RenewSelfMatrix();
 		for (ObjectPtr<Transform>& child : children)
 			child->RenewMatrix();
+	}
+
+	std::wstring Transform::ToString() {
+		std::wstringstream stream;
+		stream << Object::ToString() << std::endl;
+		stream << L"位置：" << localPosition.ToString() << std::endl;
+		stream << L"旋转：" << localEulerAngles.ToString() << std::endl;
+		stream << L"缩放：" << localScale.ToString() << std::endl;
+		stream << L"父亲：" << (parent.IsNull() == false ? parent->GetGameObject()->GetName() : L"nullptr") << std::endl;
+		stream << L"孩子数量：" << std::to_wstring(GetChildCount()) << std::endl;
+		return stream.str();
+	}
+
+
+	void Transform::Awake()
+	{
+		Component::Awake();
+
+		rootTransforms.push_back(this);
+	}
+	void Transform::Destroy()
+	{
+		for (ObjectPtr<Transform> child : children)
+			Object::Destroy(child->GetGameObject().GetObjectBase());
+		children.clear();
+
+		if (parent.IsNull())
+		{
+			rootTransforms.erase(std::find_if(
+				rootTransforms.begin(),
+				rootTransforms.end(),
+				[=](ObjectPtr<Transform>& item) {
+					return item->GetInstanceID() == this->GetInstanceID();
+				}
+			));
+		}
+
+		Component::Destroy();
 	}
 }
 

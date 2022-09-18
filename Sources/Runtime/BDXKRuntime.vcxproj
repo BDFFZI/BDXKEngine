@@ -125,13 +125,16 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="BehaviorEvent.cpp" />
+    <ClCompile Include="BehaviorManager.cpp" />
     <ClCompile Include="BinaryExporter.cpp" />
     <ClCompile Include="BinaryImporter.cpp" />
     <ClCompile Include="Bleed.cpp" />
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Cull.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="RendererManager.cpp" />
     <ClCompile Include="WorldManager.cpp" />
     <ClCompile Include="GraphicsInfo.cpp" />
     <ClCompile Include="GraphicsSettings.cpp" />
@@ -177,7 +180,9 @@
     <ClCompile Include="ZTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Behavior.h" />
     <ClInclude Include="BehaviorEvent.h" />
+    <ClInclude Include="BehaviorManager.h" />
     <ClInclude Include="BinaryImporter.h" />
     <ClInclude Include="BinaryExporter.h" />
     <ClInclude Include="Blend.h" />
@@ -187,6 +192,7 @@
     <ClInclude Include="Exporter.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectPtrBase.h" />
+    <ClInclude Include="RendererManager.h" />
     <ClInclude Include="Serializable.h" />
     <ClInclude Include="WorldManager.h" />
     <ClInclude Include="GraphicsInfo.h" />

@@ -18,15 +18,15 @@ namespace BDXKEngine {
 		Color TransferColor() override;
 		Rect TransferRect() override;
 		std::wstring TransferString() override;
+		ObjectPtrBase TransferObject() override;
 
-		void TransferBytes(void* value, int size);
-		void TransferObject(ObjectPtrBase& value) override;
+		void TransferBytes(void* source, int size);
 	private:
 		std::iostream& stream;
 
 		template<typename TValue>
 		void Read(TValue* value) {
-			stream.read(reinterpret_cast<char*>(&value), sizeof(TValue));
+			stream.read(reinterpret_cast<char*>(value), sizeof(TValue));
 		}
 	};
 }

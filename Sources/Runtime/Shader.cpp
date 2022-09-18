@@ -24,15 +24,12 @@ namespace BDXKEngine {
 
 	ObjectPtr<Shader> Shader::Create(std::wstring vertexShaderhlsl, std::wstring pixelShaderhlsl, PassType passType)
 	{
-		return { Object::InstantiateNoAwake<Shader>(
-			[=](Exporter& exporter) {
-				exporter.TransferString(vertexShaderhlsl);
-				exporter.TransferString(pixelShaderhlsl);
-				exporter.TransferInt(static_cast<int>(passType));
-				exporter.TransferBytes(reinterpret_cast<char*>(&Blend::Opaque), sizeof(Blend));
-				exporter.TransferBytes(reinterpret_cast<char*>(&ZTest::Default), sizeof(ZTest));
-			}
-		) };
+		Shader shader = {};
+		shader.vertexShaderhlsl = vertexShaderhlsl;
+		shader.pixelShaderhlsl = pixelShaderhlsl;
+		shader.passType = passType;
+
+		return Object::Instantiate<Shader>(&shader);
 	}
 
 	PassType Shader::GetPassType()
@@ -82,24 +79,30 @@ namespace BDXKEngine {
 		assert(SUCCEEDED(result));
 	}
 
-	void Shader::Import(Importer& importer)
-	{
-		vertexShaderhlsl = importer.TransferString();
-		pixelShaderhlsl = importer.TransferString();
-		passType = static_cast<PassType>(importer.TransferInt());
-		importer.TransferBytes(reinterpret_cast<char*>(&blend), sizeof(Blend));
-		importer.TransferBytes(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
-	}
 	void Shader::Export(Exporter& exporter)
 	{
+		Object::Export(exporter);
+
 		exporter.TransferString(vertexShaderhlsl);
 		exporter.TransferString(pixelShaderhlsl);
 		exporter.TransferInt(static_cast<int>(passType));
 		exporter.TransferBytes(reinterpret_cast<char*>(&blend), sizeof(Blend));
 		exporter.TransferBytes(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
 	}
+	void Shader::Import(Importer& importer)
+	{
+		Object::Import(importer);
+
+		vertexShaderhlsl = importer.TransferString();
+		pixelShaderhlsl = importer.TransferString();
+		passType = static_cast<PassType>(importer.TransferInt());
+		importer.TransferBytes(reinterpret_cast<char*>(&blend), sizeof(Blend));
+		importer.TransferBytes(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
+	}
 	void Shader::Awake()
 	{
+		Object::Awake();
+
 		HRESULT result;
 		//±àÒë¶¥µã×ÅÉ«Æ÷
 		CComPtr<ID3DBlob> vertexBlob;

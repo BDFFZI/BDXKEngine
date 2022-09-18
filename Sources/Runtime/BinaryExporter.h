@@ -19,7 +19,7 @@ namespace BDXKEngine {
 		void TransferRect(Rect value) override;;
 		void TransferString(std::wstring value) override;;
 
-		void TransferBytes(void* value, int size);
+		void TransferBytes(void* source, int size);
 		void TransferObject(ObjectPtrBase& value) override;;
 	private:
 		std::iostream& stream;
@@ -30,3 +30,18 @@ namespace BDXKEngine {
 		}
 	};
 }
+
+//std::stringstream stream = {};
+//BinaryExporter exporter = { stream };
+//exporter.TransferInt(123);
+//exporter.TransferVector3(Vector3{ 1,2,3 });
+//exporter.TransferString(L"“ƒ¿÷ˆŒ");
+//char binary[] = { 127,63,32 };
+//exporter.TransferBytes(binary, 3);
+//
+//BinaryImporter importer = { stream };
+//int intValue = importer.TransferInt();
+//Vector3 vector3Value = importer.TransferVector3();
+//std::wstring stringValue = importer.TransferString();
+//char binaryValue[3];
+//importer.TransferBytes(binaryValue, 3);

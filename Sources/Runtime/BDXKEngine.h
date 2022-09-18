@@ -57,8 +57,8 @@
 #include "GUI.h"
 #include "Random.h"
 //框架层：在此组织和使用下层的各种功能 >> 用户控制引擎的接口
-#include "RendererEvent.h"
-#include "BehaviorEvent.h"
+#include "RendererManager.h"
+#include "BehaviorManager.h"
 #include "WorldManager.h"
 
 #include "GameObject.h"

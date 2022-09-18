@@ -6,6 +6,18 @@ namespace BDXKEngine {
 	ObjectPtr<GameObject> Component::GetGameObject() { return gameObject; }
 	ObjectPtr<Transform> Component::GetTransform() { return GetGameObject()->GetComponent<Transform>(); }
 
+	void Component::Export(Exporter& exporter)
+	{
+		Object::Export(exporter);
+
+		exporter.TransferObject(gameObject);
+	}
+	void Component::Import(Importer& importer)
+	{
+		Object::Import(importer);
+
+		gameObject = importer.TransferObject();
+	}
 	void Component::Awake()
 	{
 		Object::Awake();

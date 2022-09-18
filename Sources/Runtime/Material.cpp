@@ -4,24 +4,10 @@
 namespace BDXKEngine {
 	ObjectPtr<Material> Material::Create(std::vector<ObjectPtr<Shader>> shaders)
 	{
-		return { Object::InstantiateNoAwake<Shader>(
-			[=](Exporter& exporter) {
-				exporter.TransferInt(static_cast<int>(RenderQueue::Geometry));
+		Material material = {};
+		material.shaders = shaders;
 
-				exporter.TransferInt(shaders.size());
-				for (ObjectPtr<Shader> shader : shaders)
-					exporter.TransferObject(shader);
-
-				ObjectPtr<Object> object = nullptr;
-				exporter.TransferObject(object);
-				exporter.TransferObject(object);
-				exporter.TransferObject(object);
-				exporter.TransferObject(object);
-
-				Parameters parameters = {};
-				exporter.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
-			}
-		) };
+		return Object::Instantiate<Material>(&material);
 	}
 
 	std::vector<ObjectPtr<Shader>> Material::GetShaders() {
@@ -91,6 +77,8 @@ namespace BDXKEngine {
 
 	void Material::Export(Exporter& exporter)
 	{
+		Object::Export(exporter);
+
 		exporter.TransferInt(static_cast<int>(renderQueue));
 
 		exporter.TransferInt(shaders.size());
@@ -105,24 +93,34 @@ namespace BDXKEngine {
 	}
 	void Material::Import(Importer& importer)
 	{
+		Object::Import(importer);
+
 		renderQueue = static_cast<RenderQueue>(importer.TransferInt());
 
 		int shadersCount = importer.TransferInt();
 		for (int i = 0; i < shadersCount; i++)
 		{
-			ObjectPtr<Shader> shader = nullptr;
-			importer.TransferObject(shader);
-			shaders.push_back(shader);
+			shaders.push_back(importer.TransferObject());
 		}
 
-		importer.TransferObject(texture0);
-		importer.TransferObject(texture1);
-		importer.TransferObject(texture2);
-		importer.TransferObject(texture3);
+		texture0 = importer.TransferObject();
+		texture1 = importer.TransferObject();
+		texture2 = importer.TransferObject();
+		texture3 = importer.TransferObject();
 		importer.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
 	}
 	void Material::Awake()
 	{
+		Object::Awake();
+
 		parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
+
+		for (auto shader : shaders)
+			Object::Awake(shader.GetObjectBase());
+		Object::Awake(parametersBuffer.GetObjectBase());
+		if (texture0 != nullptr) Object::Awake(texture0.GetObjectBase());
+		if (texture1 != nullptr) Object::Awake(texture1.GetObjectBase());
+		if (texture2 != nullptr) Object::Awake(texture2.GetObjectBase());
+		if (texture3 != nullptr) Object::Awake(texture3.GetObjectBase());
 	}
 }

@@ -38,12 +38,10 @@ namespace BDXKEngine {
 		TransferBytes(data, size);
 	}
 
-	void BinaryExporter::TransferBytes(void* value, int size) {
-		stream.write(reinterpret_cast<char*>(value), size);
+	void BinaryExporter::TransferBytes(void* source, int size) {
+		stream.write(reinterpret_cast<char*>(source), size);
 	}
 	void BinaryExporter::TransferObject(ObjectPtrBase& value) {
-		Object* object = value.GetPtr();
-		std::wstring guid = ObjectManager::InstanceIDToGuid(object == nullptr ? 0 : object->GetInstanceID());
-		TransferString(guid);
+		TransferInt(value.GetInstanceID());
 	}
 }

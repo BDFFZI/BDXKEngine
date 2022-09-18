@@ -10,9 +10,6 @@
     <Filter Include="1_Platform\Window">
       <UniqueIdentifier>{8cea8b78-dd63-422a-a980-c68333cef0ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Platform\Extend">
-      <UniqueIdentifier>{2546bae4-daf8-4c0f-90de-1cdeb0d2a97b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Base">
       <UniqueIdentifier>{9614757e-ef39-4163-99af-7b8314c7f5e8}</UniqueIdentifier>
     </Filter>
@@ -61,9 +58,6 @@
     <Filter Include="4_Framework\Components">
       <UniqueIdentifier>{efbc0a8f-7e3c-433d-91f7-dec987a8b722}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Framework\Components\Render">
-      <UniqueIdentifier>{6e654417-a6e9-4d03-9905-e4929c6dc3a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Resources\Importer">
       <UniqueIdentifier>{8b6418bf-dc64-4385-a470-255cb79032c9}</UniqueIdentifier>
     </Filter>
@@ -100,11 +94,26 @@
     <Filter Include="1_Platform\IO">
       <UniqueIdentifier>{9447dcf4-5e4a-46ac-95ed-e02bc5655bf7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Base\Transfer">
+    <Filter Include="0_Base\Extend">
+      <UniqueIdentifier>{2546bae4-daf8-4c0f-90de-1cdeb0d2a97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Base\Object\Transfer">
       <UniqueIdentifier>{8f73850e-002a-40e4-9de9-985e29b6098b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0_Base\Transfer\Binary">
+    <Filter Include="0_Base\Object\Transfer\Binary">
       <UniqueIdentifier>{b317e1e3-37fa-4ae1-9bf3-db6c31f5b4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Framework\Components\Behavior">
+      <UniqueIdentifier>{4ba15943-54e1-47dd-8ee4-116cd30e9b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Framework\Components\Behavior\Base">
+      <UniqueIdentifier>{feced660-979c-4f12-85b5-dca0afc2fbf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Framework\Components\Renderer">
+      <UniqueIdentifier>{6e654417-a6e9-4d03-9905-e4929c6dc3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Framework\Components\Renderer\Base">
+      <UniqueIdentifier>{be568e60-d9fa-4ff9-9131-218e32be5ae9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +136,7 @@
       <Filter>0_Base\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
-      <Filter>1_Platform\Extend</Filter>
+      <Filter>0_Base\Extend</Filter>
     </ClCompile>
     <ClCompile Include="Matrix3x2.cpp">
       <Filter>0_Base\Matrix</Filter>
@@ -156,23 +165,14 @@
     <ClCompile Include="GUI.cpp">
       <Filter>3_Function\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>4_Framework\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>3_Function\GUI</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>4_Framework\Components\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>4_Framework\Components\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>4_Framework\Components\Render</Filter>
+      <Filter>4_Framework\Components\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>4_Framework\Components\Render</Filter>
+      <Filter>4_Framework\Components\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>3_Function\Graphics</Filter>
@@ -216,9 +216,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>0_Base\Object</Filter>
     </ClCompile>
-    <ClCompile Include="String.cpp">
-      <Filter>1_Platform\Extend</Filter>
-    </ClCompile>
     <ClCompile Include="MeshImporter.cpp">
       <Filter>2_Resources\Importer</Filter>
     </ClCompile>
@@ -240,23 +237,44 @@
     <ClCompile Include="WorldManager.cpp">
       <Filter>4_Framework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorEvent.cpp">
-      <Filter>4_Framework\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererEvent.cpp">
-      <Filter>4_Framework\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>3_Function\Cursor</Filter>
     </ClCompile>
     <ClCompile Include="BinaryImporter.cpp">
-      <Filter>0_Base\Transfer\Binary</Filter>
+      <Filter>0_Base\Object\Transfer\Binary</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>0_Base\Object</Filter>
     </ClCompile>
     <ClCompile Include="BinaryExporter.cpp">
-      <Filter>0_Base\Transfer\Binary</Filter>
+      <Filter>0_Base\Object\Transfer\Binary</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>0_Base\Extend</Filter>
+    </ClCompile>
+    <ClCompile Include="Behavior.cpp">
+      <Filter>4_Framework\Components\Behavior\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorEvent.cpp">
+      <Filter>4_Framework\Components\Behavior\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorManager.cpp">
+      <Filter>4_Framework\Components\Behavior\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>4_Framework\Components\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererEvent.cpp">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererManager.cpp">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,10 +300,10 @@
       <Filter>0_Base\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
-      <Filter>1_Platform\Extend</Filter>
+      <Filter>0_Base\Extend</Filter>
     </ClInclude>
     <ClInclude Include="Reflection.h">
-      <Filter>1_Platform\Extend</Filter>
+      <Filter>0_Base\Extend</Filter>
     </ClInclude>
     <ClInclude Include="Matrix3x2.h">
       <Filter>0_Base\Matrix</Filter>
@@ -315,23 +333,14 @@
     <ClInclude Include="GUI.h">
       <Filter>3_Function\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>4_Framework\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>3_Function\GUI</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>4_Framework\Components\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>4_Framework\Components\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>4_Framework\Components\Render</Filter>
+      <Filter>4_Framework\Components\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
-      <Filter>4_Framework\Components\Render</Filter>
+      <Filter>4_Framework\Components\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>3_Function\Graphics</Filter>
@@ -381,9 +390,6 @@
     <ClInclude Include="QualitySettings.h">
       <Filter>4_Framework\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="String.h">
-      <Filter>1_Platform\Extend</Filter>
-    </ClInclude>
     <ClInclude Include="MeshImporter.h">
       <Filter>2_Resources\Importer</Filter>
     </ClInclude>
@@ -414,35 +420,56 @@
     <ClInclude Include="WorldManager.h">
       <Filter>4_Framework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorEvent.h">
-      <Filter>4_Framework\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererEvent.h">
-      <Filter>4_Framework\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Cursor.h">
       <Filter>3_Function\Cursor</Filter>
     </ClInclude>
     <ClInclude Include="Exporter.h">
-      <Filter>0_Base\Transfer</Filter>
+      <Filter>0_Base\Object\Transfer</Filter>
     </ClInclude>
     <ClInclude Include="Importer.h">
-      <Filter>0_Base\Transfer</Filter>
+      <Filter>0_Base\Object\Transfer</Filter>
     </ClInclude>
     <ClInclude Include="Serializable.h">
-      <Filter>0_Base\Transfer</Filter>
+      <Filter>0_Base\Object\Transfer</Filter>
     </ClInclude>
     <ClInclude Include="BinaryExporter.h">
-      <Filter>0_Base\Transfer\Binary</Filter>
+      <Filter>0_Base\Object\Transfer\Binary</Filter>
     </ClInclude>
     <ClInclude Include="BinaryImporter.h">
-      <Filter>0_Base\Transfer\Binary</Filter>
+      <Filter>0_Base\Object\Transfer\Binary</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>0_Base\Object</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPtrBase.h">
       <Filter>0_Base\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>0_Base\Extend</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>4_Framework\Components\Behavior\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorEvent.h">
+      <Filter>4_Framework\Components\Behavior\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorManager.h">
+      <Filter>4_Framework\Components\Behavior\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>4_Framework\Components\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererEvent.h">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererManager.h">
+      <Filter>4_Framework\Components\Renderer\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

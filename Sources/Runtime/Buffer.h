@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "GL.h"
 
 namespace BDXKEngine {
@@ -18,9 +19,10 @@ namespace BDXKEngine {
 		void SetData(char* data);
 		void GetData(char* data);
 	private:
+		BufferTarget target;
 		int size;
-		std::unique_ptr<char> data;
-		D3D11_BIND_FLAG bindFlag;
+		std::unique_ptr<char[]> data;
+
 		CComPtr<ID3D11Buffer> glBuffer;
 
 

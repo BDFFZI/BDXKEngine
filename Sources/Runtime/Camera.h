@@ -19,8 +19,10 @@ namespace BDXKEngine {
 		Perspective
 	};
 
-	class Camera :public Component, public RenderObjectHandler, RendererEditor, LightEditor
+	class RendererManager;
+	class Camera :public Component, RendererManager, LightEditor
 	{
+		friend RendererManager;
 	public:
 		float GetAspectRatio();
 
@@ -40,6 +42,6 @@ namespace BDXKEngine {
 		ObjectPtr<Transform> transform{};
 
 		void Awake() override;
-		void OnRenderObject()override;
+		void Render();
 	};
 }

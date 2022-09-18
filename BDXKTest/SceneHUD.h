@@ -22,7 +22,7 @@ namespace BDXKEditor {
 			{
 				Rect transformRect = { drawX + 165,drawY,160,20 };
 				//Ê¹Æä¿ÉÍÏ×§
-				if (Event::IsDrag(transformRect, transform.As<Component>()))
+				if (Event::IsDrag(transformRect, transform.ToObjectPtr<Component>()))
 				{
 					GL2D::DrawRectangleCenter(Input::GetMousePosition(), transformRect.GetSize(), false);
 				}
@@ -51,7 +51,7 @@ namespace BDXKEditor {
 				drawX += 165;
 				Rect rect = { drawX,drawY,160,20 };
 
-				Component* componentPtr = static_cast<Component*>(component.GetPtr());
+				Component* componentPtr = component.ToObject();
 				String fullName = typeid(*componentPtr).name();
 				GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
 

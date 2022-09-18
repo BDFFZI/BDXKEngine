@@ -22,12 +22,12 @@ namespace Assembly {
 
 		void OnUpdate()override {
 			if (Time::GetRealtimeSinceStartup() - time > 2)
-				DestroyImmediate(animator.GetPtr());
+				DestroyImmediate(animator.ToObject());
 			if (Time::GetRealtimeSinceStartup() - time > 4)
 			{
 				ObjectPtr<GameObject> gameObject = GetGameObject();
 				DestroyImmediate(this);
-				DestroyImmediate(gameObject.GetPtr());
+				DestroyImmediate(gameObject.ToObject());
 				return;
 			}
 			if ((int)std::fmodf(Time::GetFrameCount() - time, 100) == 0)
@@ -36,7 +36,7 @@ namespace Assembly {
 				Color color = Random::ColorHSV();
 				color.a = 0.3f;
 
-				meshRenderer->GetMaterial()->SetTexture(0, Texture2D::Create(color).As<Texture>());
+				meshRenderer->GetMaterial()->SetTexture(0, Texture2D::Create(color).ToObjectPtr<Texture>());
 			}
 		}
 

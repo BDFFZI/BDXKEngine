@@ -52,7 +52,7 @@ namespace BDXKEngine {
 
 		ObjectPtr<Mesh> CreateMesh()
 		{
-			ObjectPtr<Mesh> mesh = new Mesh();
+			ObjectPtr<Mesh> mesh = Mesh::Create();
 			mesh->SetTriangles(triangles);
 			mesh->SetPositions(positions);
 			mesh->SetNormals(normals);

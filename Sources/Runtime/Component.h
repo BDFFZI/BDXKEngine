@@ -17,6 +17,8 @@ namespace BDXKEngine {
 		ObjectPtr<GameObject> GetGameObject();
 		ObjectPtr<Transform> GetTransform();
 	protected:
+		void Export(Exporter& exporter) override;
+		void Import(Importer& importer) override;
 		//完全创建之后。重写时请务必回调
 		void Awake() override;
 		//完全删除之前。重写时请务必回调

@@ -5,10 +5,10 @@
 #include "Graphics.h"
 
 namespace BDXKEngine {
-	class RendererEditor;
+	class RendererManager;
 	class Renderer : public Component
 	{
-		friend RendererEditor;
+		friend RendererManager;
 	public:
 		ObjectPtr<Material> GetMaterial();
 		ObjectPtr<Mesh> GetMesh();
@@ -21,60 +21,12 @@ namespace BDXKEngine {
 	protected:
 		void SetMesh(ObjectPtr<Mesh> mesh);
 	private:
-		static std::vector<ObjectPtr<Renderer>> renderers;//”…Rendererπ‹¿Ì
+		ObjectPtr<Material> material = nullptr;
+		ObjectPtr<Mesh> mesh = nullptr;
+		bool castShadows = true;
+		bool receiveShadows = true;
 
-		ObjectPtr<Material> material;
-		ObjectPtr<Mesh> mesh;
-		bool castShadows;
-		bool receiveShadows;
-
-		void Awake()override
-		{
-			Component::Awake();
-
-			material = nullptr;
-			mesh = nullptr;
-			castShadows = true;
-			receiveShadows = true;
-			renderers.push_back(this);
-		}
-
-		void Destroy()override {
-			renderers.erase(std::find_if(
-				renderers.begin(),
-				renderers.end(),
-				[=](ObjectPtr<Renderer>& item) {
-					return item->GetInstanceID() == this->GetInstanceID();
-				}
-			));
-
-			Component::Destroy();
-		}
-	};
-
-	class RendererEditor {
-	protected:
-		static std::vector<ObjectPtr<Renderer>>& GetRenderers()
-		{
-			return Renderer::renderers;
-		}
-
-		static std::vector<ObjectPtr<Renderer>> GetRenderersQueue()
-		{
-			std::vector<ObjectPtr<Renderer>> queue = Renderer::renderers;
-			std::sort(
-				queue.begin(),
-				queue.end(),
-				[](ObjectPtr<Renderer>& a, ObjectPtr<Renderer>& b) {
-					return a->GetMaterial()->GetRenderQueue() < b->GetMaterial()->GetRenderQueue();
-				}
-			);
-			return queue;
-		}
-
-		static ObjectPtr<Mesh> GetMesh(ObjectPtr<Renderer> renderer)
-		{
-			return renderer->GetMesh();
-		}
+		void Awake()override;
+		void Destroy()override;
 	};
 }

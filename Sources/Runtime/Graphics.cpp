@@ -84,7 +84,7 @@ namespace BDXKEngine
 			screenSize.x / screenSize.y,
 			0, 1, screenSize.y
 		));
-		GL::SetTexture(0, texture.As<Texture>());
+		GL::SetTexture(0, texture.ToObjectPtr<Texture>());
 
 		DrawMeshNow(drawTextureMesh);
 	}
@@ -111,9 +111,9 @@ namespace BDXKEngine
 		GL::SetBuffer(4, lightInfoBuffer);
 		GL::SetBuffer(5, shadowInfoBuffer);
 
-		defaultTexture2D = Texture2D::Create(1, 1).As<Texture>();
-		defaultTextureCube = TextureCube::Create(1, 1).As<Texture>();
-		drawTextureMesh = Object::Instantiate<Mesh>(nullptr);
+		defaultTexture2D = Texture2D::Create(1, 1).ToObjectPtr<Texture>();
+		defaultTextureCube = TextureCube::Create(1, 1).ToObjectPtr<Texture>();
+		drawTextureMesh = Mesh::Create();
 		drawTextureMesh->SetTriangles({
 			0,1,3,
 			3,1,2

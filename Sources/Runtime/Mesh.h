@@ -29,8 +29,8 @@ namespace BDXKEngine {
 
 		void UploadMeshData();
 	private:
-		std::vector<Vertex> vertices;
-		std::vector<unsigned int> triangles;
+		std::vector<Vertex> vertices = {};
+		std::vector<unsigned int> triangles = {};
 
 		ObjectPtr<Buffer> vertexBuffer;
 		ObjectPtr<Buffer> triangleBuffer;

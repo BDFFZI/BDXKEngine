@@ -52,15 +52,16 @@ namespace BDXKEngine {
 		TransferBytes(data, size);
 
 		std::wstring value = reinterpret_cast<wchar_t*>(data);
+		value.resize(size / 2);
 		delete[] data;
 		return value;
 	}
-
-	void BinaryImporter::TransferBytes(void* value, int size) {
-		stream.read(reinterpret_cast<char*>(value), size);
+	ObjectPtrBase BinaryImporter::TransferObject() {
+		int instanceID = TransferInt();
+		return Object::FindObjectOfInstanceID(instanceID);
 	}
-	void BinaryImporter::TransferObject(ObjectPtrBase& value) {
-		std::wstring guid = TransferString();
-		value = Object::FindObjectOfInstanceID(ObjectManager::GuidToInstanceID(guid));
+
+	void BinaryImporter::TransferBytes(void* source, int size) {
+		stream.read(reinterpret_cast<char*>(source), size);
 	}
 }

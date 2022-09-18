@@ -21,7 +21,7 @@ namespace BDXKEngine {
 		virtual void TransferRect(Rect value) = 0;
 		virtual void TransferString(std::wstring value) = 0;
 
-		virtual void TransferBytes(void* value, int size) = 0;
+		virtual void TransferBytes(void* source, int size) = 0;
 		virtual void TransferObject(ObjectPtrBase& value) = 0;
 	};
 }

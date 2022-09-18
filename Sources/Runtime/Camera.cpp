@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "Debug.h"
 #include "Screen.h"
+#include "RendererManager.h"
 
 namespace BDXKEngine {
 	float Camera::GetAspectRatio()
@@ -47,10 +48,10 @@ namespace BDXKEngine {
 
 		transform = GetGameObject()->GetTransform();
 	}
-	void Camera::OnRenderObject()
+	void Camera::Render()
 	{
 		//获取所有可渲染物体
-		std::vector<ObjectPtr<Renderer>> renderers = RendererEditor::GetRenderersQueue();
+		std::vector<ObjectPtr<Renderer>> renderers = RendererManager::GetRenderersQueue();
 		//渲染排序 TODO
 		//遮挡剔除 TODO
 
@@ -96,7 +97,7 @@ namespace BDXKEngine {
 				Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());
 				Resources::GetSkyboxMaterial()->SetVector(0, Vector4{ transform->GetPosition(),1 });
 				Resources::GetSkyboxMaterial()->SetPass(0);
-				GL::SetTexture(6, GraphicsSettings::skybox.As<Texture>());
+				GL::SetTexture(6, GraphicsSettings::skybox.ToObjectPtr<Texture>());
 				Graphics::DrawTexture(Resources::GetWhiteTexture(), { Vector2::zero,Screen::GetSize() });
 			}
 			else GL::Clear(true, true, background);

@@ -51,18 +51,19 @@ namespace BDXKEngine {
 			Matrix4x4 matrix3;
 		};
 
+		// ‰÷»æÀ≥–Ú
 		RenderQueue renderQueue = RenderQueue::Geometry;
+		Parameters parameters;
 		std::vector<ObjectPtr<Shader>> shaders;
+		ObjectPtr<Buffer> parametersBuffer;
 		ObjectPtr<Texture> texture0;
 		ObjectPtr<Texture> texture1;
 		ObjectPtr<Texture> texture2;
 		ObjectPtr<Texture> texture3;
-		Parameters parameters;
-
-		ObjectPtr<Buffer> parametersBuffer;
 
 		void Export(Exporter& exporter) override;
 		void Import(Importer& importer) override;
 		void Awake()override;
+
 	};
 }

@@ -30,8 +30,8 @@ namespace BDXKEngine {
 		std::wstring vertexShaderhlsl;
 		std::wstring pixelShaderhlsl;
 		PassType passType;
-		Blend blend;
-		ZTest zTest;
+		Blend blend = Blend::Opaque;
+		ZTest zTest = ZTest::Default;
 
 		CComPtr<ID3D11BlendState> blendState;
 		CComPtr<ID3D11DepthStencilState> depthStencilState;

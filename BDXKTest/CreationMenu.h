@@ -27,13 +27,13 @@ namespace BDXKEditor {
 			{
 				//加载着色器
 				ObjectPtr<Shader> baseShader = Shader::Create(
-					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),
-					GetResourcesPathW(Shaders,Standard\\PixelShader.hlsl),
+					GetResourcesPathW(Shaders, Standard\\VertexShader.hlsl),
+					GetResourcesPathW(Shaders, Standard\\PixelShader.hlsl),
 					PassType::ForwardBase
 				);
 				ObjectPtr<Shader> addShader = Shader::Create(
-					GetResourcesPathW(Shaders,Standard\\VertexShader.hlsl),
-					GetResourcesPathW(Shaders,Standard\\PixelShader.hlsl),
+					GetResourcesPathW(Shaders, Standard\\VertexShader.hlsl),
+					GetResourcesPathW(Shaders, Standard\\PixelShader.hlsl),
 					PassType::ForwardAdd
 				);
 				addShader->SetBlend(Blend::Additive);
@@ -42,9 +42,9 @@ namespace BDXKEditor {
 				ObjectPtr<Texture2D> texture2d = Texture2D::Create(color);
 				//创建材质球
 				ObjectPtr<Material> material = Material::Create({ baseShader, addShader });
-				material->SetTexture(0, texture2d.As<Texture>());
+				material->SetTexture(0, texture2d.ToObjectPtr<Texture>());
 				//创建物体
-				ObjectPtr<GameObject> gameObject = Object::Instantiate<GameObject>(nullptr);
+				ObjectPtr<GameObject> gameObject = GameObject::Create();
 				ObjectPtr<MeshRenderer> meshRenderer = gameObject->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(mesh);
 				meshRenderer->SetMaterial(material);
@@ -66,7 +66,7 @@ namespace BDXKEditor {
 		private:
 			static ObjectPtr<GameObject> CreateLight(LightType lightType, const wchar_t* name = L"Light")
 			{
-				ObjectPtr<GameObject> lightObj = Object::Instantiate<GameObject>(nullptr);
+				ObjectPtr<GameObject> lightObj = GameObject::Create();
 				ObjectPtr<BDXKEngine::Light> light = lightObj->AddComponent<BDXKEngine::Light>();
 				light->SetColor(Color::white);
 				light->SetIntensity(0.5f);
@@ -77,7 +77,7 @@ namespace BDXKEditor {
 
 		static ObjectPtr<GameObject> Camera(const wchar_t* name = L"Camera")
 		{
-			ObjectPtr<GameObject> camera = Object::Instantiate<GameObject>(nullptr);
+			ObjectPtr<GameObject> camera = GameObject::Create();
 			camera->AddComponent<BDXKEngine::Camera>()->SetClearFlags(ClearFlags::Skybox);
 			camera->AddComponent<CameraController>();
 			camera->AddComponent<SceneHUD>();
