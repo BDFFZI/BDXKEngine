@@ -130,6 +130,11 @@ namespace BDXKEngine
 			drawTextureMesh = nullptr;
 			defaultTexture2D = nullptr;
 			defaultTextureCube = nullptr;
+			worldInfoBuffer = nullptr;
+			cameraInfoBuffer = nullptr;
+			lightInfoBuffer = nullptr;
+			objectInfoBuffer = nullptr;
+			shadowInfoBuffer = nullptr;
 			});
 	}
 }

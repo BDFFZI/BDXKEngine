@@ -3,7 +3,7 @@
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
-	class SceneHUD :public Component, public DrawGizmosHandler, TransformEditor {
+	class SceneHUD :public Component, public PostRenderHandler, TransformEditor {
 	private:
 		std::wstring sceneInfo{ L"Hello BDXKEngine" };
 		int frameRate = 0;
@@ -71,7 +71,7 @@ namespace BDXKEditor {
 			return drawY + 30;
 		}
 
-		void OnDrawGizmos()override
+		void OnPostRender()override
 		{
 			//显示所有游戏物体
 			float drawY = 10;

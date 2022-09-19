@@ -5,7 +5,9 @@ namespace BDXKEngine {
 	std::vector<StartHandler*> BehaviorManager::allStartHandlers = {};
 	std::vector<UpdateHandler*> BehaviorManager::allUpdateHandlers = {};
 	std::vector<LateUpdateHandler*> BehaviorManager::allLateUpdateHandlers = {};
-	std::unordered_set<void*> BehaviorManager::invalidHandlers = {};//标记指针是否失效
+	std::unordered_set<StartHandler*> BehaviorManager::invalidStartHandlers = {};//标记指针是否失效
+	std::unordered_set<UpdateHandler*> BehaviorManager::invalidUpdateHandlers = {};//标记指针是否失效
+	std::unordered_set<LateUpdateHandler*> BehaviorManager::invalidLateUpdateHandlers = {};//标记指针是否失效
 
 	BehaviorManager* BehaviorManager::Initialize(Window* window)
 	{
@@ -20,15 +22,15 @@ namespace BDXKEngine {
 		for (auto handlerPtr = allStartHandlers.begin(); handlerPtr != allStartHandlers.end();)
 		{
 			auto handler = *handlerPtr;
-			if (invalidHandlers.contains(handler) == false)
+			if (invalidStartHandlers.contains(handler) == false)
 			{
 				handler->OnStart();
 				handlerPtr++;
 			}
 			else
 			{
-				allStartHandlers.erase(handlerPtr);
-				invalidHandlers.erase(handler);
+				handlerPtr = allStartHandlers.erase(handlerPtr);
+				invalidStartHandlers.erase(handler);
 			}
 		}
 
@@ -40,15 +42,15 @@ namespace BDXKEngine {
 		for (auto handlerPtr = allUpdateHandlers.begin(); handlerPtr != allUpdateHandlers.end();)
 		{
 			auto handler = *handlerPtr;
-			if (invalidHandlers.contains(handler) == false)
+			if (invalidUpdateHandlers.contains(handler) == false)
 			{
 				handler->OnUpdate();
 				handlerPtr++;
 			}
 			else
 			{
-				allUpdateHandlers.erase(handlerPtr);
-				invalidHandlers.erase(handler);
+				handlerPtr = allUpdateHandlers.erase(handlerPtr);
+				invalidUpdateHandlers.erase(handler);
 			}
 		}
 	}
@@ -58,15 +60,15 @@ namespace BDXKEngine {
 		for (auto handlerPtr = allLateUpdateHandlers.begin(); handlerPtr != allLateUpdateHandlers.end();)
 		{
 			auto handler = *handlerPtr;
-			if (invalidHandlers.contains(handler) == false)
+			if (invalidLateUpdateHandlers.contains(handler) == false)
 			{
 				handler->OnLateUpdate();
 				handlerPtr++;
 			}
 			else
 			{
-				allLateUpdateHandlers.erase(handlerPtr);
-				invalidHandlers.erase(handler);
+				handlerPtr = allLateUpdateHandlers.erase(handlerPtr);
+				invalidLateUpdateHandlers.erase(handler);
 			}
 		}
 	}

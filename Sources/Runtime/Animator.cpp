@@ -7,7 +7,7 @@ void BDXKEngine::Animator::SetAnimation(std::function<void(ObjectPtr<Transform>t
 }
 
 void BDXKEngine::Animator::Awake() {
-	Component::Awake();
+	Behavior::Awake();
 
 	transform = GetGameObject()->GetTransform();
 }

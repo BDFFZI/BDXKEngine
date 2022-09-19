@@ -73,7 +73,7 @@ namespace BDXKEngine {
 
 	class Engine :Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, WorldManager {
 	public:
-		static void Run(::std::function<void()> onStart)
+		static void Run(std::function<void()> onStart)
 		{
 			std::setlocale(LC_ALL, "zh-CN");
 
@@ -122,6 +122,9 @@ namespace BDXKEngine {
 			}
 
 			ReleaseSettings();
+
+			Debug::LogError(L"若下方出现信息，则系统存在异常!");
+			ObjectPtrBase::DebugRefCountMap();
 		}
 	private:
 		static void CreateSettings()
@@ -130,7 +133,7 @@ namespace BDXKEngine {
 		}
 
 		static void ReleaseSettings() {
-			skyboxMaterial = nullptr;
+			GraphicsSettings::skybox = nullptr;
 		}
 	};
 }

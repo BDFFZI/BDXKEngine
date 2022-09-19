@@ -3,7 +3,7 @@
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
-	class CameraController :public Component, public StartHandler, public UpdateHandler {
+	class CameraController :public Behavior, public StartHandler, public UpdateHandler {
 		ObjectPtr<Transform> transform{};
 
 		void OnStart()override

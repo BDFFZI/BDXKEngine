@@ -137,7 +137,6 @@
     <ClCompile Include="RendererManager.cpp" />
     <ClCompile Include="WorldManager.cpp" />
     <ClCompile Include="GraphicsInfo.cpp" />
-    <ClCompile Include="GraphicsSettings.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MeshImporter.cpp" />
@@ -147,7 +146,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
     <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="RendererEvent.cpp" />
+    <ClCompile Include="CameraEvent.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
@@ -209,7 +208,7 @@
     <ClInclude Include="QualitySettings.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Rect.h" />
-    <ClInclude Include="RendererEvent.h" />
+    <ClInclude Include="CameraEvent.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="MeshRenderer.h" />

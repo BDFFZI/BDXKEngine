@@ -88,8 +88,10 @@ namespace BDXKEngine {
 	}
 	void Window::SetCursorLock(bool state)
 	{
-		lockCursorPos = Window::GetCursorLocalPosition();
+		SetCursorLocalPosition(GetSize() / 2);
+		lockCursorPos = GetCursorLocalPosition();
 		lastCursorPos = lockCursorPos;
+		cursorPos = lockCursorPos;
 		cursorlock = state;
 	}
 	void Window::SetCursorVisible(bool state)
@@ -97,8 +99,6 @@ namespace BDXKEngine {
 		cursorVisible = state;
 		UpdateCursor();
 	}
-
-
 	void Window::SetCursorLocalPosition(Vector2 localPosition)
 	{
 		Rect rect = GetScreenRect();

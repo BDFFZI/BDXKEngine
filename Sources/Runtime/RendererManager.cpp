@@ -4,31 +4,33 @@
 
 namespace BDXKEngine {
 	std::vector<ObjectPtr<Renderer>> RendererManager::renderers = {};
-	std::vector<RenderObjectHandler*> RendererManager::renderObjectEvents = {};
-	std::vector<DrawGizmosHandler*> RendererManager::drawGizmosEvents = {};
 
 	RendererManager* RendererManager::Initialize(Window* window)
 	{
 		window->AddRenewEvent([]() {
+			//获取渲染事件
+			std::vector<PreRenderHandler*> preRenderHandlers = Object::FindObjectsOfType<PreRenderHandler>();
+			std::vector<PostRenderHandler*> postRenderHandlers = Object::FindObjectsOfType<PostRenderHandler>();
+
 			GL::SetRenderTarget(nullptr);
-
-			//绘制普通物体
-			for (auto& renderObjectHandler : renderObjectEvents)
-				renderObjectHandler->OnRenderObject();
-
-			//标准渲染管线（相机渲染）
+			GL2D::BeginDraw();
+	
 			std::vector<Camera*> cameras = Object::FindObjectsOfType<Camera>();
 			for (auto camera : cameras)
+			{
+				//如：渲染阴影贴图
+				for (auto preRenderHandler : preRenderHandlers)
+					preRenderHandler->OnPreRender();
+
+				//标准渲染管线（相机渲染）
 				camera->Render();
 
-			//绘制UI，后期物体等
-			GL2D::BeginDraw();
-
-			for (auto& drawGizmosHandler : drawGizmosEvents)
-				drawGizmosHandler->OnDrawGizmos();
+				//如：绘制UI，后期物体等
+				for (auto postRenderHandler : postRenderHandlers)
+					postRenderHandler->OnPostRender();
+			}
 
 			GL2D::EndDraw();//顺序很重要，Direct2D的渲染结果最终需要Direct3D来显示
-
 			GL::Present();//显示到屏幕上
 			});
 		window->AddResizeEvent([](Vector2 size) {

@@ -6,7 +6,7 @@
 namespace Assembly {
 	using namespace BDXKEngine;
 	using namespace BDXKEditor;
-	class CreateCube :public Component, public DrawGizmosHandler {
+	class CreateCube :public Component, public PostRenderHandler {
 		ObjectPtr<Transform> transform;
 
 		void Awake()override {
@@ -14,7 +14,7 @@ namespace Assembly {
 			transform = GetTransform();
 		}
 
-		void OnDrawGizmos()override {
+		void OnPostRender()override {
 			Vector2 size = Screen::GetSize();
 
 			if (GUI::Button({ 10,size.y - 40,180,30 }, L"∑≈÷√∑ΩøÈ"))

@@ -3,11 +3,12 @@
 namespace BDXKEngine {
 	std::vector<ObjectPtr<GameObject>> GameObject::allGameObjects;
 
-	ObjectPtr<GameObject> GameObject::Create()
+	ObjectPtr<GameObject> GameObject::Create(std::wstring name)
 	{
 		GameObject gameObject = {};
-
-		return Object::Instantiate(&gameObject);
+		ObjectPtr<GameObject> result = Object::Instantiate(&gameObject);
+		result->SetName(name);
+		return result;
 	}
 
 	std::vector<ObjectPtr<Component>> GameObject::GetComponents()
@@ -37,7 +38,7 @@ namespace BDXKEngine {
 	{
 		std::vector<ObjectPtr<Component>> components = this->components;
 		for (ObjectPtr<Component>& component : components)
-			Object::Destroy(component.GetObjectBase());
+			Object::Destroy(component.ToObjectBase());
 
 		allGameObjects.erase(std::find(
 			allGameObjects.begin(),

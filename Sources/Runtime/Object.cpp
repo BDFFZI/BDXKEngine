@@ -3,6 +3,7 @@
 namespace BDXKEngine {
 	unsigned int Object::instanceIDCount = 0;
 	std::map<unsigned int, Object*> Object::allObjects = {};
+	std::map<unsigned int, Object*> Object::allObjectsEnabling = {};
 	std::vector<Object*> Object::activateBuffer;
 	std::vector<Object*> Object::destroyBuffer;
 
@@ -39,8 +40,14 @@ namespace BDXKEngine {
 	}
 	void Object::Awake() {
 		Debug::LogWarning((String)L"Object::Awake " + instanceID + " " + GetName());
+
+		isEnabling = true;
+		allObjectsEnabling[instanceID] = this;
 	}
 	void Object::Destroy() {
 		Debug::LogWarning((String)L"Object::Destroy " + instanceID + " " + GetName());
+
+		allObjectsEnabling.erase(instanceID);
+		isEnabling = false;
 	}
 }

@@ -5,16 +5,16 @@
 
 namespace BDXKEngine {
 	class RendererManager;
-	class RenderObjectHandler {
+	class PreRenderHandler {
 		friend RendererManager;
 	protected:
-		virtual void OnRenderObject() = 0;
+		virtual void OnPreRender() = 0;
 	};
 
-	class DrawGizmosHandler {
+	class PostRenderHandler {
 		friend RendererManager;
 	protected:
-		virtual void OnDrawGizmos() = 0;
+		virtual void OnPostRender() = 0;
 	};
 }
 

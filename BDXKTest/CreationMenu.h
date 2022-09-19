@@ -44,7 +44,7 @@ namespace BDXKEditor {
 				ObjectPtr<Material> material = Material::Create({ baseShader, addShader });
 				material->SetTexture(0, texture2d.ToObjectPtr<Texture>());
 				//创建物体
-				ObjectPtr<GameObject> gameObject = GameObject::Create();
+				ObjectPtr<GameObject> gameObject = GameObject::Create(name);
 				ObjectPtr<MeshRenderer> meshRenderer = gameObject->AddComponent<MeshRenderer>();
 				meshRenderer->SetMesh(mesh);
 				meshRenderer->SetMaterial(material);
@@ -66,7 +66,7 @@ namespace BDXKEditor {
 		private:
 			static ObjectPtr<GameObject> CreateLight(LightType lightType, const wchar_t* name = L"Light")
 			{
-				ObjectPtr<GameObject> lightObj = GameObject::Create();
+				ObjectPtr<GameObject> lightObj = GameObject::Create(name);
 				ObjectPtr<BDXKEngine::Light> light = lightObj->AddComponent<BDXKEngine::Light>();
 				light->SetColor(Color::white);
 				light->SetIntensity(0.5f);
@@ -77,7 +77,7 @@ namespace BDXKEditor {
 
 		static ObjectPtr<GameObject> Camera(const wchar_t* name = L"Camera")
 		{
-			ObjectPtr<GameObject> camera = GameObject::Create();
+			ObjectPtr<GameObject> camera = GameObject::Create(name);
 			camera->AddComponent<BDXKEngine::Camera>()->SetClearFlags(ClearFlags::Skybox);
 			camera->AddComponent<CameraController>();
 			camera->AddComponent<SceneHUD>();

@@ -13,7 +13,7 @@
 
 namespace BDXKEngine {
 	class LightEditor;
-	class Light :public Component, public RenderObjectHandler, RendererManager
+	class Light :public Component, public PreRenderHandler, RendererManager
 	{
 		friend LightEditor;
 
@@ -26,13 +26,11 @@ namespace BDXKEngine {
 		void SetLightType(LightType type);
 		void SetColor(Color color);
 		void SetIntensity(float intensity);
-
-
-		ObjectPtr<Texture2D> shadowMap;
-		ObjectPtr<TextureCube> shadowMapCube;
 	private:
 		static std::vector<ObjectPtr<Light>> lights;
 
+		ObjectPtr<Texture2D> shadowMap;
+		ObjectPtr<TextureCube> shadowMapCube;
 		LightType type = LightType::Directional;
 		Color color = Color::white;
 		float intensity = 1;
@@ -43,7 +41,7 @@ namespace BDXKEngine {
 		ObjectPtr<Texture> GetShadowMap();
 
 		void Awake()override;
-		void OnRenderObject()override;
+		void OnPreRender()override;
 		void Destroy()override;
 	};
 

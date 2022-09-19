@@ -37,7 +37,7 @@ namespace Assembly {
 	}
 	void TestLight()
 	{
-		ObjectPtr<GameObject> aureole = Object::Instantiate<GameObject>(nullptr);
+		ObjectPtr<GameObject> aureole = GameObject::Create(L"光环");
 		{
 			ObjectPtr<Transform> transform = aureole->GetTransform();
 			transform->SetParent(GameObject::Find(L"摄像机")->GetTransform());
@@ -82,7 +82,7 @@ namespace Assembly {
 	{
 		ObjectPtr<GameObject> camera = GameObject::Find(L"摄像机");
 		ObjectPtr<Light> pointlight = GameObject::Find(L"红色点光源")->GetComponent<Light>();
-		GraphicsSettings::skybox = pointlight->shadowMapCube;
+		//GraphicsSettings::skybox = pointlight->shadowMapCube;
 
 		//ObjectPtr<GameObject> cube = CreationMenu::Object3D::Cube(L"阴影贴图显示器");
 		////阴影贴图显示器

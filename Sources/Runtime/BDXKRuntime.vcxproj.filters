@@ -228,9 +228,6 @@
     <ClCompile Include="TextureCube.cpp">
       <Filter>1_Platform\GL\Resources\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsSettings.cpp">
-      <Filter>4_Framework\Settings</Filter>
-    </ClCompile>
     <ClCompile Include="Buffer.cpp">
       <Filter>1_Platform\GL\Resources\Buffer</Filter>
     </ClCompile>
@@ -270,7 +267,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>4_Framework\Components\Renderer\Base</Filter>
     </ClCompile>
-    <ClCompile Include="RendererEvent.cpp">
+    <ClCompile Include="CameraEvent.cpp">
       <Filter>4_Framework\Components\Renderer\Base</Filter>
     </ClCompile>
     <ClCompile Include="RendererManager.cpp">
@@ -465,7 +462,7 @@
     <ClInclude Include="Camera.h">
       <Filter>4_Framework\Components\Renderer\Base</Filter>
     </ClInclude>
-    <ClInclude Include="RendererEvent.h">
+    <ClInclude Include="CameraEvent.h">
       <Filter>4_Framework\Components\Renderer\Base</Filter>
     </ClInclude>
     <ClInclude Include="RendererManager.h">

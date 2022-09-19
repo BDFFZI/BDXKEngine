@@ -3,13 +3,13 @@
 
 namespace Assembly {
 	using namespace BDXKEngine;
-	class AutoDestroy :public Component, public UpdateHandler {
+	class AutoDestroy :public Behavior, public UpdateHandler {
 		float time;
 		ObjectPtr<Animator> animator;
 		ObjectPtr<MeshRenderer> meshRenderer;
 
 		void Awake()override {
-			Component::Awake();
+			Behavior::Awake();
 
 			time = Time::GetRealtimeSinceStartup();
 			meshRenderer = GetGameObject()->GetComponent<MeshRenderer>();
@@ -21,7 +21,7 @@ namespace Assembly {
 		}
 
 		void OnUpdate()override {
-			if (Time::GetRealtimeSinceStartup() - time > 2)
+			if (animator != nullptr && Time::GetRealtimeSinceStartup() - time > 2)
 				DestroyImmediate(animator.ToObject());
 			if (Time::GetRealtimeSinceStartup() - time > 4)
 			{
@@ -42,7 +42,8 @@ namespace Assembly {
 
 		void Destroy()override {
 			Debug::Log(L"##################################");
-			Component::Destroy();
+
+			Behavior::Destroy();
 		}
 	};
 }

@@ -30,33 +30,9 @@ namespace BDXKEngine {
 	{
 		Component::Awake();
 
-		RenderObjectHandler* renderObjectHandler = dynamic_cast<RenderObjectHandler*>(this);
-		DrawGizmosHandler* drawGizmosHandler = dynamic_cast<DrawGizmosHandler*>(this);
-
-		if (renderObjectHandler != nullptr) RendererManager::renderObjectEvents.insert(
-			RendererManager::renderObjectEvents.begin(), renderObjectHandler);
-		if (drawGizmosHandler != nullptr) RendererManager::drawGizmosEvents.insert(
-			RendererManager::drawGizmosEvents.begin(), drawGizmosHandler);
 		RendererManager::renderers.push_back(this);
 	}
 	void Renderer::Destroy() {
-		RenderObjectHandler* renderObjectHandler = dynamic_cast<RenderObjectHandler*>(this);
-		DrawGizmosHandler* drawGizmosHandler = dynamic_cast<DrawGizmosHandler*>(this);
-
-		if (renderObjectHandler != nullptr)RendererManager::renderObjectEvents.erase(std::find_if(
-			RendererManager::renderObjectEvents.begin(),
-			RendererManager::renderObjectEvents.end(),
-			[=](RenderObjectHandler*& item) {
-				return item == renderObjectHandler;
-			}
-		));
-		if (drawGizmosHandler != nullptr)RendererManager::drawGizmosEvents.erase(std::find_if(
-			RendererManager::drawGizmosEvents.begin(),
-			RendererManager::drawGizmosEvents.end(),
-			[=](DrawGizmosHandler*& item) {
-				return item == drawGizmosHandler;
-			}
-		));
 		RendererManager::renderers.erase(std::find_if(
 			RendererManager::renderers.begin(),
 			RendererManager::renderers.end(),

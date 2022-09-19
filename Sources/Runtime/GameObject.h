@@ -14,7 +14,7 @@ namespace BDXKEngine {
 		friend Component;
 		friend WorldManager;
 	public:
-		static ObjectPtr<GameObject> Create();
+		static ObjectPtr<GameObject> Create(std::wstring name = L"New GameObject");
 
 		template<typename TComponent>
 		ObjectPtr<TComponent> GetComponent() {

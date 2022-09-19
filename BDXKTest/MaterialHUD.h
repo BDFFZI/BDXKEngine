@@ -3,14 +3,14 @@
 
 namespace BDXKEditor {
 	using namespace BDXKEngine;
-	class MaterialHUD :public Component, public DrawGizmosHandler {
+	class MaterialHUD :public Component, public PostRenderHandler {
 	public:
 		std::vector<ObjectPtr<Material>> materials;
 		float metallic = 0;
 		float smoothness = 0;
 
 	private:
-		void OnDrawGizmos()override {
+		void OnPostRender()override {
 			Vector2 windowSize = Screen::GetSize();
 			Rect rect = {
 				windowSize.x - 100,

@@ -93,7 +93,7 @@ namespace BDXKEngine {
 		}
 		/// 销毁物体，只在Destroy()中调用有效
 		static void Destroy(Object* object) {
-			if (object->isDestroying)return;
+			if (object == nullptr || object->isDestroying)return;
 			destroyBuffer.push_back(object);
 			object->isDestroying = true;
 			object->Destroy();
@@ -112,7 +112,7 @@ namespace BDXKEngine {
 		static std::vector<TObject*> FindObjectsOfType()
 		{
 			std::vector<TObject*> result{};
-			for (auto& item : allObjects) {
+			for (auto& item : allObjectsEnabling) {
 				TObject* object = dynamic_cast<TObject*>(item.second);
 				if (object != nullptr)result.push_back(object);
 			}
@@ -145,6 +145,7 @@ namespace BDXKEngine {
 		static unsigned int instanceIDCount;//0为None占位符,一般用作纯数据容器
 		/// 内存中的所有Object，包括未实例化的Object
 		static std::map<unsigned int, Object*> allObjects;
+		static std::map<unsigned int, Object*> allObjectsEnabling;
 		/// 实例化队列
 		static std::vector<Object*> activateBuffer;
 		/// 销毁队列
@@ -175,6 +176,7 @@ namespace BDXKEngine {
 		std::wstring name;
 		bool isActivating = false;
 		bool isDestroying = false;
+		bool isEnabling = false;
 	};
 }
 

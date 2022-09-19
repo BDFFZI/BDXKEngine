@@ -79,7 +79,7 @@ namespace BDXKEngine {
 
 		Component::Awake();
 	}
-	void Light::OnRenderObject()
+	void Light::OnPreRender()
 	{
 		//获取投射阴影的物体
 		std::vector<ObjectPtr<Renderer>> renderers = RendererManager::GetRenderersQueue();
@@ -148,6 +148,8 @@ namespace BDXKEngine {
 			lights.end(),
 			ObjectPtr<Light>{this}
 		));
+		Object::Destroy(shadowMap.ToObjectBase());
+		Object::Destroy(shadowMapCube.ToObjectBase());
 
 		Component::Destroy();
 	}

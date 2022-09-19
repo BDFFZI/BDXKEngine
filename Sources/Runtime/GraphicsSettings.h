@@ -4,6 +4,6 @@
 
 namespace BDXKEngine {
 	struct GraphicsSettings {
-		static ObjectPtr<TextureCube> skybox;
+		inline static ObjectPtr<TextureCube> skybox = nullptr;
 	};
 }

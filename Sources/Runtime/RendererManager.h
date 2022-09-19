@@ -2,7 +2,7 @@
 #include <vector>
 #include "Window.h"
 #include "GL2D.h"
-#include "RendererEvent.h"
+#include "CameraEvent.h"
 
 namespace BDXKEngine {
 	class Renderer;
@@ -16,7 +16,5 @@ namespace BDXKEngine {
 		static std::vector<ObjectPtr<Renderer>> GetRenderersQueue();
 	private:
 		static std::vector<ObjectPtr<Renderer>> renderers;//”…Rendererπ‹¿Ì
-		static std::vector<RenderObjectHandler*> renderObjectEvents;
-		static std::vector<DrawGizmosHandler*> drawGizmosEvents;
 	};
 }

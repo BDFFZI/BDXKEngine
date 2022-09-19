@@ -116,11 +116,11 @@ namespace BDXKEngine {
 		parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
 
 		for (auto shader : shaders)
-			Object::Awake(shader.GetObjectBase());
-		Object::Awake(parametersBuffer.GetObjectBase());
-		if (texture0 != nullptr) Object::Awake(texture0.GetObjectBase());
-		if (texture1 != nullptr) Object::Awake(texture1.GetObjectBase());
-		if (texture2 != nullptr) Object::Awake(texture2.GetObjectBase());
-		if (texture3 != nullptr) Object::Awake(texture3.GetObjectBase());
+			Object::Awake(shader.ToObjectBase());
+		Object::Awake(parametersBuffer.ToObjectBase());
+		if (texture0 != nullptr) Object::Awake(texture0.ToObjectBase());
+		if (texture1 != nullptr) Object::Awake(texture1.ToObjectBase());
+		if (texture2 != nullptr) Object::Awake(texture2.ToObjectBase());
+		if (texture3 != nullptr) Object::Awake(texture3.ToObjectBase());
 	}
 }
