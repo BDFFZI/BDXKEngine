@@ -118,9 +118,9 @@ namespace BDXKEngine {
 		for (auto shader : shaders)
 			Object::Awake(shader.ToObjectBase());
 		Object::Awake(parametersBuffer.ToObjectBase());
-		if (texture0 != nullptr) Object::Awake(texture0.ToObjectBase());
-		if (texture1 != nullptr) Object::Awake(texture1.ToObjectBase());
-		if (texture2 != nullptr) Object::Awake(texture2.ToObjectBase());
-		if (texture3 != nullptr) Object::Awake(texture3.ToObjectBase());
+		Object::Awake(texture0.ToObjectBase());
+		Object::Awake(texture1.ToObjectBase());
+		Object::Awake(texture2.ToObjectBase());
+		Object::Awake(texture3.ToObjectBase());
 	}
 }

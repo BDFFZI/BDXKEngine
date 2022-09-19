@@ -123,8 +123,9 @@ namespace BDXKEngine {
 
 			ReleaseSettings();
 
-			Debug::LogError(L"若下方出现信息，则系统存在异常!");
+			Debug::LogError(L"系统回收检查");
 			ObjectPtrBase::DebugRefCountMap();
+			BehaviorManager::DebugHandlersCount();
 		}
 	private:
 		static void CreateSettings()

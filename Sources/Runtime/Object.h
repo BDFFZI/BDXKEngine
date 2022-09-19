@@ -81,102 +81,54 @@ namespace BDXKEngine {
 			TObject* object = InstantiateNoAwake<TObject>(source);
 			if (source->instanceID != 0)object->SetName(object->GetName() + L" (Clone)");
 			Awake(object);
-			FlushActivateBuffer();
 			return object;
 		}
 		/// 激活物体，只在Awake()中调用有效
-		static void Awake(Object* object) {
-			if (object->isActivating)return;
-			//activateBuffer.push_back(object);
-			object->isActivating = true;
-			object->Awake();
-		}
+		static void Awake(Object* object);
 		/// 销毁物体，只在Destroy()中调用有效
-		static void Destroy(Object* object) {
-			if (object == nullptr || object->isDestroying)return;
-			destroyBuffer.push_back(object);
-			object->isDestroying = true;
-			object->Destroy();
-		}
-		static void DestroyImmediate(Object* object) {
-			std::vector<Object*> destroyBufferLast = destroyBuffer;
-
-			destroyBuffer.clear();
-			Destroy(object);
-			FlushDestroyBuffer();
-
-			destroyBuffer = destroyBufferLast;
-		};
+		static void Destroy(Object* object);
+		static void DestroyImmediate(Object* object);;
 
 		template<typename TObject>
 		static std::vector<TObject*> FindObjectsOfType()
 		{
 			std::vector<TObject*> result{};
-			for (auto& item : allObjectsEnabling) {
+			for (auto& item : allObjectsRuntime) {
 				TObject* object = dynamic_cast<TObject*>(item.second);
 				if (object != nullptr)result.push_back(object);
 			}
 
 			return result;
 		}
-		static Object* FindObjectOfInstanceID(unsigned int instanceID)
-		{
-			auto pair = allObjects.find(instanceID);
-			if (pair != allObjects.end())
-				return pair->second;
-			else
-				return nullptr;
-		}
+		static Object* FindObjectOfInstanceID(unsigned int instanceID);
 
 		unsigned int GetInstanceID();
 		std::wstring GetName();
 		void SetName(std::wstring name);
 
-		bool IsInstantiated();
+		bool IsActivating();
 		virtual std::wstring ToString();
 	protected:
 		virtual void Export(Exporter& transfer)override;
 		virtual void Import(Importer& transfer)override;
 		virtual void Awake();//唤醒回调
 		virtual void Destroy();//销毁回调
-		// 设为虚函数来保证delete能销毁子类
-		virtual ~Object() {};
+		virtual ~Object() {};// 设为虚函数来保证delete能销毁子类
 	private:
 		static unsigned int instanceIDCount;//0为None占位符,一般用作纯数据容器
 		/// 内存中的所有Object，包括未实例化的Object
 		static std::map<unsigned int, Object*> allObjects;
-		static std::map<unsigned int, Object*> allObjectsEnabling;
-		/// 实例化队列
-		static std::vector<Object*> activateBuffer;
+		static std::map<unsigned int, Object*> allObjectsRuntime;
 		/// 销毁队列
 		static std::vector<Object*> destroyBuffer;
 
-		// 统一激活被标记的物体，Instantiate()调用，
-		static void FlushActivateBuffer()
-		{
-			for (auto& object : activateBuffer)
-			{
-				object->Awake();
-			}
-			activateBuffer.clear();
-		}
-		// 统一销毁被标记的物体，DestroyImmediate()调用
-		static void FlushDestroyBuffer()
-		{
-			for (auto& object : destroyBuffer)
-			{
-				//object->Destroy();
-				allObjects.erase(object->instanceID);
-				delete object;
-			}
-			destroyBuffer.clear();
-		}
+		// 统一销毁被标记的物体，DestroyImmediate()调用，预留Unity延迟删除功能，应该是为了内存回收的问题
+		static void FlushDestroyBuffer();
 
 		unsigned int instanceID;
 		std::wstring name;
 		bool isActivating = false;
 		bool isDestroying = false;
-		bool isEnabling = false;
 	};
 }
 

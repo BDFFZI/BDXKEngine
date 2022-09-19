@@ -15,7 +15,6 @@ namespace BDXKEngine {
 				stream << L"实例编号:" << std::to_wstring(value.first);
 				stream << L"\t";
 				stream << L"引用计数:" << std::to_wstring(value.second);
-				stream << L"\n";
 			}
 			Debug::LogWarning(stream.str());
 		}

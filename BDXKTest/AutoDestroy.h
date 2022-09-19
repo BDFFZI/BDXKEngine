@@ -4,26 +4,24 @@
 namespace Assembly {
 	using namespace BDXKEngine;
 	class AutoDestroy :public Behavior, public UpdateHandler {
-		float time;
+		float time = 0;
 		ObjectPtr<Animator> animator;
 		ObjectPtr<MeshRenderer> meshRenderer;
 
 		void Awake()override {
 			Behavior::Awake();
 
-			time = Time::GetRealtimeSinceStartup();
 			meshRenderer = GetGameObject()->GetComponent<MeshRenderer>();
 			animator = GetGameObject()->AddComponent<Animator>();
-
 			animator->SetAnimation([](ObjectPtr<Transform> transform) {
 				transform->SetLocalPosition(transform->GetLocalPosition() + transform->GetFront() * Time::GetDeltaTime() * 3);
 				});
 		}
 
 		void OnUpdate()override {
-			if (animator != nullptr && Time::GetRealtimeSinceStartup() - time > 2)
-				DestroyImmediate(animator.ToObject());
-			if (Time::GetRealtimeSinceStartup() - time > 4)
+			time += Time::GetDeltaTime();
+			animator->SetEnabling(static_cast<int>(std::fmod(time * 2.5f, 2)) == 1);
+			if (time > 4)
 			{
 				ObjectPtr<GameObject> gameObject = GetGameObject();
 				DestroyImmediate(this);

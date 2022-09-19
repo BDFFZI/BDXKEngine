@@ -1,13 +1,10 @@
 #include "BehaviorManager.h"
-#include "BehaviorEvent.h"
+#include "Behavior.h"
 
 namespace BDXKEngine {
-	std::vector<StartHandler*> BehaviorManager::allStartHandlers = {};
-	std::vector<UpdateHandler*> BehaviorManager::allUpdateHandlers = {};
-	std::vector<LateUpdateHandler*> BehaviorManager::allLateUpdateHandlers = {};
-	std::unordered_set<StartHandler*> BehaviorManager::invalidStartHandlers = {};//标记指针是否失效
-	std::unordered_set<UpdateHandler*> BehaviorManager::invalidUpdateHandlers = {};//标记指针是否失效
-	std::unordered_set<LateUpdateHandler*> BehaviorManager::invalidLateUpdateHandlers = {};//标记指针是否失效
+	std::unordered_map<StartHandler*, bool> BehaviorManager::allStartHandlers = {};
+	std::unordered_map<UpdateHandler*, bool> BehaviorManager::allUpdateHandlers = {};
+	std::unordered_map<LateUpdateHandler*, bool> BehaviorManager::allLateUpdateHandlers = {};
 
 	BehaviorManager* BehaviorManager::Initialize(Window* window)
 	{
@@ -19,57 +16,39 @@ namespace BDXKEngine {
 	}
 	void BehaviorManager::Start()
 	{
-		for (auto handlerPtr = allStartHandlers.begin(); handlerPtr != allStartHandlers.end();)
+		std::unordered_map<StartHandler*, bool> allStartHandlers = { BehaviorManager::allStartHandlers };
+		for (auto handlerPair = allStartHandlers.begin(); handlerPair != allStartHandlers.end(); handlerPair++)
 		{
-			auto handler = *handlerPtr;
-			if (invalidStartHandlers.contains(handler) == false)
-			{
+			auto handler = handlerPair->first;
+			if (BehaviorManager::allStartHandlers[handler] == true)
 				handler->OnStart();
-				handlerPtr++;
-			}
-			else
-			{
-				handlerPtr = allStartHandlers.erase(handlerPtr);
-				invalidStartHandlers.erase(handler);
-			}
+			BehaviorManager::allStartHandlers.erase(handler);
 		}
-
-		allStartHandlers.clear();
 	}
 	void BehaviorManager::Update()
 	{
 		Start();
-		for (auto handlerPtr = allUpdateHandlers.begin(); handlerPtr != allUpdateHandlers.end();)
+		std::unordered_map<UpdateHandler*, bool> allUpdateHandlers = { BehaviorManager::allUpdateHandlers };
+		for (auto handlerPair = allUpdateHandlers.begin(); handlerPair != allUpdateHandlers.end(); handlerPair++)
 		{
-			auto handler = *handlerPtr;
-			if (invalidUpdateHandlers.contains(handler) == false)
-			{
+			auto handler = handlerPair->first;
+			if (BehaviorManager::allUpdateHandlers[handler] == true)
 				handler->OnUpdate();
-				handlerPtr++;
-			}
 			else
-			{
-				handlerPtr = allUpdateHandlers.erase(handlerPtr);
-				invalidUpdateHandlers.erase(handler);
-			}
+				BehaviorManager::allUpdateHandlers.erase(handler);
 		}
 	}
 	void BehaviorManager::LateUpdate()
 	{
 		Start();
-		for (auto handlerPtr = allLateUpdateHandlers.begin(); handlerPtr != allLateUpdateHandlers.end();)
+		std::unordered_map<LateUpdateHandler*, bool> allLateUpdateHandlers = { BehaviorManager::allLateUpdateHandlers };
+		for (auto handlerPair = allLateUpdateHandlers.begin(); handlerPair != allLateUpdateHandlers.end(); handlerPair++)
 		{
-			auto handler = *handlerPtr;
-			if (invalidLateUpdateHandlers.contains(handler) == false)
-			{
+			auto handler = handlerPair->first;
+			if (BehaviorManager::allLateUpdateHandlers[handler] == true)
 				handler->OnLateUpdate();
-				handlerPtr++;
-			}
 			else
-			{
-				handlerPtr = allLateUpdateHandlers.erase(handlerPtr);
-				invalidLateUpdateHandlers.erase(handler);
-			}
+				BehaviorManager::allLateUpdateHandlers.erase(handler);
 		}
 	}
 }
