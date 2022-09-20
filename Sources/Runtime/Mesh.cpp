@@ -21,7 +21,7 @@ namespace BDXKEngine {
 	{
 		return (int)triangles.size();
 	}
-	std::vector<unsigned int> Mesh::GetTriangles()
+	std::vector<unsigned short> Mesh::GetTriangles()
 	{
 		return { triangles };
 	}
@@ -66,7 +66,7 @@ namespace BDXKEngine {
 		return colors;
 	}
 
-	void Mesh::SetTriangles(std::vector<UINT32> data)
+	void Mesh::SetTriangles(std::vector<unsigned short> data)
 	{
 		size_t size = data.size();
 		if (size % 3 != 0)
@@ -145,7 +145,7 @@ namespace BDXKEngine {
 	}
 	void Mesh::ResetTrianglesBuffer()
 	{
-		triangleBuffer = Buffer::Create(BufferTarget::Index, (int)(triangles.size() * sizeof(unsigned int)));
+		triangleBuffer = Buffer::Create(BufferTarget::Index, (int)(triangles.size() * sizeof(unsigned short)));
 	}
 
 	void Mesh::Export(Exporter& exporter)
@@ -155,7 +155,7 @@ namespace BDXKEngine {
 		exporter.TransferInt(vertices.size());
 		exporter.TransferBytes(vertices.data(), vertices.size() * sizeof(Vertex));
 		exporter.TransferInt(triangles.size());
-		exporter.TransferBytes(triangles.data(), triangles.size() * sizeof(unsigned int));
+		exporter.TransferBytes(triangles.data(), triangles.size() * sizeof(unsigned short));
 	}
 	void Mesh::Import(Importer& importer)
 	{
@@ -167,7 +167,7 @@ namespace BDXKEngine {
 
 		int trianglesCount = importer.TransferInt();
 		triangles.resize(trianglesCount);
-		importer.TransferBytes(triangles.data(), trianglesCount * sizeof(unsigned int));
+		importer.TransferBytes(triangles.data(), trianglesCount * sizeof(unsigned short));
 	}
 	void Mesh::Awake()
 	{

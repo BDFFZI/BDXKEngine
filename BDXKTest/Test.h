@@ -29,6 +29,9 @@ namespace Assembly {
 			materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());
 			camera->GetTransform()->SetLocalPosition({ 0,1,-10 });
 		}
+
+		ObjectPtr<GameObject> blender = CreationMenu::Object3D::CreateObject3D(Resources::GetBlenderMesh(), L"Blender");
+		blender->GetTransform()->SetLocalPosition({ 0,3.0f,0 });
 	}
 	void TestTransparency()
 	{

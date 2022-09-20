@@ -22,7 +22,6 @@ namespace BDXKEditor {
 			static ObjectPtr<GameObject> Sphere(const wchar_t* name = L"Sphere", Color color = Color::white) {
 				return CreateObject3D(Resources::GetSphereMesh(), name, color);
 			}
-		private:
 			static ObjectPtr<GameObject> CreateObject3D(ObjectPtr<Mesh> mesh, const wchar_t* name, Color color = Color::white)
 			{
 				//¼ÓÔØ×ÅÉ«Æ÷

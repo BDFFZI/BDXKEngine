@@ -32,7 +32,7 @@ namespace BDXKEngine {
 		context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer->glBuffer.p, &stride, &offset);
 
 		//绑定索引数据
-		context->IASetIndexBuffer(mesh->triangleBuffer->glBuffer, DXGI_FORMAT_R32_UINT, 0);
+		context->IASetIndexBuffer(mesh->triangleBuffer->glBuffer, DXGI_FORMAT_R16_UINT, 0);
 	}
 	// 设置当前渲染管线中的常量缓冲区
 	void GL::SetBuffer(unsigned int startSlot, ObjectPtr<Buffer> buffer)

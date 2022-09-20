@@ -15,13 +15,13 @@ namespace BDXKEngine {
 
 		int GetVerticesCount();
 		int GetTrianglesCount();
-		std::vector <unsigned int> GetTriangles();
+		std::vector <unsigned short> GetTriangles();
 		std::vector <Vector3> GetPositions();
 		std::vector <Vector3> GetNormals();
 		std::vector<Vector2> GetUVs();
 		std::vector<Color> GetColors();
 
-		void SetTriangles(std::vector <unsigned int> data);
+		void SetTriangles(std::vector <unsigned short> data);
 		void SetPositions(std::vector <Vector3> data);
 		void SetNormals(std::vector <Vector3> data);
 		void SetUVs(std::vector<Vector2> data);
@@ -30,7 +30,7 @@ namespace BDXKEngine {
 		void UploadMeshData();
 	private:
 		std::vector<Vertex> vertices = {};
-		std::vector<unsigned int> triangles = {};
+		std::vector<unsigned short> triangles = {};
 
 		ObjectPtr<Buffer> vertexBuffer;
 		ObjectPtr<Buffer> triangleBuffer;

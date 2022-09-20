@@ -18,6 +18,7 @@ namespace BDXKEngine {
 		static ObjectPtr<Texture2D> GetWhiteTexture();
 		static ObjectPtr<Mesh> GetCubeMesh();
 		static ObjectPtr<Mesh> GetSphereMesh();
+		static ObjectPtr<Mesh> GetBlenderMesh();
 		//template<typename TResult>
 		//static ObjectPtr<TResult> Load(std::wstring path)
 		//{
@@ -31,6 +32,7 @@ namespace BDXKEngine {
 		static ObjectPtr<Texture2D> whiteTexture;
 		static ObjectPtr<Mesh> cubeMesh;
 		static ObjectPtr<Mesh> sphereMesh;
+		static ObjectPtr<Mesh> blenderMesh;
 
 		static void Initialize(Window* window);
 	private:

@@ -8,6 +8,7 @@ namespace BDXKEngine {
 	ObjectPtr<Texture2D> Resources::whiteTexture = nullptr;
 	ObjectPtr<Mesh> Resources::cubeMesh = nullptr;
 	ObjectPtr<Mesh> Resources::sphereMesh = nullptr;
+	ObjectPtr<Mesh> Resources::blenderMesh = nullptr;
 
 	ObjectPtr<Material> Resources::GetShadowMapMaterial()
 	{
@@ -32,6 +33,10 @@ namespace BDXKEngine {
 	ObjectPtr<Mesh> Resources::GetSphereMesh()
 	{
 		return sphereMesh;
+	}
+	ObjectPtr<Mesh> Resources::GetBlenderMesh()
+	{
+		return blenderMesh;
 	}
 
 	void BDXKEngine::Resources::Initialize(Window* window)
@@ -66,8 +71,9 @@ namespace BDXKEngine {
 		//°×É«ÌùÍ¼
 		whiteTexture = Texture2D::Create(Color::white);
 
-		cubeMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Cube.fbx)).CreateMesh();
-		sphereMesh = MeshImporter::ImportFbx((char*)GetResourcesPath(Meshes, Sphere.fbx)).CreateMesh();
+		cubeMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Cube.glb)).CreateMesh();
+		sphereMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Sphere.glb)).CreateMesh();
+		blenderMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Blender.glb)).CreateMesh();
 
 		window->AddDestroyEvent([]() {
 			shadowMapMaterial = nullptr;
@@ -76,6 +82,7 @@ namespace BDXKEngine {
 			whiteTexture = nullptr;
 			cubeMesh = nullptr;
 			sphereMesh = nullptr;
+			blenderMesh = nullptr;
 			});
 	}
 }
