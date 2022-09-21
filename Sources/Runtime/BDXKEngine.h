@@ -1,141 +1,143 @@
+ï»¿// ReSharper disable CppUnusedIncludeDirective
 #pragma once
 
-//C++ĞÙÑÀÀû±íÊ¾·¨£¬ÔÊĞí×éºÏÊ¹ÓÃ
-//W ¿í£¬Èçwchar_t,ÒÔ´¦ÀíUnicodeÖĞutf-16,×¢ÒâÏÖÔÚ¶¼ÓÃÕâ¸ö
-//L ³¤£¬x16Ê±´úµÄ²úÎï£¬ÏÖÔÚ²»´øÒ²ÊÇ³¤
-//P Ö¸Õë
-//H ¾ä±ú
-//LP ³¤Ö¸Õë
-//C ³£Á¿
+//C++åŒˆç‰™åˆ©è¡¨ç¤ºæ³•ï¼Œå…è®¸ç»„åˆä½¿ç”¨
+//W å®½ï¼Œå¦‚wchar_t,ä»¥å¤„ç†Unicodeä¸­utf-16,æ³¨æ„ç°åœ¨éƒ½ç”¨è¿™ä¸ª
+//L é•¿ï¼Œx16æ—¶ä»£çš„äº§ç‰©ï¼Œç°åœ¨ä¸å¸¦ä¹Ÿæ˜¯é•¿
+//P æŒ‡é’ˆ
+//H å¥æŸ„
+//LP é•¿æŒ‡é’ˆ
+//C å¸¸é‡
 
-//C++ÌØÊâº¯Êıºó×º£¬´ú±íº¯ÊıµÄ²»Í¬°æ±¾
+//C++ç‰¹æ®Šå‡½æ•°åç¼€ï¼Œä»£è¡¨å‡½æ•°çš„ä¸åŒç‰ˆæœ¬
 // 
-//º¯ÊıÖĞÊ¹ÓÃµÄ×Ö·ûÀàĞÍ
-//a ASCII±àÂë
-//W ¿í×Ö·û±àÂë£¬ÔÛÖĞÎÄ¾ÍÓÃÕâ¸ö
+//å‡½æ•°ä¸­ä½¿ç”¨çš„å­—ç¬¦ç±»å‹
+//a ASCIIç¼–ç 
+//W å®½å­—ç¬¦ç¼–ç ï¼Œå’±ä¸­æ–‡å°±ç”¨è¿™ä¸ª
 // 
-//Ò»°ã±íÃ÷ÑÕÉ«´æ´¢·½Ê½
-//U	ÎŞ·ûºÅÕûÊı Èç£º0-255
-//F ¸¡µãÊı Èç£º0.0-1.0
+//ä¸€èˆ¬è¡¨æ˜é¢œè‰²å­˜å‚¨æ–¹å¼
+//U	æ— ç¬¦å·æ•´æ•° å¦‚ï¼š0-255
+//F æµ®ç‚¹æ•° å¦‚ï¼š0.0-1.0
 
-//C++Êı¾İÀàĞÍ
-//PCWSTR = ³£Á¿¿í×Ö·ûÖ¸Õë,±ê×¼×Ö·û´®
-//LRESULT = long int£¬±íÊ¾º¯ÊıµÄ·µ»Ø´úÂë
-//HWND = ´°¿Ú¾ä±ú
+//C++æ•°æ®ç±»å‹
+//PCWSTR = å¸¸é‡å®½å­—ç¬¦æŒ‡é’ˆ,æ ‡å‡†å­—ç¬¦ä¸²
+//LRESULT = long intï¼Œè¡¨ç¤ºå‡½æ•°çš„è¿”å›ä»£ç 
+//HWND = çª—å£å¥æŸ„
 //BOOL = int
 //WPARAM = uint
 //LPARAM = int
 
-//»ù´¡²ã£º¹«¹²Êı¾İÀàĞÍ£¬Í³Ò»¸÷Ä£¿é½»Á÷µÄÓïÑÔ >> À©Õ¹±ê×¼¿â
-#include "ObjectPtr.h"
-#include "Color.h"
-#include "Rect.h"
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Matrix3x2.h"
-#include "Matrix4x4.h"
-//Æ½Ì¨²ã£º¶Ô²Ù×÷ÏµÍ³ÒÔ¼°¸÷ÖÖ·Ç±ê×¼¿âµÄ·â×° >> À©Õ¹±ê×¼¿â
-#include "String.h"
-#include "Debug.h"
-#include "WindowBase.h"
-#include "Window.h"
-#include "GL.h"
-#include "GL2D.h"
-#include "Mesh.h"
-#include "Shader.h"
-#include "Texture2D.h"
-#include "TextureCube.h"
-//×ÊÔ´²ã£º¶Ô¸÷ÖÖÍâ²¿ÎÄ¼ş°üÀ¨ÒıÇæ³Ö¾Ã»¯×ÊÔ´µÄ±íÊ¾ºÍ¶ÁĞ´ >> ÒıÇæÆô¶¯ºÍÔËĞĞµÄÊı¾İÔ´Í·£¬Î´À´±à¼­Æ÷µÄ±à¼­Ä¿±ê
-#include "Resources.h"
-#include "MeshImporter.h"
-//¹¦ÄÜ²ã£ºÒıÇæÔËĞĞÖĞÌá¹©µÄ¸÷ÖÖÔËĞĞÊ±¹¦ÄÜ >> ÒıÇæ¿ÉÒÔÕı³£ÔËĞĞÁË
-#include "Graphics.h"
-#include "Time.h"
-#include "Input.h"
-#include "Screen.h"
-#include "Cursor.h"
-#include "Event.h"
-#include "GUI.h"
-#include "Random.h"
-//¿ò¼Ü²ã£ºÔÚ´Ë×éÖ¯ºÍÊ¹ÓÃÏÂ²ãµÄ¸÷ÖÖ¹¦ÄÜ >> ÓÃ»§¿ØÖÆÒıÇæµÄ½Ó¿Ú
-#include "RendererManager.h"
-#include "BehaviorManager.h"
-#include "WorldManager.h"
-
-#include "GameObject.h"
-#include "Component.h"
-#include "Transform.h"
-#include "MeshRenderer.h"
-#include "Camera.h"
-#include "Animator.h"
-
+//åŸºç¡€å±‚ï¼šå…¬å…±æ•°æ®ç±»å‹ï¼Œç»Ÿä¸€å„æ¨¡å—äº¤æµçš„è¯­è¨€ >> æ‰©å±•æ ‡å‡†åº“ï¼Œå»ºç«‹å…¬å…±åè®®
+#include "Base/Object/ObjectPtr.h"
+#include "Base/Color.h"
+#include "Base/Rect.h"
+#include "Base/Vector/Vector2.h"
+#include "Base/Vector/Vector3.h"
+#include "Base/Matrix/Matrix3x2.h"
+#include "Base/Matrix/Matrix4x4.h"
+#include "Base/Extension/String.h"
+#include "Base/Extension/Debug.h"
+//å¹³å°å±‚ï¼šå¯¹æ“ä½œç³»ç»Ÿä»¥åŠå„ç§éæ ‡å‡†åº“çš„å°è£… >> å¼•å…¥ç¬¬ä¸‰æ–¹ï¼Œæ¥å…¥å…¬å…±åè®®
+#include "Platform/Window/WindowBase.h"
+#include "Platform/Window/Window.h"
+#include "Platform/GL/GL.h"
+#include "Platform/GL/GL2D.h"
+#include "Platform/GL/Resources/Mesh.h"
+#include "Platform/GL/Resources/Shader.h"
+#include "Platform/GL/Resources/Texture2D.h"
+#include "Platform/GL/Resources/TextureCube.h"
+#include "Platform/IO/MeshImporter.h"
+//åŠŸèƒ½å±‚ï¼šå¼•æ“è¿è¡Œä¸­æä¾›çš„å„ç§è¿è¡Œæ—¶åŠŸèƒ½ >> å°è£…åº•å±‚ï¼Œå»ºç«‹å®ç”¨å‡½æ•°
+#include "Function/Resources.h"//å¯¹å„ç§å¤–éƒ¨æ–‡ä»¶åŒ…æ‹¬å¼•æ“æŒä¹…åŒ–èµ„æºçš„è¡¨ç¤ºå’Œè¯»å†™ >> å¼•æ“å¯åŠ¨å’Œè¿è¡Œçš„æ•°æ®æºå¤´ï¼Œæœªæ¥ç¼–è¾‘å™¨çš„ç¼–è¾‘ç›®æ ‡
+#include "Function/Graphics.h"
+#include "Function/Time.h"
+#include "Function/Input.h"
+#include "Function/Screen.h"
+#include "Function/Cursor.h"
+#include "Function/Event.h"
+#include "Function/GUI.h"
+#include "Function/Random.h"
+//æ¡†æ¶å±‚ï¼šåœ¨æ­¤ç»„ç»‡å’Œä½¿ç”¨ä¸‹å±‚çš„å„ç§åŠŸèƒ½ >> è¥é€ å¼•æ“ç¯å¢ƒï¼Œç”¨æˆ·æ¥å£
+#include "Framework/WorldManager.h"
+#include "Framework/GameObject.h"
+#include "Framework/Component.h"
+#include "Framework/Components/Renderer/RendererManager.h"
+#include "Framework/Components/Behavior/BehaviorManager.h"
+#include "Framework/Components/Transform.h"
+#include "Framework/Components/Renderer/MeshRenderer.h"
+#include "Framework/Components/Renderer/Camera.h"
+#include "Framework/Components/Renderer/CameraEvent.h"
+#include "Framework/Components/Behavior/Animator.h"
 
 
-namespace BDXKEngine {
-	class Engine :Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, WorldManager {
-	public:
-		static void Run(std::function<void()> onStart)
-		{
-			std::setlocale(LC_ALL, "zh-CN");
+namespace BDXKEngine
+{
+    class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, WorldManager
+    {
+    public:
+        static void Run(std::function<void()> onStart)
+        {
+            std::setlocale(LC_ALL, "zh-CN");
 
-			//Æô¶¯´°¿Ú
-			Window window = { L"BDXKEngine" };
+            //å¯åŠ¨çª—å£
+            Window window = {L"BDXKEngine"};
 
-			//Æ½Ì¨²ã³õÊ¼»¯
-			GL::Initialize(&window);
-			GL2D::Initialize();
-			//×ÊÔ´²ã³õÊ¼»¯
-			Resources::Initialize(&window);
-			//ÉÏÃæÈı²ãÊÇ¾²Ì¬µÄ£¬Ë³Ğò³õÊ¼»¯£¬ÒÔ±ã³õÊ¼»¯ÎŞÒì³£
+            //å¹³å°å±‚åˆå§‹åŒ–
+            GL::Initialize(&window);
+            GL2D::Initialize();
+            //èµ„æºå±‚åˆå§‹åŒ–
+            Resources::Initialize(&window);
+            //ä¸Šé¢ä¸‰å±‚æ˜¯é™æ€çš„ï¼Œé¡ºåºåˆå§‹åŒ–ï¼Œä»¥ä¾¿åˆå§‹åŒ–æ— å¼‚å¸¸
 
-			//´´½¨ÅäÖÃĞÅÏ¢£¬Õâ½«Ó°Ïì¿ò¼Ü²ãÖĞ²¿·ÖÄ£¿éµÄÔË×÷·½Ê½
-			CreateSettings();
+            //åˆ›å»ºé…ç½®ä¿¡æ¯ï¼Œè¿™å°†å½±å“æ¡†æ¶å±‚ä¸­éƒ¨åˆ†æ¨¡å—çš„è¿ä½œæ–¹å¼
+            CreateSettings();
 
-			//ÏÂÃæÁ½²ãÊÇ¶¯Ì¬µÄ£¬µ¹Ğò³õÊ¼»¯£¨ÒòÎª»áÓ°ÏìÊÂ¼şË³Ğò£©£¬ÒÔ±ãÊ¹ÓÃ»·¾³ÎŞÒì³£
-			BehaviorManager::Initialize(&window);
-			RendererManager::Initialize(&window);
-			WorldManager::Initialize(&window);
-			GUI::Initialize(&window);
-			Event::Initialize(&window);
-			Graphics::Initialize(&window);
-			Screen::Initialize(&window);
-			Cursor::Initialize(&window);
-			Input::Initialize(&window);
-			Time::Initialize(&window);
+            //ä¸‹é¢ä¸¤å±‚æ˜¯åŠ¨æ€çš„ï¼Œå€’åºåˆå§‹åŒ–ï¼ˆå› ä¸ºä¼šå½±å“äº‹ä»¶é¡ºåºï¼‰ï¼Œä»¥ä¾¿ä½¿ç”¨ç¯å¢ƒæ— å¼‚å¸¸
+            BehaviorManager::Initialize(&window);
+            RendererManager::Initialize(&window);
+            WorldManager::Initialize(&window);
+            GUI::Initialize(&window);
+            Event::Initialize(&window);
+            Graphics::Initialize(&window);
+            Screen::Initialize(&window);
+            Cursor::Initialize(&window);
+            Input::Initialize(&window);
+            Time::Initialize(&window);
 
-			//Íê³É³õÊ¼»¯ºó£¬ÕıÊ½Ñ­»·Ç°£¬´¥·¢ÊÂ¼ş»Øµ÷
-			onStart();
+            //å®Œæˆåˆå§‹åŒ–åï¼Œæ­£å¼å¾ªç¯å‰ï¼Œè§¦å‘äº‹ä»¶å›è°ƒ
+            onStart();
 
-			window.Show();
+            window.Show();
 
-			//ÕıÊ½Ñ­»·
-			HWND hwnd = window.GetHwnd();
-			MSG msg = {};
-			while (GetMessage(&msg, hwnd, 0, 0) > 0)
-			{
-				//Ô¤´¦Àíºó½»¸ø´°¿Ú¹ı³ÌÏìÓ¦
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
+            //æ­£å¼å¾ªç¯
+            HWND hwnd = window.GetHwnd();
+            MSG msg = {};
+            while (GetMessage(&msg, hwnd, 0, 0) > 0)
+            {
+                //é¢„å¤„ç†åäº¤ç»™çª—å£è¿‡ç¨‹å“åº”
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
 
-				//Èç¹ûÃ»ÓĞÒª´¦ÀíµÄÏûÏ¢£¬ÎÒÃÇ¾ÍÓÃÕâ¶Î¿ÕÏĞÊ±¼ä¸üĞÂÓÎÏ·
-				if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
-					PostMessage(hwnd, WM_PAINT, NULL, NULL);
-			}
+                //å¦‚æœæ²¡æœ‰è¦å¤„ç†çš„æ¶ˆæ¯ï¼Œæˆ‘ä»¬å°±ç”¨è¿™æ®µç©ºé—²æ—¶é—´æ›´æ–°æ¸¸æˆ
+                if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
+                    PostMessage(hwnd, WM_PAINT, NULL, NULL);
+            }
 
-			ReleaseSettings();
+            ReleaseSettings();
 
-			Debug::LogError(L"ÏµÍ³»ØÊÕ¼ì²é");
-			ObjectPtrBase::DebugRefCountMap();
-			BehaviorManager::DebugHandlersCount();
-		}
-	private:
-		static void CreateSettings()
-		{
+            Debug::LogError(L"ç³»ç»Ÿå›æ”¶æ£€æŸ¥");
+            ObjectPtrBase::DebugRefCountMap();
+            BehaviorManager::DebugHandlersCount();
+        }
 
-		}
+    private:
+        static void CreateSettings()
+        {
+        }
 
-		static void ReleaseSettings() {
-			GraphicsSettings::skybox = nullptr;
-		}
-	};
+        static void ReleaseSettings()
+        {
+            GraphicsSettings::skybox = nullptr;
+        }
+    };
 }

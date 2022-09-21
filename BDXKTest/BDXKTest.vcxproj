@@ -22,18 +22,19 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sources\Runtime\BDXKRuntime.vcxproj">
-      <Project>{b1591743-e282-4de6-a261-205c66774d8a}</Project>
-    </ProjectReference>
+    <ClInclude Include="Editor\CreationMenu.h" />
+    <ClInclude Include="Editor\MaterialHUD.h" />
+    <ClInclude Include="Editor\SceneHUD.h" />
+    <ClInclude Include="Test\AutoDestroy.h" />
+    <ClInclude Include="Test\CameraController.h" />
+    <ClInclude Include="Test\CreateCube.h" />
+    <ClInclude Include="Test\Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AutoDestroy.h" />
-    <ClInclude Include="CameraController.h" />
-    <ClInclude Include="CreateCube.h" />
-    <ClInclude Include="CreationMenu.h" />
-    <ClInclude Include="MaterialHUD.h" />
-    <ClInclude Include="SceneHUD.h" />
-    <ClInclude Include="Test.h" />
+    <ProjectReference Include="..\Sources\Runtime\BDXKRuntime.vcxproj">
+      <Project>{b1591743-e282-4de6-a261-205c66774d8a}</Project>
+      <Name>BDXKRuntime</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -81,19 +82,12 @@
     <Import Project="..\Sources\Runtime\BDXKRuntime.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Sources\Runtime;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,11 +99,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Sources\Runtime;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +118,7 @@
     </Link>
     <ClCompile>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Sources\Runtime;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,6 +129,7 @@
     </Link>
     <ClCompile>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Sources\Runtime;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

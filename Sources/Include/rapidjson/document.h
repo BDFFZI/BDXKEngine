@@ -1,4 +1,4 @@
-// Tencent is pleased to support the open source community by making RapidJSON available.
+ï»¿// Tencent is pleased to support the open source community by making RapidJSON available.
 // 
 // Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip. All rights reserved.
 //
@@ -54,7 +54,7 @@ RAPIDJSON_DIAG_OFF(terminate) // ignore throwing RAPIDJSON_ASSERT in RAPIDJSON_N
 
 RAPIDJSON_NAMESPACE_BEGIN
 
-//²»È»±¨´í
+//Â²Â»ÃˆÂ»Â±Â¨Â´Ã­
 #undef max
 #undef min
 

@@ -18,12 +18,133 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Base\Color.cpp" />
+    <ClCompile Include="Base\Extension\Debug.cpp" />
+    <ClCompile Include="Base\Extension\String.cpp" />
+    <ClCompile Include="Base\Matrix\Matrix3x2.cpp" />
+    <ClCompile Include="Base\Matrix\Matrix3x3.cpp" />
+    <ClCompile Include="Base\Matrix\Matrix4x4.cpp" />
+    <ClCompile Include="Base\Object\Object.cpp" />
+    <ClCompile Include="Base\Object\ObjectManager.cpp" />
+    <ClCompile Include="Base\Object\Transfer\Binary\BinaryExporter.cpp" />
+    <ClCompile Include="Base\Object\Transfer\Binary\BinaryImporter.cpp" />
+    <ClCompile Include="Base\Rect.cpp" />
+    <ClCompile Include="Base\Vector\Vector2.cpp" />
+    <ClCompile Include="Base\Vector\Vector3.cpp" />
+    <ClCompile Include="Base\Vector\Vector4.cpp" />
+    <ClCompile Include="Framework\Component.cpp" />
+    <ClCompile Include="Framework\Components\Behavior\Animator.cpp" />
+    <ClCompile Include="Framework\Components\Behavior\Behavior.cpp" />
+    <ClCompile Include="Framework\Components\Behavior\BehaviorEvent.cpp" />
+    <ClCompile Include="Framework\Components\Behavior\BehaviorManager.cpp" />
+    <ClCompile Include="Framework\Components\Renderer\Camera.cpp" />
+    <ClCompile Include="Framework\Components\Renderer\CameraEvent.cpp" />
+    <ClCompile Include="Framework\Components\Renderer\Light.cpp" />
+    <ClCompile Include="Framework\Components\Renderer\MeshRenderer.cpp" />
+    <ClCompile Include="Framework\Components\Renderer\Renderer.cpp" />
+    <ClCompile Include="Framework\Components\Renderer\RendererManager.cpp" />
+    <ClCompile Include="Framework\Components\Transform.cpp" />
+    <ClCompile Include="Framework\GameObject.cpp" />
+    <ClCompile Include="Framework\WorldManager.cpp" />
+    <ClCompile Include="Function\Cursor.cpp" />
+    <ClCompile Include="Function\Event.cpp" />
+    <ClCompile Include="Function\Graphics.cpp" />
+    <ClCompile Include="Function\GraphicsInfo.cpp" />
+    <ClCompile Include="Function\GUI.cpp" />
+    <ClCompile Include="Function\Input.cpp" />
+    <ClCompile Include="Function\Random.cpp" />
+    <ClCompile Include="Function\Resources.cpp" />
+    <ClCompile Include="Function\Screen.cpp" />
+    <ClCompile Include="Function\Time.cpp" />
+    <ClCompile Include="Platform\GL\Commands\Bleed.cpp" />
+    <ClCompile Include="Platform\GL\Commands\Cull.cpp" />
+    <ClCompile Include="Platform\GL\Commands\ZTest.cpp" />
+    <ClCompile Include="Platform\GL\GL.cpp" />
+    <ClCompile Include="Platform\GL\GL2D.cpp" />
+    <ClCompile Include="Platform\GL\Resources\Buffer.cpp" />
+    <ClCompile Include="Platform\GL\Resources\Material.cpp" />
+    <ClCompile Include="Platform\GL\Resources\Mesh.cpp" />
+    <ClCompile Include="Platform\GL\Resources\Shader.cpp" />
+    <ClCompile Include="Platform\GL\Resources\Texture.cpp" />
+    <ClCompile Include="Platform\GL\Resources\Texture2D.cpp" />
+    <ClCompile Include="Platform\GL\Resources\TextureCube.cpp" />
+    <ClCompile Include="Platform\IO\MeshImporter.cpp" />
+    <ClCompile Include="Platform\Window\Window.cpp" />
+    <ClCompile Include="Platform\Window\WindowBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base\Color.h" />
+    <ClInclude Include="Base\Extension\Debug.h" />
+    <ClInclude Include="Base\Extension\String.h" />
+    <ClInclude Include="Base\Matrix\Matrix3x2.h" />
+    <ClInclude Include="Base\Matrix\Matrix3x3.h" />
+    <ClInclude Include="Base\Matrix\Matrix4x4.h" />
+    <ClInclude Include="Base\Object\Object.h" />
+    <ClInclude Include="Base\Object\ObjectManager.h" />
+    <ClInclude Include="Base\Object\ObjectPtr.h" />
+    <ClInclude Include="Base\Object\ObjectPtrBase.h" />
+    <ClInclude Include="Base\Object\Transfer\Binary\BinaryExporter.h" />
+    <ClInclude Include="Base\Object\Transfer\Binary\BinaryImporter.h" />
+    <ClInclude Include="Base\Object\Transfer\Exporter.h" />
+    <ClInclude Include="Base\Object\Transfer\Importer.h" />
+    <ClInclude Include="Base\Object\Transfer\Serializable.h" />
+    <ClInclude Include="Base\Rect.h" />
+    <ClInclude Include="Base\Vector\Vector2.h" />
+    <ClInclude Include="Base\Vector\Vector2Int.h" />
+    <ClInclude Include="Base\Vector\Vector3.h" />
+    <ClInclude Include="Base\Vector\Vector4.h" />
+    <ClInclude Include="BDXKEngine.h" />
+    <ClInclude Include="Framework\Component.h" />
+    <ClInclude Include="Framework\Components\Behavior\Animator.h" />
+    <ClInclude Include="Framework\Components\Behavior\Behavior.h" />
+    <ClInclude Include="Framework\Components\Behavior\BehaviorEvent.h" />
+    <ClInclude Include="Framework\Components\Behavior\BehaviorManager.h" />
+    <ClInclude Include="Framework\Components\Renderer\Camera.h" />
+    <ClInclude Include="Framework\Components\Renderer\CameraEvent.h" />
+    <ClInclude Include="Framework\Components\Renderer\Light.h" />
+    <ClInclude Include="Framework\Components\Renderer\MeshRenderer.h" />
+    <ClInclude Include="Framework\Components\Renderer\Renderer.h" />
+    <ClInclude Include="Framework\Components\Renderer\RendererManager.h" />
+    <ClInclude Include="Framework\Components\Transform.h" />
+    <ClInclude Include="Framework\GameObject.h" />
+    <ClInclude Include="Framework\Settings\GraphicsSettings.h" />
+    <ClInclude Include="Framework\Settings\QualitySettings.h" />
+    <ClInclude Include="Framework\WorldManager.h" />
+    <ClInclude Include="Function\Cursor.h" />
+    <ClInclude Include="Function\Event.h" />
+    <ClInclude Include="Function\Graphics.h" />
+    <ClInclude Include="Function\GraphicsInfo.h" />
+    <ClInclude Include="Function\GUI.h" />
+    <ClInclude Include="Function\Input.h" />
+    <ClInclude Include="Function\Random.h" />
+    <ClInclude Include="Function\Resources.h" />
+    <ClInclude Include="Function\Screen.h" />
+    <ClInclude Include="Function\Time.h" />
+    <ClInclude Include="Platform\GL\Commands\Blend.h" />
+    <ClInclude Include="Platform\GL\Commands\Cull.h" />
+    <ClInclude Include="Platform\GL\Commands\ZTest.h" />
+    <ClInclude Include="Platform\GL\GL.h" />
+    <ClInclude Include="Platform\GL\GL2D.h" />
+    <ClInclude Include="Platform\GL\Resources\Buffer.h" />
+    <ClInclude Include="Platform\GL\Resources\GLLayout.h" />
+    <ClInclude Include="Platform\GL\Resources\Material.h" />
+    <ClInclude Include="Platform\GL\Resources\Mesh.h" />
+    <ClInclude Include="Platform\GL\Resources\Shader.h" />
+    <ClInclude Include="Platform\GL\Resources\Texture.h" />
+    <ClInclude Include="Platform\GL\Resources\Texture2D.h" />
+    <ClInclude Include="Platform\GL\Resources\TextureCube.h" />
+    <ClInclude Include="Platform\IO\MeshImporter.h" />
+    <ClInclude Include="Platform\Window\Window.h" />
+    <ClInclude Include="Platform\Window\WindowBase.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{b1591743-e282-4de6-a261-205c66774d8a}</ProjectGuid>
     <RootNamespace>BDXKEngine</RootNamespace>
     <ProjectName>BDXKRuntime</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -35,15 +156,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <PlatformToolset>v143</PlatformToolset>
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <PlatformToolset>v143</PlatformToolset>
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -84,6 +208,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -100,6 +225,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -112,139 +238,22 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile />
-    <ClCompile />
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile />
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Behavior.cpp" />
-    <ClCompile Include="BehaviorEvent.cpp" />
-    <ClCompile Include="BehaviorManager.cpp" />
-    <ClCompile Include="BinaryExporter.cpp" />
-    <ClCompile Include="BinaryImporter.cpp" />
-    <ClCompile Include="Bleed.cpp" />
-    <ClCompile Include="Buffer.cpp" />
-    <ClCompile Include="Cull.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="RendererManager.cpp" />
-    <ClCompile Include="WorldManager.cpp" />
-    <ClCompile Include="GraphicsInfo.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="MeshImporter.cpp" />
-    <ClCompile Include="Event.cpp" />
-    <ClCompile Include="Animator.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Matrix3x3.cpp" />
-    <ClCompile Include="Rect.cpp" />
-    <ClCompile Include="CameraEvent.cpp" />
-    <ClCompile Include="Resources.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="MeshRenderer.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="GL2D.cpp" />
-    <ClCompile Include="Matrix3x2.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="GL.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Matrix4x4.cpp" />
-    <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="TextureCube.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="String.cpp" />
-    <ClCompile Include="WindowBase.cpp" />
-    <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Screen.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Vector4.cpp" />
-    <ClCompile Include="ZTest.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Behavior.h" />
-    <ClInclude Include="BehaviorEvent.h" />
-    <ClInclude Include="BehaviorManager.h" />
-    <ClInclude Include="BinaryImporter.h" />
-    <ClInclude Include="BinaryExporter.h" />
-    <ClInclude Include="Blend.h" />
-    <ClInclude Include="Buffer.h" />
-    <ClInclude Include="Cull.h" />
-    <ClInclude Include="Importer.h" />
-    <ClInclude Include="Exporter.h" />
-    <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="ObjectPtrBase.h" />
-    <ClInclude Include="RendererManager.h" />
-    <ClInclude Include="Serializable.h" />
-    <ClInclude Include="WorldManager.h" />
-    <ClInclude Include="GraphicsInfo.h" />
-    <ClInclude Include="GraphicsSettings.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="MeshImporter.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="Animator.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Matrix3x3.h" />
-    <ClInclude Include="GLLayout.h" />
-    <ClInclude Include="QualitySettings.h" />
-    <ClInclude Include="Random.h" />
-    <ClInclude Include="Rect.h" />
-    <ClInclude Include="CameraEvent.h" />
-    <ClInclude Include="Resources.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="GL2D.h" />
-    <ClInclude Include="Matrix3x2.h" />
-    <ClInclude Include="Reflection.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="GL.h" />
-    <ClInclude Include="ObjectPtr.h" />
-    <ClInclude Include="ShaderImporter.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Matrix4x4.h" />
-    <ClInclude Include="Cursor.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="BDXKEngine.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="TextureCube.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="WindowBase.h" />
-    <ClInclude Include="String.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Color.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Vector2Int.h" />
-    <ClInclude Include="Screen.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vector4.h" />
-    <ClInclude Include="ZTest.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -10,9 +10,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKEditor", "Sources\Editor\BDXKEditor.vcxproj", "{79A66ADC-B952-459F-9B96-9811D8B0CD26}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKTest", "BDXKTest\BDXKTest.vcxproj", "{B0BDF7C5-AB07-4B13-95E9-4EECC613AB81}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B1591743-E282-4DE6-A261-205C66774D8A} = {B1591743-E282-4DE6-A261-205C66774D8A}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
