@@ -9,6 +9,7 @@
 #include "BinaryImporter.h"
 #include "BinaryExporter.h"
 #include "Debug.h"
+ 
 
 /// <summary>
 /// 创建：
@@ -125,7 +126,7 @@ namespace BDXKEngine {
 		// 统一销毁被标记的物体，DestroyImmediate()调用，预留Unity延迟删除功能，应该是为了内存回收的问题
 		static void FlushDestroyBuffer();
 
-		unsigned int instanceID;
+		unsigned int instanceID = 0;
 		std::wstring name;
 		bool isActivating = false;
 		bool isDestroying = false;
