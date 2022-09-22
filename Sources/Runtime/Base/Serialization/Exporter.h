@@ -23,5 +23,7 @@ namespace BDXKEngine {
 
 		virtual void TransferBytes(void* source, int size) = 0;
 		virtual void TransferObject(ObjectPtrBase& value) = 0;
+
+		virtual ~Exporter() = default;
 	};
 }

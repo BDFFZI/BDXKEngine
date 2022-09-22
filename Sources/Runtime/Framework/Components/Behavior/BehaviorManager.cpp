@@ -16,10 +16,10 @@ namespace BDXKEngine {
 	}
 	void BehaviorManager::Start()
 	{
-		std::unordered_map<StartHandler*, bool> allStartHandlers = { BehaviorManager::allStartHandlers };
-		for (auto handlerPair = allStartHandlers.begin(); handlerPair != allStartHandlers.end(); handlerPair++)
+		const std::unordered_map allStartHandlers = { BehaviorManager::allStartHandlers };
+		for (auto& allStartHandler : allStartHandlers)
 		{
-			auto handler = handlerPair->first;
+			auto handler = allStartHandler.first;
 			if (BehaviorManager::allStartHandlers[handler] == true)
 				handler->OnStart();
 			BehaviorManager::allStartHandlers.erase(handler);
@@ -28,10 +28,10 @@ namespace BDXKEngine {
 	void BehaviorManager::Update()
 	{
 		Start();
-		std::unordered_map<UpdateHandler*, bool> allUpdateHandlers = { BehaviorManager::allUpdateHandlers };
-		for (auto handlerPair = allUpdateHandlers.begin(); handlerPair != allUpdateHandlers.end(); handlerPair++)
+		const std::unordered_map allUpdateHandlers = { BehaviorManager::allUpdateHandlers };
+		for (auto& allUpdateHandler : allUpdateHandlers)
 		{
-			auto handler = handlerPair->first;
+			auto handler = allUpdateHandler.first;
 			if (BehaviorManager::allUpdateHandlers[handler] == true)
 				handler->OnUpdate();
 			else
@@ -41,10 +41,10 @@ namespace BDXKEngine {
 	void BehaviorManager::LateUpdate()
 	{
 		Start();
-		std::unordered_map<LateUpdateHandler*, bool> allLateUpdateHandlers = { BehaviorManager::allLateUpdateHandlers };
-		for (auto handlerPair = allLateUpdateHandlers.begin(); handlerPair != allLateUpdateHandlers.end(); handlerPair++)
+		const std::unordered_map allLateUpdateHandlers = { BehaviorManager::allLateUpdateHandlers };
+		for (auto& allLateUpdateHandler : allLateUpdateHandlers)
 		{
-			auto handler = handlerPair->first;
+			auto handler = allLateUpdateHandler.first;
 			if (BehaviorManager::allLateUpdateHandlers[handler] == true)
 				handler->OnLateUpdate();
 			else

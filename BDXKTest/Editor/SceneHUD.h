@@ -94,7 +94,7 @@ namespace BDXKEditor {
 			//显示帧率
 			rect.y += rect.height + 10;
 			rect.height = 25;
-			GUI::TextArea(rect, L"帧率:" + std::to_wstring(frameRate = (int)std::lerp(frameRate, 1 / Time::GetDeltaTime(), 0.01f)));
+			GUI::TextArea(rect, L"帧率:" + std::to_wstring(frameRate = (int)std::lerp(frameRate, 1 / Time::GetDeltaTime(), 0.1f)));
 
 			//孤儿箱:用来将节点父亲设为空
 			rect.y += rect.height + 10;

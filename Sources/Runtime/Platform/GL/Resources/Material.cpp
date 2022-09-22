@@ -7,7 +7,7 @@ namespace BDXKEngine {
 		Material material = {};
 		material.shaders = shaders;
 
-		return Object::Instantiate<Material>(&material);
+		return Instantiate<Material>(&material);
 	}
 
 	std::vector<ObjectPtr<Shader>> Material::GetShaders() {

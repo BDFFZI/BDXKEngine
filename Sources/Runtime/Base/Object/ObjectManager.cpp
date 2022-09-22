@@ -1,15 +1,18 @@
 ﻿#include "ObjectManager.h"
 #include "Object.h"
 
-void BDXKEngine::ObjectManager::FlushDestroyBuffer()
+namespace BDXKEngine
 {
-	Object::FlushDestroyBuffer();
-}
+	void ObjectManager::FlushDestroyBuffer()
+	{
+		Object::FlushDestroyQueue();
+	}
 
-std::wstring BDXKEngine::ObjectManager::InstanceIDToGuid(unsigned int instanceID) {
-	return std::wstring();
-}
+	std::wstring ObjectManager::InstanceIDToGuid(unsigned int instanceID) {
+		return {};
+	}
 
-unsigned int BDXKEngine::ObjectManager::GuidToInstanceID(std::wstring guid) {
-	return 0;
+	unsigned int ObjectManager::GuidToInstanceID(const std::wstring& guid) {
+		return 0;
+	}
 }

@@ -1,8 +1,5 @@
 ﻿#pragma once
 #include<vector>
-#include<map>
-#include<algorithm>
-#include "Base/Extension/String.h"
 #include "Base/Object/ObjectPtr.h"
 #include "Framework/Component.h"
 #include "Framework/Components/Transform.h"
@@ -36,7 +33,7 @@ namespace BDXKEngine {
 			source.gameObject = this;
 
 			return Instantiate<TComponent>(&source);
-		};
+		}
 
 		static ObjectPtr<GameObject> Find(std::wstring name);
 	private:

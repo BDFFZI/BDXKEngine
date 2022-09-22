@@ -1,18 +1,21 @@
 ﻿#include "Animator.h"
+#include <utility>
 
-
-void BDXKEngine::Animator::SetAnimation(std::function<void(ObjectPtr<Transform>transfom)> animation)
+namespace BDXKEngine
 {
-	this->animation = animation;
-}
+    void Animator::SetAnimation(std::function<void(ObjectPtr<Transform> transfom)> animation)
+    {
+        this->animation = std::move(animation);
+    }
 
-void BDXKEngine::Animator::Awake() {
-	Behavior::Awake();
+    void Animator::OnAwake()
+    {
+        transform = GetGameObject()->GetTransform();
+    }
 
-	transform = GetGameObject()->GetTransform();
-}
-void BDXKEngine::Animator::OnUpdate()
-{
-	if (animation != nullptr)
-		animation(transform);
+    void Animator::OnUpdate()
+    {
+        if (animation != nullptr)
+            animation(transform);
+    }
 }

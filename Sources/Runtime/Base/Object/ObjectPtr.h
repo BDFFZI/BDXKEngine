@@ -1,53 +1,61 @@
 ﻿#pragma once
 #include "ObjectPtrBase.h"
 
-namespace BDXKEngine {
-	template<typename TObject>
-	struct ObjectPtr :public ObjectPtrBase
-	{
-	public:
-		ObjectPtr() :ObjectPtrBase() {
-		}
-		ObjectPtr(Object* object) :ObjectPtrBase(object)
-		{
-			ptr = (TObject*)ToObjectBase();
-		}
-		ObjectPtr(const ObjectPtrBase& objectPtr) :ObjectPtrBase(objectPtr) {
-			ptr = (TObject*)ToObjectBase();
-		}
+namespace BDXKEngine
+{
+    template <typename TObject>
+    class ObjectPtr : public ObjectPtrBase
+    {
+    public:
+        ObjectPtr() : ObjectPtrBase()
+        {
+        }
 
-		template<typename TTargetObject>
-		ObjectPtr<TTargetObject> ToObjectPtr()
-		{
-			Object* object = ToObjectBase();
-			return dynamic_cast<TTargetObject*>(object);
-		}
-		TObject* ToObject()
-		{
-			return static_cast<TObject*>(ToObjectBase());
-		}
-		TObject* operator->()const
-		{
-			Object* object = ToObjectBase();
-			if (object == nullptr)
-				throw std::exception("目标引用为空");
-			return static_cast<TObject*>(object);
-		}
-	protected:
-		TObject* ptr = nullptr;
+        ObjectPtr(const Object* object) : ObjectPtrBase(object)
+        {
+            ptr = static_cast<TObject*>(ToObjectBase());
+        }
 
-		virtual void AddRef(const unsigned int refInstanceID)override
-		{
-			ObjectPtrBase::AddRef(refInstanceID);
-			ptr = (TObject*)ToObjectBase();
-		}
-		virtual void RemoveRef()override
-		{
-			ObjectPtrBase::RemoveRef();
-			ptr = nullptr;
-		}
+        ObjectPtr(const ObjectPtrBase& objectPtr) : ObjectPtrBase(objectPtr)
+        {
+            ptr = static_cast<TObject*>(ToObjectBase());
+        }
 
-	};
+        template <typename TTargetObject>
+        ObjectPtr<TTargetObject> ToObjectPtr()
+        {
+            Object* object = ToObjectBase();
+            return dynamic_cast<TTargetObject*>(object);
+        }
+
+        TObject* ToObject()
+        {
+            return static_cast<TObject*>(ToObjectBase());
+        }
+
+        TObject* operator->() const
+        {
+            Object* object = ToObjectBase();
+            if (object == nullptr)
+                throw std::exception("目标引用为空");
+            return static_cast<TObject*>(object);
+        }
+
+    protected:
+        TObject* ptr = nullptr;
+
+        void AddRef(const unsigned int refInstanceID) override
+        {
+            ObjectPtrBase::AddRef(refInstanceID);
+            ptr = reinterpret_cast<TObject*>(ToObjectBase());
+        }
+
+        void RemoveRef() override
+        {
+            ObjectPtrBase::RemoveRef();
+            ptr = nullptr;
+        }
+    };
 }
 
 //class Data :public Object {

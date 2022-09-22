@@ -15,7 +15,7 @@ int main()
         }
     );
 
-    Debug::Log("按任意键退出");
+    Debug::Log("\n按任意键退出");
     std::getchar();
 }
 
