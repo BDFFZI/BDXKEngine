@@ -26,6 +26,7 @@ namespace Assembly
         {
             time += Time::GetDeltaTime();
             animator->SetEnabling(static_cast<int>(std::fmod(time * 2.5f, 2)) == 1);
+            //meshRenderer->SetEnabling(!animator->GetIsEnabling());
             if (time > 4)
             {
                 ObjectPtr<GameObject> gameObject = GetGameObject();

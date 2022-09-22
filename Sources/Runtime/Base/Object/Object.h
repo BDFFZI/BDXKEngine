@@ -118,7 +118,8 @@ namespace BDXKEngine
 
         unsigned int GetInstanceID() const;
         std::wstring GetName();
-        bool GetActivating() const;
+        bool GetIsActivating() const;
+        bool GetIsEnabling()const;
         void SetName(const std::wstring& name);
         void SetEnabling(bool state);
 

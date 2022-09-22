@@ -66,9 +66,14 @@ namespace BDXKEngine
         this->name = name;
     }
 
-    bool Object::GetActivating() const
+    bool Object::GetIsActivating() const
     {
         return isActivating;
+    }
+
+    bool Object::GetIsEnabling() const
+    {
+        return isEnabling;
     }
 
     void Object::SetEnabling(const bool state)
