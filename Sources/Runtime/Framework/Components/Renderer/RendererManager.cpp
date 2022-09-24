@@ -52,7 +52,7 @@ namespace BDXKEngine {
 	}
 	std::vector<ObjectPtr<Renderer>> RendererManager::GetRenderersQueue()
 	{
-		std::vector<ObjectPtr<Renderer>> queue = RendererManager::renderers;
+		std::vector<ObjectPtr<Renderer>> queue = renderers;
 		std::sort(
 			queue.begin(),
 			queue.end(),

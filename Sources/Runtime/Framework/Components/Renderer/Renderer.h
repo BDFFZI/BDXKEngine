@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <queue>
 #include "Base/Object/ObjectPtr.h"
 #include "Framework/Component.h"
 #include "Function/Graphics.h"
@@ -12,21 +11,21 @@ namespace BDXKEngine {
 	public:
 		ObjectPtr<Material> GetMaterial();
 		ObjectPtr<Mesh> GetMesh();
-		bool GetCastShadows();
-		bool GetReceiveShadows();
+		bool GetCastShadows() const;
+		bool GetReceiveShadows() const;
 
-		void SetMaterial(ObjectPtr<Material> shader);
+		void SetMaterial(ObjectPtr<Material> material);
 		void SetCastShadows(bool castShadows);
 		void SetReceiveShadows(bool receiveShadows);
 	protected:
-		void SetMesh(ObjectPtr<Mesh> mesh);
+		virtual void SetMesh(ObjectPtr<Mesh> mesh);
 	private:
 		ObjectPtr<Material> material = nullptr;
 		ObjectPtr<Mesh> mesh = nullptr;
 		bool castShadows = true;
 		bool receiveShadows = true;
-
-		void Awake()override;
-		void Destroy()override;
+		
+		void Enable() override;
+		void Disable() override;
 	};
 }

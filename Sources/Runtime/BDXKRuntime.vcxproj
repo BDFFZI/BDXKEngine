@@ -22,6 +22,7 @@
     <ClCompile Include="Base\Color.cpp" />
     <ClCompile Include="Base\Extension\Debug.cpp" />
     <ClCompile Include="Base\Extension\String.cpp" />
+    <ClCompile Include="Base\Extension\Vector.cpp" />
     <ClCompile Include="Base\Matrix\Matrix3x2.cpp" />
     <ClCompile Include="Base\Matrix\Matrix3x3.cpp" />
     <ClCompile Include="Base\Matrix\Matrix4x4.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="Base\Color.h" />
     <ClInclude Include="Base\Extension\Debug.h" />
     <ClInclude Include="Base\Extension\String.h" />
+    <ClInclude Include="Base\Extension\Vector.h" />
     <ClInclude Include="Base\Matrix\Matrix3x2.h" />
     <ClInclude Include="Base\Matrix\Matrix3x3.h" />
     <ClInclude Include="Base\Matrix\Matrix4x4.h" />
