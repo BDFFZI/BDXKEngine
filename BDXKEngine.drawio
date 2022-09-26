@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-09-26T15:32:15.650Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50" etag="RvkNKTBR6N04H1jap8hB" version="20.3.3" type="github">
+<mxfile host="app.diagrams.net" modified="2022-09-26T17:01:06.121Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.50" etag="Xx_1vslmXNvtdcCKWjJg" version="20.3.3" type="github">
   <diagram id="3uv_5a1CadoxR7LeSZuG" name="第 1 页">
     <mxGraphModel dx="1421" dy="1923" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -217,9 +217,9 @@
         <mxCell id="lQj_9vM0wH7DQDhGStFX-46" value="如：编辑器面板显示" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Helvetica;fontSize=12;fontColor=default;" parent="lQj_9vM0wH7DQDhGStFX-44" vertex="1">
           <mxGeometry x="455" y="209" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="wFAdG49-NxNJ4aoIoazW-2" value="Object状态模型" style="swimlane;" vertex="1" collapsed="1" parent="1">
-          <mxGeometry x="200" y="-660" width="130" height="30" as="geometry">
-            <mxRectangle x="10" y="-530" width="560" height="870" as="alternateBounds" />
+        <mxCell id="wFAdG49-NxNJ4aoIoazW-2" value="Object状态模型" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="200" y="-660" width="560" height="870" as="geometry">
+            <mxRectangle x="200" y="-660" width="130" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="wFAdG49-NxNJ4aoIoazW-1" value="原始状态" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="wFAdG49-NxNJ4aoIoazW-2">
