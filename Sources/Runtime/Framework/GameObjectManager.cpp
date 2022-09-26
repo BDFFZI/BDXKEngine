@@ -7,7 +7,8 @@ namespace BDXKEngine
     {
         window->AddDestroyEvent([]
         {
-            for (const auto& value : GameObject::allGameObjects)
+            const std::vector allGameObjects = {GameObject::allGameObjects};
+            for (const auto& value : allGameObjects)
                 Object::DestroyImmediate(value.ToObjectBase());
         });
         return nullptr;

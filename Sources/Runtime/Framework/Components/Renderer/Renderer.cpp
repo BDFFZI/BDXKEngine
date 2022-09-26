@@ -37,12 +37,16 @@ namespace BDXKEngine
 
     void Renderer::Enable()
     {
+        Component::Enable();
+        
         RendererManager::renderers.emplace_back(this);
     }
 
     void Renderer::Disable()
     {
         Vector::Remove(RendererManager::renderers,{this});
+
+        Component::Disable();
     }
 
     void Renderer::SetCastShadows(bool castShadows)

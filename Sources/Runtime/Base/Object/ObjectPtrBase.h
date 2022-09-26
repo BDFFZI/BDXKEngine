@@ -13,9 +13,8 @@ namespace BDXKEngine
             stream << L"当前指针引用计数:" << refCountMap.size();
             for (const auto& value : refCountMap)
             {
-                stream << L"实例编号:" << std::to_wstring(value.first);
-                stream << L"\t";
-                stream << L"引用计数:" << std::to_wstring(value.second);
+                stream << L"\n实例编号:" << std::to_wstring(value.first);
+                stream << L"\t引用计数:" << std::to_wstring(value.second);
             }
             Debug::LogWarning(stream.str());
         }
@@ -71,7 +70,7 @@ namespace BDXKEngine
         }
 
         //提取内容
-        unsigned int GetInstanceID() const
+        int GetInstanceID() const
         {
             return instanceID;
         }
@@ -100,11 +99,11 @@ namespace BDXKEngine
         }
 
     protected:
-        inline static std::map<unsigned int, int> refCountMap;
+        inline static std::map<int, int> refCountMap;
 
-        unsigned int instanceID;
+        int instanceID;
 
-        virtual void AddRef(const unsigned int refInstanceID)
+        virtual void AddRef(const int refInstanceID)
         {
             instanceID = refInstanceID;
             refCountMap[instanceID]++;

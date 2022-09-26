@@ -30,8 +30,8 @@ CComPtr<ID3D11SamplerState> BDXKEngine::TextureCube::GetSamplerState()
 
 void BDXKEngine::TextureCube::Export(Exporter& exporter)
 {
-	exporter.TransferInt(width);
-	exporter.TransferInt(height);
+	exporter.TransferInt({}, width);
+	exporter.TransferInt({}, height);
 }
 void BDXKEngine::TextureCube::Import(Importer& importer)
 {

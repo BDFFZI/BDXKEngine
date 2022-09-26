@@ -1,4 +1,5 @@
 ﻿#include "RendererManager.h"
+#include <algorithm>
 #include "Renderer.h"
 #include "Framework/Components/Renderer/Camera.h"
 

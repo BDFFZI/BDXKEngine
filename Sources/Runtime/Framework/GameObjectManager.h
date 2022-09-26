@@ -6,6 +6,7 @@ namespace BDXKEngine
 {
     class GameObjectManager
     {
+    protected:
         static GameObjectManager* Initialize(Window* window);
     };
 }

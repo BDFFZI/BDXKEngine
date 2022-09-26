@@ -152,10 +152,10 @@ namespace BDXKEngine {
 	{
 		Object::Export(exporter);
 
-		exporter.TransferInt(vertices.size());
-		exporter.TransferBytes(vertices.data(), vertices.size() * sizeof(Vertex));
-		exporter.TransferInt(triangles.size());
-		exporter.TransferBytes(triangles.data(), triangles.size() * sizeof(unsigned short));
+		exporter.TransferInt({}, vertices.size());
+		exporter.TransferBytes({}, vertices.data(), vertices.size() * sizeof(Vertex));
+		exporter.TransferInt({}, triangles.size());
+		exporter.TransferBytes({}, triangles.data(), triangles.size() * sizeof(unsigned short));
 	}
 	void Mesh::Import(Importer& importer)
 	{

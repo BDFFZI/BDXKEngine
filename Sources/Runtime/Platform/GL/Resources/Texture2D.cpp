@@ -41,9 +41,9 @@ namespace BDXKEngine {
 	}
 	void Texture2D::Export(Exporter& exporter)
 	{
-		exporter.TransferInt(width);
-		exporter.TransferInt(height);
-		exporter.TransferBytes(pixels.get(), sizeof(Color) * width * height);
+		exporter.TransferInt({}, width);
+		exporter.TransferInt({}, height);
+		exporter.TransferBytes({}, pixels.get(), sizeof(Color) * width * height);
 	}
 	void Texture2D::Import(Importer& importer)
 	{

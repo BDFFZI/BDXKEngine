@@ -1,9 +1,8 @@
 ﻿#pragma once
 #include <vector>
 #include <map>
-#include <functional>
 #include "Base/Extension/String.h"
-#include "Base/Serialization/Serialization.h"
+#include "Base/Serialization/ISerializable.h"
 #include "Base/Serialization/Binary/BinaryImporter.h"
 #include "Base/Serialization/Binary/BinaryExporter.h"
 #include "Base/Extension/Debug.h"
@@ -26,7 +25,7 @@ namespace BDXKEngine
 {
     class ObjectManager;
 
-    class Object : public Serialization
+    class Object : public ISerializable
     {
         friend ObjectManager;
     public:
@@ -38,12 +37,11 @@ namespace BDXKEngine
         template <typename TObject>
         static TObject* Create()
         {
-            TObject* result = new TObject();
+            auto* result = new TObject();
             result->instanceID = ++instanceIDCount;
-            result->name = String::to_wstring((typeid(TObject).name()));
+            result->name = String::to_wstring(typeid(TObject).name());
             allObjects[result->instanceID] = result;
-            Debug::LogWarning(
-                std::wstring(L"Object::Create ") + std::to_wstring(result->instanceID) + L" " + result->GetName());
+            //Debug::LogWarning(std::wstring(L"Object::Create ") + std::to_wstring(result->instanceID) + L" " + result->GetName());
             return result;
         }
 
@@ -57,17 +55,6 @@ namespace BDXKEngine
         }
 
         template <typename TObject>
-        static TObject* InstantiateNoAwake(std::function<void(Exporter& exporter)> serialize)
-        {
-            std::stringstream stream = {};
-            BinaryExporter exporter = {stream};
-            serialize(exporter);
-            BinaryImporter importer = {stream};
-
-            return InstantiateNoAwake<TObject>(importer);
-        }
-
-        template <typename TObject>
         static TObject* InstantiateNoAwake(TObject* serializer)
         {
             std::stringstream stream = {};
@@ -77,6 +64,8 @@ namespace BDXKEngine
 
             return InstantiateNoAwake<TObject>(importer);
         }
+
+        static Object* InstantiateNoAwake(Object* serializer);
 
 
         /// 实例化物体，以加载运行时相关功能
@@ -105,7 +94,7 @@ namespace BDXKEngine
         static std::vector<TObject*> FindObjectsOfType()
         {
             std::vector<TObject*> result{};
-            for (auto& item : allObjectsEnabling)
+            for (auto& item : allObjectsInstantiating)
             {
                 TObject* object = dynamic_cast<TObject*>(item.second);
                 if (object != nullptr)result.push_back(object);
@@ -114,12 +103,12 @@ namespace BDXKEngine
             return result;
         }
 
-        static Object* FindObjectOfInstanceID(unsigned int instanceID);
+        static Object* FindObjectOfInstanceID(int instanceID);
 
-        unsigned int GetInstanceID() const;
+        int GetInstanceID() const;
         std::wstring GetName();
         bool GetIsInstantiating() const;
-        
+
         void SetName(const std::wstring& name);
 
         virtual std::wstring ToString();
@@ -135,10 +124,10 @@ namespace BDXKEngine
         virtual void Awake(); //唤醒回调，用于扩展Awake(Object* object)函数的内容
         virtual void Destroy(); //销毁回调，用于扩展只在Destroy(Object* object)函数的内容
     private:
-        static unsigned int instanceIDCount; //0为None占位符,一般用作纯数据容器
+        static int instanceIDCount; //0为None占位符,一般用作纯数据容器
         /// 内存中的所有Object，包括未实例化的Object
-        static std::map<unsigned int, Object*> allObjects;
-        static std::map<unsigned int, Object*> allObjectsEnabling;
+        static std::map<int, Object*> allObjects;
+        static std::map<int, Object*> allObjectsInstantiating;
         static std::vector<Object*> postAwakeQueue;
         static std::vector<Object*> postDestroyQueue;
 
@@ -146,7 +135,7 @@ namespace BDXKEngine
         static void FlushAwakeQueue();
         static void FlushDestroyQueue();
 
-        unsigned int instanceID = 0;
+        int instanceID = 0;
         std::wstring name;
         bool isInstantiating = false;
         bool isDestroying = false;

@@ -8,19 +8,19 @@ namespace BDXKEngine {
 	public:
 		BinaryExporter(std::iostream& stream);
 
-		void TransferInt(int value) override;;
-		void TransferFloat(float value) override;;
-		void TransferBool(bool value) override;;
+		void TransferInt(std::wstring key, int value) override;
+		void TransferFloat(std::wstring key, float value) override;
+		void TransferBool(std::wstring key, bool value) override;
 
-		void TransferVector2(Vector2 value) override;;
-		void TransferVector3(Vector3 value) override;;
-		void TransferVector4(Vector4 value) override;;
-		void TransferColor(Color value) override;;
-		void TransferRect(Rect value) override;;
-		void TransferString(std::wstring value) override;;
+		void TransferVector2(std::wstring key, Vector2 value) override;
+		void TransferVector3(std::wstring key, Vector3 value) override;
+		void TransferVector4(std::wstring key, Vector4 value) override;
+		void TransferColor(std::wstring key, Color value) override;
+		void TransferRect(std::wstring key, Rect value) override;
+		void TransferString(std::wstring key, std::wstring value) override;
 
-		void TransferBytes(void* source, int size);
-		void TransferObject(ObjectPtrBase& value) override;;
+		void TransferBytes(std::wstring key, void* source, int size);
+		void TransferObjectPtr(std::wstring key, const ObjectPtrBase& value) override;
 	private:
 		std::iostream& stream;
 
@@ -31,7 +31,7 @@ namespace BDXKEngine {
 	};
 }
 
-//std::stringstream stream = {};
+//std::wstringstream stream = {};
 //BinaryExporter exporter = { stream };
 //exporter.TransferInt(123);
 //exporter.TransferVector3(Vector3{ 1,2,3 });

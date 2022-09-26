@@ -9,6 +9,7 @@ namespace BDXKEngine {
 		PCWSTR GetName();
 		HWND GetHwnd();
 	protected:
+		~WindowBase() = default;
 		virtual LRESULT CALLBACK HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 		PCWSTR name;
 		HWND hwnd;

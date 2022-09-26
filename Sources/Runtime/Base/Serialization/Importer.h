@@ -21,7 +21,7 @@ namespace BDXKEngine {
 		virtual Color TransferColor() = 0;
 		virtual Rect TransferRect() = 0;
 		virtual std::wstring TransferString() = 0;
-		virtual ObjectPtrBase TransferObject() = 0;
+		virtual ObjectPtrBase TransferObjectPtr() = 0;
 
 		virtual void TransferBytes(void* source, int size) = 0;
 

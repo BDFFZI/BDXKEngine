@@ -79,17 +79,17 @@ namespace BDXKEngine {
 	{
 		Object::Export(exporter);
 
-		exporter.TransferInt(static_cast<int>(renderQueue));
+		exporter.TransferInt({}, static_cast<int>(renderQueue));
 
-		exporter.TransferInt(shaders.size());
+		exporter.TransferInt({}, shaders.size());
 		for (ObjectPtr<Shader>& shader : shaders)
-			exporter.TransferObject(shader);
+			exporter.TransferObjectPtr({}, shader);
 
-		exporter.TransferObject(texture0);
-		exporter.TransferObject(texture1);
-		exporter.TransferObject(texture2);
-		exporter.TransferObject(texture3);
-		exporter.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
+		exporter.TransferObjectPtr({}, texture0);
+		exporter.TransferObjectPtr({}, texture1);
+		exporter.TransferObjectPtr({}, texture2);
+		exporter.TransferObjectPtr({}, texture3);
+		exporter.TransferBytes({}, reinterpret_cast<char*>(&parameters), sizeof(Parameters));
 	}
 	void Material::Import(Importer& importer)
 	{
@@ -100,13 +100,13 @@ namespace BDXKEngine {
 		int shadersCount = importer.TransferInt();
 		for (int i = 0; i < shadersCount; i++)
 		{
-			shaders.push_back(importer.TransferObject());
+			shaders.push_back(importer.TransferObjectPtr());
 		}
 
-		texture0 = importer.TransferObject();
-		texture1 = importer.TransferObject();
-		texture2 = importer.TransferObject();
-		texture3 = importer.TransferObject();
+		texture0 = importer.TransferObjectPtr();
+		texture1 = importer.TransferObjectPtr();
+		texture2 = importer.TransferObjectPtr();
+		texture3 = importer.TransferObjectPtr();
 		importer.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
 	}
 	void Material::Awake()

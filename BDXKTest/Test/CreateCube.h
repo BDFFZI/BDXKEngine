@@ -18,16 +18,13 @@ namespace Assembly
             transform = GetTransform();
 
             prefab = CreationMenu::Object3D::Cube(L"自毁装置预制体");
-            prefab->SetEnabling(false);
-            const ObjectPtr<Transform> cubeTransform = prefab->GetTransform();
-            cubeTransform->SetLocalPosition(transform->GetPosition());
-            cubeTransform->SetLocalEulerAngles(transform->GetEulerAngles());
-            cubeTransform->GetGameObject()->AddComponent<AutoDestroy>();
+            prefab->SetIsEnabling(false);
             const ObjectPtr<Renderer> meshRender = prefab->GetComponent<Renderer>();
             const ObjectPtr<Material> material = meshRender->GetMaterial();
             material->SetRenderQueue(RenderQueue::Transparent);
             const std::vector<ObjectPtr<Shader>> shaders = material->GetShaders();
             shaders[0]->SetBlend(Blend::Multiply);
+            prefab->AddComponent<AutoDestroy>();
         }
 
         void OnPostRender() override
@@ -36,7 +33,11 @@ namespace Assembly
 
             if (GUI::Button({10, size.y - 40, 180, 30}, L"放置方块"))
             {
-                Instantiate(prefab.ToObjectBase());
+                const ObjectPtr<GameObject> instance = Instantiate(prefab.ToObjectBase());
+                const ObjectPtr<Transform> transform = instance->GetTransform();
+                instance->SetIsEnabling(true);
+                transform->SetLocalPosition(transform->GetPosition());
+                transform->SetLocalEulerAngles(transform->GetEulerAngles());
             }
 
             GUI::TextArea({200, size.y - 40, 200, 30}, L"鼠标位置:" + Input::GetMousePosition().ToString());

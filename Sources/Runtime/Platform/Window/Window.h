@@ -58,9 +58,9 @@ namespace BDXKEngine {
 	typedef std::function<void(Vector2 delta)> MouseWheelEvent;
 	typedef std::function<void(int button, bool state)> MouseButtonEvent;
 	typedef std::function<void(KeyCode code, bool state)> KeyCodeEvent;
-	typedef std::function<void(wchar_t character)> CharacterEvent;
+	typedef std::function<void(char character)> CharacterEvent;
 
-	class Window : public WindowBase
+	class Window final : public WindowBase
 	{
 	public:
 		Window(const wchar_t* name);

@@ -65,7 +65,7 @@ namespace BDXKEngine
 
     std::wstring BinaryImporter::TransferString()
     {
-        int size = TransferInt();
+        const int size = TransferInt();
         char* data = new char[size];
         TransferBytes(data, size);
 
@@ -75,7 +75,7 @@ namespace BDXKEngine
         return value;
     }
 
-    ObjectPtrBase BinaryImporter::TransferObject()
+    ObjectPtrBase BinaryImporter::TransferObjectPtr()
     {
         const int instanceID = TransferInt();
         return ObjectPtrBase{Object::FindObjectOfInstanceID(instanceID)};

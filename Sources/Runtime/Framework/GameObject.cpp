@@ -1,13 +1,18 @@
 ﻿#include "GameObject.h"
 
+#include "Base/Extension/Vector.h"
+
 namespace BDXKEngine
 {
     std::vector<ObjectPtr<GameObject>> GameObject::allGameObjects;
 
-    ObjectPtr<GameObject> GameObject::Create(std::wstring name)
+    ObjectPtr<GameObject> GameObject::Create(const std::wstring& name)
     {
-        GameObject gameObject = {};
-        ObjectPtr<GameObject> result = Object::Instantiate(&gameObject);
+        Transform source = {};
+        GameObject gameObject{};
+        gameObject.components.emplace_back(InstantiateNoAwake<Transform>(&source));
+
+        ObjectPtr<GameObject> result = Instantiate(&gameObject);
         result->SetName(name);
         return result;
     }
@@ -16,37 +21,15 @@ namespace BDXKEngine
     {
         return components;
     }
-
     ObjectPtr<Transform> GameObject::GetTransform()
     {
-        return GetComponent<Transform>();
+        return transform;
     }
 
-    bool GameObject::GetIsActivatingSelf() const
-    {
-        return isActivating;
-    }
 
-    bool GameObject::GetIsActivatingInHierarchy()
+    ObjectPtr<GameObject> GameObject::Find(const std::wstring& name)
     {
-        const ObjectPtr<Transform> transform = GetTransform();
-        if (const ObjectPtr<Transform> parent = transform->GetParent(); parent != nullptr)
-            return parent->GetGameObject()->GetIsActivatingInHierarchy();
-
-        return GetIsActivatingSelf();
-    }
-
-    void GameObject::SetIsActivating(bool state)
-    {
-        if(isActivating == state)
-            return;
-        
-        isActivating = state;
-    }
-
-    ObjectPtr<GameObject> GameObject::Find(std::wstring name)
-    {
-        return *std::find_if(allGameObjects.begin(), allGameObjects.end(), [=](ObjectPtr<GameObject> gameObject)
+        return *std::ranges::find_if(allGameObjects, [=](const ObjectPtr<GameObject>& gameObject)
         {
             return gameObject->GetName() == name;
         });
@@ -56,22 +39,76 @@ namespace BDXKEngine
     {
         Object::Awake();
 
-        AddComponent<Transform>();
-        allGameObjects.push_back(this);
+        allGameObjects.emplace_back(this);
+        for (const auto& component : components)
+            Object::Awake(component.ToObjectBase());
     }
-
     void GameObject::Destroy()
     {
-        std::vector<ObjectPtr<Component>> components = this->components;
+        std::vector components = {this->components};
         for (ObjectPtr<Component>& component : components)
             Object::Destroy(component.ToObjectBase());
 
-        allGameObjects.erase(std::find(
-            allGameObjects.begin(),
-            allGameObjects.end(),
-            ObjectPtr<GameObject>{this}
-        ));
+        Vector::Remove(allGameObjects, {this});
 
         Object::Destroy();
+    }
+    
+    void GameObject::Export(Exporter& exporter)
+    {
+        exporter.TransferBool({}, isEnabling);
+        exporter.TransferInt({}, static_cast<int>(components.size()));
+        for (const auto& component : components)
+            exporter.TransferObjectPtr({}, component);
+    }
+    void GameObject::Import(Importer& importer)
+    {
+        isEnabling = importer.TransferBool();
+        const int count = importer.TransferInt();
+        for (int i = 0; i < count; i++)
+        {
+            Component* component = static_cast<Component*>(InstantiateNoAwake(importer.TransferObjectPtr().ToObjectBase()));
+            component->gameObject = this;
+            components.emplace_back(component);
+        }
+
+        transform = GetComponent<Transform>();
+    }
+
+    bool GameObject::GetIsEnabling() const
+    {
+        return isEnabling;
+    }
+    bool GameObject::GetIsActivating() const
+    {
+        if (transform != nullptr)
+            if (const ObjectPtr<Transform> parent = transform->GetParent(); parent != nullptr)
+                return parent->GetGameObject()->GetIsActivating();
+
+        return true;
+    }
+    void GameObject::SetIsEnabling(bool state)
+    {
+        if (isEnabling == state)
+            return;
+
+        if (GetIsActivating())
+        {
+            if (state == false)
+                SetIsActivating(false);
+            else
+                SetIsActivating(true);
+        }
+
+        isEnabling = state;
+    }
+    void GameObject::SetIsActivating(bool state)
+    {
+        for (const auto& component : components)
+            component->SetIsActivating(state);
+
+        const int childCount = transform->GetChildCount();
+        for (int i = 0; i < childCount; i++)
+            transform->GetChild(i)->GetGameObject()->SetIsActivating(state);
     }
 }

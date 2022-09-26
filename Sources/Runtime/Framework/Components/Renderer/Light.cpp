@@ -72,7 +72,7 @@ namespace BDXKEngine {
 
 	void Light::Awake()
 	{
-		lights.push_back(this);
+		lights.emplace_back(this);
 
 		shadowMap = Texture2D::Create(1024, 1024);
 		shadowMapCube = TextureCube::Create(512, 512);

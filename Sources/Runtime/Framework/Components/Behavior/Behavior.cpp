@@ -5,11 +5,11 @@ namespace BDXKEngine
 {
 	void Behavior::Awake()
 	{
-		Component::Awake();
-
 		startHandler = dynamic_cast<StartHandler*>(this);
 		updateHandler = dynamic_cast<UpdateHandler*>(this);
 		lateUpdateHandler = dynamic_cast<LateUpdateHandler*>(this);
+		
+		Component::Awake();
 	}
 
 	void Behavior::Enable() {

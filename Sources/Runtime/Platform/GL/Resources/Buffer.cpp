@@ -23,8 +23,8 @@ namespace BDXKEngine {
 	{
 		Object::Export(exporter);
 
-		exporter.TransferInt(static_cast<int>(target));
-		exporter.TransferInt(size);
+		exporter.TransferInt({}, static_cast<int>(target));
+		exporter.TransferInt({}, size);
 	}
 	void Buffer::Import(Importer& importer)
 	{

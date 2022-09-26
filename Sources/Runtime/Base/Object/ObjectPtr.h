@@ -44,7 +44,7 @@ namespace BDXKEngine
     protected:
         TObject* ptr = nullptr;
 
-        void AddRef(const unsigned int refInstanceID) override
+        void AddRef(const int refInstanceID) override
         {
             ObjectPtrBase::AddRef(refInstanceID);
             ptr = reinterpret_cast<TObject*>(ToObjectBase());

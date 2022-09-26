@@ -25,8 +25,8 @@ namespace Assembly
         void OnUpdate() override
         {
             time += Time::GetDeltaTime();
-            animator->SetEnabling(static_cast<int>(std::fmod(time * 6, 2)) == 1);
-            meshRenderer->SetEnabling(!animator->GetIsEnabling());
+            animator->SetIsEnabling(static_cast<int>(std::fmod(time * 6, 2)) == 1);
+            meshRenderer->SetIsEnabling(!animator->GetIsEnabling());
             if (time > 4)
             {
                 ObjectPtr<GameObject> gameObject = GetGameObject();

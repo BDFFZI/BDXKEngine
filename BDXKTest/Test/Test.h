@@ -40,7 +40,7 @@ namespace Assembly
     void TestTransparency()
     {
         ObjectPtr<Camera> camera = GameObject::Find(L"摄像机")->GetComponent<Camera>();
-        camera->GetGameObject()->AddComponent<Assembly::CreateCube>();
+        camera->GetGameObject()->AddComponent<CreateCube>();
     }
 
     void TestLight()

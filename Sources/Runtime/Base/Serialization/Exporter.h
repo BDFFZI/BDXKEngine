@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <string>
-#include <map>
 #include "Base/Vector/Vector2.h"
 #include "Base/Vector/Vector3.h"
 #include "Base/Vector/Vector4.h"
@@ -11,18 +10,18 @@ namespace BDXKEngine {
 	class ObjectPtrBase;
 	class Exporter {
 	public:
-		virtual void TransferInt(int value) = 0;
-		virtual void TransferFloat(float value) = 0;
-		virtual void TransferBool(bool value) = 0;
-		virtual void TransferVector2(Vector2 value) = 0;
-		virtual void TransferVector3(Vector3 value) = 0;
-		virtual void TransferVector4(Vector4 value) = 0;
-		virtual void TransferColor(Color value) = 0;
-		virtual void TransferRect(Rect value) = 0;
-		virtual void TransferString(std::wstring value) = 0;
+		virtual void TransferInt(std::wstring key, int value) = 0;
+		virtual void TransferFloat(std::wstring key, float value) = 0;
+		virtual void TransferBool(std::wstring key, bool value) = 0;
+		virtual void TransferVector2(std::wstring key, Vector2 value) = 0;
+		virtual void TransferVector3(std::wstring key, Vector3 value) = 0;
+		virtual void TransferVector4(std::wstring key, Vector4 value) = 0;
+		virtual void TransferColor(std::wstring key, Color value) = 0;
+		virtual void TransferRect(std::wstring key, Rect value) = 0;
+		virtual void TransferString(std::wstring key, std::wstring value) = 0;
 
-		virtual void TransferBytes(void* source, int size) = 0;
-		virtual void TransferObject(ObjectPtrBase& value) = 0;
+		virtual void TransferBytes(std::wstring key, void* source, int size) = 0;
+		virtual void TransferObjectPtr(std::wstring key, const ObjectPtrBase& value) = 0;
 
 		virtual ~Exporter() = default;
 	};

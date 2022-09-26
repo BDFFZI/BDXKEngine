@@ -18,7 +18,7 @@ namespace BDXKEngine {
 		Color TransferColor() override;
 		Rect TransferRect() override;
 		std::wstring TransferString() override;
-		ObjectPtrBase TransferObject() override;
+		ObjectPtrBase TransferObjectPtr() override;
 
 		void TransferBytes(void* source, int size);
 	private:

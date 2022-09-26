@@ -31,7 +31,7 @@ namespace BDXKEngine {
 		void SetLocalEulerAngles(Vector3 value);
 		void SetLocalScale(Vector3 value);
 
-		std::wstring ToString()override;
+		std::wstring ToString() override;
 	protected:
 		void Awake()override;
 		void Destroy()override;
