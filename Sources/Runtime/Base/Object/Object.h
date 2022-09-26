@@ -118,10 +118,10 @@ namespace BDXKEngine
 
         unsigned int GetInstanceID() const;
         std::wstring GetName();
-        bool GetIsActivating() const;
-        bool GetIsEnabling()const;
+        bool GetIsInstantiating() const;
+        
         void SetName(const std::wstring& name);
-        void SetEnabling(bool state);
+
 
         virtual std::wstring ToString();
     protected:
@@ -135,8 +135,6 @@ namespace BDXKEngine
 
         virtual void Awake(); //唤醒回调，用于扩展Awake(Object* object)函数的内容
         virtual void Destroy(); //销毁回调，用于扩展只在Destroy(Object* object)函数的内容
-        virtual void Enable();
-        virtual void Disable();
     private:
         static unsigned int instanceIDCount; //0为None占位符,一般用作纯数据容器
         /// 内存中的所有Object，包括未实例化的Object
@@ -151,8 +149,7 @@ namespace BDXKEngine
 
         unsigned int instanceID = 0;
         std::wstring name;
-        bool isActivating = false;
+        bool isInstantiating = false;
         bool isDestroying = false;
-        bool isEnabling = true;
     };
 }

@@ -25,10 +25,10 @@ namespace BDXKEngine
 
     void Object::Awake(Object* object)
     {
-        if (object == nullptr || object->isActivating)
+        if (object == nullptr || object->isInstantiating)
             return;
 
-        object->isActivating = true;
+        object->isInstantiating = true;
         object->Awake();
         postAwakeQueue.push_back(object);
     }
@@ -66,29 +66,9 @@ namespace BDXKEngine
         this->name = name;
     }
 
-    bool Object::GetIsActivating() const
+    bool Object::GetIsInstantiating() const
     {
-        return isActivating;
-    }
-
-    bool Object::GetIsEnabling() const
-    {
-        return isEnabling;
-    }
-
-    void Object::SetEnabling(const bool state)
-    {
-        if (isEnabling == state)
-            return;
-
-        isEnabling = state;
-        if (isActivating)
-        {
-            if (state)
-                Enable();
-            else
-                Disable();
-        }
+        return isInstantiating;
     }
 
     std::wstring Object::ToString()
@@ -121,27 +101,13 @@ namespace BDXKEngine
         Debug::LogWarning(static_cast<String>(L"Object::Destroy ") + instanceID + " " + name);
     }
 
-    void Object::Enable()
-    {
-        allObjectsRuntime[instanceID] = this;
-        if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
-            handler->OnEnable();
-    }
-
-    void Object::Disable()
-    {
-        if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
-            handler->OnDisable();
-        allObjectsRuntime.erase(instanceID);
-    }
-
     void Object::FlushAwakeQueue()
     {
         for (const auto& object : postAwakeQueue)
         {
+            allObjectsRuntime[object->instanceID] = object;
             if (const auto handler = dynamic_cast<AwakeHandler*>(object); handler != nullptr)
                 handler->OnAwake();
-            if (object->isEnabling) object->Enable();
         }
         postAwakeQueue.clear();
     }
@@ -150,9 +116,9 @@ namespace BDXKEngine
     {
         for (const auto& object : postDestroyQueue)
         {
-            if (object->isEnabling) object->Disable();
             if (const auto handler = dynamic_cast<DestroyHandler*>(object); handler != nullptr)
                 handler->OnDestroy();
+            allObjectsRuntime.erase(object->instanceID);
         }
         for (const auto& object : postDestroyQueue)
         {

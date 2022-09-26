@@ -25,6 +25,10 @@ namespace BDXKEngine {
 		}
 		std::vector<ObjectPtr<Component>> GetComponents();
 		ObjectPtr<Transform> GetTransform();
+		bool GetIsActivatingSelf() const;
+		bool GetIsActivatingInHierarchy();
+
+		void SetIsActivating(bool state);
 
 		template<typename TComponent>
 		ObjectPtr<TComponent> AddComponent() {
@@ -42,6 +46,7 @@ namespace BDXKEngine {
 
 		//当前物体拥有的组件(由Component负责增减)
 		std::vector<ObjectPtr<Component>> components;
+		bool isActivating = false;
 
 		void Awake()override;
 		void Destroy()override;

@@ -8,27 +8,37 @@
     <list default="true" id="bbd485cc-3a74-4571-8693-878bec7c9d81" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BDXKEngine/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BDXKEngine/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BDXKTest/Output/BDXKTest.exe" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/BDXKTest.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BDXKTest/Test/AutoDestroy.h" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Test/AutoDestroy.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.exe.recipe" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.exe.recipe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/BDXKTest.lastbuildstate" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/BDXKTest.lastbuildstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/CL.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/CL.command.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/CL.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/CL.read.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/CL.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/CL.write.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/link.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/link.command.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/link.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/link.read.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/link.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/BDXKTest/Output/Object/BDXKTest.tlog/link.write.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Runtime/Base/Object/Object.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Base/Object/Object.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Runtime/Base/Object/Object.h" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Base/Object/Object.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Base/Object/ObjectEvent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Base/Object/ObjectEvent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Framework/Component.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Framework/Component.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Framework/Component.h" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Framework/Component.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Framework/Components/Behavior/Behavior.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Framework/Components/Behavior/Behavior.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Framework/Components/Behavior/BehaviorEvent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Framework/Components/Behavior/BehaviorEvent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Framework/GameObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Framework/GameObject.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Framework/GameObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Framework/GameObject.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/BDXKRuntime.lib" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/BDXKRuntime.lib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.lib.recipe" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.lib.recipe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/BDXKRuntime.lastbuildstate" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/BDXKRuntime.lastbuildstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/CL.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/CL.command.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/CL.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/CL.read.1.tlog" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/CL.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/CL.write.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/Lib-link.read.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/Lib-link.read.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/Lib-link.write.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/Lib-link.write.1.tlog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/Lib.command.1.tlog" beforeDir="false" afterPath="$PROJECT_DIR$/Sources/Runtime/Output/Object/BDXKRuntime.tlog/Lib.command.1.tlog" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/map" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/streambuf" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/vector" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/xmemory" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/xstddef" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/xstring" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.30.30705/include/xtree" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -48,8 +58,9 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.35636857&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Inspections-C++&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
@@ -196,6 +207,22 @@
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\BDFFZI\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bbd485cc-3a74-4571-8693-878bec7c9d81" name="Changes" comment="" />
+      <created>1664181226175</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1664181226175</updated>
+      <workItem from="1664181228182" duration="18000" />
+      <workItem from="1664181283857" duration="44000" />
+      <workItem from="1664181341502" duration="2319000" />
+    </task>
+    <servers />
+  </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="Vcs.Log.Tabs.Properties">

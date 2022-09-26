@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include<algorithm>
 #include "Base/Object/ObjectPtr.h"
 
 namespace BDXKEngine {
@@ -16,14 +15,18 @@ namespace BDXKEngine {
 		//设为虚函数是为了转为多态类型
 		ObjectPtr<GameObject> GetGameObject();
 		ObjectPtr<Transform> GetTransform();
+		bool GetIsEnabling() const;
+		void SetIsEnabling(bool state);
 	protected:
 		void Export(Exporter& exporter) override;
 		void Import(Importer& importer) override;
-		//完全创建之后。重写时请务必回调
+		//以下函数重写时请务必回调父类函数
 		void Awake() override;
-		//完全删除之前。重写时请务必回调
 		void Destroy()override;
+		virtual void Enable();
+		virtual void Disable();
 	private:
 		ObjectPtr<GameObject> gameObject = nullptr;
+		bool isEnabling = true;
 	};
 }
