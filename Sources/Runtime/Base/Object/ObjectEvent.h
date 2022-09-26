@@ -21,22 +21,4 @@ namespace BDXKEngine
     protected:
         virtual void OnDestroy() = 0;
     };
-
-    class EnableHandler
-    {
-        friend Object;
-    public:
-        virtual ~EnableHandler() = default;
-    protected:
-        virtual void OnEnable() = 0;
-    };
-
-    class DisableHandler
-    {
-        friend Object;
-    public:
-        virtual ~DisableHandler() = default;
-    protected:
-        virtual void OnDisable() = 0;
-    };
 }

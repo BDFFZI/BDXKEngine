@@ -7,6 +7,31 @@ namespace BDXKEngine
     ObjectPtr<GameObject> Component::GetGameObject() { return gameObject; }
     ObjectPtr<Transform> Component::GetTransform() { return GetGameObject()->GetComponent<Transform>(); }
 
+    bool Component::GetIsEnabling() const
+    {
+        return isEnabling;
+    }
+
+    void Component::SetIsEnabling(bool state)
+    {
+        if (isEnabling == state)
+            return;
+        
+        isEnabling = state;
+        
+        if (gameObject->GetIsActivatingInHierarchy() == false)
+            return;
+        
+        if (GetIsInstantiating())
+        {
+            if (state)
+                Enable();
+            else
+                Disable();
+        }
+    }
+
+
     void Component::Export(Exporter& exporter)
     {
         Object::Export(exporter);
@@ -25,7 +50,7 @@ namespace BDXKEngine
     {
         Object::Awake();
 
-        gameObject->components.push_back(this);
+        gameObject->components.emplace_back(this);
     }
 
     void Component::Destroy()
@@ -36,9 +61,11 @@ namespace BDXKEngine
         Object::Destroy();
     }
 
-    void Component::SetEnabling(bool state)
+    void Component::Enable()
     {
-        if (gameObject->GetIsEnabling() == false)
-            Object::SetEnabling(state);
+    }
+
+    void Component::Disable()
+    {
     }
 }

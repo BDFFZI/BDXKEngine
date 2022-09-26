@@ -22,6 +22,28 @@ namespace BDXKEngine
         return GetComponent<Transform>();
     }
 
+    bool GameObject::GetIsActivatingSelf() const
+    {
+        return isActivating;
+    }
+
+    bool GameObject::GetIsActivatingInHierarchy()
+    {
+        const ObjectPtr<Transform> transform = GetTransform();
+        if (const ObjectPtr<Transform> parent = transform->GetParent(); parent != nullptr)
+            return parent->GetGameObject()->GetIsActivatingInHierarchy();
+
+        return GetIsActivatingSelf();
+    }
+
+    void GameObject::SetIsActivating(bool state)
+    {
+        if(isActivating == state)
+            return;
+        
+        isActivating = state;
+    }
+
     ObjectPtr<GameObject> GameObject::Find(std::wstring name)
     {
         return *std::find_if(allGameObjects.begin(), allGameObjects.end(), [=](ObjectPtr<GameObject> gameObject)
