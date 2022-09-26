@@ -12,11 +12,6 @@ namespace BDXKEngine
 		lateUpdateHandler = dynamic_cast<LateUpdateHandler*>(this);
 	}
 
-	void Behavior::Destroy()
-	{
-		Component::Destroy();
-	}
-
 	void Behavior::Enable() {
 		Component::Enable();
 		

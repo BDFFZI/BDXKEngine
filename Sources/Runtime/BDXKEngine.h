@@ -59,7 +59,7 @@
 #include "Function/GUI.h"
 #include "Function/Random.h"
 //框架层：在此组织和使用下层的各种功能 >> 营造引擎环境，用户接口
-#include "Framework/WorldManager.h"
+#include "Framework/GameObjectManager.h"
 #include "Framework/GameObject.h"
 #include "Framework/Component.h"
 #include "Framework/Components/Renderer/RendererManager.h"
@@ -73,7 +73,7 @@
 
 namespace BDXKEngine
 {
-    class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, WorldManager
+    class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager
     {
     public:
         static void Run(std::function<void()> onStart)
@@ -96,7 +96,7 @@ namespace BDXKEngine
             //下面两层是动态的，倒序初始化（因为会影响事件顺序），以便使用环境无异常
             BehaviorManager::Initialize(&window);
             RendererManager::Initialize(&window);
-            WorldManager::Initialize(&window);
+            GameObjectManager::Initialize(&window);
             GUI::Initialize(&window);
             Event::Initialize(&window);
             Graphics::Initialize(&window);

@@ -3,7 +3,7 @@
 #include "Base/Object/ObjectPtr.h"
 
 namespace BDXKEngine {
-	class WorldManager;
+	class GameObjectManager;
 	class GameObject;
 	class Transform;
 
@@ -11,7 +11,7 @@ namespace BDXKEngine {
 	class Component :public Object
 	{
 		friend GameObject;
-		friend WorldManager;
+		friend GameObjectManager;
 	public:
 		//设为虚函数是为了转为多态类型
 		ObjectPtr<GameObject> GetGameObject();
@@ -23,6 +23,7 @@ namespace BDXKEngine {
 		void Awake() override;
 		//完全删除之前。重写时请务必回调
 		void Destroy()override;
+		void SetEnabling(bool state) override;
 	private:
 		ObjectPtr<GameObject> gameObject = nullptr;
 	};

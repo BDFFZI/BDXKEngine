@@ -5,7 +5,7 @@ namespace BDXKEngine
 {
     unsigned int Object::instanceIDCount = 0;
     std::map<unsigned int, Object*> Object::allObjects = {};
-    std::map<unsigned int, Object*> Object::allObjectsRuntime = {};
+    std::map<unsigned int, Object*> Object::allObjectsEnabling = {};
     std::vector<Object*> Object::postDestroyQueue;
     std::vector<Object*> Object::postAwakeQueue;
 
@@ -123,7 +123,7 @@ namespace BDXKEngine
 
     void Object::Enable()
     {
-        allObjectsRuntime[instanceID] = this;
+        allObjectsEnabling[instanceID] = this;
         if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
             handler->OnEnable();
     }
@@ -132,7 +132,7 @@ namespace BDXKEngine
     {
         if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
             handler->OnDisable();
-        allObjectsRuntime.erase(instanceID);
+        allObjectsEnabling.erase(instanceID);
     }
 
     void Object::FlushAwakeQueue()
@@ -141,7 +141,7 @@ namespace BDXKEngine
         {
             if (const auto handler = dynamic_cast<AwakeHandler*>(object); handler != nullptr)
                 handler->OnAwake();
-            if (object->isEnabling) object->Enable();
+            if (object->GetIsEnabling()) object->Enable();
         }
         postAwakeQueue.clear();
     }
@@ -150,7 +150,7 @@ namespace BDXKEngine
     {
         for (const auto& object : postDestroyQueue)
         {
-            if (object->isEnabling) object->Disable();
+            if (object->GetIsEnabling()) object->Disable();
             if (const auto handler = dynamic_cast<DestroyHandler*>(object); handler != nullptr)
                 handler->OnDestroy();
         }

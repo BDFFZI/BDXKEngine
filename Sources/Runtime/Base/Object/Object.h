@@ -105,7 +105,7 @@ namespace BDXKEngine
         static std::vector<TObject*> FindObjectsOfType()
         {
             std::vector<TObject*> result{};
-            for (auto& item : allObjectsRuntime)
+            for (auto& item : allObjectsEnabling)
             {
                 TObject* object = dynamic_cast<TObject*>(item.second);
                 if (object != nullptr)result.push_back(object);
@@ -121,7 +121,7 @@ namespace BDXKEngine
         bool GetIsActivating() const;
         bool GetIsEnabling()const;
         void SetName(const std::wstring& name);
-        void SetEnabling(bool state);
+        virtual void SetEnabling(bool state);
 
         virtual std::wstring ToString();
     protected:
@@ -141,7 +141,7 @@ namespace BDXKEngine
         static unsigned int instanceIDCount; //0为None占位符,一般用作纯数据容器
         /// 内存中的所有Object，包括未实例化的Object
         static std::map<unsigned int, Object*> allObjects;
-        static std::map<unsigned int, Object*> allObjectsRuntime;
+        static std::map<unsigned int, Object*> allObjectsEnabling;
         static std::vector<Object*> postAwakeQueue;
         static std::vector<Object*> postDestroyQueue;
 

@@ -5,11 +5,11 @@
 #include "Framework/Components/Transform.h"
 
 namespace BDXKEngine {
-	class WorldManager;
+	class GameObjectManager;
 	class GameObject :public Object
 	{
 		friend Component;
-		friend WorldManager;
+		friend GameObjectManager;
 	public:
 		static ObjectPtr<GameObject> Create(std::wstring name = L"New GameObject");
 
@@ -42,8 +42,9 @@ namespace BDXKEngine {
 
 		//当前物体拥有的组件(由Component负责增减)
 		std::vector<ObjectPtr<Component>> components;
-
+		
 		void Awake()override;
 		void Destroy()override;
+		void SetEnabling(bool state) override;
 	};
 }

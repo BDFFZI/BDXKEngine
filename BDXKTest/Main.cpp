@@ -5,18 +5,21 @@ using namespace BDXKEditor;
 
 int main()
 {
-    Engine::Run(
-        [&]()
-        {
-            Assembly::CreateDefaultScene();
-            Assembly::TestTransparency();
-            Assembly::TestLight();
-            Assembly::TestShadow();
-        }
-    );
 
-    Debug::Log("\n按任意键退出");
-    std::getchar();
+
+    
+    // Engine::Run(
+    //     [&]()
+    //     {
+    //         Assembly::CreateDefaultScene();
+    //         Assembly::TestTransparency();
+    //         Assembly::TestLight();
+    //         Assembly::TestShadow();
+    //     }
+    // );
+    //
+    // Debug::Log("\n按任意键退出");
+    // std::getchar();
 }
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)

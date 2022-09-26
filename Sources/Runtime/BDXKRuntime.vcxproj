@@ -47,7 +47,7 @@
     <ClCompile Include="Framework\Components\Renderer\RendererManager.cpp" />
     <ClCompile Include="Framework\Components\Transform.cpp" />
     <ClCompile Include="Framework\GameObject.cpp" />
-    <ClCompile Include="Framework\WorldManager.cpp" />
+    <ClCompile Include="Framework\GameObjectManager.cpp" />
     <ClCompile Include="Function\Cursor.cpp" />
     <ClCompile Include="Function\Event.cpp" />
     <ClCompile Include="Function\Graphics.cpp" />
@@ -113,7 +113,7 @@
     <ClInclude Include="Framework\GameObject.h" />
     <ClInclude Include="Framework\Settings\GraphicsSettings.h" />
     <ClInclude Include="Framework\Settings\QualitySettings.h" />
-    <ClInclude Include="Framework\WorldManager.h" />
+    <ClInclude Include="Framework\GameObjectManager.h" />
     <ClInclude Include="Function\Cursor.h" />
     <ClInclude Include="Function\Event.h" />
     <ClInclude Include="Function\Graphics.h" />
