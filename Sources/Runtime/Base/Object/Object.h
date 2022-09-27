@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <functional>
 #include <vector>
 #include <map>
 #include "Base/Extension/String.h"
@@ -23,6 +24,7 @@
 
 namespace BDXKEngine
 {
+#define CreateSerializationID(T)  {String::to_wstring(typeid(T).name()), [] { return Object::Create<T>(); }}
     class ObjectManager;
 
     class Object : public ISerializable
@@ -31,7 +33,14 @@ namespace BDXKEngine
     public:
         static void DebugObjectCount();
 
-        // 代替构造函数
+        //希望物体能参与序列化则必须要注册SerializationID
+        template <typename TObject>
+        static void AddSerializationID()
+        {
+            serializationID.insert(CreateSerializationID(TObject));
+        }
+
+        // 代替new函数
         // 使用Create()创建的Object的InstanceID不可能等于0
         // 以此区分是否为合法的Object
         template <typename TObject>
@@ -45,6 +54,7 @@ namespace BDXKEngine
             return result;
         }
 
+
         // 初始物体，仅加载序列化层面功能，不进行实例化，为无运行时功能的静态物体
         template <typename TObject>
         static TObject* InstantiateNoAwake(Importer& importer)
@@ -53,7 +63,6 @@ namespace BDXKEngine
             result->Import(importer);
             return static_cast<TObject*>(result);
         }
-
         template <typename TObject>
         static TObject* InstantiateNoAwake(TObject* serializer)
         {
@@ -64,10 +73,7 @@ namespace BDXKEngine
 
             return InstantiateNoAwake<TObject>(importer);
         }
-
         static Object* InstantiateNoAwake(Object* serializer);
-
-
         /// 实例化物体，以加载运行时相关功能
         template <typename TObject>
         static TObject* Instantiate(TObject* source)
@@ -94,7 +100,7 @@ namespace BDXKEngine
         static std::vector<TObject*> FindObjectsOfType()
         {
             std::vector<TObject*> result{};
-            for (auto& item : allObjectsInstantiating)
+            for (auto& item : allObjectsRunning)
             {
                 TObject* object = dynamic_cast<TObject*>(item.second);
                 if (object != nullptr)result.push_back(object);
@@ -107,15 +113,15 @@ namespace BDXKEngine
 
         int GetInstanceID() const;
         std::wstring GetName();
-        bool GetIsInstantiating() const;
+        bool GetIsRunning() const;
 
         void SetName(const std::wstring& name);
 
         virtual std::wstring ToString();
     protected:
-        /// 激活物体，只在Awake()中调用有效，类似一直标记信号的传递
+        /// 代替构造函数，激活物体，只在Awake()中调用有效，类似一直标记信号的传递
         static void Awake(Object* object);
-        /// 销毁物体，只在Destroy()中调用有效，单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，类似一直标记信号的传递
+        /// 代替析构函数，销毁物体，只在Destroy()中调用有效，单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，类似一直标记信号的传递
         static void Destroy(Object* object);
 
         void Export(Exporter& transfer) override;
@@ -124,10 +130,11 @@ namespace BDXKEngine
         virtual void Awake(); //唤醒回调，用于扩展Awake(Object* object)函数的内容
         virtual void Destroy(); //销毁回调，用于扩展只在Destroy(Object* object)函数的内容
     private:
+        static std::unordered_map<std::wstring, std::function<Object*()>> serializationID;
         static int instanceIDCount; //0为None占位符,一般用作纯数据容器
         /// 内存中的所有Object，包括未实例化的Object
         static std::map<int, Object*> allObjects;
-        static std::map<int, Object*> allObjectsInstantiating;
+        static std::map<int, Object*> allObjectsRunning;
         static std::vector<Object*> postAwakeQueue;
         static std::vector<Object*> postDestroyQueue;
 
@@ -137,7 +144,7 @@ namespace BDXKEngine
 
         int instanceID = 0;
         std::wstring name;
-        bool isInstantiating = false;
+        bool isRunning = false;
         bool isDestroying = false;
     };
 }

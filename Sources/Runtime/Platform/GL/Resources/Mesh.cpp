@@ -161,13 +161,13 @@ namespace BDXKEngine {
 	{
 		Object::Import(importer);
 
-		int verticesCount = importer.TransferInt();
+		int verticesCount = importer.TransferInt({});
 		vertices.resize(verticesCount);
-		importer.TransferBytes(vertices.data(), verticesCount * sizeof(Vertex));
+		importer.TransferBytes({}, vertices.data(), verticesCount * sizeof(Vertex));
 
-		int trianglesCount = importer.TransferInt();
+		int trianglesCount = importer.TransferInt({});
 		triangles.resize(trianglesCount);
-		importer.TransferBytes(triangles.data(), trianglesCount * sizeof(unsigned short));
+		importer.TransferBytes({}, triangles.data(), trianglesCount * sizeof(unsigned short));
 	}
 	void Mesh::Awake()
 	{

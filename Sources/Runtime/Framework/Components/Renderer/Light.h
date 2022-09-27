@@ -1,56 +1,56 @@
 ﻿#pragma once
-#include "Framework/GameObject.h"
 #include "Base/Color.h"
-#include "Platform/GL/Resources/GLLayout.h"
-#include "Function/Resources.h"
 #include "Platform/GL/Resources/Texture2D.h"
 #include "Platform/GL/Resources/TextureCube.h"
 #include "Function/Graphics.h"
 #include "Framework/Components/Renderer/Renderer.h"
 #include "Framework/Components/Renderer/RendererManager.h"
-#include "Framework/Components/Transform.h"
-#include "Framework/Settings/GraphicsSettings.h"
 
-namespace BDXKEngine {
-	class LightEditor;
-	class Light :public Component, public PreRenderHandler, RendererManager
-	{
-		friend LightEditor;
+namespace BDXKEngine
+{
+    class LightEditor;
 
-	public:
-		LightType GetType();
-		Color GetColor();
-		float GetIntensity();
-		RenderMode GetRenderMode();
+    class Light : public Component, public PreRenderHandler, RendererManager
+    {
+        friend LightEditor;
 
-		void SetLightType(LightType type);
-		void SetColor(Color color);
-		void SetIntensity(float intensity);
-	private:
-		static std::vector<ObjectPtr<Light>> lights;
+    public:
+        LightType GetType() const;
+        Color GetColor() const;
+        float GetIntensity() const;
+        RenderMode GetRenderMode() const;
 
-		ObjectPtr<Texture2D> shadowMap;
-		ObjectPtr<TextureCube> shadowMapCube;
-		LightType type = LightType::Directional;
-		Color color = Color::white;
-		float intensity = 1;
-		RenderMode renderMode = RenderMode::Important;
+        void SetLightType(LightType type);
+        void SetColor(Color color);
+        void SetIntensity(float intensity);
+    private:
+        static std::vector<ObjectPtr<Light>> lights;
 
-		LightInfo GetLightInfo(int order = 0);
-		ShadowInfo GetShadowInfo();
-		ObjectPtr<Texture> GetShadowMap();
+        LightType lightType = LightType::Directional;
+        RenderMode renderMode = RenderMode::Important;
+        Color color = Color::white;
+        float intensity = 1;
+        ObjectPtr<Texture2D> shadowMap;
+        ObjectPtr<TextureCube> shadowMapCube;
 
-		void Awake()override;
-		void OnPreRender()override;
-		void Destroy()override;
-	};
+        LightInfo GetLightInfo(int order = 0);
+        ShadowInfo GetShadowInfo();
+        ObjectPtr<Texture> GetShadowMap();
 
-	class LightEditor {
-	protected:
-		static LightInfo GetLightInfo(ObjectPtr<Light> light, int order = 0);
-		static ShadowInfo GetShadowInfo(ObjectPtr<Light> light);
-		static ObjectPtr<Texture> GetShadowMap(ObjectPtr<Light> light);
-		static std::vector<ObjectPtr<Light>>& GetLights();
-	};
+        void OnPreRender() override;
+
+        void Export(Exporter& exporter) override;
+        void Import(Importer& importer) override;
+        void Awake() override;
+        void Destroy() override;
+    };
+
+    class LightEditor
+    {
+    protected:
+        static LightInfo GetLightInfo(const ObjectPtr<Light>& light, int order = 0);
+        static ShadowInfo GetShadowInfo(const ObjectPtr<Light>& light);
+        static ObjectPtr<Texture> GetShadowMap(const ObjectPtr<Light>& light);
+        static std::vector<ObjectPtr<Light>>& GetLights();
+    };
 }
-

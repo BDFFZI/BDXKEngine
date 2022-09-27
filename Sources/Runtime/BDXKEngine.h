@@ -69,6 +69,7 @@
 #include "Framework/Components/Renderer/Camera.h"
 #include "Framework/Components/Renderer/CameraEvent.h"
 #include "Framework/Components/Behavior/Animator.h"
+#include "Framework/Settings/GraphicsSettings.h"
 
 
 namespace BDXKEngine
@@ -83,12 +84,26 @@ namespace BDXKEngine
             //启动窗口
             Window window = {L"BDXKEngine"};
 
-            //平台层初始化
-            GL::Initialize(&window);
-            GL2D::Initialize();
-            //资源层初始化
-            Resources::Initialize(&window);
-            //上面三层是静态的，顺序初始化，以便初始化无异常
+            //这三层是静态的，所以需要顺序初始化，以便初始化无异常
+            {
+                //基础层初始化
+                Object::AddSerializationID<GameObject>();
+                Object::AddSerializationID<Component>();
+                Object::AddSerializationID<Transform>();
+                Object::AddSerializationID<Animator>();
+                Object::AddSerializationID<Camera>();
+                Object::AddSerializationID<Light>();
+                Object::AddSerializationID<MeshRenderer>();
+            
+                //平台层初始化
+                GL::Initialize(&window);
+                GL2D::Initialize();
+                
+                //资源层初始化
+                Resources::Initialize(&window);
+            }
+
+           
 
             //创建配置信息，这将影响框架层中部分模块的运作方式
             CreateSettings();

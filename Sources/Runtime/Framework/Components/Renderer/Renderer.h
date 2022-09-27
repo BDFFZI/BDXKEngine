@@ -24,8 +24,10 @@ namespace BDXKEngine {
 		ObjectPtr<Mesh> mesh = nullptr;
 		bool castShadows = true;
 		bool receiveShadows = true;
-		
+
 		void Enable() override;
 		void Disable() override;
+		void Export(Exporter& exporter) override;
+		void Import(Importer& importer) override;
 	};
 }

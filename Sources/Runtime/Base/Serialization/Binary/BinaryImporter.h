@@ -8,19 +8,19 @@ namespace BDXKEngine {
 	public:
 		BinaryImporter(std::iostream& stream);
 
-		int TransferInt() override;
-		float TransferFloat() override;
-		bool TransferBool() override;
+		int TransferInt(std::wstring key) override;
+		float TransferFloat(std::wstring key) override;
+		bool TransferBool(std::wstring key) override;
 
-		Vector2 TransferVector2() override;
-		Vector3 TransferVector3() override;
-		Vector4 TransferVector4() override;
-		Color TransferColor() override;
-		Rect TransferRect() override;
-		std::wstring TransferString() override;
-		ObjectPtrBase TransferObjectPtr() override;
+		Vector2 TransferVector2(std::wstring key) override;
+		Vector3 TransferVector3(std::wstring key) override;
+		Vector4 TransferVector4(std::wstring key) override;
+		Color TransferColor(std::wstring key) override;
+		Rect TransferRect(std::wstring key) override;
+		std::wstring TransferString(std::wstring key) override;
+		ObjectPtrBase TransferObjectPtr(std::wstring key) override;
 
-		void TransferBytes(void* source, int size);
+		void TransferBytes(std::wstring key, void* source, int size);
 	private:
 		std::iostream& stream;
 

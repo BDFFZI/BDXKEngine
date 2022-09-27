@@ -13,26 +13,28 @@ namespace BDXKEngine {
 	public:
 		ObjectPtr<Transform> GetParent();
 		ObjectPtr<Transform> GetChild(int index);
-		int GetChildCount();
-		Vector3 GetPosition();
-		Vector3 GetEulerAngles();
-		Vector3 GetScale();
-		Vector3 GetLocalPosition();
-		Vector3 GetLocalEulerAngles();
-		Vector3 GetLocalScale();
-		Matrix4x4 GetLocalToWorldMatrix();
-		Matrix4x4 GetWorldToLocalMatrix();
+		int GetChildCount() const;
+		Vector3 GetPosition() const;
+		Vector3 GetEulerAngles() const;
+		Vector3 GetScale() const;
+		Vector3 GetLocalPosition() const;
+		Vector3 GetLocalEulerAngles() const;
+		Vector3 GetLocalScale() const;
+		Matrix4x4 GetLocalToWorldMatrix() const;
+		Matrix4x4 GetWorldToLocalMatrix() const;
 		Vector3 GetRight();
 		Vector3 GetUp();
 		Vector3 GetFront();
 
-		void SetParent(ObjectPtr<Transform> parent);
+		void SetParent(const ObjectPtr<Transform>& parent);
 		void SetLocalPosition(Vector3 value);
 		void SetLocalEulerAngles(Vector3 value);
 		void SetLocalScale(Vector3 value);
 
 		std::wstring ToString() override;
 	protected:
+		void Export(Exporter& exporter) override;
+		void Import(Importer& importer) override;
 		void Awake()override;
 		void Destroy()override;
 	private:
@@ -48,12 +50,10 @@ namespace BDXKEngine {
 		Matrix4x4 worldToLocalMatrix = Matrix4x4::identity;
 		ObjectPtr<Transform> parent = nullptr;
 		std::vector<ObjectPtr<Transform>> children = {};
-
-		void RenewSelfMatrix();
-		void RenewPosition();
-		void RenewEulerAngles();
-		void RenewScale();
-		void RenewMatrix();
+		
+		void RenewPositionAndMatrix(bool renewChild = true);
+		void RenewEulerAngles(bool renewChild = true);
+		void RenewScale(bool renewChild = true);
 	};
 
 	class TransformEditor

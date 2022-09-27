@@ -1,28 +1,15 @@
 ﻿#include "Object.h"
 #include "ObjectEvent.h"
-#include "Framework/GameObject.h"
-#include "Framework/Components/Behavior/Animator.h"
-#include "Framework/Components/Renderer/Camera.h"
-#include "Framework/Components/Renderer/MeshRenderer.h"
 
 namespace BDXKEngine
 {
     int Object::instanceIDCount = 0;
     std::map<int, Object*> Object::allObjects = {};
-    std::map<int, Object*> Object::allObjectsInstantiating = {};
+    std::map<int, Object*> Object::allObjectsRunning = {};
     std::vector<Object*> Object::postDestroyQueue;
     std::vector<Object*> Object::postAwakeQueue;
 
-#define TypeSerialize(T)  {String::to_wstring(typeid(T).name()), [] { return Object::Create<T>(); }}
-    std::unordered_map<std::wstring, std::function<Object*()>> nameToInstance = {
-        TypeSerialize(GameObject),
-        TypeSerialize(Component),
-        TypeSerialize(Transform),
-        TypeSerialize(Animator),
-        TypeSerialize(Camera),
-        TypeSerialize(Light),
-        TypeSerialize(MeshRenderer),
-    };
+    std::unordered_map<std::wstring, std::function<Object*()>> Object::serializationID = {};
 
     void Object::DebugObjectCount()
     {
@@ -36,12 +23,12 @@ namespace BDXKEngine
         BinaryExporter exporter = {stream};
         serializer->Export(exporter);
         BinaryImporter importer = {stream};
-        const std::wstring type = importer.TransferString();
+        const std::wstring type = importer.TransferString({});
         //重新取出数据
         stream.str("");
         serializer->Export(exporter);
 
-        Object* result = nameToInstance[type]();
+        Object* result = serializationID[type]();
         result->Import(importer);
         return result;
     }
@@ -57,10 +44,10 @@ namespace BDXKEngine
 
     void Object::Awake(Object* object)
     {
-        if (object == nullptr || object->isInstantiating)
+        if (object == nullptr || object->isRunning)
             return;
 
-        object->isInstantiating = true;
+        object->isRunning = true;
         object->Awake();
         postAwakeQueue.push_back(object);
     }
@@ -69,7 +56,7 @@ namespace BDXKEngine
     {
         if (object == nullptr || object->isDestroying)
             return;
-        if (object->isInstantiating == false)
+        if (object->isRunning == false)
         {
             allObjects.erase(object->instanceID);
             delete object;
@@ -105,14 +92,18 @@ namespace BDXKEngine
         this->name = name;
     }
 
-    bool Object::GetIsInstantiating() const
+    bool Object::GetIsRunning() const
     {
-        return isInstantiating;
+        return isRunning;
     }
 
     std::wstring Object::ToString()
     {
-        return name + L"\n" + std::to_wstring(instanceID);
+        std::wstringstream stream;
+        stream << L"名称：" << name << std::endl;
+        stream << L"编号：" << instanceID << std::endl;
+        stream << L"运行中：" << isRunning << std::endl;
+        return stream.str();
     }
 
     void Object::Export(Exporter& transfer)
@@ -124,28 +115,28 @@ namespace BDXKEngine
 
     void Object::Import(Importer& transfer)
     {
-        transfer.TransferString();
-        if (transfer.TransferInt() == 0)
-            transfer.TransferString();
-        else
-            name = transfer.TransferString();
+        transfer.TransferString({});
+        transfer.TransferInt({});
+        const std::wstring sourceName = transfer.TransferString({});
+        if (sourceName.empty() == false)
+            name = sourceName;
     }
 
     void Object::Awake()
     {
-        //Debug::LogWarning(static_cast<String>(L"Object::Awake ") + instanceID + " " + name);
+        Debug::LogWarning(static_cast<String>(L"Object::Awake ") + instanceID + " " + name);
     }
 
     void Object::Destroy()
     {
-        //Debug::LogWarning(static_cast<String>(L"Object::Destroy ") + instanceID + " " + name);
+        Debug::LogWarning(static_cast<String>(L"Object::Destroy ") + instanceID + " " + name);
     }
 
     void Object::FlushAwakeQueue()
     {
         for (const auto& object : postAwakeQueue)
         {
-            allObjectsInstantiating[object->instanceID] = object;
+            allObjectsRunning[object->instanceID] = object;
             if (const auto handler = dynamic_cast<AwakeHandler*>(object); handler != nullptr)
                 handler->OnAwake();
         }
@@ -158,7 +149,7 @@ namespace BDXKEngine
         {
             if (const auto handler = dynamic_cast<DestroyHandler*>(object); handler != nullptr)
                 handler->OnDestroy();
-            allObjectsInstantiating.erase(object->instanceID);
+            allObjectsRunning.erase(object->instanceID);
         }
         for (const auto& object : postDestroyQueue)
         {

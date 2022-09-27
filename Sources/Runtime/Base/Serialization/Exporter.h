@@ -19,9 +19,8 @@ namespace BDXKEngine {
 		virtual void TransferColor(std::wstring key, Color value) = 0;
 		virtual void TransferRect(std::wstring key, Rect value) = 0;
 		virtual void TransferString(std::wstring key, std::wstring value) = 0;
-
-		virtual void TransferBytes(std::wstring key, void* source, int size) = 0;
 		virtual void TransferObjectPtr(std::wstring key, const ObjectPtrBase& value) = 0;
+		virtual void TransferBytes(std::wstring key, void* source, int size) = 0;
 
 		virtual ~Exporter() = default;
 	};

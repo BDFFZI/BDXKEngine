@@ -3,9 +3,9 @@
 #include <cmath>
 #include "Function/Resources.h"
 #include "Function/Time.h"
-#include "Base/Extension/Debug.h"
 #include "Function/Screen.h"
 #include "Framework/Components/Renderer/RendererManager.h"
+#include "Framework/Settings/GraphicsSettings.h"
 
 namespace BDXKEngine {
 	float Camera::GetAspectRatio()

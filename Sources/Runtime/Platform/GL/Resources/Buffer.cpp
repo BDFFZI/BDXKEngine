@@ -30,8 +30,8 @@ namespace BDXKEngine {
 	{
 		Object::Import(importer);
 
-		target = static_cast<BufferTarget>(importer.TransferInt());
-		size = importer.TransferInt();
+		target = static_cast<BufferTarget>(importer.TransferInt({}));
+		size = importer.TransferInt({});
 	}
 	void Buffer::Awake()
 	{

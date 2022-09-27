@@ -47,10 +47,10 @@ namespace BDXKEngine {
 	}
 	void Texture2D::Import(Importer& importer)
 	{
-		width = importer.TransferInt();
-		height = importer.TransferInt();
+		width = importer.TransferInt({});
+		height = importer.TransferInt({});
 		pixels = std::unique_ptr<Color[]>(new Color[width * height]);
-		importer.TransferBytes(pixels.get(), sizeof(Color) * width * height);
+		importer.TransferBytes({}, pixels.get(), sizeof(Color) * width * height);
 	}
 	void Texture2D::Awake()
 	{

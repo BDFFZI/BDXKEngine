@@ -34,7 +34,7 @@
     <ClCompile Include="Base\Vector\Vector2.cpp" />
     <ClCompile Include="Base\Vector\Vector3.cpp" />
     <ClCompile Include="Base\Vector\Vector4.cpp" />
-    <ClCompile Include="Framework\ISwitchable.cpp" />
+    <ClCompile Include="Framework\ObjectSwitchable.cpp" />
     <ClCompile Include="Framework\Component.cpp" />
     <ClCompile Include="Framework\Components\Behavior\Animator.cpp" />
     <ClCompile Include="Framework\Components\Behavior\Behavior.cpp" />
@@ -99,7 +99,7 @@
     <ClInclude Include="Base\Vector\Vector3.h" />
     <ClInclude Include="Base\Vector\Vector4.h" />
     <ClInclude Include="BDXKEngine.h" />
-    <ClInclude Include="Framework\ISwitchable.h" />
+    <ClInclude Include="Framework\ObjectSwitchable.h" />
     <ClInclude Include="Framework\Component.h" />
     <ClInclude Include="Framework\Components\Behavior\Animator.h" />
     <ClInclude Include="Framework\Components\Behavior\Behavior.h" />

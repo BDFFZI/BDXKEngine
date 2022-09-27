@@ -95,19 +95,19 @@ namespace BDXKEngine {
 	{
 		Object::Import(importer);
 
-		renderQueue = static_cast<RenderQueue>(importer.TransferInt());
+		renderQueue = static_cast<RenderQueue>(importer.TransferInt({}));
 
-		int shadersCount = importer.TransferInt();
+		int shadersCount = importer.TransferInt({});
 		for (int i = 0; i < shadersCount; i++)
 		{
-			shaders.push_back(importer.TransferObjectPtr());
+			shaders.push_back(importer.TransferObjectPtr({}));
 		}
 
-		texture0 = importer.TransferObjectPtr();
-		texture1 = importer.TransferObjectPtr();
-		texture2 = importer.TransferObjectPtr();
-		texture3 = importer.TransferObjectPtr();
-		importer.TransferBytes(reinterpret_cast<char*>(&parameters), sizeof(Parameters));
+		texture0 = importer.TransferObjectPtr({});
+		texture1 = importer.TransferObjectPtr({});
+		texture2 = importer.TransferObjectPtr({});
+		texture3 = importer.TransferObjectPtr({});
+		importer.TransferBytes({}, reinterpret_cast<char*>(&parameters), sizeof(Parameters));
 	}
 	void Material::Awake()
 	{

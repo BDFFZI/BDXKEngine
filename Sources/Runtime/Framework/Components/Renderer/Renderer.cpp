@@ -38,13 +38,12 @@ namespace BDXKEngine
     void Renderer::Enable()
     {
         Component::Enable();
-        
+
         RendererManager::renderers.emplace_back(this);
     }
-
     void Renderer::Disable()
     {
-        Vector::Remove(RendererManager::renderers,{this});
+        Vector::Remove(RendererManager::renderers, {this});
 
         Component::Disable();
     }
@@ -57,5 +56,24 @@ namespace BDXKEngine
     void Renderer::SetReceiveShadows(bool receiveShadows)
     {
         this->receiveShadows = receiveShadows;
+    }
+
+    void Renderer::Export(Exporter& exporter)
+    {
+        Component::Export(exporter);
+
+        exporter.TransferObjectPtr({}, material);
+        exporter.TransferObjectPtr({}, mesh);
+        exporter.TransferBool({}, castShadows);
+        exporter.TransferBool({}, receiveShadows);
+    }
+    void Renderer::Import(Importer& importer)
+    {
+        Component::Import(importer);
+
+        material = importer.TransferObjectPtr({});
+        mesh = importer.TransferObjectPtr({});
+        castShadows = importer.TransferBool({});
+        receiveShadows = importer.TransferBool({});
     }
 }

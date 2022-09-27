@@ -1,174 +1,194 @@
 ﻿#include "Light.h"
 
-namespace BDXKEngine {
-	std::vector<ObjectPtr<Light>> Light::lights;
+#include "Base/Extension/Vector.h"
+#include "Framework/Components/Transform.h"
+#include "Framework/GameObject.h"
 
-	LightType Light::GetType()
-	{
-		return type;
-	}
-	Color Light::GetColor()
-	{
-		return color;
-	}
-	float Light::GetIntensity()
-	{
-		return intensity;
-	}
-	RenderMode Light::GetRenderMode()
-	{
-		return renderMode;
-	}
+namespace BDXKEngine
+{
+    std::vector<ObjectPtr<Light>> Light::lights;
 
-	void Light::SetLightType(LightType type) {
-		this->type = type;
-	}
-	void Light::SetColor(Color color)
-	{
-		this->color = color;
-	}
-	void Light::SetIntensity(float intensity)
-	{
-		this->intensity = intensity;
-	}
+    LightType Light::GetType() const
+    {
+        return lightType;
+    }
+    Color Light::GetColor() const
+    {
+        return color;
+    }
+    float Light::GetIntensity() const
+    {
+        return intensity;
+    }
+    RenderMode Light::GetRenderMode() const
+    {
+        return renderMode;
+    }
 
-	LightInfo Light::GetLightInfo(int order)
-	{
-		ObjectPtr<Transform> lightTransform = GetGameObject()->GetTransform();
-		LightInfo lightInfo{
-			Vector4(lightTransform->GetPosition(),1),
-			Vector4(lightTransform->GetFront().GetNormalized(),1),
-			color * intensity,
-			{},
-			type,
-			renderMode,
-			order
-		};
+    void Light::SetLightType(LightType type)
+    {
+        this->lightType = type;
+    }
+    void Light::SetColor(Color color)
+    {
+        this->color = color;
+    }
+    void Light::SetIntensity(float intensity)
+    {
+        this->intensity = intensity;
+    }
 
-		return lightInfo;
-	}
-	ShadowInfo Light::GetShadowInfo()
-	{
-		ObjectPtr<Transform> transform = GetTransform();
+    LightInfo Light::GetLightInfo(int order)
+    {
+        const ObjectPtr<Transform> lightTransform = GetGameObject()->GetTransform();
+        const LightInfo lightInfo{
+            Vector4(lightTransform->GetPosition(), 1),
+            Vector4(lightTransform->GetFront().GetNormalized(), 1),
+            color * intensity,
+            {},
+            lightType,
+            renderMode,
+            order
+        };
 
-		ShadowInfo shadowInfo{
-			transform->GetWorldToLocalMatrix(),
-			CameraInfo::Orthographic(
-				transform->GetPosition(),
-				transform->GetWorldToLocalMatrix(),
-				1, -25, 25, 25
-			).viewToClip
-		};
+        return lightInfo;
+    }
+    ShadowInfo Light::GetShadowInfo()
+    {
+        const ObjectPtr<Transform> transform = GetTransform();
 
-		return shadowInfo;
-	}
-	ObjectPtr<Texture> Light::GetShadowMap()
-	{
-		if (type == LightType::Point)
-			return shadowMapCube.ToObjectPtr<Texture>();
-		else
-			return shadowMap.ToObjectPtr<Texture>();
-	}
+        const ShadowInfo shadowInfo{
+            transform->GetWorldToLocalMatrix(),
+            CameraInfo::Orthographic(
+                transform->GetPosition(),
+                transform->GetWorldToLocalMatrix(),
+                1, -25, 25, 25
+            ).viewToClip
+        };
 
-	void Light::Awake()
-	{
-		lights.emplace_back(this);
+        return shadowInfo;
+    }
+    ObjectPtr<Texture> Light::GetShadowMap()
+    {
+        if (lightType == LightType::Point)
+            return shadowMapCube.ToObjectPtr<Texture>();
+        else
+            return shadowMap.ToObjectPtr<Texture>();
+    }
 
-		shadowMap = Texture2D::Create(1024, 1024);
-		shadowMapCube = TextureCube::Create(512, 512);
+    void Light::OnPreRender()
+    {
+        //获取投射阴影的物体
+        const std::vector<ObjectPtr<Renderer>> renderers = GetRenderersQueue();
+        //设置深度绘制着色器
+        Resources::GetShadowMapMaterial()->SetPass(0);
 
-		Component::Awake();
-	}
-	void Light::OnPreRender()
-	{
-		//获取投射阴影的物体
-		std::vector<ObjectPtr<Renderer>> renderers = RendererManager::GetRenderersQueue();
-		//设置深度绘制着色器
-		Resources::GetShadowMapMaterial()->SetPass(0);
+        //渲染深度信息
+        if (lightType == LightType::Point)
+        {
+            const ObjectPtr<Transform> transform = GetTransform();
+            const Vector3 rotations[] = {
+                {0, 90, 0}, {0, -90, 0},
+                {-90, 0, 0}, {90, 0, 0},
+                {0, 0, 0}, {0, 180, 0},
+            };
 
-		//渲染深度信息
-		if (type == LightType::Point)
-		{
-			ObjectPtr<Transform> transform = GetTransform();
-			Vector3 rotations[] = {
-				{0,90,0},{0,-90,0},
-				{-90,0,0},{90,0,0},
-				{0,0,0},{0,180,0},
-			};
+            for (int index = 0; index < 6; index++)
+            {
+                Graphics::UpdateLightInfo(
+                    GetLightInfo(),
+                    ShadowInfo{
+                        Matrix4x4::TRS(transform->GetPosition(), rotations[index], Vector3::one).GetInverse(),
+                        Matrix4x4::Perspective(90, 1, 0.01f, 25)
+                    },
+                    nullptr
+                );
 
-			for (int index = 0; index < 6; index++)
-			{
-				Graphics::UpdateLightInfo(
-					GetLightInfo(),
-					ShadowInfo{
-						Matrix4x4::TRS(transform->GetPosition(),rotations[index],Vector3::one).GetInverse(),
-						Matrix4x4::Perspective(90,1,0.01f,25)
-					},
-					nullptr
-				);
+                GL::SetRenderTarget(shadowMapCube, index);
+                GL::Clear(true, true);
 
-				GL::SetRenderTarget(shadowMapCube, index);
-				GL::Clear(true, true);
+                for (const ObjectPtr<Renderer>& renderer : renderers)
+                {
+                    const ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
+                    Graphics::UpdateObjectInfo({rendererTransform->GetLocalToWorldMatrix()});
+                    Graphics::DrawMeshNow(renderer->GetMesh());
+                }
+            }
+        }
+        else
+        {
+            //设置灯光阴影信息
+            Graphics::UpdateLightInfo(
+                GetLightInfo(),
+                GetShadowInfo(),
+                nullptr
+            );
 
-				for (ObjectPtr<Renderer>& renderer : renderers)
-				{
-					ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
-					Graphics::UpdateObjectInfo({ rendererTransform->GetLocalToWorldMatrix() });
-					Graphics::DrawMeshNow(renderer->GetMesh());
-				}
-			}
-		}
-		else
-		{
-			//设置灯光阴影信息
-			Graphics::UpdateLightInfo(
-				GetLightInfo(),
-				GetShadowInfo(),
-				nullptr
-			);
+            //设置阴影贴图
+            GL::SetRenderTarget(shadowMap);
+            GL::Clear(true, true);
 
-			//设置阴影贴图
-			GL::SetRenderTarget(shadowMap);
-			GL::Clear(true, true);
+            for (const ObjectPtr<Renderer>& renderer : renderers)
+            {
+                const ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
+                Graphics::UpdateObjectInfo({rendererTransform->GetLocalToWorldMatrix()});
+                Graphics::DrawMeshNow(renderer->GetMesh());
+            }
+        }
 
-			for (ObjectPtr<Renderer>& renderer : renderers)
-			{
-				ObjectPtr<Transform> rendererTransform = renderer->GetTransform();
-				Graphics::UpdateObjectInfo({ rendererTransform->GetLocalToWorldMatrix() });
-				Graphics::DrawMeshNow(renderer->GetMesh());
-			}
-		}
+        GL::SetRenderTarget(nullptr);
+    }
 
-		GL::SetRenderTarget(nullptr);
-	}
-	void Light::Destroy()
-	{
-		lights.erase(std::find(
-			lights.begin(),
-			lights.end(),
-			ObjectPtr<Light>{this}
-		));
-		Object::Destroy(shadowMap.ToObjectBase());
-		Object::Destroy(shadowMapCube.ToObjectBase());
+    void Light::Export(Exporter& exporter)
+    {
+        Component::Export(exporter);
 
-		Component::Destroy();
-	}
+        exporter.TransferBytes({}, &lightType, sizeof(LightType));
+        exporter.TransferBytes({}, &renderMode, sizeof(RenderMode));
+        exporter.TransferColor({}, color);
+        exporter.TransferFloat({}, intensity);
+    }
+    void Light::Import(Importer& importer)
+    {
+        Component::Import(importer);
 
+        importer.TransferBytes({}, &lightType, sizeof(LightType));
+        importer.TransferBytes({}, &renderMode, sizeof(RenderMode));
+        color = importer.TransferColor({});
+        intensity = importer.TransferFloat({});
+    }
+    void Light::Awake()
+    {
+        lights.emplace_back(this);
 
-	LightInfo LightEditor::GetLightInfo(ObjectPtr<Light> light, int order)
-	{
-		return light->GetLightInfo(order);
-	}
-	ShadowInfo LightEditor::GetShadowInfo(ObjectPtr<Light> light)
-	{
-		return light->GetShadowInfo();
-	}
-	ObjectPtr<Texture> LightEditor::GetShadowMap(ObjectPtr<Light> light)
-	{
-		return light->GetShadowMap();
-	}
-	std::vector<ObjectPtr<Light>>& LightEditor::GetLights()
-	{
-		return Light::lights;
-	}
+        shadowMap = Texture2D::Create(1024, 1024);
+        shadowMapCube = TextureCube::Create(512, 512);
+
+        Component::Awake();
+    }
+    void Light::Destroy()
+    {
+        Vector::Remove(lights, {this});
+        Object::Destroy(shadowMap.ToObjectBase());
+        Object::Destroy(shadowMapCube.ToObjectBase());
+
+        Component::Destroy();
+    }
+
+    LightInfo LightEditor::GetLightInfo(const ObjectPtr<Light>& light, int order)
+    {
+        return light->GetLightInfo(order);
+    }
+    ShadowInfo LightEditor::GetShadowInfo(const ObjectPtr<Light>& light)
+    {
+        return light->GetShadowInfo();
+    }
+    ObjectPtr<Texture> LightEditor::GetShadowMap(const ObjectPtr<Light>& light)
+    {
+        return light->GetShadowMap();
+    }
+    std::vector<ObjectPtr<Light>>& LightEditor::GetLights()
+    {
+        return Light::lights;
+    }
 }

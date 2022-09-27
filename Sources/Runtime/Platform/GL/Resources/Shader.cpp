@@ -95,11 +95,11 @@ namespace BDXKEngine
     {
         Object::Import(importer);
 
-        vertexShaderhlsl = importer.TransferString();
-        pixelShaderhlsl = importer.TransferString();
-        passType = static_cast<PassType>(importer.TransferInt());
-        importer.TransferBytes(reinterpret_cast<char*>(&blend), sizeof(Blend));
-        importer.TransferBytes(reinterpret_cast<char*>(&zTest), sizeof(ZTest));
+        vertexShaderhlsl = importer.TransferString({});
+        pixelShaderhlsl = importer.TransferString({});
+        passType = static_cast<PassType>(importer.TransferInt({}));
+        importer.TransferBytes({}, reinterpret_cast<char*>(&blend), sizeof(Blend));
+        importer.TransferBytes({}, reinterpret_cast<char*>(&zTest), sizeof(ZTest));
     }
     void Shader::Awake()
     {

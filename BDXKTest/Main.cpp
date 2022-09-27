@@ -11,7 +11,7 @@ int main()
             Assembly::CreateDefaultScene();
             Assembly::TestTransparency();
             Assembly::TestLight();
-            Assembly::TestShadow();
+            // Assembly::TestShadow();
         }
     );
 

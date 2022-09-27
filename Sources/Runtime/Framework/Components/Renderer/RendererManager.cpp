@@ -50,21 +50,20 @@ namespace BDXKEngine
         return nullptr;
     }
 
-    std::vector<ObjectPtr<Renderer>>& RendererManager::GetRenderers()
-    {
-        return RendererManager::renderers;
-    }
-
     std::vector<ObjectPtr<Renderer>> RendererManager::GetRenderersQueue()
     {
-        std::vector<ObjectPtr<Renderer>> queue = renderers;
+        std::vector<ObjectPtr<Renderer>> renderersQueue = renderers;
+        for (const auto& renderer : renderersQueue)
+            if (renderer->GetMaterial().IsNull() || renderer->GetMesh().IsNull())
+                throw std::exception("渲染器的材质球或网格为空");
+
         std::ranges::sort(
-            queue,
+            renderersQueue,
             [](const ObjectPtr<Renderer>& a, const ObjectPtr<Renderer>& b)
             {
                 return a->GetMaterial()->GetRenderQueue() < b->GetMaterial()->GetRenderQueue();
             }
         );
-        return queue;
+        return renderersQueue;
     }
 }

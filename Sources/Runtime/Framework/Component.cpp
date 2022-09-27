@@ -21,8 +21,8 @@ namespace BDXKEngine
     {
         Object::Import(importer);
 
-        gameObject = importer.TransferObjectPtr();
-        isEnabling = importer.TransferBool();
+        gameObject = importer.TransferObjectPtr({});
+        isEnabling = importer.TransferBool({});
     }
 
     void Component::Awake()
@@ -50,11 +50,7 @@ namespace BDXKEngine
     {
         //Debug::LogWarning(static_cast<String>(L"Component::Disable ") + GetInstanceID() + " " + GetName());
     }
-
-    bool Component::GetIsEnabling() const
-    {
-        return isEnabling;
-    }
+    
     bool Component::GetIsActivating() const
     {
         return gameObject->IsActivatingAndEnabling();
@@ -66,7 +62,7 @@ namespace BDXKEngine
 
         if (GetIsActivating())
         {
-            if (GetIsInstantiating())
+            if (GetIsRunning())
             {
                 if (state)
                     Enable();

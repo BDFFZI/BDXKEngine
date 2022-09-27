@@ -7,7 +7,7 @@ namespace BDXKEngine
     {
     public:
         template <typename TValue>
-        static void Remove(std::vector<TValue>& vector, TValue value)
+        static void Remove(std::vector<TValue>& vector, const TValue value)
         {
             vector.erase(std::find(
                 vector.begin(),

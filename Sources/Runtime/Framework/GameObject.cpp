@@ -10,10 +10,10 @@ namespace BDXKEngine
     {
         Transform source = {};
         GameObject gameObject{};
+        gameObject.SetName(name);
         gameObject.components.emplace_back(InstantiateNoAwake<Transform>(&source));
 
         ObjectPtr<GameObject> result = Instantiate(&gameObject);
-        result->SetName(name);
         return result;
     }
 
@@ -35,6 +35,30 @@ namespace BDXKEngine
         });
     }
 
+    void GameObject::Export(Exporter& exporter)
+    {
+        Object::Export(exporter);
+
+        exporter.TransferBool({}, isEnabling);
+        exporter.TransferInt({}, static_cast<int>(components.size()));
+        for (const auto& component : components)
+            exporter.TransferObjectPtr({}, component);
+    }
+    void GameObject::Import(Importer& importer)
+    {
+        Object::Import(importer);
+
+        isEnabling = importer.TransferBool({});
+        const int count = importer.TransferInt({});
+        for (int i = 0; i < count; i++)
+        {
+            Component* component = static_cast<Component*>(InstantiateNoAwake(importer.TransferObjectPtr({}).ToObjectBase()));
+            component->gameObject = this;
+            components.emplace_back(component);
+        }
+
+        transform = GetComponent<Transform>();
+    }
     void GameObject::Awake()
     {
         Object::Awake();
@@ -54,31 +78,6 @@ namespace BDXKEngine
         Object::Destroy();
     }
     
-    void GameObject::Export(Exporter& exporter)
-    {
-        exporter.TransferBool({}, isEnabling);
-        exporter.TransferInt({}, static_cast<int>(components.size()));
-        for (const auto& component : components)
-            exporter.TransferObjectPtr({}, component);
-    }
-    void GameObject::Import(Importer& importer)
-    {
-        isEnabling = importer.TransferBool();
-        const int count = importer.TransferInt();
-        for (int i = 0; i < count; i++)
-        {
-            Component* component = static_cast<Component*>(InstantiateNoAwake(importer.TransferObjectPtr().ToObjectBase()));
-            component->gameObject = this;
-            components.emplace_back(component);
-        }
-
-        transform = GetComponent<Transform>();
-    }
-
-    bool GameObject::GetIsEnabling() const
-    {
-        return isEnabling;
-    }
     bool GameObject::GetIsActivating() const
     {
         if (transform != nullptr)

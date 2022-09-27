@@ -9,37 +9,38 @@ namespace Assembly
 {
     using namespace BDXKEditor;
 
-    void CreateDefaultScene()
+    inline void CreateDefaultScene()
     {
-        ObjectPtr<GameObject> camera = CreationMenu::Camera(L"摄像机");
-        ObjectPtr<GameObject> sun = CreationMenu::Light::DirectionalLight(L"太阳");
-        ObjectPtr<GameObject> ground = CreationMenu::Object3D::Plane(L"地面");
-        ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"球");
-        //太阳
-        {
-            ObjectPtr<Transform> transform = sun->GetTransform();
-            transform->SetLocalEulerAngles({45, -45, 0});
-        }
-        //球的展示位置
-        {
-            ObjectPtr<Transform> transform = sphere->GetTransform();
-            transform->SetLocalPosition({0, 0.5f, 0});
-        }
-        //增加控制功能并调整位置
-        {
-            ObjectPtr<MaterialHUD> materialHUD = camera->AddComponent<MaterialHUD>();
-            camera->AddComponent<CameraController>();
-            materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());
-            camera->GetTransform()->SetLocalPosition({0, 1, -10});
-        }
+        const ObjectPtr<GameObject> camera = CreationMenu::Camera(L"摄像机");
+        camera->AddComponent<CameraController>();
+        camera->AddComponent<SceneHUD>();
+        // ObjectPtr<GameObject> sun = CreationMenu::Light::DirectionalLight(L"太阳");
+        // ObjectPtr<GameObject> ground = CreationMenu::Object3D::Plane(L"地面");
+        // ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"球");
+        // //太阳
+        // {
+        //     ObjectPtr<Transform> transform = sun->GetTransform();
+        //     transform->SetLocalEulerAngles({45, -45, 0});
+        // }
+        // //球的展示位置
+        // {
+        //     ObjectPtr<Transform> transform = sphere->GetTransform();
+        //     transform->SetLocalPosition({0, 0.5f, 0});
+        // }
+        // //增加控制功能并调整位置
+        // {
+        //     ObjectPtr<MaterialHUD> materialHUD = camera->AddComponent<MaterialHUD>();
+        //     materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());
+        //     camera->GetTransform()->SetLocalPosition({0, 1, -10});
+        // }
 
-        ObjectPtr<GameObject> blender = CreationMenu::Object3D::CreateObject3D(Resources::GetBlenderMesh(), L"Blender");
-        blender->GetTransform()->SetLocalPosition({0, 3.0f, 0});
+        // ObjectPtr<GameObject> blender = CreationMenu::Object3D::CreateObject3D(Resources::GetBlenderMesh(), L"Blender");
+        // blender->GetTransform()->SetLocalPosition({0, 3.0f, 0});
     }
 
-    void TestTransparency()
+    inline void TestTransparency()
     {
-        ObjectPtr<Camera> camera = GameObject::Find(L"摄像机")->GetComponent<Camera>();
+        const ObjectPtr<Camera> camera = GameObject::Find(L"摄像机")->GetComponent<Camera>();
         camera->GetGameObject()->AddComponent<CreateCube>();
     }
 

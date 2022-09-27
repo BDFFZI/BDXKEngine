@@ -8,7 +8,7 @@ namespace BDXKEngine
 {
     class GameObjectManager;
 
-    class GameObject : public Object, public ISwitchable
+    class GameObject : public ObjectSwitchable
     {
         friend Component;
         friend GameObjectManager;
@@ -28,9 +28,8 @@ namespace BDXKEngine
         }
         std::vector<ObjectPtr<Component>> GetComponents();
         ObjectPtr<Transform> GetTransform();
-
         bool GetIsActivating() const override;
-        bool GetIsEnabling() const override;
+
         void SetIsEnabling(bool state) override;
 
         template <typename TComponent>
@@ -52,7 +51,6 @@ namespace BDXKEngine
         //当前物体拥有的组件(由Component负责增减)
         ObjectPtr<Transform> transform;
         std::vector<ObjectPtr<Component>> components;
-        bool isEnabling = true;
 
         void Awake() override;
         void Destroy() override;
