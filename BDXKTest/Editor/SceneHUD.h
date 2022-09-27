@@ -8,7 +8,7 @@ namespace BDXKEditor
     class SceneHUD : public Component, public PostRenderHandler, TransformEditor
     {
     private:
-        std::wstring sceneInfo{L"Hello BDXKEngine"};
+        ObjectPtr<ObjectSwitchable> focus;
         int frameRate = 0;
 
         float ShowGameObjectInfo(ObjectPtr<GameObject> target, float drawY, int order = 0)
@@ -18,7 +18,8 @@ namespace BDXKEditor
             {
                 Rect rect = {drawX, drawY, 160, 25};
                 GUI::TextArea(rect, target->GetName());
-                if (Event::IsFocus(rect))sceneInfo = target->ToString();
+                if (Event::IsFocus(rect))
+                    focus = target;
             }
             //添加Transform事件
             const ObjectPtr<Transform> transform = target->GetTransform();
@@ -58,7 +59,7 @@ namespace BDXKEditor
                 String fullName = typeid(*componentPtr).name();
                 GUI::TextArea(rect, fullName.substr(fullName.find(L':') + 2), 15);
 
-                if (Event::IsFocus(rect))sceneInfo = component->ToString();
+                if (Event::IsFocus(rect))focus = component;
             }
             //显示子物体
             if (transform->GetChildCount() != 0)
@@ -89,16 +90,17 @@ namespace BDXKEditor
             Rect rect = {};
             rect.SetSize(Vector2(screenSize.x / 4, screenSize.y / 2));
             rect.SetPosition({screenSize.x - rect.width - 10, 10});
-            sceneInfo = GUI::TextArea(rect, sceneInfo);
+            if (focus.IsNotNull())GUI::TextArea(rect, focus->ToString());
+            else GUI::TextArea(rect, L"");
+
+            rect.y += rect.height + 10;
+            rect.height = 25;
 
             //显示帧率
-            rect.y += rect.height + 10;
-            rect.height = 25;
             GUI::TextArea(rect, L"帧率:" + std::to_wstring(frameRate = (int)std::lerp(frameRate, 1 / Time::GetDeltaTime(), 0.1f)));
+            rect.y += rect.height + 10;
 
             //孤儿箱:用来将节点父亲设为空
-            rect.y += rect.height + 10;
-            rect.height = 25;
             GUI::TextArea(rect, L"孤儿箱");
             ObjectPtr<Transform> transform = nullptr;
             if (Event::IsDrop(rect, reinterpret_cast<ObjectPtr<Component>*>(&transform)))
@@ -108,6 +110,13 @@ namespace BDXKEditor
                     transform->SetParent(nullptr);
                 }
             }
+            rect.y += rect.height + 10;
+
+            if (focus.IsNotNull() && GUI::Button(rect, L"切换启用状态"))
+            {
+                focus->SetIsEnabling(!focus->GetIsEnabling());
+            }
+            rect.y += rect.height + 10;
         }
     };
 }

@@ -77,12 +77,11 @@ namespace BDXKEngine
 
         Object::Destroy();
     }
-    
+
     bool GameObject::GetIsActivating() const
     {
-        if (transform != nullptr)
-            if (const ObjectPtr<Transform> parent = transform->GetParent(); parent != nullptr)
-                return parent->GetGameObject()->GetIsActivating();
+        if (const ObjectPtr<Transform> parent = transform->GetParent(); parent != nullptr)
+            return parent->GetGameObject()->IsActivatingAndEnabling();
 
         return true;
     }
@@ -90,24 +89,21 @@ namespace BDXKEngine
     {
         if (isEnabling == state)
             return;
+        isEnabling = state;
 
         if (GetIsActivating())
         {
-            if (state == false)
-                SetIsActivating(false);
-            else
-                SetIsActivating(true);
+            UpdateActivating();
         }
-
-        isEnabling = state;
     }
-    void GameObject::SetIsActivating(bool state)
+
+    void GameObject::OnUpdateActivating(bool state)
     {
         for (const auto& component : components)
-            component->SetIsActivating(state);
+            component->UpdateActivating();
 
         const int childCount = transform->GetChildCount();
         for (int i = 0; i < childCount; i++)
-            transform->GetChild(i)->GetGameObject()->SetIsActivating(state);
+            transform->GetChild(i)->GetGameObject()->UpdateActivating();
     }
 }

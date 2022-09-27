@@ -1,7 +1,6 @@
 ﻿#include "Transform.h"
 #include<cmath>
 #include<exception>
-
 #include "Base/Extension/Vector.h"
 #include "Framework/GameObject.h"
 
@@ -66,7 +65,7 @@ namespace BDXKEngine
         return localToWorldMatrix.MultiplyVector(Vector3::front);
     }
 
-    void Transform::SetParent(const ObjectPtr<Transform>& newparent)
+    void Transform::SetParent(ObjectPtr<Transform> newparent)
     {
         //嵌套检查
         if (newparent.IsNull() == false)
@@ -82,13 +81,15 @@ namespace BDXKEngine
             while (newUpLayer.IsNull() == false);
         }
 
+        const bool oldActivating = GetGameObject()->GetIsActivating();
+
         //解绑旧父物体
         if (parent.IsNull() == false)
             parent->children.erase(
                 std::find(parent->children.begin(), parent->children.end(), this));
         else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
         //设置新父物体
-        this->parent = newparent;
+        this->parent = std::move(newparent);
         //绑定新父物体
         if (parent.IsNull() == false)parent->children.emplace_back(this);
         else rootTransforms.emplace_back(this);
@@ -96,6 +97,9 @@ namespace BDXKEngine
         RenewScale();
         RenewEulerAngles();
         RenewPositionAndMatrix();
+        
+        if (oldActivating != GetGameObject()->GetIsActivating())
+            GetGameObject()->UpdateActivating();
     }
     void Transform::SetLocalPosition(Vector3 value)
     {

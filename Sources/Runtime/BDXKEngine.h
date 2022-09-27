@@ -77,7 +77,7 @@ namespace BDXKEngine
     class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager
     {
     public:
-        static void Run(std::function<void()> onStart)
+        static void Run(const std::function<void()>& onStart)
         {
             std::setlocale(LC_ALL, "zh-CN");
 
@@ -91,6 +91,7 @@ namespace BDXKEngine
                 Object::AddSerializationID<Component>();
                 Object::AddSerializationID<Transform>();
                 Object::AddSerializationID<Animator>();
+                Object::AddSerializationID<AnimatorClip>();
                 Object::AddSerializationID<Camera>();
                 Object::AddSerializationID<Light>();
                 Object::AddSerializationID<MeshRenderer>();
@@ -126,7 +127,7 @@ namespace BDXKEngine
             window.Show();
 
             //正式循环
-            HWND hwnd = window.GetHwnd();
+            const HWND hwnd = window.GetHwnd();
             MSG msg = {};
             while (GetMessage(&msg, hwnd, 0, 0) > 0)
             {

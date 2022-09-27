@@ -124,12 +124,12 @@ namespace BDXKEngine
 
     void Object::Awake()
     {
-        Debug::LogWarning(static_cast<String>(L"Object::Awake ") + instanceID + " " + name);
+        //Debug::LogWarning(static_cast<String>(L"Object::Awake ") + instanceID + " " + name);
     }
 
     void Object::Destroy()
     {
-        Debug::LogWarning(static_cast<String>(L"Object::Destroy ") + instanceID + " " + name);
+        //Debug::LogWarning(static_cast<String>(L"Object::Destroy ") + instanceID + " " + name);
     }
 
     void Object::FlushAwakeQueue()

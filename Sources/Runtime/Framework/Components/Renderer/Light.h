@@ -39,6 +39,9 @@ namespace BDXKEngine
 
         void OnPreRender() override;
 
+        void Enable() override;
+        void Disable() override;
+
         void Export(Exporter& exporter) override;
         void Import(Importer& importer) override;
         void Awake() override;

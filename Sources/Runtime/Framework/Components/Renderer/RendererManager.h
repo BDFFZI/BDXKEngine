@@ -12,7 +12,6 @@ namespace BDXKEngine {
 	public:
 		static RendererManager* Initialize(Window* window);
 	protected:
-		static std::vector<ObjectPtr<Renderer>>& GetRenderers();
 		static std::vector<ObjectPtr<Renderer>> GetRenderersQueue();
 	private:
 		static std::vector<ObjectPtr<Renderer>> renderers;

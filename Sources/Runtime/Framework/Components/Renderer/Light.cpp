@@ -139,6 +139,19 @@ namespace BDXKEngine
         GL::SetRenderTarget(nullptr);
     }
 
+    void Light::Enable()
+    {
+        lights.emplace_back(this);
+
+        Component::Enable();
+    }
+    void Light::Disable()
+    {
+        Vector::Remove(lights, {this});
+
+        Component::Disable();
+    }
+
     void Light::Export(Exporter& exporter)
     {
         Component::Export(exporter);
@@ -159,8 +172,6 @@ namespace BDXKEngine
     }
     void Light::Awake()
     {
-        lights.emplace_back(this);
-
         shadowMap = Texture2D::Create(1024, 1024);
         shadowMapCube = TextureCube::Create(512, 512);
 
@@ -168,7 +179,6 @@ namespace BDXKEngine
     }
     void Light::Destroy()
     {
-        Vector::Remove(lights, {this});
         Object::Destroy(shadowMap.ToObjectBase());
         Object::Destroy(shadowMapCube.ToObjectBase());
 

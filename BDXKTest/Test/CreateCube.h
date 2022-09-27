@@ -18,16 +18,13 @@ namespace Assembly
             transform = GetTransform();
 
             prefab = CreationMenu::Object3D::Cube(L"预制体");
-            //prefab->SetIsEnabling(false);
+            prefab->SetIsEnabling(false);
             const ObjectPtr<Renderer> meshRender = prefab->GetComponent<Renderer>();
             const ObjectPtr<Material> material = meshRender->GetMaterial();
             material->SetRenderQueue(RenderQueue::Transparent);
             const std::vector<ObjectPtr<Shader>> shaders = material->GetShaders();
             shaders[0]->SetBlend(Blend::Multiply);
-            //prefab->AddComponent<AutoDestroy>();
-
-            // prefab = GameObject::Create(L"预制体");
-            // prefab->GetTransform()->SetLocalScale({1,2,3});
+            prefab->AddComponent<AutoDestroy>();
         }
 
         void OnPostRender() override
@@ -38,9 +35,9 @@ namespace Assembly
             {
                 const ObjectPtr<GameObject> instance = Instantiate(prefab.ToObject());
                 const ObjectPtr<Transform> instanceTransform = instance->GetTransform();
-                //instance->SetIsEnabling(true);
                 instanceTransform->SetLocalPosition(transform->GetPosition());
                 instanceTransform->SetLocalEulerAngles(transform->GetEulerAngles());
+                instance->SetIsEnabling(true);
             }
 
             GUI::TextArea({200, size.y - 40, 200, 30}, L"鼠标位置:" + Input::GetMousePosition().ToString());

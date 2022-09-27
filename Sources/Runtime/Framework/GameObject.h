@@ -11,6 +11,7 @@ namespace BDXKEngine
     class GameObject : public ObjectSwitchable
     {
         friend Component;
+        friend Transform;
         friend GameObjectManager;
     public:
         static ObjectPtr<GameObject> Create(const std::wstring& name = L"New GameObject");
@@ -29,8 +30,8 @@ namespace BDXKEngine
         std::vector<ObjectPtr<Component>> GetComponents();
         ObjectPtr<Transform> GetTransform();
         bool GetIsActivating() const override;
-
         void SetIsEnabling(bool state) override;
+
 
         template <typename TComponent>
         ObjectPtr<TComponent> AddComponent()
@@ -52,10 +53,11 @@ namespace BDXKEngine
         ObjectPtr<Transform> transform;
         std::vector<ObjectPtr<Component>> components;
 
+        void OnUpdateActivating(bool state) override;
+        
         void Awake() override;
         void Destroy() override;
         void Export(Exporter& exporter) override;
         void Import(Importer& importer) override;
-        void SetIsActivating(bool state) override;
     };
 }

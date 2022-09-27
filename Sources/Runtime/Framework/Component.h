@@ -18,8 +18,8 @@ namespace BDXKEngine
         ObjectPtr<GameObject> GetGameObject();
         ObjectPtr<Transform> GetTransform();
         bool GetIsActivating() const override;
-
         void SetIsEnabling(bool state) override;
+
     protected:
         void Export(Exporter& exporter) override;
         void Import(Importer& importer) override;
@@ -31,6 +31,6 @@ namespace BDXKEngine
     private:
         ObjectPtr<GameObject> gameObject = nullptr;
 
-        void SetIsActivating(bool state) override;
+        void OnUpdateActivating(bool state) override;
     };
 }

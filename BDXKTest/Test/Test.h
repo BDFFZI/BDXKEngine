@@ -14,28 +14,28 @@ namespace Assembly
         const ObjectPtr<GameObject> camera = CreationMenu::Camera(L"摄像机");
         camera->AddComponent<CameraController>();
         camera->AddComponent<SceneHUD>();
-        // ObjectPtr<GameObject> sun = CreationMenu::Light::DirectionalLight(L"太阳");
-        // ObjectPtr<GameObject> ground = CreationMenu::Object3D::Plane(L"地面");
-        // ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"球");
-        // //太阳
-        // {
-        //     ObjectPtr<Transform> transform = sun->GetTransform();
-        //     transform->SetLocalEulerAngles({45, -45, 0});
-        // }
-        // //球的展示位置
-        // {
-        //     ObjectPtr<Transform> transform = sphere->GetTransform();
-        //     transform->SetLocalPosition({0, 0.5f, 0});
-        // }
-        // //增加控制功能并调整位置
-        // {
-        //     ObjectPtr<MaterialHUD> materialHUD = camera->AddComponent<MaterialHUD>();
-        //     materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());
-        //     camera->GetTransform()->SetLocalPosition({0, 1, -10});
-        // }
+        ObjectPtr<GameObject> sun = CreationMenu::Light::DirectionalLight(L"太阳");
+        ObjectPtr<GameObject> ground = CreationMenu::Object3D::Plane(L"地面");
+        ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"球");
+        //太阳
+        {
+            ObjectPtr<Transform> transform = sun->GetTransform();
+            transform->SetLocalEulerAngles({45, -45, 0});
+        }
+        //球的展示位置
+        {
+            ObjectPtr<Transform> transform = sphere->GetTransform();
+            transform->SetLocalPosition({0, 0.5f, 0});
+        }
+        //增加控制功能并调整位置
+        {
+            ObjectPtr<MaterialHUD> materialHUD = camera->AddComponent<MaterialHUD>();
+            materialHUD->materials.push_back(sphere->GetComponent<MeshRenderer>()->GetMaterial());
+            camera->GetTransform()->SetLocalPosition({0, 1, -10});
+        }
 
-        // ObjectPtr<GameObject> blender = CreationMenu::Object3D::CreateObject3D(Resources::GetBlenderMesh(), L"Blender");
-        // blender->GetTransform()->SetLocalPosition({0, 3.0f, 0});
+        ObjectPtr<GameObject> blender = CreationMenu::Object3D::CreateObject3D(Resources::GetBlenderMesh(), L"Blender");
+        blender->GetTransform()->SetLocalPosition({0, 3.0f, 0});
     }
 
     inline void TestTransparency()
@@ -53,7 +53,7 @@ namespace Assembly
             transform->SetLocalPosition({0, 0, 0.7f});
 
             ObjectPtr<Animator> animator = aureole->AddComponent<Animator>();
-            animator->SetAnimation([](ObjectPtr<Transform> transform)
+            animator->SetAnimation(AnimatorClip::Create([](ObjectPtr<Transform> transform)
             {
                 Vector3 position = transform->GetLocalPosition();
                 position.x = std::cosf(Time::GetRealtimeSinceStartup()) * 0.3f;
@@ -63,7 +63,7 @@ namespace Assembly
                 Vector3 eulerAngles = transform->GetLocalEulerAngles();
                 eulerAngles.z -= 90 * Time::GetDeltaTime();
                 transform->SetLocalEulerAngles(eulerAngles);
-            });
+            }));
         }
 
         ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere(L"小球");

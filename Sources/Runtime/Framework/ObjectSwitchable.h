@@ -9,14 +9,17 @@ namespace BDXKEngine
     class ObjectSwitchable : public Object
     {
     public:
-        virtual bool GetIsActivating() const =0;
         virtual bool GetIsEnabling() const;
+        virtual bool GetIsActivating() const =0;
         virtual void SetIsEnabling(bool state) =0;
-        virtual void SetIsActivating(bool state) =0;
+
         bool IsActivatingAndEnabling() const;
 
         std::wstring ToString() override;
     protected:
         bool isEnabling = true;
+
+        void UpdateActivating();
+        virtual void OnUpdateActivating(bool state) =0;
     };
 }

@@ -43,12 +43,12 @@ namespace BDXKEngine
 
     void Component::Enable()
     {
-        //Debug::LogWarning(static_cast<String>(L"Component::Enable ") + GetInstanceID() + " " + GetName());
+        Debug::LogWarning(static_cast<String>(L"Component::Enable ") + GetInstanceID() + " " + GetName());
     }
 
     void Component::Disable()
     {
-        //Debug::LogWarning(static_cast<String>(L"Component::Disable ") + GetInstanceID() + " " + GetName());
+        Debug::LogWarning(static_cast<String>(L"Component::Disable ") + GetInstanceID() + " " + GetName());
     }
     
     bool Component::GetIsActivating() const
@@ -73,7 +73,7 @@ namespace BDXKEngine
 
         isEnabling = state;
     }
-    void Component::SetIsActivating(bool state)
+    void Component::OnUpdateActivating(bool state)
     {
         if (isEnabling)
         {

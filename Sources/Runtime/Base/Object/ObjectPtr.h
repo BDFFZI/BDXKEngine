@@ -13,12 +13,12 @@ namespace BDXKEngine
 
         ObjectPtr(const Object* object) : ObjectPtrBase(object)
         {
-            ptr = static_cast<TObject*>(ToObjectBase());
+            debug = static_cast<TObject*>(ToObjectBase());
         }
 
         ObjectPtr(const ObjectPtrBase& objectPtr) : ObjectPtrBase(objectPtr)
         {
-            ptr = static_cast<TObject*>(ToObjectBase());
+            debug = static_cast<TObject*>(ToObjectBase());
         }
 
         template <typename TTargetObject>
@@ -41,19 +41,24 @@ namespace BDXKEngine
             return static_cast<TObject*>(object);
         }
 
+        ~ObjectPtr() override
+        {
+            debug = nullptr;
+        }
     protected:
-        TObject* ptr = nullptr;
+        TObject* debug = nullptr;
 
         void AddRef(const int refInstanceID) override
         {
             ObjectPtrBase::AddRef(refInstanceID);
-            ptr = reinterpret_cast<TObject*>(ToObjectBase());
+
+            debug = reinterpret_cast<TObject*>(ToObjectBase());
         }
 
         void RemoveRef() override
         {
             ObjectPtrBase::RemoveRef();
-            ptr = nullptr;
+            debug = nullptr;
         }
     };
 }

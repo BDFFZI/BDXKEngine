@@ -3,7 +3,7 @@
 
 namespace BDXKEngine
 {
-	void ObjectManager::FlushDestroyBuffer()
+	void ObjectManager::FlushDestroyQueue()
 	{
 		Object::FlushDestroyQueue();
 	}

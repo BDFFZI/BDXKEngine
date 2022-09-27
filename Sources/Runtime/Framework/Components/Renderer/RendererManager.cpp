@@ -23,14 +23,14 @@ namespace BDXKEngine
             {
                 //如：渲染阴影贴图
                 for (const auto preRenderHandler : preRenderHandlers)
-                    preRenderHandler->OnPreRender();
+                    if (dynamic_cast<Component*>(preRenderHandler)->IsActivatingAndEnabling()) preRenderHandler->OnPreRender();
 
                 //标准渲染管线（相机渲染）
                 camera->Render();
 
                 //如：绘制UI，后期物体等
                 for (const auto postRenderHandler : postRenderHandlers)
-                    postRenderHandler->OnPostRender();
+                    if (dynamic_cast<Component*>(postRenderHandler)->IsActivatingAndEnabling()) postRenderHandler->OnPostRender();
             }
 
             GL2D::EndDraw(); //顺序很重要，Direct2D的渲染结果最终需要Direct3D来显示

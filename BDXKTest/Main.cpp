@@ -8,6 +8,8 @@ int main()
     Engine::Run(
         [&]()
         {
+            Object::AddSerializationID<Assembly::AutoDestroy>();
+            
             Assembly::CreateDefaultScene();
             Assembly::TestTransparency();
             Assembly::TestLight();

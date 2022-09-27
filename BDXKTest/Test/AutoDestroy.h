@@ -5,21 +5,21 @@ namespace Assembly
 {
     using namespace BDXKEngine;
 
-    class AutoDestroy : public Behavior, public UpdateHandler, public AwakeHandler, public DestroyHandler
+    class AutoDestroy : public Behavior, public UpdateHandler, public DestroyHandler, public EnableHandler
     {
         float time = 0;
         ObjectPtr<Animator> animator;
         ObjectPtr<MeshRenderer> meshRenderer;
 
-        void OnAwake() override
+        void OnEnable() override
         {
             meshRenderer = GetGameObject()->GetComponent<MeshRenderer>();
             animator = GetGameObject()->AddComponent<Animator>();
-            animator->SetAnimation([](const ObjectPtr<Transform> transform)
+            animator->SetAnimation(AnimatorClip::Create([](const ObjectPtr<Transform> transform)
             {
                 transform->SetLocalPosition(
                     transform->GetLocalPosition() + transform->GetFront() * Time::GetDeltaTime() * 3);
-            });
+            }));
         }
 
         void OnUpdate() override

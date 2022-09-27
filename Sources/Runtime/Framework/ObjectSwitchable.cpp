@@ -12,6 +12,11 @@ namespace BDXKEngine
         return GetIsActivating() && GetIsEnabling();
     }
     
+    void ObjectSwitchable::UpdateActivating()
+    {
+        OnUpdateActivating(GetIsActivating());
+    }
+
     std::wstring ObjectSwitchable::ToString()
     {
         std::wstringstream stream;

@@ -92,6 +92,10 @@ namespace BDXKEngine
         {
             return ToObjectBase() == nullptr;
         }
+        bool IsNotNull() const
+        {
+            return ToObjectBase() != nullptr;
+        }
 
         Object* ToObjectBase() const
         {
