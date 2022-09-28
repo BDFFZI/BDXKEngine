@@ -60,10 +60,8 @@ namespace BDXKEngine {
 		ObjectPtr<Texture> texture1;
 		ObjectPtr<Texture> texture2;
 		ObjectPtr<Texture> texture3;
-
-		void Export(Exporter& exporter) override;
-		void Import(Importer& importer) override;
+		
+		void Transfer(Transferrer& transferrer) override;
 		void Awake()override;
-
 	};
 }

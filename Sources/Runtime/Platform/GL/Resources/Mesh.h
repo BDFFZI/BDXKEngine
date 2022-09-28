@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <exception>
 #include <vector>
 #include "Base/Object/ObjectPtr.h"
 #include "GLLayout.h"
@@ -38,8 +37,7 @@ namespace BDXKEngine {
 		void ResetVerticesBuffer();
 		void ResetTrianglesBuffer();
 
-		void Export(Exporter& exporter) override;
-		void Import(Importer& importer) override;
+		void Transfer(Transferrer& transferrer) override;
 		void Awake()override;
 	};
 }

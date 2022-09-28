@@ -51,6 +51,15 @@ namespace BDXKEngine
 
         //Debug::LogWarning(static_cast<String>(L"Renderer::Disable ") + GetInstanceID() + " " + GetName());
     }
+    void Renderer::Transfer(Transferrer& transferrer)
+    {
+        Component::Transfer(transferrer);
+
+        transferrer.TransferObjectPtr(nameof(material), material);
+        transferrer.TransferObjectPtr(nameof(mesh), mesh);
+        transferrer.TransferBool(L"castShadows", castShadows);
+        transferrer.TransferBool(L"receiveShadows", receiveShadows);
+    }
 
     void Renderer::SetCastShadows(bool castShadows)
     {
@@ -60,24 +69,5 @@ namespace BDXKEngine
     void Renderer::SetReceiveShadows(bool receiveShadows)
     {
         this->receiveShadows = receiveShadows;
-    }
-
-    void Renderer::Export(Exporter& exporter)
-    {
-        Component::Export(exporter);
-
-        exporter.TransferObjectPtr({}, material);
-        exporter.TransferObjectPtr({}, mesh);
-        exporter.TransferBool({}, castShadows);
-        exporter.TransferBool({}, receiveShadows);
-    }
-    void Renderer::Import(Importer& importer)
-    {
-        Component::Import(importer);
-
-        material = importer.TransferObjectPtr({});
-        mesh = importer.TransferObjectPtr({});
-        castShadows = importer.TransferBool({});
-        receiveShadows = importer.TransferBool({});
     }
 }

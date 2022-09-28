@@ -17,17 +17,10 @@ namespace BDXKEngine
         if (animatorClip.IsNull() == false)
             animatorClip->nativeClip(transform);
     }
-
-    void Animator::Export(Exporter& exporter)
+    void Animator::Transfer(Transferrer& transferrer)
     {
-        Behavior::Export(exporter);
+        Behavior::Transfer(transferrer);
 
-        exporter.TransferObjectPtr({}, animatorClip);
-    }
-    void Animator::Import(Importer& importer)
-    {
-        Behavior::Import(importer);
-
-        animatorClip = importer.TransferObjectPtr({});
+        transferrer.TransferObjectPtr({}, animatorClip);
     }
 }

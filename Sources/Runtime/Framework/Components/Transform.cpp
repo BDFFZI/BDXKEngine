@@ -97,7 +97,7 @@ namespace BDXKEngine
         RenewScale();
         RenewEulerAngles();
         RenewPositionAndMatrix();
-        
+
         if (oldActivating != GetGameObject()->GetIsActivating())
             GetGameObject()->UpdateActivating();
     }
@@ -159,37 +159,29 @@ namespace BDXKEngine
                 child->RenewScale();
     }
 
-
-    void Transform::Export(Exporter& exporter)
+    void Transform::Transfer(Transferrer& transferrer)
     {
-        Component::Export(exporter);
+        Component::Transfer(transferrer);
 
-        exporter.TransferVector3(nameof(localPosition), localPosition);
-        exporter.TransferVector3({}, localEulerAngles);
-        exporter.TransferVector3({}, localScale);
-        RenewScale();
-        RenewEulerAngles();
-        RenewPositionAndMatrix();
+        transferrer.TransferVector3(nameof(localPosition), localPosition);
+        transferrer.TransferVector3(nameof(localEulerAngles), localEulerAngles);
+        transferrer.TransferVector3(nameof(localScale), localScale);
 
-        exporter.TransferInt({}, static_cast<int>(children.size()));
-        for (const auto& child : children)
-            exporter.TransferObjectPtr({}, child);
-    }
-    void Transform::Import(Importer& importer)
-    {
-        Component::Import(importer);
+        int childrenCount = children.size();
+        transferrer.TransferInt(nameof(childrenCount), childrenCount);
 
-        localPosition = importer.TransferVector3({});
-        localEulerAngles = importer.TransferVector3({});
-        localScale = importer.TransferVector3({});
-
-        const int count = importer.TransferInt({});
-        for (int i = 0; i < count; i++)
+        if (transferrer.GetTransferDirection() == TransferDirection::Input)children.resize(childrenCount);
+        for (int i = 0; i < childrenCount; i++)
         {
-            const ObjectPtr<Transform> child = importer.TransferObjectPtr({});
-            const ObjectPtr<GameObject> childGameObject = InstantiateNoAwake(child->GetGameObject().ToObjectBase());
-            childGameObject->GetTransform()->parent = this;
-            children.emplace_back(childGameObject->GetTransform());
+            ObjectPtr<Transform>& child = children[i];
+            transferrer.TransferObjectPtr(L"children_" + std::to_wstring(i), child);
+
+            if (transferrer.GetTransferDirection() == TransferDirection::Input)
+            {
+                const ObjectPtr<GameObject> childGameObject = InstantiateNoAwake(child->GetGameObject().ToObjectBase());
+                child = childGameObject->GetTransform();
+                child->parent = this;
+            }
         }
     }
 

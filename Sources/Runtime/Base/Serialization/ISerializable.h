@@ -1,13 +1,14 @@
 ﻿#pragma once
-#include "Importer.h"
-#include "Exporter.h"
+#include "Transferrer.h"
 
-namespace BDXKEngine {
+namespace BDXKEngine
+{
 #define nameof(Field) L""#Field""
-	
-	struct ISerializable {
-		virtual ~ISerializable() = default;
-		virtual void Import(Importer& importer) = 0;
-		virtual void Export(Exporter& exporter) = 0;
-	};
+
+    struct ISerializable
+    {
+        virtual void Transfer(Transferrer& transferrer) = 0;
+
+        virtual ~ISerializable() = default;
+    };
 }

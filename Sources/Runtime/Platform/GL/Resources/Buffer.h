@@ -16,18 +16,16 @@ namespace BDXKEngine {
 	public:
 		static ObjectPtr<Buffer> Create(BufferTarget target, int size);
 
-		void SetData(char* data);
-		void GetData(char* data);
+		void SetData(const char* data) const;
+		void GetData(char* data) const;
 	private:
 		BufferTarget target;
 		int size;
 		std::unique_ptr<char[]> data;
 
 		CComPtr<ID3D11Buffer> glBuffer;
-
-
-		void Export(Exporter& exporter) override;
-		void Import(Importer& importer) override;
+		
+		void Transfer(Transferrer& transferrer) override;
 		void Awake()override;
 	};
 }

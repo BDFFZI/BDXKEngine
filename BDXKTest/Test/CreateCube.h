@@ -8,7 +8,7 @@ namespace Assembly
     using namespace BDXKEngine;
     using namespace BDXKEditor;
 
-    class CreateCube : public Component, public AwakeHandler, public PostRenderHandler
+    class CreateCube : public Behavior, public AwakeHandler, public PostRenderHandler
     {
         ObjectPtr<Transform> transform;
         ObjectPtr<GameObject> prefab;

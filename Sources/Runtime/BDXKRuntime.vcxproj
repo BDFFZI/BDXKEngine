@@ -84,15 +84,13 @@
     <ClInclude Include="Base\Matrix\Matrix3x3.h" />
     <ClInclude Include="Base\Matrix\Matrix4x4.h" />
     <ClInclude Include="Base\Object\Object.h" />
-    <ClInclude Include="Base\Object\ObjectEvent.h" />
     <ClInclude Include="Base\Object\ObjectManager.h" />
     <ClInclude Include="Base\Object\ObjectPtr.h" />
     <ClInclude Include="Base\Object\ObjectPtrBase.h" />
     <ClInclude Include="Base\Rect.h" />
     <ClInclude Include="Base\Serialization\Binary\BinaryExporter.h" />
     <ClInclude Include="Base\Serialization\Binary\BinaryImporter.h" />
-    <ClInclude Include="Base\Serialization\Exporter.h" />
-    <ClInclude Include="Base\Serialization\Importer.h" />
+    <ClInclude Include="Base\Serialization\Transferrer.h" />
     <ClInclude Include="Base\Serialization\ISerializable.h" />
     <ClInclude Include="Base\Vector\Vector2.h" />
     <ClInclude Include="Base\Vector\Vector2Int.h" />

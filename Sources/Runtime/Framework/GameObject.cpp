@@ -35,48 +35,6 @@ namespace BDXKEngine
         });
     }
 
-    void GameObject::Export(Exporter& exporter)
-    {
-        Object::Export(exporter);
-
-        exporter.TransferBool({}, isEnabling);
-        exporter.TransferInt({}, static_cast<int>(components.size()));
-        for (const auto& component : components)
-            exporter.TransferObjectPtr({}, component);
-    }
-    void GameObject::Import(Importer& importer)
-    {
-        Object::Import(importer);
-
-        isEnabling = importer.TransferBool({});
-        const int count = importer.TransferInt({});
-        for (int i = 0; i < count; i++)
-        {
-            Component* component = static_cast<Component*>(InstantiateNoAwake(importer.TransferObjectPtr({}).ToObjectBase()));
-            component->gameObject = this;
-            components.emplace_back(component);
-        }
-
-        transform = GetComponent<Transform>();
-    }
-    void GameObject::Awake()
-    {
-        Object::Awake();
-
-        allGameObjects.emplace_back(this);
-        for (const auto& component : components)
-            Object::Awake(component.ToObjectBase());
-    }
-    void GameObject::Destroy()
-    {
-        std::vector components = {this->components};
-        for (ObjectPtr<Component>& component : components)
-            Object::Destroy(component.ToObjectBase());
-
-        Vector::Remove(allGameObjects, {this});
-
-        Object::Destroy();
-    }
 
     bool GameObject::GetIsActivating() const
     {
@@ -105,5 +63,46 @@ namespace BDXKEngine
         const int childCount = transform->GetChildCount();
         for (int i = 0; i < childCount; i++)
             transform->GetChild(i)->GetGameObject()->UpdateActivating();
+    }
+
+    void GameObject::Transfer(Transferrer& transferrer)
+    {
+        ObjectSwitchable::Transfer(transferrer);
+
+        int componentsCount = components.size();
+        transferrer.TransferInt(nameof(componentsCount), componentsCount);
+
+        if (transferrer.GetTransferDirection() == TransferDirection::Input)components.resize(componentsCount);
+        for (int i = 0; i < componentsCount; i++)
+        {
+            ObjectPtr<Component>& component = components[i];
+            transferrer.TransferObjectPtr(L"component_" + std::to_wstring(i), component);
+
+            if (transferrer.GetTransferDirection() == TransferDirection::Input)
+            {
+                component = InstantiateNoAwake(component.ToObjectBase());
+                component->gameObject = this;
+            }
+        }
+
+        transform = GetComponent<Transform>();
+    }
+    void GameObject::Awake()
+    {
+        Object::Awake();
+
+        allGameObjects.emplace_back(this);
+        for (const auto& component : components)
+            Object::Awake(component.ToObjectBase());
+    }
+    void GameObject::Destroy()
+    {
+        std::vector components = {this->components};
+        for (ObjectPtr<Component>& component : components)
+            Object::Destroy(component.ToObjectBase());
+
+        Vector::Remove(allGameObjects, {this});
+
+        Object::Destroy();
     }
 }

@@ -35,8 +35,7 @@ namespace BDXKEngine
 
         std::wstring ToString() override;
     protected:
-        void Export(Exporter& exporter) override;
-        void Import(Importer& importer) override;
+        void Transfer(Transferrer& transferrer) override;
         void Awake() override;
         void Destroy() override;
     private:

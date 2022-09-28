@@ -50,14 +50,13 @@ namespace BDXKEngine
         static std::vector<ObjectPtr<GameObject>> allGameObjects;
 
         //当前物体拥有的组件(由Component负责增减)
-        ObjectPtr<Transform> transform;
         std::vector<ObjectPtr<Component>> components;
+        ObjectPtr<Transform> transform;
 
         void OnUpdateActivating(bool state) override;
-        
+
+        void Transfer(Transferrer& transferrer) override;
         void Awake() override;
         void Destroy() override;
-        void Export(Exporter& exporter) override;
-        void Import(Importer& importer) override;
     };
 }

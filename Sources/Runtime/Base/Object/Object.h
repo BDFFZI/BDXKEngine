@@ -57,10 +57,10 @@ namespace BDXKEngine
 
         // 初始物体，仅加载序列化层面功能，不进行实例化，为无运行时功能的静态物体
         template <typename TObject>
-        static TObject* InstantiateNoAwake(Importer& importer)
+        static TObject* InstantiateNoAwake(Transferrer& importer)
         {
             Object* result = Create<TObject>();
-            result->Import(importer);
+            result->Transfer(importer);
             return static_cast<TObject*>(result);
         }
         template <typename TObject>
@@ -68,7 +68,7 @@ namespace BDXKEngine
         {
             std::stringstream stream = {};
             BinaryExporter exporter = {stream};
-            static_cast<Object*>(serializer)->Export(exporter);
+            static_cast<Object*>(serializer)->Transfer(exporter);
             BinaryImporter importer = {stream};
 
             return InstantiateNoAwake<TObject>(importer);
@@ -124,9 +124,8 @@ namespace BDXKEngine
         /// 代替析构函数，销毁物体，只在Destroy()中调用有效，单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，类似一直标记信号的传递
         static void Destroy(Object* object);
 
-        void Export(Exporter& transfer) override;
-        void Import(Importer& transfer) override;
 
+        void Transfer(Transferrer& transferrer) override;
         virtual void Awake(); //唤醒回调，用于扩展Awake(Object* object)函数的内容
         virtual void Destroy(); //销毁回调，用于扩展只在Destroy(Object* object)函数的内容
     private:

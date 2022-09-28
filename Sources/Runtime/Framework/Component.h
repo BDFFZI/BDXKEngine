@@ -21,9 +21,8 @@ namespace BDXKEngine
         void SetIsEnabling(bool state) override;
 
     protected:
-        void Export(Exporter& exporter) override;
-        void Import(Importer& importer) override;
         //以下函数重写时请务必回调父类函数
+        void Transfer(Transferrer& transferrer) override;
         void Awake() override;
         void Destroy() override;
         virtual void Enable();

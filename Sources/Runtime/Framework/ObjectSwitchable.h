@@ -21,5 +21,7 @@ namespace BDXKEngine
 
         void UpdateActivating();
         virtual void OnUpdateActivating(bool state) =0;
+
+        void Transfer(Transferrer& transferrer) override;
     };
 }

@@ -1,5 +1,4 @@
 ﻿#include "Object.h"
-#include "ObjectEvent.h"
 
 namespace BDXKEngine
 {
@@ -21,15 +20,16 @@ namespace BDXKEngine
         //取出类型信息
         std::stringstream stream = {};
         BinaryExporter exporter = {stream};
-        serializer->Export(exporter);
+        serializer->Transfer(exporter);
         BinaryImporter importer = {stream};
-        const std::wstring type = importer.TransferString({});
+        std::wstring typenameTemp;
+        importer.TransferString(L"typename", typenameTemp);
         //重新取出数据
         stream.str("");
-        serializer->Export(exporter);
-
-        Object* result = serializationID[type]();
-        result->Import(importer);
+        serializer->Transfer(exporter);
+        //创建实例
+        Object* result = serializationID[typenameTemp]();
+        result->Transfer(importer);
         return result;
     }
 
@@ -47,8 +47,10 @@ namespace BDXKEngine
         if (object == nullptr || object->isRunning)
             return;
 
+        allObjectsRunning[object->instanceID] = object;
         object->isRunning = true;
         object->Awake();
+
         postAwakeQueue.push_back(object);
     }
 
@@ -65,6 +67,8 @@ namespace BDXKEngine
 
         object->isDestroying = true;
         object->Destroy();
+        allObjectsRunning.erase(object->instanceID);
+
         postDestroyQueue.push_back(object);
     }
 
@@ -106,20 +110,12 @@ namespace BDXKEngine
         return stream.str();
     }
 
-    void Object::Export(Exporter& transfer)
+    void Object::Transfer(Transferrer& transferrer)
     {
-        transfer.TransferString({}, String::to_wstring(typeid(*this).name()));
-        transfer.TransferInt({}, instanceID);
-        transfer.TransferString({}, name);
-    }
+        std::wstring typenameTemp = String::to_wstring(typeid(*this).name());
 
-    void Object::Import(Importer& transfer)
-    {
-        transfer.TransferString({});
-        transfer.TransferInt({});
-        const std::wstring sourceName = transfer.TransferString({});
-        if (sourceName.empty() == false)
-            name = sourceName;
+        transferrer.TransferString(L"typename", typenameTemp);
+        transferrer.TransferString(L"name", name);
     }
 
     void Object::Awake()
@@ -134,23 +130,11 @@ namespace BDXKEngine
 
     void Object::FlushAwakeQueue()
     {
-        for (const auto& object : postAwakeQueue)
-        {
-            allObjectsRunning[object->instanceID] = object;
-            if (const auto handler = dynamic_cast<AwakeHandler*>(object); handler != nullptr)
-                handler->OnAwake();
-        }
         postAwakeQueue.clear();
     }
 
     void Object::FlushDestroyQueue()
     {
-        for (const auto& object : postDestroyQueue)
-        {
-            if (const auto handler = dynamic_cast<DestroyHandler*>(object); handler != nullptr)
-                handler->OnDestroy();
-            allObjectsRunning.erase(object->instanceID);
-        }
         for (const auto& object : postDestroyQueue)
         {
             allObjects.erase(object->instanceID);

@@ -152,23 +152,14 @@ namespace BDXKEngine
         Component::Disable();
     }
 
-    void Light::Export(Exporter& exporter)
+    void Light::Transfer(Transferrer& transferrer)
     {
-        Component::Export(exporter);
+        Component::Transfer(transferrer);
 
-        exporter.TransferBytes({}, &lightType, sizeof(LightType));
-        exporter.TransferBytes({}, &renderMode, sizeof(RenderMode));
-        exporter.TransferColor({}, color);
-        exporter.TransferFloat({}, intensity);
-    }
-    void Light::Import(Importer& importer)
-    {
-        Component::Import(importer);
-
-        importer.TransferBytes({}, &lightType, sizeof(LightType));
-        importer.TransferBytes({}, &renderMode, sizeof(RenderMode));
-        color = importer.TransferColor({});
-        intensity = importer.TransferFloat({});
+        transferrer.TransferBytes({}, &lightType, sizeof(LightType));
+        transferrer.TransferBytes({}, &renderMode, sizeof(RenderMode));
+        transferrer.TransferColor({}, color);
+        transferrer.TransferFloat({}, intensity);
     }
     void Light::Awake()
     {

@@ -1,34 +1,35 @@
 ﻿#pragma once
-#include <sstream>
-#include "Base/Serialization/Exporter.h"
+#include "Base/Serialization/Transferrer.h"
 #include "Base/Object/ObjectManager.h"
 
-namespace BDXKEngine {
-	class BinaryExporter :public Exporter, ObjectManager {
-	public:
-		BinaryExporter(std::iostream& stream);
+namespace BDXKEngine
+{
+    class BinaryExporter : public Transferrer, ObjectManager
+    {
+    public:
+        BinaryExporter(std::iostream& stream);
 
-		void TransferInt(std::wstring key, int value) override;
-		void TransferFloat(std::wstring key, float value) override;
-		void TransferBool(std::wstring key, bool value) override;
+        TransferDirection GetTransferDirection() override { return TransferDirection::Output; }
+        void TransferInt(std::wstring key, int& value) override;
+        void TransferFloat(std::wstring key, float& value) override;
+        void TransferBool(std::wstring key, bool& value) override;
+        void TransferVector2(std::wstring key, Vector2& value) override;
+        void TransferVector3(std::wstring key, Vector3& value) override;
+        void TransferVector4(std::wstring key, Vector4& value) override;
+        void TransferColor(std::wstring key, Color& value) override;
+        void TransferRect(std::wstring key, Rect& value) override;
+        void TransferString(std::wstring key, std::wstring& value) override;
+        void TransferObjectPtr(std::wstring key, ObjectPtrBase& value) override;
+        void TransferBytes(std::wstring key, void* source, int size) override;
+    private:
+        std::iostream& stream;
 
-		void TransferVector2(std::wstring key, Vector2 value) override;
-		void TransferVector3(std::wstring key, Vector3 value) override;
-		void TransferVector4(std::wstring key, Vector4 value) override;
-		void TransferColor(std::wstring key, Color value) override;
-		void TransferRect(std::wstring key, Rect value) override;
-		void TransferString(std::wstring key, std::wstring value) override;
-
-		void TransferBytes(std::wstring key, void* source, int size);
-		void TransferObjectPtr(std::wstring key, const ObjectPtrBase& value) override;
-	private:
-		std::iostream& stream;
-
-		template<typename TValue>
-		void Write(TValue value) {
-			stream.write(reinterpret_cast<char*>(&value), sizeof(TValue));
-		}
-	};
+        template <typename TValue>
+        void Write(TValue value)
+        {
+            stream.write(reinterpret_cast<char*>(&value), sizeof(TValue));
+        }
+    };
 }
 
 //std::wstringstream stream = {};

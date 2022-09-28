@@ -29,7 +29,6 @@
 
 //基础层：公共数据类型，统一各模块交流的语言 >> 扩展标准库，建立公共协议
 #include "Base/Object/ObjectPtr.h"
-#include "Base/Object/ObjectEvent.h"
 #include "Base/Color.h"
 #include "Base/Rect.h"
 #include "Base/Vector/Vector2.h"

@@ -11,10 +11,16 @@ namespace BDXKEngine
     {
         return GetIsActivating() && GetIsEnabling();
     }
-    
+
     void ObjectSwitchable::UpdateActivating()
     {
         OnUpdateActivating(GetIsActivating());
+    }
+    void ObjectSwitchable::Transfer(Transferrer& transferrer)
+    {
+        Object::Transfer(transferrer);
+
+        transferrer.TransferBool(nameof(isEnabling), isEnabling);
     }
 
     std::wstring ObjectSwitchable::ToString()

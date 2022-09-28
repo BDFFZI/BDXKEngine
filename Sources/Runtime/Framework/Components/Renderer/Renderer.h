@@ -27,7 +27,6 @@ namespace BDXKEngine {
 
 		void Enable() override;
 		void Disable() override;
-		void Export(Exporter& exporter) override;
-		void Import(Importer& importer) override;
+		void Transfer(Transferrer& transferrer) override;
 	};
 }

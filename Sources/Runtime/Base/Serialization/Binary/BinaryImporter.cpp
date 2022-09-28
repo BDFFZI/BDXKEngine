@@ -6,83 +6,59 @@ namespace BDXKEngine
     BinaryImporter::BinaryImporter(std::iostream& stream) : stream(stream)
     {
     }
-
-    int BinaryImporter::TransferInt(std::wstring key)
+    void BinaryImporter::TransferInt(std::wstring key, int& value)
     {
-        int value = {};
         Read(&value);
-        return value;
     }
-
-    float BinaryImporter::TransferFloat(std::wstring key)
+    void BinaryImporter::TransferFloat(std::wstring key, float& value)
     {
-        float value = {};
         Read(&value);
-        return value;
     }
-
-    bool BinaryImporter::TransferBool(std::wstring key)
+    void BinaryImporter::TransferBool(std::wstring key, bool& value)
     {
-        bool value = {};
         Read(&value);
-        return value;
     }
-
-    Vector2 BinaryImporter::TransferVector2(std::wstring key)
+    void BinaryImporter::TransferVector2(std::wstring key, Vector2& value)
     {
-        Vector2 value = {};
         Read(&value);
-        return value;
     }
-
-    Vector3 BinaryImporter::TransferVector3(std::wstring key)
+    void BinaryImporter::TransferVector3(std::wstring key, Vector3& value)
     {
-        Vector3 value = {};
         Read(&value);
-        return value;
     }
-
-    Vector4 BinaryImporter::TransferVector4(std::wstring key)
+    void BinaryImporter::TransferVector4(std::wstring key, Vector4& value)
     {
-        Vector4 value = {};
         Read(&value);
-        return value;
     }
-
-    Color BinaryImporter::TransferColor(std::wstring key)
+    void BinaryImporter::TransferColor(std::wstring key, Color& value)
     {
-        Color value = {};
         Read(&value);
-        return value;
     }
-
-    Rect BinaryImporter::TransferRect(std::wstring key)
+    void BinaryImporter::TransferRect(std::wstring key, Rect& value)
     {
-        Rect value = {};
         Read(&value);
-        return value;
     }
-
-    std::wstring BinaryImporter::TransferString(std::wstring key)
+    void BinaryImporter::TransferString(std::wstring key, std::wstring& value)
     {
-        const int size = TransferInt({});
+        int size = 0;
+        TransferInt({}, size);
+
         char* data = new char[size];
+
         TransferBytes({}, data, size);
-
-        std::wstring value = reinterpret_cast<wchar_t*>(data);
+        value = reinterpret_cast<wchar_t*>(data);
         value.resize(size / 2);
+
         delete[] data;
-        return value;
     }
-
-    ObjectPtrBase BinaryImporter::TransferObjectPtr(std::wstring key)
+    void BinaryImporter::TransferObjectPtr(std::wstring key, ObjectPtrBase& value)
     {
-        const int instanceID = TransferInt({});
-        return ObjectPtrBase{Object::FindObjectOfInstanceID(instanceID)};
+        int instanceID = 0;
+        TransferInt({}, instanceID);
+        value = Object::FindObjectOfInstanceID(instanceID);
     }
-
     void BinaryImporter::TransferBytes(std::wstring key, void* source, int size)
     {
-        stream.read(reinterpret_cast<char*>(source), size);
+        stream.read(static_cast<char*>(source), size);
     }
 }

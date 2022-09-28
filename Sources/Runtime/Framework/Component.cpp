@@ -9,35 +9,26 @@ namespace BDXKEngine
     ObjectPtr<Transform> Component::GetTransform() { return GetGameObject()->GetComponent<Transform>(); }
 
 
-    void Component::Export(Exporter& exporter)
+    void Component::Transfer(Transferrer& transferrer)
     {
-        Object::Export(exporter);
+        ObjectSwitchable::Transfer(transferrer);
 
-        exporter.TransferObjectPtr({}, gameObject);
-        exporter.TransferBool({}, isEnabling);
-    }
-
-    void Component::Import(Importer& importer)
-    {
-        Object::Import(importer);
-
-        gameObject = importer.TransferObjectPtr({});
-        isEnabling = importer.TransferBool({});
+        transferrer.TransferObjectPtr(nameof(gameObject), gameObject);
     }
 
     void Component::Awake()
     {
         Object::Awake();
-        
+
         if (IsActivatingAndEnabling())Enable();
     }
 
     void Component::Destroy()
     {
         if (IsActivatingAndEnabling())Disable();
-        
+
         Vector::Remove(gameObject->components, {this});
-        
+
         Object::Destroy();
     }
 
@@ -50,7 +41,7 @@ namespace BDXKEngine
     {
         Debug::LogWarning(static_cast<String>(L"Component::Disable ") + GetInstanceID() + " " + GetName());
     }
-    
+
     bool Component::GetIsActivating() const
     {
         return gameObject->IsActivatingAndEnabling();

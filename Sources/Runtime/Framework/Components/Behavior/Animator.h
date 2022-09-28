@@ -2,7 +2,6 @@
 #include<functional>
 #include <utility>
 
-#include "Base/Object/ObjectEvent.h"
 #include"Framework/Components/Behavior/BehaviorEvent.h"
 #include"Framework/Components/Behavior/Behavior.h"
 #include"Framework/Components/Transform.h"
@@ -34,8 +33,7 @@ namespace BDXKEngine
 
         void OnAwake() override;
         void OnUpdate() override;
-
-        void Export(Exporter& exporter) override;
-        void Import(Importer& importer) override;
+        
+        void Transfer(Transferrer& transferrer) override;
     };
 }

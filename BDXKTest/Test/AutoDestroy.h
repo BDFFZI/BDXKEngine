@@ -5,13 +5,13 @@ namespace Assembly
 {
     using namespace BDXKEngine;
 
-    class AutoDestroy : public Behavior, public UpdateHandler, public DestroyHandler, public EnableHandler
+    class AutoDestroy : public Behavior, public UpdateHandler, public AwakeHandler, public DestroyHandler
     {
         float time = 0;
         ObjectPtr<Animator> animator;
         ObjectPtr<MeshRenderer> meshRenderer;
 
-        void OnEnable() override
+        void OnAwake() override
         {
             meshRenderer = GetGameObject()->GetComponent<MeshRenderer>();
             animator = GetGameObject()->AddComponent<Animator>();
