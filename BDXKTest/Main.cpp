@@ -1,5 +1,5 @@
 ﻿#include <BDXKEngine.h>
-#include "Test/Test.h"
+#include "Test.h"
 using namespace BDXKEngine;
 using namespace BDXKEditor;
 
