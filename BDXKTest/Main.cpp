@@ -1,24 +1,12 @@
 ﻿#include <BDXKEngine.h>
+#include <BDXKEditor.h>
 #include "Test.h"
 using namespace BDXKEngine;
 using namespace BDXKEditor;
 
 int main()
 {
-    Engine::Run(
-        [&]()
-        {
-            Object::AddSerializationID<Assembly::AutoDestroy>();
-            
-            Assembly::CreateDefaultScene();
-            Assembly::TestTransparency();
-            Assembly::TestLight();
-            // Assembly::TestShadow();
-        }
-    );
-
-    Debug::Log("\n按任意键退出");
-    std::getchar();
+    Editor::Run();
 }
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)

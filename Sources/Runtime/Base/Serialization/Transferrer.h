@@ -15,7 +15,6 @@ namespace BDXKEngine
     {
         Input,
         Output,
-        Check,
     };
 
     class Transferrer

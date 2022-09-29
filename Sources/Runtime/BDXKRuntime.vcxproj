@@ -73,7 +73,6 @@
     <ClCompile Include="Platform\GL\Resources\TextureCube.cpp" />
     <ClCompile Include="Platform\IO\MeshImporter.cpp" />
     <ClCompile Include="Platform\Window\Window.cpp" />
-    <ClCompile Include="Platform\Window\WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\Color.h" />
@@ -139,7 +138,6 @@
     <ClInclude Include="Platform\GL\Resources\TextureCube.h" />
     <ClInclude Include="Platform\IO\MeshImporter.h" />
     <ClInclude Include="Platform\Window\Window.h" />
-    <ClInclude Include="Platform\Window\WindowBase.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

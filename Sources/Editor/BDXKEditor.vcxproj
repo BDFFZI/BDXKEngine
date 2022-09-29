@@ -160,6 +160,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BDXKEditor.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="CreationMenu.h" />
     <ClInclude Include="MaterialHUD.h" />

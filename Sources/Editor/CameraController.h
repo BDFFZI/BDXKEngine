@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <BDXKEngine.h>
 
-namespace Assembly {
+namespace BDXKEditor {
 	using namespace BDXKEngine;
 	class CameraController :public Behavior, public StartHandler, public UpdateHandler {
 		ObjectPtr<Transform> transform{};

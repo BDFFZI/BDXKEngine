@@ -38,7 +38,6 @@
 #include "Base/Extension/String.h"
 #include "Base/Extension/Debug.h"
 //平台层：对操作系统以及各种非标准库的封装 >> 引入第三方，接入公共协议
-#include "Platform/Window/WindowBase.h"
 #include "Platform/Window/Window.h"
 #include "Platform/GL/GL.h"
 #include "Platform/GL/GL2D.h"
@@ -76,12 +75,12 @@ namespace BDXKEngine
     class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformEditor, GameObjectManager
     {
     public:
-        static void Run(const std::function<void()>& onStart)
+        static void Run(const std::function<void(Window& window)>& onStart)
         {
             std::setlocale(LC_ALL, "zh-CN");
 
             //启动窗口
-            Window window = {L"BDXKEngine"};
+            Window mainWindow = {L"BDXKEngine"};
 
             //这三层是静态的，所以需要顺序初始化，以便初始化无异常
             {
@@ -94,51 +93,38 @@ namespace BDXKEngine
                 Object::AddSerializationID<Camera>();
                 Object::AddSerializationID<Light>();
                 Object::AddSerializationID<MeshRenderer>();
-            
+
                 //平台层初始化
-                GL::Initialize(&window);
+                GL::Initialize(&mainWindow);
                 GL2D::Initialize();
-                
+
                 //资源层初始化
-                Resources::Initialize(&window);
+                Resources::Initialize(&mainWindow);
             }
 
-           
 
             //创建配置信息，这将影响框架层中部分模块的运作方式
             CreateSettings();
 
             //下面两层是动态的，倒序初始化（因为会影响事件顺序），以便使用环境无异常
-            BehaviorManager::Initialize(&window);
-            RendererManager::Initialize(&window);
-            GameObjectManager::Initialize(&window);
-            GUI::Initialize(&window);
-            Event::Initialize(&window);
-            Graphics::Initialize(&window);
-            Screen::Initialize(&window);
-            Cursor::Initialize(&window);
-            Input::Initialize(&window);
-            Time::Initialize(&window);
-
+            BehaviorManager::Initialize(&mainWindow);
+            RendererManager::Initialize(&mainWindow);
+            GameObjectManager::Initialize(&mainWindow);
+            GUI::Initialize(&mainWindow);
+            Event::Initialize(&mainWindow);
+            Graphics::Initialize(&mainWindow);
+            Screen::Initialize(&mainWindow);
+            Cursor::Initialize(&mainWindow);
+            Input::Initialize(&mainWindow);
+            Time::Initialize(&mainWindow);
+            
             //完成初始化后，正式循环前，触发事件回调
-            onStart();
-
-            window.Show();
-
+            onStart(mainWindow);
+            
             //正式循环
-            const HWND hwnd = window.GetHwnd();
-            MSG msg = {};
-            while (GetMessage(&msg, hwnd, 0, 0) > 0)
-            {
-                //预处理后交给窗口过程响应
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-
-                //如果没有要处理的消息，我们就用这段空闲时间更新游戏
-                if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
-                    PostMessage(hwnd, WM_PAINT, NULL, NULL);
-            }
-
+            mainWindow.Show();
+            Window::Run();
+            
             ReleaseSettings();
 
             Debug::LogError(L"系统回收检查");
