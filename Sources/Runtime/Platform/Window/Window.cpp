@@ -11,21 +11,6 @@ namespace BDXKEngine
     {
         while (windows.empty() == false)
         {
-            // for (const auto& window : windows)
-            // {
-            //     MSG msg = {};
-            //     while (GetMessage(&msg, window->hwnd, 0, 0) > 0)
-            //     {
-            //         //预处理后交给窗口过程响应
-            //         TranslateMessage(&msg);
-            //         DispatchMessage(&msg);
-            //
-            //         //如果没有要处理的消息，我们就用这段空闲时间更新游戏
-            //         if (PeekMessage(&msg, window->hwnd, NULL, NULL, NULL) == FALSE)
-            //             PostMessage(window->hwnd, WM_PAINT, NULL, NULL);
-            //     }
-            // }
-
             MSG msg = {};
             GetMessage(&msg, nullptr, 0, 0);
             //预处理后交给窗口过程响应
@@ -33,7 +18,7 @@ namespace BDXKEngine
             DispatchMessage(&msg);
             //如果没有要处理的消息，我们就用这段空闲时间更新游戏
             if (PeekMessage(&msg, nullptr, NULL, NULL, NULL) == FALSE)
-                PostMessage(HWND_BROADCAST, WM_PAINT, NULL, NULL);
+                PostMessage(msg.hwnd, WM_PAINT, NULL, NULL);
         }
     }
 
@@ -138,7 +123,7 @@ namespace BDXKEngine
         Rect rect = GetScreenRect();
         const Vector2 position = rect.GetMin() + localPosition;
 
-        SetCursorPos(static_cast<int>(std::round(position.x + 0.5f)), static_cast<int>(std::round(position.y + 0.5f)));
+        SetCursorPos(static_cast<int>(std::round(position.x)), static_cast<int>(std::round(position.y)));
     }
     void Window::AddRenewEvent(const RenewEvent& renewEvent)
     {
@@ -172,6 +157,10 @@ namespace BDXKEngine
     {
         characterEvents.push_back(characterEvent);
     }
+    void Window::AddNativeEvent(const NativeEvent& characterEvent)
+    {
+        nativeEvents.push_back(characterEvent);
+    }
 
     void Window::Show() const
     {
@@ -190,6 +179,9 @@ namespace BDXKEngine
 
     LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
     {
+        for (auto& nativeEvent : nativeEvents)
+            nativeEvent(hwnd, messageSign, wparameter, lparameter);
+
         switch (messageSign)
         {
         case WM_PAINT:

@@ -45,6 +45,7 @@
 #include "Platform/GL/Resources/Shader.h"
 #include "Platform/GL/Resources/Texture2D.h"
 #include "Platform/GL/Resources/TextureCube.h"
+#include "Platform/IMGUI/IMGUIManager.h"
 #include "Platform/IO/MeshImporter.h"
 //功能层：引擎运行中提供的各种运行时功能 >> 封装底层，建立实用函数
 #include "Function/Resources.h"//对各种外部文件包括引擎持久化资源的表示和读写 >> 引擎启动和运行的数据源头，未来编辑器的编辑目标
@@ -97,6 +98,7 @@ namespace BDXKEngine
                 //平台层初始化
                 GL::Initialize(&mainWindow);
                 GL2D::Initialize();
+                IMGUIManager::Initialize(&mainWindow);
 
                 //资源层初始化
                 Resources::Initialize(&mainWindow);

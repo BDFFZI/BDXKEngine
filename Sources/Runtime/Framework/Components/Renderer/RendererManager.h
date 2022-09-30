@@ -15,5 +15,6 @@ namespace BDXKEngine {
 		static std::vector<ObjectPtr<Renderer>> GetRenderersQueue();
 	private:
 		static std::vector<ObjectPtr<Renderer>> renderers;
+		static ObjectPtr<Texture2D> renderTexture;
 	};
 }

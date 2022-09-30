@@ -5,6 +5,7 @@
 #include "CameraController.h"
 #include "CreationMenu.h"
 #include "MaterialHUD.h"
+#include "Platform/IMGUI/IMGUIManager.h"
 
 namespace BDXKEditor
 {
@@ -23,14 +24,13 @@ namespace BDXKEditor
 
     private:
         inline static Window* hierarchyView;
+        inline static IMGUIManager* hierarchyViewImgui;
         inline static Window* inspectorView;
 
-        static void Start(const Window& mainWindow)
+        static void Start(Window& mainWindow)
         {
             CreateDefaultScene();
-
-            hierarchyView = new Window{L"HierarchyView", &mainWindow};
-            hierarchyView->Show();
+            
         }
 
         static void CreateDefaultScene()

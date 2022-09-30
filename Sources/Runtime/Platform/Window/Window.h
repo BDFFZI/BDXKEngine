@@ -61,6 +61,7 @@ namespace BDXKEngine
     typedef std::function<void(int button, bool state)> MouseButtonEvent;
     typedef std::function<void(KeyCode code, bool state)> KeyCodeEvent;
     typedef std::function<void(wchar_t character)> CharacterEvent;
+    typedef std::function<void(HWND, UINT, WPARAM, LPARAM)> NativeEvent;
 
     class Window
     {
@@ -88,11 +89,12 @@ namespace BDXKEngine
         void AddMouseButtonEvent(const MouseButtonEvent& mouseButtonEvent);
         void AddKeyCodeEvent(const KeyCodeEvent& keyCodeEvent);
         void AddCharacterEvent(const CharacterEvent& characterEvent);
+        void AddNativeEvent(const NativeEvent& characterEvent);
 
         void Show() const;
     private:
         static std::unordered_set<Window*> windows;
-        
+
         static LRESULT CALLBACK WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
 
         PCWSTR name;
@@ -111,6 +113,7 @@ namespace BDXKEngine
         std::vector<MouseButtonEvent> mouseButtonEvents;
         std::vector<KeyCodeEvent> keyCodeEvents;
         std::vector<CharacterEvent> characterEvents;
+        std::vector<NativeEvent> nativeEvents;
 
         void UpdateCursor() const;
 

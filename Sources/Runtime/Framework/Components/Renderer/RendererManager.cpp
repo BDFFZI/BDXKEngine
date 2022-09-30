@@ -1,15 +1,20 @@
 ﻿#include "RendererManager.h"
 #include <algorithm>
-#include "Renderer.h"
+#include "Function/GUI.h"
 #include "Framework/Components/Renderer/Camera.h"
+#include "Framework/Components/Renderer/Renderer.h"
 
 namespace BDXKEngine
 {
     std::vector<ObjectPtr<Renderer>> RendererManager::renderers = {};
+    ObjectPtr<Texture2D> RendererManager::renderTexture = {};
 
     RendererManager* RendererManager::Initialize(Window* window)
     {
-        window->AddRenewEvent([]()
+        const Vector2 size = window->GetSize();
+        renderTexture = Texture2D::Create(static_cast<int>(size.x), static_cast<int>(size.y));
+
+        window->AddRenewEvent([]
         {
             //获取渲染事件
             const std::vector<PreRenderHandler*> preRenderHandlers = Object::FindObjectsOfType<PreRenderHandler>();
@@ -18,6 +23,9 @@ namespace BDXKEngine
 
             GL::SetRenderTarget(nullptr);
             GL2D::BeginDraw();
+            IMGUIManager::BeginDraw();
+
+            Clear(true, true);
 
             for (const auto camera : cameras)
             {
@@ -26,13 +34,26 @@ namespace BDXKEngine
                     if (dynamic_cast<Component*>(preRenderHandler)->IsActivatingAndEnabling()) preRenderHandler->OnPreRender();
 
                 //标准渲染管线（相机渲染）
+                SetRenderTarget(renderTexture);
                 camera->Render();
+                SetRenderTarget(nullptr);
+
+
+                ImGui::Begin("GameView", nullptr);
+
+                ImGui::Image(
+                    TextureEditor::GetShaderResourceView(renderTexture),
+                    Vector2(static_cast<float>(renderTexture->GetWidth()), static_cast<float>(renderTexture->GetHeight()))
+                );
 
                 //如：绘制UI，后期物体等
                 for (const auto postRenderHandler : postRenderHandlers)
                     if (dynamic_cast<Component*>(postRenderHandler)->IsActivatingAndEnabling()) postRenderHandler->OnPostRender();
+
+                ImGui::End();
             }
 
+            IMGUIManager::EndDraw();
             GL2D::EndDraw(); //顺序很重要，Direct2D的渲染结果最终需要Direct3D来显示
             GL::Present(); //显示到屏幕上
         });
@@ -46,7 +67,10 @@ namespace BDXKEngine
 
             GL2D::CreateResources(); //使用Direct3D新创建的纹理
         });
-
+        window->AddDestroyEvent([]
+        {
+            renderTexture = nullptr;
+        });
         return nullptr;
     }
 

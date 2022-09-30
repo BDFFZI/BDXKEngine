@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include <BDXKEngine.h>
+#include <imgui/imgui.h>
 
 namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-    class SceneHUD : public Component, public PostRenderHandler, TransformEditor
+    class SceneHUD : public Component, public PostRenderHandler, TransformEditor, GL
     {
     private:
         ObjectPtr<ObjectSwitchable> focus;
@@ -77,6 +78,31 @@ namespace BDXKEditor
 
         void OnPostRender() override
         {
+            {
+                static bool show_demo_window = true;
+                static bool show_another_window = false;
+                static float f = 0.0f;
+                static int counter = 0;
+
+                ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
+
+                ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
+                ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
+                ImGui::Checkbox("Another Window", &show_another_window);
+
+                ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+
+                if (ImGui::Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
+                    counter++;
+                ImGui::SameLine();
+                ImGui::Text("counter = %d", counter);
+
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                ImGui::End();
+            }
+
+            return;
+            
             //显示所有游戏物体
             float drawY = 10;
             std::vector<ObjectPtr<Transform>> rootTransforms = TransformEditor::GetRootTransforms();

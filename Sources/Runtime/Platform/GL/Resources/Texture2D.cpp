@@ -35,7 +35,7 @@ namespace BDXKEngine
         HRESULT result = {};
 
         //创建渲染纹理
-        renderTextureDesc = D3D11_TEXTURE2D_DESC{};
+        D3D11_TEXTURE2D_DESC renderTextureDesc = {};
         renderTextureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
         renderTextureDesc.Width = width;
         renderTextureDesc.Height = height;
@@ -48,17 +48,17 @@ namespace BDXKEngine
         resourceData.pSysMem = pixels.get();
         resourceData.SysMemPitch = width * sizeof(Color);
 
-        result = device->CreateTexture2D(&renderTextureDesc, &resourceData, &renderTexture.p);
+        result = device->CreateTexture2D(&renderTextureDesc, &resourceData, &colorTexture.p);
         assert(SUCCEEDED(result));
 
         //创建渲染目标视图，使其可作为画布承载渲染结果
         D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
         renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-        result = device->CreateRenderTargetView(renderTexture, &renderTargetViewDesc, &renderTextureRTV.p);
+        result = device->CreateRenderTargetView(colorTexture, &renderTargetViewDesc, &renderTextureRTV.p);
         assert(SUCCEEDED(result));
 
         //创建渲染纹理着色器资源视图，使其可作为贴图使用
-        result = device->CreateShaderResourceView(renderTexture, nullptr, &renderTextureSRV.p);
+        result = device->CreateShaderResourceView(colorTexture, nullptr, &colorTextureSRV.p);
         assert(SUCCEEDED(result));
 
         //创建深度纹理

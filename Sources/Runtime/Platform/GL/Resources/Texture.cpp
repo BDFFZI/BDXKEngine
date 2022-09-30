@@ -2,17 +2,17 @@
 
 namespace BDXKEngine
 {
-    unsigned int Texture::GetWidth() const
+    int Texture::GetWidth() const
     {
         return width;
     }
-    unsigned int Texture::GetHeight() const
+    int Texture::GetHeight() const
     {
         return height;
     }
     CComPtr<ID3D11ShaderResourceView> Texture::GetResourceView()
     {
-        return renderTextureSRV;
+        return colorTextureSRV;
     }
     CComPtr<ID3D11SamplerState> Texture::GetSamplerState()
     {
@@ -55,5 +55,10 @@ namespace BDXKEngine
         samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
         samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
         device->CreateSamplerState(&samplerDescription, samplerState);
+    }
+
+    CComPtr<ID3D11ShaderResourceView> TextureEditor::GetShaderResourceView(const ObjectPtr<Texture> texture)
+    {
+        return texture->colorTextureSRV;
     }
 }

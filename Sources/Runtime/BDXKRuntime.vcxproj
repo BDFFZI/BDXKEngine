@@ -19,6 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Include\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\Include\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\Include\imgui\imgui.cpp" />
+    <ClCompile Include="..\Include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\Include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\Include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\Include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Base\Color.cpp" />
     <ClCompile Include="Base\Extension\Debug.cpp" />
     <ClCompile Include="Base\Extension\String.cpp" />
@@ -71,10 +78,19 @@
     <ClCompile Include="Platform\GL\Resources\Texture.cpp" />
     <ClCompile Include="Platform\GL\Resources\Texture2D.cpp" />
     <ClCompile Include="Platform\GL\Resources\TextureCube.cpp" />
+    <ClCompile Include="Platform\IMGUI\IMGUIManager.cpp" />
     <ClCompile Include="Platform\IO\MeshImporter.cpp" />
     <ClCompile Include="Platform\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Include\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="..\Include\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="..\Include\imgui\imconfig.h" />
+    <ClInclude Include="..\Include\imgui\imgui.h" />
+    <ClInclude Include="..\Include\imgui\imgui_internal.h" />
+    <ClInclude Include="..\Include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\Include\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\Include\imgui\imstb_truetype.h" />
     <ClInclude Include="Base\Color.h" />
     <ClInclude Include="Base\Extension\Debug.h" />
     <ClInclude Include="Base\Extension\String.h" />
@@ -136,6 +152,7 @@
     <ClInclude Include="Platform\GL\Resources\Texture.h" />
     <ClInclude Include="Platform\GL\Resources\Texture2D.h" />
     <ClInclude Include="Platform\GL\Resources\TextureCube.h" />
+    <ClInclude Include="Platform\IMGUI\IMGUIManager.h" />
     <ClInclude Include="Platform\IO\MeshImporter.h" />
     <ClInclude Include="Platform\Window\Window.h" />
   </ItemGroup>
