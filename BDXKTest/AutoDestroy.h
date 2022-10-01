@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <BDXKEngine.h>
+#include <BDXKEngine/Engine.h>
 
 namespace Assembly
 {
@@ -36,7 +36,7 @@ namespace Assembly
             }
             if (static_cast<int>(std::fmodf(Time::GetFrameCount() - time, 100)) == 0)
             {
-                Debug::Log(std::to_wstring(GetInstanceID()) + L" 随机值:" + Random::ColorHSV().ToString());
+                Debug::Log(std::to_string(GetInstanceID()) + " 随机值:" + Random::ColorHSV().ToString());
                 Color color = Random::ColorHSV();
                 color.a = 0.3f;
 
@@ -46,7 +46,7 @@ namespace Assembly
 
         void OnDestroy() override
         {
-            Debug::Log(L"##################################");
+            Debug::Log("##################################");
         }
     };
 }

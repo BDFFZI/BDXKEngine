@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKRuntime", "Sources\Runtime\BDXKRuntime.vcxproj", "{B1591743-E282-4DE6-A261-205C66774D8A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKRuntime", "include\BDXKEngine\BDXKRuntime.vcxproj", "{B1591743-E282-4DE6-A261-205C66774D8A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKShaderCompile", "Resources\Shaders\BDXKShaderCompile.vcxproj", "{D5B7541C-C0A7-46E5-86C0-B0002EF0369A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKEditor", "Sources\Editor\BDXKEditor.vcxproj", "{79A66ADC-B952-459F-9B96-9811D8B0CD26}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKEditor", "include\BDXKEditor\BDXKEditor.vcxproj", "{79A66ADC-B952-459F-9B96-9811D8B0CD26}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKTest", "BDXKTest\BDXKTest.vcxproj", "{B0BDF7C5-AB07-4B13-95E9-4EECC613AB81}"
 EndProject
