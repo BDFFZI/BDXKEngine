@@ -55,10 +55,10 @@ namespace BDXKEngine
     {
         Component::Transfer(transferrer);
 
-        transferrer.TransferObjectPtr(nameof(material), material);
-        transferrer.TransferObjectPtr(nameof(mesh), mesh);
-        transferrer.TransferBool("castShadows", castShadows);
-        transferrer.TransferBool("receiveShadows", receiveShadows);
+        transferrer.TransferField(nameof(material), material);
+        transferrer.TransferField(nameof(mesh), mesh);
+        transferrer.TransferField("castShadows", castShadows);
+        transferrer.TransferField("receiveShadows", receiveShadows);
     }
 
     void Renderer::SetCastShadows(bool castShadows)

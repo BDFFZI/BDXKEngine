@@ -16,6 +16,8 @@ namespace BDXKEditor
         static ObjectPtr<SceneView> sceneView;
         static ObjectPtr<HierarchyView> hierarchyView;
         static ObjectPtr<InspectorView> inspectorView;
+        static ObjectPtrBase dragging;
+        static ObjectPtrBase focusing;
     private:
         void OnAwake() override;
 

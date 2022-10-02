@@ -13,7 +13,6 @@ namespace BDXKEditor
         static ObjectPtr<TWindow> Create()
         {
             TWindow window;
-            window.SetName(std::string(typeid(TWindow).name()).substr(6));
             window.SetIsEnabling(false);
             return Instantiate(&window);
         }

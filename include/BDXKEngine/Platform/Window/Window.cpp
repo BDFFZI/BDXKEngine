@@ -1,6 +1,6 @@
 ﻿#include "Window.h"
 #include <cmath>
-#include "Base/Extension/String.h"
+#include "BDXKEngine/Base/Extension/String.h"
 
 namespace BDXKEngine
 {
@@ -102,7 +102,7 @@ namespace BDXKEngine
     }
     void Window::SetCursorLock(bool state)
     {
-        SetCursorLocalPosition(GetSize() / 2);
+        //SetCursorLocalPosition(GetSize() / 2);
         lockCursorPos = GetCursorLocalPosition();
         lastCursorPos = lockCursorPos;
         cursorPos = lockCursorPos;

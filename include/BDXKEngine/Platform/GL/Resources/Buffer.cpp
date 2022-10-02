@@ -25,8 +25,8 @@ namespace BDXKEngine
     {
         Object::Transfer(transferrer);
 
-        transferrer.TransferInt(nameof(target), &target);
-        transferrer.TransferInt(nameof(size), size);
+        transferrer.TransferFieldOf<int>(nameof(target), target);
+        transferrer.TransferField(nameof(size), size);
     }
     void Buffer::Awake()
     {

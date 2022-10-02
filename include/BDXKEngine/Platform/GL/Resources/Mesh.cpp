@@ -155,16 +155,24 @@ namespace BDXKEngine
 
         int verticesCount = static_cast<int>(vertices.size());
         int trianglesCount = static_cast<int>(triangles.size());
-        transferrer.TransferInt(nameof(verticesCount), verticesCount);
-        transferrer.TransferInt(nameof(trianglesCount), trianglesCount);
+        transferrer.TransferField(nameof(verticesCount), verticesCount);
+        transferrer.TransferField(nameof(trianglesCount), trianglesCount);
 
         if (transferrer.GetTransferDirection() == TransferDirection::Input)
         {
             vertices.resize(verticesCount);
             triangles.resize(trianglesCount);
         }
-        transferrer.TransferBytes({}, vertices.data(), static_cast<int>(verticesCount * sizeof(Vertex)));
-        transferrer.TransferBytes({}, triangles.data(), static_cast<int>(trianglesCount * sizeof(unsigned short)));
+        transferrer.TransferField(
+            "verticesData",
+            reinterpret_cast<char*>(vertices.data()),
+            static_cast<int>(verticesCount * sizeof(Vertex))
+        );
+        transferrer.TransferField(
+            "trianglesData",
+            reinterpret_cast<char*>(triangles.data()),
+            static_cast<int>(trianglesCount * sizeof(unsigned short))
+        );
     }
     void Mesh::Awake()
     {

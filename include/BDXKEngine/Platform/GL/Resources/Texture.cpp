@@ -26,8 +26,8 @@ namespace BDXKEngine
     {
         Object::Transfer(transferrer);
 
-        transferrer.TransferInt(nameof(width), width);
-        transferrer.TransferInt(nameof(height), height);
+        transferrer.TransferField(nameof(width), width);
+        transferrer.TransferField(nameof(height), height);
     }
 
     void Texture::CreateDepthStencil(unsigned int width, unsigned int height, ID3D11Texture2D** renderTexture,

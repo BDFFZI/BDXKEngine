@@ -1,65 +1,113 @@
 ﻿#include "InspectorView.h"
 
+#include "BDXKEditor/System/EditorSystem.h"
+
 namespace BDXKEditor
 {
-    void Inspector::TransferInt(std::string key, int& value)
+    void Inspector::TransferValue(int& value)
     {
-        ImGui::InputInt(key.c_str(), &value, 0.1f);
+        ImGui::InputInt(GetFieldID().c_str(), &value, 1);
     }
-    void Inspector::TransferFloat(std::string key, float& value)
+    void Inspector::TransferValue(float& value)
     {
-        ImGui::InputFloat(key.c_str(), &value, 0.1f);
+        ImGui::DragFloat(GetFieldID().c_str(), &value, 0.05f);
     }
-    void Inspector::TransferBool(std::string key, bool& value)
+    void Inspector::TransferValue(bool& value)
     {
-        ImGui::Checkbox(key.c_str(), &value);
+        ImGui::Checkbox(GetFieldID().c_str(), &value);
     }
-    void Inspector::TransferVector2(std::string key, Vector2& value)
+    void Inspector::TransferValue(Vector2& value)
     {
-        ImGui::InputFloat2(key.c_str(), reinterpret_cast<float*>(&value));
+        ImGui::DragFloat2(GetFieldID().c_str(), reinterpret_cast<float*>(&value), 0.05f);
     }
-    void Inspector::TransferVector3(std::string key, Vector3& value)
+    void Inspector::TransferValue(Vector3& value)
     {
-        ImGui::InputFloat3(key.c_str(), reinterpret_cast<float*>(&value));
+        ImGui::DragFloat3(GetFieldID().c_str(), reinterpret_cast<float*>(&value), 0.05f);
     }
-    void Inspector::TransferVector4(std::string key, Vector4& value)
+    void Inspector::TransferValue(Vector4& value)
     {
-        ImGui::InputFloat4(key.c_str(), reinterpret_cast<float*>(&value));
+        ImGui::DragFloat4(GetFieldID().c_str(), reinterpret_cast<float*>(&value), 0.05f);
     }
-    void Inspector::TransferColor(std::string key, Color& value)
+    void Inspector::TransferValue(Color& value)
     {
-        ImGui::ColorEdit4(key.c_str(), reinterpret_cast<float*>(&value));
+        ImGui::ColorEdit4(GetFieldID().c_str(), reinterpret_cast<float*>(&value));
     }
-    void Inspector::TransferRect(std::string key, Rect& value)
+    void Inspector::TransferValue(Rect& value)
     {
-        ImGui::InputFloat2(key.c_str(), reinterpret_cast<float*>(&value));
-        ImGui::InputFloat2(("##" + key + "2").c_str(), reinterpret_cast<float*>(&value) + 2);
+        ImGui::InputFloat2((GetFieldPath() + "Site").c_str(), reinterpret_cast<float*>(&value));
+        ImGui::InputFloat2((GetFieldPath() + "Size").c_str(), reinterpret_cast<float*>(&value) + 2);
     }
-    void Inspector::TransferString(std::string key, std::string& value)
+    void Inspector::TransferValue(std::string& value)
     {
-        ImGui::InputText(key.c_str(), value.data(), value.size());
+        ImGui::InputText(GetFieldID().c_str(), value.data(), value.size() + 1);
     }
-    void Inspector::TransferObjectPtr(std::string key, ObjectPtrBase& value)
+    void Inspector::TransferValue(ObjectPtrBase& value)
     {
         Object* object = value.ToObjectBase();
-        if (dynamic_cast<Component*>(object) != nullptr)
+        if (object == nullptr)
         {
-            ImGui::Separator();
-            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 30);
-            ImGui::BeginGroup();
-            static_cast<ISerializable*>(object)->Transfer(*this);
-            ImGui::EndGroup();
+            ImGui::Button(GetFieldID("nullptr").c_str());
+            ImGui::SameLine();
+            ImGui::Text(GetFieldName().c_str());
         }
         else
-            ImGui::LabelText(key.c_str(), std::to_string(value.GetInstanceID()).c_str());
+        {
+            if (dynamic_cast<Component*>(object) != nullptr)
+            {
+                ImGui::Separator();
+
+                const std::string serializationID = Object::ParseSerializationID(object);
+                ImGui::LabelText(GetFieldID().c_str(), (serializationID + " " + std::to_string(value.GetInstanceID())).c_str());
+
+                ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 30);
+                ImGui::BeginGroup();
+                static_cast<ISerializable*>(object)->Transfer(*this);
+                ImGui::EndGroup();
+
+                ImGui::Separator();
+            }
+            else
+            {
+                const std::string serializationID = Object::ParseSerializationID(object);
+
+                if (ImGui::Button(GetFieldID(serializationID + " " + std::to_string(value.GetInstanceID())).c_str()))
+                    EditorSystem::focusing = value;
+                ImGui::SameLine();
+                ImGui::Text(GetFieldName().c_str());
+            }
+        }
     }
-    void Inspector::TransferBytes(std::string key, void* source, int size)
+    void Inspector::TransferValue(char* source, int size)
     {
-        ImGui::LabelText(key.c_str(), "二进制数据"); // NOLINT(clang-diagnostic-format-security)
+        ImGui::LabelText(GetFieldID().c_str(), ("二进制数据[" + std::to_string(size) + "B]").c_str());
+        // NOLINT(clang-diagnostic-format-security)
+    }
+    void Inspector::TransferValue(ISerializable& value)
+    {
+        value.Transfer(*this);
+    }
+    void Inspector::TransferValue(std::vector<ObjectPtrBase>& vector)
+    {
+        ImGui::Separator();
+
+        ImGui::Text(GetFieldName().c_str());
+
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 30);
+        ImGui::BeginGroup();
+        int count = static_cast<int>(vector.size());
+        TransferField("Size", count);
+        for (int i = 0; i < count; i++)
+        {
+            TransferField("Item" + std::to_string(i), vector[i]);
+        }
+        ImGui::EndGroup();
+
+        ImGui::Separator();
     }
 
     void InspectorView::OnDrawWindow()
     {
+        target = EditorSystem::focusing;
         Object* targetObject = target.ToObjectBase();
         if (targetObject != nullptr)
             static_cast<ISerializable*>(targetObject)->Transfer(inspector); // NOLINT(clang-diagnostic-format-security)

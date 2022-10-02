@@ -48,7 +48,9 @@ namespace BDXKEngine
 
         ObjectPtr<Transform> transform{};
 
-        void Awake() override;
         void Render(const std::vector<ObjectPtr<Renderer>>& renderers);
+
+        void Transfer(Transferrer& transferrer) override;
+        void Awake() override;
     };
 }

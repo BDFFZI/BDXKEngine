@@ -65,7 +65,7 @@ namespace BDXKEngine
         return localToWorldMatrix.MultiplyVector(Vector3::front);
     }
 
-    void Transform::SetParent(ObjectPtr<Transform> newparent)
+    void Transform::SetParent(const ObjectPtr<Transform>& newparent)
     {
         //嵌套检查
         if (newparent.IsNull() == false)
@@ -89,7 +89,7 @@ namespace BDXKEngine
                 std::find(parent->children.begin(), parent->children.end(), this));
         else rootTransforms.erase(std::find(rootTransforms.begin(), rootTransforms.end(), this));
         //设置新父物体
-        this->parent = std::move(newparent);
+        this->parent = newparent;
         //绑定新父物体
         if (parent.IsNull() == false)parent->children.emplace_back(this);
         else rootTransforms.emplace_back(this);
@@ -163,24 +163,29 @@ namespace BDXKEngine
     {
         Component::Transfer(transferrer);
 
-        transferrer.TransferVector3(nameof(localPosition), localPosition);
-        transferrer.TransferVector3(nameof(localEulerAngles), localEulerAngles);
-        transferrer.TransferVector3(nameof(localScale), localScale);
 
-        int childrenCount = static_cast<int>(children.size());
-        transferrer.TransferInt(nameof(childrenCount), childrenCount);
 
-        if (transferrer.GetTransferDirection() == TransferDirection::Input)children.resize(childrenCount);
-        for (int i = 0; i < childrenCount; i++)
+        TransferProperty(LocalPosition)
+        TransferProperty(LocalEulerAngles)
+        TransferProperty(LocalScale)
+
+        if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
         {
-            ObjectPtr<Transform>& child = children[i];
-            transferrer.TransferObjectPtr("children_" + std::to_string(i), child);
+            std::vector<ObjectPtrBase> nativeChildren = std::vector<ObjectPtrBase>{children.begin(), children.end()};
+            transferrer.TransferField("children", nativeChildren);
 
             if (transferrer.GetTransferDirection() == TransferDirection::Input)
             {
-                const ObjectPtr childGameObject = InstantiateNoAwake(child->GetGameObject().ToObject());
-                child = childGameObject->GetTransform();
-                child->parent = this;
+                const int count = static_cast<int>(nativeChildren.size());
+                children.resize(count);
+                for (int i = 0; i < count; i++)
+                {
+                    ObjectPtr child = static_cast<Transform*>(nativeChildren[i].ToObjectBase());
+                    const ObjectPtr childGameObject = InstantiateNoAwake(child->GetGameObject().ToObject());
+                    child = childGameObject->GetTransform();
+                    child->parent = this;
+                    children[i] = child;
+                }
             }
         }
     }

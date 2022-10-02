@@ -20,9 +20,7 @@ namespace BDXKEngine
     {
         Object::Transfer(transferrer);
 
-        bool isEnabling = this->isEnabling;
-        transferrer.TransferBool(nameof(isEnabling), isEnabling);
-        SetIsEnabling(isEnabling);
+        TransferProperty(IsEnabling)
     }
 
     std::string SwitchableObject::ToString()

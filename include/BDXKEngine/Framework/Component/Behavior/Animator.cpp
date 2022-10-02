@@ -1,5 +1,8 @@
 ﻿#include "Animator.h"
 
+#include "BDXKEngine/Framework/GameObject.h"
+
+
 namespace BDXKEngine
 {
     void Animator::SetAnimation(const ObjectPtr<AnimatorClip> animatorClip)
@@ -20,6 +23,6 @@ namespace BDXKEngine
     {
         Behavior::Transfer(transferrer);
 
-        transferrer.TransferObjectPtr({}, animatorClip);
+        transferrer.TransferField({}, animatorClip);
     }
 }

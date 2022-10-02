@@ -56,13 +56,6 @@ namespace BDXKEngine
         farClipPlane = std::fmax(nearClipPlane + 0.01f, distance);
     }
 
-
-    void Camera::Awake()
-    {
-        Component::Awake();
-
-        transform = GetGameObject()->GetTransform();
-    }
     void Camera::Render(const std::vector<ObjectPtr<Renderer>>& renderers)
     {
         //渲染排序 TODO
@@ -191,5 +184,27 @@ namespace BDXKEngine
         GL::SetTexture(5, nullptr);
         //天空盒
         GL::SetTexture(6, nullptr);
+    }
+
+    void Camera::Awake()
+    {
+        Component::Awake();
+
+        transform = GetGameObject()->GetTransform();
+    }
+    
+    void Camera::Transfer(Transferrer& transferrer)
+    {
+        Component::Transfer(transferrer);
+        
+        transferrer.TransferField("renderTarget",renderTarget);
+        transferrer.TransferFieldOf<int>("clearFlags",clearFlags);
+        transferrer.TransferFieldOf<int>("projection",projection);
+        transferrer.TransferField("background",background);
+        transferrer.TransferField("nearClipPlane",nearClipPlane);
+        transferrer.TransferField("farClipPlane",farClipPlane);
+        transferrer.TransferField("fieldOfView",fieldOfView);
+        transferrer.TransferField("size",size);
+        transferrer.TransferField("depth",depth);
     }
 }

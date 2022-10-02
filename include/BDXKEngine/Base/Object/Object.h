@@ -4,8 +4,8 @@
 #include <map>
 #include "BDXKEngine/Base/Extension/String.h"
 #include "BDXKEngine/Base/Serialization/ISerializable.h"
-#include "BDXKEngine/Base/Serialization/Binary/BinaryImporter.h"
-#include "BDXKEngine/Base/Serialization/Binary/BinaryExporter.h"
+#include "BDXKEngine/Base/Serialization/Binary/BinaryReader.h"
+#include "BDXKEngine/Base/Serialization/Binary/BinaryWriter.h"
 #include "BDXKEngine/Base/Extension/Debug.h"
 
 
@@ -56,7 +56,6 @@ namespace BDXKEngine
         {
             auto* result = new TObject();
             result->instanceID = ++instanceIDCount;
-            result->name = typeid(TObject).name();
             allObjects[result->instanceID] = result;
             //Debug::LogWarning(std::string("Object::Create ") + std::to_string(result->instanceID) + " " + result->GetName());
             return result;
@@ -84,10 +83,9 @@ namespace BDXKEngine
         static TObject* Instantiate(TObject* source)
         {
             if (source == nullptr)
-                throw std::exception("用于实例化的参照物体为空");
+                Debug::LogException("实例化的物体为空");
 
             TObject* object = InstantiateNoAwake<TObject>(source);
-            if (source->instanceID != 0)object->SetName(object->GetName() + " (Clone)");
 
             const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
             postAwakeQueue.clear();
@@ -117,11 +115,8 @@ namespace BDXKEngine
         static Object* FindObjectOfInstanceID(int instanceID);
 
         int GetInstanceID() const;
-        std::string GetName();
         bool GetIsRunning() const;
-
-        void SetName(const std::string& name);
-
+        
         virtual std::string ToString();
     protected:
         /// 代替构造函数，激活物体，只在Awake()中调用有效，类似一直标记信号的传递
@@ -147,7 +142,6 @@ namespace BDXKEngine
         static void FlushDestroyQueue();
 
         int instanceID = 0;
-        std::string name;
         bool isRunning = false;
         bool isDestroying = false;
     };

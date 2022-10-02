@@ -1,7 +1,7 @@
 ﻿#include "IMGUIManager.h"
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
-#include "Platform/GL/Resources/Texture.h"
+#include "BDXKEngine/Platform/GL/Resources/Texture.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <stack>
 #include <BDXKEngine/Engine.h>
 
 #include "EditorWindow.h"
@@ -10,29 +11,44 @@ namespace BDXKEditor
     class Inspector : public Transferrer
     {
     public:
-        TransferDirection GetTransferDirection() override { return TransferDirection::Output; }
-        void TransferInt(std::string key, int& value) override;
-        void TransferFloat(std::string key, float& value) override;
-        void TransferBool(std::string key, bool& value) override;
-        void TransferVector2(std::string key, Vector2& value) override;
-        void TransferVector3(std::string key, Vector3& value) override;
-        void TransferVector4(std::string key, Vector4& value) override;
-        void TransferColor(std::string key, Color& value) override;
-        void TransferRect(std::string key, Rect& value) override;
-        void TransferString(std::string key, std::string& value) override;
-        void TransferObjectPtr(std::string key, ObjectPtrBase& value) override;
-        void TransferBytes(std::string key, void* source, int size) override;
+        TransferDirection GetTransferDirection() override { return TransferDirection::Inspect; }
+        std::string GetFieldPath() const { return fieldPath; }
+        std::string GetFieldName() const { return fieldName; }
+        std::string GetFieldID() const { return GetFieldName() + "##" + GetFieldPath(); }
+        std::string GetFieldID(const std::string& name) const { return name + "##" + GetFieldPath() + name; }
+        void PushPath(const std::string& key) override
+        {
+            fieldName = key;
+            fieldPath.append(key);
+        }
+        void PopPath(std::string& key) override
+        {
+            fieldPath.resize(fieldPath.size() - key.size());
+        }
+
+        void TransferValue(int& value) override;
+        void TransferValue(float& value) override;
+        void TransferValue(bool& value) override;
+        void TransferValue(Vector2& value) override;
+        void TransferValue(Vector3& value) override;
+        void TransferValue(Vector4& value) override;
+        void TransferValue(Color& value) override;
+        void TransferValue(Rect& value) override;
+        void TransferValue(std::string& value) override;
+        void TransferValue(ObjectPtrBase& value) override;
+        void TransferValue(ISerializable& value) override;
+        void TransferValue(std::vector<ObjectPtrBase>& vector) override;
+        void TransferValue(char* source, int size) override;
+    private:
+        std::string fieldPath;
+        std::string fieldName;
     };
 
     class InspectorView : public EditorWindow
     {
-    public:
         ObjectPtrBase target;
-         
-
-    private:
         Inspector inspector;
-        
+
         void OnDrawWindow() override;
     };
 }

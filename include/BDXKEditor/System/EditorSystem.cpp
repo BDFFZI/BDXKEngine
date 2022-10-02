@@ -11,6 +11,8 @@ namespace BDXKEditor
     ObjectPtr<SceneView> EditorSystem::sceneView;
     ObjectPtr<HierarchyView> EditorSystem::hierarchyView;
     ObjectPtr<InspectorView> EditorSystem::inspectorView;
+    ObjectPtrBase EditorSystem::dragging;
+    ObjectPtrBase EditorSystem::focusing;
 
     void EditorSystem::OnAwake()
     {

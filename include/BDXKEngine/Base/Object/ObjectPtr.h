@@ -46,7 +46,7 @@ namespace BDXKEngine
         {
             Object* object = ToObjectBase();
             if (object == nullptr)
-                throw std::exception("目标引用为空");
+                throw std::exception("当前物体指针的引用目标为空");
             return static_cast<TObject*>(object);
         }
 

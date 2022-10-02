@@ -52,7 +52,7 @@ namespace BDXKEngine
         if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
             handler->OnEnable();
 
-        Debug::LogWarning("ScriptableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName());
+        Debug::LogWarning("ScriptableObject::Enable " + std::to_string(GetInstanceID()));
     }
 
     void ScriptableObject::Disable()
@@ -61,7 +61,7 @@ namespace BDXKEngine
         if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
             handler->OnDisable();
 
-        Debug::LogWarning("ScriptableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName());
+        Debug::LogWarning("ScriptableObject::Disable " + std::to_string(GetInstanceID()));
     }
 
     void ScriptableObject::Destroy()

@@ -21,7 +21,7 @@ namespace BDXKEditor
 
     void EditorWindow::OnDrawGUI()
     {
-        ImGui::Begin(GetName().c_str());
+        ImGui::Begin(ParseSerializationID(this).c_str());
 
         OnDrawWindow();
 

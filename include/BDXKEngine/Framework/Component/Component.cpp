@@ -11,9 +11,10 @@ namespace BDXKEngine
 
     void Component::Transfer(Transferrer& transferrer)
     {
-        SwitchableObject::Transfer(transferrer);
+        ScriptableObject::Transfer(transferrer);
 
-        transferrer.TransferObjectPtr(nameof(gameObject), gameObject);
+        if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
+            transferrer.TransferField(nameof(gameObject), gameObject);
     }
 
     void Component::Awake()
@@ -31,7 +32,7 @@ namespace BDXKEngine
 
         ScriptableObject::Destroy();
     }
-    
+
 
     bool Component::GetIsActivating() const
     {

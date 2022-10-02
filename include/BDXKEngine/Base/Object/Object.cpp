@@ -17,13 +17,19 @@ namespace BDXKEngine
 
     Object* Object::InstantiateNoAwake(Object* serializer)
     {
+        if (serializer == nullptr)
+            Debug::LogException("实例化的物体为空");
+
         //取出类型信息
         std::stringstream stream = {};
-        BinaryExporter exporter = {stream};
+        BinaryWriter exporter = {stream};
         serializer->Transfer(exporter);
-        BinaryImporter importer = {stream};
+        BinaryReader importer = {stream};
         std::string typenameTemp;
-        importer.TransferString("typename", typenameTemp);
+        importer.TransferField("typename", typenameTemp);
+        if (typenameTemp.empty())
+            Debug::LogException("无法获取类型ID，检查Transfer(Transferer&)的重写是否规范");
+
         //重新取出数据
         stream.str("");
         serializer->Transfer(exporter);
@@ -89,16 +95,6 @@ namespace BDXKEngine
         return instanceID;
     }
 
-    std::string Object::GetName()
-    {
-        return name;
-    }
-
-    void Object::SetName(const std::string& name)
-    {
-        this->name = name;
-    }
-
     bool Object::GetIsRunning() const
     {
         return isRunning;
@@ -107,7 +103,6 @@ namespace BDXKEngine
     std::string Object::ToString()
     {
         std::stringstream stream;
-        stream << "名称：" << name << std::endl;
         stream << "编号：" << instanceID << std::endl;
         stream << "运行中：" << isRunning << std::endl;
         return stream.str();
@@ -117,18 +112,16 @@ namespace BDXKEngine
     {
         std::string serializationID = ParseSerializationID(this);
 
-        transferrer.TransferString("serializationID", serializationID);
-        transferrer.TransferString("name", name);
+        if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
+            transferrer.TransferField("serializationID", serializationID);
     }
-
     void Object::Awake()
     {
-        Debug::Log("Object::Awake " + std::to_string(instanceID) + " " + name, 1);
+        Debug::Log("Object::Awake " + std::to_string(instanceID) + " ", 1);
     }
-
     void Object::Destroy()
     {
-        Debug::Log("Object::Destroy " + std::to_string(instanceID) + " " + name, 1);
+        Debug::Log("Object::Destroy " + std::to_string(instanceID) + " ", 1);
     }
 
     void Object::FlushAwakeQueue()

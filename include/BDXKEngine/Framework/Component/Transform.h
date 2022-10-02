@@ -28,7 +28,7 @@ namespace BDXKEngine
         Vector3 GetUp();
         Vector3 GetFront();
 
-        void SetParent(ObjectPtr<Transform> parent);
+        void SetParent(const ObjectPtr<Transform>& parent);
         void SetLocalPosition(Vector3 value);
         void SetLocalEulerAngles(Vector3 value);
         void SetLocalScale(Vector3 value);

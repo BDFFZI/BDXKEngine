@@ -81,19 +81,19 @@ namespace BDXKEngine
     {
         Object::Transfer(transferrer);
 
-        transferrer.TransferInt(nameof(renderQueue), &renderQueue);
-        transferrer.TransferBytes(nameof(parameters), &parameters, sizeof(Parameters));
-        transferrer.TransferObjectPtr(nameof(texture0), texture0);
-        transferrer.TransferObjectPtr(nameof(texture1), texture1);
-        transferrer.TransferObjectPtr(nameof(texture2), texture2);
-        transferrer.TransferObjectPtr(nameof(texture3), texture3);
+        transferrer.TransferFieldOf<int>("renderQueue", renderQueue);
+        transferrer.TransferField("parameters", reinterpret_cast<char*>(&parameters), sizeof(Parameters));
+        transferrer.TransferField(nameof(texture0), texture0);
+        transferrer.TransferField(nameof(texture1), texture1);
+        transferrer.TransferField(nameof(texture2), texture2);
+        transferrer.TransferField(nameof(texture3), texture3);
 
         int shadersCount = shaders.size();
-        transferrer.TransferInt(nameof(shadersCount), shadersCount);
+        transferrer.TransferField(nameof(shadersCount), shadersCount);
 
         if (transferrer.GetTransferDirection() == TransferDirection::Input) shaders.resize(shadersCount);
         for (int i = 0; i < shadersCount; i++)
-            transferrer.TransferObjectPtr("shader_" + std::to_string(i), shaders[i]);
+            transferrer.TransferField("shader_" + std::to_string(i), shaders[i]);
     }
     void Material::Awake()
     {

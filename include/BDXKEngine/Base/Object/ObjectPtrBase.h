@@ -97,6 +97,11 @@ namespace BDXKEngine
             return ToObjectBase() != nullptr;
         }
 
+        template <typename TObject>
+        TObject* ToObject()
+        {
+            return static_cast<TObject*>(ToObjectBase());
+        }
         Object* ToObjectBase() const
         {
             return instanceID == 0 ? nullptr : Object::FindObjectOfInstanceID(instanceID);

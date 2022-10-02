@@ -79,7 +79,8 @@ namespace BDXKEngine
     void Light::OnPreRenderFrame()
     {
         //获取投射阴影的物体
-        const std::vector<ObjectPtr<Renderer>> renderers = RenderManager::GetRenderersQueue();
+        std::vector<ObjectPtr<Renderer>> renderers = RenderManager::GetRenderersQueue();
+        std::erase_if(renderers,[](const ObjectPtr<Renderer>& renderer) { return renderer->GetCastShadows() == false; });
         //设置深度绘制着色器
         Resources::GetShadowMapMaterial()->SetPass(0);
 
@@ -156,10 +157,10 @@ namespace BDXKEngine
     {
         Component::Transfer(transferrer);
 
-        transferrer.TransferBytes("lightType", &lightType, sizeof(LightType));
-        transferrer.TransferBytes("renderMode", &renderMode, sizeof(RenderMode));
-        transferrer.TransferColor("color", color);
-        transferrer.TransferFloat("intensity", intensity);
+        transferrer.TransferFieldOf<int>("lightType", lightType);
+        transferrer.TransferFieldOf<int>("renderMode", renderMode);
+        transferrer.TransferField("color", color);
+        transferrer.TransferField("intensity", intensity);
     }
     void Light::Awake()
     {

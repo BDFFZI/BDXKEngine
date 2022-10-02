@@ -17,6 +17,10 @@ namespace BDXKEngine
         return result;
     }
 
+    std::string GameObject::GetName()
+    {
+        return name;
+    }
     std::vector<ObjectPtr<Component>> GameObject::GetComponents()
     {
         return components;
@@ -25,23 +29,17 @@ namespace BDXKEngine
     {
         return transform;
     }
-
-
-    ObjectPtr<GameObject> GameObject::Find(const std::string& name)
-    {
-        return *std::ranges::find_if(allGameObjects, [=](const ObjectPtr<GameObject>& gameObject)
-        {
-            return gameObject->GetName() == name;
-        });
-    }
-
-
     bool GameObject::GetIsActivating() const
     {
         if (const ObjectPtr<Transform> parent = transform->GetParent(); parent != nullptr)
             return parent->GetGameObject()->IsActivatingAndEnabling();
 
         return true;
+    }
+
+    void GameObject::SetName(const std::string& name)
+    {
+        this->name = name;
     }
     void GameObject::SetIsEnabling(bool state)
     {
@@ -53,6 +51,16 @@ namespace BDXKEngine
         {
             UpdateActivating();
         }
+    }
+
+    ObjectPtr<GameObject> GameObject::Find(const std::string& name)
+    {
+        const auto& result = std::ranges::find_if(
+            allGameObjects,
+            [&](const ObjectPtr<GameObject>& gameObject) { return gameObject->GetName() == name; }
+        );
+
+        return result == allGameObjects.end() ? nullptr : *result;
     }
 
     void GameObject::OnUpdateActivating(bool state)
@@ -69,23 +77,28 @@ namespace BDXKEngine
     {
         SwitchableObject::Transfer(transferrer);
 
-        int componentsCount = static_cast<int>(components.size());
-        transferrer.TransferInt(nameof(componentsCount), componentsCount);
-
-        if (transferrer.GetTransferDirection() == TransferDirection::Input)components.resize(componentsCount);
-        for (int i = 0; i < componentsCount; i++)
+        transferrer.TransferField("name", name);
+        //组件
+        std::vector<ObjectPtrBase> nativeComponents = std::vector<ObjectPtrBase>{components.begin(), components.end()};
+        transferrer.TransferField("components", nativeComponents);
+        if (transferrer.GetTransferDirection() == TransferDirection::Input)
         {
-            ObjectPtr<Component>& component = components[i];
-            transferrer.TransferObjectPtr("component_" + std::to_string(i), component);
-
-            if (transferrer.GetTransferDirection() == TransferDirection::Input)
+            const int count = static_cast<int>(nativeComponents.size());
+            components.resize(count);
+            for (int i = 0; i < count; i++)
             {
+                ObjectPtr component = static_cast<Component*>(nativeComponents[i].ToObjectBase());
+                // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
                 component = InstantiateNoAwake(component.ToObject());
                 component->gameObject = this;
+                components[i] = component;
             }
         }
 
-        transform = GetComponent<Transform>();
+        if (transferrer.GetTransferDirection() == TransferDirection::Input)
+        {
+            transform = GetComponent<Transform>();
+        }
     }
     void GameObject::Awake()
     {

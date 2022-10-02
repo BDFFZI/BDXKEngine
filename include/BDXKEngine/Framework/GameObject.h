@@ -16,6 +16,7 @@ namespace BDXKEngine
     public:
         static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject");
 
+        std::string GetName();
         template <typename TComponent>
         ObjectPtr<TComponent> GetComponent()
         {
@@ -30,8 +31,9 @@ namespace BDXKEngine
         std::vector<ObjectPtr<Component>> GetComponents();
         ObjectPtr<Transform> GetTransform();
         bool GetIsActivating() const override;
+        
+        void SetName(const std::string& name);
         void SetIsEnabling(bool state) override;
-
 
         template <typename TComponent>
         ObjectPtr<TComponent> AddComponent()
@@ -51,6 +53,7 @@ namespace BDXKEngine
         //所有物体(由GameObject负责增减)
         static std::vector<ObjectPtr<GameObject>> allGameObjects;
 
+        std::string name;
         //当前物体拥有的组件(由Component负责增减)
         std::vector<ObjectPtr<Component>> components;
         ObjectPtr<Transform> transform;

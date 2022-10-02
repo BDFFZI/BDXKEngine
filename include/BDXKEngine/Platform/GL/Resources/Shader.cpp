@@ -88,11 +88,11 @@ namespace BDXKEngine
     {
         Object::Transfer(transferrer);
 
-        transferrer.TransferString(nameof(vertexShaderhlsl), vertexShaderhlsl);
-        transferrer.TransferString(nameof(pixelShaderhlsl), pixelShaderhlsl);
-        transferrer.TransferInt(nameof(passType), &passType);
-        transferrer.TransferBytes(nameof(blend), &blend, sizeof(Blend));
-        transferrer.TransferBytes(nameof(zTest), &zTest, sizeof(ZTest));
+        transferrer.TransferField(nameof(vertexShaderhlsl), vertexShaderhlsl);
+        transferrer.TransferField(nameof(pixelShaderhlsl), pixelShaderhlsl);
+        transferrer.TransferFieldOf<int>(nameof(passType), passType);
+        transferrer.TransferField(nameof(blend), reinterpret_cast<char*>(&blend), sizeof(Blend));
+        transferrer.TransferField(nameof(zTest), reinterpret_cast<char*>(&zTest), sizeof(ZTest));
     }
     void Shader::Awake()
     {
