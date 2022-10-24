@@ -1,4 +1,5 @@
 ﻿#include "Debug.h"
+#include <iostream>
 #include <windows.h>
 
 namespace BDXKEngine

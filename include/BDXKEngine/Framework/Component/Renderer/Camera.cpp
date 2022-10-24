@@ -8,6 +8,28 @@
 
 namespace BDXKEngine
 {
+    CameraInfo Camera::GetCameraInfo() const
+    {
+        switch (projection)
+        {
+        case Projection::Orthographic:
+            return CameraInfo::Orthographic(
+                transform->GetPosition(),
+                transform->GetWorldToLocalMatrix(),
+                GetAspectRatio(),
+                nearClipPlane, farClipPlane,
+                size);
+        case Projection::Perspective:
+            return CameraInfo::Perspective(
+                transform->GetPosition(),
+                transform->GetWorldToLocalMatrix(),
+                GetAspectRatio(),
+                nearClipPlane, farClipPlane,
+                fieldOfView);
+        }
+
+        throw std::exception("Projection枚举值越界");
+    }
     float Camera::GetAspectRatio() const
     {
         const Vector2 viewSize = renderTarget.IsNull() ? Screen::GetSize() : renderTarget->GetSize();
@@ -119,25 +141,7 @@ namespace BDXKEngine
         });
 
         //上传相机信息
-        switch (projection)
-        {
-        case Projection::Orthographic:
-            Graphics::UpdateCameraInfo(CameraInfo::Orthographic(
-                transform->GetPosition(),
-                transform->GetWorldToLocalMatrix(),
-                GetAspectRatio(),
-                nearClipPlane, farClipPlane,
-                size));
-            break;
-        case Projection::Perspective:
-            Graphics::UpdateCameraInfo(CameraInfo::Perspective(
-                transform->GetPosition(),
-                transform->GetWorldToLocalMatrix(),
-                GetAspectRatio(),
-                nearClipPlane, farClipPlane,
-                fieldOfView));
-            break;
-        }
+        Graphics::UpdateCameraInfo(GetCameraInfo());
 
         //渲染物体，注意没灯光时不会触发渲染
         for (const ObjectPtr<Renderer>& renderer : renderers)
@@ -192,19 +196,19 @@ namespace BDXKEngine
 
         transform = GetGameObject()->GetTransform();
     }
-    
+
     void Camera::Transfer(Transferrer& transferrer)
     {
         Component::Transfer(transferrer);
-        
-        transferrer.TransferField("renderTarget",renderTarget);
-        transferrer.TransferFieldOf<int>("clearFlags",clearFlags);
-        transferrer.TransferFieldOf<int>("projection",projection);
-        transferrer.TransferField("background",background);
-        transferrer.TransferField("nearClipPlane",nearClipPlane);
-        transferrer.TransferField("farClipPlane",farClipPlane);
-        transferrer.TransferField("fieldOfView",fieldOfView);
-        transferrer.TransferField("size",size);
-        transferrer.TransferField("depth",depth);
+
+        transferrer.TransferField("renderTarget", renderTarget);
+        transferrer.TransferFieldOf<int>("clearFlags", clearFlags);
+        transferrer.TransferFieldOf<int>("projection", projection);
+        transferrer.TransferField("background", background);
+        transferrer.TransferField("nearClipPlane", nearClipPlane);
+        transferrer.TransferField("farClipPlane", farClipPlane);
+        transferrer.TransferField("fieldOfView", fieldOfView);
+        transferrer.TransferField("size", size);
+        transferrer.TransferField("depth", depth);
     }
 }

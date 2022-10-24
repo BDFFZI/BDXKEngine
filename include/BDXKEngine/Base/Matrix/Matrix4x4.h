@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
-#include "BDXKEngine/Base/Vector/Vector3.h"
+#include "BDXKEngine/Base/Vector/Vector4.h"
 #include "Matrix3x2.h"
 #include "Matrix3x3.h"
 
@@ -19,12 +19,14 @@ namespace BDXKEngine {
 		static Matrix4x4 Perspective(float fieldOfView, float aspectRatio, float nearClipPlane, float farClipPlane);
 		static Matrix4x4 TRS(Vector3 position, Vector3 eulerAngles, Vector3 scale);
 
-		float m00, m01, m02, m03;
-		float m10, m11, m12, m13;
-		float m20, m21, m22, m23;
-		float m30, m31, m32, m33;
+		float m00, m10, m20, m30;
+		float m01, m11, m21, m31;
+		float m02, m12, m22, m32;
+		float m03, m13, m23, m33;
 
 		float GetElement(int row, int column);
+		Vector4 GetRow(int row);
+		Vector4 GetColumn(int column);
 		Matrix3x3 GetComplementMinor(int row, int column);
 		float GetDeterminant();
 		Matrix4x4 GetInverse();

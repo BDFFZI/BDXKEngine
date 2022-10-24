@@ -9,16 +9,16 @@ namespace BDXKEngine
     {
         return *nodes.top();
     }
-    void JsonTransferrer::PushPath(const std::string& key)
+    rapidjson::MemoryPoolAllocator<>& JsonTransferrer::GetAllocator() const
     {
-        rapidjson::Value& currentNode = GetCurrentNode();
-
-        rapidjson::GenericValue<rapidjson::UTF8<>> keystring(key.c_str(), static_cast<rapidjson::SizeType>(key.length()));
-        currentNode.AddMember(keystring, keystring, document.GetAllocator());
-
-        nodes.push(&currentNode[key.c_str()]);
+        return document.GetAllocator();
     }
-    void JsonTransferrer::PopPath(std::string& key)
+    
+    void JsonTransferrer::PushNode(rapidjson::Value* node)
+    {
+        nodes.push(node);
+    }
+    void JsonTransferrer::PopNode()
     {
         nodes.pop();
     }

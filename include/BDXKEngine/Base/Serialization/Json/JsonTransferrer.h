@@ -11,9 +11,11 @@ namespace BDXKEngine
         JsonTransferrer(rapidjson::Document& buffer);
 
         rapidjson::Value& GetCurrentNode();
-        void PushPath(const std::string& key) override;
-        void PopPath(std::string& key) override;
+        rapidjson::MemoryPoolAllocator<>& GetAllocator() const;
+        void PushNode(rapidjson::Value* node);
+        void PopNode();
 
+    private:
         rapidjson::Document& document;
         std::stack<rapidjson::Value*> nodes;
     };

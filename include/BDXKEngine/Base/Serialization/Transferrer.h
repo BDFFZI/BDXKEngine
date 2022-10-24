@@ -27,8 +27,6 @@ namespace BDXKEngine
     Set##propertyName(propertyName);
 
         virtual TransferDirection GetTransferDirection() = 0;
-        virtual void PushPath(const std::string& key) = 0;
-        virtual void PopPath(std::string& key) =0;
 
         template <typename TSource>
         void TransferField(std::string key, TSource& value)
@@ -37,7 +35,6 @@ namespace BDXKEngine
             TransferValue(value);
             PopPath(key);
         }
-
         template <typename TTransfer, typename TSource>
         void TransferFieldOf(std::string key, TSource& value)
         {
@@ -45,7 +42,6 @@ namespace BDXKEngine
             TransferValue(*reinterpret_cast<TTransfer*>(&value));
             PopPath(key);
         }
-
         void TransferField(std::string key, char* source, int size)
         {
             PushPath(key);
@@ -53,9 +49,11 @@ namespace BDXKEngine
             PopPath(key);
         }
 
-
         virtual ~Transferrer() = default;
     protected:
+        virtual void PushPath(const std::string& key) = 0;
+        virtual void PopPath(std::string& key) =0;
+
         virtual void TransferValue(int& value) = 0;
         virtual void TransferValue(float& value) = 0;
         virtual void TransferValue(bool& value) = 0;

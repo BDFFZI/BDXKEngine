@@ -1,11 +1,17 @@
 ﻿#pragma once
-#include<iostream>
+#include <string>
 
 namespace BDXKEngine
 {
     class Debug
     {
     public:
+        template <typename TData>
+        static void LogGenerics(const TData& str)
+        {
+            Log(std::to_string(str));
+        }
+
         static void Log(const std::string& str);
 
         /// <summary>

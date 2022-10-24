@@ -1,4 +1,4 @@
-//GL≤„
+//GLÂ±Ç
 struct Vertex
 {
     float3 position : POSITION;
@@ -9,18 +9,18 @@ struct Vertex
 
 cbuffer Parameters : register(b0)
 {
-    float4 float0_3;
-    float4 float4_7;
-    float4 vector0;
-    float4 vector1;
-    float4 vector2;
-    float4 vector3;
-    float4 vector4;
-    float4 vector5;
-    row_major float4x4 matrix0;
-    row_major float4x4 matrix1;
-    row_major float4x4 matrix2;
-    row_major float4x4 matrix3;
+float4 float0_3;
+float4 float4_7;
+float4 vector0;
+float4 vector1;
+float4 vector2;
+float4 vector3;
+float4 vector4;
+float4 vector5;
+float4x4 matrix0;
+float4x4 matrix1;
+float4x4 matrix2;
+float4x4 matrix3;
 };
 
 Texture2D Texture2D0 : register(t0);
@@ -33,40 +33,40 @@ SamplerState SamplerState1 : register(s1);
 SamplerState SamplerState2 : register(s2);
 SamplerState SamplerState3 : register(s3);
 
-//Graphics≤„-------------------------------------------------------------------------------------
+//GraphicsÂ±Ç-------------------------------------------------------------------------------------
 
-// ¿ΩÁ
+//‰∏ñÁïå
 cbuffer WorldInfo : register(b1)
 {
-    float4 Environment;
-    float4 Time;
+float4 Environment;
+float4 Time;
 };
-//œ‡ª˙
+//Áõ∏Êú∫
 cbuffer CameraInfo : register(b2)
 {
-    row_major float4x4 WorldToView;
-    row_major float4x4 ViewToClip;
-    float4 CameraPosition;
+float4x4 WorldToView;
+float4x4 ViewToClip;
+float4 CameraPosition;
 }
-//ŒÔÃÂ
+//Áâ©‰Ωì
 cbuffer ObjectInfo : register(b3)
 {
-    row_major float4x4 ObjectToWorld;
+float4x4 ObjectToWorld;
 }
-//µ∆π‚
+//ÁÅØÂÖâ
 cbuffer LightInfo : register(b4)
 {
-    float4 LightPosition;
-    float4 LightNormal;
-    float4 LightColor;
-    float4 LightFactorFloat;
-    int4 LightFactorInt; //x:LightType,y:lightRenderMode,z:lightOrder,w:ø’
+float4 LightPosition;
+float4 LightNormal;
+float4 LightColor;
+float4 LightFactorFloat;
+int4 LightFactorInt; //x:LightType,y:lightRenderMode,z:lightOrder,w:Á©∫
 };
-//“ı”∞
+//Èò¥ÂΩ±
 cbuffer ShadowInfo : register(b5)
 {
-    row_major float4x4 WorldToLightView;
-    row_major float4x4 ViewToLightClip;
+float4x4 WorldToLightView;
+float4x4 ViewToLightClip;
 }
 
 
@@ -82,8 +82,8 @@ float3 ObjectToWorldVector(float3 worldVector)
 {
     float4x4 ObjectToWorldVector = ObjectToWorld;
     ObjectToWorldVector._14_24_34_44 = float4(0, 0, 0, 1);
-    
-    return (float3) mul(ObjectToWorldVector, float4(worldVector, 1));
+
+    return (float3)mul(ObjectToWorldVector, float4(worldVector, 1));
 }
 float4 ObjectToClipPos(float3 objectPosition)
 {
@@ -105,7 +105,7 @@ float DecodeShadowMap(float3 worldPosition)
 {
     float depth;
     float depthOfMap;
-    
+
     if (LightFactorInt.x == 1)
     {
         depthOfMap = ShadowMapCube.Sample(ShadowMapCubeSampler, worldPosition - LightPosition.xyz).z;

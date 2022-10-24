@@ -9,6 +9,7 @@ operator BDXKEngine::Vector2()const{return{x,y};}
 #define IM_VEC4_CLASS_EXTRA ImVec4(BDXKEngine::Color value){x=value.r;y=value.g;z=value.b;w=value.a;} \
 operator BDXKEngine::Color()const{return{x,y,z,w};}
 #include <imgui/imgui.h>
+#include <ImGuizmo/ImGuizmo.h>
 
 
 namespace BDXKEngine

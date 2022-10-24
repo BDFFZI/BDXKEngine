@@ -1,6 +1,8 @@
 ﻿#include "InspectorView.h"
 
+#include "SceneView.h"
 #include "BDXKEditor/System/EditorSystem.h"
+#include "ImGuizmo/ImGuizmo.h"
 
 namespace BDXKEditor
 {

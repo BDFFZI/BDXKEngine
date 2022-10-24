@@ -12,6 +12,20 @@ namespace BDXKEngine
     {
         return TransferDirection::Output;
     }
+    void JsonWriter::PushPath(const std::string& key)
+    {
+        auto& allocator = GetAllocator();
+        rapidjson::GenericValue<rapidjson::UTF8<>> keystring(key.c_str(), static_cast<rapidjson::SizeType>(key.length()), allocator);
+
+        auto& currentNode = GetCurrentNode();
+        currentNode.AddMember(keystring, keystring, allocator);
+
+        PushNode(&currentNode[key.c_str()]);
+    }
+    void JsonWriter::PopPath(std::string& key)
+    {
+        PopNode();
+    }
 
     void JsonWriter::TransferValue(int& value)
     {
@@ -27,41 +41,54 @@ namespace BDXKEngine
     }
     void JsonWriter::TransferValue(Vector2& value)
     {
-      // auto& array = GetCurrentNode().SetArray();
-      //   array.PushBack()
-      //   GetCurrentNode()[0].SetFloat(value.x);
-      //   GetCurrentNode()[1].SetFloat(value.y);
+        auto& node = GetCurrentNode().SetArray();
+
+        auto& allocator = GetAllocator();
+        node.PushBack(value.x, allocator);
+        node.PushBack(value.y, allocator);
     }
     void JsonWriter::TransferValue(Vector3& value)
     {
-        GetCurrentNode()[0].SetFloat(value.x);
-        GetCurrentNode()[1].SetFloat(value.y);
-        GetCurrentNode()[2].SetFloat(value.z);
+        auto& node = GetCurrentNode().SetArray();
+
+        auto& allocator = GetAllocator();
+        node.PushBack(value.x, allocator);
+        node.PushBack(value.y, allocator);
+        node.PushBack(value.z, allocator);
     }
     void JsonWriter::TransferValue(Vector4& value)
     {
-        GetCurrentNode()[0].SetFloat(value.x);
-        GetCurrentNode()[1].SetFloat(value.y);
-        GetCurrentNode()[2].SetFloat(value.z);
-        GetCurrentNode()[3].SetFloat(value.w);
+        auto& node = GetCurrentNode().SetArray();
+
+        auto& allocator = GetAllocator();
+        node.PushBack(value.x, allocator);
+        node.PushBack(value.y, allocator);
+        node.PushBack(value.z, allocator);
+        node.PushBack(value.w, allocator);
     }
     void JsonWriter::TransferValue(Color& value)
     {
-        GetCurrentNode()[0].SetFloat(value.r);
-        GetCurrentNode()[1].SetFloat(value.g);
-        GetCurrentNode()[2].SetFloat(value.b);
-        GetCurrentNode()[3].SetFloat(value.a);
+        auto& node = GetCurrentNode().SetArray();
+
+        auto& allocator = GetAllocator();
+        node.PushBack(value.r, allocator);
+        node.PushBack(value.g, allocator);
+        node.PushBack(value.b, allocator);
+        node.PushBack(value.a, allocator);
     }
     void JsonWriter::TransferValue(Rect& value)
     {
-        GetCurrentNode()[0].SetFloat(value.x);
-        GetCurrentNode()[1].SetFloat(value.y);
-        GetCurrentNode()[2].SetFloat(value.width);
-        GetCurrentNode()[3].SetFloat(value.height);
+        auto& node = GetCurrentNode().SetArray();
+
+        auto& allocator = GetAllocator();
+        node.PushBack(value.x, allocator);
+        node.PushBack(value.y, allocator);
+        node.PushBack(value.width, allocator);
+        node.PushBack(value.height, allocator);
     }
     void JsonWriter::TransferValue(std::string& value)
     {
-        GetCurrentNode()[0].SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.size()));
+        GetCurrentNode().SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.size()));
     }
     void JsonWriter::TransferValue(ObjectPtrBase& value)
     {

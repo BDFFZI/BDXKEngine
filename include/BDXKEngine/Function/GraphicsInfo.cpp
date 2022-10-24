@@ -1,5 +1,4 @@
 ﻿#include "GraphicsInfo.h"
-#include "BDXKEngine/Base/Extension/Debug.h"
 using namespace BDXKEngine;
 
 CameraInfo CameraInfo::Orthographic(Vector3 cameraPosition, Matrix4x4 worldToView, float aspectRatio, float nearClipPlane, float farClipPlane, float height)

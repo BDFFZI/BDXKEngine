@@ -25,6 +25,7 @@ namespace BDXKEngine
     {
         friend RenderManager;
     public:
+        CameraInfo GetCameraInfo() const;
         float GetAspectRatio() const;
         ObjectPtr<Texture2D> GetRenderTarget();
         int GetDepth() const;

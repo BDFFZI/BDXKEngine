@@ -18,7 +18,7 @@ namespace BDXKEditor
         static ObjectPtr<InspectorView> inspectorView;
         static ObjectPtrBase dragging;
         static ObjectPtrBase focusing;
-    private:
+        
         void OnAwake() override;
 
         void OnDrawGUI() override;

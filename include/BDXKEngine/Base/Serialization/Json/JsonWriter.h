@@ -9,6 +9,8 @@ namespace BDXKEngine
         JsonWriter(rapidjson::Document& buffer);
 
         TransferDirection GetTransferDirection() override;
+        void PushPath(const std::string& key) override;
+        void PopPath(std::string& key) override;
     protected:
         void TransferValue(int& value) override;
         void TransferValue(float& value) override;

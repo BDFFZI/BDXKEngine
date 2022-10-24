@@ -61,11 +61,10 @@ namespace BDXKEngine
 
             IMGUIManager::EndDraw();
             GL2D::EndDraw();
-
+            Present(); //将默认渲染目标输出到屏幕
+            
             for (const auto postRenderFrameHandler : postRenderFrameHandlers)
                 postRenderFrameHandler->OnPostRenderFrame();
-
-            Present(); //将默认渲染目标输出到屏幕
         });
         window->AddResizeEvent([](Vector2 size)
         {

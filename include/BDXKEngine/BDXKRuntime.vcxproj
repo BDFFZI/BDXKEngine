@@ -19,6 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ImGuizmo\GraphEditor.cpp" />
+    <ClCompile Include="..\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="..\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="..\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\ImGuizmo\ImSequencer.cpp" />
     <ClCompile Include="..\imgui\imgui.cpp" />
     <ClCompile Include="..\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\imgui\imgui_draw.cpp" />
@@ -311,6 +316,12 @@
     <ClCompile Include="Platform\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ImGuizmo\GraphEditor.h" />
+    <ClInclude Include="..\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="..\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="..\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="..\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="..\ImGuizmo\ImZoomSlider.h" />
     <ClInclude Include="..\imgui\imconfig.h" />
     <ClInclude Include="..\imgui\imgui.h" />
     <ClInclude Include="..\imgui\imgui_impl_dx11.h" />
@@ -369,7 +380,6 @@
     <ClInclude Include="Function\GUI.h" />
     <ClInclude Include="Function\Input.h" />
     <ClInclude Include="Function\Random.h" />
-    <ClInclude Include="Function\Resources.h" />
     <ClInclude Include="Function\Screen.h" />
     <ClInclude Include="Function\Time.h" />
     <ClInclude Include="Platform\GL\Commands\Blend.h" />
@@ -387,6 +397,7 @@
     <ClInclude Include="Platform\GL\Resources\TextureCube.h" />
     <ClInclude Include="Platform\IMGUI\IMGUIManager.h" />
     <ClInclude Include="Platform\IO\MeshImporter.h" />
+    <ClInclude Include="Platform\IO\Resources.h" />
     <ClInclude Include="Platform\Window\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
