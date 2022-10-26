@@ -4,7 +4,8 @@
 #include "BDXKEngine/Platform/IO/Resources.h"
 #include "BDXKEngine/Function/Time.h"
 #include "BDXKEngine/Function/Screen.h"
-#include "BDXKEngine/Framework/Settings/GraphicsSettings.h"
+#include "BDXKEngine/Framework/Scene/GraphicsSettings.h"
+#include "BDXKEngine/Framework/Scene/Scene.h"
 
 namespace BDXKEngine
 {
@@ -119,17 +120,20 @@ namespace BDXKEngine
             GL::Clear(true, true, background);
             break;
         case ClearFlags::Skybox:
-            if (GraphicsSettings::skybox.IsNull() == false)
             {
-                GL::Clear(true, true);
-                Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());
-                Resources::GetSkyboxMaterial()->SetVector(0, Vector4{transform->GetPosition(), 1});
-                Resources::GetSkyboxMaterial()->SetPass(0);
-                GL::SetTexture(6, GraphicsSettings::skybox.ToObjectPtr<Texture>());
-                Graphics::DrawTexture(Resources::GetWhiteTexture(), {Vector2::zero, Screen::GetSize()});
+                auto& skybox = GetGameObject()->GetScene()->GetGraphicsSettings()->GetSkybox();
+                if (skybox.IsNotNull())
+                {
+                    GL::Clear(true, true);
+                    Resources::GetSkyboxMaterial()->SetMatrix(0, transform->GetLocalToWorldMatrix());
+                    Resources::GetSkyboxMaterial()->SetVector(0, Vector4{transform->GetPosition(), 1});
+                    Resources::GetSkyboxMaterial()->SetPass(0);
+                    GL::SetTexture(6, skybox.ToObjectPtr<Texture>());
+                    Graphics::DrawTexture(Resources::GetWhiteTexture(), {Vector2::zero, Screen::GetSize()});
+                }
+                else GL::Clear(true, true, background);
+                break;
             }
-            else GL::Clear(true, true, background);
-            break;
         case ClearFlags::Not:
             break;
         }

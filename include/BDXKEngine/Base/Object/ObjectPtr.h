@@ -31,7 +31,7 @@ namespace BDXKEngine
         }
 
         template <typename TTargetObject>
-        ObjectPtr<TTargetObject> ToObjectPtr()
+        ObjectPtr<TTargetObject> ToObjectPtr() const
         {
             Object* object = ToObjectBase();
             return dynamic_cast<TTargetObject*>(object);

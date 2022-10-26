@@ -1,6 +1,6 @@
 ﻿#include "Animator.h"
 
-#include "BDXKEngine/Framework/GameObject.h"
+#include "BDXKEngine/Framework/GameObject/GameObject.h"
 
 
 namespace BDXKEngine

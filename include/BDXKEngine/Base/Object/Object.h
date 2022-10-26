@@ -4,28 +4,25 @@
 #include <map>
 #include "BDXKEngine/Base/Extension/String.h"
 #include "BDXKEngine/Base/Serialization/ISerializable.h"
-#include "BDXKEngine/Base/Serialization/Binary/BinaryReader.h"
 #include "BDXKEngine/Base/Serialization/Binary/BinaryWriter.h"
 #include "BDXKEngine/Base/Extension/Debug.h"
-
-
-/// <summary>
-/// 创建：
-/// 通过InstantiateNoAwake加载未实例化的物体
-/// 在Import中通过Importer提供的函数嵌套加载子物体
-/// 然后再利用MarkActivating嵌套标记要唤醒的物体
-/// 最后通过FlushActivateBuffer一并唤醒
-/// 
-/// 删除：
-/// Destory只是标记为删除中状态
-/// 最后系统调用FlushDestroyBuffer来使所有被标记的物体删除
-/// DestroyImmediate是立即删除
-/// </summary>
 
 namespace BDXKEngine
 {
     class ObjectManager;
 
+    /// <summary>
+    /// 创建：
+    /// 通过InstantiateNoAwake加载未实例化的物体
+    /// 在Import中通过Importer提供的函数嵌套加载子物体
+    /// 然后再利用MarkActivating嵌套标记要唤醒的物体
+    /// 最后通过FlushActivateBuffer一并唤醒
+    /// 
+    /// 删除：
+    /// Destory只是标记为删除中状态
+    /// 最后系统调用FlushDestroyBuffer来使所有被标记的物体删除
+    /// DestroyImmediate是立即删除
+    /// </summary>
     class Object : public ISerializable
     {
         friend ObjectManager;
@@ -54,8 +51,9 @@ namespace BDXKEngine
         template <typename TObject>
         static TObject* Create()
         {
-            auto* result = new TObject();
+            TObject* result = new TObject();
             result->instanceID = ++instanceIDCount;
+            result->name = ParseSerializationID(result);
             allObjects[result->instanceID] = result;
             //Debug::LogWarning(std::string("Object::Create ") + std::to_string(result->instanceID) + " " + result->GetName());
             return result;
@@ -115,17 +113,20 @@ namespace BDXKEngine
         static Object* FindObjectOfInstanceID(int instanceID);
 
         int GetInstanceID() const;
+        std::string GetName() const;
         bool GetIsRunning() const;
-        
+
+        void SetName(const std::string& name);
+
         virtual std::string ToString();
     protected:
-        /// 代替构造函数，激活物体，只在Awake()中调用有效，类似一直标记信号的传递
+        /// 代替构造函数，激活物体，注意只在Awake()中调用有效，类似一直标记信号的传递
         static void Awake(Object* object);
-        /// 代替析构函数，销毁物体，只在Destroy()中调用有效，单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，类似一直标记信号的传递
+        /// 代替析构函数，销毁物体，注意只在Destroy()中调用有效，单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，类似一直标记信号的传递
         static void Destroy(Object* object);
 
-
         void Transfer(Transferrer& transferrer) override;
+        //以下函数以及其他同类型函数重写时请务必回调父类函数
         virtual void Awake(); //唤醒回调，用于扩展Awake(Object* object)函数的内容
         virtual void Destroy(); //销毁回调，用于扩展只在Destroy(Object* object)函数的内容
     private:
@@ -142,6 +143,7 @@ namespace BDXKEngine
         static void FlushDestroyQueue();
 
         int instanceID = 0;
+        std::string name;
         bool isRunning = false;
         bool isDestroying = false;
     };

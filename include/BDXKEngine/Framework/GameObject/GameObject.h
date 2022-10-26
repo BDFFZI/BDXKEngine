@@ -1,26 +1,22 @@
 ﻿#pragma once
 #include<vector>
 #include "BDXKEngine/Base/Object/ObjectPtr.h"
-#include "BDXKEngine/Framework/Component/Component.h"
-#include "BDXKEngine/Framework/Component/Transform.h"
+#include "BDXKEngine/Framework/Object/SwitchableObject.h"
 
 namespace BDXKEngine
 {
-    class GameObjectManager;
-
+    class Scene;
+    class Component;
+    class Transform;
     class GameObject : public SwitchableObject
     {
+        friend Scene;
         friend Component;
-        friend Transform;
-        friend GameObjectManager;
     public:
-        static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject");
-
-        std::string GetName();
         template <typename TComponent>
-        ObjectPtr<TComponent> GetComponent()
+        ObjectPtr<TComponent> GetComponent() const
         {
-            for (ObjectPtr<Component>& component : components)
+            for (const ObjectPtr<Component>& component : components)
             {
                 ObjectPtr<TComponent> target = component.ToObjectPtr<TComponent>();
                 if (target.IsNull() == false)
@@ -28,12 +24,10 @@ namespace BDXKEngine
             }
             return nullptr;
         }
-        std::vector<ObjectPtr<Component>> GetComponents();
-        ObjectPtr<Transform> GetTransform();
+        std::vector<ObjectPtr<Component>> GetComponents() const;
+        ObjectPtr<Transform> GetTransform() const;
         bool GetIsActivating() const override;
-        
-        void SetName(const std::string& name);
-        void SetIsEnabling(bool state) override;
+        const ObjectPtr<Scene>& GetScene() const;
 
         template <typename TComponent>
         ObjectPtr<TComponent> AddComponent()
@@ -47,21 +41,14 @@ namespace BDXKEngine
             components.emplace_back(result.template ToObjectPtr<Component>());
             return result;
         }
-
-        static ObjectPtr<GameObject> Find(const std::string& name);
     private:
-        //所有物体(由GameObject负责增减)
-        static std::vector<ObjectPtr<GameObject>> allGameObjects;
+        ObjectPtr<Scene> scene;
+        std::vector<ObjectPtr<Component>> components; //当前物体拥有的组件(由Component负责增减)
 
-        std::string name;
-        //当前物体拥有的组件(由Component负责增减)
-        std::vector<ObjectPtr<Component>> components;
-        ObjectPtr<Transform> transform;
-
-        void OnUpdateActivating(bool state) override;
-
-        void Transfer(Transferrer& transferrer) override;
+        void Enable() override;
+        void Disable() override;
         void Awake() override;
         void Destroy() override;
+        void Transfer(Transferrer& transferrer) override;
     };
 }

@@ -2,7 +2,7 @@
 #include<cmath>
 #include<exception>
 #include "BDXKEngine/Base/Extension/Vector.h"
-#include "BDXKEngine/Framework/GameObject.h"
+#include "BDXKEngine/Framework/GameObject/GameObject.h"
 
 namespace BDXKEngine
 {
@@ -99,7 +99,7 @@ namespace BDXKEngine
         RenewPositionAndMatrix();
 
         if (oldActivating != GetGameObject()->GetIsActivating())
-            GetGameObject()->UpdateActivating();
+            GetGameObject()->SetIsActivating();
     }
     void Transform::SetLocalPosition(Vector3 value)
     {
@@ -162,7 +162,6 @@ namespace BDXKEngine
     void Transform::Transfer(Transferrer& transferrer)
     {
         Component::Transfer(transferrer);
-
 
 
         TransferProperty(LocalPosition)

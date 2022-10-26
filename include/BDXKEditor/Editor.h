@@ -47,10 +47,12 @@ namespace BDXKEditor
 
         static void Run()
         {
-            Engine::Run([]
+            Engine::Run([](const ObjectPtr<Scene>& scene)
             {
+                EditorSystem::mainScene = scene;
+                
                 Object::AddSerializationInfo<EditorSystem>();
-                GameObject::Create("EditorSystem")->AddComponent<EditorSystem>();
+                scene->AddGameObject("EditorSystem")->AddComponent<EditorSystem>();
                 
                 CreationMenu::CreateDefaultScene();
                 TestLight();
@@ -71,10 +73,10 @@ namespace BDXKEditor
 
         static void TestLight()
         {
-            ObjectPtr<GameObject> aureole = GameObject::Create("光环");
+            ObjectPtr<GameObject> aureole = EditorSystem::mainScene->AddGameObject("光环");
             {
                 ObjectPtr<Transform> transform = aureole->GetTransform();
-                transform->SetParent(GameObject::Find("摄像机")->GetTransform());
+                transform->SetParent(EditorSystem::mainScene->Find("摄像机")->GetTransform());
                 transform->SetLocalPosition({0, 0, 0.7f});
 
                 ObjectPtr<Animator> animator = aureole->AddComponent<Animator>();

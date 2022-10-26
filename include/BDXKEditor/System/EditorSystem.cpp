@@ -8,12 +8,17 @@
 
 namespace BDXKEditor
 {
+    ObjectPtr<Scene> EditorSystem::mainScene;
     ObjectPtr<SceneView> EditorSystem::sceneView;
     ObjectPtr<HierarchyView> EditorSystem::hierarchyView;
     ObjectPtr<InspectorView> EditorSystem::inspectorView;
     ObjectPtrBase EditorSystem::dragging;
     ObjectPtrBase EditorSystem::focusing;
 
+    void EditorSystem::OnDrawGUI()
+    {
+        ImGui::ShowDemoWindow();
+    }
     void EditorSystem::OnAwake()
     {
         AddSerializationInfo<SceneView>();
@@ -29,9 +34,13 @@ namespace BDXKEditor
         hierarchyView->Show();
         inspectorView->Show();
     }
-
-    void EditorSystem::OnDrawGUI()
+    void EditorSystem::OnDestroy()
     {
-        ImGui::ShowDemoWindow();
+        mainScene = nullptr;
+        sceneView = nullptr;
+        hierarchyView = nullptr;
+        inspectorView = nullptr;
+        dragging = nullptr;
+        focusing = nullptr;
     }
 }

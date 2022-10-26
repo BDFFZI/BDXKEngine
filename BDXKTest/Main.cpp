@@ -6,6 +6,7 @@ using namespace BDXKEditor;
 
 int main()
 {
+    
     Editor::Run();
 }
 

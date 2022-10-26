@@ -54,12 +54,16 @@ namespace BDXKEditor
                     ImGuizmo::TRANSLATE, ImGuizmo::LOCAL,
                     reinterpret_cast<float*>(&objectToWorld)
                 );
-                transform->SetLocalPosition(static_cast<Vector3>(objectToWorld.GetColumn(3)));
+                //transform->SetLocalPosition(static_cast<Vector3>(objectToWorld.GetColumn(3)));
             }
         }
         //绘制帧率信息
         ImGui::SameLine(-1);
-        ImGui::Text(" 平均帧率 %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Text(
+            " 平均帧率 %.3f ms/frame (%.1f FPS)",
+            static_cast<double>(1000.0f / ImGui::GetIO().Framerate),
+            static_cast<double>(ImGui::GetIO().Framerate)
+        );
     }
     void SceneView::OnShow()
     {

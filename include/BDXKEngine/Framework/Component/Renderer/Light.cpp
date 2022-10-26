@@ -1,6 +1,6 @@
 ﻿#include "Light.h"
 #include "BDXKEngine/Base/Extension/Vector.h"
-#include "BDXKEngine/Framework/GameObject.h"
+#include "BDXKEngine/Framework/GameObject/GameObject.h"
 #include "BDXKEngine/Framework/Component/Transform.h"
 #include "BDXKEngine/Framework/Component/Renderer/RenderManager.h"
 

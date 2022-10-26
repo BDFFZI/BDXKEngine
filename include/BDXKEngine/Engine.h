@@ -58,8 +58,7 @@
 #include "BDXKEngine/Function/GUI.h"
 #include "BDXKEngine/Function/Random.h"
 //框架层：在此组织和使用下层的各种功能 >> 营造引擎环境，用户接口
-#include "BDXKEngine/Framework/GameObjectManager.h"
-#include "BDXKEngine/Framework/GameObject.h"
+#include "BDXKEngine/Framework/GameObject/GameObject.h"
 #include "BDXKEngine/Framework/Component/Component.h"
 #include "BDXKEngine/Framework/Component/Renderer/RenderManager.h"
 #include "BDXKEngine/Framework/Component/Behavior/BehaviorManager.h"
@@ -68,25 +67,21 @@
 #include "BDXKEngine/Framework/Component/Renderer/Camera.h"
 #include "BDXKEngine/Framework/Component/Renderer/RenderEvent.h"
 #include "BDXKEngine/Framework/Component/Behavior/Animator.h"
-#include "BDXKEngine/Framework/Settings/GraphicsSettings.h"
+#include "BDXKEngine/Framework/Scene/GraphicsSettings.h"
+#include "BDXKEngine/Framework/Scene/Scene.h"
 
 
 namespace BDXKEngine
 {
-    class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformManager, GameObjectManager
+    class Engine : Resources, Time, Input, Screen, Cursor, Event, Graphics, GUI, TransformManager
     {
     public:
-        static Window& GetWindow()
-        {
-            return *window;
-        }
-
-        static void Run(const std::function<void()>& onStart)
+        static void Run(std::function<void(const ObjectPtr<Scene>& scene)> onStart)
         {
             std::setlocale(LC_ALL, "zh-CN.UTF-8");
 
             //启动窗口
-            window = new Window{L"BDXKEngine"};
+            Window window{L"BDXKEngine"};
 
             //这三层是静态的，所以需要顺序初始化，以便初始化无异常
             {
@@ -97,9 +92,14 @@ namespace BDXKEngine
                 Object::AddSerializationInfo<TextureCube>();
                 Object::AddSerializationInfo<Material>();
                 Object::AddSerializationInfo<Mesh>();
-                Object::AddSerializationInfo<GameObject>();
-                Object::AddSerializationInfo<Component>();
+
                 Object::AddSerializationInfo<Transform>();
+                Object::AddSerializationInfo<Component>();
+                Object::AddSerializationInfo<GameObject>();
+                Object::AddSerializationInfo<Scene>();
+                Object::AddSerializationInfo<QualitySettings>();
+                Object::AddSerializationInfo<GraphicsSettings>();
+
                 Object::AddSerializationInfo<Animator>();
                 Object::AddSerializationInfo<AnimatorClip>();
                 Object::AddSerializationInfo<Camera>();
@@ -108,53 +108,38 @@ namespace BDXKEngine
                 Object::AddSerializationInfo<ScriptableObject>();
 
                 //平台层初始化
-                GL::Initialize(window);
+                GL::Initialize(&window);
                 GL2D::Initialize();
-                IMGUIManager::Initialize(window);
+                IMGUIManager::Initialize(&window);
 
                 //资源层初始化
-                Resources::Initialize(window);
+                Resources::Initialize(&window);
             }
 
-
-            //创建配置信息，这将影响框架层中部分模块的运作方式
-            CreateSettings();
-
             //下面两层是动态的，倒序初始化（因为会影响事件顺序），以便使用环境无异常
-            BehaviorManager::Initialize(window);
-            RenderManager::Initialize(window);
-            GameObjectManager::Initialize(window);
-            GUI::Initialize(window);
-            Event::Initialize(window);
-            Graphics::Initialize(window);
-            Screen::Initialize(window);
-            Cursor::Initialize(window);
-            Input::Initialize(window);
-            Time::Initialize(window);
+            BehaviorManager::Initialize(&window);
+            RenderManager::Initialize(&window);
+            GUI::Initialize(&window);
+            Event::Initialize(&window);
+            Graphics::Initialize(&window);
+            Screen::Initialize(&window);
+            Cursor::Initialize(&window);
+            Input::Initialize(&window);
+            Time::Initialize(&window);
+
+            const auto scene = Scene::Create();
 
             //完成初始化后，正式循环前，触发事件回调
-            onStart();
-
+            onStart(scene);
             //正式循环
-            window->Show();
+            window.Show();
 
-            ReleaseSettings();
+            Object::DestroyImmediate(scene.ToObjectBase());
 
             Debug::LogError("系统回收检查");
             Object::DebugObjectCount();
             ObjectPtrBase::DebugRefCountMap();
             BehaviorManager::DebugHandlersCount();
-        }
-
-    private:
-        inline static Window* window;
-
-        static void CreateSettings()
-        {
-        }
-        static void ReleaseSettings()
-        {
-            GraphicsSettings::skybox = nullptr;
         }
     };
 }

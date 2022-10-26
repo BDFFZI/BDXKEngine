@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <BDXKEngine/Engine.h>
+#include "BDXKEditor/System/EditorSystem.h"
 
 namespace BDXKEditor
 {
@@ -50,7 +51,7 @@ namespace BDXKEditor
                 ObjectPtr<Material> material = Material::Create({baseShader, addShader});
                 material->SetTexture(0, texture2d.ToObjectPtr<Texture>());
                 //创建物体
-                ObjectPtr<GameObject> gameObject = GameObject::Create(name);
+                ObjectPtr<GameObject> gameObject = EditorSystem::mainScene->AddGameObject(name);
                 ObjectPtr<MeshRenderer> meshRenderer = gameObject->AddComponent<MeshRenderer>();
                 meshRenderer->SetMesh(mesh);
                 meshRenderer->SetMaterial(material);
@@ -75,7 +76,7 @@ namespace BDXKEditor
         private:
             static ObjectPtr<GameObject> CreateLight(LightType lightType, const char* name = "Light")
             {
-                ObjectPtr<GameObject> lightObj = GameObject::Create(name);
+                ObjectPtr<GameObject> lightObj = EditorSystem::mainScene->AddGameObject(name);
                 ObjectPtr<BDXKEngine::Light> light = lightObj->AddComponent<BDXKEngine::Light>();
                 light->SetColor(Color::white);
                 light->SetIntensity(0.5f);
@@ -86,7 +87,7 @@ namespace BDXKEditor
 
         static ObjectPtr<GameObject> Camera(const char* name = "Camera")
         {
-            ObjectPtr<GameObject> camera = GameObject::Create(name);
+            ObjectPtr<GameObject> camera = EditorSystem::mainScene->AddGameObject(name);
             camera->AddComponent<BDXKEngine::Camera>();
             return camera;
         }

@@ -2,11 +2,11 @@
 
 namespace BDXKEngine
 {
-    class ScriptableObject;
+    class SwitchableObject;
     
     class AwakeHandler
     {
-        friend ScriptableObject;
+        friend SwitchableObject;
     public:
         virtual ~AwakeHandler() = default;
     protected:
@@ -15,7 +15,7 @@ namespace BDXKEngine
 
     class DestroyHandler
     {
-        friend ScriptableObject;
+        friend SwitchableObject;
     public:
         virtual ~DestroyHandler() = default;
     protected:
@@ -24,7 +24,7 @@ namespace BDXKEngine
 	
     class EnableHandler
     {
-        friend ScriptableObject;
+        friend SwitchableObject;
     public:
         virtual ~EnableHandler() = default;
     protected:
@@ -32,7 +32,7 @@ namespace BDXKEngine
     };
     class DisableHandler
     {
-        friend ScriptableObject;
+        friend SwitchableObject;
     public:
         virtual ~DisableHandler() = default;
     protected:

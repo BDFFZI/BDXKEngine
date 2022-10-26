@@ -1,4 +1,5 @@
 ﻿#include "Object.h"
+#include "BDXKEngine/Base/Serialization/Binary/BinaryReader.h"
 
 namespace BDXKEngine
 {
@@ -95,9 +96,19 @@ namespace BDXKEngine
         return instanceID;
     }
 
+    std::string Object::GetName() const
+    {
+        return name;
+    }
+
     bool Object::GetIsRunning() const
     {
         return isRunning;
+    }
+
+    void Object::SetName(const std::string& name)
+    {
+        this->name = name;
     }
 
     std::string Object::ToString()
@@ -114,14 +125,18 @@ namespace BDXKEngine
 
         if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
             transferrer.TransferField("serializationID", serializationID);
+
+        std::string nameTemp = name;
+        transferrer.TransferField("name", nameTemp);
+        if (nameTemp.empty() == false) name = nameTemp;
     }
     void Object::Awake()
     {
-        Debug::Log("Object::Awake " + std::to_string(instanceID) + " ", 1);
+        Debug::Log("Object::Awake " + std::to_string(instanceID) + " " + name, 1);
     }
     void Object::Destroy()
     {
-        Debug::Log("Object::Destroy " + std::to_string(instanceID) + " ", 1);
+        Debug::Log("Object::Destroy " + std::to_string(instanceID) + " " + name, 1);
     }
 
     void Object::FlushAwakeQueue()

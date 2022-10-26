@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BDXKEngine/Function/Graphics.h"
-#include "BDXKEngine/Framework/GameObject.h"
+#include "BDXKEngine/Framework/GameObject/GameObject.h"
 #include "BDXKEngine/Framework/Component/Component.h"
 #include "BDXKEngine/Framework/Component/Transform.h"
 #include "BDXKEngine/Framework/Component/Renderer/Light.h"

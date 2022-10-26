@@ -2,7 +2,6 @@
 #include"BDXKEngine/Framework/Component/Behavior/BehaviorEvent.h"
 #include"BDXKEngine/Framework/Component/Behavior/Behavior.h"
 #include"BDXKEngine/Framework/Component/Transform.h"
-#include"BDXKEngine/Framework/ScriptableObject/ScriptableObjectEvent.h"
 
 namespace BDXKEngine
 {

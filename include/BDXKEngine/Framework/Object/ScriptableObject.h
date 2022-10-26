@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <unordered_set>
-#include "BDXKEngine/Framework/SwitchableObject.h"
+#include "SwitchableObject.h"
 
 namespace BDXKEngine
 {
@@ -20,16 +20,10 @@ namespace BDXKEngine
             return result;
         }
 
-        bool GetIsActivating() const override;
-        void SetIsEnabling(bool state) override;
     protected:
         static std::unordered_set<ScriptableObject*> allScriptableObjects;
-        bool isAwakened = false;
 
-        virtual void Enable();
-        virtual void Disable();
-        void Destroy() override;
-
-        void OnUpdateActivating(bool state) override;
+        void Enable() override;
+        void Disable() override;
     };
 }
