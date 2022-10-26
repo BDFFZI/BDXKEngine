@@ -11,8 +11,7 @@ namespace BDXKEngine
     {
         return gameObject->IsActivatingAndEnabling();
     }
-
-
+    
     void Component::Transfer(Transferrer& transferrer)
     {
         ScriptableObject::Transfer(transferrer);
@@ -20,8 +19,6 @@ namespace BDXKEngine
         if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
             transferrer.TransferField(nameof(gameObject), gameObject);
     }
-
-
     void Component::Destroy()
     {
         Vector::Remove(gameObject->components, {this});

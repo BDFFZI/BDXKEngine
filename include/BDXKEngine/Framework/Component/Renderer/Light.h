@@ -41,10 +41,9 @@ namespace BDXKEngine
 
         void Enable() override;
         void Disable() override;
-
         void Transfer(Transferrer& transferrer) override;
-        void Awake() override;
-        void Destroy() override;
+        void PreAwake() override;
+        void PreDestroy() override;
     };
 
     class LightEditor

@@ -13,7 +13,7 @@ namespace BDXKEngine
         virtual bool GetIsActivating() const;
         bool GetIsEnabling() const;
 
-        void SetIsActivating(); //一个特殊的函数，仅由子类自行调用，以在合适的时候触发事件
+        void SetIsActivating(); // 用于激活信号的传递，在OnSetIsEnabling中使用它
         void SetIsEnabling(bool state);
 
         bool IsActivatingAndEnabling() const;
@@ -21,11 +21,11 @@ namespace BDXKEngine
     protected:
         bool isAwakened = false;
         bool isEnabling = true;
-
+        
         virtual void Enable();
         virtual void Disable();
         void Awake() override;
-        void Destroy() override;
+        void PreDestroy() override;
         void Transfer(Transferrer& transferrer) override;
     };
 }

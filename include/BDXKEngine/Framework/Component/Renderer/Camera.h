@@ -52,6 +52,6 @@ namespace BDXKEngine
         void Render(const std::vector<ObjectPtr<Renderer>>& renderers);
 
         void Transfer(Transferrer& transferrer) override;
-        void Awake() override;
+        void PreAwake() override;
     };
 }

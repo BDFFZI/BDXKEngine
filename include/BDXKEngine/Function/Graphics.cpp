@@ -19,7 +19,7 @@ namespace BDXKEngine
     ObjectPtr<Mesh> Graphics::drawTextureMesh = nullptr;
     ObjectPtr<Texture> Graphics::defaultTexture2D = nullptr;
     ObjectPtr<Texture> Graphics::defaultTextureCube = nullptr;
-    
+
     void Graphics::UpdateWorldInfo(WorldInfo worldInfo)
     {
         worldInfoBuffer->SetData(reinterpret_cast<char*>(&worldInfo));

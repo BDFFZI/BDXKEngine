@@ -189,9 +189,9 @@ namespace BDXKEngine
         }
     }
 
-    void Transform::Awake()
+    void Transform::PreAwake()
     {
-        Component::Awake();
+        Component::PreAwake();
 
         if (parent == nullptr)
             rootTransforms.emplace_back(this);
@@ -203,7 +203,7 @@ namespace BDXKEngine
         for (const ObjectPtr<Transform>& child : children)
             Object::Awake(child->GetGameObject().ToObjectBase());
     }
-    void Transform::Destroy()
+    void Transform::PreDestroy()
     {
         for (const ObjectPtr<Transform>& child : children)
             Object::Destroy(child->GetGameObject().ToObjectBase());
@@ -212,7 +212,7 @@ namespace BDXKEngine
         if (parent.IsNull() && GetIsRunning())
             Vector::Remove(rootTransforms, {this});
 
-        Component::Destroy();
+        Component::PreDestroy();
     }
 
     std::string Transform::ToString()

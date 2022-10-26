@@ -86,26 +86,26 @@ namespace BDXKEngine
             //这三层是静态的，所以需要顺序初始化，以便初始化无异常
             {
                 //基础层初始化
-                Object::AddSerializationInfo<Shader>();
-                Object::AddSerializationInfo<Buffer>();
-                Object::AddSerializationInfo<Texture2D>();
-                Object::AddSerializationInfo<TextureCube>();
-                Object::AddSerializationInfo<Material>();
-                Object::AddSerializationInfo<Mesh>();
+                Object::SetCreator<Shader>();
+                Object::SetCreator<Buffer>();
+                Object::SetCreator<Texture2D>();
+                Object::SetCreator<TextureCube>();
+                Object::SetCreator<Material>();
+                Object::SetCreator<Mesh>();
 
-                Object::AddSerializationInfo<Transform>();
-                Object::AddSerializationInfo<Component>();
-                Object::AddSerializationInfo<GameObject>();
-                Object::AddSerializationInfo<Scene>();
-                Object::AddSerializationInfo<QualitySettings>();
-                Object::AddSerializationInfo<GraphicsSettings>();
+                Object::SetCreator<Transform>();
+                Object::SetCreator<Component>();
+                Object::SetCreator<GameObject>();
+                Object::SetCreator<Scene>();
+                Object::SetCreator<QualitySettings>();
+                Object::SetCreator<GraphicsSettings>();
 
-                Object::AddSerializationInfo<Animator>();
-                Object::AddSerializationInfo<AnimatorClip>();
-                Object::AddSerializationInfo<Camera>();
-                Object::AddSerializationInfo<Light>();
-                Object::AddSerializationInfo<MeshRenderer>();
-                Object::AddSerializationInfo<ScriptableObject>();
+                Object::SetCreator<Animator>();
+                Object::SetCreator<AnimatorClip>();
+                Object::SetCreator<Camera>();
+                Object::SetCreator<Light>();
+                Object::SetCreator<MeshRenderer>();
+                Object::SetCreator<ScriptableObject>();
 
                 //平台层初始化
                 GL::Initialize(&window);
@@ -127,14 +127,16 @@ namespace BDXKEngine
             Input::Initialize(&window);
             Time::Initialize(&window);
 
-            const auto scene = Scene::Create();
+            {
+                const auto scene = Scene::Create();
 
-            //完成初始化后，正式循环前，触发事件回调
-            onStart(scene);
-            //正式循环
-            window.Show();
+                //完成初始化后，正式循环前，触发事件回调
+                onStart(scene);
+                //正式循环
+                window.Show();
 
-            Object::DestroyImmediate(scene.ToObjectBase());
+                Object::DestroyImmediate(scene.ToObjectBase());
+            }
 
             Debug::LogError("系统回收检查");
             Object::DebugObjectCount();

@@ -48,7 +48,7 @@ namespace BDXKEditor
     {
         ObjectPtrBase target;
         Inspector inspector;
-
-        void OnDrawWindow() override;
+        
+        void OnGUI() override;
     };
 }

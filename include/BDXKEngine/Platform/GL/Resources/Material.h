@@ -62,6 +62,6 @@ namespace BDXKEngine {
 		ObjectPtr<Texture> texture3;
 		
 		void Transfer(Transferrer& transferrer) override;
-		void Awake()override;
+		void PreAwake()override;
 	};
 }

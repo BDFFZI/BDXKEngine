@@ -11,6 +11,6 @@ namespace BDXKEditor
         std::unordered_map<int, bool> isSpreads;
 
         void DrawGameObject(const ObjectPtr<GameObject>& gameObject, float offsetX);
-        void OnDrawWindow() override;
+        void OnGUI() override;
     };
 }

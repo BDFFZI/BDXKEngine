@@ -28,9 +28,9 @@ namespace BDXKEngine
         transferrer.TransferFieldOf<int>(nameof(target), target);
         transferrer.TransferField(nameof(size), size);
     }
-    void Buffer::Awake()
+    void Buffer::PreAwake()
     {
-        Object::Awake();
+        Object::PreAwake();
 
         data = std::unique_ptr<char[]>(new char[size]);
         const CD3D11_BUFFER_DESC desc(size, static_cast<D3D11_BIND_FLAG>(target));

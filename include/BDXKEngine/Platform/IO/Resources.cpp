@@ -71,9 +71,9 @@ namespace BDXKEngine {
 		//白色贴图
 		whiteTexture = Texture2D::Create(Color::white);
 
-		cubeMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Cube.glb)).CreateMesh();
-		sphereMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Sphere.glb)).CreateMesh();
-		blenderMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Blender.glb)).CreateMesh();
+		cubeMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Cube.glb)).ToMesh();
+		sphereMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Sphere.glb)).ToMesh();
+		blenderMesh = MeshImporter::Import((char*)GetResourcesPath(Meshes, Blender.glb)).ToMesh();
 
 		window->AddDestroyEvent([]() {
 			shadowMapMaterial = nullptr;

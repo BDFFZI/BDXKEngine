@@ -1,13 +1,12 @@
 ﻿#pragma once
 #include <BDXKEngine/Engine.h>
 #include "EditorWindow.h"
-#include "BDXKEditor/System/EditorSystem.h"
 
 namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-    class SceneView : public EditorWindow, public PreRenderFrameHandler, TransformManager, GL
+    class SceneView : public EditorWindow, public AwakeHandler, public PreRenderFrameHandler, TransformManager, GL
     {
     public:
         ObjectPtr<Camera> GetEditorCamera() const;
@@ -16,8 +15,8 @@ namespace BDXKEditor
         ObjectPtr<Texture2D> editorCameraTexture;
         Vector2 viewSize;
 
+        void OnAwake() override;
         void OnPreRenderFrame() override;
-        void OnDrawWindow() override;
-        void OnShow() override;
+        void OnGUI() override;
     };
 }

@@ -9,6 +9,18 @@ namespace BDXKEditor
         return editorCamera;
     }
 
+
+    void SceneView::OnAwake()
+    {
+        const ObjectPtr<GameObject> editorCameraGameObject = CreationMenu::Camera("EditorCamera");
+        editorCameraGameObject->AddComponent<CameraController>();
+
+        editorCamera = editorCameraGameObject->GetComponent<Camera>();
+        editorCameraTexture = Texture2D::Create(960, 540);
+        viewSize = {960, 540};
+
+        editorCamera->SetRenderTarget(editorCameraTexture);
+    }
     void SceneView::OnPreRenderFrame()
     {
         if (editorCameraTexture->GetSize() != viewSize && viewSize.x * viewSize.y > 0)
@@ -17,8 +29,7 @@ namespace BDXKEditor
             editorCamera->SetRenderTarget(editorCameraTexture);
         }
     }
-
-    void SceneView::OnDrawWindow()
+    void SceneView::OnGUI()
     {
         const Vector2 windowMin = ImGui::GetWindowContentRegionMin();
         const Vector2 windowMax = ImGui::GetWindowContentRegionMax();
@@ -32,7 +43,7 @@ namespace BDXKEditor
         );
         //绘制小物件
         {
-            CameraInfo cameraInfo = EditorSystem::sceneView->GetEditorCamera()->GetCameraInfo();
+            CameraInfo cameraInfo = EditorSystem::GetSceneView()->GetEditorCamera()->GetCameraInfo();
             ImGuizmo::SetRect(viewPosition.x, viewPosition.y, viewSize.x, viewSize.y);
             ImGuizmo::SetOrthographic(false);
             //绘制网格
@@ -44,7 +55,7 @@ namespace BDXKEditor
                 10
             );
             //绘制手柄
-            if (const ObjectPtr gameObject = EditorSystem::focusing.ToObject<GameObject>(); gameObject != nullptr)
+            if (const ObjectPtr gameObject = EditorSystem::GetFocusing().ToObject<GameObject>(); gameObject != nullptr)
             {
                 const ObjectPtr<Transform> transform = gameObject->GetTransform();
                 objectToWorld = transform->GetLocalToWorldMatrix();
@@ -64,16 +75,5 @@ namespace BDXKEditor
             static_cast<double>(1000.0f / ImGui::GetIO().Framerate),
             static_cast<double>(ImGui::GetIO().Framerate)
         );
-    }
-    void SceneView::OnShow()
-    {
-        const ObjectPtr<GameObject> editorCameraGameObject = CreationMenu::Camera("EditorCamera");
-        editorCameraGameObject->AddComponent<CameraController>();
-
-        editorCamera = editorCameraGameObject->GetComponent<Camera>();
-        editorCameraTexture = Texture2D::Create(960, 540);
-        viewSize = {960, 540};
-
-        editorCamera->SetRenderTarget(editorCameraTexture);
     }
 }

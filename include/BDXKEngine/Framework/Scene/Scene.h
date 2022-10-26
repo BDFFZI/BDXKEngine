@@ -25,7 +25,7 @@ namespace BDXKEngine
         ObjectPtr<GraphicsSettings> graphicsSettings;
         ObjectPtr<QualitySettings> qualitySettings;
 
-        void Awake() override;
-        void Destroy() override;
+        void PreAwake() override;
+        void PreDestroy() override;
     };
 }

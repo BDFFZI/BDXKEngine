@@ -3,13 +3,13 @@
 
 namespace BDXKEngine
 {
-    void Behavior::Awake()
+    void Behavior::PreAwake()
     {
         startHandler = dynamic_cast<StartHandler*>(this);
         updateHandler = dynamic_cast<UpdateHandler*>(this);
         lateUpdateHandler = dynamic_cast<LateUpdateHandler*>(this);
 
-        Component::Awake();
+        Component::PreAwake();
     }
 
     void Behavior::Enable()

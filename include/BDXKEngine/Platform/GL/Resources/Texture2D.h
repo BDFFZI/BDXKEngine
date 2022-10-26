@@ -18,6 +18,6 @@ namespace BDXKEngine
         CComPtr<ID3D11RenderTargetView> renderTextureRTV = nullptr;
 
         void Transfer(Transferrer& transferrer) override;
-        void Awake() override;
+        void PreAwake() override;
     };
 }

@@ -42,9 +42,9 @@ namespace BDXKEngine
         return result == gameObjects.end() ? nullptr : *result;
     }
 
-    void Scene::Awake()
+    void Scene::PreAwake()
     {
-        SwitchableObject::Awake();
+        SwitchableObject::PreAwake();
 
         //TODO 零时
         GraphicsSettings graphicsSettingsPrefab{};
@@ -58,7 +58,7 @@ namespace BDXKEngine
         for (const auto& value : gameObjects)
             Object::Awake(value.ToObjectBase());
     }
-    void Scene::Destroy()
+    void Scene::PreDestroy()
     {
         const std::vector gameObjects = {this->gameObjects};
         for (const auto& value : gameObjects)
@@ -67,6 +67,6 @@ namespace BDXKEngine
         Object::Destroy(graphicsSettings.ToObjectBase());
         Object::Destroy(qualitySettings.ToObjectBase());
 
-        SwitchableObject::Destroy();
+        SwitchableObject::PreDestroy();
     }
 }

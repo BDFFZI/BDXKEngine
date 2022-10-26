@@ -94,9 +94,9 @@ namespace BDXKEngine
         transferrer.TransferField(nameof(blend), reinterpret_cast<char*>(&blend), sizeof(Blend));
         transferrer.TransferField(nameof(zTest), reinterpret_cast<char*>(&zTest), sizeof(ZTest));
     }
-    void Shader::Awake()
+    void Shader::PreAwake()
     {
-        Object::Awake();
+        Object::PreAwake();
 
         HRESULT result = {};
         //编译顶点着色器

@@ -59,7 +59,7 @@ namespace BDXKEngine
 
         allObjectsRunning[object->instanceID] = object;
         object->isRunning = true;
-        object->Awake();
+        object->PreAwake();
 
         postAwakeQueue.push_back(object);
     }
@@ -76,7 +76,7 @@ namespace BDXKEngine
         }
 
         object->isDestroying = true;
-        object->Destroy();
+        object->PreDestroy();
         allObjectsRunning.erase(object->instanceID);
 
         postDestroyQueue.push_back(object);
@@ -121,7 +121,7 @@ namespace BDXKEngine
 
     void Object::Transfer(Transferrer& transferrer)
     {
-        std::string serializationID = ParseSerializationID(this);
+        std::string serializationID = ParseTypeID(this);
 
         if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
             transferrer.TransferField("serializationID", serializationID);
@@ -129,6 +129,12 @@ namespace BDXKEngine
         std::string nameTemp = name;
         transferrer.TransferField("name", nameTemp);
         if (nameTemp.empty() == false) name = nameTemp;
+    }
+    void Object::PreAwake()
+    {
+    }
+    void Object::PreDestroy()
+    {
     }
     void Object::Awake()
     {
@@ -141,11 +147,19 @@ namespace BDXKEngine
 
     void Object::FlushAwakeQueue()
     {
+        for (const auto& object : postAwakeQueue)
+        {
+            object->Awake();
+        }
         postAwakeQueue.clear();
     }
 
     void Object::FlushDestroyQueue()
     {
+        for (const auto& object : postDestroyQueue)
+        {
+            object->Destroy();
+        }
         for (const auto& object : postDestroyQueue)
         {
             allObjects.erase(object->instanceID);

@@ -58,7 +58,7 @@ namespace BDXKEditor
             {
                 ImGui::Separator();
 
-                const std::string serializationID = Object::ParseSerializationID(object);
+                const std::string serializationID = Object::ParseTypeID(object);
                 ImGui::LabelText(GetFieldID().c_str(), (serializationID + " " + std::to_string(value.GetInstanceID())).c_str());
 
                 ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 30);
@@ -70,10 +70,10 @@ namespace BDXKEditor
             }
             else
             {
-                const std::string serializationID = Object::ParseSerializationID(object);
+                const std::string serializationID = Object::ParseTypeID(object);
 
                 if (ImGui::Button(GetFieldID(serializationID + " " + std::to_string(value.GetInstanceID())).c_str()))
-                    EditorSystem::focusing = value;
+                    EditorSystem::SetFocusing(value);
                 ImGui::SameLine();
                 ImGui::Text(GetFieldName().c_str());
             }
@@ -107,9 +107,9 @@ namespace BDXKEditor
         ImGui::Separator();
     }
 
-    void InspectorView::OnDrawWindow()
+    void InspectorView::OnGUI()
     {
-        target = EditorSystem::focusing;
+        target = EditorSystem::GetFocusing();
         Object* targetObject = target.ToObjectBase();
         if (targetObject != nullptr)
             static_cast<ISerializable*>(targetObject)->Transfer(inspector); // NOLINT(clang-diagnostic-format-security)

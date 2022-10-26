@@ -75,7 +75,7 @@ namespace BDXKEngine
         if (triangles.size() != size)
         {
             triangles.resize(size);
-            ResetTrianglesBuffer();
+            if (GetIsRunning())ResetTrianglesBuffer();
         }
         for (int index = 0; index < size; index++)
         {
@@ -88,7 +88,7 @@ namespace BDXKEngine
         if (vertices.size() != size)
         {
             vertices.resize(size);
-            ResetVerticesBuffer();
+            if (GetIsRunning())ResetVerticesBuffer();
         }
         for (int index = 0; index < size; index++)
         {
@@ -101,7 +101,7 @@ namespace BDXKEngine
         if (vertices.size() != size)
         {
             vertices.resize(size);
-            ResetVerticesBuffer();
+            if (GetIsRunning())ResetVerticesBuffer();
         }
         for (int index = 0; index < size; index++)
         {
@@ -114,7 +114,7 @@ namespace BDXKEngine
         if (vertices.size() != size)
         {
             vertices.resize(size);
-            ResetVerticesBuffer();
+            if (GetIsRunning())ResetVerticesBuffer();
         }
         for (int index = 0; index < size; index++)
         {
@@ -127,7 +127,7 @@ namespace BDXKEngine
         if (vertices.size() != size)
         {
             vertices.resize(size);
-            ResetVerticesBuffer();
+            if (GetIsRunning())ResetVerticesBuffer();
         }
         for (int index = 0; index < size; index++)
         {
@@ -174,7 +174,7 @@ namespace BDXKEngine
             static_cast<int>(trianglesCount * sizeof(unsigned short))
         );
     }
-    void Mesh::Awake()
+    void Mesh::PreAwake()
     {
         ResetVerticesBuffer();
         ResetTrianglesBuffer();

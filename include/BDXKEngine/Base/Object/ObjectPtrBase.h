@@ -98,7 +98,7 @@ namespace BDXKEngine
         }
 
         template <typename TObject>
-        TObject* ToObject()
+        TObject* ToObject() const
         {
             return static_cast<TObject*>(ToObjectBase());
         }

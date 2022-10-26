@@ -19,7 +19,7 @@ namespace BDXKEngine
         if (const ObjectPtr<Transform> parent = GetTransform()->GetParent(); parent != nullptr)
             return parent->GetGameObject()->IsActivatingAndEnabling();
 
-        return GetIsRunning();
+        return scene->IsActivatingAndEnabling();
     }
     const ObjectPtr<Scene>& GameObject::GetScene() const
     {
@@ -49,10 +49,8 @@ namespace BDXKEngine
         }
     }
 
-    void GameObject::Enable()
+    void GameObject::OnUpdate()
     {
-        SwitchableObject::Enable();
-
         for (const auto& component : components)
             component->SetIsActivating();
 
@@ -61,28 +59,16 @@ namespace BDXKEngine
         for (int i = 0; i < childCount; i++)
             transform->GetChild(i)->GetGameObject()->SetIsActivating();
     }
-    void GameObject::Disable()
+    void GameObject::PreAwake()
     {
-        SwitchableObject::Disable();
-
-        for (const auto& component : components)
-            component->SetIsActivating();
-
-        const ObjectPtr<Transform> transform = GetTransform();
-        const int childCount = transform->GetChildCount();
-        for (int i = 0; i < childCount; i++)
-            transform->GetChild(i)->GetGameObject()->SetIsActivating();
-    }
-    void GameObject::Awake()
-    {
-        SwitchableObject::Awake();
+        SwitchableObject::PreAwake();
 
         for (const auto& component : components)
             Object::Awake(component.ToObjectBase());
     }
-    void GameObject::Destroy()
+    void GameObject::PreDestroy()
     {
-        SwitchableObject::Destroy();
+        SwitchableObject::PreDestroy();
 
         const std::vector components = {this->components};
         for (const ObjectPtr<Component>& component : components)

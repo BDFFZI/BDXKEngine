@@ -16,8 +16,8 @@ namespace BDXKEngine
         ObjectPtr<Transform> GetTransform();
         bool GetIsActivating() const override;
     protected:
-        void Destroy() override;
         void Transfer(Transferrer& transferrer) override;
+        void Destroy() override;
     private:
         ObjectPtr<GameObject> gameObject = nullptr;
     };

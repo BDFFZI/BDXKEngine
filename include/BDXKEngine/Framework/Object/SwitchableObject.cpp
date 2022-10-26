@@ -5,7 +5,7 @@ namespace BDXKEngine
 {
     bool SwitchableObject::GetIsActivating() const
     {
-        return true;
+        return GetIsRunning();
     }
     bool SwitchableObject::GetIsEnabling() const
     {
@@ -20,6 +20,9 @@ namespace BDXKEngine
                 Enable();
             else
                 Disable();
+
+            if (const auto handler = dynamic_cast<SwitchableObjectEvent::UpdateHandler*>(this); handler != nullptr)
+                handler->OnUpdate();
         }
     }
     void SwitchableObject::SetIsEnabling(bool state)
@@ -35,6 +38,9 @@ namespace BDXKEngine
                 Enable();
             else
                 Disable();
+
+            if (const auto handler = dynamic_cast<SwitchableObjectEvent::UpdateHandler*>(this); handler != nullptr)
+                handler->OnUpdate();
         }
     }
 
@@ -52,7 +58,6 @@ namespace BDXKEngine
         return stream.str();
     }
 
-
     void SwitchableObject::Enable()
     {
         if (isAwakened == false)
@@ -65,14 +70,14 @@ namespace BDXKEngine
         if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
             handler->OnEnable();
 
-        Debug::LogWarning("SwitchableObject::Enable " + std::to_string(GetInstanceID()));
+        Debug::LogWarning("SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName());
     }
     void SwitchableObject::Disable()
     {
         if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
             handler->OnDisable();
 
-        Debug::LogWarning("SwitchableObject::Disable " + std::to_string(GetInstanceID()));
+        Debug::LogWarning("SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName());
     }
     void SwitchableObject::Awake()
     {
@@ -80,7 +85,7 @@ namespace BDXKEngine
 
         if (IsActivatingAndEnabling())Enable();
     }
-    void SwitchableObject::Destroy()
+    void SwitchableObject::PreDestroy()
     {
         if (isAwakened)
         {
@@ -90,7 +95,7 @@ namespace BDXKEngine
                 handler->OnDestroy();
         }
 
-        Object::Destroy();
+        Object::PreDestroy();
     }
     void SwitchableObject::Transfer(Transferrer& transferrer)
     {

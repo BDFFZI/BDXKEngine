@@ -26,7 +26,7 @@ namespace BDXKEditor
         ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetColorU32(ImGuiCol_Button, gameObject->IsActivatingAndEnabling() ? 1 : 0.3f));
         if (ImGui::Button(name.c_str()))
         {
-            EditorSystem::focusing = static_cast<ObjectPtrBase>(gameObject);
+            EditorSystem::SetFocusing(gameObject);
         }
         ImGui::PopStyleColor();
         //拖拽
@@ -39,7 +39,7 @@ namespace BDXKEditor
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
             {
-                ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
+                const ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
                 const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
                 if (droppingGameObject.IsNotNull())
                     droppingGameObject->GetTransform()->SetParent(transform);
@@ -54,7 +54,7 @@ namespace BDXKEditor
         }
     }
 
-    void HierarchyView::OnDrawWindow()
+    void HierarchyView::OnGUI()
     {
         ImGui::Button("保存");
         if (ImGui::BeginDragDropTarget())
@@ -94,7 +94,7 @@ namespace BDXKEditor
             }
             ImGui::EndDragDropTarget();
         }
-        
+
         const std::vector<ObjectPtr<Transform>> rootTransforms = TransformManager::GetRootTransforms();
         for (const ObjectPtr<Transform>& transform : rootTransforms)
         {

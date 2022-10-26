@@ -36,8 +36,8 @@ namespace BDXKEngine
         std::string ToString() override;
     protected:
         void Transfer(Transferrer& transferrer) override;
-        void Awake() override;
-        void Destroy() override;
+        void PreAwake() override;
+        void PreDestroy() override;
     private:
         static std::vector<ObjectPtr<Transform>> rootTransforms;
 

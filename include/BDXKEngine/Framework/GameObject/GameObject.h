@@ -8,7 +8,8 @@ namespace BDXKEngine
     class Scene;
     class Component;
     class Transform;
-    class GameObject : public SwitchableObject
+
+    class GameObject : public SwitchableObject, public SwitchableObjectEvent::UpdateHandler
     {
         friend Scene;
         friend Component;
@@ -29,6 +30,7 @@ namespace BDXKEngine
         bool GetIsActivating() const override;
         const ObjectPtr<Scene>& GetScene() const;
 
+
         template <typename TComponent>
         ObjectPtr<TComponent> AddComponent()
         {
@@ -45,10 +47,9 @@ namespace BDXKEngine
         ObjectPtr<Scene> scene;
         std::vector<ObjectPtr<Component>> components; //当前物体拥有的组件(由Component负责增减)
 
-        void Enable() override;
-        void Disable() override;
-        void Awake() override;
-        void Destroy() override;
+        void OnUpdate() override;
+        void PreAwake() override;
+        void PreDestroy() override;
         void Transfer(Transferrer& transferrer) override;
     };
 }

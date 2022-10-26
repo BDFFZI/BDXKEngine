@@ -38,7 +38,7 @@ namespace BDXKEngine {
 		void ResetTrianglesBuffer();
 
 		void Transfer(Transferrer& transferrer) override;
-		void Awake()override;
+		void PreAwake()override;
 	};
 }
 

@@ -30,19 +30,20 @@ namespace BDXKEngine
         static void DebugObjectCount();
 
         template <typename TObject>
-        static std::string ParseSerializationID()
+        static std::string ParseTypeID()
         {
             return std::string(typeid(TObject).name()).substr(6);
         }
-        static std::string ParseSerializationID(Object* object)
+        static std::string ParseTypeID(Object* object)
         {
             return std::string(typeid(*object).name()).substr(6);
         }
-        //希望物体能参与序列化则必须要注册SerializationInfo
+
+        //希望物体能参与序列化则必须要注册Creator
         template <typename TObject>
-        static void AddSerializationInfo()
+        static void SetCreator()
         {
-            serializationInfo.insert({ParseSerializationID<TObject>().c_str(), [] { return Object::Create<TObject>(); }});
+            serializationInfo[ParseTypeID<TObject>().c_str()] = [] { return Object::Create<TObject>(); };
         }
 
         // 代替new函数
@@ -53,7 +54,7 @@ namespace BDXKEngine
         {
             TObject* result = new TObject();
             result->instanceID = ++instanceIDCount;
-            result->name = ParseSerializationID(result);
+            result->name = ParseTypeID(result);
             allObjects[result->instanceID] = result;
             //Debug::LogWarning(std::string("Object::Create ") + std::to_string(result->instanceID) + " " + result->GetName());
             return result;
@@ -114,21 +115,24 @@ namespace BDXKEngine
 
         int GetInstanceID() const;
         std::string GetName() const;
-        bool GetIsRunning() const;
+        bool GetIsRunning() const; //是否是已被唤醒的状态
 
         void SetName(const std::string& name);
 
         virtual std::string ToString();
     protected:
-        /// 代替构造函数，激活物体，注意只在Awake()中调用有效，类似一直标记信号的传递
+        //单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，比如防止重复唤醒销毁
+        /// 用于唤醒信号的传递，调用源头为Instantiate(TObject*)，只在PreAwake()中调用有效
         static void Awake(Object* object);
-        /// 代替析构函数，销毁物体，注意只在Destroy()中调用有效，单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，类似一直标记信号的传递
+        /// 用于销毁信号的传递，调用源头为DestroyImmediate(TObject*)，只在PreDestroy()中调用有效
         static void Destroy(Object* object);
 
         void Transfer(Transferrer& transferrer) override;
         //以下函数以及其他同类型函数重写时请务必回调父类函数
-        virtual void Awake(); //唤醒回调，用于扩展Awake(Object* object)函数的内容
-        virtual void Destroy(); //销毁回调，用于扩展只在Destroy(Object* object)函数的内容
+        virtual void PreAwake(); //预唤醒，此时函数环境为正常环境，用于传递Awake(Object* object)函数的范围
+        virtual void PreDestroy(); //预销毁，此时函数环境为正常环境，用于传递Destroy(Object* object)函数的范围
+        virtual void Awake(); //代替构造函数，激活物体
+        virtual void Destroy(); //代替析构函数，销毁物体
     private:
         static std::unordered_map<std::string, std::function<Object*()>> serializationInfo;
         static int instanceIDCount; //0为None占位符,一般用作纯数据容器

@@ -95,9 +95,9 @@ namespace BDXKEngine
         for (int i = 0; i < shadersCount; i++)
             transferrer.TransferField("shader_" + std::to_string(i), shaders[i]);
     }
-    void Material::Awake()
+    void Material::PreAwake()
     {
-        Object::Awake();
+        Object::PreAwake();
 
         parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
 

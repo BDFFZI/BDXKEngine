@@ -8,22 +8,18 @@ namespace BDXKEditor
     void EditorWindow::Show()
     {
         SetIsEnabling(true);
-        OnShow();
     }
 
-    void EditorWindow::OnDrawWindow()
-    {
-    }
 
-    void EditorWindow::OnShow()
+    void EditorWindow::OnGUI()
     {
     }
 
     void EditorWindow::OnDrawGUI()
     {
-        ImGui::Begin(ParseSerializationID(this).c_str());
+        ImGui::Begin(ParseTypeID(this).c_str());
 
-        OnDrawWindow();
+        OnGUI();
 
         ImGui::End();
     }

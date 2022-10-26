@@ -194,9 +194,9 @@ namespace BDXKEngine
         GL::SetTexture(6, nullptr);
     }
 
-    void Camera::Awake()
+    void Camera::PreAwake()
     {
-        Component::Awake();
+        Component::PreAwake();
 
         transform = GetGameObject()->GetTransform();
     }

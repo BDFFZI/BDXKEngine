@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "BDXKEngine/Framework/Component/Renderer/RenderEvent.h"
 #include "BDXKEngine/Framework/Object/ScriptableObject.h"
+#include "BDXKEditor/System/EditorSystem.h"
 
 namespace BDXKEditor
 {
@@ -16,11 +17,10 @@ namespace BDXKEditor
             window.SetIsEnabling(false);
             return Instantiate(&window);
         }
-        
+
         void Show();
     protected:
-        virtual void OnDrawWindow();
-        virtual void OnShow();
+        virtual void OnGUI();
     private:
         void OnDrawGUI() override;
     };
