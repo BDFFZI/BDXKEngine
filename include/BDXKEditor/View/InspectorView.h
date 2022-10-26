@@ -36,7 +36,7 @@ namespace BDXKEditor
         void TransferValue(Rect& value) override;
         void TransferValue(std::string& value) override;
         void TransferValue(ObjectPtrBase& value) override;
-        void TransferValue(ISerializable& value) override;
+        void TransferValue(Serializable& value) override;
         void TransferValue(std::vector<ObjectPtrBase>& vector) override;
         void TransferValue(char* source, int size) override;
     private:

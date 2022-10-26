@@ -1,10 +1,6 @@
 ﻿#pragma once
 #include <BDXKEngine/Engine.h>
-#include <BDXKEngine/Platform/IMGUI/IMGUIManager.h>
-#include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
-#include "BDXKEngine/Base/Serialization/Json/JsonReader.h"
 #include "BDXKEngine/Base/Serialization/Json/JsonWriter.h"
 #include "Menu/CreationMenu.h"
 #include "System/EditorSystem.h"
@@ -13,38 +9,9 @@
 namespace BDXKEditor
 {
     using namespace BDXKEngine;
-
-    struct SerializeTester : ISerializable
-    {
-        void Transfer(Transferrer& transferrer) override
-        {
-            transferrer.TransferField("floatValue", floatValue);
-            transferrer.TransferField("stringValue", stringValue);
-            transferrer.TransferFieldOf<Vector4>("colorValue", colorValue);
-            transferrer.TransferField("boolValue", boolValue);
-        }
-
-        float floatValue;
-        std::string stringValue;
-        Color colorValue;
-        bool boolValue;
-    };
-
     class Editor
     {
     public:
-        static bool GetObjectGUID(int instanceID, GUID& guid)
-        {
-            const auto result = objectGUIDs.find(instanceID);
-            if (result != objectGUIDs.end())
-            {
-                guid = result->second;
-                return true;
-            }
-
-            return false;
-        }
-
         static void Run()
         {
             Engine::Run([](const ObjectPtr<Scene>& scene)
@@ -60,14 +27,6 @@ namespace BDXKEditor
         }
 
     private:
-        inline static Window* hierarchyView;
-        inline static IMGUIManager* hierarchyViewImgui;
-        inline static Window* inspectorView;
-        inline static std::map<int, GUID> objectGUIDs;
-        inline static std::map<GUID, std::string> objectAssets;
-        inline static ObjectPtr<GameObject> editorSystem;
-
-
         static void TestLight()
         {
             ObjectPtr<GameObject> aureole = EditorSystem::GetMainScene()->AddGameObject("光环");

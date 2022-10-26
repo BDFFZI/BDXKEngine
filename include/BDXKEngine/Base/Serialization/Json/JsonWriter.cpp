@@ -1,6 +1,7 @@
 ﻿#include "JsonWriter.h"
 
-#include "BDXKEngine/Base/Serialization/ISerializable.h"
+#include "BDXKEngine/Base/Object/ObjectPtrBase.h"
+#include "BDXKEngine/Base/Serialization/Serializable.h"
 
 namespace BDXKEngine
 {
@@ -18,6 +19,7 @@ namespace BDXKEngine
         rapidjson::GenericValue<rapidjson::UTF8<>> keystring(key.c_str(), static_cast<rapidjson::SizeType>(key.length()), allocator);
 
         auto& currentNode = GetCurrentNode();
+        if (currentNode.IsObject() == false)currentNode.SetObject();
         currentNode.AddMember(keystring, keystring, allocator);
 
         PushNode(&currentNode[key.c_str()]);
@@ -88,12 +90,14 @@ namespace BDXKEngine
     }
     void JsonWriter::TransferValue(std::string& value)
     {
-        GetCurrentNode().SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.size()));
+        GetCurrentNode().SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.size()), GetAllocator());
     }
     void JsonWriter::TransferValue(ObjectPtrBase& value)
     {
+        std::string guid = SaveObject(value.GetInstanceID());
+        TransferValue(guid);
     }
-    void JsonWriter::TransferValue(ISerializable& value)
+    void JsonWriter::TransferValue(Serializable& value)
     {
         value.Transfer(*this);
     }

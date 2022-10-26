@@ -6,7 +6,7 @@ namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-    class HierarchyView : public EditorWindow
+    class HierarchyView : public EditorWindow, ObjectManager
     {
         std::unordered_map<int, bool> isSpreads;
 

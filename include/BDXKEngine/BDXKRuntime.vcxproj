@@ -647,7 +647,7 @@
     <ClInclude Include="Base\Serialization\Json\JsonReader.h" />
     <ClInclude Include="Base\Serialization\Json\JsonTransferrer.h" />
     <ClInclude Include="Base\Serialization\Transferrer.h" />
-    <ClInclude Include="Base\Serialization\ISerializable.h" />
+    <ClInclude Include="Base\Serialization\Serializable.h" />
     <ClInclude Include="Base\Vector\Vector2.h" />
     <ClInclude Include="Base\Vector\Vector3.h" />
     <ClInclude Include="Base\Vector\Vector4.h" />
@@ -751,8 +751,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>Output\</OutDir>
-    <IntDir>Output\Object\</IntDir>
+    <OutDir>$(SolutionDir)lib\</OutDir>
+    <IntDir>_\</IntDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -767,7 +767,6 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
@@ -784,7 +783,6 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>

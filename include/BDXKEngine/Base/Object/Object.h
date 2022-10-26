@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include "BDXKEngine/Base/Extension/String.h"
-#include "BDXKEngine/Base/Serialization/ISerializable.h"
+#include "BDXKEngine/Base/Serialization/Serializable.h"
 #include "BDXKEngine/Base/Serialization/Binary/BinaryWriter.h"
 #include "BDXKEngine/Base/Extension/Debug.h"
 
@@ -23,7 +23,7 @@ namespace BDXKEngine
     /// 最后系统调用FlushDestroyBuffer来使所有被标记的物体删除
     /// DestroyImmediate是立即删除
     /// </summary>
-    class Object : public ISerializable
+    class Object : public Serializable
     {
         friend ObjectManager;
     public:
@@ -146,7 +146,7 @@ namespace BDXKEngine
         static void FlushAwakeQueue();
         static void FlushDestroyQueue();
 
-        int instanceID = 0;
+        int instanceID = 0; //0是默认值，作为空值使用
         std::string name;
         bool isRunning = false;
         bool isDestroying = false;

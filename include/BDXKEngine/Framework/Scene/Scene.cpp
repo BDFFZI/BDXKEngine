@@ -10,13 +10,13 @@ namespace BDXKEngine
         return Instantiate<Scene>(&scene);
     }
 
-    const ObjectPtr<GraphicsSettings>& Scene::GetGraphicsSettings() const
-    {
-        return graphicsSettings;
-    }
     const ObjectPtr<QualitySettings>& Scene::GetQualitySettings() const
     {
         return qualitySettings;
+    }
+    const ObjectPtr<GraphicsSettings>& Scene::GetGraphicsSettings() const
+    {
+        return graphicsSettings;
     }
 
     ObjectPtr<GameObject> Scene::AddGameObject(const std::string& name)
@@ -68,5 +68,13 @@ namespace BDXKEngine
         Object::Destroy(qualitySettings.ToObjectBase());
 
         SwitchableObject::PreDestroy();
+    }
+    void Scene::Transfer(Transferrer& transferrer)
+    {
+        SwitchableObject::Transfer(transferrer);
+
+        transferrer.TransferField("qualitySettings", qualitySettings);
+        transferrer.TransferField("graphicsSettings", graphicsSettings);
+        transferrer.TransferField("gameObjects", gameObjects);
     }
 }

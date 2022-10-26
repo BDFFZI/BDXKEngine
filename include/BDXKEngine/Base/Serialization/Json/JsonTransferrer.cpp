@@ -2,6 +2,14 @@
 
 namespace BDXKEngine
 {
+    std::string JsonTransferrer::ToString() const
+    {
+        rapidjson::StringBuffer buffer{};
+        rapidjson::PrettyWriter writer{buffer};
+        document.Accept(writer);
+        return buffer.GetString();
+    }
+
     JsonTransferrer::JsonTransferrer(rapidjson::Document& buffer): document(buffer), nodes({&buffer})
     {
     }
@@ -13,7 +21,7 @@ namespace BDXKEngine
     {
         return document.GetAllocator();
     }
-    
+
     void JsonTransferrer::PushNode(rapidjson::Value* node)
     {
         nodes.push(node);

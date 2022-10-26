@@ -52,7 +52,7 @@ namespace BDXKEngine
         int instanceID = value.GetInstanceID();
         TransferValue(instanceID);
     }
-    void BinaryWriter::TransferValue(ISerializable& value)
+    void BinaryWriter::TransferValue(Serializable& value)
     {
         value.Transfer(*this);
     }

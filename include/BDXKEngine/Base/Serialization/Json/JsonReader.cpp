@@ -1,6 +1,6 @@
 ﻿#include "JsonReader.h"
 
-#include "BDXKEngine/Base/Serialization/ISerializable.h"
+#include "BDXKEngine/Base/Serialization/Serializable.h"
 
 namespace BDXKEngine
 {
@@ -82,7 +82,7 @@ namespace BDXKEngine
     void JsonReader::TransferValue(ObjectPtrBase& value)
     {
     }
-    void JsonReader::TransferValue(ISerializable& value)
+    void JsonReader::TransferValue(Serializable& value)
     {
         value.Transfer(*this);
     }

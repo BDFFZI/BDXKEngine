@@ -58,7 +58,7 @@ namespace BDXKEngine
         TransferValue(instanceID);
         value = Object::FindObjectOfInstanceID(instanceID);
     }
-    void BinaryReader::TransferValue(ISerializable& value)
+    void BinaryReader::TransferValue(Serializable& value)
     {
         value.Transfer(*this);
     }

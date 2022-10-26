@@ -20,12 +20,12 @@ namespace BDXKEngine
         ObjectPtr<GameObject> AddGameObject(const std::string& name = "New GameObject");
         ObjectPtr<GameObject> Find(const std::string& name);
     private:
-        //所有物体(由GameObject负责增减)
-        std::vector<ObjectPtr<GameObject>> gameObjects;
-        ObjectPtr<GraphicsSettings> graphicsSettings;
         ObjectPtr<QualitySettings> qualitySettings;
+        ObjectPtr<GraphicsSettings> graphicsSettings;
+        std::vector<ObjectPtr<GameObject>> gameObjects;//所有物体(由GameObject负责增减)
 
         void PreAwake() override;
         void PreDestroy() override;
+        void Transfer(Transferrer& transferrer) override;
     };
 }

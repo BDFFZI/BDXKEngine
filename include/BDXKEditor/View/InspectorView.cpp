@@ -63,7 +63,7 @@ namespace BDXKEditor
 
                 ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 30);
                 ImGui::BeginGroup();
-                static_cast<ISerializable*>(object)->Transfer(*this);
+                static_cast<Serializable*>(object)->Transfer(*this);
                 ImGui::EndGroup();
 
                 ImGui::Separator();
@@ -84,7 +84,7 @@ namespace BDXKEditor
         ImGui::LabelText(GetFieldID().c_str(), ("二进制数据[" + std::to_string(size) + "B]").c_str());
         // NOLINT(clang-diagnostic-format-security)
     }
-    void Inspector::TransferValue(ISerializable& value)
+    void Inspector::TransferValue(Serializable& value)
     {
         value.Transfer(*this);
     }
@@ -112,6 +112,6 @@ namespace BDXKEditor
         target = EditorSystem::GetFocusing();
         Object* targetObject = target.ToObjectBase();
         if (targetObject != nullptr)
-            static_cast<ISerializable*>(targetObject)->Transfer(inspector); // NOLINT(clang-diagnostic-format-security)
+            static_cast<Serializable*>(targetObject)->Transfer(inspector); // NOLINT(clang-diagnostic-format-security)
     }
 }

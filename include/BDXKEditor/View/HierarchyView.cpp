@@ -1,6 +1,9 @@
 ﻿#include "HierarchyView.h"
 #include "InspectorView.h"
+#include "SceneView.h"
+#include "BDXKEditor/Editor.h"
 #include "BDXKEditor/System/EditorSystem.h"
+#include "BDXKEngine/Base/Serialization/Json/JsonWriter.h"
 
 
 namespace BDXKEditor
@@ -56,30 +59,20 @@ namespace BDXKEditor
 
     void HierarchyView::OnGUI()
     {
-        ImGui::Button("保存");
-        if (ImGui::BeginDragDropTarget())
+        if (ImGui::Button("保存"))
         {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
-            {
-                ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
-                const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
-                if (droppingGameObject.IsNotNull())
-                    droppingGameObject->GetTransform()->SetParent(nullptr);
-            }
-            ImGui::EndDragDropTarget();
+            rapidjson::Document document;
+            document.Parse("{}");
+            JsonWriter writer(document);
+
+            Serializable* serializable = EditorSystem::GetMainScene().ToObjectBase();
+            serializable->Transfer(writer);
+
+            Debug::Log(writer.ToString());
         }
         ImGui::SameLine();
-        ImGui::Button("加载");
-        if (ImGui::BeginDragDropTarget())
+        if (ImGui::Button("加载"))
         {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
-            {
-                ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
-                const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
-                if (droppingGameObject.IsNotNull())
-                    droppingGameObject->GetTransform()->SetParent(nullptr);
-            }
-            ImGui::EndDragDropTarget();
         }
         ImGui::SameLine();
         ImGui::Button("孤儿箱");

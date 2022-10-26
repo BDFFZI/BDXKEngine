@@ -9,7 +9,7 @@
 
 namespace BDXKEngine
 {
-    class ISerializable;
+    class Serializable;
     class ObjectPtrBase;
 
     enum class TransferDirection
@@ -48,6 +48,15 @@ namespace BDXKEngine
             TransferValue(source, size);
             PopPath(key);
         }
+        template <typename TSource>
+        void TransferValue(std::vector<TSource>& vector)
+        {
+            int count = static_cast<int>(vector.size());
+            TransferField("size", count);
+            vector.resize(count);
+            for (int i = 0; i < count; i++)
+                TransferField("item" + std::to_string(i), vector[i]);
+        }
 
         virtual ~Transferrer() = default;
     protected:
@@ -64,7 +73,7 @@ namespace BDXKEngine
         virtual void TransferValue(Rect& value) = 0;
         virtual void TransferValue(std::string& value) = 0;
         virtual void TransferValue(ObjectPtrBase& value) = 0;
-        virtual void TransferValue(ISerializable& value) = 0;
+        virtual void TransferValue(Serializable& value) = 0;
         virtual void TransferValue(std::vector<ObjectPtrBase>& vector) = 0;
         //virtual void TransferVector(std::string key, std::vector<ISerializable>& vector) = 0;
         virtual void TransferValue(char* source, int size) = 0;
