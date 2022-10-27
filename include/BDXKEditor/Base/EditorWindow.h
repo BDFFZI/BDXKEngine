@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "BDXKEngine/Framework/Component/Renderer/RenderEvent.h"
 #include "BDXKEngine/Framework/Object/ScriptableObject.h"
-#include "BDXKEditor/System/EditorSystem.h"
 
 namespace BDXKEditor
 {

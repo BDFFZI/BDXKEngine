@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <BDXKEngine/Engine.h>
-#include "BDXKEditor/System/EditorSystem.h"
+#include "BDXKEditor/Framework/EditorSystem.h"
 
 namespace BDXKEditor
 {

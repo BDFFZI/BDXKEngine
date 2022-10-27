@@ -153,11 +153,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Editor.h" />
-    <ClInclude Include="Menu\CreationMenu.h" />
-    <ClInclude Include="System\EditorSystem.h" />
-    <ClInclude Include="Tools\CameraController.h" />
-    <ClInclude Include="View\EditorWindow.h" />
+    <ClInclude Include="Base\Editor.h" />
+    <ClInclude Include="Base\EditorWindow.h" />
+    <ClInclude Include="BDXKEditor.h" />
+    <ClInclude Include="Framework\HierarchyView.h" />
+    <ClInclude Include="Framework\InspectorView.h" />
+    <ClInclude Include="Framework\MaterialHUD.h" />
+    <ClInclude Include="Framework\SceneView.h" />
+    <ClInclude Include="Function\CameraController.h" />
+    <ClInclude Include="Function\CreationMenu.h" />
+    <ClInclude Include="Framework\EditorSystem.h" />
     <ClInclude Include="View\HierarchyView.h" />
     <ClInclude Include="View\InspectorView.h" />
     <ClInclude Include="View\MaterialHUD.h" />
@@ -170,7 +175,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="System\EditorSystem.cpp">
+    <ClCompile Include="Base\Editor.cpp" />
+    <ClCompile Include="Base\EditorWindow.cpp">
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -245,7 +251,7 @@
       <SDLCheck>true</SDLCheck>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="View\EditorWindow.cpp">
+    <ClCompile Include="Framework\EditorSystem.cpp">
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -320,10 +326,8 @@
       <SDLCheck>true</SDLCheck>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="View\HierarchyView.cpp" />
-    <ClCompile Include="View\InspectorView.cpp" />
-    <ClCompile Include="View\SceneView.cpp">
-      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+    <ClCompile Include="Framework\HierarchyView.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
       <SupportJustMyCode>true</SupportJustMyCode>
@@ -392,10 +396,16 @@
       <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
       <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;_UNICODE;UNICODE;_UNICODE;UNICODE;</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include;;C:\Users\BDFFZI\Desktop\BDXKEngine\include\BDXKEditor\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 </AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
+    <ClCompile Include="Framework\InspectorView.cpp" />
+    <ClCompile Include="Framework\SceneView.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

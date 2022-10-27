@@ -21,9 +21,7 @@ namespace BDXKEngine
         void TransferValue(std::string& value) override;
         void TransferValue(ObjectPtrBase& value) override;
         void TransferValue(Serializable& value) override;
-        void TransferValue(std::vector<ObjectPtrBase>& vector) override;
         void TransferValue(char* source, int size) override;
-        //void TransferVector( std::vector<ISerializable>& vector) override;
     private:
         template <typename TValue>
         void Write(TValue value)
@@ -32,18 +30,3 @@ namespace BDXKEngine
         }
     };
 }
-
-//std::stringstream stream = {};
-//BinaryExporter exporter = { stream };
-//exporter.TransferInt(123);
-//exporter.TransferVector3(Vector3{ 1,2,3 });
-//exporter.TransferString("BDXK引擎");
-//char binary[] = { 127,63,32 };
-//exporter.TransferBytes(binary, 3);
-//
-//BinaryImporter importer = { stream };
-//int intValue = importer.TransferInt();
-//Vector3 vector3Value = importer.TransferVector3();
-//std::string stringValue = importer.TransferString();
-//char binaryValue[3];
-//importer.TransferBytes(binaryValue, 3);

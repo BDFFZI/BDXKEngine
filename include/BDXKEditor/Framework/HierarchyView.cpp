@@ -1,8 +1,6 @@
 ﻿#include "HierarchyView.h"
 #include "InspectorView.h"
-#include "SceneView.h"
-#include "BDXKEditor/Editor.h"
-#include "BDXKEditor/System/EditorSystem.h"
+#include "EditorSystem.h"
 #include "BDXKEngine/Base/Serialization/Json/JsonWriter.h"
 
 

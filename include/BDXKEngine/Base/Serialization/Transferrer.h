@@ -74,8 +74,6 @@ namespace BDXKEngine
         virtual void TransferValue(std::string& value) = 0;
         virtual void TransferValue(ObjectPtrBase& value) = 0;
         virtual void TransferValue(Serializable& value) = 0;
-        virtual void TransferValue(std::vector<ObjectPtrBase>& vector) = 0;
-        //virtual void TransferVector(std::string key, std::vector<ISerializable>& vector) = 0;
         virtual void TransferValue(char* source, int size) = 0;
     };
 }

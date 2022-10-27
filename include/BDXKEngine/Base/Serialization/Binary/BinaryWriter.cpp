@@ -56,22 +56,24 @@ namespace BDXKEngine
     {
         value.Transfer(*this);
     }
-    void BinaryWriter::TransferValue(std::vector<ObjectPtrBase>& vector)
-    {
-        int count = static_cast<int>(vector.size());
-        TransferValue(count);
-        for (int i = 0; i < count; i++)
-            TransferValue(vector[i]);
-    }
     void BinaryWriter::TransferValue(char* source, int size)
     {
         stream.write(source, size);
     }
-    // void BinaryExporter::TransferVector( std::vector<ISerializable>& vector)
-    // {
-    //     int count = static_cast<int>(vector.size());
-    //     TransferInt(key + "_count", count);
-    //     for (int i = 0; i < count; i++)
-    //         vector[i].Transfer(*this);
-    // }
 }
+
+//std::stringstream stream = {};
+//BinaryExporter exporter = { stream };
+//exporter.TransferInt(123);
+//exporter.TransferVector3(Vector3{ 1,2,3 });
+//exporter.TransferString("BDXK引擎");
+//char binary[] = { 127,63,32 };
+//exporter.TransferBytes(binary, 3);
+//
+//BinaryImporter importer = { stream };
+//int intValue = importer.TransferInt();
+//Vector3 vector3Value = importer.TransferVector3();
+//std::string stringValue = importer.TransferString();
+//char binaryValue[3];
+//importer.TransferBytes(binaryValue, 3);
+

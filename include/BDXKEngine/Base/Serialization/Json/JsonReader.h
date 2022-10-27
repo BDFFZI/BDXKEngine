@@ -24,7 +24,6 @@ namespace BDXKEngine
         void TransferValue(std::string& value) override;
         void TransferValue(ObjectPtrBase& value) override;
         void TransferValue(Serializable& value) override;
-        void TransferValue(std::vector<ObjectPtrBase>& vector) override;
         void TransferValue(char* source, int size) override;
     public:
     };

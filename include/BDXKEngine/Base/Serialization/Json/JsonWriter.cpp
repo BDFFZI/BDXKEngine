@@ -101,9 +101,6 @@ namespace BDXKEngine
     {
         value.Transfer(*this);
     }
-    void JsonWriter::TransferValue(std::vector<ObjectPtrBase>& vector)
-    {
-    }
     void JsonWriter::TransferValue(char* source, int size)
     {
     }

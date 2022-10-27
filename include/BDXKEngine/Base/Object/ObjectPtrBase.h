@@ -82,12 +82,10 @@ namespace BDXKEngine
             const Object* otherObject = other.ToObjectBase();
             return object == otherObject;
         }
-
         bool operator !=(const ObjectPtrBase& other) const
         {
             return !(*this == other);
         }
-
         bool IsNull() const
         {
             return ToObjectBase() == nullptr;
@@ -100,7 +98,7 @@ namespace BDXKEngine
         template <typename TObject>
         TObject* ToObject() const
         {
-            return static_cast<TObject*>(ToObjectBase());
+            return dynamic_cast<TObject*>(ToObjectBase());
         }
         Object* ToObjectBase() const
         {

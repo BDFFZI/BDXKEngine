@@ -9,11 +9,16 @@ namespace BDXKEngine
     std::vector<Object*> Object::postDestroyQueue;
     std::vector<Object*> Object::postAwakeQueue;
 
-    std::unordered_map<std::string, std::function<Object*()>> Object::serializationInfo = {};
+    std::unordered_map<std::string, std::function<Object*()>> Object::creators = {};
 
     void Object::DebugObjectCount()
     {
         Debug::LogWarning("当前所有Object数量:" + std::to_string(allObjects.size()));
+    }
+    Object* Object::GetCreator(const std::string& typeID)
+    {
+        const auto constructor = creators.find(typeID);
+        return constructor == creators.end() ? nullptr : constructor->second();
     }
 
     Object* Object::InstantiateNoAwake(Object* serializer)
@@ -21,26 +26,18 @@ namespace BDXKEngine
         if (serializer == nullptr)
             Debug::LogException("实例化的物体为空");
 
-        //取出类型信息
+        //创建实例
+        const std::string typeID = serializer->GetTypeID();
+        Object* creator = GetCreator(typeID);
+        if (creator == nullptr)
+            Debug::LogException("该类型(" + typeID + ")的创建器未被注册");
+        //填充数据
         std::stringstream stream = {};
         BinaryWriter exporter = {stream};
         serializer->Transfer(exporter);
         BinaryReader importer = {stream};
-        std::string typenameTemp;
-        importer.TransferField("typename", typenameTemp);
-        if (typenameTemp.empty())
-            Debug::LogException("无法获取类型ID，检查Transfer(Transferer&)的重写是否规范");
-
-        //重新取出数据
-        stream.str("");
-        serializer->Transfer(exporter);
-        //创建实例
-        const auto constructor = serializationInfo.find(typenameTemp);
-        if (constructor == serializationInfo.end())
-            Debug::LogException("该类型(" + typenameTemp + ")的序列化信息未被注册");
-        Object* result = constructor->second();
-        result->Transfer(importer);
-        return result;
+        creator->Transfer(importer);
+        return creator;
     }
 
     void Object::DestroyImmediate(Object* object)
@@ -90,6 +87,10 @@ namespace BDXKEngine
 
         return nullptr;
     }
+    std::string Object::GetTypeID() const
+    {
+        return std::string(typeid(*this).name()).substr(6);
+    }
 
     int Object::GetInstanceID() const
     {
@@ -121,13 +122,11 @@ namespace BDXKEngine
 
     void Object::Transfer(Transferrer& transferrer)
     {
-        std::string serializationID = ParseTypeID(this);
-
-        if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
-            transferrer.TransferField("serializationID", serializationID);
-
+        std::string typeID = GetTypeID();
+        transferrer.TransferField("typeID", typeID);
         std::string nameTemp = name;
         transferrer.TransferField("name", nameTemp);
+
         if (nameTemp.empty() == false) name = nameTemp;
     }
     void Object::PreAwake()

@@ -1,4 +1,4 @@
-﻿#include "EditorWindow.h"
+﻿#include "BDXKEditor/Base/EditorWindow.h"
 
 #include "imgui/imgui.h"
 
@@ -17,7 +17,7 @@ namespace BDXKEditor
 
     void EditorWindow::OnDrawGUI()
     {
-        ImGui::Begin(ParseTypeID(this).c_str());
+        ImGui::Begin(this->GetTypeID().c_str());
 
         OnGUI();
 

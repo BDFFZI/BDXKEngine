@@ -1,19 +1,19 @@
 ﻿#include "EditorSystem.h"
-#include "Tools/CameraController.h"
-#include "View/EditorWindow.h"
-#include "View/SceneView.h"
-#include "View/HierarchyView.h"
-#include "View/InspectorView.h"
+#include "Function/CameraController.h"
+#include "SceneView.h"
+#include "HierarchyView.h"
+#include "InspectorView.h"
 
 namespace BDXKEditor
 {
+    std::unordered_map<std::string, std::function<Editor*()>> EditorSystem::editors;
     ObjectPtr<Scene> EditorSystem::mainScene;
     ObjectPtrBase EditorSystem::dragging;
     ObjectPtrBase EditorSystem::focusing;
     ObjectPtr<SceneView> EditorSystem::sceneView;
     ObjectPtr<HierarchyView> EditorSystem::hierarchyView;
     ObjectPtr<InspectorView> EditorSystem::inspectorView;
-    
+
     const ObjectPtr<Scene>& EditorSystem::GetMainScene()
     {
         return mainScene;
@@ -65,6 +65,7 @@ namespace BDXKEditor
     }
     void EditorSystem::OnAwake()
     {
+        SetCreator<Editor>();
         SetCreator<SceneView>();
         SetCreator<HierarchyView>();
         SetCreator<InspectorView>();

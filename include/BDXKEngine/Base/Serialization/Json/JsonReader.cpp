@@ -86,9 +86,6 @@ namespace BDXKEngine
     {
         value.Transfer(*this);
     }
-    void JsonReader::TransferValue(std::vector<ObjectPtrBase>& vector)
-    {
-    }
     void JsonReader::TransferValue(char* source, int size)
     {
     }

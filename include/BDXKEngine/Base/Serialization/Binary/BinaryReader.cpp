@@ -51,7 +51,6 @@ namespace BDXKEngine
 
         delete[] data;
     }
-
     void BinaryReader::TransferValue(ObjectPtrBase& value)
     {
         int instanceID = 0;
@@ -62,25 +61,8 @@ namespace BDXKEngine
     {
         value.Transfer(*this);
     }
-    void BinaryReader::TransferValue(std::vector<ObjectPtrBase>& vector)
-    {
-        //TODO 安全回收
-        int count = 0;
-        TransferValue(count);
-        vector.resize(count);
-        for (int i = 0; i < count; i++)
-            TransferValue(vector[i]);
-    }
     void BinaryReader::TransferValue(char* source, int size)
     {
         stream.read(source, size);
     }
-    // void BinaryImporter::TransferVector( std::vector<ISerializable>& vector)
-    // {
-    //     int count = 0;
-    //     TransferInt(key + "_count", count);
-    //     vector.resize(count);
-    //     for (int i = 0; i < count; i++)
-    //         vector[i].Transfer(*this);
-    // }
 }
