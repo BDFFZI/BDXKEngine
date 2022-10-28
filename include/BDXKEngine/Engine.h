@@ -65,6 +65,7 @@
 #include "BDXKEngine/Framework/Component/Transform.h"
 #include "BDXKEngine/Framework/Component/Renderer/MeshRenderer.h"
 #include "BDXKEngine/Framework/Component/Renderer/Camera.h"
+#include "BDXKEngine/Framework/Component/Renderer/Light.h"
 #include "BDXKEngine/Framework/Component/Renderer/RenderEvent.h"
 #include "BDXKEngine/Framework/Component/Behavior/Animator.h"
 #include "BDXKEngine/Framework/Scene/GraphicsSettings.h"

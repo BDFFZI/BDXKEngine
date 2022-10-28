@@ -3,14 +3,21 @@
 #include "BDXKEngine/Base/Object/ObjectPtr.h"
 #include "BDXKEngine/Framework/Object/SwitchableObject.h"
 
+namespace BDXKEditor
+{
+    class GameObjectEditor;
+}
+
 namespace BDXKEngine
 {
     class Scene;
     class Component;
     class Transform;
 
+
     class GameObject : public SwitchableObject, public SwitchableObjectEvent::UpdateHandler
     {
+        friend BDXKEditor::GameObjectEditor;
         friend Scene;
         friend Component;
     public:

@@ -101,6 +101,6 @@ namespace BDXKEngine
     {
         Object::Transfer(transferrer);
 
-        TransferProperty(IsEnabling)
+        TransferProperty(IsEnabling);
     }
 }

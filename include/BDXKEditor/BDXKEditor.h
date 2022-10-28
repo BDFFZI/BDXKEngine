@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include <BDXKEngine/Engine.h>
 #include <rapidjson/writer.h>
+#include "EditorSystem.h"
 #include "BDXKEngine/Base/Serialization/Json/JsonWriter.h"
-#include "BDXKEditor/Function/CreationMenu.h"
-#include "BDXKEditor/Framework/EditorSystem.h"
+#include "EditorWindow/CreationView.h"
 
 
 namespace BDXKEditor
@@ -32,21 +32,21 @@ namespace BDXKEditor
             }));
         }
 
-        ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere("小球");
+        ObjectPtr<GameObject> sphere = CreationWindow::Object3D::Sphere("小球");
         ObjectPtr<Light> sphere_light;
         {
             ObjectPtr<Transform> transform = sphere->GetTransform();
             transform->SetParent(aureole->GetTransform());
             transform->SetLocalScale({0.1f, 0.1f, 0.1f});
 
-            sphere_light = CreationMenu::Light::PointLight("红色点光源")->GetComponent<Light>();
+            sphere_light = CreationWindow::Light::PointLight("红色点光源")->GetComponent<Light>();
             sphere_light->SetLightType(LightType::Point);
             sphere_light->SetColor(Color::red);
             sphere_light->SetIntensity(0.5f);
             sphere_light->GetTransform()->SetParent(sphere->GetTransform());
         }
 
-        ObjectPtr<GameObject> cube = CreationMenu::Object3D::Cube("棍子");
+        ObjectPtr<GameObject> cube = CreationWindow::Object3D::Cube("棍子");
         {
             ObjectPtr<Transform> transform = cube->GetTransform();
             transform->SetParent(aureole->GetTransform());
@@ -59,7 +59,7 @@ namespace BDXKEditor
         {
             EditorSystem::SetMainScene(scene);
 
-            CreationMenu::CreateDefaultScene();
+            CreationWindow::CreateDefaultScene();
             TestLight();
         });
 

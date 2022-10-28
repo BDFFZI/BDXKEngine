@@ -1,12 +1,12 @@
-﻿#include "HierarchyView.h"
-#include "InspectorView.h"
-#include "EditorSystem.h"
+﻿#include "HierarchyWindow.h"
+#include "InspectorWindow.h"
+#include "BDXKEditor/EditorSystem.h"
 #include "BDXKEngine/Base/Serialization/Json/JsonWriter.h"
 
 
 namespace BDXKEditor
 {
-    void HierarchyView::DrawGameObject(const ObjectPtr<GameObject>& gameObject, float offsetX)
+    void HierarchyWindow::DrawGameObject(const ObjectPtr<GameObject>& gameObject, float offsetX)
     {
         const int instanceID = gameObject->GetInstanceID();
         const std::string name = gameObject->GetName();
@@ -55,7 +55,7 @@ namespace BDXKEditor
         }
     }
 
-    void HierarchyView::OnGUI()
+    void HierarchyWindow::OnGUI()
     {
         if (ImGui::Button("保存"))
         {

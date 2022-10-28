@@ -153,20 +153,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Base\Editor.h" />
-    <ClInclude Include="Base\EditorWindow.h" />
     <ClInclude Include="BDXKEditor.h" />
-    <ClInclude Include="Framework\HierarchyView.h" />
-    <ClInclude Include="Framework\InspectorView.h" />
-    <ClInclude Include="Framework\MaterialHUD.h" />
-    <ClInclude Include="Framework\SceneView.h" />
-    <ClInclude Include="Function\CameraController.h" />
-    <ClInclude Include="Function\CreationMenu.h" />
-    <ClInclude Include="Framework\EditorSystem.h" />
-    <ClInclude Include="View\HierarchyView.h" />
-    <ClInclude Include="View\InspectorView.h" />
-    <ClInclude Include="View\MaterialHUD.h" />
-    <ClInclude Include="View\SceneView.h" />
+    <ClInclude Include="EditorSystem.h" />
+    <ClInclude Include="EditorWindow\CreationView.h" />
+    <ClInclude Include="EditorWindow\EditorWindow.h" />
+    <ClInclude Include="EditorWindow\HierarchyWindow.h" />
+    <ClInclude Include="EditorWindow\InspectorWindow.h" />
+    <ClInclude Include="EditorWindow\SceneWindow.h" />
+    <ClInclude Include="Editor\ComponentEditor.h" />
+    <ClInclude Include="Editor\Editor.h" />
+    <ClInclude Include="Editor\GameObjectEditor.h" />
+    <ClInclude Include="Editor\MaterialEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BDXKEngine\BDXKRuntime.vcxproj">
@@ -175,8 +172,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Base\Editor.cpp" />
-    <ClCompile Include="Base\EditorWindow.cpp">
+    <ClCompile Include="EditorSystem.cpp">
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -251,7 +247,7 @@
       <SDLCheck>true</SDLCheck>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="Framework\EditorSystem.cpp">
+    <ClCompile Include="EditorWindow\EditorWindow.cpp">
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -326,7 +322,7 @@
       <SDLCheck>true</SDLCheck>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="Framework\HierarchyView.cpp">
+    <ClCompile Include="EditorWindow\HierarchyWindow.cpp">
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -401,11 +397,85 @@
       <SDLCheck>true</SDLCheck>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="Framework\InspectorView.cpp" />
-    <ClCompile Include="Framework\SceneView.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View" />
+    <ClCompile Include="EditorWindow\InspectorWindow.cpp" />
+    <ClCompile Include="EditorWindow\SceneWindow.cpp" />
+    <ClCompile Include="Editor\ComponentEditor.cpp" />
+    <ClCompile Include="Editor\Editor.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>_\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>_\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>_\</ModuleDependenciesFile>
+      <ModuleOutputFile>_\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>_\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>C:\Users\BDFFZI\Desktop\BDXKEngine\lib\BDXKEditor.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>_\BDXKEditor.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>_\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>_\BDXKEditor.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>_\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;_UNICODE;UNICODE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 </AdditionalOptions>
+      <SDLCheck>true</SDLCheck>
+      <LibCompiled>true</LibCompiled>
+    </ClCompile>
+    <ClCompile Include="Editor\GameObjectEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

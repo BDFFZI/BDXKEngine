@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include <BDXKEngine/Engine.h>
-#include "BDXKEditor/Framework/EditorSystem.h"
+#include "BDXKEditor/EditorSystem.h"
 
 namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-    namespace CreationMenu
+    namespace CreationWindow
     {
         class Object3D
         {
@@ -94,10 +94,10 @@ namespace BDXKEditor
 
         static void CreateDefaultScene()
         {
-            ObjectPtr<GameObject> sun = CreationMenu::Light::DirectionalLight("太阳");
-            ObjectPtr<GameObject> ground = CreationMenu::Object3D::Plane("地面");
-            ObjectPtr<GameObject> sphere = CreationMenu::Object3D::Sphere("球");
-            const ObjectPtr<GameObject> camera = CreationMenu::Camera("摄像机");
+            ObjectPtr<GameObject> sun = CreationWindow::Light::DirectionalLight("太阳");
+            ObjectPtr<GameObject> ground = CreationWindow::Object3D::Plane("地面");
+            ObjectPtr<GameObject> sphere = CreationWindow::Object3D::Sphere("球");
+            const ObjectPtr<GameObject> camera = CreationWindow::Camera("摄像机");
             //太阳
             {
                 ObjectPtr<Transform> transform = sun->GetTransform();

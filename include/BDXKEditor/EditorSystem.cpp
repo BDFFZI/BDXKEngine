@@ -1,8 +1,8 @@
 ﻿#include "EditorSystem.h"
-#include "Function/CameraController.h"
-#include "SceneView.h"
-#include "HierarchyView.h"
-#include "InspectorView.h"
+#include "BDXKEditor/EditorWindow/SceneWindow.h"
+#include "BDXKEditor/EditorWindow/HierarchyWindow.h"
+#include "BDXKEditor/EditorWindow/InspectorWindow.h"
+#include "BDXKEditor/Editor/GameObjectEditor.h"
 
 namespace BDXKEditor
 {
@@ -10,9 +10,9 @@ namespace BDXKEditor
     ObjectPtr<Scene> EditorSystem::mainScene;
     ObjectPtrBase EditorSystem::dragging;
     ObjectPtrBase EditorSystem::focusing;
-    ObjectPtr<SceneView> EditorSystem::sceneView;
-    ObjectPtr<HierarchyView> EditorSystem::hierarchyView;
-    ObjectPtr<InspectorView> EditorSystem::inspectorView;
+    ObjectPtr<SceneWindow> EditorSystem::sceneView;
+    ObjectPtr<HierarchyWindow> EditorSystem::hierarchyView;
+    ObjectPtr<InspectorWindow> EditorSystem::inspectorView;
 
     const ObjectPtr<Scene>& EditorSystem::GetMainScene()
     {
@@ -26,15 +26,15 @@ namespace BDXKEditor
     {
         return focusing;
     }
-    const ObjectPtr<SceneView>& EditorSystem::GetSceneView()
+    const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
     {
         return sceneView;
     }
-    const ObjectPtr<HierarchyView>& EditorSystem::GetHierarchyView()
+    const ObjectPtr<HierarchyWindow>& EditorSystem::GetHierarchyView()
     {
         return hierarchyView;
     }
-    const ObjectPtr<InspectorView>& EditorSystem::GetInspectorView()
+    const ObjectPtr<InspectorWindow>& EditorSystem::GetInspectorView()
     {
         return inspectorView;
     }
@@ -66,14 +66,17 @@ namespace BDXKEditor
     void EditorSystem::OnAwake()
     {
         SetCreator<Editor>();
-        SetCreator<SceneView>();
-        SetCreator<HierarchyView>();
-        SetCreator<InspectorView>();
+        SetCreator<SceneWindow>();
+        SetCreator<HierarchyWindow>();
+        SetCreator<InspectorWindow>();
         SetCreator<CameraController>();
+        SetCreator<GameObjectEditor>();
+        
+        SetEditor<GameObject, GameObjectEditor>();
 
-        sceneView = EditorWindow::Create<SceneView>();
-        hierarchyView = EditorWindow::Create<HierarchyView>();
-        inspectorView = EditorWindow::Create<InspectorView>();
+        sceneView = EditorWindow::Create<SceneWindow>();
+        hierarchyView = EditorWindow::Create<HierarchyWindow>();
+        inspectorView = EditorWindow::Create<InspectorWindow>();
 
         sceneView->Show();
         hierarchyView->Show();

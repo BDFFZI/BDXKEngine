@@ -164,9 +164,9 @@ namespace BDXKEngine
         Component::Transfer(transferrer);
 
 
-        TransferProperty(LocalPosition)
-        TransferProperty(LocalEulerAngles)
-        TransferProperty(LocalScale)
+        TransferProperty(LocalPosition);
+        TransferProperty(LocalEulerAngles);
+        TransferProperty(LocalScale);
 
         if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
         {

@@ -2,31 +2,31 @@
 #include "BDXKEngine/Framework/Component/Behavior/Behavior.h"
 #include "BDXKEngine/Framework/Component/Renderer/RenderEvent.h"
 #include "BDXKEngine/Framework/Scene/Scene.h"
-#include "BDXKEditor/Base/Editor.h"
+#include "Editor/Editor.h"
 
 namespace BDXKEditor
 {
-    class InspectorView;
-    class HierarchyView;
-    class SceneView;
+    class InspectorWindow;
+    class HierarchyWindow;
+    class SceneWindow;
     using namespace BDXKEngine;
 
     class EditorSystem : public Behavior, public AwakeHandler, public DestroyHandler, public DrawGUIHandler
     {
     public:
-        static ObjectPtr<Editor> GetEditor(const std::string& typeID, const ObjectPtrBase& target)
+        static ObjectPtr<Editor> GetEditor(const std::string& typeID)
         {
             const auto item = editors.find(typeID);
             const std::unique_ptr<Editor> editor(item == editors.end() ? new Editor() : item->second());
-            editor->SetTarget(target);
+            editor->SetIsEnabling(false);
             return Instantiate(editor.get());
         }
         static const ObjectPtr<Scene>& GetMainScene();
         static const ObjectPtrBase& GetDragging();
         static const ObjectPtrBase& GetFocusing();
-        static const ObjectPtr<SceneView>& GetSceneView();
-        static const ObjectPtr<HierarchyView>& GetHierarchyView();
-        static const ObjectPtr<InspectorView>& GetInspectorView();
+        static const ObjectPtr<SceneWindow>& GetSceneView();
+        static const ObjectPtr<HierarchyWindow>& GetHierarchyView();
+        static const ObjectPtr<InspectorWindow>& GetInspectorView();
 
         template <typename TObject, typename TEditor>
         static void SetEditor()
@@ -42,9 +42,9 @@ namespace BDXKEditor
         static ObjectPtr<Scene> mainScene;
         static ObjectPtrBase dragging;
         static ObjectPtrBase focusing;
-        static ObjectPtr<SceneView> sceneView;
-        static ObjectPtr<HierarchyView> hierarchyView;
-        static ObjectPtr<InspectorView> inspectorView;
+        static ObjectPtr<SceneWindow> sceneView;
+        static ObjectPtr<HierarchyWindow> hierarchyView;
+        static ObjectPtr<InspectorWindow> inspectorView;
 
         void OnDrawGUI() override;
         void OnAwake() override;

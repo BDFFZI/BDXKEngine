@@ -17,6 +17,8 @@ namespace BDXKEngine
         void SetIsEnabling(bool state);
 
         bool IsActivatingAndEnabling() const;
+        
+        void Transfer(Transferrer& transferrer) override;
         std::string ToString() override;
     protected:
         bool isAwakened = false;
@@ -26,6 +28,5 @@ namespace BDXKEngine
         virtual void Disable();
         void Awake() override;
         void PreDestroy() override;
-        void Transfer(Transferrer& transferrer) override;
     };
 }

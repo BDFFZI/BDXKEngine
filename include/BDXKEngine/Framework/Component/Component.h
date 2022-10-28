@@ -6,6 +6,7 @@ namespace BDXKEngine
 {
     class Transform;
     class GameObject;
+
     //确保TComponent有默认构造函数
     class Component : public ScriptableObject
     {
@@ -15,8 +16,8 @@ namespace BDXKEngine
         ObjectPtr<GameObject> GetGameObject();
         ObjectPtr<Transform> GetTransform();
         bool GetIsActivating() const override;
-    protected:
         void Transfer(Transferrer& transferrer) override;
+    protected:
         void Destroy() override;
     private:
         ObjectPtr<GameObject> gameObject = nullptr;

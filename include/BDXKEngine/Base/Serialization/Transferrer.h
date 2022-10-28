@@ -7,6 +7,7 @@
 #include "BDXKEngine/Base/Color.h"
 #include "BDXKEngine/Base/Rect.h"
 
+
 namespace BDXKEngine
 {
     class Serializable;
@@ -21,12 +22,16 @@ namespace BDXKEngine
 
     class Transferrer
     {
-    public:
 #define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
-    transferrer.TransferField(#propertyName,propertyName);\
-    Set##propertyName(propertyName);
+transferrer.TransferField(#propertyName,propertyName);\
+Set##propertyName(propertyName)
+#define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
+transferrer.TransferField(#propertyName,propertyName)
 
+    public:
         virtual TransferDirection GetTransferDirection() = 0;
+        virtual void PushPath(const std::string& key) = 0;
+        virtual void PopPath(std::string& key) =0;
 
         template <typename TSource>
         void TransferField(std::string key, TSource& value)
@@ -60,9 +65,6 @@ namespace BDXKEngine
 
         virtual ~Transferrer() = default;
     protected:
-        virtual void PushPath(const std::string& key) = 0;
-        virtual void PopPath(std::string& key) =0;
-
         virtual void TransferValue(int& value) = 0;
         virtual void TransferValue(float& value) = 0;
         virtual void TransferValue(bool& value) = 0;

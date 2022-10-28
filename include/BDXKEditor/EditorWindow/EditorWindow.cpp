@@ -1,6 +1,5 @@
-﻿#include "BDXKEditor/Base/EditorWindow.h"
-
-#include "imgui/imgui.h"
+﻿#include "imgui/imgui.h"
+#include "EditorWindow.h"
 
 
 namespace BDXKEditor
