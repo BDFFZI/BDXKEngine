@@ -12,12 +12,12 @@ namespace BDXKEngine
         return gameObject->IsActivatingAndEnabling();
     }
     
-    void Component::Transfer(Transferrer& transferrer)
+    void Component::Transfer(transferer& transferer)
     {
-        ScriptableObject::Transfer(transferrer);
+        ScriptableObject::Transfer(transferer);
 
-        if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
-            transferrer.TransferField(nameof(gameObject), gameObject);
+        if (transferer.GetTransferDirection() != TransferDirection::Inspect)
+            transferer.TransferField(nameof(gameObject), gameObject);
     }
     void Component::Destroy()
     {

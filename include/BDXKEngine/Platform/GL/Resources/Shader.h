@@ -41,7 +41,7 @@ namespace BDXKEngine
         CComPtr<ID3D11VertexShader> vertexShader;
         CComPtr<ID3D11PixelShader> pixelShader;
 
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
         void PreAwake() override;
     };
 }

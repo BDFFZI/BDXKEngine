@@ -25,7 +25,7 @@ namespace BDXKEngine
 
         CComPtr<ID3D11Buffer> glBuffer;
 
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
         void PreAwake() override;
     };
 }

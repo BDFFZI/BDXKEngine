@@ -18,7 +18,7 @@ namespace BDXKEngine
 
         bool IsActivatingAndEnabling() const;
         
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
         std::string ToString() override;
     protected:
         bool isAwakened = false;

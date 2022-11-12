@@ -201,18 +201,18 @@ namespace BDXKEngine
         transform = GetGameObject()->GetTransform();
     }
 
-    void Camera::Transfer(Transferrer& transferrer)
+    void Camera::Transfer(transferer& transferer)
     {
-        Component::Transfer(transferrer);
+        Component::Transfer(transferer);
 
-        transferrer.TransferField("renderTarget", renderTarget);
-        transferrer.TransferFieldOf<int>("clearFlags", clearFlags);
-        transferrer.TransferFieldOf<int>("projection", projection);
-        transferrer.TransferField("background", background);
-        transferrer.TransferField("nearClipPlane", nearClipPlane);
-        transferrer.TransferField("farClipPlane", farClipPlane);
-        transferrer.TransferField("fieldOfView", fieldOfView);
-        transferrer.TransferField("size", size);
-        transferrer.TransferField("depth", depth);
+        transferer.TransferField("renderTarget", renderTarget);
+        transferer.TransferFieldOf<int>("clearFlags", clearFlags);
+        transferer.TransferFieldOf<int>("projection", projection);
+        transferer.TransferField("background", background);
+        transferer.TransferField("nearClipPlane", nearClipPlane);
+        transferer.TransferField("farClipPlane", farClipPlane);
+        transferer.TransferField("fieldOfView", fieldOfView);
+        transferer.TransferField("size", size);
+        transferer.TransferField("depth", depth);
     }
 }

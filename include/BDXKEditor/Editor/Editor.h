@@ -12,14 +12,14 @@ namespace BDXKEditor
     {
     public:
         void SetTarget(ObjectPtrBase& target);
-        void SetGui(Transferrer& gui);
+        void SetGui(transferer& gui);
 
         virtual void OnInspectorGUI();
         virtual void OnSceneGUI();
     protected:
         ObjectPtrBase target = nullptr;
-        Transferrer* gui = nullptr;
+        transferer* gui = nullptr;
     private:
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
     };
 }

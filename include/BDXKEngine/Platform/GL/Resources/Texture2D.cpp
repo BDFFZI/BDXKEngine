@@ -23,12 +23,12 @@ namespace BDXKEngine
         return Object::Instantiate<Texture2D>(&texture2d);
     }
 
-    void Texture2D::Transfer(Transferrer& transferrer)
+    void Texture2D::Transfer(transferer& transferer)
     {
-        Texture::Transfer(transferrer);
+        Texture::Transfer(transferer);
 
-        if (transferrer.GetTransferDirection() == TransferDirection::Input)pixels = std::unique_ptr<Color[]>(new Color[width * height]);
-        transferrer.TransferField(nameof(pixels), reinterpret_cast<char*>(pixels.get()), width * height * static_cast<int>(sizeof(Color)));
+        if (transferer.GetTransferDirection() == TransferDirection::Input)pixels = std::unique_ptr<Color[]>(new Color[width * height]);
+        transferer.TransferField(nameof(pixels), reinterpret_cast<char*>(pixels.get()), width * height * static_cast<int>(sizeof(Color)));
     }
     void Texture2D::PreAwake()
     {

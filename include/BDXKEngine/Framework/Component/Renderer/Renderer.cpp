@@ -51,14 +51,14 @@ namespace BDXKEngine
 
         //Debug::LogWarning(static_cast<String>("Renderer::Disable ") + GetInstanceID() + " " + GetName());
     }
-    void Renderer::Transfer(Transferrer& transferrer)
+    void Renderer::Transfer(transferer& transferer)
     {
-        Component::Transfer(transferrer);
+        Component::Transfer(transferer);
 
-        transferrer.TransferField(nameof(material), material);
-        transferrer.TransferField(nameof(mesh), mesh);
-        transferrer.TransferField("castShadows", castShadows);
-        transferrer.TransferField("receiveShadows", receiveShadows);
+        transferer.TransferField(nameof(material), material);
+        transferer.TransferField(nameof(mesh), mesh);
+        transferer.TransferField("castShadows", castShadows);
+        transferer.TransferField("receiveShadows", receiveShadows);
     }
 
     void Renderer::SetCastShadows(bool castShadows)

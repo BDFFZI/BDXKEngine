@@ -19,10 +19,10 @@ namespace BDXKEngine
         if (animatorClip.IsNull() == false)
             animatorClip->nativeClip(transform);
     }
-    void Animator::Transfer(Transferrer& transferrer)
+    void Animator::Transfer(transferer& transferer)
     {
-        Behavior::Transfer(transferrer);
+        Behavior::Transfer(transferer);
 
-        transferrer.TransferField({}, animatorClip);
+        transferer.TransferField({}, animatorClip);
     }
 }

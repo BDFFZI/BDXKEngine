@@ -3,7 +3,7 @@
 #include<vector>
 #include<cassert>
 #include"BDXKEngine/Platform/GL/Resources/Mesh.h"
-#include"BDXKEngine/Base/Vector/Vector3.h"
+#include"BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
 #include"BDXKEngine/Base/Color.h"
 #include"BDXKEngine/Base/Extension/Debug.h"
 

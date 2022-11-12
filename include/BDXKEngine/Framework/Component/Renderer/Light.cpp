@@ -153,14 +153,14 @@ namespace BDXKEngine
         Component::Disable();
     }
 
-    void Light::Transfer(Transferrer& transferrer)
+    void Light::Transfer(transferer& transferer)
     {
-        Component::Transfer(transferrer);
+        Component::Transfer(transferer);
 
-        transferrer.TransferFieldOf<int>("lightType", lightType);
-        transferrer.TransferFieldOf<int>("renderMode", renderMode);
-        transferrer.TransferField("color", color);
-        transferrer.TransferField("intensity", intensity);
+        transferer.TransferFieldOf<int>("lightType", lightType);
+        transferer.TransferFieldOf<int>("renderMode", renderMode);
+        transferer.TransferField("color", color);
+        transferer.TransferField("intensity", intensity);
     }
     void Light::PreAwake()
     {
@@ -171,8 +171,8 @@ namespace BDXKEngine
     }
     void Light::PreDestroy()
     {
-        Object::Destroy(shadowMap.ToObjectBase());
-        Object::Destroy(shadowMapCube.ToObjectBase());
+        Object::PreDestroy(shadowMap.ToObjectBase());
+        Object::PreDestroy(shadowMapCube.ToObjectBase());
 
         Component::PreDestroy();
     }

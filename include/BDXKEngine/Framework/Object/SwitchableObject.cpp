@@ -97,9 +97,9 @@ namespace BDXKEngine
 
         Object::PreDestroy();
     }
-    void SwitchableObject::Transfer(Transferrer& transferrer)
+    void SwitchableObject::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferrer);
+        Object::Transfer(transferer);
 
         TransferProperty(IsEnabling);
     }

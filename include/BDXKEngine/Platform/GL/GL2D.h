@@ -4,7 +4,7 @@
 #include <dwrite.h>
 #include <atlbase.h>
 #include "GL.h"
-#include "BDXKEngine/Base/Vector/Vector2.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector2.h"
 #include "BDXKEngine/Base/Color.h"
 #include "BDXKEngine/Base/Matrix/Matrix3x2.h"
 #include "BDXKEngine/Base/Rect.h"

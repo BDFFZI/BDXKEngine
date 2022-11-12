@@ -159,21 +159,21 @@ namespace BDXKEngine
                 child->RenewScale();
     }
 
-    void Transform::Transfer(Transferrer& transferrer)
+    void Transform::Transfer(transferer& transferer)
     {
-        Component::Transfer(transferrer);
+        Component::Transfer(transferer);
 
 
         TransferProperty(LocalPosition);
         TransferProperty(LocalEulerAngles);
         TransferProperty(LocalScale);
 
-        if (transferrer.GetTransferDirection() != TransferDirection::Inspect)
+        if (transferer.GetTransferDirection() != TransferDirection::Inspect)
         {
             std::vector<ObjectPtrBase> nativeChildren = std::vector<ObjectPtrBase>{children.begin(), children.end()};
-            transferrer.TransferField("children", nativeChildren);
+            transferer.TransferField("children", nativeChildren);
 
-            if (transferrer.GetTransferDirection() == TransferDirection::Input)
+            if (transferer.GetTransferDirection() == TransferDirection::Input)
             {
                 const int count = static_cast<int>(nativeChildren.size());
                 children.resize(count);
@@ -201,12 +201,12 @@ namespace BDXKEngine
         RenewPositionAndMatrix(false);
 
         for (const ObjectPtr<Transform>& child : children)
-            Object::Awake(child->GetGameObject().ToObjectBase());
+            Object::PreAwake(child->GetGameObject().ToObjectBase());
     }
     void Transform::PreDestroy()
     {
         for (const ObjectPtr<Transform>& child : children)
-            Object::Destroy(child->GetGameObject().ToObjectBase());
+            Object::PreDestroy(child->GetGameObject().ToObjectBase());
         children.clear();
 
         if (parent.IsNull() && GetIsRunning())

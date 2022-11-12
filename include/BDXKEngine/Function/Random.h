@@ -2,7 +2,7 @@
 #include <random>
 #include <ctime>
 #include "BDXKEngine/Base/Color.h"
-#include "BDXKEngine/Base/Vector/Vector3.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
 
 namespace BDXKEngine {
 	class Random {

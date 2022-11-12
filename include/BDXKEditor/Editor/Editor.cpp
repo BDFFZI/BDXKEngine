@@ -6,7 +6,7 @@ namespace BDXKEditor
     {
         this->target = target;
     }
-    void Editor::SetGui(Transferrer& gui)
+    void Editor::SetGui(transferer& gui)
     {
         this->gui = &gui;
     }
@@ -19,10 +19,10 @@ namespace BDXKEditor
     {
     }
 
-    void Editor::Transfer(Transferrer& transferrer)
+    void Editor::Transfer(transferer& transferer)
     {
-        SwitchableObject::Transfer(transferrer);
+        SwitchableObject::Transfer(transferer);
 
-        transferrer.TransferField("target", target);
+        transferer.TransferField("target", target);
     }
 }

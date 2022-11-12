@@ -1,65 +1,57 @@
 ﻿#include "BinaryWriter.h"
-#include "BDXKEngine/Base/Object/ObjectPtrBase.h"
 
 namespace BDXKEngine
 {
-    BinaryWriter::BinaryWriter(std::iostream& buffer) : BinaryTransferrer(buffer)
+    BinaryWriter::BinaryWriter(const std::shared_ptr<std::iostream>& stream) : BinaryTransferer(stream, true)
     {
+    }
+    
+    void BinaryWriter::TransferString(const std::string& value)
+    {
+        int size = static_cast<int>(value.size());
+        const char* data = value.data();
+
+        WriteStreamFrom(size);
+        WriteStreamFrom(data, size);
     }
 
-    void BinaryWriter::TransferValue(int& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(float& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(bool& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(Vector2& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(Vector3& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(Vector4& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(Color& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(Rect& value)
-    {
-        Write(value);
-    }
-    void BinaryWriter::TransferValue(std::string& value)
-    {
-        int size = static_cast<int>(value.size() * sizeof(char));
-        char* data = value.data();
-
-        TransferValue(size);
-        TransferValue(data, size);
-    }
-    void BinaryWriter::TransferValue(ObjectPtrBase& value)
-    {
-        int instanceID = value.GetInstanceID();
-        TransferValue(instanceID);
-    }
-    void BinaryWriter::TransferValue(Serializable& value)
-    {
-        value.Transfer(*this);
-    }
-    void BinaryWriter::TransferValue(char* source, int size)
-    {
-        stream.write(source, size);
-    }
+    // void BinaryWriter::TransferValue(Vector2& value)
+    // {
+    //     Write(value);
+    // }
+    // void BinaryWriter::TransferValue(Vector3& value)
+    // {
+    //     Write(value);
+    // }
+    // void BinaryWriter::TransferValue(Vector4& value)
+    // {
+    //     Write(value);
+    // }
+    // void BinaryWriter::TransferValue(Color& value)
+    // {
+    //     Write(value);
+    // }
+    // void BinaryWriter::TransferValue(Rect& value)
+    // {
+    //     Write(value);
+    // }
+    // void BinaryWriter::TransferValue(std::string& value)
+    // {
+    
+    // }
+    // void BinaryWriter::TransferValue(ObjectPtrBase& value)
+    // {
+    //     int instanceID = value.GetInstanceID();
+    //     TransferValue(instanceID);
+    // }
+    // void BinaryWriter::TransferValue(Serialization& value)
+    // {
+    //     value.Transfer(*this);
+    // }
+    // void BinaryWriter::TransferValue(char* source, int size)
+    // {
+    //     stream.write(source, size);
+    // }
 }
 
 //std::stringstream stream = {};
@@ -76,4 +68,3 @@ namespace BDXKEngine
 //std::string stringValue = importer.TransferString();
 //char binaryValue[3];
 //importer.TransferBytes(binaryValue, 3);
-

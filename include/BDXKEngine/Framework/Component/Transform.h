@@ -2,7 +2,7 @@
 #include <vector>
 #include "BDXKEngine/Framework/Component/Component.h"
 #include "Transform.h"
-#include "BDXKEngine/Base/Vector/Vector3.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
 #include "BDXKEngine/Base/Matrix/Matrix4x4.h"
 
 namespace BDXKEngine
@@ -35,7 +35,7 @@ namespace BDXKEngine
 
         std::string ToString() override;
     protected:
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
         void PreAwake() override;
         void PreDestroy() override;
     private:

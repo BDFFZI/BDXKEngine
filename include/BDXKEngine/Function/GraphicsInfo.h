@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Color.h"
 #include "BDXKEngine/Base/Matrix/Matrix4x4.h"
-#include "BDXKEngine/Base/Vector/Vector4.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
 
 namespace BDXKEngine {
 	// LightInfo中存储的时那类光照信息，不同的光照计算时对参数的使用有所不同

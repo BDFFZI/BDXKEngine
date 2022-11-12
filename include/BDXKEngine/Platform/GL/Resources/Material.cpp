@@ -77,23 +77,23 @@ namespace BDXKEngine
         GL::SetShader(shaders[index]);
     }
 
-    void Material::Transfer(Transferrer& transferrer)
+    void Material::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferrer);
+        Object::Transfer(transferer);
 
-        transferrer.TransferFieldOf<int>("renderQueue", renderQueue);
-        transferrer.TransferField("parameters", reinterpret_cast<char*>(&parameters), sizeof(Parameters));
-        transferrer.TransferField(nameof(texture0), texture0);
-        transferrer.TransferField(nameof(texture1), texture1);
-        transferrer.TransferField(nameof(texture2), texture2);
-        transferrer.TransferField(nameof(texture3), texture3);
+        transferer.TransferFieldOf<int>("renderQueue", renderQueue);
+        transferer.TransferField("parameters", reinterpret_cast<char*>(&parameters), sizeof(Parameters));
+        transferer.TransferField(nameof(texture0), texture0);
+        transferer.TransferField(nameof(texture1), texture1);
+        transferer.TransferField(nameof(texture2), texture2);
+        transferer.TransferField(nameof(texture3), texture3);
 
         int shadersCount = shaders.size();
-        transferrer.TransferField(nameof(shadersCount), shadersCount);
+        transferer.TransferField(nameof(shadersCount), shadersCount);
 
-        if (transferrer.GetTransferDirection() == TransferDirection::Input) shaders.resize(shadersCount);
+        if (transferer.GetTransferDirection() == TransferDirection::Input) shaders.resize(shadersCount);
         for (int i = 0; i < shadersCount; i++)
-            transferrer.TransferField("shader_" + std::to_string(i), shaders[i]);
+            transferer.TransferField("shader_" + std::to_string(i), shaders[i]);
     }
     void Material::PreAwake()
     {
@@ -102,11 +102,11 @@ namespace BDXKEngine
         parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
 
         for (auto shader : shaders)
-            Object::Awake(shader.ToObjectBase());
-        Object::Awake(parametersBuffer.ToObjectBase());
-        Object::Awake(texture0.ToObjectBase());
-        Object::Awake(texture1.ToObjectBase());
-        Object::Awake(texture2.ToObjectBase());
-        Object::Awake(texture3.ToObjectBase());
+            Object::PreAwake(shader.ToObjectBase());
+        Object::PreAwake(parametersBuffer.ToObjectBase());
+        Object::PreAwake(texture0.ToObjectBase());
+        Object::PreAwake(texture1.ToObjectBase());
+        Object::PreAwake(texture2.ToObjectBase());
+        Object::PreAwake(texture3.ToObjectBase());
     }
 }

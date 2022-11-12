@@ -65,7 +65,7 @@ namespace BDXKEditor
         ImGui::LabelText(GetFieldID().c_str(), ("二进制数据[" + std::to_string(size) + "B]").c_str());
         // NOLINT(clang-diagnostic-format-security)
     }
-    void Inspector::TransferValue(Serializable& value)
+    void Inspector::TransferValue(Serialization& value)
     {
         value.Transfer(*this);
     }

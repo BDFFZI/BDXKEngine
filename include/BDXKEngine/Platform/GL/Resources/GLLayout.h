@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Vector/Vector3.h"
-#include "BDXKEngine/Base/Vector/Vector4.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
 #include "BDXKEngine/Base/Color.h"
 #include "BDXKEngine/Base/Matrix/Matrix4x4.h"
 #include "BDXKEngine/Platform/GL/GL.h"

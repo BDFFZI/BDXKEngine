@@ -17,7 +17,7 @@ namespace BDXKEngine
         std::unique_ptr<Color[]> pixels;
         CComPtr<ID3D11RenderTargetView> renderTextureRTV = nullptr;
 
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
         void PreAwake() override;
     };
 }

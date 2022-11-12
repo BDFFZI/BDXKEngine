@@ -26,15 +26,15 @@ namespace BDXKEngine
         return scene;
     }
 
-    void GameObject::Transfer(Transferrer& transferrer)
+    void GameObject::Transfer(transferer& transferer)
     {
-        SwitchableObject::Transfer(transferrer);
+        SwitchableObject::Transfer(transferer);
 
-        transferrer.TransferField("scene", scene);
+        transferer.TransferField("scene", scene);
         //组件
         std::vector<ObjectPtrBase> nativeComponents = std::vector<ObjectPtrBase>{components.begin(), components.end()};
-        transferrer.TransferField("components", nativeComponents);
-        if (transferrer.GetTransferDirection() == TransferDirection::Input)
+        transferer.TransferField("components", nativeComponents);
+        if (transferer.GetTransferDirection() == TransferDirection::Input)
         {
             const int count = static_cast<int>(nativeComponents.size());
             components.resize(count);
@@ -64,7 +64,7 @@ namespace BDXKEngine
         SwitchableObject::PreAwake();
 
         for (const auto& component : components)
-            Object::Awake(component.ToObjectBase());
+            Object::PreAwake(component.ToObjectBase());
     }
     void GameObject::PreDestroy()
     {
@@ -72,7 +72,7 @@ namespace BDXKEngine
 
         const std::vector components = {this->components};
         for (const ObjectPtr<Component>& component : components)
-            Object::Destroy(component.ToObjectBase());
+            Object::PreDestroy(component.ToObjectBase());
 
         Vector::Remove(scene->gameObjects, {this});
     }

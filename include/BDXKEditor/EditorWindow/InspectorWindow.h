@@ -7,7 +7,7 @@ namespace BDXKEditor
     class Editor;
     using namespace BDXKEngine;
 
-    class Inspector : public Transferrer
+    class Inspector : public transferer
     {
     public:
         TransferDirection GetTransferDirection() override { return TransferDirection::Inspect; }
@@ -35,7 +35,7 @@ namespace BDXKEditor
         void TransferValue(Rect& value) override;
         void TransferValue(std::string& value) override;
         void TransferValue(ObjectPtrBase& value) override;
-        void TransferValue(Serializable& value) override;
+        void TransferValue(Serialization& value) override;
         void TransferValue(char* source, int size) override;
     private:
         std::string fieldPath;

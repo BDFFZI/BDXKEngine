@@ -10,64 +10,53 @@ namespace BDXKEngine
         ObjectPtr() : ObjectPtrBase()
         {
         }
-
         ObjectPtr(const TObject* object) : ObjectPtrBase(object)
         {
-            debug = static_cast<TObject*>(ToObjectBase());
+            debugPtr = static_cast<TObject*>(ToObjectBase());
         }
-
         ObjectPtr(const ObjectPtr& other): ObjectPtrBase(other)
         {
-            debug = other.debug;
+            debugPtr = other.debugPtr;
+        }
+        ~ObjectPtr() override
+        {
+            debugPtr = nullptr;
         }
 
+        template <typename TOtherObject>
+        ObjectPtr<TOtherObject> ToObjectPtr() const
+        {
+            return ToObject<TOtherObject>();
+        }
+
+        TObject* operator->() const
+        {
+            TObject* object = ToObject<TObject>();
+            if (object == nullptr)throw std::exception("当前物体指针的引用目标为空");
+            return object;
+        }
         ObjectPtr& operator=(const ObjectPtr& other)
         {
             if (this == &other)
                 return *this;
             ObjectPtrBase::operator =(other);
-            debug = other.debug;
+            debugPtr = other.debugPtr;
             return *this;
         }
 
-        template <typename TTargetObject>
-        ObjectPtr<TTargetObject> ToObjectPtr() const
-        {
-            Object* object = ToObjectBase();
-            return dynamic_cast<TTargetObject*>(object);
-        }
 
-        TObject* ToObject()
-        {
-            return static_cast<TObject*>(ToObjectBase());
-        }
-
-        TObject* operator->() const
-        {
-            Object* object = ToObjectBase();
-            if (object == nullptr)
-                throw std::exception("当前物体指针的引用目标为空");
-            return static_cast<TObject*>(object);
-        }
-
-        ~ObjectPtr() override
-        {
-            debug = nullptr;
-        }
     protected:
-        TObject* debug = nullptr;
+        TObject* debugPtr = nullptr;
 
         void AddRef(const int refInstanceID) override
         {
             ObjectPtrBase::AddRef(refInstanceID);
-
-            debug = reinterpret_cast<TObject*>(ToObjectBase());
+            debugPtr = reinterpret_cast<TObject*>(ToObjectBase());
         }
-
         void RemoveRef() override
         {
             ObjectPtrBase::RemoveRef();
-            debug = nullptr;
+            debugPtr = nullptr;
         }
     };
 }

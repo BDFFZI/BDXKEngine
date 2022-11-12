@@ -52,29 +52,29 @@ namespace BDXKEngine
         graphicsSettings = InstantiateNoAwake(&graphicsSettingsPrefab);
         qualitySettings = InstantiateNoAwake(&qualitySettingsPrefab);
 
-        Object::Awake(graphicsSettings.ToObjectBase());
-        Object::Awake(qualitySettings.ToObjectBase());
+        Object::PreAwake(graphicsSettings.ToObjectBase());
+        Object::PreAwake(qualitySettings.ToObjectBase());
 
         for (const auto& value : gameObjects)
-            Object::Awake(value.ToObjectBase());
+            Object::PreAwake(value.ToObjectBase());
     }
     void Scene::PreDestroy()
     {
         const std::vector gameObjects = {this->gameObjects};
         for (const auto& value : gameObjects)
-            Object::Destroy(value.ToObjectBase());
+            Object::PreDestroy(value.ToObjectBase());
 
-        Object::Destroy(graphicsSettings.ToObjectBase());
-        Object::Destroy(qualitySettings.ToObjectBase());
+        Object::PreDestroy(graphicsSettings.ToObjectBase());
+        Object::PreDestroy(qualitySettings.ToObjectBase());
 
         SwitchableObject::PreDestroy();
     }
-    void Scene::Transfer(Transferrer& transferrer)
+    void Scene::Transfer(transferer& transferer)
     {
-        SwitchableObject::Transfer(transferrer);
+        SwitchableObject::Transfer(transferer);
 
-        transferrer.TransferField("qualitySettings", qualitySettings);
-        transferrer.TransferField("graphicsSettings", graphicsSettings);
-        transferrer.TransferField("gameObjects", gameObjects);
+        transferer.TransferField("qualitySettings", qualitySettings);
+        transferer.TransferField("graphicsSettings", graphicsSettings);
+        transferer.TransferField("gameObjects", gameObjects);
     }
 }

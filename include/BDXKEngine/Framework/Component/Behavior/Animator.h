@@ -30,6 +30,6 @@ namespace BDXKEngine
         void OnAwake() override;
         void OnUpdate() override;
 
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
     };
 }

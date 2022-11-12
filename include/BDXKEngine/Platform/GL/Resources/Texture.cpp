@@ -22,12 +22,12 @@ namespace BDXKEngine
     {
         return samplerState;
     }
-    void Texture::Transfer(Transferrer& transferrer)
+    void Texture::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferrer);
+        Object::Transfer(transferer);
 
-        transferrer.TransferField(nameof(width), width);
-        transferrer.TransferField(nameof(height), height);
+        transferer.TransferField(nameof(width), width);
+        transferer.TransferField(nameof(height), height);
     }
 
     void Texture::CreateDepthStencil(unsigned int width, unsigned int height, ID3D11Texture2D** renderTexture,

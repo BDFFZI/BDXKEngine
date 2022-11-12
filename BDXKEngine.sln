@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKEditor", "include\BDXKE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BDXKTest", "BDXKTest\BDXKTest.vcxproj", "{B0BDF7C5-AB07-4B13-95E9-4EECC613AB81}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModuleTest", "ModuleTest\ModuleTest.vcxproj", "{1E64A687-A42D-41B5-976F-6152FE4FF847}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -66,6 +68,18 @@ Global
 		{B0BDF7C5-AB07-4B13-95E9-4EECC613AB81}.Release|x64.Build.0 = Release|x64
 		{B0BDF7C5-AB07-4B13-95E9-4EECC613AB81}.Release|x86.ActiveCfg = Release|x64
 		{B0BDF7C5-AB07-4B13-95E9-4EECC613AB81}.Release|x86.Build.0 = Release|x64
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Debug|Win32.Build.0 = Debug|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Debug|x64.ActiveCfg = Debug|x64
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Debug|x64.Build.0 = Debug|x64
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Debug|x86.ActiveCfg = Debug|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Debug|x86.Build.0 = Debug|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Release|Win32.ActiveCfg = Release|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Release|Win32.Build.0 = Release|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Release|x64.ActiveCfg = Release|x64
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Release|x64.Build.0 = Release|x64
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Release|x86.ActiveCfg = Release|Win32
+		{1E64A687-A42D-41B5-976F-6152FE4FF847}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

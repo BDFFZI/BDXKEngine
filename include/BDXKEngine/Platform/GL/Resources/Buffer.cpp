@@ -21,12 +21,12 @@ namespace BDXKEngine
         std::memcpy(data, this->data.get(), size);
     }
 
-    void Buffer::Transfer(Transferrer& transferrer)
+    void Buffer::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferrer);
+        Object::Transfer(transferer);
 
-        transferrer.TransferFieldOf<int>(nameof(target), target);
-        transferrer.TransferField(nameof(size), size);
+        transferer.TransferFieldOf<int>(nameof(target), target);
+        transferer.TransferField(nameof(size), size);
     }
     void Buffer::PreAwake()
     {

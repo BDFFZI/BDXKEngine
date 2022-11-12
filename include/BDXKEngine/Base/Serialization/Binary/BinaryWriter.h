@@ -1,32 +1,31 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/ObjectManager.h"
-#include "BinaryTransferrer.h"
+#include "BinaryTransferer.h"
 
 namespace BDXKEngine
 {
-    class BinaryWriter : public BinaryTransferrer, ObjectManager
+    class BinaryWriter : public BinaryTransferer
     {
     public:
-        BinaryWriter(std::iostream& buffer);
+        BinaryWriter(const std::shared_ptr<std::iostream>& stream);
 
-        TransferDirection GetTransferDirection() override { return TransferDirection::Output; }
-        void TransferValue(int& value) override;
-        void TransferValue(float& value) override;
-        void TransferValue(bool& value) override;
-        void TransferValue(Vector2& value) override;
-        void TransferValue(Vector3& value) override;
-        void TransferValue(Vector4& value) override;
-        void TransferValue(Color& value) override;
-        void TransferValue(Rect& value) override;
-        void TransferValue(std::string& value) override;
-        void TransferValue(ObjectPtrBase& value) override;
-        void TransferValue(Serializable& value) override;
-        void TransferValue(char* source, int size) override;
-    private:
-        template <typename TValue>
-        void Write(TValue value)
-        {
-            stream.write(reinterpret_cast<char*>(&value), sizeof(TValue));
-        }
+    protected:
+        CustomTransferFunc(int, WriteStreamFrom, 0)
+        CustomTransferFunc(float, WriteStreamFrom, 1)
+        CustomTransferFunc(bool, WriteStreamFrom, 2)
+
+        void TransferString(const std::string& value);
+        CustomTransferFunc(std::string, TransferString, 0)
+
+        // void TransferValue(char* source, int size) override;
+        // void TransferValue(float& value) override;
+        // void TransferValue(bool& value) override;
+        // void TransferValue(Vector2& value) override;
+        // void TransferValue(Vector3& value) override;
+        // void TransferValue(Vector4& value) override;
+        // void TransferValue(Color& value) override;
+        // void TransferValue(Rect& value) override;
+        // void TransferValue(std::string& value) override;
+        // void TransferValue(ObjectPtrBase& value) override;
+        // void TransferValue(Serialization& value) override;
     };
 }

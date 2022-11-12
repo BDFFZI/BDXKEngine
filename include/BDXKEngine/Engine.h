@@ -31,8 +31,8 @@
 #include "BDXKEngine/Base/Object/ObjectPtr.h"
 #include "BDXKEngine/Base/Color.h"
 #include "BDXKEngine/Base/Rect.h"
-#include "BDXKEngine/Base/Vector/Vector2.h"
-#include "BDXKEngine/Base/Vector/Vector3.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector2.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
 #include "BDXKEngine/Base/Matrix/Matrix3x2.h"
 #include "BDXKEngine/Base/Matrix/Matrix4x4.h"
 #include "BDXKEngine/Base/Extension/String.h"
@@ -141,7 +141,7 @@ namespace BDXKEngine
 
             Debug::LogError("系统回收检查");
             Object::DebugObjectCount();
-            ObjectPtrBase::DebugRefCountMap();
+            ObjectPtrBase::PrintRefCountMap();
             BehaviorManager::DebugHandlersCount();
         }
     };

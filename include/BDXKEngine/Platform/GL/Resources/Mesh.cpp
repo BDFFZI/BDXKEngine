@@ -1,5 +1,5 @@
 ﻿#include "Mesh.h"
-#include "BDXKEngine/Base/Vector/Vector3.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
 #include "BDXKEngine/Base/Color.h"
 #include "BDXKEngine/Platform/GL/GL.h"
 #include<vector>
@@ -149,26 +149,26 @@ namespace BDXKEngine
         triangleBuffer = Buffer::Create(BufferTarget::Index, static_cast<int>(triangles.size() * sizeof(unsigned short)));
     }
 
-    void Mesh::Transfer(Transferrer& transferrer)
+    void Mesh::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferrer);
+        Object::Transfer(transferer);
 
         int verticesCount = static_cast<int>(vertices.size());
         int trianglesCount = static_cast<int>(triangles.size());
-        transferrer.TransferField(nameof(verticesCount), verticesCount);
-        transferrer.TransferField(nameof(trianglesCount), trianglesCount);
+        transferer.TransferField(nameof(verticesCount), verticesCount);
+        transferer.TransferField(nameof(trianglesCount), trianglesCount);
 
-        if (transferrer.GetTransferDirection() == TransferDirection::Input)
+        if (transferer.GetTransferDirection() == TransferDirection::Input)
         {
             vertices.resize(verticesCount);
             triangles.resize(trianglesCount);
         }
-        transferrer.TransferField(
+        transferer.TransferField(
             "verticesData",
             reinterpret_cast<char*>(vertices.data()),
             static_cast<int>(verticesCount * sizeof(Vertex))
         );
-        transferrer.TransferField(
+        transferer.TransferField(
             "trianglesData",
             reinterpret_cast<char*>(triangles.data()),
             static_cast<int>(trianglesCount * sizeof(unsigned short))

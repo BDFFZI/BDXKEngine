@@ -31,7 +31,7 @@ namespace BDXKEngine
         CComPtr<ID3D11ShaderResourceView> GetResourceView();
         CComPtr<ID3D11SamplerState> GetSamplerState();
 
-        void Transfer(Transferrer& transferrer) override;
+        void Transfer(transferer& transferer) override;
     };
 
     class TextureEditor

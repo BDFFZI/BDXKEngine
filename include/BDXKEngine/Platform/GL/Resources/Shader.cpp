@@ -84,15 +84,15 @@ namespace BDXKEngine
         assert(SUCCEEDED(result));
     }
 
-    void Shader::Transfer(Transferrer& transferrer)
+    void Shader::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferrer);
+        Object::Transfer(transferer);
 
-        transferrer.TransferField(nameof(vertexShaderhlsl), vertexShaderhlsl);
-        transferrer.TransferField(nameof(pixelShaderhlsl), pixelShaderhlsl);
-        transferrer.TransferFieldOf<int>(nameof(passType), passType);
-        transferrer.TransferField(nameof(blend), reinterpret_cast<char*>(&blend), sizeof(Blend));
-        transferrer.TransferField(nameof(zTest), reinterpret_cast<char*>(&zTest), sizeof(ZTest));
+        transferer.TransferField(nameof(vertexShaderhlsl), vertexShaderhlsl);
+        transferer.TransferField(nameof(pixelShaderhlsl), pixelShaderhlsl);
+        transferer.TransferFieldOf<int>(nameof(passType), passType);
+        transferer.TransferField(nameof(blend), reinterpret_cast<char*>(&blend), sizeof(Blend));
+        transferer.TransferField(nameof(zTest), reinterpret_cast<char*>(&zTest), sizeof(ZTest));
     }
     void Shader::PreAwake()
     {

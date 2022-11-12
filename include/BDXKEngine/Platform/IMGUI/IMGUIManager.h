@@ -2,7 +2,7 @@
 
 #include "BDXKEngine/Platform/GL/GL.h"
 #include "BDXKEngine/Platform/Window/Window.h"
-#include "BDXKEngine/Base/Vector/Vector2.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector2.h"
 #include "BDXKEngine/Base/Color.h"
 #define IM_VEC2_CLASS_EXTRA ImVec2(BDXKEngine::Vector2 value){x=value.x;y=value.y;} \
 operator BDXKEngine::Vector2()const{return{x,y};}

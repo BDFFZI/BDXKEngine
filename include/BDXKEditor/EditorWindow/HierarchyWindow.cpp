@@ -63,7 +63,7 @@ namespace BDXKEditor
             document.Parse("{}");
             JsonWriter writer(document);
 
-            Serializable* serializable = EditorSystem::GetMainScene().ToObjectBase();
+            Serialization* serializable = EditorSystem::GetMainScene().ToObjectBase();
             serializable->Transfer(writer);
 
             Debug::Log(writer.ToString());
