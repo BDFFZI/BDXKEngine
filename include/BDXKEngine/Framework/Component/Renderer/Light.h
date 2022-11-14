@@ -42,7 +42,7 @@ namespace BDXKEngine
         void Enable() override;
         void Disable() override;
         void Transfer(transferer& transferer) override;
-        void PreAwake() override;
+        void MarkAwake() override;
         void PreDestroy() override;
     };
 

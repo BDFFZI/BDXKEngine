@@ -12,7 +12,7 @@ namespace BDXKEngine
         return Instantiate<TextureCube>(&textureCube);
     }
 
-    void TextureCube::PreAwake()
+    void TextureCube::MarkAwake()
     {
         HRESULT result = {};
 

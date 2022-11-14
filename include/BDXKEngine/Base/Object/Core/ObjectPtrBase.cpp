@@ -1,6 +1,7 @@
 ﻿#include "ObjectPtrBase.h"
 #include <iostream>
 #include <sstream>
+#include "Object.h"
 
 
 namespace BDXKEngine
@@ -86,6 +87,9 @@ namespace BDXKEngine
     }
     ObjectPtrBase& ObjectPtrBase::operator=(const ObjectPtrBase& objectPtr)
     {
+        if (this == &objectPtr)
+            return *this;
+        
         if (instanceID != 0)
             RemoveRef();
 

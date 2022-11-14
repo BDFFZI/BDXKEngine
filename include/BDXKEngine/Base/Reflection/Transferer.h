@@ -8,16 +8,18 @@ namespace BDXKEngine
     class Transferer
     {
     public:
-        bool GetIsReadOnly() const;
+        virtual ~Transferer() = default;
 
         template <typename TValue>
         void SetTransferFunc(std::function<void(TValue& value)> func)
         {
-            transferFuncs[GetTypeID<TValue>()] = [=](void* value, const Type& type)
+            const Type type = GetTypeID<TValue>();
+            transferFuncs[type] = [=](void* value, const Type&)
             {
                 TValue* target = static_cast<TValue*>(value);
                 func(*target);
             };
+            typeSizes[type] = sizeof TValue;
         }
 
         template <typename TTransfer, typename TField>
@@ -48,18 +50,10 @@ namespace BDXKEngine
 #define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
 transferer.TransferField(#propertyName,propertyName)
 
-        virtual ~Transferer() = default;
-    protected:
-        Transferer(bool isReadOnly = true);
-
         template <typename TTransfer, typename TSource>
         void TransferValueOf(TSource& value)
         {
-            auto typeId = GetTypeID<TTransfer>();
-            auto transferFunc = transferFuncs[typeId];
-
-            if (transferFunc != nullptr)transferFunc(&value, typeId);
-            else TransferValue(&value, typeId);
+            TransferValue(&value, GetTypeID<TTransfer>());
         }
         template <typename TSource>
         void TransferValue(TSource& value)
@@ -70,9 +64,11 @@ transferer.TransferField(#propertyName,propertyName)
         virtual void PushPath(const std::string& key);
         virtual void PopPath(std::string& key);
         virtual void TransferValue(void* value, const Type& type);
+    protected:
+        virtual void TransferValueFallback(void* value, const Type& type);
     private:
         std::unordered_map<Type, std::function<void(void*, const Type&)>> transferFuncs;
-        bool isReadOnly;
+        std::unordered_map<Type, int> typeSizes;
     };
 
     class TransferFunc
@@ -85,5 +81,7 @@ transferer.TransferField(#propertyName,propertyName)
         }
     };
 
-#define CustomTransferFunc(Type,FuncName,ID) TransferFunc CustomTransferFunc##FuncName##ID = {this,std::function([this](Type##& value){FuncName(value);})};
+#define CustomTransferFuncInternal(Type,FuncName,ID) TransferFunc CustomTransferFunc##FuncName##ID = {this,std::function([this](Type##& value){FuncName(value);})};
+#define CustomTransferFuncInternal2(Type,FuncName,ID) CustomTransferFuncInternal(Type,FuncName,ID)
+#define CustomTransferFunc(Type,FuncName) CustomTransferFuncInternal2(Type,FuncName,__LINE__)
 }

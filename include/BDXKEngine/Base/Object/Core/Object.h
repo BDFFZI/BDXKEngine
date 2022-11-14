@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <vector>
-#include <map>
 #include "BDXKEngine/Base/Serialization/Serializer.h"
+#include "ObjectPtr.h"
 
 
 namespace BDXKEngine
@@ -24,40 +24,59 @@ namespace BDXKEngine
     {
         friend ObjectManager;
     public:
-        //创建物体
-        static Object* InstantiateNoAwake(Object* object, Serializer& objectSerializer);
+        static ObjectPtrBase InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer);
         template <typename TObject>
-        static TObject* InstantiateNoAwake(TObject* object, Serializer& objectSerializer)
+        static ObjectPtr<TObject> InstantiateNoAwake(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
         {
-            return static_cast<TObject*>(InstantiateNoAwake(dynamic_cast<Object*>(object), objectSerializer));
+            return InstantiateNoAwake(objectPtr, serializer).template ToObjectPtr<TObject>();
         }
         template <typename TObject>
-        static TObject* Instantiate(TObject* object, Serializer& objectSerializer)
+        static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
         {
             //创建
-            TObject* instance = InstantiateNoAwake<TObject>(object, objectSerializer);
+            ObjectPtr<TObject> instance = InstantiateNoAwake<TObject>(objectPtr, serializer);
 
             //激活
             const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
             postAwakeQueue.clear();
-            PreAwake(instance);
+            MarkAwake(instance);
             FlushAwakeQueue();
             postAwakeQueue = lastAwakeQueue;
 
             return instance;
         }
+        template <typename TObject>
+        static ObjectPtr<TObject> Instantiate(TObject* object) //将object从原生状态转为实例状态
+        {
+            if (object == nullptr) throw std::exception("实例化的物体为空");
+            if (object->instanceID != 0) throw std::exception("物体已被实例化");
+
+            //注册
+            object->instanceID = ++instanceIDCount;
+            allObjects[object->instanceID] = object;
+            ObjectPtr<TObject> objectPtr = object;
+
+            //激活
+            const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
+            postAwakeQueue.clear();
+            MarkAwake(objectPtr);
+            FlushAwakeQueue();
+            postAwakeQueue = lastAwakeQueue;
+            
+            return objectPtr;
+        }
 
         //销毁物体
-        static void DestroyImmediate(Object* object);
+        static void DestroyImmediate(const ObjectPtrBase& object);
 
         template <typename TObject>
-        static std::vector<TObject*> FindObjectsOfType()
+        static std::vector<ObjectPtr<TObject>> FindObjectsOfType()
         {
-            std::vector<TObject*> result{};
+            std::vector<ObjectPtr<TObject>> result{};
             for (auto& item : allObjectsRunning)
             {
                 TObject* object = dynamic_cast<TObject*>(item.second);
-                if (object != nullptr)result.push_back(object);
+                if (object != nullptr)result.emplace_back(object);
             }
 
             return result;
@@ -76,13 +95,13 @@ namespace BDXKEngine
     protected:
         //单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，比如防止重复唤醒销毁
         /// 用于唤醒信号的传递，调用源头为Instantiate(TObject*)，只在PreAwake()中调用有效
-        static void PreAwake(Object* object);
+        static void MarkAwake(const ObjectPtrBase& objectPtr);
         /// 用于销毁信号的传递，调用源头为DestroyImmediate(TObject*)，只在PreDestroy()中调用有效
-        static void PreDestroy(Object* object);
+        static void MarkDestroy(const ObjectPtrBase& objectPtr);
 
         //以下函数以及其他同类型函数重写时请务必回调父类函数
-        virtual void PreAwake(); //预唤醒，用于传递PreAwake(Object* object)函数的范围
-        virtual void PreDestroy(); //预销毁，用于传递PreDestroy(Object* object)函数的范围，此时所影响物体都任未删除
+        virtual void MarkAwake(); //预唤醒，用于传递PreAwake(Object* object)函数的范围
+        virtual void MarkDestroy(); //预销毁，用于传递PreDestroy(Object* object)函数的范围，此时所影响物体都任未删除
         virtual void Awake(); //此时所影响物体都已确实唤醒
         virtual void Destroy(); //代替析构函数，销毁物体
     private:

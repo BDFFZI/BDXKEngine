@@ -42,6 +42,6 @@ namespace BDXKEngine
         CComPtr<ID3D11PixelShader> pixelShader;
 
         void Transfer(transferer& transferer) override;
-        void PreAwake() override;
+        void MarkAwake() override;
     };
 }

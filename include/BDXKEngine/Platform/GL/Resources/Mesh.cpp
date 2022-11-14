@@ -174,7 +174,7 @@ namespace BDXKEngine
             static_cast<int>(trianglesCount * sizeof(unsigned short))
         );
     }
-    void Mesh::PreAwake()
+    void Mesh::MarkAwake()
     {
         ResetVerticesBuffer();
         ResetTrianglesBuffer();

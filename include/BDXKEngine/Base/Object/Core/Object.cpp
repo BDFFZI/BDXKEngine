@@ -10,23 +10,23 @@ namespace BDXKEngine
     std::vector<Object*> Object::postDestroyQueue;
     std::vector<Object*> Object::postAwakeQueue;
 
-    Object* Object::InstantiateNoAwake(Object* object, Serializer& serializer)
+    ObjectPtrBase Object::InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer)
     {
-        if (object == nullptr) throw std::exception("实例化的物体为空");
+        if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
         //克隆数据
-        const auto instance = dynamic_cast<Object*>(serializer.Clone(object));
+        const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
         instance->instanceID = ++instanceIDCount;
         instance->name = instance->GetTypeID();
         allObjects[instance->instanceID] = instance;
 
         return instance;
     }
-    void Object::DestroyImmediate(Object* object)
+    void Object::DestroyImmediate(const ObjectPtrBase& object)
     {
         const std::vector<Object*> lastDestroyQueue = postDestroyQueue;
         postDestroyQueue.clear();
-        PreDestroy(object);
+        MarkDestroy(object);
         FlushDestroyQueue();
         postDestroyQueue = lastDestroyQueue;
     }
@@ -72,19 +72,21 @@ namespace BDXKEngine
         return stream.str();
     }
 
-    void Object::PreAwake(Object* object)
+    void Object::MarkAwake(const ObjectPtrBase& objectPtr)
     {
+        Object* object = objectPtr.ToObjectBase();
         if (object == nullptr || object->isRunning)
             return;
 
         allObjectsRunning[object->instanceID] = object;
         object->isRunning = true;
-        object->PreAwake();
+        object->MarkAwake();
 
         postAwakeQueue.push_back(object);
     }
-    void Object::PreDestroy(Object* object)
+    void Object::MarkDestroy(const ObjectPtrBase& objectPtr)
     {
+        Object* object = objectPtr.ToObjectBase();
         if (object == nullptr || object->isDestroying)
             return;
 
@@ -96,16 +98,16 @@ namespace BDXKEngine
         }
 
         object->isDestroying = true;
-        object->PreDestroy();
+        object->MarkDestroy();
         allObjectsRunning.erase(object->instanceID);
 
         postDestroyQueue.push_back(object);
     }
 
-    void Object::PreAwake()
+    void Object::MarkAwake()
     {
     }
-    void Object::PreDestroy()
+    void Object::MarkDestroy()
     {
     }
     void Object::Awake()

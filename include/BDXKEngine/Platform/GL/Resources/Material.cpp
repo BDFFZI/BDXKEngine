@@ -95,18 +95,18 @@ namespace BDXKEngine
         for (int i = 0; i < shadersCount; i++)
             transferer.TransferField("shader_" + std::to_string(i), shaders[i]);
     }
-    void Material::PreAwake()
+    void Material::MarkAwake()
     {
-        Object::PreAwake();
+        Object::MarkAwake();
 
         parametersBuffer = Buffer::Create(BufferTarget::Constant, sizeof(Parameters));
 
         for (auto shader : shaders)
-            Object::PreAwake(shader.ToObjectBase());
-        Object::PreAwake(parametersBuffer.ToObjectBase());
-        Object::PreAwake(texture0.ToObjectBase());
-        Object::PreAwake(texture1.ToObjectBase());
-        Object::PreAwake(texture2.ToObjectBase());
-        Object::PreAwake(texture3.ToObjectBase());
+            Object::MarkAwake(shader.ToObjectBase());
+        Object::MarkAwake(parametersBuffer.ToObjectBase());
+        Object::MarkAwake(texture0.ToObjectBase());
+        Object::MarkAwake(texture1.ToObjectBase());
+        Object::MarkAwake(texture2.ToObjectBase());
+        Object::MarkAwake(texture3.ToObjectBase());
     }
 }

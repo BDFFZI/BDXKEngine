@@ -16,7 +16,7 @@ namespace BDXKEngine {
 	private:
 		std::vector<CComPtr<ID3D11RenderTargetView>> renderTextureRTV = {};
 		
-		void PreAwake()override;
+		void MarkAwake()override;
 	};
 }
 

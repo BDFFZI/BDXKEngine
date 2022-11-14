@@ -30,7 +30,7 @@ namespace BDXKEngine
         if (transferer.GetTransferDirection() == TransferDirection::Input)pixels = std::unique_ptr<Color[]>(new Color[width * height]);
         transferer.TransferField(nameof(pixels), reinterpret_cast<char*>(pixels.get()), width * height * static_cast<int>(sizeof(Color)));
     }
-    void Texture2D::PreAwake()
+    void Texture2D::MarkAwake()
     {
         HRESULT result = {};
 

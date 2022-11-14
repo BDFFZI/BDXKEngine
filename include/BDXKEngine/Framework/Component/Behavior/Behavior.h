@@ -10,7 +10,7 @@ namespace BDXKEngine
         UpdateHandler* updateHandler = nullptr;
         LateUpdateHandler* lateUpdateHandler = nullptr;
         
-        void PreAwake() override;
+        void MarkAwake() override;
         void Enable() override;
         void Disable() override;
     };

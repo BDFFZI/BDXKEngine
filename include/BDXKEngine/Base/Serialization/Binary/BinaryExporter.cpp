@@ -1,12 +1,19 @@
-﻿#include "BinaryWriter.h"
+﻿#include "BinaryExporter.h"
 
 namespace BDXKEngine
 {
-    BinaryWriter::BinaryWriter(const std::shared_ptr<std::iostream>& stream) : BinaryTransferer(stream, true)
+    void BinaryExporter::Export(std::string& data)
     {
+        data = stream.str();
+        stream.str("");
     }
-    
-    void BinaryWriter::TransferString(const std::string& value)
+
+    void BinaryExporter::WriteStreamFrom(const char* value, int size)
+    {
+        stream.write(value, size);
+    }
+
+    void BinaryExporter::TransferString(const std::string& value)
     {
         int size = static_cast<int>(value.size());
         const char* data = value.data();
@@ -37,7 +44,7 @@ namespace BDXKEngine
     // }
     // void BinaryWriter::TransferValue(std::string& value)
     // {
-    
+
     // }
     // void BinaryWriter::TransferValue(ObjectPtrBase& value)
     // {

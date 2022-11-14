@@ -272,7 +272,7 @@
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="Base\Serialization\Binary\BinaryReader.cpp" />
+    <ClCompile Include="Base\Serialization\Binary\BinaryImporter.cpp" />
     <ClCompile Include="Base\Serialization\Binary\BinarySerializer.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>_\</AssemblerListingLocation>
@@ -348,7 +348,6 @@
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="Base\Serialization\Binary\BinaryTransferer.cpp" />
     <ClCompile Include="Base\Serialization\Binary\BinaryWriter.cpp" />
     <ClCompile Include="Base\Serialization\Serializer.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
@@ -1027,10 +1026,9 @@
     <ClInclude Include="Base\SerializationExtension\Json\JsonWriter.h" />
     <ClInclude Include="Base\SerializationExtension\Serialization.h" />
     <ClInclude Include="Base\SerializationExtension\Transferer.h" />
-    <ClInclude Include="Base\Serialization\Binary\BinaryReader.h" />
+    <ClInclude Include="Base\Serialization\Binary\BinaryImporter.h" />
     <ClInclude Include="Base\Serialization\Binary\BinarySerializer.h" />
-    <ClInclude Include="Base\Serialization\Binary\BinaryTransferer.h" />
-    <ClInclude Include="Base\Serialization\Binary\BinaryWriter.h" />
+    <ClInclude Include="Base\Serialization\Binary\BinaryExporter.h" />
     <ClInclude Include="Base\Serialization\Serializer.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Framework\Component\Component.h" />

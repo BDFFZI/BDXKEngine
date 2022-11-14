@@ -1,12 +1,18 @@
-﻿#include "BinaryReader.h"
+﻿#include "BinaryImporter.h"
 
 namespace BDXKEngine
 {
-    BinaryReader::BinaryReader(const std::shared_ptr<std::iostream>& stream) : BinaryTransferer(stream, true)
+    void BinaryImporter::Import(std::string& data)
     {
+        stream.str(data);
     }
 
-    void BinaryReader::TransferString(std::string& value)
+    void BinaryImporter::ReadStreamTo(char* value, int size)
+    {
+        stream.read(value, size);
+    }
+
+    void BinaryImporter::TransferString(std::string& value)
     {
         int size = 0;
         ReadStreamTo(size);
@@ -18,6 +24,7 @@ namespace BDXKEngine
 
         delete[] data;
     }
+
 
     // void BinaryReader::TransferValue(int& value)
     // {

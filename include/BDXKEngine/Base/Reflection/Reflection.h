@@ -11,7 +11,7 @@ namespace BDXKEngine
         ReflectionTransferer(const Reflective& reflective, Reflection& reflection);
 
         void PushPath(const std::string& key) override;
-        void TransferValue(void* value, const Type& typeID) override;
+        void TransferValueFallback(void* value, const Type& typeID) override;
 
         std::uintptr_t origin;
         int length;

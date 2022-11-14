@@ -55,7 +55,7 @@ namespace BDXKEngine
         std::vector<ObjectPtr<Component>> components; //当前物体拥有的组件(由Component负责增减)
 
         void OnUpdate() override;
-        void PreAwake() override;
+        void MarkAwake() override;
         void PreDestroy() override;
         void Transfer(transferer& transferer) override;
     };

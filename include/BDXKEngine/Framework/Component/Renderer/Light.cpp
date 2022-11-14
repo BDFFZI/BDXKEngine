@@ -162,17 +162,17 @@ namespace BDXKEngine
         transferer.TransferField("color", color);
         transferer.TransferField("intensity", intensity);
     }
-    void Light::PreAwake()
+    void Light::MarkAwake()
     {
         shadowMap = Texture2D::Create(1024, 1024);
         shadowMapCube = TextureCube::Create(512, 512);
 
-        Component::PreAwake();
+        Component::MarkAwake();
     }
     void Light::PreDestroy()
     {
-        Object::PreDestroy(shadowMap.ToObjectBase());
-        Object::PreDestroy(shadowMapCube.ToObjectBase());
+        Object::MarkDestroy(shadowMap.ToObjectBase());
+        Object::MarkDestroy(shadowMapCube.ToObjectBase());
 
         Component::PreDestroy();
     }

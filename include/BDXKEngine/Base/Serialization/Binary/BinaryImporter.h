@@ -1,20 +1,27 @@
 ﻿#pragma once
-#include "BinaryTransferer.h"
+#include <sstream>
+#include "../Importer.h"
 
 namespace BDXKEngine
 {
-    class BinaryReader : public BinaryTransferer
+    class BinaryImporter : public Importer
     {
     public:
-        BinaryReader(const std::shared_ptr<std::iostream>& stream);
-
+        void Import(std::string& data) override;
     protected:
-        CustomTransferFunc(int, ReadStreamTo, 0)
-        CustomTransferFunc(float, ReadStreamTo, 1)
-        CustomTransferFunc(bool, ReadStreamTo, 2)
+        void ReadStreamTo(char* value, int size);
+        template <typename TValue>
+        void ReadStreamTo(TValue& value)
+        {
+            ReadStreamTo(reinterpret_cast<char*>(&value), sizeof(TValue));
+        }
+
+        CustomTransferFunc(int, ReadStreamTo)
+        CustomTransferFunc(float, ReadStreamTo)
+        CustomTransferFunc(bool, ReadStreamTo)
 
         void TransferString(std::string& value);
-        CustomTransferFunc(std::string, TransferString, 0)
+        CustomTransferFunc(std::string, TransferString)
 
         // void TransferValue(int& value) override;
         // void TransferValue(float& value) override;
@@ -27,5 +34,7 @@ namespace BDXKEngine
         // void TransferValue(ObjectPtrBase& value) override;
         // void TransferValue(Serialization& value) override;
         // void TransferValue(char* source, int size) override;
+    private:
+        std::stringstream stream;
     };
 }

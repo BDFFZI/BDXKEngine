@@ -42,9 +42,9 @@ namespace BDXKEngine
         return result == gameObjects.end() ? nullptr : *result;
     }
 
-    void Scene::PreAwake()
+    void Scene::MarkAwake()
     {
-        SwitchableObject::PreAwake();
+        SwitchableObject::MarkAwake();
 
         //TODO 零时
         GraphicsSettings graphicsSettingsPrefab{};
@@ -52,20 +52,20 @@ namespace BDXKEngine
         graphicsSettings = InstantiateNoAwake(&graphicsSettingsPrefab);
         qualitySettings = InstantiateNoAwake(&qualitySettingsPrefab);
 
-        Object::PreAwake(graphicsSettings.ToObjectBase());
-        Object::PreAwake(qualitySettings.ToObjectBase());
+        Object::MarkAwake(graphicsSettings.ToObjectBase());
+        Object::MarkAwake(qualitySettings.ToObjectBase());
 
         for (const auto& value : gameObjects)
-            Object::PreAwake(value.ToObjectBase());
+            Object::MarkAwake(value.ToObjectBase());
     }
     void Scene::PreDestroy()
     {
         const std::vector gameObjects = {this->gameObjects};
         for (const auto& value : gameObjects)
-            Object::PreDestroy(value.ToObjectBase());
+            Object::MarkDestroy(value.ToObjectBase());
 
-        Object::PreDestroy(graphicsSettings.ToObjectBase());
-        Object::PreDestroy(qualitySettings.ToObjectBase());
+        Object::MarkDestroy(graphicsSettings.ToObjectBase());
+        Object::MarkDestroy(qualitySettings.ToObjectBase());
 
         SwitchableObject::PreDestroy();
     }

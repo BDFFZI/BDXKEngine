@@ -39,6 +39,7 @@ namespace BDXKEngine
         {
             if (this == &other)
                 return *this;
+
             ObjectPtrBase::operator =(other);
             debugPtr = other.debugPtr;
             return *this;

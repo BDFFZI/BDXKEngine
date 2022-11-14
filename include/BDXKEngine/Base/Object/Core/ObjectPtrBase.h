@@ -1,8 +1,10 @@
 ﻿#pragma once
-#include "Core/Object.h"
+#include <map>
 
 namespace BDXKEngine
 {
+    class Object;
+
     class ObjectPtrBase
     {
     public:
@@ -29,6 +31,7 @@ namespace BDXKEngine
         bool operator ==(const ObjectPtrBase& other) const;
         bool operator !=(const ObjectPtrBase& other) const;
         ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr);
+
     protected:
         static std::map<int, int> refCountMap;
 

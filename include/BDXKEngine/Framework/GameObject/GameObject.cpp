@@ -59,12 +59,12 @@ namespace BDXKEngine
         for (int i = 0; i < childCount; i++)
             transform->GetChild(i)->GetGameObject()->SetIsActivating();
     }
-    void GameObject::PreAwake()
+    void GameObject::MarkAwake()
     {
-        SwitchableObject::PreAwake();
+        SwitchableObject::MarkAwake();
 
         for (const auto& component : components)
-            Object::PreAwake(component.ToObjectBase());
+            Object::MarkAwake(component.ToObjectBase());
     }
     void GameObject::PreDestroy()
     {
@@ -72,7 +72,7 @@ namespace BDXKEngine
 
         const std::vector components = {this->components};
         for (const ObjectPtr<Component>& component : components)
-            Object::PreDestroy(component.ToObjectBase());
+            Object::MarkDestroy(component.ToObjectBase());
 
         Vector::Remove(scene->gameObjects, {this});
     }

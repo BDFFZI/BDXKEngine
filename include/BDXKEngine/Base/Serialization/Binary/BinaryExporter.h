@@ -1,20 +1,27 @@
 ﻿#pragma once
-#include "BinaryTransferer.h"
+#include <sstream>
+#include "../Exporter.h"
 
 namespace BDXKEngine
 {
-    class BinaryWriter : public BinaryTransferer
+    class BinaryExporter : public Exporter
     {
     public:
-        BinaryWriter(const std::shared_ptr<std::iostream>& stream);
-
+        void Export(std::string& data) override;
     protected:
-        CustomTransferFunc(int, WriteStreamFrom, 0)
-        CustomTransferFunc(float, WriteStreamFrom, 1)
-        CustomTransferFunc(bool, WriteStreamFrom, 2)
+        void WriteStreamFrom(const char* value, int size);
+        template <typename TValue>
+        void WriteStreamFrom(TValue& value)
+        {
+            WriteStreamFrom(reinterpret_cast<char*>(&value), sizeof(TValue));
+        }
+
+        CustomTransferFunc(int, WriteStreamFrom)
+        CustomTransferFunc(float, WriteStreamFrom)
+        CustomTransferFunc(bool, WriteStreamFrom)
 
         void TransferString(const std::string& value);
-        CustomTransferFunc(std::string, TransferString, 0)
+        CustomTransferFunc(std::string, TransferString)
 
         // void TransferValue(char* source, int size) override;
         // void TransferValue(float& value) override;
@@ -27,5 +34,7 @@ namespace BDXKEngine
         // void TransferValue(std::string& value) override;
         // void TransferValue(ObjectPtrBase& value) override;
         // void TransferValue(Serialization& value) override;
+    private:
+        std::stringstream stream;
     };
 }

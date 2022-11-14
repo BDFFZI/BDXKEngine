@@ -24,7 +24,7 @@ namespace BDXKEngine
         ObjectPtr<GraphicsSettings> graphicsSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;//所有物体(由GameObject负责增减)
 
-        void PreAwake() override;
+        void MarkAwake() override;
         void PreDestroy() override;
         void Transfer(transferer& transferer) override;
     };
