@@ -171,8 +171,8 @@ namespace BDXKEngine
     }
     void Light::PreDestroy()
     {
-        Object::MarkDestroy(shadowMap.ToObjectBase());
-        Object::MarkDestroy(shadowMapCube.ToObjectBase());
+        BDXKObject::MarkDestroy(shadowMap.ToObjectBase());
+        BDXKObject::MarkDestroy(shadowMapCube.ToObjectBase());
 
         Component::PreDestroy();
     }

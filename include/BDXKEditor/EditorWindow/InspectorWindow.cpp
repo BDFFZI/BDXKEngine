@@ -44,7 +44,7 @@ namespace BDXKEditor
     }
     void Inspector::TransferValue(ObjectPtrBase& value)
     {
-        const Object* object = value.ToObjectBase();
+        const BDXKObject* object = value.ToObjectBase();
         if (object == nullptr)
         {
             ImGui::Button(GetFieldID("nullptr").c_str());

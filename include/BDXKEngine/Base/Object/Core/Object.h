@@ -24,47 +24,34 @@ namespace BDXKEngine
     {
         friend ObjectManager;
     public:
-        static ObjectPtrBase InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer);
+        static std::map<int, Object*> GetAllObjects();
+        //转换
+        static ObjectPtrBase InstantiateNoAwake(Object* object); //将object从原生状态转为实例状态
+        static ObjectPtrBase Instantiate(Object* object); //将object从原生状态转为实例状态并激活
         template <typename TObject>
-        static ObjectPtr<TObject> InstantiateNoAwake(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
+        static ObjectPtr<TObject> InstantiateNoAwake(TObject* object) //将object从原生状态转为实例状态
         {
-            return InstantiateNoAwake(objectPtr, serializer).template ToObjectPtr<TObject>();
-        }
-        template <typename TObject>
-        static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
-        {
-            //创建
-            ObjectPtr<TObject> instance = InstantiateNoAwake<TObject>(objectPtr, serializer);
-
-            //激活
-            const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
-            postAwakeQueue.clear();
-            MarkAwake(instance);
-            FlushAwakeQueue();
-            postAwakeQueue = lastAwakeQueue;
-
-            return instance;
+            return InstantiateNoAwake(static_cast<Object*>(object)).ToObject<TObject>();
         }
         template <typename TObject>
         static ObjectPtr<TObject> Instantiate(TObject* object) //将object从原生状态转为实例状态
         {
-            if (object == nullptr) throw std::exception("实例化的物体为空");
-            if (object->instanceID != 0) throw std::exception("物体已被实例化");
-
-            //注册
-            object->instanceID = ++instanceIDCount;
-            allObjects[object->instanceID] = object;
-            ObjectPtr<TObject> objectPtr = object;
-
-            //激活
-            const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
-            postAwakeQueue.clear();
-            MarkAwake(objectPtr);
-            FlushAwakeQueue();
-            postAwakeQueue = lastAwakeQueue;
-            
-            return objectPtr;
+            return Instantiate(static_cast<Object*>(object)).ToObject<TObject>();
         }
+        //克隆
+        static ObjectPtrBase InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer);
+        static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer);
+        template <typename TObject>
+        static ObjectPtr<TObject> InstantiateNoAwake(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
+        {
+            return InstantiateNoAwake(static_cast<ObjectPtrBase>(objectPtr), serializer).template ToObject<TObject>();
+        }
+        template <typename TObject>
+        static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
+        {
+            return Instantiate(static_cast<ObjectPtrBase>(objectPtr), serializer).template ToObject<TObject>();
+        }
+
 
         //销毁物体
         static void DestroyImmediate(const ObjectPtrBase& object);
@@ -85,9 +72,8 @@ namespace BDXKEngine
 
         int GetInstanceID() const;
         std::string GetName() const;
-        bool GetIsRunning() const; //是否是已被Awake的状态
-
         void SetName(const std::string& name);
+        bool IsRunning() const; //是否是已被Awake的状态
 
         void Transfer(Transferer& transferer) override;
 

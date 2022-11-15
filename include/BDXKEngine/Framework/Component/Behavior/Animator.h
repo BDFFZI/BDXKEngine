@@ -5,7 +5,7 @@
 
 namespace BDXKEngine
 {
-    class AnimatorClip : public Object
+    class AnimatorClip : public BDXKObject
     {
     public:
         static ObjectPtr<AnimatorClip> Create(std::function<void(ObjectPtr<Transform> transfom)> clip)

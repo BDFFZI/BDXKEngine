@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/BDXKObject.h"
 #include "SwitchableObjectEvent.h"
 
 //Activating影响Enabling的生效能力
@@ -7,7 +7,7 @@
 
 namespace BDXKEngine
 {
-    class SwitchableObject : public Object
+    class SwitchableObject : public BDXKObject
     {
     public:
         virtual bool GetIsActivating() const;

@@ -10,17 +10,58 @@ namespace BDXKEngine
     std::vector<Object*> Object::postDestroyQueue;
     std::vector<Object*> Object::postAwakeQueue;
 
+    std::map<int, Object*> Object::GetAllObjects()
+    {
+        return allObjects;
+    }
+    ObjectPtrBase Object::InstantiateNoAwake(Object* object)
+    {
+        if (object == nullptr) throw std::exception("实例化的物体为空");
+        if (object->instanceID != 0) throw std::exception("物体已被实例化");
+
+        //注册
+        object->instanceID = ++instanceIDCount;
+        allObjects[object->instanceID] = object;
+
+        return object;
+    }
+    ObjectPtrBase Object::Instantiate(Object* object)
+    {
+        ObjectPtrBase objectPtr = InstantiateNoAwake(object);
+
+        //激活
+        const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
+        postAwakeQueue.clear();
+        MarkAwake(objectPtr);
+        FlushAwakeQueue();
+        postAwakeQueue = lastAwakeQueue;
+
+        return objectPtr;
+    }
     ObjectPtrBase Object::InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer)
     {
         if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
-        //克隆数据
+        //克隆并注册
         const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
         instance->instanceID = ++instanceIDCount;
-        instance->name = instance->GetTypeID();
+        instance->name = instance->name + " (Clone)";
         allObjects[instance->instanceID] = instance;
 
         return instance;
+    }
+    ObjectPtrBase Object::Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer)
+    {
+        const ObjectPtrBase objectPtrBase = InstantiateNoAwake(objectPtr, serializer);
+
+        //激活
+        const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
+        postAwakeQueue.clear();
+        MarkAwake(objectPtrBase);
+        FlushAwakeQueue();
+        postAwakeQueue = lastAwakeQueue;
+
+        return objectPtrBase;
     }
     void Object::DestroyImmediate(const ObjectPtrBase& object)
     {
@@ -47,7 +88,7 @@ namespace BDXKEngine
     {
         return name;
     }
-    bool Object::GetIsRunning() const
+    bool Object::IsRunning() const
     {
         return isRunning;
     }

@@ -87,26 +87,26 @@ namespace BDXKEngine
             //这三层是静态的，所以需要顺序初始化，以便初始化无异常
             {
                 //基础层初始化
-                Object::SetCreator<Shader>();
-                Object::SetCreator<Buffer>();
-                Object::SetCreator<Texture2D>();
-                Object::SetCreator<TextureCube>();
-                Object::SetCreator<Material>();
-                Object::SetCreator<Mesh>();
+                BDXKObject::SetCreator<Shader>();
+                BDXKObject::SetCreator<Buffer>();
+                BDXKObject::SetCreator<Texture2D>();
+                BDXKObject::SetCreator<TextureCube>();
+                BDXKObject::SetCreator<Material>();
+                BDXKObject::SetCreator<Mesh>();
 
-                Object::SetCreator<Transform>();
-                Object::SetCreator<Component>();
-                Object::SetCreator<GameObject>();
-                Object::SetCreator<Scene>();
-                Object::SetCreator<QualitySettings>();
-                Object::SetCreator<GraphicsSettings>();
+                BDXKObject::SetCreator<Transform>();
+                BDXKObject::SetCreator<Component>();
+                BDXKObject::SetCreator<GameObject>();
+                BDXKObject::SetCreator<Scene>();
+                BDXKObject::SetCreator<QualitySettings>();
+                BDXKObject::SetCreator<GraphicsSettings>();
 
-                Object::SetCreator<Animator>();
-                Object::SetCreator<AnimatorClip>();
-                Object::SetCreator<Camera>();
-                Object::SetCreator<Light>();
-                Object::SetCreator<MeshRenderer>();
-                Object::SetCreator<ScriptableObject>();
+                BDXKObject::SetCreator<Animator>();
+                BDXKObject::SetCreator<AnimatorClip>();
+                BDXKObject::SetCreator<Camera>();
+                BDXKObject::SetCreator<Light>();
+                BDXKObject::SetCreator<MeshRenderer>();
+                BDXKObject::SetCreator<ScriptableObject>();
 
                 //平台层初始化
                 GL::Initialize(&window);
@@ -136,11 +136,11 @@ namespace BDXKEngine
                 //正式循环
                 window.Show();
 
-                Object::DestroyImmediate(scene.ToObjectBase());
+                BDXKObject::DestroyImmediate(scene.ToObjectBase());
             }
 
             Debug::LogError("系统回收检查");
-            Object::DebugObjectCount();
+            BDXKObject::DebugObjectCount();
             ObjectPtrBase::PrintRefCountMap();
             BehaviorManager::DebugHandlersCount();
         }

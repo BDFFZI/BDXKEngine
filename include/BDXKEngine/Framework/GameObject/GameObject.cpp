@@ -64,7 +64,7 @@ namespace BDXKEngine
         SwitchableObject::MarkAwake();
 
         for (const auto& component : components)
-            Object::MarkAwake(component.ToObjectBase());
+            BDXKObject::MarkAwake(component.ToObjectBase());
     }
     void GameObject::PreDestroy()
     {
@@ -72,7 +72,7 @@ namespace BDXKEngine
 
         const std::vector components = {this->components};
         for (const ObjectPtr<Component>& component : components)
-            Object::MarkDestroy(component.ToObjectBase());
+            BDXKObject::MarkDestroy(component.ToObjectBase());
 
         Vector::Remove(scene->gameObjects, {this});
     }

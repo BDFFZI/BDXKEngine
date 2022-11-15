@@ -8,6 +8,7 @@
 #include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Serialization/Binary/BinaryExporter.h"
+#include "BDXKEngine/Base/Serialization/Binary/BinaryImporter.h"
 
 using namespace BDXKEngine;
 
@@ -26,7 +27,7 @@ public:
 
 CustomReflection(Assets)
 
-class Container: public Object
+class Container : public Object
 {
 public:
     void Transfer(Transferer& transferer) override
@@ -35,6 +36,13 @@ public:
 
         TransferFieldInfo(value);
         TransferFieldInfo(assets);
+    }
+
+    void MarkAwake() override
+    {
+        Object::MarkAwake();
+        
+        Object::MarkAwake(assets);
     }
 
     int value = 99;
@@ -48,30 +56,35 @@ int main()
     //TODO Object要支持序列化Object功能
 
     std::setlocale(LC_ALL, "zh-CN.UTF-8");
-    
-    ObjectPtr assets = Object::Instantiate(new Assets{});
-    ObjectPtr container = Object::Instantiate(new Container{});
-    container->assets = assets;
 
-    ObjectSerializer serializer;
+    {
+        ObjectSerializer<BinaryExporter, BinaryImporter> serializer;
 
+        //导出物体
+        ObjectPtr assets = Object::Instantiate(new Assets{});
+        ObjectPtr container = Object::Instantiate(new Container{});
+        container->assets = assets;
+        std::string data = serializer.Serialize(container.ToObjectBase());
+        std::ofstream ofstream("C:/Users/BDFFZI/Desktop/data.bin");
+        ofstream << data;
+        ofstream.close();
 
-    //导出物体
-    std::string data = serializer.Serialize(container.ToObjectBase());
-    std::ofstream ofstream("C:/Users/BDFFZI/Desktop/data.bin");
-    ofstream << data;
-    ofstream.close();
-    //
-    //
-    // int size = std::filesystem::file_size("C:/Users/BDFFZI/Desktop/data.bin");
-    // std::ifstream ifstream("C:/Users/BDFFZI/Desktop/data.bin", std::ifstream::binary);
-    // char* buffer = new char[size];
-    // ifstream.read(buffer, size);
-    // ifstream.close();
-    //
-    // Assets* sourceAssets = dynamic_cast<Assets*>(serializer.Deserialize(std::string(buffer, size)));
-    // ObjectPtr<Assets2>  = Object::Instantiate(sourceAssets);
+        //导入物体
+        int size = std::filesystem::file_size("C:/Users/BDFFZI/Desktop/data.bin");
+        std::ifstream ifstream("C:/Users/BDFFZI/Desktop/data.bin", std::ifstream::binary);
+        char* buffer = new char[size];
+        ifstream.read(buffer, size);
+        ifstream.close();
+        Object* reflective = dynamic_cast<Object*>(serializer.Deserialize(std::string(buffer, size)));
+        ObjectPtr<Container> object = Object::Instantiate<Container>(dynamic_cast<Container*>(reflective), serializer);
+        object = Object::Instantiate<Container>(object, serializer);
 
+        auto a = Object::GetAllObjects();
+        ObjectPtrBase::PrintRefCountMap();
+    }
+
+    auto b = Object::GetAllObjects();
+    ObjectPtrBase::PrintRefCountMap();
 
     getchar();
 }

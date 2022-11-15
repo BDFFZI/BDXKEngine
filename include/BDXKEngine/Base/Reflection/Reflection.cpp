@@ -13,7 +13,7 @@ namespace BDXKEngine
     {
         currentKey = key;
     }
-    void ReflectionTransferer::TransferValueFallback(void* value, const Type& typeID)
+    void ReflectionTransferer::TransferValue(void* value, const Type& typeID)
     {
         const int addressOffset = static_cast<int>(reinterpret_cast<std::uintptr_t>(value) - origin);
         if (addressOffset >= 0 && addressOffset < length)reflection.fields[currentKey] = addressOffset;

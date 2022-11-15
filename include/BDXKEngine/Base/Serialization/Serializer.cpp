@@ -34,6 +34,16 @@ namespace BDXKEngine
     }
     Reflective* Serializer::Clone(Reflective* input)
     {
-        return Deserialize(Serialize(input));
+        //导出数据
+        input->Transfer(exporter);
+        std::string data;
+        exporter.Export(data);
+
+        //导入数据
+        importer.Import(data);
+        Reflective* output = Reflection::GetReflection(input).GetConstruction();
+        output->Transfer(importer);
+
+        return output;
     }
 }

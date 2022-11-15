@@ -52,7 +52,7 @@ namespace BDXKEngine
     std::string SwitchableObject::ToString()
     {
         std::stringstream stream;
-        stream << Object::ToString();
+        stream << BDXKObject::ToString();
         stream << "激活中：" << GetIsActivating() << std::endl;
         stream << "启用中：" << GetIsEnabling() << std::endl;
         return stream.str();
@@ -81,7 +81,7 @@ namespace BDXKEngine
     }
     void SwitchableObject::Awake()
     {
-        Object::Awake();
+        BDXKObject::Awake();
 
         if (IsActivatingAndEnabling())Enable();
     }
@@ -95,11 +95,11 @@ namespace BDXKEngine
                 handler->OnDestroy();
         }
 
-        Object::PreDestroy();
+        BDXKObject::PreDestroy();
     }
     void SwitchableObject::Transfer(transferer& transferer)
     {
-        Object::Transfer(transferer);
+        BDXKObject::Transfer(transferer);
 
         TransferProperty(IsEnabling);
     }

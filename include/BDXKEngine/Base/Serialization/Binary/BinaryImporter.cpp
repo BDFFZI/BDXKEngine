@@ -19,8 +19,7 @@ namespace BDXKEngine
         char* data = new char[size];
         ReadStreamTo(data, size);
 
-        value = data;
-        value.resize(size);
+        value = std::string(data,size);
 
         delete[] data;
     }

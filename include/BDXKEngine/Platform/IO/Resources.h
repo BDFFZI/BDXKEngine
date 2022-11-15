@@ -36,7 +36,7 @@ namespace BDXKEngine {
 
 		static void Initialize(Window* window);
 	private:
-		static std::map<size_t, std::function<ObjectPtr<Object>(std::string path)>> creator;
+		static std::map<size_t, std::function<ObjectPtr<BDXKObject>(std::string path)>> creator;
 	};
 }
 

@@ -201,12 +201,12 @@ namespace BDXKEngine
         RenewPositionAndMatrix(false);
 
         for (const ObjectPtr<Transform>& child : children)
-            Object::MarkAwake(child->GetGameObject().ToObjectBase());
+            BDXKObject::MarkAwake(child->GetGameObject().ToObjectBase());
     }
     void Transform::PreDestroy()
     {
         for (const ObjectPtr<Transform>& child : children)
-            Object::MarkDestroy(child->GetGameObject().ToObjectBase());
+            BDXKObject::MarkDestroy(child->GetGameObject().ToObjectBase());
         children.clear();
 
         if (parent.IsNull() && GetIsRunning())

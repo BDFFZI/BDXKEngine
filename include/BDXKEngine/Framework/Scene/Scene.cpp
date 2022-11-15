@@ -52,20 +52,20 @@ namespace BDXKEngine
         graphicsSettings = InstantiateNoAwake(&graphicsSettingsPrefab);
         qualitySettings = InstantiateNoAwake(&qualitySettingsPrefab);
 
-        Object::MarkAwake(graphicsSettings.ToObjectBase());
-        Object::MarkAwake(qualitySettings.ToObjectBase());
+        BDXKObject::MarkAwake(graphicsSettings.ToObjectBase());
+        BDXKObject::MarkAwake(qualitySettings.ToObjectBase());
 
         for (const auto& value : gameObjects)
-            Object::MarkAwake(value.ToObjectBase());
+            BDXKObject::MarkAwake(value.ToObjectBase());
     }
     void Scene::PreDestroy()
     {
         const std::vector gameObjects = {this->gameObjects};
         for (const auto& value : gameObjects)
-            Object::MarkDestroy(value.ToObjectBase());
+            BDXKObject::MarkDestroy(value.ToObjectBase());
 
-        Object::MarkDestroy(graphicsSettings.ToObjectBase());
-        Object::MarkDestroy(qualitySettings.ToObjectBase());
+        BDXKObject::MarkDestroy(graphicsSettings.ToObjectBase());
+        BDXKObject::MarkDestroy(qualitySettings.ToObjectBase());
 
         SwitchableObject::PreDestroy();
     }
