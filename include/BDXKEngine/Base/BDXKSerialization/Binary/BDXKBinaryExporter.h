@@ -1,0 +1,17 @@
+﻿#pragma once
+#include "BDXKEngine/Base/Data/Graphics/Color.h"
+#include "BDXKEngine/Base/Data/Graphics/Rect.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
+#include "BDXKEngine/Base/Serialization/Binary/BinaryExporter.h"
+
+namespace BDXKEngine
+{
+    class BDXKBinaryExporter : public BinaryExporter
+    {
+        CustomTransferFunc(Vector2, WriteStreamFrom)
+        CustomTransferFunc(Vector3, WriteStreamFrom)
+        CustomTransferFunc(Vector4, WriteStreamFrom)
+        CustomTransferFunc(Color, WriteStreamFrom)
+        CustomTransferFunc(Rect, WriteStreamFrom)
+    };
+}

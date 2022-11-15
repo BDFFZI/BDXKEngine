@@ -4,7 +4,7 @@
 
 namespace BDXKEngine
 {
-    Serializer::Serializer(Importer& importer, Exporter& exporter):
+    Serializer::Serializer(Transferer& importer, Transferer& exporter):
         importer(importer), exporter(exporter)
     {
     }
@@ -13,21 +13,21 @@ namespace BDXKEngine
         //获取数据
         std::string result;
         input->Transfer(exporter);
-        exporter.Export(result);
+        exporter.Reset(result);
 
         return result;
     }
     Reflective* Serializer::Deserialize(std::string input)
     {
         //解析类型信息
-        importer.Import(input);
+        importer.Reset(input);
         const Type type = Reflective::GetTypeID(importer);
 
         //创建实例
         auto* result = Reflection::GetReflection(type).GetConstruction<Reflective>();
 
         //填充数据
-        importer.Import(input);
+        importer.Reset(input);
         result->Transfer(importer);
 
         return result;
@@ -37,10 +37,10 @@ namespace BDXKEngine
         //导出数据
         input->Transfer(exporter);
         std::string data;
-        exporter.Export(data);
+        exporter.Reset(data);
 
         //导入数据
-        importer.Import(data);
+        importer.Reset(data);
         Reflective* output = Reflection::GetReflection(input).GetConstruction();
         output->Transfer(importer);
 

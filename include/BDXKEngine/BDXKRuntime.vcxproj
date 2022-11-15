@@ -106,9 +106,9 @@
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <LibCompiled>true</LibCompiled>
     </ClCompile>
-    <ClCompile Include="Base\BDXKSerialization\Json\JsonReader.cpp" />
+    <ClCompile Include="Base\BDXKSerialization\Json\BDXKJsonImporter.cpp" />
     <ClCompile Include="Base\BDXKSerialization\Json\JsonTransferrer.cpp" />
-    <ClCompile Include="Base\BDXKSerialization\Json\JsonWriter.cpp" />
+    <ClCompile Include="Base\BDXKSerialization\Json\BDXKJsonExporter.cpp" />
     <ClCompile Include="Base\BDXKSerialization\Serialization.cpp">
       <AssemblerOutput>NoListing</AssemblerOutput>
       <AssemblerListingLocation>_\</AssemblerListingLocation>
@@ -934,9 +934,9 @@
     <ClInclude Include="..\imgui\imstb_textedit.h" />
     <ClInclude Include="..\imgui\imstb_truetype.h" />
     <ClInclude Include="Base\BDXKObject\BDXKObject.h" />
-    <ClInclude Include="Base\BDXKSerialization\Json\JsonReader.h" />
+    <ClInclude Include="Base\BDXKSerialization\Json\BDXKJsonImporter.h" />
     <ClInclude Include="Base\BDXKSerialization\Json\JsonTransferrer.h" />
-    <ClInclude Include="Base\BDXKSerialization\Json\JsonWriter.h" />
+    <ClInclude Include="Base\BDXKSerialization\Json\BDXKJsonExporter.h" />
     <ClInclude Include="Base\BDXKSerialization\Serialization.h" />
     <ClInclude Include="Base\BDXKSerialization\Transferer.h" />
     <ClInclude Include="Base\Data\Graphics\Color.h" />

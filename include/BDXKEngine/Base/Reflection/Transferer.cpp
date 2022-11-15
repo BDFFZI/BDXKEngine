@@ -10,6 +10,10 @@ namespace BDXKEngine
         else TransferValueFallback(value, type);
     }
 
+    void Transferer::Reset(std::string& data)
+    {
+    }
+    
     void Transferer::PushPath(const std::string& key)
     {
     }

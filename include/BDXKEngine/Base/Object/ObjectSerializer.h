@@ -75,16 +75,23 @@ namespace BDXKEngine
             const std::unordered_map<std::string, std::string> serializations = database.GetSerializations();
             int serializationsCount = static_cast<int>(serializations.size());
             objectExporter.TransferField("serializationsCount", serializationsCount);
+            int index = 0;
             for (const auto& item : serializations)
             {
                 Guid target = item.first;
                 std::string data = item.second;
+
+                std::string itemName = "serialization_" + std::to_string(index);
+                objectExporter.PushPath(itemName);
                 objectExporter.TransferField("target", target);
                 objectExporter.TransferField("data", data);
+                objectExporter.PopPath(itemName);
+
+                index++;
             }
 
             std::string result;
-            objectExporter.Export(result);
+            objectExporter.Reset(result);
             return result;
         }
         Reflective* Deserialize(std::string input) override
@@ -104,15 +111,19 @@ namespace BDXKEngine
             });
 
             //读取序列化数据
-            objectImporter.Import(input);
+            objectImporter.Reset(input);
             int serializationsCount;
             objectImporter.TransferField("serializationsCount", serializationsCount);
-            for (int i = 0; i < serializationsCount; i++)
+            for (int index = 0; index < serializationsCount; index++)
             {
                 Guid target = {};
                 std::string data = {};
+
+                std::string itemName = "serialization_" + std::to_string(index);
+                objectImporter.PushPath(itemName);
                 objectImporter.TransferField("target", target);
                 objectImporter.TransferField("data", data);
+                objectImporter.PopPath(itemName);
 
                 database.SetSerialization(target, data);
             }
@@ -170,7 +181,7 @@ namespace BDXKEngine
             //导出数据
             input->Transfer(objectExporter);
             std::string data;
-            objectExporter.Export(data);
+            objectExporter.Reset(data);
 
             for (auto& item : cloneObjects)
             {
@@ -199,7 +210,7 @@ namespace BDXKEngine
             }
 
             //导入数据
-            objectImporter.Import(data);
+            objectImporter.Reset(data);
             Reflective* output = Reflection::GetReflection(input).GetConstruction();
             output->Transfer(objectImporter);
 

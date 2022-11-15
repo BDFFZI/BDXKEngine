@@ -9,6 +9,7 @@ namespace BDXKEngine
     {
     public:
         virtual ~Transferer() = default;
+        virtual void Reset(std::string& data);
 
         template <typename TValue>
         void SetTransferFunc(std::function<void(TValue& value)> func)

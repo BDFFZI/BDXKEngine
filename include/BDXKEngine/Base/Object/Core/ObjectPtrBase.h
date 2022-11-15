@@ -3,7 +3,7 @@
 
 namespace BDXKEngine
 {
-    class ObjectBase;
+    class Object;
 
     class ObjectPtrBase
     {
@@ -11,7 +11,7 @@ namespace BDXKEngine
         static void PrintRefCountMap();
 
         ObjectPtrBase();
-        ObjectPtrBase(const ObjectBase* object);
+        ObjectPtrBase(const Object* object);
         ObjectPtrBase(const ObjectPtrBase& objectPtr);
         virtual ~ObjectPtrBase();
 
@@ -21,7 +21,7 @@ namespace BDXKEngine
         bool IsNull() const;
         bool IsNotNull() const;
 
-        ObjectBase* ToObjectBase() const;
+        Object* ToObjectBase() const;
         template <typename TObject>
         TObject* ToObject() const
         {
