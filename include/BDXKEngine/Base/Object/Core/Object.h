@@ -79,8 +79,8 @@ namespace BDXKEngine
 
         virtual std::string ToString();
     protected:
-        virtual void Awake();
-        virtual void Destroy();
+        virtual void Awake(); //代替构造函数
+        virtual void Destroy(); //代替析构函数
     private:
         static int instanceIDCount;
         static std::map<int, Object*> allObjects; //内存中的所有Object，包括未激活的Object

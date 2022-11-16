@@ -80,7 +80,7 @@ namespace BDXKEngine
                 instanceIDs.pop();
             }
 
-            //合并序列化结果
+            //保存序列化结果
             const std::unordered_map<std::string, std::string> serializations = database.GetSerializations();
             int serializationsCount = static_cast<int>(serializations.size());
             objectExporter.TransferField("serializationsCount", serializationsCount);
@@ -188,6 +188,13 @@ namespace BDXKEngine
                 });
             }
 
+            objectImporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
+            {
+                int instanceID;
+                objectImporter.TransferValue(instanceID);
+                value = Object::FindObjectOfInstanceID(instanceID);
+            });
+
             //导出数据
             input->Transfer(objectExporter);
             std::string data;
@@ -195,9 +202,12 @@ namespace BDXKEngine
 
             for (auto& item : cloneObjects)
             {
-                Object* object = static_cast<Object*>(Serializer::Clone(Object::FindObjectOfInstanceID(item.first)));
-                Object::InstantiateNoAwake(object);
-                item.second = object->GetInstanceID();
+                if (item.first != 0)
+                {
+                    Object* object = static_cast<Object*>(Serializer::Clone(Object::FindObjectOfInstanceID(item.first)));
+                    Object::InstantiateNoAwake(object);
+                    item.second = object->GetInstanceID();
+                }
             }
 
             if (inputObject->IsRunning())

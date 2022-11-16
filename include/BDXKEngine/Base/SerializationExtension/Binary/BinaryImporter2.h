@@ -6,7 +6,7 @@
 
 namespace BDXKEngine
 {
-    class BDXKBinaryImporter : public BinaryImporter
+    class BinaryImporter2 : public BinaryImporter
     {
         CustomTransferFunc(Vector2, ReadStreamTo)
         CustomTransferFunc(Vector3, ReadStreamTo)

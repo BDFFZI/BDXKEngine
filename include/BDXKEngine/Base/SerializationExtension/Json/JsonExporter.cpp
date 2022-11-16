@@ -1,11 +1,11 @@
-﻿#include "BDXKJsonExporter.h"
+﻿#include "JsonExporter.h"
 
 #include <iostream>
 #include <rapidjson/prettywriter.h>
 
 namespace BDXKEngine
 {
-    void BDXKJsonExporter::TransferJson(std::string key, std::string& value)
+    void JsonExporter::TransferJson(std::string key, std::string& value)
     {
         auto& allocator = GetAllocator();
         rapidjson::GenericValue<rapidjson::UTF8<>> keystring = {key.c_str(), static_cast<rapidjson::SizeType>(key.length()), allocator};
@@ -15,12 +15,12 @@ namespace BDXKEngine
 
         GetCurrentNode().AddMember(keystring, document, GetAllocator());
     }
-    void BDXKJsonExporter::Reset(std::string& data)
+    void JsonExporter::Reset(std::string& data)
     {
         Export(GetDocument(), data);
         ResetNodes();
     }
-    void BDXKJsonExporter::PushPath(const std::string& key)
+    void JsonExporter::PushPath(const std::string& key)
     {
         auto& allocator = GetAllocator();
         rapidjson::GenericValue<rapidjson::UTF8<>> keystring(key.c_str(), static_cast<rapidjson::SizeType>(key.length()), allocator);
@@ -31,23 +31,23 @@ namespace BDXKEngine
 
         PushNode(&currentNode[key.c_str()]);
     }
-    void BDXKJsonExporter::PopPath(std::string& key)
+    void JsonExporter::PopPath(std::string& key)
     {
         PopNode();
     }
-    void BDXKJsonExporter::TransferInt(int& value)
+    void JsonExporter::TransferInt(int& value)
     {
         GetCurrentNode().SetInt(value);
     }
-    void BDXKJsonExporter::TransferFloat(float& value)
+    void JsonExporter::TransferFloat(float& value)
     {
         GetCurrentNode().SetFloat(value);
     }
-    void BDXKJsonExporter::TransferBool(bool& value)
+    void JsonExporter::TransferBool(bool& value)
     {
         GetCurrentNode().SetBool(value);
     }
-    void BDXKJsonExporter::TransferVector2(Vector2& value)
+    void JsonExporter::TransferVector2(Vector2& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -55,7 +55,7 @@ namespace BDXKEngine
         node.PushBack(value.x, allocator);
         node.PushBack(value.y, allocator);
     }
-    void BDXKJsonExporter::TransferVector3(Vector3& value)
+    void JsonExporter::TransferVector3(Vector3& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -64,7 +64,7 @@ namespace BDXKEngine
         node.PushBack(value.y, allocator);
         node.PushBack(value.z, allocator);
     }
-    void BDXKJsonExporter::TransferVector4(Vector4& value)
+    void JsonExporter::TransferVector4(Vector4& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -74,7 +74,7 @@ namespace BDXKEngine
         node.PushBack(value.z, allocator);
         node.PushBack(value.w, allocator);
     }
-    void BDXKJsonExporter::TransferColor(Color& value)
+    void JsonExporter::TransferColor(Color& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -84,7 +84,7 @@ namespace BDXKEngine
         node.PushBack(value.b, allocator);
         node.PushBack(value.a, allocator);
     }
-    void BDXKJsonExporter::TransferRect(Rect& value)
+    void JsonExporter::TransferRect(Rect& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -94,7 +94,7 @@ namespace BDXKEngine
         node.PushBack(value.width, allocator);
         node.PushBack(value.height, allocator);
     }
-    void BDXKJsonExporter::TransferString(std::string& value)
+    void JsonExporter::TransferString(std::string& value)
     {
         GetCurrentNode().SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.size()), GetAllocator());
     }

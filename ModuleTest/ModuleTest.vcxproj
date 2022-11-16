@@ -159,7 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\BDXKEngine\Base\BDXKSerialization\Binary\BDXKBinaryExporter.cpp">
+    <ClCompile Include="..\include\BDXKEngine\Base\BDXKObject\BDXKObject.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -234,10 +234,6 @@
       <AdditionalOptions>/utf-8 /d1 reportSingleClassLayoutClassTest</AdditionalOptions>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="..\include\BDXKEngine\Base\BDXKSerialization\Binary\BDXKBinaryImporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\BDXKSerialization\Json\BDXKJsonExporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\BDXKSerialization\Json\BDXKJsonImporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\BDXKSerialization\Json\JsonTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Data\Graphics\Color.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Data\Graphics\Rect.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.cpp" />
@@ -253,17 +249,26 @@
     <ClCompile Include="..\include\BDXKEngine\Base\Reflection\Reflection.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Reflection\Reflective.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Reflection\Transferer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryExporter2.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryImporter2.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonExporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonImporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Serializer.cpp" />
     <ClCompile Include="ModuleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\BDXKEngine\Base\BDXKSerialization\Binary\BDXKBinaryExporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\BDXKSerialization\Binary\BDXKBinaryImporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\BDXKSerialization\Json\BDXKJsonExporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\BDXKSerialization\Json\BDXKJsonImporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\BDXKSerialization\Json\JsonTransferer.h" />
+    <Content Include="..\include\BDXKEngine\Base\BDXKObject\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Data\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Object\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Reflection\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\SerializationExtension\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Serialization\ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\BDXKEngine\Base\BDXKObject\BDXKObject.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Color.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Rect.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Mathematics\Math.h" />
@@ -282,14 +287,14 @@
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Reflective.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Transferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Type.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryExporter2.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryImporter2.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonExporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonImporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Serializer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\include\BDXKEngine\Base\Object\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\Reflection\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\Serialization\ReadMe.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

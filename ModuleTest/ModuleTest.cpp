@@ -1,19 +1,12 @@
 #include <cstdio>
 #include <iostream>
-#include <sstream>
 #include <filesystem>
-#include <fstream>
-
-#include "BDXKEngine/Base/BDXKSerialization/Binary/BDXKBinaryExporter.h"
-#include "BDXKEngine/Base/BDXKSerialization/Binary/BDXKBinaryImporter.h"
-#include "BDXKEngine/Base/BDXKSerialization/Json/BDXKJsonExporter.h"
-#include "BDXKEngine/Base/BDXKSerialization/Json/BDXKJsonImporter.h"
+#include "BDXKEngine/Base/BDXKObject/BDXKObject.h"
 #include "BDXKEngine/Base/Object/ObjectSerializer.h"
 #include "BDXKEngine/Base/Object/Core/ObjectPtr.h"
 #include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Serialization/Binary/BinaryExporter.h"
-#include "BDXKEngine/Base/Serialization/Binary/BinaryImporter.h"
 
 using namespace BDXKEngine;
 
@@ -25,9 +18,11 @@ public:
         Object::Transfer(transferer);
 
         TransferFieldInfo(intValue);
+        TransferFieldInfo(rect);
     }
 
     int intValue = 66;
+    Rect rect = {0, 0, 30, 60};
 };
 
 CustomReflection(Assets)
@@ -40,75 +35,49 @@ public:
         Object::Transfer(transferer);
 
         TransferFieldInfo(value);
+        TransferFieldInfo(position);
         TransferFieldInfo(assets);
+        TransferFieldInfo(container);
     }
-    
+
     int value = 99;
+    Vector3 position = {7, 6.6f, 10.23f};
     ObjectPtr<Assets> assets;
+    ObjectPtr<Container> container;
 };
 
 CustomReflection(Container)
 
 int main()
 {
-    //TODO Object要支持序列化Object功能
+    //TODO 指针指向自己会导致无法自动回收
+    //TODO 持久化信息需要保存
 
     std::setlocale(LC_ALL, "zh-CN.UTF-8");
 
     {
-        ObjectSerializer<BDXKJsonExporter, BDXKJsonImporter> serializer(
-            [](Transferer& transferer, const Guid& guid, std::string& serialization)
-            {
-                std::string path = "C:/Users/BDFFZI/Desktop/" + guid + ".json";
-                if (dynamic_cast<BDXKJsonExporter*>(&transferer) != nullptr)
-                {
-                    std::ofstream ofstream(path,std::ios_base::binary);
-                    ofstream << serialization;
-                    ofstream.close();
-                }
-                else
-                {
-                    std::ifstream ifstream(path,std::ios_base::binary);
-                    int size = std::filesystem::file_size(path);
-                    char* buffer = new char[size];
-                    ifstream.read(buffer, size);
-                    ifstream.close();
-                    serialization = std::string(buffer, size);
-                }
-
-                //dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
-            }
-        );
-        //ObjectSerializer<BDXKBinaryExporter, BDXKBinaryImporter> serializer;
-        char path[] = "C:/Users/BDFFZI/Desktop/data.json";
+        Guid guid;
 
         //导出物体
-        // {
-        //     ObjectPtr assets = Object::Instantiate(new Assets{});
-        //     ObjectPtr container = Object::Instantiate(new Container{});
-        //     container->assets = assets;
-        //     std::string data = serializer.Serialize(container.ToObjectBase());
-        //     std::ofstream ofstream(path);
-        //     ofstream << data;
-        //     ofstream.close();
-        // }
-
-
-        //导入物体
         {
-            int size = std::filesystem::file_size(path);
-            std::ifstream ifstream(path, std::ifstream::binary);
-            char* buffer = new char[size];
-            ifstream.read(buffer, size);
-            ifstream.close();
-            Object* reflective = dynamic_cast<Object*>(serializer.Deserialize(std::string(buffer, size)));
-            ObjectPtr<Container> object = Object::Instantiate<Container>(dynamic_cast<Container*>(reflective), serializer);
-            object = Object::Instantiate<Container>(object, serializer);
+            ObjectPtr assets = Object::Instantiate(new Assets{});
+            ObjectPtr container = Object::Instantiate(new Container{});
+            ObjectPtr container2 = Object::Instantiate(new Container{});
+            container->assets = assets;
+            container->container = container2;
+            container2->container = container2;
+            guid = BDXKObject::Save(container.ToObjectBase());
         }
-
 
         auto a = Object::GetAllObjects();
         ObjectPtrBase::PrintRefCountMap();
+
+        //导入物体
+        {
+            ObjectPtr prefab = BDXKObject::Load(guid).ToObject<Container>();
+            ObjectPtr<Container> object = BDXKObject::Instantiate<Container>(prefab);
+            object = BDXKObject::Instantiate<Container>(object);
+        }
     }
 
     auto b = Object::GetAllObjects();
