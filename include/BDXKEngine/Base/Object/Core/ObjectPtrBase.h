@@ -28,6 +28,7 @@ namespace BDXKEngine
             return dynamic_cast<TObject*>(ToObjectBase());
         }
 
+        virtual Object* operator->() const;
         bool operator ==(const ObjectPtrBase& other) const;
         bool operator !=(const ObjectPtrBase& other) const;
         ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr);

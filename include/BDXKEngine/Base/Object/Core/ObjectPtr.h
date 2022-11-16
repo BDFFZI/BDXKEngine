@@ -29,7 +29,7 @@ namespace BDXKEngine
             return ToObject<TOtherObject>();
         }
 
-        TObject* operator->() const
+        TObject* operator->() const override
         {
             TObject* object = ToObject<TObject>();
             if (object == nullptr)throw std::exception("当前物体指针的引用目标为空");

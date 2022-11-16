@@ -3,6 +3,19 @@
 
 namespace BDXKEngine
 {
+    void JsonTransferer::Export(rapidjson::Document& document, std::string& json)
+    {
+        rapidjson::StringBuffer buffer{};
+        rapidjson::PrettyWriter writer{buffer};
+        document.Accept(writer);
+        document.Parse("{}");
+        json = buffer.GetString();
+    }
+    void JsonTransferer::Import(rapidjson::Document& document, std::string& json)
+    {
+        document.Parse(json.c_str());
+    }
+
     JsonTransferer::JsonTransferer()
     {
         document.Parse("{}");

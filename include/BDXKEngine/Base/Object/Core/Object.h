@@ -26,17 +26,19 @@ namespace BDXKEngine
     public:
         static std::map<int, Object*> GetAllObjects();
         //转换
-        static ObjectPtrBase InstantiateNoAwake(Object* object); //将object从原生状态转为实例状态
-        static ObjectPtrBase Instantiate(Object* object); //将object从原生状态转为实例状态并激活
+        static void InstantiateNoAwake(Object* object); //将object从原生状态转为实例状态
+        static void Instantiate(Object* object); //将object从原生状态转为实例状态并激活
         template <typename TObject>
         static ObjectPtr<TObject> InstantiateNoAwake(TObject* object) //将object从原生状态转为实例状态
         {
-            return InstantiateNoAwake(static_cast<Object*>(object)).ToObject<TObject>();
+            InstantiateNoAwake(static_cast<Object*>(object));
+            return object;
         }
         template <typename TObject>
         static ObjectPtr<TObject> Instantiate(TObject* object) //将object从原生状态转为实例状态
         {
-            return Instantiate(static_cast<Object*>(object)).ToObject<TObject>();
+            Instantiate(static_cast<Object*>(object));
+            return object;
         }
         //克隆
         static ObjectPtrBase InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer);
@@ -51,16 +53,14 @@ namespace BDXKEngine
         {
             return Instantiate(static_cast<ObjectPtrBase>(objectPtr), serializer).template ToObject<TObject>();
         }
-
-
-        //销毁物体
+        //销毁
         static void DestroyImmediate(const ObjectPtrBase& object);
-
+        //搜索
         template <typename TObject>
-        static std::vector<ObjectPtr<TObject>> FindObjectsOfType()
+        static std::vector<TObject*> FindObjectsOfType()
         {
-            std::vector<ObjectPtr<TObject>> result{};
-            for (auto& item : allObjectsRunning)
+            std::vector<TObject*> result{};
+            for (auto& item : allObjects)
             {
                 TObject* object = dynamic_cast<TObject*>(item.second);
                 if (object != nullptr)result.emplace_back(object);
@@ -79,31 +79,15 @@ namespace BDXKEngine
 
         virtual std::string ToString();
     protected:
-        //单独抽出为静态函数是为了解决递归调用的问题,可以保证每次删除都充分得到检查和修正，比如防止重复唤醒销毁
-        /// 用于唤醒信号的传递，调用源头为Instantiate(TObject*)，只在PreAwake()中调用有效
-        static void MarkAwake(const ObjectPtrBase& objectPtr);
-        /// 用于销毁信号的传递，调用源头为DestroyImmediate(TObject*)，只在PreDestroy()中调用有效
-        static void MarkDestroy(const ObjectPtrBase& objectPtr);
-
-        //以下函数以及其他同类型函数重写时请务必回调父类函数
-        virtual void MarkAwake(); //预唤醒，用于传递PreAwake(Object* object)函数的范围
-        virtual void MarkDestroy(); //预销毁，用于传递PreDestroy(Object* object)函数的范围，此时所影响物体都任未删除
-        virtual void Awake(); //此时所影响物体都已确实唤醒
-        virtual void Destroy(); //代替析构函数，销毁物体
+        virtual void Awake();
+        virtual void Destroy();
     private:
-        static int instanceIDCount; //0为None占位符,一般用作纯数据容器
-        /// 内存中的所有Object，包括未实例化的Object
-        static std::map<int, Object*> allObjects;
-        static std::map<int, Object*> allObjectsRunning;
-        static std::vector<Object*> postAwakeQueue;
-        static std::vector<Object*> postDestroyQueue;
-
-        // 统一销毁被标记的物体，DestroyImmediate()调用，预留Unity延迟删除功能，应该是为了内存回收的问题
-        static void FlushAwakeQueue();
-        static void FlushDestroyQueue();
+        static int instanceIDCount;
+        static std::map<int, Object*> allObjects; //内存中的所有Object，包括未激活的Object
 
         std::string name;
-        int instanceID = 0; //0是默认值，作为空值使用
+        int instanceID = 0; //0为空占位符,只有原生状态会使用
+        //可以解决重复调用或循环调用的问题，是激活和销毁能以安全正确的顺序执行
         bool isRunning = false;
         bool isDestroying = false;
     };

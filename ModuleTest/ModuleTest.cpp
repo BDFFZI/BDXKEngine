@@ -42,14 +42,7 @@ public:
         TransferFieldInfo(value);
         TransferFieldInfo(assets);
     }
-
-    void MarkAwake() override
-    {
-        Object::MarkAwake();
-
-        Object::MarkAwake(assets);
-    }
-
+    
     int value = 99;
     ObjectPtr<Assets> assets;
 };
@@ -63,21 +56,43 @@ int main()
     std::setlocale(LC_ALL, "zh-CN.UTF-8");
 
     {
-        ObjectSerializer<BDXKJsonExporter, BDXKJsonImporter> serializer;
+        ObjectSerializer<BDXKJsonExporter, BDXKJsonImporter> serializer(
+            [](Transferer& transferer, const Guid& guid, std::string& serialization)
+            {
+                std::string path = "C:/Users/BDFFZI/Desktop/" + guid + ".json";
+                if (dynamic_cast<BDXKJsonExporter*>(&transferer) != nullptr)
+                {
+                    std::ofstream ofstream(path,std::ios_base::binary);
+                    ofstream << serialization;
+                    ofstream.close();
+                }
+                else
+                {
+                    std::ifstream ifstream(path,std::ios_base::binary);
+                    int size = std::filesystem::file_size(path);
+                    char* buffer = new char[size];
+                    ifstream.read(buffer, size);
+                    ifstream.close();
+                    serialization = std::string(buffer, size);
+                }
+
+                //dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
+            }
+        );
         //ObjectSerializer<BDXKBinaryExporter, BDXKBinaryImporter> serializer;
         char path[] = "C:/Users/BDFFZI/Desktop/data.json";
 
         //导出物体
-        {
-            ObjectPtr assets = Object::Instantiate(new Assets{});
-            ObjectPtr container = Object::Instantiate(new Container{});
-            container->assets = assets;
-            std::string data = serializer.Serialize(container.ToObjectBase());
-            std::ofstream ofstream(path);
-            ofstream << data;
-            ofstream.close();
-        }
- 
+        // {
+        //     ObjectPtr assets = Object::Instantiate(new Assets{});
+        //     ObjectPtr container = Object::Instantiate(new Container{});
+        //     container->assets = assets;
+        //     std::string data = serializer.Serialize(container.ToObjectBase());
+        //     std::ofstream ofstream(path);
+        //     ofstream << data;
+        //     ofstream.close();
+        // }
+
 
         //导入物体
         {

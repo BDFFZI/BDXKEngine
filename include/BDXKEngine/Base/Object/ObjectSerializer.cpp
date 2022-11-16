@@ -6,17 +6,17 @@ namespace BDXKEngine
     {
         return guidToSerialization;
     }
-    std::unordered_map<Guid, ObjectPtrBase> GuidDatabase::GetObjectPtrBases()
+    std::unordered_map<Guid, int> GuidDatabase::GetInstanceIDs()
     {
-        return guidToObjectPtrBase;
+        return guidToInstanceID;
     }
     bool GuidDatabase::GetOrGenerateGuid(int instanceID, Guid& guid)
     {
-        const auto guidItem = objectToGuid.find(instanceID);
-        if (guidItem == objectToGuid.end())
+        const auto guidItem = instanceIDToGuid.find(instanceID);
+        if (guidItem == instanceIDToGuid.end())
         {
             guid = NewGuid();
-            objectToGuid[instanceID] = guid;
+            instanceIDToGuid[instanceID] = guid;
             return false;
         }
         else
@@ -29,8 +29,8 @@ namespace BDXKEngine
     {
         guidToSerialization[guid] = serialization;
     }
-    void GuidDatabase::SetObjectPtrBase(const Guid& guid, const ObjectPtrBase& objectPtrBase)
+    void GuidDatabase::SetInstanceID(const Guid& guid, int instanceID)
     {
-        guidToObjectPtrBase[guid] = objectPtrBase;
+        guidToInstanceID[guid] = instanceID;
     }
 }

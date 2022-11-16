@@ -1,16 +1,23 @@
 ﻿#include "BDXKJsonExporter.h"
+
+#include <iostream>
 #include <rapidjson/prettywriter.h>
 
 namespace BDXKEngine
 {
+    void BDXKJsonExporter::TransferJson(std::string key, std::string& value)
+    {
+        auto& allocator = GetAllocator();
+        rapidjson::GenericValue<rapidjson::UTF8<>> keystring = {key.c_str(), static_cast<rapidjson::SizeType>(key.length()), allocator};
+
+        rapidjson::Document document = {&allocator};
+        Import(document, value);
+
+        GetCurrentNode().AddMember(keystring, document, GetAllocator());
+    }
     void BDXKJsonExporter::Reset(std::string& data)
     {
-        rapidjson::StringBuffer buffer{};
-        rapidjson::PrettyWriter writer{buffer};
-        GetDocument().Accept(writer);
-        data = buffer.GetString();
-
-        GetDocument().Parse("{}");
+        Export(GetDocument(), data);
         ResetNodes();
     }
     void BDXKJsonExporter::PushPath(const std::string& key)

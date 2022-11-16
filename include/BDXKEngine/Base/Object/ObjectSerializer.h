@@ -11,15 +11,15 @@ namespace BDXKEngine
     {
     public:
         std::unordered_map<Guid, std::string> GetSerializations();
-        std::unordered_map<Guid, ObjectPtrBase> GetObjectPtrBases();
+        std::unordered_map<Guid, int> GetInstanceIDs();
 
         bool GetOrGenerateGuid(int instanceID, Guid& guid);
+        void SetInstanceID(const Guid& guid, int instanceID);
         void SetSerialization(const Guid& guid, const std::string& serialization);
-        void SetObjectPtrBase(const Guid& guid, const ObjectPtrBase& objectPtrBase);
     private:
-        std::unordered_map<int, Guid> objectToGuid;
+        std::unordered_map<int, Guid> instanceIDToGuid;
+        std::unordered_map<Guid, int> guidToInstanceID;
         std::unordered_map<Guid, std::string> guidToSerialization;
-        std::unordered_map<Guid, ObjectPtrBase> guidToObjectPtrBase;
     };
 
 
@@ -27,9 +27,18 @@ namespace BDXKEngine
     class ObjectSerializer : public Serializer
     {
     public:
-        ObjectSerializer(): Serializer(objectImporter, objectExporter)
+        ObjectSerializer(std::function<void(Transferer&, const Guid&, std::string&)> transferSerialization): Serializer(
+            objectImporter, objectExporter)
+        {
+            this->transferSerialization = transferSerialization;
+        }
+        ObjectSerializer(): ObjectSerializer([](Transferer& transferer, const Guid& guid, std::string& serialization)
+        {
+            transferer.TransferField("data", serialization);
+        })
         {
         }
+
 
         std::string Serialize(Reflective* input) override
         {
@@ -38,10 +47,10 @@ namespace BDXKEngine
             const int inputInstanceID = inputObject->GetInstanceID();
             if (Object::FindObjectOfInstanceID(inputInstanceID) == nullptr)throw std::exception("目标物体不存在");
 
-            database = {};
+            GuidDatabase database = {};
             std::queue<int> instanceIDs;
 
-            objectExporter.template SetTransferFunc<ObjectPtrBase>([&instanceIDs,this](ObjectPtrBase& value)
+            objectExporter.template SetTransferFunc<ObjectPtrBase>([&database, &instanceIDs,this](ObjectPtrBase& value)
             {
                 const int instanceID = value.GetInstanceID();
                 if (Object::FindObjectOfInstanceID(instanceID) == nullptr)
@@ -84,7 +93,7 @@ namespace BDXKEngine
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectExporter.PushPath(itemName);
                 objectExporter.TransferField("target", target);
-                objectExporter.TransferField("data", data);
+                transferSerialization(objectExporter, target, data);
                 objectExporter.PopPath(itemName);
 
                 index++;
@@ -96,7 +105,7 @@ namespace BDXKEngine
         }
         Reflective* Deserialize(std::string input) override
         {
-            database = {};
+            GuidDatabase database = {};
             std::map<Guid, std::vector<ObjectPtrBase*>> references;
 
             objectImporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
@@ -122,7 +131,7 @@ namespace BDXKEngine
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectImporter.PushPath(itemName);
                 objectImporter.TransferField("target", target);
-                objectImporter.TransferField("data", data);
+                transferSerialization(objectImporter, target, data);
                 objectImporter.PopPath(itemName);
 
                 database.SetSerialization(target, data);
@@ -136,20 +145,21 @@ namespace BDXKEngine
                 std::string data = serialization.second;
 
                 Object* object = dynamic_cast<Object*>(Serializer::Deserialize(data));
-                database.SetObjectPtrBase(target, Object::InstantiateNoAwake(object));
+                Object::InstantiateNoAwake(object);
+                database.SetInstanceID(target, object->GetInstanceID());
             }
 
             //链接引用关系
-            auto objectPtrBases = database.GetObjectPtrBases();
+            auto instanceIDs = database.GetInstanceIDs();
             for (const auto& reference : references)
             {
                 Guid guid = reference.first;
-                ObjectPtrBase object = objectPtrBases[guid];
+                ObjectPtrBase object = Object::FindObjectOfInstanceID(instanceIDs[guid]);
                 for (auto objectPtr : reference.second)
                     *objectPtr = object;
             }
 
-            return objectPtrBases.begin()->second.ToObjectBase();
+            return Object::FindObjectOfInstanceID(instanceIDs.begin()->second);
         }
         Reflective* Clone(Reflective* input) override
         {
@@ -159,7 +169,7 @@ namespace BDXKEngine
             if (Object::FindObjectOfInstanceID(inputInstanceID) == nullptr)throw std::exception("目标物体不存在");
 
 
-            std::unordered_map<int, ObjectPtrBase> cloneObjects;
+            std::unordered_map<int, int> cloneObjects;
             if (inputObject->IsRunning())
             {
                 objectExporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
@@ -185,9 +195,9 @@ namespace BDXKEngine
 
             for (auto& item : cloneObjects)
             {
-                item.second = Object::InstantiateNoAwake(
-                    static_cast<Object*>(Serializer::Clone(Object::FindObjectOfInstanceID(item.first)))
-                );
+                Object* object = static_cast<Object*>(Serializer::Clone(Object::FindObjectOfInstanceID(item.first)));
+                Object::InstantiateNoAwake(object);
+                item.second = object->GetInstanceID();
             }
 
             if (inputObject->IsRunning())
@@ -205,7 +215,7 @@ namespace BDXKEngine
                 {
                     int instanceID;
                     objectImporter.TransferValue(instanceID);
-                    value = cloneObjects[instanceID];
+                    value = Object::FindObjectOfInstanceID(cloneObjects[instanceID]);
                 });
             }
 
@@ -217,8 +227,8 @@ namespace BDXKEngine
             return output;
         }
     private:
-        GuidDatabase database;
         ObjectTransferer<TExporter> objectExporter;
         ObjectTransferer<TImporter> objectImporter;
+        std::function<void(Transferer&, const Guid&, std::string&)> transferSerialization;
     };
 }

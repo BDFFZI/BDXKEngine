@@ -75,6 +75,12 @@ namespace BDXKEngine
         return instanceID == 0 ? nullptr : Object::FindObjectOfInstanceID(instanceID);
     }
 
+    Object* ObjectPtrBase::operator->() const
+    {
+        Object* object = ToObjectBase();
+        if (object == nullptr)throw std::exception("当前物体指针的引用目标为空");
+        return object;
+    }
     bool ObjectPtrBase::operator==(const ObjectPtrBase& other) const
     {
         const Object* object = ToObjectBase();

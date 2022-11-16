@@ -9,6 +9,8 @@ namespace BDXKEngine
     class BDXKJsonImporter : public JsonTransferer
     {
     public:
+void TransferJson(std::string key, std::string& value) override;
+        
         void Reset(std::string& data) override;
         void PushPath(const std::string& key) override;
         void PopPath(std::string& key) override;

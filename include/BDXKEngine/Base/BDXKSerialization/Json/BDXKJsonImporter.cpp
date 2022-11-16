@@ -2,9 +2,15 @@
 
 namespace BDXKEngine
 {
+    void BDXKJsonImporter::TransferJson(std::string key, std::string& value)
+    {
+        rapidjson::Document document;
+        document.CopyFrom(GetCurrentNode()[key.c_str()], document.GetAllocator());
+        Export(document, value);
+    }
     void BDXKJsonImporter::Reset(std::string& data)
     {
-        GetDocument().Parse(data.c_str());
+        Import(GetDocument(), data);
         ResetNodes();
     }
     void BDXKJsonImporter::PushPath(const std::string& key)

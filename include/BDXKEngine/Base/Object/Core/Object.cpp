@@ -4,17 +4,33 @@
 
 namespace BDXKEngine
 {
+    class ReferenceTransferer : public Transferer
+    {
+    public:
+        const std::vector<ObjectPtrBase>& GetReferences()
+        {
+            return references;
+        }
+    protected:
+        void TransferValue(void* value, const Type& type) override
+        {
+            if (type.find("ObjectPtr") != std::string::npos)
+            {
+                references.push_back(*static_cast<ObjectPtrBase*>(value));
+            }
+        }
+    private:
+        std::vector<ObjectPtrBase> references;
+    };
+
     int Object::instanceIDCount = 0;
     std::map<int, Object*> Object::allObjects = {};
-    std::map<int, Object*> Object::allObjectsRunning = {};
-    std::vector<Object*> Object::postDestroyQueue;
-    std::vector<Object*> Object::postAwakeQueue;
 
     std::map<int, Object*> Object::GetAllObjects()
     {
         return allObjects;
     }
-    ObjectPtrBase Object::InstantiateNoAwake(Object* object)
+    void Object::InstantiateNoAwake(Object* object)
     {
         if (object == nullptr) throw std::exception("实例化的物体为空");
         if (object->instanceID != 0) throw std::exception("物体已被实例化");
@@ -22,21 +38,28 @@ namespace BDXKEngine
         //注册
         object->instanceID = ++instanceIDCount;
         allObjects[object->instanceID] = object;
-
-        return object;
     }
-    ObjectPtrBase Object::Instantiate(Object* object)
+    void Object::Instantiate(Object* object)
     {
-        ObjectPtrBase objectPtr = InstantiateNoAwake(object);
+        InstantiateNoAwake(object);
+
+        //获取关联物体
+        ReferenceTransferer referenceTransferer;
+        object->Transfer(referenceTransferer);
+        auto& references = referenceTransferer.GetReferences();
 
         //激活
-        const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
-        postAwakeQueue.clear();
-        MarkAwake(objectPtr);
-        FlushAwakeQueue();
-        postAwakeQueue = lastAwakeQueue;
-
-        return objectPtr;
+        for (auto reference = references.rbegin(); reference != references.rend(); ++reference)
+        {
+            Object* referenceObject = reference->ToObjectBase();
+            if (referenceObject != nullptr && referenceObject->isRunning == false)
+            {
+                referenceObject->isRunning = true;
+                referenceObject->Awake();
+            }
+        }
+        object->isRunning = true;
+        object->Awake();
     }
     ObjectPtrBase Object::InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer)
     {
@@ -44,32 +67,37 @@ namespace BDXKEngine
 
         //克隆并注册
         const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
-        instance->instanceID = ++instanceIDCount;
         instance->name = instance->name + " (Clone)";
-        allObjects[instance->instanceID] = instance;
-
+        InstantiateNoAwake(instance);
         return instance;
     }
     ObjectPtrBase Object::Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer)
     {
-        const ObjectPtrBase objectPtrBase = InstantiateNoAwake(objectPtr, serializer);
+        if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
-        //激活
-        const std::vector<Object*> lastAwakeQueue = postAwakeQueue;
-        postAwakeQueue.clear();
-        MarkAwake(objectPtrBase);
-        FlushAwakeQueue();
-        postAwakeQueue = lastAwakeQueue;
-
-        return objectPtrBase;
+        //克隆并注册
+        const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
+        instance->name = instance->name + " (Clone)";
+        Instantiate(instance);
+        return instance;
     }
-    void Object::DestroyImmediate(const ObjectPtrBase& object)
+    void Object::DestroyImmediate(const ObjectPtrBase& objectPtr)
     {
-        const std::vector<Object*> lastDestroyQueue = postDestroyQueue;
-        postDestroyQueue.clear();
-        MarkDestroy(object);
-        FlushDestroyQueue();
-        postDestroyQueue = lastDestroyQueue;
+        Object* object = objectPtr.ToObjectBase();
+        if (object == nullptr || object->isDestroying)
+            return;
+
+        if (object->isRunning == false) //根本就没被唤醒过，所以也不需要调用销毁回调
+        {
+            allObjects.erase(object->instanceID);
+            delete object;
+            return;
+        }
+
+        object->isDestroying = true;
+        object->Destroy();
+        allObjects.erase(object->instanceID);
+        delete object;
     }
 
     Object* Object::FindObjectOfInstanceID(const int instanceID)
@@ -113,44 +141,6 @@ namespace BDXKEngine
         return stream.str();
     }
 
-    void Object::MarkAwake(const ObjectPtrBase& objectPtr)
-    {
-        Object* object = objectPtr.ToObjectBase();
-        if (object == nullptr || object->isRunning)
-            return;
-
-        allObjectsRunning[object->instanceID] = object;
-        object->isRunning = true;
-        object->MarkAwake();
-
-        postAwakeQueue.push_back(object);
-    }
-    void Object::MarkDestroy(const ObjectPtrBase& objectPtr)
-    {
-        Object* object = objectPtr.ToObjectBase();
-        if (object == nullptr || object->isDestroying)
-            return;
-
-        if (object->isRunning == false) //根本就没被唤醒过，所以也不需要调用销毁回调
-        {
-            allObjects.erase(object->instanceID);
-            delete object;
-            return;
-        }
-
-        object->isDestroying = true;
-        object->MarkDestroy();
-        allObjectsRunning.erase(object->instanceID);
-
-        postDestroyQueue.push_back(object);
-    }
-
-    void Object::MarkAwake()
-    {
-    }
-    void Object::MarkDestroy()
-    {
-    }
     void Object::Awake()
     {
         std::cout << "Object::Awake " + std::to_string(instanceID) + " " + name << std::endl;
@@ -158,27 +148,5 @@ namespace BDXKEngine
     void Object::Destroy()
     {
         std::cout << "Object::Destroy " + std::to_string(instanceID) + " " + name << std::endl;
-    }
-
-    void Object::FlushAwakeQueue()
-    {
-        for (const auto& object : postAwakeQueue)
-        {
-            object->Awake();
-        }
-        postAwakeQueue.clear();
-    }
-    void Object::FlushDestroyQueue()
-    {
-        for (const auto& object : postDestroyQueue)
-        {
-            object->Destroy();
-        }
-        for (const auto& object : postDestroyQueue)
-        {
-            allObjects.erase(object->instanceID);
-            delete object;
-        }
-        postDestroyQueue.clear();
     }
 }
