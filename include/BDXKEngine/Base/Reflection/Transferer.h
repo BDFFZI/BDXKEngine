@@ -5,6 +5,15 @@
 
 namespace BDXKEngine
 {
+    class Transferer;
+
+    class Transferable
+    {
+    public:
+        virtual ~Transferable() = default;
+        virtual void Transfer(Transferer& transferer) = 0;
+    };
+
     class Transferer
     {
     public:
@@ -41,6 +50,9 @@ namespace BDXKEngine
 
             PopPath(key);
         }
+        
+        void TransferNested(std::string key, Transferable& value);
+
 
 #define TransferFieldInfo(fieldName) transferer.TransferField(#fieldName, fieldName)
 #define TransferFieldInfoOf(fieldName,transferType) transferer.TransferFieldOf<transferType>(#fieldName, fieldName)

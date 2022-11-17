@@ -3,22 +3,28 @@
 
 namespace BDXKEngine
 {
-    void Transferer::TransferValue(void* value, const Type& type)
+    void Transferer::TransferNested(std::string key, Transferable& value)
     {
-        const auto transferFunc = transferFuncs[type];
-        if (transferFunc != nullptr)transferFunc(value, type);
-        else TransferValueFallback(value, type);
+        PushPath(key);
+        value.Transfer(*this);
+        PopPath(key);
     }
 
     void Transferer::Reset(std::string& data)
     {
     }
-    
     void Transferer::PushPath(const std::string& key)
     {
     }
     void Transferer::PopPath(std::string& key)
     {
+    }
+
+    void Transferer::TransferValue(void* value, const Type& type)
+    {
+        const auto transferFunc = transferFuncs[type];
+        if (transferFunc != nullptr)transferFunc(value, type);
+        else TransferValueFallback(value, type);
     }
     void Transferer::TransferValueFallback(void* value, const Type& type)
     {

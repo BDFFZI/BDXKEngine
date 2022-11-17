@@ -8,6 +8,14 @@
 
 namespace BDXKEngine
 {
+    CComPtr<ID3D11Device> GL::GetDevice()
+    {
+        return device;
+    }
+    CComPtr<ID3D11DeviceContext> GL::GetDeviceContext()
+    {
+        return context;
+    }
     ObjectPtr<Texture2D> GL::GetRenderTarget()
     {
         return renderTexture;
@@ -28,8 +36,8 @@ namespace BDXKEngine
     void GL::SetMesh(ObjectPtr<Mesh> mesh)
     {
         //绑定顶点数据
-        UINT stride = sizeof(Vertex);
-        UINT offset = 0;
+        constexpr unsigned int stride = sizeof(Vertex);
+        constexpr unsigned int offset = 0;
         context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer->glBuffer.p, &stride, &offset);
 
         //绑定索引数据
@@ -103,8 +111,8 @@ namespace BDXKEngine
             depthStencilView = textureCube->depthTextureDSV;
             //调整视口数据至与新纹理大小一致
             D3D11_VIEWPORT viewport = {};
-            viewport.Height = (float)textureCube->GetHeight();
-            viewport.Width = (float)textureCube->GetWidth();
+            viewport.Height = static_cast<float>(textureCube->GetHeight());
+            viewport.Width = static_cast<float>(textureCube->GetWidth());
             viewport.MinDepth = 0;
             viewport.MaxDepth = 1;
             context->RSSetViewports(1, &viewport);
@@ -115,8 +123,8 @@ namespace BDXKEngine
             depthStencilView = defaultDepthStencilView;
             //调整视口数据至与新纹理大小一致
             D3D11_VIEWPORT viewport = {};
-            viewport.Height = (float)defaultRenderTargetDescription.Height;
-            viewport.Width = (float)defaultRenderTargetDescription.Width;
+            viewport.Height = static_cast<float>(defaultRenderTargetDescription.Height);
+            viewport.Width = static_cast<float>(defaultRenderTargetDescription.Width);
             viewport.MinDepth = 0;
             viewport.MaxDepth = 1;
             context->RSSetViewports(1, &viewport);
@@ -147,11 +155,11 @@ namespace BDXKEngine
         context->DrawIndexed(indexsCount, 0, 0);
     }
 
-    void GL::Initialize(Window* window)
+    void GL::Initialize(const Window& window)
     {
         CreateDevice();
-        CreateSwapChain(window->GetHwnd());
-        ResizeDefaultRenderTarget(window->GetScreenRect().GetSize());
+        CreateSwapChain(window.GetHwnd());
+        ResizeDefaultRenderTarget(window.GetScreenRect().GetSize());
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     }
 
@@ -185,7 +193,7 @@ namespace BDXKEngine
             nullptr,
             &context
         );
-        assert(SUCCEEDED(result)); // Direct3D设备创建是否成功
+        if (FAILED(result))throw std::exception("Direct3D设备创建失败");
     }
     void GL::CreateSwapChain(HWND hwnd)
     {
@@ -194,14 +202,13 @@ namespace BDXKEngine
         CComPtr<IDXGIAdapter> dxglAdapter;
         CComPtr<IDXGIFactory2> dxglFactory;
 
-        assert(SUCCEEDED(device->QueryInterface(&dxglDevice))); //获取DXGI设备
-        assert(SUCCEEDED(dxglDevice->GetAdapter(&dxglAdapter))); //获取DXGI适配器
-        assert(SUCCEEDED(dxglAdapter->GetParent(IID_PPV_ARGS(&dxglFactory)))); //获取DXGI工厂
+        if (FAILED(device->QueryInterface(&dxglDevice)))throw std::exception("获取DXGI设备失败");
+        if (FAILED(dxglDevice->GetAdapter(&dxglAdapter)))throw std::exception("获取DXGI适配器失败");
+        if (FAILED(dxglAdapter->GetParent(IID_PPV_ARGS(&dxglFactory))))throw std::exception("获取DXGI工厂失败");
 
         UINT m4xMsaaQuality;
-        device->CheckMultisampleQualityLevels(
-            DXGI_FORMAT_B8G8R8A8_UNORM, 4, &m4xMsaaQuality);
-        assert(m4xMsaaQuality > 0);
+        device->CheckMultisampleQualityLevels(DXGI_FORMAT_B8G8R8A8_UNORM, 4, &m4xMsaaQuality);
+        if (m4xMsaaQuality <= 0)throw std::exception("无法满足资源需求级别");
 
 
         //交换链的属性配置
@@ -217,14 +224,15 @@ namespace BDXKEngine
         fullScreenDesc.Windowed = true;
 
         //创建交换链
-        assert(SUCCEEDED(dxglFactory->CreateSwapChainForHwnd(
+        if (FAILED(dxglFactory->CreateSwapChainForHwnd(
                 device,
                 hwnd,
                 &swapChainProperty,
                 &fullScreenDesc,
                 nullptr,
                 &swapChain)
-        ));
+        ))
+            throw std::exception("交换链创建失败");
     }
 
     CComPtr<ID3D11Texture2D> GL::GetDefaultRenderTarget()
@@ -236,20 +244,15 @@ namespace BDXKEngine
 
     void GL::ResizeDefaultRenderTarget(Vector2 size)
     {
-        HRESULT result = 0;
-
         //需要重置纹理大小，但视图一直占用着纹理而导致没法重置，所以要先释放视图
         if (renderTargetView == defaultRenderTargetView)renderTargetView = nullptr;
         if (depthStencilView == defaultDepthStencilView)depthStencilView = nullptr;
         defaultRenderTargetView = nullptr;
         defaultDepthStencilView = nullptr;
 
-        //重置渲染纹理大小
+        //重置染目标纹理大小
         swapChain->ResizeBuffers(2, static_cast<UINT>(size.x), static_cast<UINT>(size.y), DXGI_FORMAT_B8G8R8A8_UNORM, 0);
-
-        //重新创建视图
-
-        //获取屏幕渲染目标纹理及其参数
+        //获取新的渲染目标纹理及其参数
         CComPtr<ID3D11Texture2D> targetTexture = nullptr;
         swapChain->GetBuffer(0, IID_PPV_ARGS(&targetTexture.p));
         targetTexture->GetDesc(&defaultRenderTargetDescription);
@@ -262,16 +265,16 @@ namespace BDXKEngine
         depthStencilTextureDescription.Height = static_cast<UINT>(defaultRenderTargetDescription.Height);
         depthStencilTextureDescription.ArraySize = 1;
         depthStencilTextureDescription.SampleDesc = {1, 0};
-        result = device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture.p);
-        assert(SUCCEEDED(result));
+        HRESULT result = device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture.p);
+        if (FAILED(result))throw std::exception("创建深度模板测试纹理失败");
         //创建渲染目标纹理视图
-        CD3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{D3D11_RTV_DIMENSION_TEXTURE2D};
+        const CD3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{D3D11_RTV_DIMENSION_TEXTURE2D};
         result = device->CreateRenderTargetView(targetTexture, &renderTargetViewDesc, &defaultRenderTargetView.p);
-        assert(SUCCEEDED(result));
+        if (FAILED(result))throw std::exception("创建渲染目标纹理视图失败");
         //创建深度模板测试的视图
-        CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{D3D11_DSV_DIMENSION_TEXTURE2D};
+        const CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{D3D11_DSV_DIMENSION_TEXTURE2D};
         result = device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &defaultDepthStencilView.p);
-        assert(SUCCEEDED(result));
+        if (FAILED(result))throw std::exception("创建深度模板测试视图失败");
     }
     void GL::Present()
     {

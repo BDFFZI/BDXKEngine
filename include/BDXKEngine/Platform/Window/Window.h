@@ -2,7 +2,7 @@
 #include <functional>
 #include <vector>
 #include <windows.h>
-#include "BDXKEngine/Base/Rect.h"
+#include "BDXKEngine/Base/Data/Graphics/Rect.h"
 
 namespace BDXKEngine
 {

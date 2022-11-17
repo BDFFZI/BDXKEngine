@@ -1,6 +1,5 @@
 ﻿#include "Window.h"
 #include <cmath>
-#include "BDXKEngine/Base/Extension/String.h"
 
 namespace BDXKEngine
 {

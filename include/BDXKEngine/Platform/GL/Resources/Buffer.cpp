@@ -8,11 +8,11 @@ namespace BDXKEngine
         buffer.target = target;
         buffer.size = size;
 
-        return Object::Instantiate<Buffer>(&buffer);
+        return Instantiate<Buffer>(&buffer);
     }
     void Buffer::SetData(const char* data) const
     {
-        context->UpdateSubresource(glBuffer, 0, nullptr, data, 0, 0);
+        GL::GetDeviceContext()->UpdateSubresource(glBuffer, 0, nullptr, data, 0, 0);
         std::memcpy(this->data.get(), data, size);
     }
 
@@ -21,20 +21,20 @@ namespace BDXKEngine
         std::memcpy(data, this->data.get(), size);
     }
 
-    void Buffer::Transfer(transferer& transferer)
+    void Buffer::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);
 
-        transferer.TransferFieldOf<int>(nameof(target), target);
-        transferer.TransferField(nameof(size), size);
+        TransferFieldInfoOf(target, int);
+        TransferFieldInfo(size);
     }
-    void Buffer::MarkAwake()
+    void Buffer::Awake()
     {
-        Object::MarkAwake();
+        Object::Awake();
 
         data = std::unique_ptr<char[]>(new char[size]);
         const CD3D11_BUFFER_DESC desc(size, static_cast<D3D11_BIND_FLAG>(target));
-        const HRESULT result = device->CreateBuffer(&desc, nullptr, &glBuffer.p);
-        assert(SUCCEEDED(result));
+        if (FAILED(GL::GetDevice()->CreateBuffer(&desc, nullptr, &glBuffer.p)))
+            throw std::exception("创建缓冲区失败");
     }
 }

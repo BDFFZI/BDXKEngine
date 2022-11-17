@@ -3,17 +3,16 @@
 
 namespace BDXKEngine
 {
-    class Reflective
+    class Reflective : public Transferable
     {
     public:
         static Type GetTypeID(Transferer& transferer);
 
         Type GetTypeID() const;
 
-        virtual void Transfer(Transferer& transferer);
+        void Transfer(Transferer& transferer) override;
 
         Reflective() = default;
         Reflective(const Reflective& reflective) = default;
-        virtual ~Reflective() = default;
     };
 }

@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include <d3d11.h>
 
+#include "BDXKEngine/Base/Reflection/Transferer.h"
+
 namespace BDXKEngine {
-	struct ZTest {
+	struct ZTest:Transferable {
 		enum class Operation
 		{
 			Less = D3D11_COMPARISON_LESS,
@@ -21,5 +23,7 @@ namespace BDXKEngine {
 		float units = 0;//偏移深度
 		bool write = true;
 		bool clip = true;
+
+		void Transfer(Transferer& transferer) override;
 	};
 }

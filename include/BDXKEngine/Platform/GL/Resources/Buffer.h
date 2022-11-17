@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Platform/GL/GL.h"
 
 namespace BDXKEngine
@@ -10,9 +11,8 @@ namespace BDXKEngine
         Constant = D3D11_BIND_CONSTANT_BUFFER,
     };
 
-    class Buffer : public Object, GL
+    class Buffer : public Object
     {
-        friend GL;
     public:
         static ObjectPtr<Buffer> Create(BufferTarget target, int size);
 
@@ -25,7 +25,7 @@ namespace BDXKEngine
 
         CComPtr<ID3D11Buffer> glBuffer;
 
-        void Transfer(transferer& transferer) override;
-        void MarkAwake() override;
+        void Transfer(Transferer& transferer) override;
+        void Awake() override;
     };
 }

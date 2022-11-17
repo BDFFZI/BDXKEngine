@@ -1,15 +1,20 @@
 ﻿#pragma once
-#include<d3d11.h>
 
-namespace BDXKEngine {
-	struct Cull {
-		enum class State {
-			Back,
-			Front,
-			Off,
-		};
+#include "BDXKEngine/Base/Reflection/Transferer.h"
 
-		State state = State::Back;
-	};
+namespace BDXKEngine
+{
+    struct Cull : Transferable
+    {
+        enum class State
+        {
+            Back,
+            Front,
+            Off,
+        };
+
+        State state = State::Back;
+
+        void Transfer(Transferer& transferer) override;
+    };
 }
-
