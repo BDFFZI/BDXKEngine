@@ -243,6 +243,7 @@
     <ClCompile Include="..\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\Object.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrBase.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Guid\Guid.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\ObjectSerializer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\ObjectTransferer.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\Object.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtr.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrBase.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Guid\Guid.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\ObjectSerializer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\ObjectTransferer.h" />

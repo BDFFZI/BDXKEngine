@@ -4,8 +4,8 @@
 
 namespace BDXKEngine
 {
-    std::vector<Guid> BDXKObject::guidStream = {};
-    std::map<Guid, std::string> BDXKObject::guidToPath = {};
+    // std::vector<Guid> BDXKObject::guidStream = {};
+    // std::map<Guid, std::string> BDXKObject::guidToPath = {};
 
     const std::string BDXKObject::rootDirectory = "C:/Users/BDFFZI/Desktop/BDXKTemp/";
     ObjectSerializer<JsonExporter, JsonImporter> BDXKObject::jsonSerializer = {
@@ -28,44 +28,36 @@ namespace BDXKEngine
             //     serialization = std::string(buffer, size);
             // }
 
-            guidStream.push_back(guid);
+            // guidStream.push_back(guid);
             dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
         }
     };
     ObjectSerializer<BinaryExporter2, BinaryImporter2> BDXKObject::binarySerializer;
 
-    ObjectPtrBase BDXKObject::Load(const Guid& guid)
+    ObjectPtrBase BDXKObject::Load(const std::string& path)
     {
-        const std::string path = guidToPath[guid];
-
         std::ifstream ifstream(path, std::ios_base::binary);
         const auto size = static_cast<int>(std::filesystem::file_size(path));
         const auto buffer = new char[size];
         ifstream.read(buffer, size);
         ifstream.close();
 
-        return dynamic_cast<Object*>(jsonSerializer.Deserialize(std::string(buffer, size)));
+        const Object* object = dynamic_cast<Object*>(jsonSerializer.Deserialize(std::string(buffer, size)));
+        return Object::Instantiate(object);
     }
-    Guid BDXKObject::Save(const ObjectPtrBase& objectPtr)
+    void BDXKObject::Save(const std::string& path, const ObjectPtrBase& objectPtr)
     {
         const std::string data = jsonSerializer.Serialize(objectPtr.ToObjectBase());
-        std::string guid = guidStream[0];
-        guidStream.clear();
 
         //保存文件位置
-        const std::string path = guidToPath.count(guid) == 0 ? rootDirectory + guid + ".json" : guidToPath[guid];
-        guidToPath[guid] = path;
+        // const std::string guid = guidStream[0];
+        // guidStream.clear();
+        // guidToPath[guid] = path;
 
         //保存持久化数据
         std::ofstream ofstream(path);
         ofstream << data;
         ofstream.close();
-
-        return guid;
-    }
-    ObjectPtrBase BDXKObject::InstantiateNoAwake(const ObjectPtrBase& objectPtr)
-    {
-        return Object::InstantiateNoAwake(objectPtr, binarySerializer);
     }
     ObjectPtrBase BDXKObject::Instantiate(const ObjectPtrBase& objectPtr)
     {

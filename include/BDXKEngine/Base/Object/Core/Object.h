@@ -6,8 +6,6 @@
 
 namespace BDXKEngine
 {
-    class ObjectManager;
-
     /// <summary>
     /// 创建：
     /// 通过InstantiateNoAwake加载未实例化的物体
@@ -22,32 +20,21 @@ namespace BDXKEngine
     /// </summary>
     class Object : public Reflective
     {
-        friend ObjectManager;
     public:
         static std::map<int, Object*> GetAllObjects();
-        //转换
-        static void InstantiateNoAwake(Object* object); //将object从原生状态转为实例状态
-        static void Instantiate(Object* object); //将object从原生状态转为实例状态并激活
+
+        Object();
+        ~Object() override;
+
+        //转换，将object从原生状态转为实例状态
+        [[nodiscard]] static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr);
         template <typename TObject>
-        static ObjectPtr<TObject> InstantiateNoAwake(TObject* object) //将object从原生状态转为实例状态
+        [[nodiscard]] static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr)
         {
-            InstantiateNoAwake(static_cast<Object*>(object));
-            return object;
-        }
-        template <typename TObject>
-        static ObjectPtr<TObject> Instantiate(TObject* object) //将object从原生状态转为实例状态
-        {
-            Instantiate(static_cast<Object*>(object));
-            return object;
+            return Instantiate(static_cast<ObjectPtrBase>(objectPtr)).ToObject<TObject>();
         }
         //克隆
-        static ObjectPtrBase InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer);
         static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer);
-        template <typename TObject>
-        static ObjectPtr<TObject> InstantiateNoAwake(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
-        {
-            return InstantiateNoAwake(static_cast<ObjectPtrBase>(objectPtr), serializer).template ToObject<TObject>();
-        }
         template <typename TObject>
         static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
         {
@@ -73,7 +60,6 @@ namespace BDXKEngine
         int GetInstanceID() const;
         std::string GetName() const;
         void SetName(const std::string& name);
-        bool IsRunning() const; //是否是已被Awake的状态
 
         void Transfer(Transferer& transferer) override;
 

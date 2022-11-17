@@ -13,14 +13,22 @@ using namespace BDXKEngine;
 class Assets : public Object
 {
 public:
+    Assets() = default;
+
+    Assets(const ObjectPtr<Object>& parent): parent(parent)
+    {
+    }
+
     void Transfer(Transferer& transferer) override
     {
         Object::Transfer(transferer);
 
+        TransferFieldInfo(parent);
         TransferFieldInfo(intValue);
         TransferFieldInfo(rect);
     }
 
+    ObjectPtr<Object> parent = nullptr;
     int intValue = 66;
     Rect rect = {0, 0, 30, 60};
 };
@@ -30,53 +38,59 @@ CustomReflection(Assets)
 class Container : public Object
 {
 public:
+    Container() = default;
+
+    Container(const ObjectPtr<Object>& parent): parent(parent)
+    {
+    }
+
     void Transfer(Transferer& transferer) override
     {
         Object::Transfer(transferer);
 
+        TransferFieldInfo(parent);
         TransferFieldInfo(value);
         TransferFieldInfo(position);
         TransferFieldInfo(assets);
-        TransferFieldInfo(container);
     }
 
+    void Awake() override
+    {
+        Object::Awake();
+
+
+        if (assets != nullptr && assets->parent != this) assets = BDXKObject::Instantiate(assets);
+    }
+
+    ObjectPtr<Object> parent = nullptr;
     int value = 99;
     Vector3 position = {7, 6.6f, 10.23f};
-    ObjectPtr<Assets> assets;
-    ObjectPtr<Container> container;
+    ObjectPtr<Assets> assets = nullptr;
 };
 
 CustomReflection(Container)
 
 int main()
 {
-    //TODO 指针指向自己会导致无法自动回收
-    //TODO 持久化信息需要保存
-
     std::setlocale(LC_ALL, "zh-CN.UTF-8");
 
     {
-        Guid guid;
+        std::string path = "C:/Users/BDFFZI/Desktop/BDXKTemp/scene.json";
 
-        //导出物体
+        ObjectPtr<Container> prefab;
+        //导入物体
         {
-            ObjectPtr assets = Object::Instantiate(new Assets{});
-            ObjectPtr container = Object::Instantiate(new Container{});
-            ObjectPtr container2 = Object::Instantiate(new Container{});
-            container->assets = assets;
-            container->container = container2;
-            container2->container = container2;
-            guid = BDXKObject::Save(container.ToObjectBase());
+            prefab = BDXKObject::Load(path).ToObject<Container>();
+            ObjectPtr<Container> instance = BDXKObject::Instantiate<Container>(prefab);
         }
 
         auto a = Object::GetAllObjects();
         ObjectPtrBase::PrintRefCountMap();
 
-        //导入物体
+        //导出物体
         {
-            ObjectPtr prefab = BDXKObject::Load(guid).ToObject<Container>();
-            ObjectPtr<Container> object = BDXKObject::Instantiate<Container>(prefab);
-            object = BDXKObject::Instantiate<Container>(object);
+            prefab->value += 1;
+            BDXKObject::Save(path, prefab);
         }
     }
 

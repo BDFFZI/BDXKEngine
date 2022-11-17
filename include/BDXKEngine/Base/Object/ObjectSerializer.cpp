@@ -2,35 +2,33 @@
 
 namespace BDXKEngine
 {
-    std::unordered_map<Guid, std::string> GuidDatabase::GetSerializations()
-    {
-        return guidToSerialization;
-    }
-    std::unordered_map<Guid, int> GuidDatabase::GetInstanceIDs()
-    {
-        return guidToInstanceID;
-    }
-    bool GuidDatabase::GetOrGenerateGuid(int instanceID, Guid& guid)
+    std::unordered_map<int, Guid> SerializationDatabase::instanceIDToGuid = {};
+    std::unordered_map<Guid, int> SerializationDatabase::guidToInstanceID = {};
+
+    Guid SerializationDatabase::GetOrSetGuid(int instanceID)
     {
         const auto guidItem = instanceIDToGuid.find(instanceID);
         if (guidItem == instanceIDToGuid.end())
         {
-            guid = NewGuid();
+            Guid guid = NewGuid();
             instanceIDToGuid[instanceID] = guid;
-            return false;
+            return guid;
         }
         else
         {
-            guid = guidItem->second;
-            return true;
+            Guid guid = guidItem->second;
+            return guid;
         }
     }
-    void GuidDatabase::SetSerialization(const Guid& guid, const std::string& serialization)
+    int SerializationDatabase::GetInstanceID(const Guid& guid)
     {
-        guidToSerialization[guid] = serialization;
+        if (guidToInstanceID.count(guid) != 0)
+            return guidToInstanceID[guid];
+        return 0;
     }
-    void GuidDatabase::SetInstanceID(const Guid& guid, int instanceID)
+    void SerializationDatabase::SetInstanceID(const Guid& guid, int instanceID)
     {
         guidToInstanceID[guid] = instanceID;
+        instanceIDToGuid[instanceID] = guid;
     }
 }

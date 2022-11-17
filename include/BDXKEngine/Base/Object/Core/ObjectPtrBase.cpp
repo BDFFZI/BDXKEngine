@@ -41,14 +41,8 @@ namespace BDXKEngine
     }
     ObjectPtrBase::ObjectPtrBase(const ObjectPtrBase& objectPtr)
     {
-        if (objectPtr.IsNull())
-        {
-            instanceID = 0;
-        }
-        else
-        {
+        if (objectPtr.instanceID != 0)
             ObjectPtrBase::AddRef(objectPtr.instanceID);
-        }
     }
     ObjectPtrBase::~ObjectPtrBase()
     {
@@ -95,7 +89,7 @@ namespace BDXKEngine
     {
         if (this == &objectPtr)
             return *this;
-        
+
         if (instanceID != 0)
             RemoveRef();
 
@@ -128,7 +122,7 @@ namespace BDXKEngine
         if (refCount == 0)
         {
             refCountMap.erase(instanceID);
-            Object* object = ToObjectBase();
+            const Object* object = ToObjectBase();
             if (object != nullptr)
             {
                 Object::DestroyImmediate(object);

@@ -1,28 +1,10 @@
 ﻿#include "Object.h"
 #include <iostream>
 #include <sstream>
+#include "ObjectPtrTransferer.h"
 
 namespace BDXKEngine
 {
-    class ReferenceTransferer : public Transferer
-    {
-    public:
-        const std::vector<ObjectPtrBase>& GetReferences()
-        {
-            return references;
-        }
-    protected:
-        void TransferValue(void* value, const Type& type) override
-        {
-            if (type.find("ObjectPtr") != std::string::npos)
-            {
-                references.push_back(*static_cast<ObjectPtrBase*>(value));
-            }
-        }
-    private:
-        std::vector<ObjectPtrBase> references;
-    };
-
     int Object::instanceIDCount = 0;
     std::map<int, Object*> Object::allObjects = {};
 
@@ -30,46 +12,37 @@ namespace BDXKEngine
     {
         return allObjects;
     }
-    void Object::InstantiateNoAwake(Object* object)
+    Object::Object()
     {
-        if (object == nullptr) throw std::exception("实例化的物体为空");
-        if (object->instanceID != 0) throw std::exception("物体已被实例化");
-
-        //注册
-        object->instanceID = ++instanceIDCount;
-        allObjects[object->instanceID] = object;
+        instanceID = ++instanceIDCount;
+        allObjects[instanceID] = this;
     }
-    void Object::Instantiate(Object* object)
+    Object::~Object()
     {
-        InstantiateNoAwake(object);
+        allObjects.erase(instanceID);
+    }
+
+    ObjectPtrBase Object::Instantiate(const ObjectPtrBase& objectPtr)
+    {
+        if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
         //获取关联物体
-        ReferenceTransferer referenceTransferer;
-        object->Transfer(referenceTransferer);
-        auto& references = referenceTransferer.GetReferences();
+        ObjectPtrTransferer referenceTransferer = {objectPtr.GetInstanceID()};
+        objectPtr->Transfer(referenceTransferer);
+        auto references = referenceTransferer.GetReferences();
 
         //激活
         for (auto reference = references.rbegin(); reference != references.rend(); ++reference)
         {
-            Object* referenceObject = reference->ToObjectBase();
+            Object* referenceObject = FindObjectOfInstanceID(*reference);
             if (referenceObject != nullptr && referenceObject->isRunning == false)
             {
                 referenceObject->isRunning = true;
                 referenceObject->Awake();
             }
         }
-        object->isRunning = true;
-        object->Awake();
-    }
-    ObjectPtrBase Object::InstantiateNoAwake(const ObjectPtrBase& objectPtr, Serializer& serializer)
-    {
-        if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
-        //克隆并注册
-        const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
-        instance->name = instance->name + " (Clone)";
-        InstantiateNoAwake(instance);
-        return instance;
+        return objectPtr;
     }
     ObjectPtrBase Object::Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer)
     {
@@ -78,8 +51,7 @@ namespace BDXKEngine
         //克隆并注册
         const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
         instance->name = instance->name + " (Clone)";
-        Instantiate(instance);
-        return instance;
+        return Instantiate(instance);
     }
     void Object::DestroyImmediate(const ObjectPtrBase& objectPtr)
     {
@@ -89,14 +61,12 @@ namespace BDXKEngine
 
         if (object->isRunning == false) //根本就没被唤醒过，所以也不需要调用销毁回调
         {
-            allObjects.erase(object->instanceID);
             delete object;
             return;
         }
 
         object->isDestroying = true;
         object->Destroy();
-        allObjects.erase(object->instanceID);
         delete object;
     }
 
@@ -115,10 +85,6 @@ namespace BDXKEngine
     std::string Object::GetName() const
     {
         return name;
-    }
-    bool Object::IsRunning() const
-    {
-        return isRunning;
     }
 
     void Object::SetName(const std::string& name)
