@@ -1,81 +1,12 @@
 ﻿#pragma once
-#include<string>
-#include<vector>
-#include<cassert>
-#include"BDXKEngine/Platform/GL/Resources/Mesh.h"
-#include"BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
-#include"BDXKEngine/Base/Color.h"
-#include"BDXKEngine/Base/Extension/Debug.h"
+#include"Mesh.h"
 
 namespace BDXKEngine
 {
-    struct StaticMesh
-    {
-        std::vector<unsigned short> triangles;
-        std::vector<Vector3> positions;
-        std::vector<Vector3> normals;
-        std::vector<Vector2> uvs;
-        std::vector<Color> colors;
-
-        std::string ToString()
-        {
-            std::stringstream string;
-
-            string << "三角面\n";
-            for (int i = 0; i < triangles.size(); i += 3)
-            {
-                string << "{" << triangles[i + 0] << "," << triangles[i + 1] << "," << triangles[i + 2] << "}\n";
-            }
-            string << "顶点位置\n";
-            for (int i = 0; i < positions.size(); i++)
-            {
-                string << positions[i].ToString() << "\n";
-            }
-            string << "顶点法线\n";
-            for (int i = 0; i < normals.size(); i++)
-            {
-                string << normals[i].ToString() << "\n";
-            }
-            string << "顶点UV\n";
-            for (int i = 0; i < uvs.size(); i++)
-            {
-                string << uvs[i].ToString() << "\n";
-            }
-            string << "顶点颜色\n";
-            for (int i = 0; i < colors.size(); i++)
-            {
-                string << colors[i].ToString() << "\n";
-            }
-
-            return string.str();
-        }
-
-
-        ObjectPtr<Mesh> ToMesh() const
-        {
-            ObjectPtr<Mesh> mesh = Mesh::Create();
-            mesh->SetTriangles(triangles);
-            mesh->SetPositions(positions);
-            mesh->SetNormals(normals);
-            mesh->SetUVs(uvs);
-            mesh->SetColors(colors);
-            mesh->UploadMeshData();
-            return mesh;
-        }
-    };
-
     class MeshImporter
     {
     public:
-        /// <summary>
-        /// 功能目前极其简陋，目前纯粹只读取网格，它的变换参数也不会被导入
-        /// 1.要保证fbx文件中只有一个模型且是三角面化的
-        /// 2.对应一个点对应多个法线uv的情况需要手动拆分点
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        static StaticMesh ImportGltf(char* fileName);
-        static StaticMesh Import(char* fileName);
+        static ObjectPtr<Mesh> Import(const std::string& fileName);
     };
 }
 

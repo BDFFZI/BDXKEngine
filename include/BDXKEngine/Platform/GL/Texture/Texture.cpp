@@ -14,20 +14,11 @@ namespace BDXKEngine
     {
         return Vector2{width, height};
     }
-    CComPtr<ID3D11ShaderResourceView> Texture::GetResourceView()
+    void Texture::SetPass(unsigned int startSlot) const
     {
-        return colorTextureSRV;
-    }
-    CComPtr<ID3D11SamplerState> Texture::GetSamplerState()
-    {
-        return samplerState;
-    }
-    void Texture::Transfer(transferer& transferer)
-    {
-        Object::Transfer(transferer);
-
-        transferer.TransferField(nameof(width), width);
-        transferer.TransferField(nameof(height), height);
+        const auto context = GL::GetDeviceContext();
+        context->PSSetShaderResources(startSlot, 1, &colorTextureSRV.p);
+        context->PSSetSamplers(startSlot, 1, &samplerState.p);
     }
 
     void Texture::CreateDepthStencil(unsigned int width, unsigned int height, ID3D11Texture2D** renderTexture,
@@ -42,14 +33,14 @@ namespace BDXKEngine
         texture2DDepthDescription.SampleDesc = {1, 0};
         texture2DDepthDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
         //创建深度纹理
-        HRESULT result = device->CreateTexture2D(&texture2DDepthDescription, nullptr, renderTexture);
-        assert(SUCCEEDED(result));
+        HRESULT result = GL::GetDevice()->CreateTexture2D(&texture2DDepthDescription, nullptr, renderTexture);
+        if (FAILED(result))throw std::exception("创建深度模板纹理失败");
         //创建深度模板视图
-        result = device->CreateDepthStencilView(*renderTexture, nullptr, depthStencilView);
-        assert(SUCCEEDED(result));
+        result = GL::GetDevice()->CreateDepthStencilView(*renderTexture, nullptr, depthStencilView);
+        if (FAILED(result))throw std::exception("创建深度模板纹理视图失败");
         //创建深度纹理着色器资源视图
         //result = device->CreateShaderResourceView(depthTexture, nullptr, &texture2DDepthResourceView.p);
-        //assert(SUCCEEDED(result));
+        //assert(result);
     }
     void Texture::CreateSamplerState(ID3D11SamplerState** samplerState)
     {
@@ -58,11 +49,14 @@ namespace BDXKEngine
         samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
         samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
         samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-        device->CreateSamplerState(&samplerDescription, samplerState);
+        GL::GetDevice()->CreateSamplerState(&samplerDescription, samplerState);
     }
 
-    CComPtr<ID3D11ShaderResourceView> TextureEditor::GetShaderResourceView(const ObjectPtr<Texture> texture)
+    void Texture::Transfer(Transferer& transferer)
     {
-        return texture->colorTextureSRV;
+        Object::Transfer(transferer);
+
+        TransferFieldInfo(width);
+        TransferFieldInfo(height);
     }
 }

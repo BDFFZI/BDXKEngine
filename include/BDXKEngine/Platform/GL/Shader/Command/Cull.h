@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include <d3d11.h>
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 
 namespace BDXKEngine
@@ -8,13 +8,17 @@ namespace BDXKEngine
     {
         enum class State
         {
-            Back,
-            Front,
-            Off,
+            Off = D3D11_CULL_NONE,
+            Back = D3D11_CULL_BACK,
+            Front = D3D11_CULL_FRONT,
         };
+
+        static Cull Default;
 
         State state = State::Back;
 
+        Cull();
+        Cull(State state);
         void Transfer(Transferer& transferer) override;
     };
 }

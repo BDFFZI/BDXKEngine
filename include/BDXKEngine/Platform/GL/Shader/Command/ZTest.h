@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <d3d11.h>
-
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 
 namespace BDXKEngine {

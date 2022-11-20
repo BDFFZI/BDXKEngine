@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <vector>
 #include "Texture.h"
 
 namespace BDXKEngine {
@@ -8,15 +7,14 @@ namespace BDXKEngine {
 	/// </summary>
 	class TextureCube :public Texture
 	{
-		friend GL;
 	public:
 		static ObjectPtr<TextureCube> Create(int width, int height);
 
-
+		void SetRenderTarget(int index) const;
 	private:
 		std::vector<CComPtr<ID3D11RenderTargetView>> renderTextureRTV = {};
 		
-		void MarkAwake()override;
+		void Awake() override;
 	};
 }
 

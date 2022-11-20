@@ -20,7 +20,7 @@ Pixel main(Vertex vertex)
     svPosition = mul(ViewToClip, svPosition);
     pixed.svPosition = svPosition;
     
-    pixed.normal = ObjectToWorldVector(vertex.normal);//TODO 会受缩放影响
+    pixed.normal = ObjectToWorldVector(vertex.normal);//TODO 浼氬彈缂╂斁褰卞搷
     pixed.uv = vertex.uv;
     return pixed;
 }

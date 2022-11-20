@@ -1,13 +1,26 @@
 ﻿#include "GL.h"
 #include <exception>
-#include "BDXKEngine/Platform/GL/Resources/Texture2D.h"
-#include "BDXKEngine/Platform/GL/Resources/TextureCube.h"
-#include "BDXKEngine/Platform/GL/Resources/Mesh.h"
-#include "BDXKEngine/Platform/GL/Resources/Buffer.h"
-#include "BDXKEngine/Platform/GL/Resources/Shader.h"
 
 namespace BDXKEngine
 {
+    void GL::Initialize(Window* window)
+    {
+        GL::window = window;
+        CreateDevice();
+        CreateSwapChain();
+        ResizeDefaultRenderTarget();
+        context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        window->AddResizeEvent([](Vector2)
+        {
+            ResizeDefaultRenderTarget();
+        });
+        window->AddRenewEvent([]()
+        {
+            Present();
+        });
+    }
+
     CComPtr<ID3D11Device> GL::GetDevice()
     {
         return device;
@@ -16,126 +29,39 @@ namespace BDXKEngine
     {
         return context;
     }
-    ObjectPtr<Texture2D> GL::GetRenderTarget()
-    {
-        return renderTexture;
-    }
 
-    // 设置当前渲染管线中用于的着色器
-    void GL::SetShader(ObjectPtr<Shader> shader)
-    {
-        context->IASetInputLayout(shader->inputLayout); //有关顶点着色器的输入布局
-        context->VSSetShader(shader->vertexShader, nullptr, 0);
-        context->PSSetShader(shader->pixelShader, nullptr, 0);
 
-        //设置管线渲染选项
-        context->OMSetBlendState(shader->blendState, nullptr, 0xffffffff);
-        context->OMSetDepthStencilState(shader->depthStencilState, 0);
-    }
-    // 设置当前渲染管线中的顶点索引数据
-    void GL::SetMesh(ObjectPtr<Mesh> mesh)
+    void GL::SetDefaultRenderTarget()
     {
-        //绑定顶点数据
-        constexpr unsigned int stride = sizeof(Vertex);
-        constexpr unsigned int offset = 0;
-        context->IASetVertexBuffers(0, 1, &mesh->vertexBuffer->glBuffer.p, &stride, &offset);
+        //调整视口数据至与新纹理大小一致
+        D3D11_VIEWPORT viewport = {};
+        viewport.Height = static_cast<float>(defaultRenderTargetDescription.Height);
+        viewport.Width = static_cast<float>(defaultRenderTargetDescription.Width);
+        viewport.MinDepth = 0;
+        viewport.MaxDepth = 1;
+        context->RSSetViewports(1, &viewport);
 
-        //绑定索引数据
-        context->IASetIndexBuffer(mesh->triangleBuffer->glBuffer, DXGI_FORMAT_R16_UINT, 0);
+        //设置渲染目标
+        context->OMSetRenderTargets(1, &defaultRenderTargetView.p, defaultDepthStencilView);
     }
-    // 设置当前渲染管线中的常量缓冲区
-    void GL::SetBuffer(unsigned int startSlot, ObjectPtr<Buffer> buffer)
-    {
-        ID3D11Buffer* d3dBuffer = nullptr;
-        if (buffer.IsNull() == false)
-        {
-            if (buffer->target != BufferTarget::Constant)
-                throw std::exception("不支持除常量缓冲区以外的类型");
-            d3dBuffer = buffer->glBuffer;
-        }
-
-        context->VSSetConstantBuffers(startSlot, 1, &d3dBuffer);
-        context->PSSetConstantBuffers(startSlot, 1, &d3dBuffer);
-    }
-    // 设置当前渲染管线中的着色器资源
-    void GL::SetTexture(unsigned int startSlot, ObjectPtr<Texture> texture)
+    void GL::SetNullTexture2D(unsigned startSlot)
     {
         ID3D11ShaderResourceView* resourceView = nullptr;
         ID3D11SamplerState* samplerState = nullptr;
-        if (texture.IsNull() == false)
-        {
-            resourceView = texture->GetResourceView().p;
-            samplerState = texture->GetSamplerState().p;
-        }
 
         context->PSSetShaderResources(startSlot, 1, &resourceView);
         context->PSSetSamplers(startSlot, 1, &samplerState);
     }
-    // 设置渲染到的目标纹理
-    void GL::SetRenderTarget(ObjectPtr<Texture2D> renderTexture)
-    {
-        GL::renderTexture = renderTexture;
-        if (renderTexture.IsNull() == false)
-        {
-            renderTargetView = renderTexture->renderTextureRTV;
-            depthStencilView = renderTexture->depthTextureDSV;
-            //调整视口数据至与新纹理大小一致
-            D3D11_VIEWPORT viewport = {};
-            viewport.Height = static_cast<float>(renderTexture->GetHeight());
-            viewport.Width = static_cast<float>(renderTexture->GetWidth());
-            viewport.MinDepth = 0;
-            viewport.MaxDepth = 1;
-            context->RSSetViewports(1, &viewport);
-        }
-        else //为空时使用默认值
-        {
-            renderTargetView = defaultRenderTargetView;
-            depthStencilView = defaultDepthStencilView;
-            //调整视口数据至与新纹理大小一致
-            D3D11_VIEWPORT viewport = {};
-            viewport.Height = static_cast<float>(defaultRenderTargetDescription.Height);
-            viewport.Width = static_cast<float>(defaultRenderTargetDescription.Width);
-            viewport.MinDepth = 0;
-            viewport.MaxDepth = 1;
-            context->RSSetViewports(1, &viewport);
-        }
-
-        //设置渲染目标
-        context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
-    }
-    void GL::SetRenderTarget(ObjectPtr<TextureCube> textureCube, int index)
-    {
-        if (textureCube.IsNull() == false)
-        {
-            renderTargetView = textureCube->renderTextureRTV[index];
-            depthStencilView = textureCube->depthTextureDSV;
-            //调整视口数据至与新纹理大小一致
-            D3D11_VIEWPORT viewport = {};
-            viewport.Height = static_cast<float>(textureCube->GetHeight());
-            viewport.Width = static_cast<float>(textureCube->GetWidth());
-            viewport.MinDepth = 0;
-            viewport.MaxDepth = 1;
-            context->RSSetViewports(1, &viewport);
-        }
-        else //未空时使用默认值
-        {
-            renderTargetView = defaultRenderTargetView;
-            depthStencilView = defaultDepthStencilView;
-            //调整视口数据至与新纹理大小一致
-            D3D11_VIEWPORT viewport = {};
-            viewport.Height = static_cast<float>(defaultRenderTargetDescription.Height);
-            viewport.Width = static_cast<float>(defaultRenderTargetDescription.Width);
-            viewport.MinDepth = 0;
-            viewport.MaxDepth = 1;
-            context->RSSetViewports(1, &viewport);
-        }
-
-        //设置渲染目标
-        context->OMSetRenderTargets(1, &renderTargetView.p, depthStencilView);
-    }
 
     void GL::Clear(bool clearDepth, bool clearColor, Color backgroundColor, float depth)
     {
+        CComPtr<ID3D11RenderTargetView> renderTargetView;
+        CComPtr<ID3D11DepthStencilView> depthStencilView;
+        context->OMGetRenderTargets(1, &renderTargetView.p, &depthStencilView.p);
+
+        if (renderTargetView == nullptr || depthStencilView == nullptr)
+            throw std::exception("没有绑定渲染目标");
+
         //重置绘制视图
         if (clearColor == true)
         {
@@ -155,23 +81,13 @@ namespace BDXKEngine
         context->DrawIndexed(indexsCount, 0, 0);
     }
 
-    void GL::Initialize(const Window& window)
-    {
-        CreateDevice();
-        CreateSwapChain(window.GetHwnd());
-        ResizeDefaultRenderTarget(window.GetScreenRect().GetSize());
-        context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    }
-
+    Window* GL::window = nullptr;
     CComPtr<ID3D11Device> GL::device = nullptr;
     CComPtr<ID3D11DeviceContext> GL::context = nullptr;
     CComPtr<IDXGISwapChain1> GL::swapChain = nullptr;
     D3D11_TEXTURE2D_DESC GL::defaultRenderTargetDescription = {};
     CComPtr<ID3D11RenderTargetView> GL::defaultRenderTargetView = nullptr;
     CComPtr<ID3D11DepthStencilView> GL::defaultDepthStencilView = nullptr;
-    CComPtr<ID3D11RenderTargetView> GL::renderTargetView = nullptr;
-    CComPtr<ID3D11DepthStencilView> GL::depthStencilView = nullptr;
-    ObjectPtr<Texture2D> GL::renderTexture = nullptr;
 
     void GL::CreateDevice()
     {
@@ -195,8 +111,10 @@ namespace BDXKEngine
         );
         if (FAILED(result))throw std::exception("Direct3D设备创建失败");
     }
-    void GL::CreateSwapChain(HWND hwnd)
+    void GL::CreateSwapChain()
     {
+        const HWND hwnd = window->GetHwnd();
+
         //获取底层DXGI的工厂
         CComPtr<IDXGIDevice> dxglDevice;
         CComPtr<IDXGIAdapter> dxglAdapter;
@@ -234,19 +152,11 @@ namespace BDXKEngine
         ))
             throw std::exception("交换链创建失败");
     }
-
-    CComPtr<ID3D11Texture2D> GL::GetDefaultRenderTarget()
+    void GL::ResizeDefaultRenderTarget()
     {
-        CComPtr<ID3D11Texture2D> renderTargetTexture;
-        swapChain->GetBuffer(0, IID_PPV_ARGS(&renderTargetTexture));
-        return renderTargetTexture;
-    }
+        const Vector2 size = window->GetSize();
 
-    void GL::ResizeDefaultRenderTarget(Vector2 size)
-    {
         //需要重置纹理大小，但视图一直占用着纹理而导致没法重置，所以要先释放视图
-        if (renderTargetView == defaultRenderTargetView)renderTargetView = nullptr;
-        if (depthStencilView == defaultDepthStencilView)depthStencilView = nullptr;
         defaultRenderTargetView = nullptr;
         defaultDepthStencilView = nullptr;
 

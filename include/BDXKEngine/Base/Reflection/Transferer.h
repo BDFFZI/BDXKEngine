@@ -29,7 +29,7 @@ namespace BDXKEngine
                 TValue* target = static_cast<TValue*>(value);
                 func(*target);
             };
-            typeSizes[type] = sizeof TValue;
+            typeSizes[type] = sizeof(TValue);
         }
 
         template <typename TTransfer, typename TField>
@@ -50,7 +50,7 @@ namespace BDXKEngine
 
             PopPath(key);
         }
-        
+
         void TransferNested(std::string key, Transferable& value);
 
 

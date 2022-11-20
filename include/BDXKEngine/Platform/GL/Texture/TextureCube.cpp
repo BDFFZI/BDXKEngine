@@ -3,17 +3,33 @@ using namespace BDXKEngine;
 
 namespace BDXKEngine
 {
-    ObjectPtr<TextureCube> TextureCube::Create(const int width, const int height)
+    ObjectPtr<TextureCube> TextureCube::Create(const int widthf, const int heightf)
     {
-        TextureCube textureCube = {};
-        textureCube.width = width;
-        textureCube.height = height;
+        const auto textureCube = new TextureCube{};
+        textureCube->width = widthf;
+        textureCube->height = heightf;
+        return Instantiate<TextureCube>(textureCube);
+    }
+    void TextureCube::SetRenderTarget(int index) const
+    {
+        const auto context = GL::GetDeviceContext();
 
-        return Instantiate<TextureCube>(&textureCube);
+        //调整视口数据至与新纹理大小一致
+        D3D11_VIEWPORT viewport = {};
+        viewport.Height = static_cast<float>(height);
+        viewport.Width = static_cast<float>(width);
+        viewport.MinDepth = 0;
+        viewport.MaxDepth = 1;
+        context->RSSetViewports(1, &viewport);
+
+        //设置渲染目标
+        context->OMSetRenderTargets(1, &renderTextureRTV[index].p, depthTextureDSV);
     }
 
-    void TextureCube::MarkAwake()
+    void TextureCube::Awake()
     {
+        Texture::Awake();
+
         HRESULT result = {};
 
         //创建渲染纹理
@@ -27,16 +43,16 @@ namespace BDXKEngine
         renderTextureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
         renderTextureDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
 
-        result = device->CreateTexture2D(&renderTextureDesc, nullptr, &colorTexture.p);
-        assert(SUCCEEDED(result));
+        result = GL::GetDevice()->CreateTexture2D(&renderTextureDesc, nullptr, &renderTexture.p);
+        if (FAILED(SUCCEEDED(result)))throw std::exception("创建颜色纹理失败");
 
         //创建渲染纹理资源视图
         D3D11_SHADER_RESOURCE_VIEW_DESC SMViewDesc = {};
         SMViewDesc.Format = renderTextureDesc.Format;
         SMViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
         SMViewDesc.TextureCube = {0, 1};
-        result = device->CreateShaderResourceView(colorTexture, &SMViewDesc, &colorTextureSRV.p);
-        assert(SUCCEEDED(result));
+        result = GL::GetDevice()->CreateShaderResourceView(renderTexture, &SMViewDesc, &colorTextureSRV.p);
+        if (FAILED(SUCCEEDED(result)))throw std::exception("创建颜色纹理着色器资源视图失败");
 
         //创建渲染纹理渲染目标视图
         for (unsigned int index = 0; index < 6; index++)
@@ -47,8 +63,8 @@ namespace BDXKEngine
             renderTargetDesc.Texture2DArray = {0, index, 1};
 
             CComPtr<ID3D11RenderTargetView> renderTargetView;
-            result = device->CreateRenderTargetView(colorTexture, &renderTargetDesc, &renderTargetView.p);
-            assert(SUCCEEDED(result));
+            result = GL::GetDevice()->CreateRenderTargetView(renderTexture, &renderTargetDesc, &renderTargetView.p);
+            if (FAILED(SUCCEEDED(result)))throw std::exception("创建颜色纹理视图失败");
             renderTextureRTV.push_back(renderTargetView);
         }
 

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <d3d11.h>
-
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 
 namespace BDXKEngine
@@ -30,10 +29,10 @@ namespace BDXKEngine
         static Blend Multiply;
         static Blend Additive;
 
-        bool state;
-        Factor sourceFactor;
-        Factor destinationFactor;
-        Operation operation;
+        bool state = false;
+        Factor sourceFactor = Factor::Zero;
+        Factor destinationFactor = Factor::Zero;
+        Operation operation = Operation::Add;
 
         Blend();
         Blend(bool state, Factor sourceFactor, Factor destinationFactor, Operation operation);

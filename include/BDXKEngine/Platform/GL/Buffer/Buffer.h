@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/Core/Object.h"
-#include "BDXKEngine/Platform/GL/GL.h"
+#include "../GL.h"
 
 namespace BDXKEngine
 {
@@ -16,8 +16,11 @@ namespace BDXKEngine
     public:
         static ObjectPtr<Buffer> Create(BufferTarget target, int size);
 
-        void SetData(const char* data) const;
         void GetData(char* data) const;
+        CComPtr<ID3D11Buffer> GetGLBuffer();
+        
+        void SetData(const void* data) const;
+        void SetPass(unsigned int startSlot) const;// 设置当前渲染管线中的常量缓冲区，矩阵灯光数据之类的
     private:
         BufferTarget target = BufferTarget::Constant;
         int size = 0;

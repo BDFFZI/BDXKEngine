@@ -9,6 +9,13 @@
 #include "GraphicsInfo.h"
 
 namespace BDXKEngine {
+	    enum class PassType
+        {
+            ForwardBase,
+            ForwardAdd,
+            ShadowCaster
+        };
+	
 	class Graphics : protected GL2D
 	{
 	public:

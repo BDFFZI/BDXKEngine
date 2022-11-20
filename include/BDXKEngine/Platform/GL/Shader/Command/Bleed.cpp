@@ -6,13 +6,7 @@ namespace BDXKEngine
     Blend Blend::Multiply = {true, Factor::SrcAlpha, Factor::OneMinusSrcAlpha, Operation::Add};
     Blend Blend::Additive = {true, Factor::One, Factor::One, Operation::Add};
 
-    Blend::Blend()
-    {
-        state = false;
-        sourceFactor = Factor::One;
-        destinationFactor = Factor::One;
-        operation = Operation::Add;
-    }
+    Blend::Blend() = default;
     Blend::Blend(bool state, Factor sourceFactor, Factor destinationFactor, Operation operation)
     {
         this->state = state;
@@ -24,7 +18,7 @@ namespace BDXKEngine
     {
         TransferFieldInfo(state);
         TransferFieldInfoOf(sourceFactor, int);
-        TransferFieldInfo(destinationFactor, int);
-        TransferFieldInfo(operation, int);
+        TransferFieldInfoOf(destinationFactor, int);
+        TransferFieldInfoOf(operation, int);
     }
 }
