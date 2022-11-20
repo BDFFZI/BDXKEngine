@@ -12,6 +12,11 @@ namespace BDXKEngine
     {
     public:
         static ObjectPtrBase Load(const std::string& path);
+        template <typename TObject>
+        static ObjectPtr<TObject> Load(const std::string& path)
+        {
+            return Load(path).ToObject<TObject>();
+        }
         static void Save(const std::string& path, const ObjectPtrBase& objectPtr);
 
         static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr);

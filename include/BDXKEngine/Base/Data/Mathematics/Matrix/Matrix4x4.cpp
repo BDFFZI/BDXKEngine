@@ -28,7 +28,7 @@ namespace BDXKEngine
     }
     Matrix4x4 Matrix4x4::Rotate(Vector3 degree)
     {
-        const Vector3 radian = degree / 180 * M_PI;
+        const Vector3 radian = degree / static_cast<float>(180 * M_PI);
 
 
         const float ry = radian.y;

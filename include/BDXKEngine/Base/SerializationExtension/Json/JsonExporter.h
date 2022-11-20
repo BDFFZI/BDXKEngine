@@ -10,20 +10,21 @@ namespace BDXKEngine
     {
     public:
         void TransferJson(std::string key, std::string& value) override;
-        
+
         void Reset(std::string& data) override;
         void PushPath(const std::string& key) override;
         void PopPath(std::string& key) override;
     protected:
-        void TransferInt(int& value);
-        void TransferFloat(float& value);
-        void TransferBool(bool& value);
-        void TransferVector2(Vector2& value);
-        void TransferVector3(Vector3& value);
-        void TransferVector4(Vector4& value);
-        void TransferColor(Color& value);
-        void TransferRect(Rect& value);
-        void TransferString(std::string& value);
+        void TransferInt(const int& value);
+        void TransferFloat(const float& value);
+        void TransferBool(const bool& value);
+        void TransferVector2(const Vector2& value);
+        void TransferVector3(const Vector3& value);
+        void TransferVector4(const Vector4& value);
+        void TransferColor(const Color& value);
+        void TransferRect(const Rect& value);
+        void TransferString(const std::string& value);
+        void TransferBytes(const std::vector<char>& value);
     private:
         CustomTransferFunc(int, TransferInt)
         CustomTransferFunc(float, TransferFloat)
@@ -34,7 +35,6 @@ namespace BDXKEngine
         CustomTransferFunc(Color, TransferColor)
         CustomTransferFunc(Rect, TransferRect)
         CustomTransferFunc(std::string, TransferString)
-
-        rapidjson::Document document;
+        CustomTransferFunc(std::vector<char>, TransferBytes)
     };
 }

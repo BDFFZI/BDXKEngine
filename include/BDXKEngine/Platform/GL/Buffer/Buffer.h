@@ -18,17 +18,15 @@ namespace BDXKEngine
 
         void GetData(char* data) const;
         CComPtr<ID3D11Buffer> GetGLBuffer();
-        
-        void SetData(const void* data) const;
-        void SetPass(unsigned int startSlot) const;// 设置当前渲染管线中的常量缓冲区，矩阵灯光数据之类的
+
+        void SetData(const void* data);
+        void SetPass(unsigned int startSlot) const; // 设置当前渲染管线中的常量缓冲区，矩阵灯光数据之类的
     private:
         BufferTarget target = BufferTarget::Constant;
-        int size = 0;
-        std::unique_ptr<char[]> data;
+        std::vector<char> buffer;
 
         CComPtr<ID3D11Buffer> glBuffer;
-
-        void Transfer(Transferer& transferer) override;
+        
         void Awake() override;
     };
 }

@@ -162,20 +162,8 @@ namespace BDXKEngine
     {
         Object::Transfer(transferer);
 
-        int verticesCount = static_cast<int>(vertices.size());
-        TransferFieldInfo(verticesCount);
-        vertices.resize(verticesCount);
-        std::stringstream verticesData;
-        verticesData.write(reinterpret_cast<char*>(vertices.data()), static_cast<int>(verticesCount * sizeof(Vertex)));
-        TransferFieldInfo(verticesData);
-
-
-        int trianglesCount = static_cast<int>(triangles.size());
-        TransferFieldInfo(trianglesCount);
-        triangles.resize(trianglesCount);
-        std::stringstream trianglesData;
-        verticesData.write(reinterpret_cast<char*>(triangles.data()), static_cast<int>(trianglesCount * sizeof(unsigned short)));
-        TransferFieldInfo(trianglesData);
+        TransferFieldInfoOf(vertices, std::vector<char>);
+        TransferFieldInfoOf(triangles, std::vector<char>);
     }
     void Mesh::Awake()
     {

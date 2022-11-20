@@ -17,6 +17,7 @@ namespace BDXKEngine
         }
 
         void TransferString(std::string& value);
+        void TransferBytes(std::vector<char>& value);
     private:
         std::stringstream stream;
 
@@ -24,5 +25,6 @@ namespace BDXKEngine
         CustomTransferFunc(float, ReadStreamTo)
         CustomTransferFunc(bool, ReadStreamTo)
         CustomTransferFunc(std::string, TransferString)
+        CustomTransferFunc(std::vector<char>, TransferBytes)
     };
 }

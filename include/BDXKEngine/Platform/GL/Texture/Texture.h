@@ -1,11 +1,10 @@
 ﻿#pragma once
+#include "TextureFormat.h"
 #include "BDXKEngine/Base/Object/Core/Object.h"
 #include "../GL.h"
 
 namespace BDXKEngine
 {
-    class TextureEditor;
-
     class Texture : public Object
     {
     public:
@@ -21,6 +20,7 @@ namespace BDXKEngine
 
         int width = 0;
         int height = 0;
+        TextureFormat format = TextureFormat::None;
 
         CComPtr<ID3D11Texture2D> renderTexture = nullptr;
         CComPtr<ID3D11Texture2D> depthTexture = nullptr;

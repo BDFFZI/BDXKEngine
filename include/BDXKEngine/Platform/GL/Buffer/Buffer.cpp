@@ -6,14 +6,14 @@ namespace BDXKEngine
     {
         const auto buffer = new Buffer{};
         buffer->target = target;
-        buffer->size = size;
+        buffer->buffer.resize(size);
 
         return Instantiate<Buffer>(buffer);
     }
-    void Buffer::SetData(const void* data) const
+    void Buffer::SetData(const void* data)
     {
-        std::memcpy(this->data.get(), data, size);
-        GL::GetDeviceContext()->UpdateSubresource(glBuffer, 0, nullptr, this->data.get(), 0, 0);
+        std::memcpy(buffer.data(), data, buffer.size());
+        GL::GetDeviceContext()->UpdateSubresource(glBuffer, 0, nullptr, buffer.data(), 0, 0);
     }
     void Buffer::SetPass(unsigned int startSlot) const
     {
@@ -27,26 +27,18 @@ namespace BDXKEngine
 
     void Buffer::GetData(char* data) const
     {
-        std::memcpy(data, this->data.get(), size);
+        std::memcpy(data, buffer.data(), buffer.size());
     }
     CComPtr<ID3D11Buffer> Buffer::GetGLBuffer()
     {
         return glBuffer;
     }
-
-    void Buffer::Transfer(Transferer& transferer)
-    {
-        Object::Transfer(transferer);
-
-        TransferFieldInfoOf(target, int);
-        TransferFieldInfo(size);
-    }
+    
     void Buffer::Awake()
     {
         Object::Awake();
 
-        data = std::unique_ptr<char[]>(new char[size]);
-        const CD3D11_BUFFER_DESC desc(size, static_cast<D3D11_BIND_FLAG>(target));
+        const CD3D11_BUFFER_DESC desc(static_cast<unsigned int>(buffer.size()), static_cast<D3D11_BIND_FLAG>(target));
         if (FAILED(GL::GetDevice()->CreateBuffer(&desc, nullptr, &glBuffer.p)))
             throw std::exception("创建缓冲区失败");
     }

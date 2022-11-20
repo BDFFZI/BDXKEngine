@@ -34,18 +34,36 @@ namespace BDXKEngine
 
         //编译顶点着色器
         CComPtr<ID3DBlob> vertexBlob;
-        CompileShader(vertexShaderhlsl, "main", "vs_5_0", &shader->vertexBlob.p);
+        CompileShader(vertexShaderhlsl, "main", "vs_5_0", &vertexBlob.p);
+        shader->vertexPass.resize(vertexBlob->GetBufferSize());
+        memcpy_s(shader->vertexPass.data(), shader->vertexPass.size(),
+                 vertexBlob->GetBufferPointer(), shader->vertexPass.size()
+        );
+
         //编译像素着色器
         CComPtr<ID3DBlob> pixelBlob;
-        CompileShader(pixelShaderhlsl, "main", "ps_5_0", &shader->pixelBlob.p);
+        CompileShader(pixelShaderhlsl, "main", "ps_5_0", &pixelBlob.p);
+        shader->pixelPass.resize(pixelBlob->GetBufferSize());
+        memcpy_s(shader->pixelPass.data(), shader->pixelPass.size(),
+                 pixelBlob->GetBufferPointer(), shader->pixelPass.size()
+        );
+
 
         return Instantiate<Shader>(shader);
     }
     ObjectPtr<Shader> Shader::Create(const CComPtr<ID3DBlob>& vertexBlob, const CComPtr<ID3DBlob>& pixelBlob)
     {
         const auto shader = new Shader{};
-        shader->vertexBlob = vertexBlob;
-        shader->pixelBlob = pixelBlob;
+
+        shader->vertexPass.resize(vertexBlob->GetBufferSize());
+        memcpy_s(shader->vertexPass.data(), shader->vertexPass.size(),
+                 vertexBlob->GetBufferPointer(), shader->vertexPass.size()
+        );
+        shader->pixelPass.resize(pixelBlob->GetBufferSize());
+        memcpy_s(shader->pixelPass.data(), shader->pixelPass.size(),
+                 pixelBlob->GetBufferPointer(), shader->pixelPass.size()
+        );
+
         return Instantiate<Shader>(shader);
     }
 
@@ -125,8 +143,11 @@ namespace BDXKEngine
     {
         Object::Transfer(transferer);
 
-        transferer.TransferNested("blend", blend);
-        transferer.TransferNested("zTest", zTest);
+        TransferNestedInfo(cull);
+        TransferNestedInfo(zTest);
+        TransferNestedInfo(blend);
+        TransferFieldInfo(vertexPass);
+        TransferFieldInfo(pixelPass);
     }
     void Shader::Awake()
     {
@@ -135,16 +156,16 @@ namespace BDXKEngine
 
         //创建顶点着色器
         HRESULT result = GL::GetDevice()->CreateVertexShader(
-            vertexBlob->GetBufferPointer(),
-            vertexBlob->GetBufferSize(),
+            vertexPass.data(),
+            vertexPass.size(),
             nullptr,
             &vertexShader.p
         );
         if (FAILED(result))throw std::exception("创建顶点着色器失败");
         //创建像素着色器
         result = GL::GetDevice()->CreatePixelShader(
-            pixelBlob->GetBufferPointer(),
-            pixelBlob->GetBufferSize(),
+            pixelPass.data(),
+            pixelPass.size(),
             nullptr,
             &pixelShader.p
         );
@@ -153,8 +174,8 @@ namespace BDXKEngine
         result = GL::GetDevice()->CreateInputLayout(
             VertexDescription,
             ARRAYSIZE(VertexDescription),
-            vertexBlob->GetBufferPointer(),
-            vertexBlob->GetBufferSize(),
+            vertexPass.data(),
+            vertexPass.size(),
             &inputLayout.p
         );
         if (FAILED(result))throw std::exception("创建着色器语义失败");

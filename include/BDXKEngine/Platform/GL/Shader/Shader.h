@@ -4,6 +4,7 @@
 #include "Command/ZTest.h"
 #include "Command/Blend.h"
 #include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Reflection/Reflection.h"
 
 namespace BDXKEngine
 {
@@ -22,16 +23,16 @@ namespace BDXKEngine
         void SetBlend(const Blend& blend);
         void SetPass() const; // 设置当前渲染管线中用于的着色器
     private:
-        CComPtr<ID3DBlob> vertexBlob;
-        CComPtr<ID3DBlob> pixelBlob;
         Cull cull = Cull::Default;
         ZTest zTest = ZTest::Default;
         Blend blend = Blend::Opaque;
+        std::vector<char> vertexPass;
+        std::vector<char> pixelPass;
 
         CComPtr<ID3D11VertexShader> vertexShader;
         CComPtr<ID3D11PixelShader> pixelShader;
         CComPtr<ID3D11InputLayout> inputLayout;
-        
+
         CComPtr<ID3D11DepthStencilState> depthStencilState;
         CComPtr<ID3D11BlendState> blendState;
         CComPtr<ID3D11RasterizerState> rasterizerState;
@@ -39,4 +40,6 @@ namespace BDXKEngine
         void Transfer(Transferer& transferer) override;
         void Awake() override;
     };
+
+    CustomReflection(Shader)
 }

@@ -1,5 +1,7 @@
 ﻿#include "JsonImporter.h"
 
+#include "BDXKEngine/Base/Extension/String.h"
+
 namespace BDXKEngine
 {
     void JsonImporter::TransferJson(std::string key, std::string& value)
@@ -79,5 +81,17 @@ namespace BDXKEngine
     void JsonImporter::TransferString(std::string& value)
     {
         value = GetCurrentNode().GetString();
+    }
+    void JsonImporter::TransferBytes(std::vector<char>& value)
+    {
+        std::string base64;
+        TransferString(base64);
+
+        value.resize(base64.size() / 4 * 3);
+        value.resize(String::DecodingBase64(
+                base64.data(),
+                static_cast<int>(base64.size()),
+                reinterpret_cast<unsigned char*>(value.data()))
+        );
     }
 }

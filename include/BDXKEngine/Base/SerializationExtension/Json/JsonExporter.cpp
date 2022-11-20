@@ -1,7 +1,6 @@
 ﻿#include "JsonExporter.h"
-
-#include <iostream>
 #include <rapidjson/prettywriter.h>
+#include "BDXKEngine/Base/Extension/String.h"
 
 namespace BDXKEngine
 {
@@ -35,19 +34,19 @@ namespace BDXKEngine
     {
         PopNode();
     }
-    void JsonExporter::TransferInt(int& value)
+    void JsonExporter::TransferInt(const int& value)
     {
         GetCurrentNode().SetInt(value);
     }
-    void JsonExporter::TransferFloat(float& value)
+    void JsonExporter::TransferFloat(const float& value)
     {
         GetCurrentNode().SetFloat(value);
     }
-    void JsonExporter::TransferBool(bool& value)
+    void JsonExporter::TransferBool(const bool& value)
     {
         GetCurrentNode().SetBool(value);
     }
-    void JsonExporter::TransferVector2(Vector2& value)
+    void JsonExporter::TransferVector2(const Vector2& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -55,7 +54,7 @@ namespace BDXKEngine
         node.PushBack(value.x, allocator);
         node.PushBack(value.y, allocator);
     }
-    void JsonExporter::TransferVector3(Vector3& value)
+    void JsonExporter::TransferVector3(const Vector3& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -64,7 +63,7 @@ namespace BDXKEngine
         node.PushBack(value.y, allocator);
         node.PushBack(value.z, allocator);
     }
-    void JsonExporter::TransferVector4(Vector4& value)
+    void JsonExporter::TransferVector4(const Vector4& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -74,7 +73,7 @@ namespace BDXKEngine
         node.PushBack(value.z, allocator);
         node.PushBack(value.w, allocator);
     }
-    void JsonExporter::TransferColor(Color& value)
+    void JsonExporter::TransferColor(const Color& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -84,7 +83,7 @@ namespace BDXKEngine
         node.PushBack(value.b, allocator);
         node.PushBack(value.a, allocator);
     }
-    void JsonExporter::TransferRect(Rect& value)
+    void JsonExporter::TransferRect(const Rect& value)
     {
         auto& node = GetCurrentNode().SetArray();
 
@@ -94,8 +93,21 @@ namespace BDXKEngine
         node.PushBack(value.width, allocator);
         node.PushBack(value.height, allocator);
     }
-    void JsonExporter::TransferString(std::string& value)
+    void JsonExporter::TransferString(const std::string& value)
     {
         GetCurrentNode().SetString(value.c_str(), static_cast<rapidjson::SizeType>(value.size()), GetAllocator());
+    }
+    void JsonExporter::TransferBytes(const std::vector<char>& value)
+    {
+        std::string base64;
+
+        base64.resize((value.size() + 2) / 3 * 4);
+        base64.resize(String::EncodingBase64(
+                reinterpret_cast<const unsigned char*>(value.data()),
+                static_cast<int>(value.size()),
+                base64.data())
+        );
+
+        TransferString(base64);
     }
 }

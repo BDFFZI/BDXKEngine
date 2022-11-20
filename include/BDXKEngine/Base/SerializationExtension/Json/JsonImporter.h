@@ -24,6 +24,7 @@ namespace BDXKEngine
         void TransferColor(Color& value);
         void TransferRect(Rect& value);
         void TransferString(std::string& value);
+        void TransferBytes(std::vector<char>& value);
     private:
         CustomTransferFunc(int, TransferInt)
         CustomTransferFunc(float, TransferFloat)
@@ -34,5 +35,6 @@ namespace BDXKEngine
         CustomTransferFunc(Color, TransferColor)
         CustomTransferFunc(Rect, TransferRect)
         CustomTransferFunc(std::string, TransferString)
+        CustomTransferFunc(std::vector<char>, TransferBytes)
     };
 }

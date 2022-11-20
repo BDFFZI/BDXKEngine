@@ -46,9 +46,9 @@ namespace BDXKEngine
     {
         D3D11_SAMPLER_DESC samplerDescription{};
         samplerDescription.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-        samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-        samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-        samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+        samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+        samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+        samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
         GL::GetDevice()->CreateSamplerState(&samplerDescription, samplerState);
     }
 
@@ -58,5 +58,6 @@ namespace BDXKEngine
 
         TransferFieldInfo(width);
         TransferFieldInfo(height);
+        TransferFieldInfoOf(format, int);
     }
 }

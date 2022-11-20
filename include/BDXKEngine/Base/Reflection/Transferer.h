@@ -54,6 +54,7 @@ namespace BDXKEngine
         void TransferNested(std::string key, Transferable& value);
 
 
+#define TransferNestedInfo(fieldName) transferer.TransferNested(#fieldName, fieldName)
 #define TransferFieldInfo(fieldName) transferer.TransferField(#fieldName, fieldName)
 #define TransferFieldInfoOf(fieldName,transferType) transferer.TransferFieldOf<transferType>(#fieldName, fieldName)
         //下方这些宏和反射功能不兼容，不建议使用，请尝试使用IsInput()来实现类似功能

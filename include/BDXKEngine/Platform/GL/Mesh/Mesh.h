@@ -4,6 +4,7 @@
 #include "../GL.h"
 #include "../GLLayout.h"
 #include "../Buffer/Buffer.h"
+#include "BDXKEngine/Base/Reflection/Reflection.h"
 
 namespace BDXKEngine
 {
@@ -31,7 +32,7 @@ namespace BDXKEngine
     private:
         std::vector<Vertex> vertices = {};
         std::vector<unsigned short> triangles = {};
-
+        
         ObjectPtr<Buffer> vertexBuffer;
         ObjectPtr<Buffer> triangleBuffer;
 
@@ -41,4 +42,6 @@ namespace BDXKEngine
         void Transfer(Transferer& transferer) override;
         void Awake() override;
     };
+
+    CustomReflection(Mesh)
 }

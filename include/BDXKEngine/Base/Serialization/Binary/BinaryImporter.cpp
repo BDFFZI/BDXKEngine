@@ -23,4 +23,11 @@ namespace BDXKEngine
 
         delete[] data;
     }
+    void BinaryImporter::TransferBytes(std::vector<char>& value)
+    {
+        int size = 0;
+        ReadStreamTo(size);
+        value.resize(size);
+        ReadStreamTo(value.data(), size);
+    }
 }

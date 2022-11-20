@@ -939,6 +939,8 @@
       <AdditionalOptions>/utf-8 /d1 reportSingleClassLayoutClassTest</AdditionalOptions>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="..\include\BDXKEngine\Platform\GL\Texture\TextureFormat.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\GL\Texture\TextureImporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\Window\Window.cpp" />
     <ClCompile Include="ModuleTest.cpp" />
   </ItemGroup>
@@ -996,6 +998,8 @@
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\Texture.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\Texture2D.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\TextureCube.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\TextureFormat.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\TextureImporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
