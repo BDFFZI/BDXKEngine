@@ -24,9 +24,8 @@ namespace BDXKEngine
     void BinaryExporter::TransferBytes(const std::vector<char>& value)
     {
         int size = static_cast<int>(value.size());
-        const char* data = value.data();
-
+        
         WriteStreamFrom(size);
-        WriteStreamFrom(data, size);
+        WriteStreamFrom(value.data(), size);
     }
 }

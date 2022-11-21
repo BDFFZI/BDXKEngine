@@ -8,7 +8,7 @@
 
 namespace BDXKEngine
 {
-    class BDXKObject
+    class Resource
     {
     public:
         static ObjectPtrBase Load(const std::string& path);

@@ -31,7 +31,6 @@
     <ClCompile Include="..\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Base\BDXKObject\BDXKObject.cpp" />
     <ClCompile Include="Base\Data\Graphics\Color.cpp" />
     <ClCompile Include="Base\Data\Graphics\Rect.cpp" />
     <ClCompile Include="Base\Data\Mathematics\Matrix\Matrix3x3.cpp" />
@@ -746,100 +745,27 @@
       <AdditionalOptions>/utf-8 /d1 reportSingleClassLayoutClassTest</AdditionalOptions>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="Function\GUI.cpp" />
     <ClCompile Include="Function\Input.cpp" />
+    <ClCompile Include="Function\IO\Resources.cpp" />
     <ClCompile Include="Function\Random.cpp" />
     <ClCompile Include="Function\Screen.cpp" />
     <ClCompile Include="Function\Time.cpp" />
-    <ClCompile Include="Platform\GL\Commands\Bleed.cpp" />
-    <ClCompile Include="Platform\GL\Commands\Cull.cpp" />
-    <ClCompile Include="Platform\GL\Commands\ZTest.cpp" />
+    <ClCompile Include="Platform\Resource\Resource.cpp" />
+    <ClCompile Include="Platform\GL\Buffer\Buffer.cpp" />
     <ClCompile Include="Platform\GL\GL.cpp" />
-    <ClCompile Include="Platform\GL\GL2D.cpp" />
-    <ClCompile Include="Platform\GL\Resources\Buffer.cpp" />
-    <ClCompile Include="Platform\GL\Resources\Material.cpp" />
-    <ClCompile Include="Platform\GL\Resources\Mesh.cpp" />
-    <ClCompile Include="Platform\GL\Resources\Shader.cpp" />
-    <ClCompile Include="Platform\GL\Resources\Texture.cpp" />
-    <ClCompile Include="Platform\GL\Resources\Texture2D.cpp" />
-    <ClCompile Include="Platform\GL\Resources\TextureCube.cpp" />
-    <ClCompile Include="Platform\IMGUI\IMGUIManager.cpp" />
-    <ClCompile Include="Platform\IO\MeshImporter.cpp" />
-    <ClCompile Include="Platform\IO\Resources.cpp">
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <AssemblerListingLocation>_\</AssemblerListingLocation>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <BrowseInformationFile>_\</BrowseInformationFile>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <CompileAs>Default</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ModuleDependenciesFile>_\</ModuleDependenciesFile>
-      <ModuleOutputFile>_\</ModuleOutputFile>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <Optimization>Disabled</Optimization>
-      <ObjectFileName>_\</ObjectFileName>
-      <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>C:\Users\BDFFZI\Desktop\BDXKEngine\lib\BDXKRuntime.pdb</ProgramDataBaseFileName>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>_\BDXKRuntime.pch</PrecompiledHeaderOutputFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SourceDependenciesFile>_\</SourceDependenciesFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <SupportJustMyCode>false</SupportJustMyCode>
-      <TrackerLogDirectory>_\BDXKRuntime.tlog\</TrackerLogDirectory>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>true</UseFullPaths>
-      <WarningLevel>Level1</WarningLevel>
-      <XMLDocumentationFileName>_\</XMLDocumentationFileName>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>_USE_MATH_DEFINES;_UNICODE;UNICODE;_UNICODE;UNICODE;</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include;;C:\Users\BDFFZI\Desktop\BDXKEngine\include\BDXKEngine\</AdditionalIncludeDirectories>
-      <AdditionalOptions>/utf-8 </AdditionalOptions>
-      <LibCompiled>true</LibCompiled>
-    </ClCompile>
+    <ClCompile Include="Platform\GL\Mesh\Mesh.cpp" />
+    <ClCompile Include="Platform\GL\Mesh\MeshImporter.cpp" />
+    <ClCompile Include="Platform\GL\Shader\Command\Bleed.cpp" />
+    <ClCompile Include="Platform\GL\Shader\Command\Cull.cpp" />
+    <ClCompile Include="Platform\GL\Shader\Command\ZTest.cpp" />
+    <ClCompile Include="Platform\GL\Shader\Shader.cpp" />
+    <ClCompile Include="Platform\GL\Shader\ShaderImporter.cpp" />
+    <ClCompile Include="Platform\GL\Texture\Texture.cpp" />
+    <ClCompile Include="Platform\GL\Texture\Texture2D.cpp" />
+    <ClCompile Include="Platform\GL\Texture\TextureCube.cpp" />
+    <ClCompile Include="Platform\GL\Texture\TextureFormat.cpp" />
+    <ClCompile Include="Platform\GL\Texture\TextureImporter.cpp" />
+    <ClCompile Include="Platform\GUI\GUI.cpp" />
     <ClCompile Include="Platform\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -857,7 +783,6 @@
     <ClInclude Include="..\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\imgui\imstb_textedit.h" />
     <ClInclude Include="..\imgui\imstb_truetype.h" />
-    <ClInclude Include="Base\BDXKObject\BDXKObject.h" />
     <ClInclude Include="Base\Data\Graphics\Color.h" />
     <ClInclude Include="Base\Data\Graphics\Rect.h" />
     <ClInclude Include="Base\Data\Mathematics\Math.h" />
@@ -910,35 +835,37 @@
     <ClInclude Include="Function\Graphics\Graphics.h" />
     <ClInclude Include="Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="Function\Graphics\Material.h" />
-    <ClInclude Include="Function\GUI.h" />
     <ClInclude Include="Function\Input.h" />
+    <ClInclude Include="Function\IO\Resources.h" />
     <ClInclude Include="Function\Random.h" />
     <ClInclude Include="Function\Screen.h" />
     <ClInclude Include="Function\Time.h" />
-    <ClInclude Include="Platform\GL\Commands\Blend.h" />
-    <ClInclude Include="Platform\GL\Commands\Cull.h" />
-    <ClInclude Include="Platform\GL\Commands\ZTest.h" />
+    <ClInclude Include="Platform\Resource\Resource.h" />
+    <ClInclude Include="Platform\GL\Buffer\Buffer.h" />
     <ClInclude Include="Platform\GL\GL.h" />
-    <ClInclude Include="Platform\GL\GL2D.h" />
-    <ClInclude Include="Platform\GL\Resources\Buffer.h" />
-    <ClInclude Include="Platform\GL\Resources\GLLayout.h" />
-    <ClInclude Include="Platform\GL\Resources\Material.h" />
-    <ClInclude Include="Platform\GL\Resources\Mesh.h" />
-    <ClInclude Include="Platform\GL\Resources\Shader.h" />
-    <ClInclude Include="Platform\GL\Resources\Texture.h" />
-    <ClInclude Include="Platform\GL\Resources\Texture2D.h" />
-    <ClInclude Include="Platform\GL\Resources\TextureCube.h" />
-    <ClInclude Include="Platform\IMGUI\IMGUIManager.h" />
-    <ClInclude Include="Platform\IO\Resources.h" />
+    <ClInclude Include="Platform\GL\GLLayout.h" />
+    <ClInclude Include="Platform\GL\Mesh\Mesh.h" />
+    <ClInclude Include="Platform\GL\Mesh\MeshImporter.h" />
+    <ClInclude Include="Platform\GL\Shader\Command\Blend.h" />
+    <ClInclude Include="Platform\GL\Shader\Command\Cull.h" />
+    <ClInclude Include="Platform\GL\Shader\Command\ZTest.h" />
+    <ClInclude Include="Platform\GL\Shader\Shader.h" />
+    <ClInclude Include="Platform\GL\Shader\ShaderImporter.h" />
+    <ClInclude Include="Platform\GL\Texture\Texture.h" />
+    <ClInclude Include="Platform\GL\Texture\Texture2D.h" />
+    <ClInclude Include="Platform\GL\Texture\TextureCube.h" />
+    <ClInclude Include="Platform\GL\Texture\TextureFormat.h" />
+    <ClInclude Include="Platform\GL\Texture\TextureImporter.h" />
+    <ClInclude Include="Platform\GUI\GUI.h" />
     <ClInclude Include="Platform\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Base\BDXKObject\ReadMe.md" />
     <Content Include="Base\Data\ReadMe.md" />
     <Content Include="Base\Object\ReadMe.md" />
     <Content Include="Base\ReadMe.md" />
     <Content Include="Base\Reflection\ReadMe.md" />
     <Content Include="Base\SerializationExtension\ReadMe.md" />
+    <Content Include="Platform\Resource\ReadMe.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

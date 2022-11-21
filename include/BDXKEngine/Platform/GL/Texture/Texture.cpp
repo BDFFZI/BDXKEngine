@@ -14,6 +14,10 @@ namespace BDXKEngine
     {
         return Vector2{width, height};
     }
+    CComPtr<ID3D11ShaderResourceView> Texture::GetShaderResourceView()
+    {
+        return colorTextureSRV;
+    }
     void Texture::SetPass(unsigned int startSlot) const
     {
         const auto context = GL::GetDeviceContext();

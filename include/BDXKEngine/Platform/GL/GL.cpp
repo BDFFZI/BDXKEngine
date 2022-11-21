@@ -15,10 +15,6 @@ namespace BDXKEngine
         {
             ResizeDefaultRenderTarget();
         });
-        window->AddRenewEvent([]()
-        {
-            Present();
-        });
     }
 
     CComPtr<ID3D11Device> GL::GetDevice()
@@ -79,6 +75,10 @@ namespace BDXKEngine
     {
         //开始绘制
         context->DrawIndexed(indexsCount, 0, 0);
+    }
+    void GL::Present()
+    {
+        swapChain->Present(0, 0);
     }
 
     Window* GL::window = nullptr;
@@ -185,9 +185,5 @@ namespace BDXKEngine
         const CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{D3D11_DSV_DIMENSION_TEXTURE2D};
         result = device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &defaultDepthStencilView.p);
         if (FAILED(result))throw std::exception("创建深度模板测试视图失败");
-    }
-    void GL::Present()
-    {
-        swapChain->Present(0, 0);
     }
 }

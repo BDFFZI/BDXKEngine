@@ -11,6 +11,7 @@ namespace BDXKEngine
         int GetWidth() const;
         int GetHeight() const;
         Vector2 GetSize() const;
+        CComPtr<ID3D11ShaderResourceView> GetShaderResourceView();
 
         void SetPass(unsigned int startSlot) const; // 设置当前渲染管线中的着色器资源,如纹理之类的
     protected:

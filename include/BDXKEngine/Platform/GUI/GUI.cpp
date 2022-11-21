@@ -1,18 +1,19 @@
-﻿#include "IMGUIManager.h"
+﻿#include "GUI.h"
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
-#include "BDXKEngine/Platform/GL/Resources/Texture.h"
+
+#include "ImGuizmo/ImGuizmo.h"
 
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace BDXKEngine
 {
-    ImTextureID IMGUIManager::GetImTextureID(ObjectPtr<Texture2D> texture)
+    ImTextureID GUI::GetImTextureID(const ObjectPtr<Texture2D>& texture)
     {
-        return TextureEditor::GetShaderResourceView(texture.ToObjectPtr<Texture>());
+        return texture->GetShaderResourceView();
     }
-    void IMGUIManager::Initialize(Window* window)
+    void GUI::Initialize(Window* window)
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -20,13 +21,15 @@ namespace BDXKEngine
         ImGui::StyleColorsDark();
 
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        io.Fonts->AddFontFromFileTTF(
-            "C:\\Windows\\Fonts\\simkai.ttf", 18.0f, nullptr,
-            io.Fonts->GetGlyphRangesChineseFull()
-        );
+
+        // 中文支持
+        // io.Fonts->AddFontFromFileTTF(
+        //     "C:/Windows/Fonts/simkai.ttf", 18.0f, nullptr,
+        //     io.Fonts->GetGlyphRangesChineseFull()
+        // );
 
         ImGui_ImplWin32_Init(window->GetHwnd());
-        ImGui_ImplDX11_Init(device, context);
+        ImGui_ImplDX11_Init(GL::GetDevice(), GL::GetDeviceContext());
 
         window->AddNativeEvent(ImGui_ImplWin32_WndProcHandler);
 
@@ -37,7 +40,7 @@ namespace BDXKEngine
             ImGui::DestroyContext();
         });
     }
-    void IMGUIManager::BeginDraw()
+    void GUI::BeginDraw()
     {
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
@@ -57,7 +60,7 @@ namespace BDXKEngine
         //     ImGuiWindowFlags_NoMove
         // );
     }
-    void IMGUIManager::EndDraw()
+    void GUI::EndDraw()
     {
         // ImGui::End();
         ImGui::Render();
