@@ -56,6 +56,8 @@ namespace BDXKEngine
 
         //设置渲染目标
         context->OMSetRenderTargets(1, &renderTextureRTV.p, depthTextureDSV.p);
+
+        renderTarget = this;
     }
 
     void Texture2D::Transfer(Transferer& transferer)

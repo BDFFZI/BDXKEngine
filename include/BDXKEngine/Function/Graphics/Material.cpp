@@ -3,40 +3,36 @@
 
 namespace BDXKEngine
 {
-    ObjectPtr<Material> Material::Create(const std::vector<ObjectPtr<Shader>>& shaders)
+    ObjectPtr<Material> Material::Create(const std::vector<std::tuple<ObjectPtr<Shader>, ShaderType>>& shaders)
     {
         const auto material = new Material{};
-        material->shaders = shaders;
+
+        for (auto& [shader,shaderType] : shaders)
+        {
+            material->shaders.emplace_back(shader);
+            material->shaderTypes.emplace_back(shaderType);
+        }
 
         return Instantiate<Material>(material);
     }
 
-    std::vector<ObjectPtr<Shader>> Material::GetShaders()
-    {
-        return shaders;
-    }
     RenderQueue Material::GetRenderQueue() const
     {
         return renderQueue;
     }
-    int Material::GetPassCount() const
+    int Material::GetShaderCount() const
     {
         return static_cast<int>(shaders.size());
     }
-    PassType Material::GetPassType(int index) const
+    ShaderType Material::GetShaderType(int index) const
     {
-        return shaders[index]->GetPassType();
+        return shaderTypes[index];
     }
 
-    void Material::SetShaders(const std::vector<ObjectPtr<Shader>>& shader)
-    {
-        this->shaders = shader;
-    }
     void Material::SetRenderQueue(RenderQueue renderQueue)
     {
         this->renderQueue = renderQueue;
     }
-
     void Material::SetFloat(int slotIndex, float value)
     {
         if (slotIndex < 0 || slotIndex >= 8)
@@ -61,31 +57,31 @@ namespace BDXKEngine
             throw std::exception("超出容量范围");
         (&texture0)[slotIndex] = texture;
     }
-    void Material::SetPass(int index)
+    void Material::SetPass(int shaderIndex)
     {
         //设置纹理
         if (texture0 != nullptr) texture0->SetPass(0);
-        else GL::SetNullTexture2D(0);
+        else Texture::SetPassNull(0);
         if (texture1 != nullptr)texture1->SetPass(1);
-        else GL::SetNullTexture2D(1);
+        else Texture::SetPassNull(1);
         if (texture2 != nullptr)texture2->SetPass(2);
-        else GL::SetNullTexture2D(2);
+        else Texture::SetPassNull(2);
         if (texture3 != nullptr)texture3->SetPass(3);
-        else GL::SetNullTexture2D(3);
+        else Texture::SetPassNull(3);
 
         //设置常量
         parametersBuffer->SetData(parameters.GetPtr());
         parametersBuffer->SetPass(0);
 
         //设置着色器
-        shaders[index]->SetPass();
+        shaders[shaderIndex]->SetPass();
     }
 
     void Material::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);
 
-        transferer.TransferNested("parameters", parameters);
+        TransferNestedInfo(parameters);
         TransferFieldInfoOf(renderQueue, int);
         TransferFieldInfo(texture0);
         TransferFieldInfo(texture1);

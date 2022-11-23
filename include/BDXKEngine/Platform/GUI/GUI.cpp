@@ -1,8 +1,7 @@
 ﻿#include "GUI.h"
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
-
-#include "ImGuizmo/ImGuizmo.h"
+#include <ImGuizmo/ImGuizmo.h>
 
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

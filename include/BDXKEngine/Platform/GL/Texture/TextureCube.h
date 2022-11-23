@@ -8,7 +8,7 @@ namespace BDXKEngine {
 	class TextureCube :public Texture
 	{
 	public:
-		static ObjectPtr<TextureCube> Create(int width, int height);
+		static ObjectPtr<TextureCube> Create(int width, int height, TextureFormat textureFormat = TextureFormat::B8G8R8A8_UNORM);
 
 		void SetRenderTarget(int index) const;
 	private:

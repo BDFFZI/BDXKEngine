@@ -1,4 +1,3 @@
-//GL层
 struct Vertex
 {
     float3 position : POSITION;
@@ -24,16 +23,16 @@ float4x4 matrix3;
 };
 
 Texture2D Texture2D0 : register(t0);
-Texture2D Texture2D1 : register(t1);
-Texture2D Texture2D2 : register(t2);
-Texture2D Texture2D3 : register(t3);
-
 SamplerState SamplerState0 : register(s0);
-SamplerState SamplerState1 : register(s1);
-SamplerState SamplerState2 : register(s2);
-SamplerState SamplerState3 : register(s3);
 
-//Graphics层-------------------------------------------------------------------------------------
+Texture2D Texture2D1 : register(t1);
+SamplerState SamplerState1 : register(s1);
+
+Texture2D Texture2D2 : register(t2);
+SamplerState SamplerState2 : register(s2);
+
+Texture2D Texture2D3 : register(t3);
+SamplerState SamplerState3 : register(s3);
 
 //世界
 cbuffer WorldInfo : register(b1)
@@ -53,27 +52,22 @@ cbuffer ObjectInfo : register(b3)
 {
 float4x4 ObjectToWorld;
 }
+
 //灯光
 cbuffer LightInfo : register(b4)
 {
 float4 LightPosition;
 float4 LightNormal;
 float4 LightColor;
-float4 LightFactorFloat;
-int4 LightFactorInt; //x:LightType,y:lightRenderMode,z:lightOrder,w:空
-};
-//阴影
-cbuffer ShadowInfo : register(b5)
-{
 float4x4 WorldToLightView;
 float4x4 ViewToLightClip;
+int LightType;
 }
-
-
 Texture2D ShadowMap : register(t4);
 SamplerState ShadowMapSampler : register(s4);
 TextureCube ShadowMapCube : register(t5);
 SamplerState ShadowMapCubeSampler : register(s5);
+
 TextureCube Skybox : register(t6);
 SamplerState SkyboxSampler : register(s6);
 
@@ -106,7 +100,7 @@ float DecodeShadowMap(float3 worldPosition)
     float depth;
     float depthOfMap;
 
-    if (LightFactorInt.x == 1)
+    if (LightType == 1)
     {
         depthOfMap = ShadowMapCube.Sample(ShadowMapCubeSampler, worldPosition - LightPosition.xyz).z;
         depth = distance(worldPosition, LightPosition.xyz);

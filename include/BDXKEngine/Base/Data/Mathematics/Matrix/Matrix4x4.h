@@ -12,7 +12,7 @@ namespace BDXKEngine
         static Matrix4x4 Scale(Vector3 scale);
         static Matrix4x4 Rotate(Vector3 degree);
         static Matrix4x4 Translate(Vector3 move);
-        static Matrix4x4 Ortho(float halfWidth, float halfhHeight, float nearClipPlane, float farClipPlane);
+        static Matrix4x4 Ortho(float halfWidth, float halfHeight, float nearClipPlane, float farClipPlane);
         static Matrix4x4 Perspective(float fieldOfView, float aspectRatio, float nearClipPlane, float farClipPlane);
         static Matrix4x4 TRS(Vector3 position, Vector3 eulerAngles, Vector3 scale);
 

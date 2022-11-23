@@ -5,10 +5,10 @@ namespace BDXKEngine {
 	class Cursor
 	{
 	public:
-		static void SetLockState(bool value);
-		static void SetVisible(bool value);
-	protected:
 		static void Initialize(Window* window);
+		
+		static void SetLockState(bool state);
+		static void SetVisible(bool state);
 	private:
 		static Window* window;
 		static int mouseButtonTime;

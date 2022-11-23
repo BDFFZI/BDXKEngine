@@ -3,11 +3,12 @@ using namespace BDXKEngine;
 
 namespace BDXKEngine
 {
-    ObjectPtr<TextureCube> TextureCube::Create(const int widthf, const int heightf)
+    ObjectPtr<TextureCube> TextureCube::Create(const int widthf, const int heightf, TextureFormat textureFormat)
     {
         const auto textureCube = new TextureCube{};
         textureCube->width = widthf;
         textureCube->height = heightf;
+        textureCube->format = textureFormat;
         return Instantiate<TextureCube>(textureCube);
     }
     void TextureCube::SetRenderTarget(int index) const
@@ -24,6 +25,8 @@ namespace BDXKEngine
 
         //设置渲染目标
         context->OMSetRenderTargets(1, &renderTextureRTV[index].p, depthTextureDSV);
+
+        renderTarget = this;
     }
 
     void TextureCube::Awake()
@@ -34,7 +37,7 @@ namespace BDXKEngine
 
         //创建渲染纹理
         D3D11_TEXTURE2D_DESC renderTextureDesc = {};
-        renderTextureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        renderTextureDesc.Format = static_cast<DXGI_FORMAT>(format);
         renderTextureDesc.Width = width;
         renderTextureDesc.Height = height;
         renderTextureDesc.ArraySize = 6;

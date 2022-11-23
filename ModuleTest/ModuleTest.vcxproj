@@ -186,6 +186,14 @@
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Serializer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Graphics.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Material.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Random.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Time.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Window\Cursor.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Window\Input.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Window\Screen.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Buffer\Buffer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\GL.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Mesh\Mesh.cpp" />
@@ -203,7 +211,6 @@
     <ClCompile Include="..\include\BDXKEngine\Platform\GUI\GUI.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\Resource\Resource.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\Window\Window.cpp" />
-    <ClCompile Include="..\include\ImGuizmo\GraphEditor.cpp" />
     <ClCompile Include="..\include\ImGuizmo\ImCurveEdit.cpp" />
     <ClCompile Include="..\include\ImGuizmo\ImGradient.cpp" />
     <ClCompile Include="..\include\ImGuizmo\ImGuizmo.cpp" />
@@ -257,6 +264,14 @@
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Serializer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Graphics.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Material.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Random.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Time.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Window\Cursor.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Window\Input.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Window\Screen.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Buffer\Buffer.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\GL.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\GLLayout.h" />
@@ -275,7 +290,6 @@
     <ClInclude Include="..\include\BDXKEngine\Platform\GUI\GUI.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\Resource\Resource.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\Window\Window.h" />
-    <ClInclude Include="..\include\ImGuizmo\GraphEditor.h" />
     <ClInclude Include="..\include\ImGuizmo\ImCurveEdit.h" />
     <ClInclude Include="..\include\ImGuizmo\ImGradient.h" />
     <ClInclude Include="..\include\ImGuizmo\ImGuizmo.h" />

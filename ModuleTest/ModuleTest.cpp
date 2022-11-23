@@ -8,9 +8,12 @@
 #include "BDXKEngine/Platform/GL/Mesh/MeshImporter.h"
 #include "BDXKEngine/Platform/GL/Shader/ShaderImporter.h"
 #include "BDXKEngine/Platform/GL/Texture/Texture2D.h"
-#include "BDXKEngine/Platform/GL/Texture/TextureImporter.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "BDXKEngine/Platform/Resource/Resource.h"
+#include "BDXKEngine/Function/Time.h"
+#include "BDXKEngine/Function/Window/Cursor.h"
+#include "BDXKEngine/Function/Window/Input.h"
+#include "BDXKEngine/Function/Window/Screen.h"
 
 using namespace BDXKEngine;
 
@@ -42,33 +45,30 @@ int main()
 
         GL::Initialize(&window);
         GUI::Initialize(&window);
+        // Time::Initialize(&window);
+        // Cursor::Initialize(&window);
+        // Input::Initialize(&window);
+        // Cursor::Initialize(&window);
+        // Screen::Initialize(&window);
+        // Graphics::Initialize(&window);
+        Texture::ResetDefaultRenderTarget();
 
         // ObjectPtr<Material> material = Object::Instantiate<Material>(new Material());
         // material->texture = TextureImporter::Import("C:/Users/BDFFZI/Desktop/KeQing.png");
         // material->shader = ShaderImporter::Import("C:/Users/BDFFZI/Desktop/Test.hlsl");
         // material->mesh = MeshImporter::Import("C:/Users/BDFFZI/Desktop/Blender.glb");
+        // material->shader->SetCull(Cull{Cull::State::Off});
+        // Resource::Save("shader.bin", material->shader);
+        // Resource::Save("texture.bin", material->texture);
+        // Resource::Save("mesh.bin", material->mesh);
+        // Resource::Save("material.bin", material);
 
-        const ObjectPtr<Shader> shader = Resource::Load<Shader>("C:/Users/BDFFZI/Desktop/BDXKTemp/shader.json");
-        const ObjectPtr<Mesh> mesh = Resource::Load<Mesh>("C:/Users/BDFFZI/Desktop/BDXKTemp/mesh.json");
-        const ObjectPtr<Texture2D> texture = Resource::Load<Texture2D>("C:/Users/BDFFZI/Desktop/BDXKTemp/texture.json");
-   
-
-        // Resource::Save("C:/Users/BDFFZI/Desktop/BDXKTemp/shader.json", material->shader);
-        // Resource::Save("C:/Users/BDFFZI/Desktop/BDXKTemp/texture.json", material->texture);
-        // Resource::Save("C:/Users/BDFFZI/Desktop/BDXKTemp/mesh.json", material->mesh);
-       
-
+        const ObjectPtr<Shader> shader = Resource::Load<Shader>("shader.bin");
+        const ObjectPtr<Mesh> mesh = Resource::Load<Mesh>("mesh.bin");
+        const ObjectPtr<Texture2D> texture = Resource::Load<Texture2D>("texture.bin");
+        const ObjectPtr<Material> material = Resource::Load<Material>("material.bin");
         const ObjectPtr<Buffer> buffer = Buffer::Create(BufferTarget::Constant, sizeof(Vector4));
 
-        clock_t begin = clock();
-
-        ObjectPtr<Material> material = Resource::Load<Material>("C:/Users/BDFFZI/Desktop/BDXKTemp/material.json");
-        Resource::Save("C:/Users/BDFFZI/Desktop/BDXKTemp/material.json", material);
-        
-        clock_t end = clock();
-        double time = end - begin;
-
-        material->shader->SetCull(Cull{Cull::State::Off});
 
         window.AddRenewEvent([&]()
         {
@@ -76,7 +76,7 @@ int main()
             buffer->SetData(&windowSize);
             buffer->SetPass(0);
 
-            GL::SetDefaultRenderTarget();
+            Texture::SetRenderTargetDefault();
 
             GL::Clear(true, true, Color::blue);
             material->shader->SetPass();

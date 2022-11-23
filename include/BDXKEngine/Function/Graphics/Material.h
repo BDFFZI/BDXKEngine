@@ -1,13 +1,21 @@
 ﻿#pragma once
 #include <vector>
-#include "Shader.h"
-#include "Buffer.h"
-#include "Texture.h"
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
+#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Platform/GL/Buffer/Buffer.h"
+#include "BDXKEngine/Platform/GL/Shader/Shader.h"
+#include "BDXKEngine/Platform/GL/Texture/Texture.h"
 
 
 namespace BDXKEngine
 {
+    enum class ShaderType
+    {
+        ForwardBase,
+        ForwardAdd,
+        ShadowCaster
+    };
+
     enum class RenderQueue
     {
         Background = 1000,
@@ -20,22 +28,19 @@ namespace BDXKEngine
     class Material : public Object
     {
     public:
-        static ObjectPtr<Material> Create(const std::vector<ObjectPtr<Shader>>& shaders);
-
-        std::vector<ObjectPtr<Shader>> GetShaders();
+        static ObjectPtr<Material> Create(const std::vector<std::tuple<ObjectPtr<Shader>, ShaderType>>& shaders);
+        
         RenderQueue GetRenderQueue() const;
-        int GetPassCount() const;
-        PassType GetPassType(int index) const;
-
-
-        void SetShaders(const std::vector<ObjectPtr<Shader>>& shader);
+        int GetShaderCount() const;
+        ShaderType GetShaderType(int index) const;
+        
         void SetRenderQueue(RenderQueue renderQueue);
         void SetFloat(int slotIndex, float value);
         void SetVector(int slotIndex, Vector4 value);
         void SetMatrix(int slotIndex, Matrix4x4 value);
         void SetTexture(int slotIndex, const ObjectPtr<Texture>& texture);
         /// 用当前材质的所有物填充渲染管线
-        void SetPass(int index);
+        void SetPass(int shaderIndex);
     private:
         struct Parameters : Transferable
         {
@@ -82,6 +87,7 @@ namespace BDXKEngine
         RenderQueue renderQueue = RenderQueue::Geometry;
         Parameters parameters;
         std::vector<ObjectPtr<Shader>> shaders;
+        std::vector<ShaderType> shaderTypes;
         ObjectPtr<Buffer> parametersBuffer;
         ObjectPtr<Texture> texture0;
         ObjectPtr<Texture> texture1;

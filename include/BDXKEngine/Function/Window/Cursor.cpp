@@ -9,9 +9,9 @@ namespace BDXKEngine {
 		window->SetCursorLock(state);
 	}
 
-	void Cursor::SetVisible(bool value)
+	void Cursor::SetVisible(bool state)
 	{
-		window->SetCursorVisible(value);
+		window->SetCursorVisible(state);
 	}
 
 	void Cursor::Initialize(Window* window)

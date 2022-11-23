@@ -8,6 +8,11 @@ namespace BDXKEngine
     class Texture : public Object
     {
     public:
+        static ObjectPtr<Texture> GetRenderTarget();
+        static void SetRenderTargetDefault();
+        static void SetPassNull(unsigned startSlot);
+        static void ResetDefaultRenderTarget();
+
         int GetWidth() const;
         int GetHeight() const;
         Vector2 GetSize() const;
@@ -15,6 +20,11 @@ namespace BDXKEngine
 
         void SetPass(unsigned int startSlot) const; // 设置当前渲染管线中的着色器资源,如纹理之类的
     protected:
+        static ObjectPtr<Texture> renderTarget;
+        static D3D11_TEXTURE2D_DESC defaultRenderTargetDescription;
+        static CComPtr<ID3D11RenderTargetView> defaultRenderTargetView;
+        static CComPtr<ID3D11DepthStencilView> defaultDepthStencilView;
+
         static void CreateDepthStencil(unsigned int width, unsigned int height, ID3D11Texture2D** renderTexture,
                                        ID3D11DepthStencilView** depthStencilView);
         static void CreateSamplerState(ID3D11SamplerState** samplerState);

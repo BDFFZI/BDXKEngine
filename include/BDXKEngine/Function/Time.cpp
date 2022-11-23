@@ -1,51 +1,53 @@
 ﻿#include "Time.h"
 
-namespace BDXKEngine {
-	constexpr float unit = 1000;
+namespace BDXKEngine
+{
+    constexpr float unit = 1000;
 
-	long GetSystemTime()
-	{
-		auto currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::system_clock::now().time_since_epoch());
-		return (long)currentTime.count();
-	}
+    long GetSystemTime()
+    {
+        const auto currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch());
+        return static_cast<long>(currentTime.count());
+    }
 
-	int Time::frameCount = 0;
-	long Time::startTime = 0;
-	long Time::frameTime = 0;
-	float Time::deltaTime = 0;
+    int Time::frameCount = 0;
+    long Time::startTime = 0;
+    long Time::frameTime = 0;
+    float Time::deltaTime = 0;
 
-	float Time::GetRealtimeSinceStartup()
-	{
-		return (GetSystemTime() - startTime) / unit;
-	}
-	float Time::GetDeltaTime()
-	{
-		return deltaTime;
-	}
-	float Time::GetFrameCount()
-	{
-		return frameCount;
-	}
+    float Time::GetRealtimeSinceStartup()
+    {
+        return static_cast<float>(GetSystemTime() - startTime) / unit;
+    }
+    float Time::GetDeltaTime()
+    {
+        return deltaTime;
+    }
+    int Time::GetFrameCount()
+    {
+        return frameCount;
+    }
 
-	void Time::Initialize(Window* window)
-	{
-		Time::startTime = GetSystemTime();
-		Time::BeginFrame();
+    void Time::Initialize(Window* window)
+    {
+        startTime = GetSystemTime();
+        BeginFrame();
 
-		window->AddRenewEvent([]() {
-			Time::EndFrame();
-			frameCount++;
-			Time::BeginFrame();
-			});
-	}
+        window->AddRenewEvent([]()
+        {
+            EndFrame();
+            frameCount++;
+            BeginFrame();
+        });
+    }
 
-	void Time::BeginFrame()
-	{
-		Time::frameTime = GetSystemTime();
-	}
-	void Time::EndFrame()
-	{
-		Time::deltaTime = (GetSystemTime() - Time::frameTime) / unit;
-	}
+    void Time::BeginFrame()
+    {
+        frameTime = GetSystemTime();
+    }
+    void Time::EndFrame()
+    {
+        deltaTime = static_cast<float>(GetSystemTime() - frameTime) / unit;
+    }
 }

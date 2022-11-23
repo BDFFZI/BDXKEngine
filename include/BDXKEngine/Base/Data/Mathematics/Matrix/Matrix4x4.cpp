@@ -65,13 +65,13 @@ namespace BDXKEngine
             0, 0, 0, 1
         };
     }
-    Matrix4x4 Matrix4x4::Ortho(float halfWidth, float halfhHeight, float nearClipPlane, float farClipPlane)
+    Matrix4x4 Matrix4x4::Ortho(float halfWidth, float halfHeight, float nearClipPlane, float farClipPlane)
     {
         float ClipPlaneParameterA = 1 / (farClipPlane - nearClipPlane);
         float ClipPlaneParameterB = -ClipPlaneParameterA * nearClipPlane;
         return {
             1 / halfWidth, 0, 0, 0,
-            0, 1 / halfhHeight, 0, 0,
+            0, 1 / halfHeight, 0, 0,
             0, 0, ClipPlaneParameterA, ClipPlaneParameterB,
             0, 0, 0, 1
         };

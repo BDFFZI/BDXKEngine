@@ -1,5 +1,4 @@
 ﻿#include "Input.h"
-#include "BDXKEngine/Base/Extension/Debug.h"
 
 namespace BDXKEngine {
 	Window* Input::window{};
@@ -32,22 +31,22 @@ namespace BDXKEngine {
 
 	bool Input::GetKeyDown(KeyCode keyCode)
 	{
-		if (keyboardState[(int)keyCode][0] == false &&
-			keyboardState[(int)keyCode][1] == true)
+		if (keyboardState[static_cast<int>(keyCode)][0] == false &&
+			keyboardState[static_cast<int>(keyCode)][1] == true)
 			return true;
 		return false;
 	}
 	bool Input::GetKey(KeyCode keyCode)
 	{
-		if (keyboardState[(int)keyCode][0] == true &&
-			keyboardState[(int)keyCode][1] == true)
+		if (keyboardState[static_cast<int>(keyCode)][0] == true &&
+			keyboardState[static_cast<int>(keyCode)][1] == true)
 			return true;
 		return false;
 	}
 	bool Input::GetKeyUp(KeyCode keyCode)
 	{
-		if (keyboardState[(int)keyCode][0] == true &&
-			keyboardState[(int)keyCode][1] == false)
+		if (keyboardState[static_cast<int>(keyCode)][0] == true &&
+			keyboardState[static_cast<int>(keyCode)][1] == false)
 			return true;
 		return false;
 	}
@@ -58,28 +57,28 @@ namespace BDXKEngine {
 		window->AddRenewEvent([]() {
 			mouseScrollDelta = Vector2::zero;
 
-			for (int i = 0; i < 3; i++)
+			for (auto& state : mouseButtonState)
 			{
-				mouseButtonState[i][0] = mouseButtonState[i][1];
-				mouseButtonState[i][1] = mouseButtonState[i][2];
+				state[0] = state[1];
+				state[1] = state[2];
 			}
-			for (int i = 0; i < 256; i++)
+			for (auto& state : keyboardState)
 			{
-				keyboardState[i][0] = keyboardState[i][1];
-				keyboardState[i][1] = keyboardState[i][2];
+				state[0] = state[1];
+				state[1] = state[2];
 			}
 			});
 		window->AddMouseMoveEvent([](Vector2 position) {
-			Input::mousePosition = position;
+			mousePosition = position;
 			});
 		window->AddMouseWheelEvent([](Vector2 delta) {
-			Input::mouseScrollDelta = delta;
+			mouseScrollDelta = delta;
 			});
 		window->AddMouseButtonEvent([](int mouseButton, bool state) {
-			Input::mouseButtonState[mouseButton][2] = state;
+			mouseButtonState[mouseButton][2] = state;
 			});
 		window->AddKeyCodeEvent([](KeyCode keyCode, bool state) {
-			Input::keyboardState[(int)keyCode][2] = state;
+			keyboardState[static_cast<int>(keyCode)][2] = state;
 			});
 	}
 }
