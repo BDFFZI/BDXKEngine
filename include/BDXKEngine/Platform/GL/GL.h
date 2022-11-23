@@ -3,6 +3,8 @@
 #include <atlbase.h>
 #include "BDXKEngine/Base/Data/Graphics/Color.h"
 #include "BDXKEngine/Platform/Window/Window.h"
+#pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"d3DCompiler.lib")
 
 namespace BDXKEngine
 {

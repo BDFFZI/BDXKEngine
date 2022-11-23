@@ -1,4 +1,4 @@
-﻿#include "Resource.h"
+﻿#include "Resources.h"
 #include <filesystem>
 #include <fstream>
 
@@ -7,16 +7,16 @@ namespace BDXKEngine
     // std::vector<Guid> BDXKObject::guidStream = {};
     // std::map<Guid, std::string> BDXKObject::guidToPath = {};
 
-    const std::string Resource::rootDirectory = "Resources/";
-    ObjectSerializer<JsonExporter, JsonImporter> Resource::jsonSerializer = {
+    const std::string Resources::rootDirectory = "Resources/";
+    ObjectSerializer<JsonExporter, JsonImporter> Resources::jsonSerializer = {
         [](Transferer& transferer, std::string& serialization)
         {
             dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
         }
     };
-    ObjectSerializer<BinaryExporter2, BinaryImporter2> Resource::binarySerializer;
+    ObjectSerializer<BinaryExporter2, BinaryImporter2> Resources::binarySerializer;
 
-    ObjectPtrBase Resource::Load(const std::string& path)
+    ObjectPtrBase Resources::Load(const std::string& path)
     {
         std::ifstream ifstream(rootDirectory + path, std::ios_base::binary);
         const auto size = static_cast<int>(std::filesystem::file_size(rootDirectory + path));
@@ -27,7 +27,7 @@ namespace BDXKEngine
         const Object* object = dynamic_cast<Object*>(binarySerializer.Deserialize(std::string(buffer, size)));
         return Object::Instantiate(object);
     }
-    void Resource::Save(const std::string& path, const ObjectPtrBase& objectPtr)
+    void Resources::Save(const std::string& path, const ObjectPtrBase& objectPtr)
     {
         const std::string data = binarySerializer.Serialize(objectPtr.ToObjectBase());
 
@@ -41,7 +41,7 @@ namespace BDXKEngine
         ofstream << data;
         ofstream.close();
     }
-    ObjectPtrBase Resource::Instantiate(const ObjectPtrBase& objectPtr)
+    ObjectPtrBase Resources::Instantiate(const ObjectPtrBase& objectPtr)
     {
         return Object::Instantiate(objectPtr, binarySerializer);
     }
