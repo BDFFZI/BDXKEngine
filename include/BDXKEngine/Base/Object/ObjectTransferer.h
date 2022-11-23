@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <regex>
+
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 #include "Core/Object.h"
 
@@ -14,16 +16,27 @@ namespace BDXKEngine
         }
         CustomTransferFunc(ObjectPtrBase, TransferObjectPtrBase)
 
-        void TransferValueFallback(void* value, const Type& type) override
+        std::function<void(void*, const Type&)> GetTransferFuncFallback(const Type& type) override
         {
-            if (type.find("ObjectPtr") != std::string::npos)
+            if (type.find("ObjectPtr") != std::string::npos && type.find("std::vector") == std::string::npos)
             {
-                const auto objectPtrBase = static_cast<ObjectPtrBase*>(value);
-                this->TransferValue(objectPtrBase, GetTypeID<ObjectPtrBase>());
-                return;
+                return [this](void* value, const Type& type)
+                {
+                    const auto objectPtrBase = static_cast<ObjectPtrBase*>(value);
+                    this->TransferValue(objectPtrBase, GetTypeID<ObjectPtrBase>());
+                };
             }
 
-            TTransferer::TransferValueFallback(value, type);
+            return TTransferer::GetTransferFuncFallback(type);
+        }
+        int GetTypeSizeFallback(const Type& type) override
+        {
+            if (type.find("ObjectPtr") != std::string::npos && type.find("std::vector") == std::string::npos)
+            {
+                return sizeof(ObjectPtr<Object>);
+            }
+
+            return TTransferer::GetTypeSizeFallback(type);
         }
     };
 }

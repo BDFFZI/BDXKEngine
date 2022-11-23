@@ -1,4 +1,4 @@
-#include "..\BDXKEngine.hlsli"
+#include "BDXKEngine.hlsli"
 
 struct Pixel
 {
@@ -7,7 +7,7 @@ struct Pixel
     float2 uv : TEXCOORD;
 };
 
-Pixel main(Vertex vertex)
+Pixel VertexPass(Vertex vertex)
 {
     Pixel pixed;
     
@@ -21,3 +21,16 @@ Pixel main(Vertex vertex)
     
     return pixed;
 }
+
+float4 PixelPass(Pixel pixel) : SV_TARGET
+{
+    if(LightType == 1)
+        return float4(0, 0, length(pixel.lightposition), 0.3f);
+    else
+        return float4(pixel.lightposition, 0.3f); 
+    
+    //透明度设为0.3f纯粹是为了看阴影贴图方便
+}
+
+
+

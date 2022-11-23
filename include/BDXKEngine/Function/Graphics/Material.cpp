@@ -28,6 +28,10 @@ namespace BDXKEngine
     {
         return shaderTypes[index];
     }
+    const ObjectPtr<Shader>& Material::GetShader(int index) const
+    {
+        return shaders[index];
+    }
 
     void Material::SetRenderQueue(RenderQueue renderQueue)
     {
@@ -51,22 +55,22 @@ namespace BDXKEngine
             throw std::exception("超出容量范围");
         reinterpret_cast<Matrix4x4*>(parameters.GetPtr())[2 + slotIndex] = value;
     }
-    void Material::SetTexture(int slotIndex, const ObjectPtr<Texture>& texture)
+    void Material::SetTexture2D(int slotIndex, const ObjectPtr<Texture2D>& texture)
     {
         if (slotIndex < 0 || slotIndex >= 4)
             throw std::exception("超出容量范围");
-        (&texture0)[slotIndex] = texture;
+        (&texture2D0)[slotIndex] = texture;
     }
     void Material::SetPass(int shaderIndex)
     {
         //设置纹理
-        if (texture0 != nullptr) texture0->SetPass(0);
+        if (texture2D0 != nullptr) texture2D0->SetPass(0);
         else Texture::SetPassNull(0);
-        if (texture1 != nullptr)texture1->SetPass(1);
+        if (texture2D1 != nullptr)texture2D1->SetPass(1);
         else Texture::SetPassNull(1);
-        if (texture2 != nullptr)texture2->SetPass(2);
+        if (texture2D2 != nullptr)texture2D2->SetPass(2);
         else Texture::SetPassNull(2);
-        if (texture3 != nullptr)texture3->SetPass(3);
+        if (texture2D3 != nullptr)texture2D3->SetPass(3);
         else Texture::SetPassNull(3);
 
         //设置常量
@@ -81,13 +85,19 @@ namespace BDXKEngine
     {
         Object::Transfer(transferer);
 
-        TransferNestedInfo(parameters);
+        transferer.SetTransferFunc<ShaderType>([&](ShaderType& value)
+        {
+            transferer.TransferValueOf<int>(value);
+        });
+
         TransferFieldInfoOf(renderQueue, int);
-        TransferFieldInfo(texture0);
-        TransferFieldInfo(texture1);
-        TransferFieldInfo(texture2);
-        TransferFieldInfo(texture3);
+        TransferNestedInfo(parameters);
         TransferFieldInfo(shaders);
+        TransferFieldInfo(shaderTypes);
+        TransferFieldInfo(texture2D0);
+        TransferFieldInfo(texture2D1);
+        TransferFieldInfo(texture2D2);
+        TransferFieldInfo(texture2D3);
     }
     void Material::Awake()
     {

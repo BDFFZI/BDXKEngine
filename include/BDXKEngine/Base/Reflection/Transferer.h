@@ -17,9 +17,22 @@ namespace BDXKEngine
     class Transferer
     {
     public:
+#define TransferNestedInfo(fieldName) transferer.TransferNested(#fieldName, fieldName)
+#define TransferFieldInfo(fieldName) transferer.TransferField(#fieldName, fieldName)
+#define TransferFieldInfoOf(fieldName,transferType) transferer.TransferFieldOf<transferType>(#fieldName, fieldName)
+        //下方这些宏和反射功能不兼容，不建议使用，请尝试使用IsInput()来实现类似功能
+#define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
+                transferer.TransferField(#propertyName,propertyName);\
+                Set##propertyName(propertyName)
+#define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
+transferer.TransferField(#propertyName,propertyName)
+
+
         virtual ~Transferer() = default;
         virtual void Reset(std::string& data);
 
+        std::function<void(void*, const Type&)> GetTransferFunc(const Type& type);
+        int GetTypeSize(const Type& type);
         template <typename TValue>
         void SetTransferFunc(std::function<void(TValue& value)> func)
         {
@@ -32,6 +45,11 @@ namespace BDXKEngine
             typeSizes[type] = sizeof(TValue);
         }
 
+        virtual void PushPath(const std::string& key);
+        virtual void PopPath(std::string& key);
+        void TransferNested(std::string key, Transferable& value);
+
+        void TransferField(std::string key, void* value, const Type& type);
         template <typename TTransfer, typename TField>
         void TransferFieldOf(std::string key, TField& value)
         {
@@ -51,19 +69,7 @@ namespace BDXKEngine
             PopPath(key);
         }
 
-        void TransferNested(std::string key, Transferable& value);
-
-
-#define TransferNestedInfo(fieldName) transferer.TransferNested(#fieldName, fieldName)
-#define TransferFieldInfo(fieldName) transferer.TransferField(#fieldName, fieldName)
-#define TransferFieldInfoOf(fieldName,transferType) transferer.TransferFieldOf<transferType>(#fieldName, fieldName)
-        //下方这些宏和反射功能不兼容，不建议使用，请尝试使用IsInput()来实现类似功能
-#define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
-                transferer.TransferField(#propertyName,propertyName);\
-                Set##propertyName(propertyName)
-#define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
-transferer.TransferField(#propertyName,propertyName)
-
+        virtual void TransferValue(void* value, const Type& type);
         template <typename TTransfer, typename TSource>
         void TransferValueOf(TSource& value)
         {
@@ -74,11 +80,9 @@ transferer.TransferField(#propertyName,propertyName)
         {
             TransferValueOf<TSource>(value);
         }
-
-        virtual void PushPath(const std::string& key);
-        virtual void PopPath(std::string& key);
-        virtual void TransferValue(void* value, const Type& type);
     protected:
+        virtual std::function<void(void*, const Type&)> GetTransferFuncFallback(const Type& type);
+        virtual int GetTypeSizeFallback(const Type& type);
         virtual void TransferValueFallback(void* value, const Type& type);
     private:
         std::unordered_map<Type, std::function<void(void*, const Type&)>> transferFuncs;

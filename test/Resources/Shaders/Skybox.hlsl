@@ -1,4 +1,4 @@
-#include "..\BDXKEngine.hlsli"
+#include "BDXKEngine.hlsli"
 
 struct Pixel
 {
@@ -6,7 +6,7 @@ struct Pixel
     float3 worldPosition : POSITION;
 };
 
-Pixel main(Vertex vertex)
+Pixel VertexPass(Vertex vertex)
 {
     Pixel pixed;
     
@@ -19,4 +19,12 @@ Pixel main(Vertex vertex)
     pixed.worldPosition = mul(matrix0, position);
     
     return pixed;
+}
+
+float4 PixelPass(Pixel pixel) : SV_TARGET
+{
+    return float4(
+        Skybox.Sample(SkyboxSampler, pixel.worldPosition - vector0.xyz).xyz,
+        1
+    );
 }

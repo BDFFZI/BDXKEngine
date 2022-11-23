@@ -36,13 +36,13 @@ namespace BDXKEngine
         lightInfoBuffer->SetData(&lightInfo);
         if (lightInfo.lightType == LightType::Point)
         {
-            defaultTexture2D->SetPass(4);
-            shadowMap->SetPass(5);
+            defaultTexture2D->SetPass(5);
+            shadowMap->SetPass(6);
         }
         else
         {
-            shadowMap->SetPass(4);
-            defaultTextureCube->SetPass(5);
+            shadowMap->SetPass(5);
+            defaultTextureCube->SetPass(6);
         }
     }
 

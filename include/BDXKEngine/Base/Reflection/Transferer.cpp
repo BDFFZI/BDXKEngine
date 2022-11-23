@@ -3,6 +3,27 @@
 
 namespace BDXKEngine
 {
+    void Transferer::Reset(std::string& data)
+    {
+    }
+
+    std::function<void(void*, const Type&)> Transferer::GetTransferFunc(const Type& type)
+    {
+        const auto transferFunc = transferFuncs[type];
+        return transferFunc != nullptr ? transferFunc : GetTransferFuncFallback(type);
+    }
+    int Transferer::GetTypeSize(const Type& type)
+    {
+        const int size = typeSizes[type];
+        return size != 0 ? size : GetTypeSizeFallback(type);
+    }
+
+    void Transferer::PushPath(const std::string& key)
+    {
+    }
+    void Transferer::PopPath(std::string& key)
+    {
+    }
     void Transferer::TransferNested(std::string key, Transferable& value)
     {
         PushPath(key);
@@ -10,22 +31,21 @@ namespace BDXKEngine
         PopPath(key);
     }
 
-    void Transferer::Reset(std::string& data)
+    void Transferer::TransferField(std::string key, void* value, const Type& type)
     {
-    }
-    void Transferer::PushPath(const std::string& key)
-    {
-    }
-    void Transferer::PopPath(std::string& key)
-    {
+        PushPath(key);
+        TransferValue(value, type);
+        PopPath(key);
     }
 
     void Transferer::TransferValue(void* value, const Type& type)
     {
-        const auto transferFunc = transferFuncs[type];
+        const auto transferFunc = GetTransferFunc(type);
         if (transferFunc != nullptr)transferFunc(value, type);
         else TransferValueFallback(value, type);
     }
+
+
     void Transferer::TransferValueFallback(void* value, const Type& type)
     {
         if (type.find("class std::vector") != std::string::npos)
@@ -50,23 +70,32 @@ namespace BDXKEngine
                 std::regex_search(matchString, matchResult, std::regex{"(.*?),"});
 
                 itemType = matchResult[1];
-                itemSize = typeSizes[itemType];
+                itemSize = GetTypeSize(itemType);
             }
-
 
             if (itemSize != 0)
             {
                 std::vector<char>& vector = *static_cast<std::vector<char>*>(value);
                 int count = static_cast<int>(vector.size() / itemSize);
 
-                TransferValue(count);
+                TransferField("count", count);
                 vector.resize(count * itemSize);
                 for (int index = 0; index < count; index++)
-                    TransferValue(vector.data() + index * itemSize, itemType);
+                {
+                    TransferField("item" + std::to_string(index), vector.data() + index * itemSize, itemType);
+                }
                 return;
             }
         }
 
-        throw std::exception((type + "的传输方式未定义").c_str());
+        throw std::exception((type + "无法找到可用的传输方式").c_str());
+    }
+    std::function<void(void*, const Type&)> Transferer::GetTransferFuncFallback(const Type& type)
+    {
+        return nullptr;
+    }
+    int Transferer::GetTypeSizeFallback(const Type& type)
+    {
+        return 0;
     }
 }

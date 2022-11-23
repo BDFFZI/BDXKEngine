@@ -11,13 +11,8 @@ namespace BDXKEngine
     class Resources
     {
     public:
-        static ObjectPtrBase Load(const std::string& path);
-        template <typename TObject>
-        static ObjectPtr<TObject> Load(const std::string& path)
-        {
-            return Load(path).ToObject<TObject>();
-        }
-        static void Save(const std::string& path, const ObjectPtrBase& objectPtr);
+        static ObjectSerializer<JsonExporter, JsonImporter>& GetJsonSerializer();
+        static ObjectSerializer<BinaryExporter2, BinaryImporter2>& GetBinarySerializer();
 
         static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr);
         template <typename TObject>
@@ -25,6 +20,14 @@ namespace BDXKEngine
         {
             return Instantiate(static_cast<ObjectPtrBase>(objectPtr)).template ToObject<TObject>();
         }
+
+        static ObjectPtrBase Load(const std::string& path, Serializer& serializer = binarySerializer);
+        template <typename TObject>
+        static ObjectPtr<TObject> Load(const std::string& path, Serializer& serializer = binarySerializer)
+        {
+            return Load(path, serializer).ToObject<TObject>();
+        }
+        static void Save(const std::string& path, const ObjectPtrBase& objectPtr, Serializer& serializer = binarySerializer);
     private:
         static const std::string rootDirectory;
         static ObjectSerializer<JsonExporter, JsonImporter> jsonSerializer;

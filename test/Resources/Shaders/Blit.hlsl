@@ -1,4 +1,4 @@
-#include "..\BDXKEngine.hlsli"
+#include "BDXKEngine.hlsli"
 
 struct Pixel
 {
@@ -6,7 +6,7 @@ struct Pixel
     float2 uv : TEXCOORD;
 };
 
-Pixel main(Vertex vertex)
+Pixel VertexPass(Vertex vertex)
 {
     Pixel pixel;
     
@@ -14,4 +14,9 @@ Pixel main(Vertex vertex)
     pixel.uv = vertex.uv;
     
     return pixel;
+}
+
+float4 PixelPass(Pixel pixel) : SV_TARGET
+{
+    return Texture2D0.Sample(SamplerState0, pixel.uv);
 }

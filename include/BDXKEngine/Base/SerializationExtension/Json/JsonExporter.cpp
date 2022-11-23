@@ -73,6 +73,31 @@ namespace BDXKEngine
         node.PushBack(value.z, allocator);
         node.PushBack(value.w, allocator);
     }
+    void JsonExporter::TransferMatrix4x4(const Matrix4x4& value)
+    {
+        auto& node = GetCurrentNode().SetArray();
+
+        auto& allocator = GetAllocator();
+        node.PushBack(value.m00, allocator);
+        node.PushBack(value.m10, allocator);
+        node.PushBack(value.m20, allocator);
+        node.PushBack(value.m30, allocator);
+
+        node.PushBack(value.m01, allocator);
+        node.PushBack(value.m11, allocator);
+        node.PushBack(value.m21, allocator);
+        node.PushBack(value.m31, allocator);
+
+        node.PushBack(value.m02, allocator);
+        node.PushBack(value.m12, allocator);
+        node.PushBack(value.m22, allocator);
+        node.PushBack(value.m32, allocator);
+
+        node.PushBack(value.m03, allocator);
+        node.PushBack(value.m13, allocator);
+        node.PushBack(value.m23, allocator);
+        node.PushBack(value.m33, allocator);
+    }
     void JsonExporter::TransferColor(const Color& value)
     {
         auto& node = GetCurrentNode().SetArray();

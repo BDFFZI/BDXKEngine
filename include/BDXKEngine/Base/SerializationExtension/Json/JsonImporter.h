@@ -3,6 +3,7 @@
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
 #include "BDXKEngine/Base/Data/Graphics/Color.h"
 #include "BDXKEngine/Base/Data/Graphics/Rect.h"
+#include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
 
 namespace BDXKEngine
 {
@@ -21,6 +22,7 @@ namespace BDXKEngine
         void TransferVector2(Vector2& value);
         void TransferVector3(Vector3& value);
         void TransferVector4(Vector4& value);
+        void TransferMatrix4x4(Matrix4x4& value);
         void TransferColor(Color& value);
         void TransferRect(Rect& value);
         void TransferString(std::string& value);
@@ -32,6 +34,7 @@ namespace BDXKEngine
         CustomTransferFunc(Vector2, TransferVector2)
         CustomTransferFunc(Vector3, TransferVector3)
         CustomTransferFunc(Vector4, TransferVector4)
+        CustomTransferFunc(Matrix4x4, TransferMatrix4x4)
         CustomTransferFunc(Color, TransferColor)
         CustomTransferFunc(Rect, TransferRect)
         CustomTransferFunc(std::string, TransferString)

@@ -1,6 +1,31 @@
-#include "VertexShader.hlsl"
+#include "BDXKEngine.hlsli"
 
-float4 main(Pixel pixel) : SV_TARGET
+struct Pixel
+{
+    float4 svPosition : SV_POSITION;
+    float3 position : POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
+};
+
+Pixel VertexPass(Vertex vertex)
+{
+    Pixel pixed;
+    float4 svPosition = float4(vertex.position, 1);
+    
+    svPosition = mul(ObjectToWorld, svPosition);
+    pixed.position = svPosition.xyz;
+    
+    svPosition = mul(WorldToView, svPosition);
+    svPosition = mul(ViewToClip, svPosition);
+    pixed.svPosition = svPosition;
+    
+    pixed.normal = ObjectToWorldVector(vertex.normal);//TODO 会受缩放影响
+    pixed.uv = vertex.uv;
+    return pixed;
+}
+
+float4 PixelPass(Pixel pixel) : SV_TARGET
 {
     pixel.normal = normalize(pixel.normal);
     //外部数据
@@ -11,18 +36,18 @@ float4 main(Pixel pixel) : SV_TARGET
     float3 environment = 0;
     float3 lightNormal = 0;
     float3 lightColor = 0;
-    if (LightFactorInt.x == 0)//平行光
+    if (LightType == 0)//平行光
     {
         lightNormal = LightNormal.xyz;
         lightColor = LightColor.rgb;
     }
-    else if (LightFactorInt.x == 1)//点光
+    else if (LightType == 1)//点光
     {
         lightNormal = normalize(pixel.position - LightPosition.xyz);
         lightColor = LightColor.rgb * clamp(1 / distance(pixel.position, LightPosition.xyz), 0, 1);
     }
     lightColor *= DecodeShadowMap(pixel.position);
-    environment = LightFactorInt.z == 0 ? Environment.rgb : 0;
+    environment = LightOrder == 0 ? Environment.rgb : 0;
     //渲染
     
     //漫射光+环境光

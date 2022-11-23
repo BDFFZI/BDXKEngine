@@ -6,7 +6,8 @@ struct Vertex
     float4 color : COLOR;
 };
 
-cbuffer Parameters : register(b0)
+//当前材质球信息
+cbuffer MaterialInfo : register(b0)
 {
 float4 float0_3;
 float4 float4_7;
@@ -21,39 +22,35 @@ float4x4 matrix1;
 float4x4 matrix2;
 float4x4 matrix3;
 };
-
 Texture2D Texture2D0 : register(t0);
 SamplerState SamplerState0 : register(s0);
-
 Texture2D Texture2D1 : register(t1);
 SamplerState SamplerState1 : register(s1);
-
 Texture2D Texture2D2 : register(t2);
 SamplerState SamplerState2 : register(s2);
-
 Texture2D Texture2D3 : register(t3);
 SamplerState SamplerState3 : register(s3);
-
-//世界
+//当前世界信息
 cbuffer WorldInfo : register(b1)
 {
 float4 Environment;
 float4 Time;
 };
-//相机
+TextureCube Skybox : register(t4);
+SamplerState SkyboxSampler : register(s4);
+//当前相机信息
 cbuffer CameraInfo : register(b2)
 {
 float4x4 WorldToView;
 float4x4 ViewToClip;
 float4 CameraPosition;
 }
-//物体
+//当前物体信息
 cbuffer ObjectInfo : register(b3)
 {
 float4x4 ObjectToWorld;
 }
-
-//灯光
+//当前灯光信息
 cbuffer LightInfo : register(b4)
 {
 float4 LightPosition;
@@ -61,15 +58,14 @@ float4 LightNormal;
 float4 LightColor;
 float4x4 WorldToLightView;
 float4x4 ViewToLightClip;
+int LightOrder;
 int LightType;
 }
-Texture2D ShadowMap : register(t4);
-SamplerState ShadowMapSampler : register(s4);
-TextureCube ShadowMapCube : register(t5);
-SamplerState ShadowMapCubeSampler : register(s5);
+Texture2D ShadowMap : register(t5);
+SamplerState ShadowMapSampler : register(s5);
+TextureCube ShadowMapCube : register(t6);
+SamplerState ShadowMapCubeSampler : register(s6);
 
-TextureCube Skybox : register(t6);
-SamplerState SkyboxSampler : register(s6);
 
 
 float3 ObjectToWorldVector(float3 worldVector)
@@ -94,7 +90,6 @@ float2 ClipToUVPos(float4 clipPosition)
     result.y = result.y / -2 + 0.5f;
     return result;
 }
-
 float DecodeShadowMap(float3 worldPosition)
 {
     float depth;

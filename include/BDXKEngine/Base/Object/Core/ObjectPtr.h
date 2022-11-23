@@ -18,10 +18,6 @@ namespace BDXKEngine
         {
             debugPtr = other.debugPtr;
         }
-        ~ObjectPtr() override
-        {
-            debugPtr = nullptr;
-        }
 
         template <typename TOtherObject>
         ObjectPtr<TOtherObject> ToObjectPtr() const
@@ -29,7 +25,7 @@ namespace BDXKEngine
             return ToObject<TOtherObject>();
         }
 
-        TObject* operator->() const override
+        TObject* operator->() const
         {
             TObject* object = ToObject<TObject>();
             if (object == nullptr)throw std::exception("当前物体指针的引用目标为空");
@@ -45,16 +41,15 @@ namespace BDXKEngine
             return *this;
         }
 
-
     protected:
-        TObject* debugPtr = nullptr;
+        TObject* debugPtr = nullptr; //为了序列化所以不能使用虚函数功能（虚表指针无法初始化），因此该值可能出错，仅供参考
 
-        void AddRef(const int refInstanceID) override
+        void AddRef(const int refInstanceID)
         {
             ObjectPtrBase::AddRef(refInstanceID);
             debugPtr = reinterpret_cast<TObject*>(ToObjectBase());
         }
-        void RemoveRef() override
+        void RemoveRef()
         {
             ObjectPtrBase::RemoveRef();
             debugPtr = nullptr;

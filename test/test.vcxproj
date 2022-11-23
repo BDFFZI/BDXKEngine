@@ -189,6 +189,7 @@
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Graphics.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Material.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Assets\Assets.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Random.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Time.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Cursor.cpp" />
@@ -209,7 +210,7 @@
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Texture\TextureFormat.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Texture\TextureImporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GUI\GUI.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Platform\Resource\Resources.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Resources\Resources.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\Window\Window.cpp" />
     <ClCompile Include="..\include\ImGuizmo\GraphEditor.cpp" />
     <ClCompile Include="..\include\ImGuizmo\ImCurveEdit.cpp" />
@@ -232,8 +233,9 @@
     <Content Include="..\include\BDXKEngine\Base\Reflection\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Base\SerializationExtension\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Base\Serialization\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Function\Assets\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Platform\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Platform\Resource\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Platform\Resources\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Color.h" />
@@ -269,6 +271,7 @@
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Graphics.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Material.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Assets\Assets.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Random.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Time.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Cursor.h" />
@@ -290,7 +293,7 @@
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\TextureFormat.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\TextureImporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GUI\GUI.h" />
-    <ClInclude Include="..\include\BDXKEngine\Platform\Resource\Resources.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Resources\Resources.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\Window\Window.h" />
     <ClInclude Include="..\include\ImGuizmo\GraphEditor.h" />
     <ClInclude Include="..\include\ImGuizmo\ImCurveEdit.h" />

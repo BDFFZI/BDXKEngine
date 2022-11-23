@@ -39,8 +39,7 @@ namespace BDXKEngine
         })
         {
         }
-
-
+        
         std::string Serialize(Reflective* input) override
         {
             if (dynamic_cast<Object*>(input) == nullptr)throw std::exception("只允许序列化Object物体");
@@ -101,7 +100,6 @@ namespace BDXKEngine
             objectExporter.Reset(result);
             return result;
         }
-
         Reflective* Deserialize(std::string input) override
         {
             std::unordered_map<Guid, std::vector<ObjectPtrBase*>> references;
@@ -112,7 +110,7 @@ namespace BDXKEngine
 
                 if (guid.empty())return; //空引用不用管
                 if (references.count(guid) == 0)references[guid] = {}; //引用第一次出现
-
+                
                 references[guid].push_back(&value);
             });
 

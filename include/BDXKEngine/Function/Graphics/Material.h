@@ -4,8 +4,7 @@
 #include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Platform/GL/Buffer/Buffer.h"
 #include "BDXKEngine/Platform/GL/Shader/Shader.h"
-#include "BDXKEngine/Platform/GL/Texture/Texture.h"
-
+#include "BDXKEngine/Platform/GL/Texture/Texture2D.h"
 
 namespace BDXKEngine
 {
@@ -29,16 +28,17 @@ namespace BDXKEngine
     {
     public:
         static ObjectPtr<Material> Create(const std::vector<std::tuple<ObjectPtr<Shader>, ShaderType>>& shaders);
-        
+
         RenderQueue GetRenderQueue() const;
         int GetShaderCount() const;
         ShaderType GetShaderType(int index) const;
-        
+        const ObjectPtr<Shader>& GetShader(int index) const;
+
         void SetRenderQueue(RenderQueue renderQueue);
         void SetFloat(int slotIndex, float value);
         void SetVector(int slotIndex, Vector4 value);
         void SetMatrix(int slotIndex, Matrix4x4 value);
-        void SetTexture(int slotIndex, const ObjectPtr<Texture>& texture);
+        void SetTexture2D(int slotIndex, const ObjectPtr<Texture2D>& texture);
         /// 用当前材质的所有物填充渲染管线
         void SetPass(int shaderIndex);
     private:
@@ -88,13 +88,16 @@ namespace BDXKEngine
         Parameters parameters;
         std::vector<ObjectPtr<Shader>> shaders;
         std::vector<ShaderType> shaderTypes;
+        ObjectPtr<Texture2D> texture2D0;
+        ObjectPtr<Texture2D> texture2D1;
+        ObjectPtr<Texture2D> texture2D2;
+        ObjectPtr<Texture2D> texture2D3;
+        
         ObjectPtr<Buffer> parametersBuffer;
-        ObjectPtr<Texture> texture0;
-        ObjectPtr<Texture> texture1;
-        ObjectPtr<Texture> texture2;
-        ObjectPtr<Texture> texture3;
 
         void Transfer(Transferer& transferer) override;
         void Awake() override;
     };
+
+    CustomReflection(Material)
 }

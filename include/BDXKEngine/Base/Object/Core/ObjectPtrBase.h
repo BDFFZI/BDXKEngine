@@ -13,7 +13,7 @@ namespace BDXKEngine
         ObjectPtrBase();
         ObjectPtrBase(const Object* object);
         ObjectPtrBase(const ObjectPtrBase& objectPtr);
-        virtual ~ObjectPtrBase();
+        ~ObjectPtrBase(); //为了序列化所以不能使用虚函数功能（虚表指针无法初始化）
 
         int GetInstanceID() const;
 
@@ -27,7 +27,7 @@ namespace BDXKEngine
             return dynamic_cast<TObject*>(ToObjectBase());
         }
 
-        virtual Object* operator->() const;
+        Object* operator->() const;
         bool operator ==(const ObjectPtrBase& other) const;
         bool operator !=(const ObjectPtrBase& other) const;
         ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr);
@@ -36,7 +36,7 @@ namespace BDXKEngine
 
         int instanceID = 0;
 
-        virtual void AddRef(int refInstanceID);
-        virtual void RemoveRef();
+        void AddRef(int refInstanceID);
+        void RemoveRef();
     };
 }
