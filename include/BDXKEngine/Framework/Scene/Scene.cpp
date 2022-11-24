@@ -44,7 +44,7 @@ namespace BDXKEngine
 
     void Scene::MarkAwake()
     {
-        SwitchableObject::MarkAwake();
+        ScriptableObject::MarkAwake();
 
         //TODO 零时
         GraphicsSettings graphicsSettingsPrefab{};
@@ -67,11 +67,11 @@ namespace BDXKEngine
         BDXKObject::MarkDestroy(graphicsSettings.ToObjectBase());
         BDXKObject::MarkDestroy(qualitySettings.ToObjectBase());
 
-        SwitchableObject::PreDestroy();
+        ScriptableObject::PreDestroy();
     }
     void Scene::Transfer(transferer& transferer)
     {
-        SwitchableObject::Transfer(transferer);
+        ScriptableObject::Transfer(transferer);
 
         transferer.TransferField("qualitySettings", qualitySettings);
         transferer.TransferField("graphicsSettings", graphicsSettings);

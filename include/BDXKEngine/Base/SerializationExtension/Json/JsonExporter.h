@@ -12,6 +12,7 @@ namespace BDXKEngine
     public:
         void TransferJson(std::string key, std::string& value) override;
 
+        bool IsImporter() override;
         void Reset(std::string& data) override;
         void PushPath(const std::string& key) override;
         void PopPath(std::string& key) override;

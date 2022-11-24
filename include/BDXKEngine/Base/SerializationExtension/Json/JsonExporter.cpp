@@ -14,6 +14,10 @@ namespace BDXKEngine
 
         GetCurrentNode().AddMember(keystring, document, GetAllocator());
     }
+    bool JsonExporter::IsImporter()
+    {
+        return false;
+    }
     void JsonExporter::Reset(std::string& data)
     {
         Export(GetDocument(), data);

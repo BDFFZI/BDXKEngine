@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/ObjectPtr.h"
-#include "BDXKEngine/Framework/Object/SwitchableObject.h"
+#include "BDXKEngine/Framework/Object/ScriptableObject.h"
 #include "GraphicsSettings.h"
 #include "QualitySettings.h"
 
@@ -8,7 +8,7 @@ namespace BDXKEngine
 {
     class GameObject;
 
-    class Scene : public SwitchableObject, ObjectManager
+    class Scene : public ScriptableObject, ObjectManager
     {
         friend GameObject;
     public:

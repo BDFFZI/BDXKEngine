@@ -4,11 +4,12 @@ namespace BDXKEngine
 {
     ObjectPtr<Buffer> Buffer::Create(BufferTarget target, int size)
     {
-        const auto buffer = new Buffer{};
+        ObjectPtr buffer = new Buffer{};
         buffer->target = target;
         buffer->buffer.resize(size);
-
-        return Instantiate<Buffer>(buffer);
+        Instantiate(buffer);
+        
+        return buffer;
     }
     void Buffer::SetData(const void* data)
     {
@@ -33,7 +34,7 @@ namespace BDXKEngine
     {
         return glBuffer;
     }
-    
+
     void Buffer::Awake()
     {
         Object::Awake();

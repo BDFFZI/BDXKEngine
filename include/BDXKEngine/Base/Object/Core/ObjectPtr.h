@@ -18,6 +18,10 @@ namespace BDXKEngine
         {
             debugPtr = other.debugPtr;
         }
+        ~ObjectPtr() override
+        {
+            debugPtr = nullptr;
+        }
 
         template <typename TOtherObject>
         ObjectPtr<TOtherObject> ToObjectPtr() const
@@ -25,7 +29,7 @@ namespace BDXKEngine
             return ToObject<TOtherObject>();
         }
 
-        TObject* operator->() const
+        TObject* operator->() const override
         {
             TObject* object = ToObject<TObject>();
             if (object == nullptr)throw std::exception("当前物体指针的引用目标为空");
@@ -42,51 +46,17 @@ namespace BDXKEngine
         }
 
     protected:
-        TObject* debugPtr = nullptr; //为了序列化所以不能使用虚函数功能（虚表指针无法初始化），因此该值可能出错，仅供参考
+        TObject* debugPtr = nullptr; //该值可能出错，仅供调试用
 
-        void AddRef(const int refInstanceID)
+        void AddRef(const int refInstanceID) override
         {
             ObjectPtrBase::AddRef(refInstanceID);
             debugPtr = reinterpret_cast<TObject*>(ToObjectBase());
         }
-        void RemoveRef()
+        void RemoveRef() override
         {
             ObjectPtrBase::RemoveRef();
             debugPtr = nullptr;
         }
     };
 }
-
-//class Data :public Object {
-//public:
-//	Data(String name)
-//	{
-//		this->name = name;
-//		Debug::Log("Create " + name);
-//	}
-//
-//	~Data()
-//	{
-//		Debug::Log("Delete " + name);
-//	}
-//
-//	String name;
-//};
-//
-//int main()
-//{
-//	ObjectPtr<Data> A = { new Data{ "A"} };
-//	ObjectPtr<Object> A0 = { (Object*)A };
-//	A0 = nullptr;
-//	ObjectPtr<Data> B = A;
-//	Debug::Log(A->name);
-//	Object::DestroyImmediate(B);
-//	if (A != nullptr)Debug::Log(A->name);
-//
-//	ObjectPtr<Data> C = { new Data{ "C"} };
-//	ObjectPtr<Data> D = C;
-//	Debug::Log(C->name);
-//	C = nullptr;
-//	Debug::Log(C == B);
-//	Debug::Log(C == D);
-//}

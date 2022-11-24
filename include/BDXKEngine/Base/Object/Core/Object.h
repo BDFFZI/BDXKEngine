@@ -27,18 +27,13 @@ namespace BDXKEngine
         ~Object() override;
 
         //转换，将object从原生状态转为实例状态
-        [[nodiscard]] static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr);
-        template <typename TObject>
-        [[nodiscard]] static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr)
-        {
-            return Instantiate(static_cast<ObjectPtrBase>(objectPtr)).ToObject<TObject>();
-        }
+        static void Instantiate(ObjectPtrBase& objectPtr);
         //克隆
-        static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer);
+        static ObjectPtrBase Clone(const ObjectPtrBase& objectPtr, Serializer& serializer, bool instantiate = true);
         template <typename TObject>
-        static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr, Serializer& serializer)
+        static ObjectPtr<TObject> Clone(const ObjectPtr<TObject>& objectPtr, Serializer& serializer, bool instantiate = true)
         {
-            return Instantiate(static_cast<ObjectPtrBase>(objectPtr), serializer).template ToObject<TObject>();
+            return Clone(static_cast<ObjectPtrBase>(objectPtr), serializer, instantiate).template ToObject<TObject>();
         }
         //销毁
         static void DestroyImmediate(const ObjectPtrBase& object);
@@ -60,10 +55,7 @@ namespace BDXKEngine
         int GetInstanceID() const;
         std::string GetName() const;
         void SetName(const std::string& name);
-
         void Transfer(Transferer& transferer) override;
-
-        virtual std::string ToString();
     protected:
         virtual void Awake(); //代替构造函数
         virtual void Destroy(); //代替析构函数

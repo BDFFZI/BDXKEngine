@@ -1,12 +1,14 @@
 ﻿#pragma once
 #include <sstream>
 #include "BDXKEngine/Base/Reflection/Transferer.h"
+#include "BDXKEngine/Base/Serialization/IOTransferer.h"
 
 namespace BDXKEngine
 {
-    class BinaryImporter : public Transferer
+    class BinaryImporter : public IOTransferer
     {
     public:
+        bool IsImporter() override;
         void Reset(std::string& data) override;
     protected:
         void ReadStreamTo(char* value, int size);

@@ -5,11 +5,13 @@ namespace BDXKEngine
 {
     ObjectPtr<TextureCube> TextureCube::Create(const int widthf, const int heightf, TextureFormat textureFormat)
     {
-        const auto textureCube = new TextureCube{};
+        ObjectPtr textureCube = new TextureCube{};
         textureCube->width = widthf;
         textureCube->height = heightf;
         textureCube->format = textureFormat;
-        return Instantiate<TextureCube>(textureCube);
+        Instantiate(textureCube);
+
+        return textureCube;
     }
     void TextureCube::SetRenderTarget(int index) const
     {

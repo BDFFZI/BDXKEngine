@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "BDXKEngine/Framework/Object/SwitchableObject.h"
+#include "BDXKEngine/Framework/Object/ScriptableObject.h"
 
 namespace BDXKEngine
 {
-    class QualitySettings : public SwitchableObject
+    class QualitySettings : public ScriptableObject
     {
     public:
         float GetShadowDistance() const;

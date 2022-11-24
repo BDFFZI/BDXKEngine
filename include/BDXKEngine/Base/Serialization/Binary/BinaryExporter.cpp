@@ -2,12 +2,15 @@
 
 namespace BDXKEngine
 {
+    bool BinaryExporter::IsImporter()
+    {
+        return false;
+    }
     void BinaryExporter::Reset(std::string& data)
     {
         data = stream.str();
         stream.str("");
     }
-
     void BinaryExporter::WriteStreamFrom(const char* value, int size)
     {
         stream.write(value, size);
@@ -24,7 +27,7 @@ namespace BDXKEngine
     void BinaryExporter::TransferBytes(const std::vector<char>& value)
     {
         int size = static_cast<int>(value.size());
-        
+
         WriteStreamFrom(size);
         WriteStreamFrom(value.data(), size);
     }

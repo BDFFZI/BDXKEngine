@@ -2,6 +2,10 @@
 
 namespace BDXKEngine
 {
+    bool BinaryImporter::IsImporter()
+    {
+        return true;
+    }
     void BinaryImporter::Reset(std::string& data)
     {
         stream.str(data);

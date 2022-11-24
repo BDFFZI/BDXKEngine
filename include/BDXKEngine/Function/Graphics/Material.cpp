@@ -5,15 +5,15 @@ namespace BDXKEngine
 {
     ObjectPtr<Material> Material::Create(const std::vector<std::tuple<ObjectPtr<Shader>, ShaderType>>& shaders)
     {
-        const auto material = new Material{};
-
+        ObjectPtr material = new Material{};
         for (auto& [shader,shaderType] : shaders)
         {
             material->shaders.emplace_back(shader);
             material->shaderTypes.emplace_back(shaderType);
         }
-
-        return Instantiate<Material>(material);
+        Instantiate(material);
+        
+        return material;
     }
 
     RenderQueue Material::GetRenderQueue() const

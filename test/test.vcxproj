@@ -185,7 +185,12 @@
     <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\IOTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Serializer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Core\Component.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Core\GameObject.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Core\ScriptableObject.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Core\ScriptableObjectEvent.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Graphics.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Material.cpp" />
@@ -267,7 +272,12 @@
     <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\IOTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Serializer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Core\Component.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Core\GameObject.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Core\ScriptableObject.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Core\ScriptableObjectEvent.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Graphics.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Material.h" />

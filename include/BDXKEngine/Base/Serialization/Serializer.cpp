@@ -4,7 +4,7 @@
 
 namespace BDXKEngine
 {
-    Serializer::Serializer(Transferer& importer, Transferer& exporter):
+    Serializer::Serializer(IOTransferer& importer, IOTransferer& exporter):
         importer(importer), exporter(exporter)
     {
     }

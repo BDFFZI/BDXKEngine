@@ -32,6 +32,7 @@ int main()
         // });
         // material->SetTexture2D(0, texture);
         // Resources::Save("material.json", material, Resources::GetJsonSerializer());
+        
         Texture::ResetDefaultRenderTarget();
 
         window.AddRenewEvent([&]()

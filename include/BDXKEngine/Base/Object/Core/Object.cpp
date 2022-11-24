@@ -22,7 +22,8 @@ namespace BDXKEngine
         allObjects.erase(instanceID);
     }
 
-    ObjectPtrBase Object::Instantiate(const ObjectPtrBase& objectPtr)
+    // ReSharper disable once CppParameterMayBeConstPtrOrRef 禁止设置为常量，因为这可能导致填入参数为右值，从而错误触发安全指针的回收功能
+    void Object::Instantiate(ObjectPtrBase& objectPtr)
     {
         if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
@@ -41,17 +42,16 @@ namespace BDXKEngine
                 referenceObject->Awake();
             }
         }
-
-        return objectPtr;
     }
-    ObjectPtrBase Object::Instantiate(const ObjectPtrBase& objectPtr, Serializer& serializer)
+    ObjectPtrBase Object::Clone(const ObjectPtrBase& objectPtr, Serializer& serializer, bool instantiate)
     {
         if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
 
         //克隆并注册
-        const auto instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
+        ObjectPtrBase instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
         instance->name = instance->name + " (Clone)";
-        return Instantiate(instance);
+        if (instantiate)Instantiate(instance);
+        return instance;
     }
     void Object::DestroyImmediate(const ObjectPtrBase& objectPtr)
     {
@@ -97,14 +97,6 @@ namespace BDXKEngine
         Reflective::Transfer(transferer);
 
         TransferFieldInfo(name);
-    }
-
-    std::string Object::ToString()
-    {
-        std::stringstream stream;
-        stream << "编号：" << instanceID << std::endl;
-        stream << "运行中：" << isRunning << std::endl;
-        return stream.str();
     }
 
     void Object::Awake()

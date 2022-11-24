@@ -26,15 +26,16 @@ namespace BDXKEngine
         template <typename Type>
         static const Reflection& GetReflection()
         {
-            return GetReflection(GetTypeID<Type>());
+            return GetReflection(GetTypeIDOf<Type>());
         }
         static const Reflection& GetReflection(const Type& id);
         static const Reflection& GetReflection(const Reflective* reflective);
 
-        Reflection() = default;
         Reflection(const std::function<Reflective*()>& constructor, int size);
 
+        int GetSize() const;
         Reflective* GetConstruction() const;
+        std::uintptr_t GetVirtualTable() const;
         void* GetField(Reflective* target, const std::string& key) const;
 
         template <typename T>
@@ -52,10 +53,13 @@ namespace BDXKEngine
 
         int size = 0;
         std::function<Reflective*()> constructor;
+        std::uintptr_t virtualTable;
         std::unordered_map<std::string, int> fields;
     };
 
     //请确保注册类已继承Reflective并存在无参构造函数
 #define CustomReflection(target) inline Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
+#define CustomReflectionInClass(target) static Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
+    
     CustomReflection(Reflective)
 }

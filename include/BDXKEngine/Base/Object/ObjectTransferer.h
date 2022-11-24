@@ -1,13 +1,12 @@
 ﻿#pragma once
 #include <regex>
-
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 #include "Core/Object.h"
 
 namespace BDXKEngine
 {
-    template <typename TTransferer>
-    class ObjectTransferer : public TTransferer
+    template <typename TIOTransferer>
+    class ObjectTransferer : public TIOTransferer
     {
     protected:
         void TransferObjectPtrBase(ObjectPtrBase& value)
@@ -22,12 +21,13 @@ namespace BDXKEngine
             {
                 return [this](void* value, const Type& type)
                 {
+                    if (this->IsImporter())*static_cast<std::uintptr_t*>(value) = *reinterpret_cast<std::uintptr_t*>(&null);
                     const auto objectPtrBase = static_cast<ObjectPtrBase*>(value);
-                    this->TransferValue(objectPtrBase, GetTypeID<ObjectPtrBase>());
+                    this->TransferValue(objectPtrBase, GetTypeIDOf<ObjectPtrBase>());
                 };
             }
 
-            return TTransferer::GetTransferFuncFallback(type);
+            return TIOTransferer::GetTransferFuncFallback(type);
         }
         int GetTypeSizeFallback(const Type& type) override
         {
@@ -36,7 +36,9 @@ namespace BDXKEngine
                 return sizeof(ObjectPtr<Object>);
             }
 
-            return TTransferer::GetTypeSizeFallback(type);
+            return TIOTransferer::GetTypeSizeFallback(type);
         }
+    private:
+        ObjectPtr<Object> null;
     };
 }

@@ -3,10 +3,6 @@
 
 namespace BDXKEngine
 {
-    void Transferer::Reset(std::string& data)
-    {
-    }
-
     std::function<void(void*, const Type&)> Transferer::GetTransferFunc(const Type& type)
     {
         const auto transferFunc = transferFuncs[type];

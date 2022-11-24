@@ -2,11 +2,11 @@
 
 namespace BDXKEngine
 {
-    std::unordered_map<int, Guid> SerializationDatabase::instanceIDToGuid = {};
-    std::unordered_map<Guid, int> SerializationDatabase::guidToInstanceID = {};
-    std::unordered_set<Guid> SerializationDatabase::serialization = {};
+    std::unordered_map<int, Guid> ObjectSerializerDatabase::instanceIDToGuid = {};
+    std::unordered_map<Guid, int> ObjectSerializerDatabase::guidToInstanceID = {};
+    std::unordered_set<Guid> ObjectSerializerDatabase::serialization = {};
 
-    Guid SerializationDatabase::GetOrSetGuid(int instanceID)
+    Guid ObjectSerializerDatabase::GetOrSetGuid(int instanceID)
     {
         const auto guidItem = instanceIDToGuid.find(instanceID);
         if (guidItem == instanceIDToGuid.end())
@@ -21,26 +21,26 @@ namespace BDXKEngine
             return guid;
         }
     }
-    int SerializationDatabase::GetInstanceID(const Guid& guid)
+    int ObjectSerializerDatabase::GetInstanceID(const Guid& guid)
     {
         if (guidToInstanceID.count(guid) != 0)
             return guidToInstanceID[guid];
         return 0;
     }
-    void SerializationDatabase::SetInstanceID(const Guid& guid, int instanceID)
+    void ObjectSerializerDatabase::SetInstanceID(const Guid& guid, int instanceID)
     {
         guidToInstanceID[guid] = instanceID;
         instanceIDToGuid[instanceID] = guid;
     }
-    void SerializationDatabase::SignSerialization(const Guid& guid)
+    void ObjectSerializerDatabase::SignSerialization(const Guid& guid)
     {
         serialization.insert(guid);
     }
-    bool SerializationDatabase::IsSerialization(const Guid& guid)
+    bool ObjectSerializerDatabase::IsSerialization(const Guid& guid)
     {
         return serialization.count(guid) != 0;
     }
-    bool SerializationDatabase::IsSerialization(int instanceID)
+    bool ObjectSerializerDatabase::IsSerialization(int instanceID)
     {
         return serialization.count(GetOrSetGuid(instanceID)) != 0;
     }

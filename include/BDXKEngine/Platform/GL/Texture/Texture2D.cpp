@@ -4,7 +4,7 @@ namespace BDXKEngine
 {
     ObjectPtr<Texture2D> Texture2D::Create(Color color)
     {
-        const auto texture2d = new Texture2D{};
+        ObjectPtr texture2d = new Texture2D{};
         texture2d->width = 1;
         texture2d->height = 1;
         texture2d->format = TextureFormat::B8G8R8A8_UNORM;
@@ -20,27 +20,33 @@ namespace BDXKEngine
         memcpy_s(texture2d->pixels.data(), texture2d->pixels.size(), data, texture2d->pixels.size());
         delete[] data;
 
-        return Instantiate<Texture2D>(texture2d);
+        Instantiate(texture2d);
+
+        return texture2d;
     }
     ObjectPtr<Texture2D> Texture2D::Create(const int widthf, const int heightf, TextureFormat textureFormat)
     {
-        const auto texture2d = new Texture2D{};
+        ObjectPtr texture2d = new Texture2D{};
         texture2d->width = widthf;
         texture2d->height = heightf;
         texture2d->format = textureFormat;
         texture2d->pixels.resize(static_cast<size_t>(widthf) * heightf * GetPixelSize(textureFormat));
-        return Instantiate<Texture2D>(texture2d);
+        Instantiate(texture2d);
+
+        return texture2d;
     }
 
     ObjectPtr<Texture2D> Texture2D::Create(const int widthf, const int heightf, TextureFormat textureFormat, const char* pixels)
     {
-        const auto texture2d = new Texture2D{};
+        ObjectPtr texture2d = new Texture2D{};
         texture2d->width = widthf;
         texture2d->height = heightf;
         texture2d->format = textureFormat;
         texture2d->pixels.resize(static_cast<size_t>(widthf) * heightf * GetPixelSize(textureFormat));
         memcpy_s(texture2d->pixels.data(), texture2d->pixels.size(), pixels, texture2d->pixels.size());
-        return Instantiate<Texture2D>(texture2d);
+        Instantiate(texture2d);
+
+        return texture2d;
     }
     void Texture2D::SetRenderTarget() const
     {

@@ -14,6 +14,7 @@ namespace BDXKEngine
         virtual void Transfer(Transferer& transferer) = 0;
     };
 
+    //只专注于传送功能，能传送各种东西
     class Transferer
     {
     public:
@@ -21,22 +22,21 @@ namespace BDXKEngine
 #define TransferFieldInfo(fieldName) transferer.TransferField(#fieldName, fieldName)
 #define TransferFieldInfoOf(fieldName,transferType) transferer.TransferFieldOf<transferType>(#fieldName, fieldName)
         //下方这些宏和反射功能不兼容，不建议使用，请尝试使用IsInput()来实现类似功能
-#define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
-                transferer.TransferField(#propertyName,propertyName);\
-                Set##propertyName(propertyName)
-#define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
-transferer.TransferField(#propertyName,propertyName)
+// #define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
+//                 transferer.TransferField(#propertyName,propertyName);\
+//                 Set##propertyName(propertyName)
+// #define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
+// transferer.TransferField(#propertyName,propertyName)
 
 
         virtual ~Transferer() = default;
-        virtual void Reset(std::string& data);
-
+        
         std::function<void(void*, const Type&)> GetTransferFunc(const Type& type);
         int GetTypeSize(const Type& type);
         template <typename TValue>
         void SetTransferFunc(std::function<void(TValue& value)> func)
         {
-            const Type type = GetTypeID<TValue>();
+            const Type type = GetTypeIDOf<TValue>();
             transferFuncs[type] = [=](void* value, const Type&)
             {
                 TValue* target = static_cast<TValue*>(value);
@@ -73,7 +73,7 @@ transferer.TransferField(#propertyName,propertyName)
         template <typename TTransfer, typename TSource>
         void TransferValueOf(TSource& value)
         {
-            TransferValue(&value, GetTypeID<TTransfer>());
+            TransferValue(&value, GetTypeIDOf<TTransfer>());
         }
         template <typename TSource>
         void TransferValue(TSource& value)

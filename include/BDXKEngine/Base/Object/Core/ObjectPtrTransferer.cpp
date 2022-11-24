@@ -4,15 +4,11 @@
 
 namespace BDXKEngine
 {
-    ObjectPtrTransferer::ObjectPtrTransferer(int root): root(root)
+    ObjectPtrTransferer::ObjectPtrTransferer(int root)
     {
         references.insert(root);
     }
-    void ObjectPtrTransferer::Reset(std::string& data)
-    {
-        references.clear();
-        references.insert(root);
-    }
+
     std::vector<int> ObjectPtrTransferer::GetReferences()
     {
         return {references.begin(), references.end()};

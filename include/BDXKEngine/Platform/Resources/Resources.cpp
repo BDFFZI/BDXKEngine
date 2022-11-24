@@ -25,12 +25,12 @@ namespace BDXKEngine
         return binarySerializer;
     }
 
-    ObjectPtrBase Resources::Instantiate(const ObjectPtrBase& objectPtr)
+    ObjectPtrBase Resources::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
     {
-        return Object::Instantiate(objectPtr, binarySerializer);
+        return Object::Clone(objectPtr, binarySerializer, instantiate);
     }
 
-    ObjectPtrBase Resources::Load(const std::string& path, Serializer& serializer)
+    ObjectPtrBase Resources::Load(const std::string& path, Serializer& serializer, bool instantiate)
     {
         std::ifstream ifstream(rootDirectory + path, std::ios_base::binary);
         const auto size = static_cast<int>(std::filesystem::file_size(rootDirectory + path));
@@ -38,8 +38,9 @@ namespace BDXKEngine
         ifstream.read(buffer, size);
         ifstream.close();
 
-        const Object* object = dynamic_cast<Object*>(serializer.Deserialize(std::string(buffer, size)));
-        return Object::Instantiate(object);
+        ObjectPtrBase object = dynamic_cast<Object*>(serializer.Deserialize(std::string(buffer, size)));
+        if (instantiate)Object::Instantiate(object);
+        return object;
     }
     void Resources::Save(const std::string& path, const ObjectPtrBase& objectPtr, Serializer& serializer)
     {
@@ -54,5 +55,9 @@ namespace BDXKEngine
         std::ofstream ofstream(rootDirectory + path, std::ios_base::binary);
         ofstream << data;
         ofstream.close();
+    }
+    bool Resources::IsResource(const ObjectPtrBase& objectPtr)
+    {
+        return ObjectSerializerDatabase::IsSerialization(objectPtr.GetInstanceID());
     }
 }

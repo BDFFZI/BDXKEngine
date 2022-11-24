@@ -257,13 +257,13 @@ namespace ImGuizmo
          return (x * v.x) + (y * v.y) + (z * v.z);
       }
 
-      void Transform(const matrix_t& matrix);
-      void Transform(const vec_t& s, const matrix_t& matrix);
+      void GameObject(const matrix_t& matrix);
+      void GameObject(const vec_t& s, const matrix_t& matrix);
 
-      void TransformVector(const matrix_t& matrix);
-      void TransformPoint(const matrix_t& matrix);
-      void TransformVector(const vec_t& v, const matrix_t& matrix) { (*this) = v; this->TransformVector(matrix); }
-      void TransformPoint(const vec_t& v, const matrix_t& matrix) { (*this) = v; this->TransformPoint(matrix); }
+      void GameObjectVector(const matrix_t& matrix);
+      void GameObjectPoint(const matrix_t& matrix);
+      void GameObjectVector(const vec_t& v, const matrix_t& matrix) { (*this) = v; this->GameObjectVector(matrix); }
+      void GameObjectPoint(const vec_t& v, const matrix_t& matrix) { (*this) = v; this->GameObjectPoint(matrix); }
 
       float& operator [] (size_t index) { return ((float*)&x)[index]; }
       const float& operator [] (size_t index) const { return ((float*)&x)[index]; }
@@ -410,7 +410,7 @@ namespace ImGuizmo
       }
    };
 
-   void vec_t::Transform(const matrix_t& matrix)
+   void vec_t::GameObject(const matrix_t& matrix)
    {
       vec_t out;
 
@@ -425,13 +425,13 @@ namespace ImGuizmo
       w = out.w;
    }
 
-   void vec_t::Transform(const vec_t& s, const matrix_t& matrix)
+   void vec_t::GameObject(const vec_t& s, const matrix_t& matrix)
    {
       *this = s;
-      Transform(matrix);
+      GameObject(matrix);
    }
 
-   void vec_t::TransformPoint(const matrix_t& matrix)
+   void vec_t::GameObjectPoint(const matrix_t& matrix)
    {
       vec_t out;
 
@@ -446,7 +446,7 @@ namespace ImGuizmo
       w = out.w;
    }
 
-   void vec_t::TransformVector(const matrix_t& matrix)
+   void vec_t::GameObjectVector(const matrix_t& matrix)
    {
       vec_t out;
 
@@ -764,7 +764,7 @@ namespace ImGuizmo
    static ImVec2 worldToPos(const vec_t& worldPos, const matrix_t& mat, ImVec2 position = ImVec2(gContext.mX, gContext.mY), ImVec2 size = ImVec2(gContext.mWidth, gContext.mHeight))
    {
       vec_t trans;
-      trans.TransformPoint(worldPos, mat);
+      trans.GameObjectPoint(worldPos, mat);
       trans *= 0.5f / trans.w;
       trans += makeVect(0.5f, 0.5f);
       trans.y = 1.f - trans.y;
@@ -788,10 +788,10 @@ namespace ImGuizmo
       const float zNear = gContext.mReversed ? (1.f - FLT_EPSILON) : 0.f;
       const float zFar = gContext.mReversed ? 0.f : (1.f - FLT_EPSILON);
 
-      rayOrigin.Transform(makeVect(mox, moy, zNear, 1.f), mViewProjInverse);
+      rayOrigin.GameObject(makeVect(mox, moy, zNear, 1.f), mViewProjInverse);
       rayOrigin *= 1.f / rayOrigin.w;
       vec_t rayEnd;
-      rayEnd.Transform(makeVect(mox, moy, zFar, 1.f), mViewProjInverse);
+      rayEnd.GameObject(makeVect(mox, moy, zFar, 1.f), mViewProjInverse);
       rayEnd *= 1.f / rayEnd.w;
       rayDir = Normalized(rayEnd - rayOrigin);
    }
@@ -799,14 +799,14 @@ namespace ImGuizmo
    static float GetSegmentLengthClipSpace(const vec_t& start, const vec_t& end)
    {
       vec_t startOfSegment = start;
-      startOfSegment.TransformPoint(gContext.mMVP);
+      startOfSegment.GameObjectPoint(gContext.mMVP);
       if (fabsf(startOfSegment.w) > FLT_EPSILON) // check for axis aligned with camera direction
       {
          startOfSegment *= 1.f / startOfSegment.w;
       }
 
       vec_t endOfSegment = end;
-      endOfSegment.TransformPoint(gContext.mMVP);
+      endOfSegment.GameObjectPoint(gContext.mMVP);
       if (fabsf(endOfSegment.w) > FLT_EPSILON) // check for axis aligned with camera direction
       {
          endOfSegment *= 1.f / endOfSegment.w;
@@ -823,7 +823,7 @@ namespace ImGuizmo
       vec_t pts[] = { ptO, ptA, ptB };
       for (unsigned int i = 0; i < 3; i++)
       {
-         pts[i].TransformPoint(gContext.mMVP);
+         pts[i].GameObjectPoint(gContext.mMVP);
          if (fabsf(pts[i].w) > FLT_EPSILON) // check for axis aligned with camera direction
          {
             pts[i] *= 1.f / pts[i].w;
@@ -1010,18 +1010,18 @@ namespace ImGuizmo
 
       // projection reverse
        vec_t nearPos, farPos;
-       nearPos.Transform(makeVect(0, 0, 1.f, 1.f), gContext.mProjectionMat);
-       farPos.Transform(makeVect(0, 0, 2.f, 1.f), gContext.mProjectionMat);
+       nearPos.GameObject(makeVect(0, 0, 1.f, 1.f), gContext.mProjectionMat);
+       farPos.GameObject(makeVect(0, 0, 2.f, 1.f), gContext.mProjectionMat);
 
        gContext.mReversed = (nearPos.z/nearPos.w) > (farPos.z / farPos.w);
 
       // compute scale from the size of camera right vector projected on screen at the matrix position
       vec_t pointRight = viewInverse.v.right;
-      pointRight.TransformPoint(gContext.mViewProjection);
+      pointRight.GameObjectPoint(gContext.mViewProjection);
       gContext.mScreenFactor = gContext.mGizmoSizeClipSpace / (pointRight.x / pointRight.w - gContext.mMVP.v.position.x / gContext.mMVP.v.position.w);
 
       vec_t rightViewInverse = viewInverse.v.right;
-      rightViewInverse.TransformVector(gContext.mModelInverse);
+      rightViewInverse.GameObjectVector(gContext.mModelInverse);
       float rightLength = GetSegmentLengthClipSpace(makeVect(0.f, 0.f), rightViewInverse);
       gContext.mScreenFactor = gContext.mGizmoSizeClipSpace / rightLength;
 
@@ -1193,7 +1193,7 @@ namespace ImGuizmo
          cameraToModelNormalized = Normalized(gContext.mModel.v.position - gContext.mCameraEye);
       }
 
-      cameraToModelNormalized.TransformVector(gContext.mModelInverse);
+      cameraToModelNormalized.GameObjectVector(gContext.mModelInverse);
 
       gContext.mRadiusSquareCenter = screenRotateSize * gContext.mHeight;
 
@@ -1241,7 +1241,7 @@ namespace ImGuizmo
             matrix_t rotateVectorMatrix;
             rotateVectorMatrix.RotationAxis(gContext.mTranslationPlan, ng);
             vec_t pos;
-            pos.TransformPoint(gContext.mRotationVectorSource, rotateVectorMatrix);
+            pos.GameObjectPoint(gContext.mRotationVectorSource, rotateVectorMatrix);
             pos *= gContext.mScreenFactor;
             circlePos[i] = worldToPos(pos + gContext.mModel.v.position, gContext.mViewProjection);
          }
@@ -1466,7 +1466,7 @@ namespace ImGuizmo
          for (unsigned int i = 0; i < 3; i++)
          {
             vec_t dirPlaneNormalWorld;
-            dirPlaneNormalWorld.TransformVector(directionUnary[i], gContext.mModelSource);
+            dirPlaneNormalWorld.GameObjectVector(directionUnary[i], gContext.mModelSource);
             dirPlaneNormalWorld.Normalize();
 
             float dt = fabsf(Dot(Normalized(gContext.mCameraEye - gContext.mModelSource.v.position), dirPlaneNormalWorld));
@@ -1596,8 +1596,8 @@ namespace ImGuizmo
             // big anchor on corners
             if (!gContext.mbUsingBounds && gContext.mbEnable && overBigAnchor && CanActivate())
             {
-               gContext.mBoundsPivot.TransformPoint(aabb[(i + 2) % 4], gContext.mModelSource);
-               gContext.mBoundsAnchor.TransformPoint(aabb[i], gContext.mModelSource);
+               gContext.mBoundsPivot.GameObjectPoint(aabb[(i + 2) % 4], gContext.mModelSource);
+               gContext.mBoundsAnchor.GameObjectPoint(aabb[i], gContext.mModelSource);
                gContext.mBoundsPlan = BuildPlan(gContext.mBoundsAnchor, bestAxisWorldDirection);
                gContext.mBoundsBestAxis = bestAxis;
                gContext.mBoundsAxis[0] = secondAxis;
@@ -1615,8 +1615,8 @@ namespace ImGuizmo
             if (!gContext.mbUsingBounds && gContext.mbEnable && overSmallAnchor && CanActivate())
             {
                vec_t midPointOpposite = (aabb[(i + 2) % 4] + aabb[(i + 3) % 4]) * 0.5f;
-               gContext.mBoundsPivot.TransformPoint(midPointOpposite, gContext.mModelSource);
-               gContext.mBoundsAnchor.TransformPoint(midPoint, gContext.mModelSource);
+               gContext.mBoundsPivot.GameObjectPoint(midPointOpposite, gContext.mModelSource);
+               gContext.mBoundsAnchor.GameObjectPoint(midPoint, gContext.mModelSource);
                gContext.mBoundsPlan = BuildPlan(gContext.mBoundsAnchor, bestAxisWorldDirection);
                gContext.mBoundsBestAxis = bestAxis;
                int indices[] = { secondAxis , thirdAxis };
@@ -1676,7 +1676,7 @@ namespace ImGuizmo
                scale.component[axisIndex1] *= ratioAxis;
             }
 
-            // transform matrix
+            // GameObject matrix
             matrix_t preScale, postScale;
             preScale.Translation(-gContext.mBoundsLocalPivot);
             postScale.Translation(gContext.mBoundsLocalPivot);
@@ -1732,9 +1732,9 @@ namespace ImGuizmo
          vec_t dirPlaneX, dirPlaneY, dirAxis;
          bool belowAxisLimit, belowPlaneLimit;
          ComputeTripodAxisAndVisibility(i, dirAxis, dirPlaneX, dirPlaneY, belowAxisLimit, belowPlaneLimit);
-         dirAxis.TransformVector(gContext.mModel);
-         dirPlaneX.TransformVector(gContext.mModel);
-         dirPlaneY.TransformVector(gContext.mModel);
+         dirAxis.GameObjectVector(gContext.mModel);
+         dirPlaneX.GameObjectVector(gContext.mModel);
+         dirPlaneY.GameObjectVector(gContext.mModel);
 
          const float len = IntersectRayPlane(gContext.mRayOrigin, gContext.mRayVector, BuildPlan(gContext.mModel.v.position, dirAxis));
          vec_t posOnPlan = gContext.mRayOrigin + gContext.mRayVector * len;
@@ -1770,7 +1770,7 @@ namespace ImGuizmo
       const vec_t planNormals[] = { gContext.mModel.v.right, gContext.mModel.v.up, gContext.mModel.v.dir };
 
       vec_t modelViewPos;
-      modelViewPos.TransformPoint(gContext.mModel.v.position, gContext.mViewMat);
+      modelViewPos.GameObjectPoint(gContext.mModel.v.position, gContext.mViewMat);
 
       for (unsigned int i = 0; i < 3 && type == MT_NONE; i++)
       {
@@ -1784,7 +1784,7 @@ namespace ImGuizmo
          const float len = IntersectRayPlane(gContext.mRayOrigin, gContext.mRayVector, pickupPlan);
          const vec_t intersectWorldPos = gContext.mRayOrigin + gContext.mRayVector * len;
          vec_t intersectViewPos;
-         intersectViewPos.TransformPoint(intersectWorldPos, gContext.mViewMat);
+         intersectViewPos.GameObjectPoint(intersectWorldPos, gContext.mViewMat);
 
          if (ImAbs(modelViewPos.z) - ImAbs(intersectViewPos.z) < -FLT_EPSILON)
          {
@@ -1793,7 +1793,7 @@ namespace ImGuizmo
 
          const vec_t localPos = intersectWorldPos - gContext.mModel.v.position;
          vec_t idealPosOnCircle = Normalized(localPos);
-         idealPosOnCircle.TransformVector(gContext.mModelInverse);
+         idealPosOnCircle.GameObjectVector(gContext.mModelInverse);
          const ImVec2 idealPosOnCircleScreen = worldToPos(idealPosOnCircle * gContext.mScreenFactor, gContext.mMVP);
 
          //gContext.mDrawList->AddCircle(idealPosOnCircleScreen, 5.f, IM_COL32_WHITE);
@@ -1834,9 +1834,9 @@ namespace ImGuizmo
          vec_t dirPlaneX, dirPlaneY, dirAxis;
          bool belowAxisLimit, belowPlaneLimit;
          ComputeTripodAxisAndVisibility(i, dirAxis, dirPlaneX, dirPlaneY, belowAxisLimit, belowPlaneLimit);
-         dirAxis.TransformVector(gContext.mModel);
-         dirPlaneX.TransformVector(gContext.mModel);
-         dirPlaneY.TransformVector(gContext.mModel);
+         dirAxis.GameObjectVector(gContext.mModel);
+         dirPlaneX.GameObjectVector(gContext.mModel);
+         dirPlaneY.GameObjectVector(gContext.mModel);
 
          const float len = IntersectRayPlane(gContext.mRayOrigin, gContext.mRayVector, BuildPlan(gContext.mModel.v.position, dirAxis));
          vec_t posOnPlan = gContext.mRayOrigin + gContext.mRayVector * len;
@@ -1905,9 +1905,9 @@ namespace ImGuizmo
                modelSourceNormalized.OrthoNormalize();
                matrix_t modelSourceNormalizedInverse;
                modelSourceNormalizedInverse.Inverse(modelSourceNormalized);
-               cumulativeDelta.TransformVector(modelSourceNormalizedInverse);
+               cumulativeDelta.GameObjectVector(modelSourceNormalizedInverse);
                ComputeSnap(cumulativeDelta, snap);
-               cumulativeDelta.TransformVector(modelSourceNormalized);
+               cumulativeDelta.GameObjectVector(modelSourceNormalized);
             }
             else
             {
@@ -2150,7 +2150,7 @@ namespace ImGuizmo
          }
          vec_t rotationAxisLocalSpace;
 
-         rotationAxisLocalSpace.TransformVector(makeVect(gContext.mTranslationPlan.x, gContext.mTranslationPlan.y, gContext.mTranslationPlan.z, 0.f), gContext.mModelInverse);
+         rotationAxisLocalSpace.GameObjectVector(makeVect(gContext.mTranslationPlan.x, gContext.mTranslationPlan.y, gContext.mTranslationPlan.z, 0.f), gContext.mModelInverse);
          rotationAxisLocalSpace.Normalize();
 
          matrix_t deltaRotation;
@@ -2263,7 +2263,7 @@ namespace ImGuizmo
 
       // behind camera
       vec_t camSpacePosition;
-      camSpacePosition.TransformPoint(makeVect(0.f, 0.f, 0.f), gContext.mMVP);
+      camSpacePosition.GameObjectPoint(makeVect(0.f, 0.f, 0.f), gContext.mMVP);
       if (!gContext.mIsOrthographic && camSpacePosition.z < 0.001f)
       {
          return false;
@@ -2389,7 +2389,7 @@ namespace ImGuizmo
             for (unsigned int iCoord = 0; iCoord < 4; iCoord++)
             {
                vec_t camSpacePosition;
-               camSpacePosition.TransformPoint(faceCoords[iCoord] * 0.5f * invert, res);
+               camSpacePosition.GameObjectPoint(faceCoords[iCoord] * 0.5f * invert, res);
                if (camSpacePosition.z < 0.001f)
                {
                   skipFace = true;
@@ -2402,8 +2402,8 @@ namespace ImGuizmo
             }
             */
             vec_t centerPosition, centerPositionVP;
-            centerPosition.TransformPoint(directionUnary[normalIndex] * 0.5f * invert, *(matrix_t*)matrix);
-            centerPositionVP.TransformPoint(directionUnary[normalIndex] * 0.5f * invert, res);
+            centerPosition.GameObjectPoint(directionUnary[normalIndex] * 0.5f * invert, *(matrix_t*)matrix);
+            centerPositionVP.GameObjectPoint(directionUnary[normalIndex] * 0.5f * invert, res);
 
             bool inFrustum = true;
             for (int iFrustum = 0; iFrustum < 6; iFrustum++)
@@ -2576,9 +2576,9 @@ namespace ImGuizmo
             const vec_t n = directionUnary[normalIndex] * invert;
             vec_t viewSpaceNormal = n;
             vec_t viewSpacePoint = n * 0.5f;
-            viewSpaceNormal.TransformVector(cubeView);
+            viewSpaceNormal.GameObjectVector(cubeView);
             viewSpaceNormal.Normalize();
-            viewSpacePoint.TransformPoint(cubeView);
+            viewSpacePoint.GameObjectPoint(cubeView);
             const vec_t viewSpaceFacePlan = BuildPlan(viewSpacePoint, viewSpaceNormal);
 
             // back face culling
@@ -2706,7 +2706,7 @@ namespace ImGuizmo
          roll = rx * ry;
 
          vec_t newDir = viewInverse.v.dir;
-         newDir.TransformVector(roll);
+         newDir.GameObjectVector(roll);
          newDir.Normalize();
 
          // clamp

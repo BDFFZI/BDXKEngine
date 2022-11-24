@@ -8,7 +8,7 @@ namespace BDXKEngine
         origin = reinterpret_cast<std::uintptr_t>(&reflective);
         length = reflection.size;
     }
-    
+
     void ReflectionTransferer::PushPath(const std::string& key)
     {
         currentKey = key;
@@ -39,6 +39,8 @@ namespace BDXKEngine
         this->size = size;
         //获取构造函数
         this->constructor = constructor;
+        //获取虚表地址
+        this->virtualTable = size >= static_cast<int>(sizeof(std::uintptr_t)) ? *reinterpret_cast<std::uintptr_t*>(reflective) : 0;
         //获取字段信息
         ReflectionTransferer reflecttransferer = {*reflective, *this};
         reflective->Transfer(reflecttransferer);
@@ -47,10 +49,18 @@ namespace BDXKEngine
 
         delete reflective;
     }
-
+    
+    int Reflection::GetSize() const
+    {
+        return size;
+    }
     Reflective* Reflection::GetConstruction() const
     {
         return constructor();
+    }
+    std::uintptr_t Reflection::GetVirtualTable() const
+    {
+        return virtualTable;
     }
     void* Reflection::GetField(Reflective* target, const std::string& key) const
     {

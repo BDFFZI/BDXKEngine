@@ -28,7 +28,7 @@
 // 2019/11/03 View gizmo
 // 2016/09/11 Behind camera culling. Scaling Delta matrix not multiplied by source matrix scales. local/world rotation and translation fixed. Display message is incorrect (X: ... Y:...) in local mode.
 // 2016/09/09 Hatched negative axis. Snapping. Documentation update.
-// 2016/09/04 Axis switch and translation plan autohiding. Scale transform stability improved
+// 2016/09/04 Axis switch and translation plan autohiding. Scale GameObject stability improved
 // 2016/09/01 Mogwai changed to Manipulate. Draw debug cube. Fixed inverted scale. Mixing scale and translation/rotation gives bad results.
 // 2016/08/31 First version
 //
@@ -43,7 +43,7 @@
 // -------------------------------------------------------------------------------------------
 // Example 
 #if 0
-void EditTransform(const Camera& camera, matrix_t& matrix)
+void EditGameObject(const Camera& camera, matrix_t& matrix)
 {
    static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
    static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
@@ -161,7 +161,7 @@ namespace ImGuizmo
 
    // call it when you want a gizmo
    // Needs view and projection matrices. 
-   // matrix parameter is the source matrix (where will be gizmo be drawn) and might be transformed by the function. Return deltaMatrix is optional
+   // matrix parameter is the source matrix (where will be gizmo be drawn) and might be GameObjected by the function. Return deltaMatrix is optional
    // translation is applied in world space
    enum OPERATION
    {

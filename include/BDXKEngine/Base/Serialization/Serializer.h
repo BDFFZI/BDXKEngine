@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "IOTransferer.h"
 #include "../Reflection/Reflective.h"
 
 namespace BDXKEngine
@@ -6,14 +7,14 @@ namespace BDXKEngine
     class Serializer
     {
     public:
-        Serializer(Transferer& importer, Transferer& exporter);
+        Serializer(IOTransferer& importer, IOTransferer& exporter);
 
         virtual ~Serializer() = default;
         virtual std::string Serialize(Reflective* input);
         virtual Reflective* Deserialize(std::string input);
         virtual Reflective* Clone(Reflective* input);
     private:
-        Transferer& importer;
-        Transferer& exporter;
+        IOTransferer& importer;
+        IOTransferer& exporter;
     };
 }

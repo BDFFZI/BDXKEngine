@@ -7,7 +7,7 @@
 
 namespace BDXKEngine
 {
-    class SerializationDatabase
+    class ObjectSerializerDatabase
     {
     public:
         static Guid GetOrSetGuid(int instanceID);
@@ -46,8 +46,8 @@ namespace BDXKEngine
 
             Object* rootObject = dynamic_cast<Object*>(input);
             const int rootInstanceID = rootObject->GetInstanceID();
-            const Guid rootGuid = SerializationDatabase::GetOrSetGuid(rootInstanceID);
-            SerializationDatabase::SignSerialization(rootGuid);
+            const Guid rootGuid = ObjectSerializerDatabase::GetOrSetGuid(rootInstanceID);
+            ObjectSerializerDatabase::SignSerialization(rootGuid);
 
             //统计引用
             ObjectPtrTransferer objectPtrTransferer = {rootObject->GetInstanceID()};
@@ -65,15 +65,15 @@ namespace BDXKEngine
                 }
                 else
                 {
-                    Guid guid = SerializationDatabase::GetOrSetGuid(instanceID);
+                    Guid guid = ObjectSerializerDatabase::GetOrSetGuid(instanceID);
                     objectExporter.TransferValue(guid);
                 }
             });
             std::unordered_map<Guid, std::string> serializations;
             for (auto& instanceID : references)
             {
-                Guid guid = SerializationDatabase::GetOrSetGuid(instanceID);
-                if (SerializationDatabase::IsSerialization(instanceID) && instanceID != rootInstanceID)
+                Guid guid = ObjectSerializerDatabase::GetOrSetGuid(instanceID);
+                if (ObjectSerializerDatabase::IsSerialization(instanceID) && instanceID != rootInstanceID)
                     serializations[guid] = "";
                 else
                     serializations[guid] = Serializer::Serialize(Object::FindObjectOfInstanceID(instanceID));
@@ -134,7 +134,7 @@ namespace BDXKEngine
             }
 
             Guid rootGuid = serializations.begin()->first;
-            SerializationDatabase::SignSerialization(rootGuid);
+            ObjectSerializerDatabase::SignSerialization(rootGuid);
 
             //反序列化相关物体
             for (const auto& serialization : serializations)
@@ -143,23 +143,23 @@ namespace BDXKEngine
                 std::string data = serialization.second;
 
                 //TODO 重新加载
-                if (SerializationDatabase::IsSerialization(target) == false || target == rootGuid)
+                if (ObjectSerializerDatabase::IsSerialization(target) == false || target == rootGuid)
                 {
                     Object* object = dynamic_cast<Object*>(Serializer::Deserialize(data));
-                    SerializationDatabase::SetInstanceID(target, object->GetInstanceID());
+                    ObjectSerializerDatabase::SetInstanceID(target, object->GetInstanceID());
                 }
             }
 
             //链接引用关系
             for (const auto& reference : references)
             {
-                ObjectPtrBase object = Object::FindObjectOfInstanceID(SerializationDatabase::GetInstanceID(reference.first));
+                ObjectPtrBase object = Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(reference.first));
                 for (auto objectPtr : reference.second)
                     *objectPtr = object;
             }
 
 
-            return Object::FindObjectOfInstanceID(SerializationDatabase::GetInstanceID(serializations.begin()->first));
+            return Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(serializations.begin()->first));
         }
         Reflective* Clone(Reflective* input) override
         {

@@ -14,20 +14,22 @@ namespace BDXKEngine
         static ObjectSerializer<JsonExporter, JsonImporter>& GetJsonSerializer();
         static ObjectSerializer<BinaryExporter2, BinaryImporter2>& GetBinarySerializer();
 
-        static ObjectPtrBase Instantiate(const ObjectPtrBase& objectPtr);
+        static ObjectPtrBase Clone(const ObjectPtrBase& objectPtr, bool instantiate = true);
         template <typename TObject>
-        static ObjectPtr<TObject> Instantiate(const ObjectPtr<TObject>& objectPtr)
+        static ObjectPtr<TObject> Clone(const ObjectPtr<TObject>& objectPtr, bool instantiate = true)
         {
-            return Instantiate(static_cast<ObjectPtrBase>(objectPtr)).template ToObject<TObject>();
+            return Clone(static_cast<ObjectPtrBase>(objectPtr), instantiate).template ToObject<TObject>();
         }
 
-        static ObjectPtrBase Load(const std::string& path, Serializer& serializer = binarySerializer);
+        static ObjectPtrBase Load(const std::string& path, Serializer& serializer = binarySerializer, bool instantiate = true);
         template <typename TObject>
-        static ObjectPtr<TObject> Load(const std::string& path, Serializer& serializer = binarySerializer)
+        static ObjectPtr<TObject> Load(const std::string& path, Serializer& serializer = binarySerializer, bool instantiate = true)
         {
-            return Load(path, serializer).ToObject<TObject>();
+            return Load(path, serializer, instantiate).ToObject<TObject>();
         }
         static void Save(const std::string& path, const ObjectPtrBase& objectPtr, Serializer& serializer = binarySerializer);
+
+        static bool IsResource(const ObjectPtrBase& objectPtr);
     private:
         static const std::string rootDirectory;
         static ObjectSerializer<JsonExporter, JsonImporter> jsonSerializer;

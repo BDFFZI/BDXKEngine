@@ -30,7 +30,7 @@ namespace BDXKEngine
 
     ObjectPtr<Shader> Shader::Create(const std::string& vertexShaderhlsl, const std::string& pixelShaderhlsl)
     {
-        const auto shader = new Shader{};
+        ObjectPtr shader = new Shader{};
 
         //编译顶点着色器
         CComPtr<ID3DBlob> vertexBlob;
@@ -48,12 +48,13 @@ namespace BDXKEngine
                  pixelBlob->GetBufferPointer(), shader->pixelPass.size()
         );
 
+        Instantiate(shader);
 
-        return Instantiate<Shader>(shader);
+        return shader;
     }
     ObjectPtr<Shader> Shader::Create(const CComPtr<ID3DBlob>& vertexBlob, const CComPtr<ID3DBlob>& pixelBlob)
     {
-        const auto shader = new Shader{};
+        ObjectPtr shader = new Shader{};
 
         shader->vertexPass.resize(vertexBlob->GetBufferSize());
         memcpy_s(shader->vertexPass.data(), shader->vertexPass.size(),
@@ -63,8 +64,10 @@ namespace BDXKEngine
         memcpy_s(shader->pixelPass.data(), shader->pixelPass.size(),
                  pixelBlob->GetBufferPointer(), shader->pixelPass.size()
         );
+        
+        Instantiate(shader);
 
-        return Instantiate<Shader>(shader);
+        return shader;
     }
 
     const Cull& Shader::GetCull() const

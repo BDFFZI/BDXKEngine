@@ -9,13 +9,11 @@ namespace BDXKEngine
     {
     public:
         ObjectPtrTransferer(int root);
-
-        void Reset(std::string& data) override;
+        
         std::vector<int> GetReferences();
     protected:
         void TransferValue(void* value, const Type& type) override;
     private:
         std::unordered_set<int> references;
-        int root = 0;
     };
 }

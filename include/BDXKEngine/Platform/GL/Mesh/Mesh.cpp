@@ -4,11 +4,12 @@ namespace BDXKEngine
 {
     ObjectPtr<Mesh> Mesh::Create()
     {
-        const auto mesh = new Mesh{};
+        ObjectPtr mesh = new Mesh{};
         mesh->vertices = {Vertex{}};
         mesh->triangles = {0, 0, 0};
+        Instantiate(mesh);
 
-        return Instantiate<Mesh>(mesh);
+        return mesh;
     }
     int Mesh::GetVerticesCount() const
     {

@@ -10,6 +10,10 @@ namespace BDXKEngine
         document.CopyFrom(GetCurrentNode()[key.c_str()], document.GetAllocator());
         Export(document, value);
     }
+    bool JsonImporter::IsImporter()
+    {
+        return true;
+    }
     void JsonImporter::Reset(std::string& data)
     {
         Import(GetDocument(), data);
