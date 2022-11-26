@@ -1,10 +1,20 @@
 ﻿#include "GameObject.h"
-#include "BDXKEngine/Base/Extension/Vector.h"
+
+#include <forward_list>
+
 #include "BDXKEngine/Platform/Resources/Resources.h"
 #include "Component.h"
 
 namespace BDXKEngine
 {
+    ObjectPtr<GameObject> GameObject::Create(const std::string& name, const ObjectPtr<GameObject>& parent)
+    {
+        ObjectPtr gameObject = new GameObject();
+        Reflection::GetReflection(GetTypeIDOf<GameObject>()).GetFieldOf<std::string>(gameObject.ToObjectBase(), "name") = name;
+        Instantiate(gameObject);
+        if (parent.IsNotNull()) gameObject->SetParent(parent);
+        return gameObject;
+    }
     bool GameObject::GetIsActivating() const
     {
         if (parent != nullptr)
@@ -92,14 +102,7 @@ namespace BDXKEngine
 
         const bool oldActivating = GetIsActivating();
 
-        if (parent.IsNull() == false)
-        {
-            parent->children.erase(std::find(
-                parent->children.begin(),
-                parent->children.end(),
-                ObjectPtr<GameObject>(this)
-            ));
-        }
+        if (parent.IsNull() == false)std::erase(parent->children, ObjectPtr(this));
         if (newparent.IsNull() == false)newparent->children.emplace_back(this);
         this->parent = newparent;
 
@@ -172,7 +175,7 @@ namespace BDXKEngine
     {
         if (component->GetGameObject() != this)throw std::exception("目标组件未绑定到该物体");
 
-        const auto target = std::find(components.begin(), components.end(), component);
+        const auto target = std::ranges::find(components, component);
         if (target != components.end())throw std::exception("对应组件已添加");
         components.emplace_back(component);
     }
@@ -180,7 +183,7 @@ namespace BDXKEngine
     {
         if (component->GetGameObject() != this)throw std::exception("目标组件未绑定到该物体");
 
-        const auto target = std::find(components.begin(), components.end(), component);
+        const auto target = std::ranges::find(components, component);
         if (target == components.end())throw std::exception("未查询到对应组件");
         components.erase(target);
     }
@@ -203,7 +206,7 @@ namespace BDXKEngine
         RenewScale(false);
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);
-        
+
         const Reflection gameObjectReflection = Reflection::GetReflection(GetTypeIDOf<GameObject>());
         for (ObjectPtr<GameObject>& child : children)
         {
@@ -228,12 +231,14 @@ namespace BDXKEngine
     }
     void GameObject::Destroy()
     {
-        for (const ObjectPtr<GameObject>& child : children)
+        for (const ObjectPtr<GameObject>& child : std::vector{children})
             DestroyImmediate(child);
         children.clear();
-        for (const ObjectPtr<Component>& component : components)
+        for (const ObjectPtr<Component>& component : std::vector{components})
             DestroyImmediate(component);
         components.clear();
+
+        if (parent != nullptr)std::erase(parent->children, this);
 
         ScriptableObject::Destroy();
     }

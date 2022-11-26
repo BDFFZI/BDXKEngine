@@ -6,8 +6,7 @@ namespace BDXKEngine
     {
         return gameObject->IsActivatingAndEnabling() && ScriptableObject::GetIsActivating();
     }
-
-    ObjectPtr<GameObject> Component::GetGameObject() { return gameObject; }
+    ObjectPtr<GameObject> Component::GetGameObject() const { return gameObject; }
 
     void Component::Transfer(Transferer& transferer)
     {

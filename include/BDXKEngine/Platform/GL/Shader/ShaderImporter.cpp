@@ -21,8 +21,8 @@ namespace BDXKEngine
         if (FAILED(result))
         {
             // ReSharper disable once CppDeclaratorNeverUsed
-            char* errorInfo = static_cast<char*>(compileError->GetBufferPointer());
-            throw std::exception("编译着色器失败");
+            const char* errorInfo = static_cast<char*>(compileError->GetBufferPointer());
+            throw std::exception((std::string("编译着色器失败:") + errorInfo).c_str());
         }
     }
 

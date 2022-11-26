@@ -1,6 +1,6 @@
 ﻿#include "Shader.h"
 #include <d3dcompiler.h>
-#include "../GLLayout.h"
+#include "BDXKEngine/Platform/GL/Core/GLLayout.h"
 
 namespace BDXKEngine
 {

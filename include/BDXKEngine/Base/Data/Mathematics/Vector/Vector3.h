@@ -26,6 +26,7 @@ namespace BDXKEngine
         Vector3(float x, float y, float z);
         Vector3(Vector2 value);
 
+        float GetSqrMagnitude()const;
         float GetMagnitude() const;
         Vector3 GetNormalized() const;
         bool IsNaN() const;

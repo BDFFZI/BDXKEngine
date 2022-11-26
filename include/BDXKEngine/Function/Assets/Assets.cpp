@@ -5,25 +5,25 @@
 
 namespace BDXKEngine
 {
-    ObjectPtr<Material> Assets::shadowMapMaterial = nullptr;
+    ObjectPtr<Material> Assets::unlitMaterial = nullptr;
+    ObjectPtr<Material> Assets::standardMaterial = nullptr;
     ObjectPtr<Material> Assets::skyboxMaterial = nullptr;
-    ObjectPtr<Material> Assets::blitMaterial = nullptr;
-    ObjectPtr<Texture2D> Assets::whiteTexture = nullptr;
     ObjectPtr<Mesh> Assets::cubeMesh = nullptr;
     ObjectPtr<Mesh> Assets::sphereMesh = nullptr;
     ObjectPtr<Mesh> Assets::blenderMesh = nullptr;
+    ObjectPtr<Texture2D> Assets::whiteTexture = nullptr;
 
-    ObjectPtr<Material> Assets::GetShadowMapMaterial()
+    ObjectPtr<Material> Assets::GetUnlitMaterial()
     {
-        return shadowMapMaterial;
+        return unlitMaterial;
+    }
+    ObjectPtr<Material> Assets::GetStandardMaterial()
+    {
+        return standardMaterial;
     }
     ObjectPtr<Material> Assets::GetSkyboxMaterial()
     {
         return skyboxMaterial;
-    }
-    ObjectPtr<Material> Assets::GetBlitMaterial()
-    {
-        return blitMaterial;
     }
     ObjectPtr<Texture2D> Assets::GetWhiteTexture()
     {
@@ -42,17 +42,29 @@ namespace BDXKEngine
         return blenderMesh;
     }
 
+
     void Assets::Initialize(Window* window)
     {
-        //绘制阴影贴图
-        shadowMapMaterial = Material::Create({
-            {
-                ShaderImporter::Import("Shaders/ShadowMap.hlsl"),
-                ShaderType::ForwardBase
-            }
+# define ParsePath(path) "Assets/BDXKEngine/"#path
+        //材质球
+        ObjectPtr<Shader> shadowMapShader = ShaderImporter::Import(ParsePath(Shaders/ShadowMap.hlsl));
+        auto unlitShader = ShaderImporter::Import(ParsePath(Shaders/Unlit.hlsl));
+        auto unlitShaderAdditive = ShaderImporter::Import(ParsePath(Shaders/Unlit.hlsl));
+        unlitShaderAdditive->SetBlend(Blend::Additive);
+        unlitMaterial = Material::Create({
+            {unlitShader, PassType::ForwardBase},
+            {unlitShaderAdditive, PassType::ForwardAdd},
+            {shadowMapShader, PassType::ShadowCaster}
         });
-        //绘制天空盒
-        const ObjectPtr<Shader> skyboxShader = ShaderImporter::Import("Shaders/Skybox.hlsl");
+        auto standardShader = ShaderImporter::Import(ParsePath(Shaders/Standard.hlsl));
+        auto standardShaderAdditive = ShaderImporter::Import(ParsePath(Shaders/Standard.hlsl));
+        standardShaderAdditive->SetBlend(Blend::Additive);
+        standardMaterial = Material::Create({
+            {standardShader, PassType::ForwardBase},
+            {standardShaderAdditive, PassType::ForwardAdd},
+            {shadowMapShader, PassType::ShadowCaster}
+        });
+        ObjectPtr<Shader> skyboxShader = ShaderImporter::Import(ParsePath(Shaders/Skybox.hlsl));
         ZTest ztest = {};
         ztest.write = false;
         ztest.operation = ZTest::Operation::Always;
@@ -60,32 +72,23 @@ namespace BDXKEngine
         skyboxMaterial = Material::Create({
             {
                 skyboxShader,
-                ShaderType::ForwardBase
+                PassType::ForwardBase
             }
         });
-        //位块传输
-        blitMaterial = Material::Create({
-            {
-                ShaderImporter::Import("Shaders/Blit.hlsl"),
-                ShaderType::ForwardBase
-            }
-        });
+        //网格
+        cubeMesh = MeshImporter::Import(ParsePath(Meshes/Cube.glb));
+        sphereMesh = MeshImporter::Import(ParsePath(Meshes/Sphere.glb));
+        blenderMesh = MeshImporter::Import(ParsePath(Meshes/Blender.glb));
         //贴图
         whiteTexture = Texture2D::Create(Color::white);
-        //网格
-        cubeMesh = MeshImporter::Import("Meshs/Cube.glb");
-        sphereMesh = MeshImporter::Import("Meshs/Sphere.glb");
-        blenderMesh = MeshImporter::Import("Meshs/Blender.glb");
 
         window->AddDestroyEvent([]()
         {
-            shadowMapMaterial = nullptr;
-            skyboxMaterial = nullptr;
-            blitMaterial = nullptr;
-            whiteTexture = nullptr;
-            cubeMesh = nullptr;
-            sphereMesh = nullptr;
-            blenderMesh = nullptr;
+            Object::DestroyImmediate(unlitMaterial);
+            Object::DestroyImmediate(whiteTexture = nullptr);
+            Object::DestroyImmediate(cubeMesh = nullptr);
+            Object::DestroyImmediate(sphereMesh = nullptr);
+            Object::DestroyImmediate(blenderMesh = nullptr);
         });
     }
 }

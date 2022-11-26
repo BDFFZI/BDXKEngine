@@ -1,7 +1,6 @@
 ﻿#include "ScriptableObject.h"
 #include <iostream>
 #include "BDXKEngine/Platform/Resources/Resources.h"
-#include "ScriptableObjectEvent.h"
 
 namespace BDXKEngine
 {
@@ -9,7 +8,7 @@ namespace BDXKEngine
 
     bool ScriptableObject::GetIsActivating() const
     {
-        return Resources::IsResource(this);
+        return Resources::IsResource(this) == false;
     }
     bool ScriptableObject::GetIsEnabling() const
     {
@@ -18,6 +17,9 @@ namespace BDXKEngine
 
     void ScriptableObject::SetIsActivating(bool state)
     {
+        if (isActivating == state)return;
+        isActivating = state;
+
         if (isEnabling == false)return;
         if (state)Enable();
         else Disable();
@@ -72,6 +74,8 @@ namespace BDXKEngine
     void ScriptableObject::Awake()
     {
         Object::Awake();
+
+        isActivating = GetIsActivating();
 
         if (IsActivatingAndEnabling())Enable();
     }

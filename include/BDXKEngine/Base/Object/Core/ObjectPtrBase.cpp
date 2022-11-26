@@ -123,7 +123,7 @@ namespace BDXKEngine
         {
             refCountMap.erase(instanceID);
             const Object* object = ToObjectBase();
-            if (object != nullptr)
+            if (object != nullptr && object->IsDestroyed() == false)
             {
                 Object::DestroyImmediate(object);
             }

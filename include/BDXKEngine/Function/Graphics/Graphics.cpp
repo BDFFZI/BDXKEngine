@@ -9,9 +9,7 @@ namespace BDXKEngine
         return {screenPos.x, screenPos.y, 0};
     }
 
-    ObjectPtr<Buffer> Graphics::worldInfoBuffer = nullptr;
     ObjectPtr<Buffer> Graphics::cameraInfoBuffer = nullptr;
-    ObjectPtr<Buffer> Graphics::objectInfoBuffer = nullptr;
     ObjectPtr<Buffer> Graphics::lightInfoBuffer = nullptr;
 
     Window* Graphics::window = nullptr;
@@ -19,31 +17,42 @@ namespace BDXKEngine
     ObjectPtr<Texture2D> Graphics::defaultTexture2D = nullptr;
     ObjectPtr<TextureCube> Graphics::defaultTextureCube = nullptr;
 
-    void Graphics::UpdateWorldInfo(WorldInfo worldInfo)
-    {
-        worldInfoBuffer->SetData(&worldInfo);
-    }
-    void Graphics::UpdateCameraInfo(CameraInfo cameraInfo)
+    void Graphics::SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox)
     {
         cameraInfoBuffer->SetData(&cameraInfo);
+        if (skybox.IsNotNull()) skybox->SetPass(4);
+        else defaultTextureCube->SetPass(4);
     }
-    void Graphics::UpdateObjectInfo(ObjectInfo objectInfo)
+    void Graphics::SetCameraInfoNull()
     {
-        objectInfoBuffer->SetData(&objectInfo);
+        defaultTextureCube->SetPass(4);
     }
-    void Graphics::UpdateLightInfo(LightInfo lightInfo, const ObjectPtr<Texture>& shadowMap)
+    void Graphics::SetLightInfo(LightInfo lightInfo, const ObjectPtr<Texture>& shadowMap)
     {
         lightInfoBuffer->SetData(&lightInfo);
-        if (lightInfo.lightType == LightType::Point)
+        if (shadowMap.IsNull())
         {
             defaultTexture2D->SetPass(5);
-            shadowMap->SetPass(6);
+            defaultTextureCube->SetPass(6);
         }
         else
         {
-            shadowMap->SetPass(5);
-            defaultTextureCube->SetPass(6);
+            if (lightInfo.lightType == LightType::Point)
+            {
+                defaultTexture2D->SetPass(5);
+                shadowMap->SetPass(6);
+            }
+            else
+            {
+                shadowMap->SetPass(5);
+                defaultTextureCube->SetPass(6);
+            }
         }
+    }
+    void Graphics::SetLightInfoNull()
+    {
+        defaultTexture2D->SetPass(5);
+        defaultTextureCube->SetPass(6);
     }
 
     void Graphics::DrawMeshNow(const ObjectPtr<Mesh>& mesh)
@@ -68,39 +77,42 @@ namespace BDXKEngine
             maxPosition,
             {minPosition.x, maxPosition.y, 0}
         });
-        drawTextureMesh->UploadMeshData();
+        drawTextureMesh->UpdataMeshData();
 
-        UpdateObjectInfo({Matrix4x4::identity});
-        UpdateCameraInfo(CameraInfo::Orthographic(
-            Vector3::zero,
-            Matrix4x4::identity,
-            screenSize.x / screenSize.y,
-            0, 1, screenSize.y
-        ));
-        texture->SetPass(0);
-
-        DrawMeshNow(drawTextureMesh);
+        SetCameraInfo(
+            CameraInfo::Orthographic(
+                screenSize.x / screenSize.y, 0, 1, screenSize.y,
+                Matrix4x4::identity, Vector3::zero, Color::black, 0
+            ), nullptr
+        );
+        if (texture.IsNotNull())
+        {
+            texture->SetPass(0);
+            DrawMeshNow(drawTextureMesh);
+            Texture::SetPassNull(0);
+        }
+        else DrawMeshNow(drawTextureMesh);
     }
     void Graphics::Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest, const ObjectPtr<Material>& blitMaterial)
     {
         dest->SetRenderTarget();
+        blitMaterial->SetMatrix(0, Matrix4x4::identity);
         blitMaterial->SetPass(0);
+
         DrawTexture(source, {0, 0, static_cast<float>(source->GetWidth()), static_cast<float>(source->GetHeight())});
+
+        Material::SetPassNull();
         Texture::SetRenderTargetDefault();
     }
 
     void Graphics::Initialize(Window* window)
     {
         //创建渲染用的通用常量缓冲区
-        worldInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(WorldInfo));
         cameraInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(CameraInfo));
         lightInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(LightInfo));
-        objectInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(ObjectInfo));
         //设置缓冲区
-        worldInfoBuffer->SetPass(1);
-        cameraInfoBuffer->SetPass(2);
-        lightInfoBuffer->SetPass(4);
-        objectInfoBuffer->SetPass(3);
+        cameraInfoBuffer->SetPass(1);
+        lightInfoBuffer->SetPass(2);
 
         defaultTexture2D = Texture2D::Create(1, 1);
         defaultTextureCube = TextureCube::Create(1, 1);
@@ -122,10 +134,8 @@ namespace BDXKEngine
             drawTextureMesh = nullptr;
             defaultTexture2D = nullptr;
             defaultTextureCube = nullptr;
-            worldInfoBuffer = nullptr;
             cameraInfoBuffer = nullptr;
             lightInfoBuffer = nullptr;
-            objectInfoBuffer = nullptr;
         });
     }
 }

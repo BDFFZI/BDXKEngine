@@ -1,14 +1,17 @@
 ﻿#pragma once
+#include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "GameObject.h"
 #include "ScriptableObject.h"
 
 namespace BDXKEngine
 {
+    class GameObject;
+
     class Component : public ScriptableObject
     {
     public:
         template <typename TComponent>
-        ObjectPtr<TComponent> Create(ObjectPtr<GameObject> gameObject)
+        static ObjectPtr<TComponent> Create(const ObjectPtr<GameObject> gameObject)
         {
             ObjectPtr component = new TComponent();
             if (component.template ToObject<Component>() == nullptr)
@@ -22,7 +25,7 @@ namespace BDXKEngine
         }
 
         bool GetIsActivating() const override;
-        ObjectPtr<GameObject> GetGameObject();
+        ObjectPtr<GameObject> GetGameObject() const;
 
         void Transfer(Transferer& transferer) override;
     protected:
@@ -30,4 +33,7 @@ namespace BDXKEngine
     private:
         ObjectPtr<GameObject> gameObject = nullptr;
     };
+
+    CustomReflection(GameObject)
+    CustomReflection(Component)
 }

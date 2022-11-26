@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include <vector>
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
-#include "../GL.h"
-#include "../GLLayout.h"
+#include "../Core/GL.h"
 #include "../Buffer/Buffer.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
+#include "BDXKEngine/Platform/GL/Core/GLLayout.h"
 
 namespace BDXKEngine
 {
@@ -28,7 +28,7 @@ namespace BDXKEngine
         void SetColors(std::vector<Color> data);
         void SetPass() const; // 设置当前渲染管线中的顶点索引数据
 
-        void UploadMeshData();
+        void UpdataMeshData() const;
     private:
         std::vector<Vertex> vertices = {};
         std::vector<unsigned short> triangles = {};

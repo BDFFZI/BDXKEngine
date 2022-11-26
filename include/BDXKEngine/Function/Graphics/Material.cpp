@@ -3,32 +3,39 @@
 
 namespace BDXKEngine
 {
-    ObjectPtr<Material> Material::Create(const std::vector<std::tuple<ObjectPtr<Shader>, ShaderType>>& shaders)
+    ObjectPtr<Material> Material::Create(const std::vector<std::tuple<ObjectPtr<Shader>, PassType>>& passes)
     {
         ObjectPtr material = new Material{};
-        for (auto& [shader,shaderType] : shaders)
+        for (auto& [shader,shaderType] : passes)
         {
             material->shaders.emplace_back(shader);
             material->shaderTypes.emplace_back(shaderType);
         }
         Instantiate(material);
-        
+
         return material;
+    }
+    void Material::SetPassNull()
+    {
+        Texture::SetPassNull(0);
+        Texture::SetPassNull(1);
+        Texture::SetPassNull(2);
+        Texture::SetPassNull(3);
     }
 
     RenderQueue Material::GetRenderQueue() const
     {
         return renderQueue;
     }
-    int Material::GetShaderCount() const
+    int Material::GetPassCount() const
     {
         return static_cast<int>(shaders.size());
     }
-    ShaderType Material::GetShaderType(int index) const
+    PassType Material::GetPassType(int index) const
     {
         return shaderTypes[index];
     }
-    const ObjectPtr<Shader>& Material::GetShader(int index) const
+    const ObjectPtr<Shader>& Material::GetPass(int index) const
     {
         return shaders[index];
     }
@@ -80,12 +87,26 @@ namespace BDXKEngine
         //设置着色器
         shaders[shaderIndex]->SetPass();
     }
+    bool Material::SetPass(PassType shaderType)
+    {
+        const int count = static_cast<int>(shaderTypes.size());
+        for (int i = 0; i < count; i++)
+        {
+            if (shaderTypes[i] == shaderType)
+            {
+                SetPass(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     void Material::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);
 
-        transferer.SetTransferFunc<ShaderType>([&](ShaderType& value)
+        transferer.SetTransferFunc<PassType>([&](PassType& value)
         {
             transferer.TransferValueOf<int>(value);
         });

@@ -36,9 +36,9 @@ namespace BDXKEngine
         for (auto reference = references.rbegin(); reference != references.rend(); ++reference)
         {
             Object* referenceObject = FindObjectOfInstanceID(*reference);
-            if (referenceObject != nullptr && referenceObject->isRunning == false)
+            if (referenceObject != nullptr && referenceObject->isInstantiated == false)
             {
-                referenceObject->isRunning = true;
+                referenceObject->isInstantiated = true;
                 referenceObject->Awake();
             }
         }
@@ -56,16 +56,16 @@ namespace BDXKEngine
     void Object::DestroyImmediate(const ObjectPtrBase& objectPtr)
     {
         Object* object = objectPtr.ToObjectBase();
-        if (object == nullptr || object->isDestroying)
+        if (object == nullptr || object->isDestroyed)
             return;
 
-        if (object->isRunning == false) //根本就没被唤醒过，所以也不需要调用销毁回调
+        if (object->isInstantiated == false) //根本就没被唤醒过，所以也不需要调用销毁回调
         {
             delete object;
             return;
         }
 
-        object->isDestroying = true;
+        object->isDestroyed = true;
         object->Destroy();
         delete object;
     }
@@ -90,6 +90,15 @@ namespace BDXKEngine
     void Object::SetName(const std::string& name)
     {
         this->name = name;
+    }
+
+    bool Object::IsInstantiated() const
+    {
+        return isInstantiated;
+    }
+    bool Object::IsDestroyed() const
+    {
+        return isDestroyed;
     }
 
     void Object::Transfer(Transferer& transferer)

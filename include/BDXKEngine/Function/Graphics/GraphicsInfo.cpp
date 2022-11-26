@@ -1,22 +1,26 @@
 ﻿#include "GraphicsInfo.h"
 using namespace BDXKEngine;
 
-CameraInfo CameraInfo::Orthographic(Vector3 cameraPosition, Matrix4x4 worldToView,
-                                    float aspectRatio, float nearClipPlane, float farClipPlane, float height)
+CameraInfo CameraInfo::Orthographic(float aspectRatio, float nearClipPlane, float farClipPlane, float height,
+                                    Matrix4x4 worldToView, Vector3 cameraPosition, Color environment, float time)
 {
     CameraInfo cameraInfo{};
+    cameraInfo.viewToClip = Matrix4x4::Ortho(height / 2 * aspectRatio, height / 2, nearClipPlane, farClipPlane);
     cameraInfo.worldToView = worldToView;
     cameraInfo.cameraPosition = {cameraPosition, 1};
-    cameraInfo.viewToClip = Matrix4x4::Ortho(height / 2 * aspectRatio, height / 2, nearClipPlane, farClipPlane);
+    cameraInfo.environment = environment;
+    cameraInfo.Time = {time, 0, 0, 0};
     return cameraInfo;
 }
 
-CameraInfo CameraInfo::Perspective(Vector3 cameraPosition, Matrix4x4 worldToView,
-                                   float aspectRatio, float nearClipPlane, float farClipPlane, float fieldOfView)
+CameraInfo CameraInfo::Perspective(float aspectRatio, float nearClipPlane, float farClipPlane, float fieldOfView,
+                                   Matrix4x4 worldToView, Vector3 cameraPosition, Color environment, float time)
 {
     CameraInfo cameraInfo{};
+    cameraInfo.viewToClip = Matrix4x4::Perspective(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
     cameraInfo.worldToView = worldToView;
     cameraInfo.cameraPosition = {cameraPosition, 1};
-    cameraInfo.viewToClip = Matrix4x4::Perspective(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
+    cameraInfo.environment = environment;
+    cameraInfo.Time = {time, 0, 0, 0};
     return cameraInfo;
 }

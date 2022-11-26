@@ -97,7 +97,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -168,7 +168,6 @@
     <ClCompile Include="..\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Extension\Debug.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Extension\String.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Extension\Vector.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\Object.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrBase.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.cpp" />
@@ -185,23 +184,261 @@
     <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\IOTransferer.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Serializer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Core\IOTransferer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Core\Serializer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Behavior\Animator.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Behavior\BehaviorEvent.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Behavior\Core\Behavior.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Framework\Core\Component.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Framework\Core\GameObject.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Framework\Core\ScriptableObject.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Framework\Core\ScriptableObjectEvent.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Core\Singleton.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Renderer\Core\Camera.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Renderer\Core\Light.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Renderer\Core\Renderer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Renderer\Core\RenderSettings.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Renderer\MeshRenderer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Renderer\RenderEvent.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Framework\Scene.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>Output\Object\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>Output\Object\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>Output\Object\</ModuleDependenciesFile>
+      <ModuleOutputFile>Output\Object\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>Output\Object\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>Output\Object\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>Output\Object\test.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>Output\Object\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>Output\Object\test.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>Output\Object\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <EnablePREfast>false</EnablePREfast>
+      <OmitFramePointers>false</OmitFramePointers>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
+    <ClCompile Include="..\include\BDXKEngine\Function\Assets\Assets.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Graphics.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Material.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Function\Assets\Assets.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Function\Random.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Function\Time.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Random\Random.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>Output\Object\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>Output\Object\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>Output\Object\</ModuleDependenciesFile>
+      <ModuleOutputFile>Output\Object\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>Output\Object\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>Output\Object\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>Output\Object\test.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>Output\Object\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>Output\Object\test.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>Output\Object\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <EnablePREfast>false</EnablePREfast>
+      <OmitFramePointers>false</OmitFramePointers>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
+    <ClCompile Include="..\include\BDXKEngine\Function\Time\Time.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>Output\Object\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>Output\Object\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>Output\Object\</ModuleDependenciesFile>
+      <ModuleOutputFile>Output\Object\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>Output\Object\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>Output\Object\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>Output\Object\test.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>Output\Object\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>Output\Object\test.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>Output\Object\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <EnablePREfast>false</EnablePREfast>
+      <OmitFramePointers>false</OmitFramePointers>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Cursor.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Input.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Screen.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Buffer\Buffer.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Platform\GL\GL.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\GL\Core\GL.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Mesh\Mesh.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Mesh\MeshImporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\GL\Shader\Command\Bleed.cpp" />
@@ -232,17 +469,6 @@
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\include\BDXKEngine\Base\Data\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\Object\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\Reflection\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\SerializationExtension\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\Serialization\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Function\Assets\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Platform\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Platform\Resources\ReadMe.md" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Color.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Rect.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Mathematics\Math.h" />
@@ -253,7 +479,6 @@
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Extension\Debug.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Extension\String.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Extension\Vector.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\Object.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtr.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrBase.h" />
@@ -272,24 +497,35 @@
     <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\IOTransferer.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Serializer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Core\IOTransferer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Core\Serializer.h" />
+    <ClInclude Include="..\include\BDXKEngine\BDXKEngine.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Behavior\Animator.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Behavior\BehaviorEvent.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Behavior\Core\Behavior.h" />
     <ClInclude Include="..\include\BDXKEngine\Framework\Core\Component.h" />
     <ClInclude Include="..\include\BDXKEngine\Framework\Core\GameObject.h" />
     <ClInclude Include="..\include\BDXKEngine\Framework\Core\ScriptableObject.h" />
-    <ClInclude Include="..\include\BDXKEngine\Framework\Core\ScriptableObjectEvent.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Core\Singleton.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Renderer\Core\Camera.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Renderer\Core\Light.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Renderer\Core\Renderer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Renderer\Core\RenderSettings.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Renderer\MeshRenderer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Renderer\RenderEvent.h" />
+    <ClInclude Include="..\include\BDXKEngine\Framework\Scene.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Assets\Assets.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Graphics.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Material.h" />
-    <ClInclude Include="..\include\BDXKEngine\Function\Assets\Assets.h" />
-    <ClInclude Include="..\include\BDXKEngine\Function\Random.h" />
-    <ClInclude Include="..\include\BDXKEngine\Function\Time.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Random\Random.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Time\Time.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Cursor.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Input.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Screen.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Buffer\Buffer.h" />
-    <ClInclude Include="..\include\BDXKEngine\Platform\GL\GL.h" />
-    <ClInclude Include="..\include\BDXKEngine\Platform\GL\GLLayout.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\GL\Core\GL.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\GL\Core\GLLayout.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Mesh\Mesh.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Mesh\MeshImporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Shader\Command\Blend.h" />
@@ -319,6 +555,20 @@
     <ClInclude Include="..\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\include\imgui\imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\include\BDXKEngine\Base\Data\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Object\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Reflection\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\SerializationExtension\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Serialization\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Framework\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Function\Assets\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Function\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Platform\GL\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Platform\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Platform\Resources\ReadMe.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,7 +39,7 @@ namespace BDXKEngine
     {
         Object::Awake();
 
-        const CD3D11_BUFFER_DESC desc(static_cast<unsigned int>(buffer.size()), static_cast<D3D11_BIND_FLAG>(target));
+        const CD3D11_BUFFER_DESC desc((buffer.size()), static_cast<D3D11_BIND_FLAG>(target));
         if (FAILED(GL::GetDevice()->CreateBuffer(&desc, nullptr, &glBuffer.p)))
             throw std::exception("创建缓冲区失败");
     }

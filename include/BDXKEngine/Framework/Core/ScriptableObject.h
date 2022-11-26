@@ -4,12 +4,63 @@
 
 namespace BDXKEngine
 {
+    class ScriptableObject;
+
+    class AwakeHandler
+    {
+        friend ScriptableObject;
+    public:
+        virtual ~AwakeHandler() = default;
+    protected:
+        virtual void OnAwake() = 0;
+    };
+
+    class DestroyHandler
+    {
+        friend ScriptableObject;
+    public:
+        virtual ~DestroyHandler() = default;
+    protected:
+        virtual void OnDestroy() = 0;
+    };
+
+    class EnableHandler
+    {
+        friend ScriptableObject;
+    public:
+        virtual ~EnableHandler() = default;
+    protected:
+        virtual void OnEnable() = 0;
+    };
+
+    class DisableHandler
+    {
+        friend ScriptableObject;
+    public:
+        virtual ~DisableHandler() = default;
+    protected:
+        virtual void OnDisable() = 0;
+    };
+
     //脚本能力有两层含义，1.提供基本的脚本事件，2.提供被其他脚本搜索的功能
     class ScriptableObject : public Object
     {
     public:
         template <typename TObject>
-        static std::vector<TObject*> FindScriptableObjectsOfType()
+        static std::vector<ObjectPtr<TObject>> FindScriptableObjectsOfType()
+        {
+            std::vector<ObjectPtr<TObject>> result{};
+            for (const auto& item : allScriptableObjects)
+            {
+                TObject* object = dynamic_cast<TObject*>(item);
+                if (object != nullptr)result.emplace_back(object);
+            }
+
+            return result;
+        }
+
+        template <typename TObject>
+        static std::vector<TObject*> FindScriptableObjectPtrsOfType()
         {
             std::vector<TObject*> result{};
             for (const auto& item : allScriptableObjects)
@@ -25,9 +76,9 @@ namespace BDXKEngine
         bool GetIsEnabling() const;
         void SetIsActivating(bool state);
         void SetIsEnabling(bool state);
-        
+
         bool IsActivatingAndEnabling() const;
-        
+
         void Transfer(Transferer& transferer) override;
     protected:
         virtual void Enable();
@@ -38,7 +89,7 @@ namespace BDXKEngine
         static std::unordered_set<ScriptableObject*> allScriptableObjects;
 
         bool isAwakened = false;
-        
+        bool isActivating = false;
         bool isEnabling = true;
     };
 }

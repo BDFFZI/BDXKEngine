@@ -8,7 +8,7 @@
 
 namespace BDXKEngine
 {
-    enum class ShaderType
+    enum class PassType
     {
         ForwardBase,
         ForwardAdd,
@@ -27,12 +27,13 @@ namespace BDXKEngine
     class Material : public Object
     {
     public:
-        static ObjectPtr<Material> Create(const std::vector<std::tuple<ObjectPtr<Shader>, ShaderType>>& shaders);
+        static ObjectPtr<Material> Create(const std::vector<std::tuple<ObjectPtr<Shader>, PassType>>& passes);
+        static void SetPassNull();
 
         RenderQueue GetRenderQueue() const;
-        int GetShaderCount() const;
-        ShaderType GetShaderType(int index) const;
-        const ObjectPtr<Shader>& GetShader(int index) const;
+        int GetPassCount() const;
+        PassType GetPassType(int index) const;
+        const ObjectPtr<Shader>& GetPass(int index) const;
 
         void SetRenderQueue(RenderQueue renderQueue);
         void SetFloat(int slotIndex, float value);
@@ -41,6 +42,7 @@ namespace BDXKEngine
         void SetTexture2D(int slotIndex, const ObjectPtr<Texture2D>& texture);
         /// 用当前材质的所有物填充渲染管线
         void SetPass(int shaderIndex);
+        bool SetPass(PassType shaderType);
     private:
         struct Parameters : Transferable
         {
@@ -49,7 +51,7 @@ namespace BDXKEngine
                 return sizeof(Parameters) - sizeof(std::uintptr_t);
             }
 
-            Vector4 float0_3;
+            Vector4 float0_3; //metallic,smoothness
             Vector4 float4_7;
             Vector4 vector0;
             Vector4 vector1;
@@ -57,7 +59,7 @@ namespace BDXKEngine
             Vector4 vector3;
             Vector4 vector4;
             Vector4 vector5;
-            Matrix4x4 matrix0;
+            Matrix4x4 matrix0; //objectToWorld
             Matrix4x4 matrix1;
             Matrix4x4 matrix2;
             Matrix4x4 matrix3;
@@ -85,14 +87,14 @@ namespace BDXKEngine
 
         // 渲染顺序
         RenderQueue renderQueue = RenderQueue::Geometry;
-        Parameters parameters;
         std::vector<ObjectPtr<Shader>> shaders;
-        std::vector<ShaderType> shaderTypes;
-        ObjectPtr<Texture2D> texture2D0;
+        std::vector<PassType> shaderTypes;
+        Parameters parameters;
+        ObjectPtr<Texture2D> texture2D0; //albedo
         ObjectPtr<Texture2D> texture2D1;
         ObjectPtr<Texture2D> texture2D2;
         ObjectPtr<Texture2D> texture2D3;
-        
+
         ObjectPtr<Buffer> parametersBuffer;
 
         void Transfer(Transferer& transferer) override;

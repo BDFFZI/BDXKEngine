@@ -41,6 +41,10 @@ namespace BDXKEngine
     }
 
 
+    float Vector3::GetSqrMagnitude() const
+    {
+        return x * x + y * y + z * z;
+    }
     float Vector3::GetMagnitude() const
     {
         return std::sqrtf(x * x + y * y + z * z);

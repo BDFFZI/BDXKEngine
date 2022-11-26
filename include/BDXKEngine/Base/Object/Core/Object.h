@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <vector>
-#include "BDXKEngine/Base/Serialization/Serializer.h"
+#include "BDXKEngine/Base/Serialization/Core/Serializer.h"
 #include "ObjectPtr.h"
 
 
@@ -55,6 +55,10 @@ namespace BDXKEngine
         int GetInstanceID() const;
         std::string GetName() const;
         void SetName(const std::string& name);
+
+        bool IsInstantiated() const;
+        bool IsDestroyed() const;
+
         void Transfer(Transferer& transferer) override;
     protected:
         virtual void Awake(); //代替构造函数
@@ -66,7 +70,7 @@ namespace BDXKEngine
         std::string name;
         int instanceID = 0; //0为空占位符,只有原生状态会使用
         //可以解决重复调用或循环调用的问题，是激活和销毁能以安全正确的顺序执行
-        bool isRunning = false;
-        bool isDestroying = false;
+        bool isInstantiated = false;
+        bool isDestroyed = false;
     };
 }

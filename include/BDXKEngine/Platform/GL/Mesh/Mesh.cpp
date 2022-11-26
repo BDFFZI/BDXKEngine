@@ -145,10 +145,10 @@ namespace BDXKEngine
         context->IASetIndexBuffer(triangleGLBuffer.p, DXGI_FORMAT_R16_UINT, 0);
     }
 
-    void Mesh::UploadMeshData()
+    void Mesh::UpdataMeshData() const
     {
-        vertexBuffer->SetData(reinterpret_cast<char*>(vertices.data()));
-        triangleBuffer->SetData(reinterpret_cast<char*>(triangles.data()));
+        vertexBuffer->SetData(vertices.data());
+        triangleBuffer->SetData(triangles.data());
     }
     void Mesh::ResetVerticesBuffer()
     {
@@ -172,6 +172,6 @@ namespace BDXKEngine
 
         ResetVerticesBuffer();
         ResetTrianglesBuffer();
-        UploadMeshData();
+        UpdataMeshData();
     }
 }

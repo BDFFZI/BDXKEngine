@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../GL.h"
+#include "../Core/GL.h"
 #include "Command/Cull.h"
 #include "Command/ZTest.h"
 #include "Command/Blend.h"

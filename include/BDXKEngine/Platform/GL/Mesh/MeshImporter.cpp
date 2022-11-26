@@ -21,7 +21,7 @@ namespace BDXKEngine
             mesh->SetNormals(normals);
             mesh->SetUVs(uvs);
             mesh->SetColors(colors);
-            mesh->UploadMeshData();
+            mesh->UpdataMeshData();
             return mesh;
         }
     };
@@ -30,7 +30,7 @@ namespace BDXKEngine
     {
         unsigned int fileLength = 0;
         unsigned int jsonLength = 0;
-        std::unique_ptr<char[]> json = nullptr;
+        std::string json = {};
         unsigned int bufferLength = 0;
         std::unique_ptr<char[]> buffer = nullptr;
 
@@ -39,13 +39,14 @@ namespace BDXKEngine
         fileData.read(reinterpret_cast<char*>(&fileLength), 4);
         fileData.read(reinterpret_cast<char*>(&jsonLength), 4);
         fileData.ignore(4);
-        fileData.read((json = std::unique_ptr<char[]>(new char[jsonLength])).get(), jsonLength);
+        json.resize(jsonLength);
+        fileData.read(json.data(), jsonLength);
         fileData.read(reinterpret_cast<char*>(&bufferLength), 4);
         fileData.ignore(4);
         fileData.read((buffer = std::unique_ptr<char[]>(new char[bufferLength])).get(), bufferLength);
 
         rapidjson::Document document = rapidjson::Document();
-        document.Parse(json.get(), jsonLength);
+        document.Parse(json.c_str(), jsonLength);
 
         rapidjson::Value& positionsAccessor = document["accessors"][document["meshes"][0]["primitives"][0]["attributes"]["POSITION"].
             GetUint()];

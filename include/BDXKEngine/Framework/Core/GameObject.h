@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include<vector>
 #include "ScriptableObject.h"
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
+#include "BDXKEngine/Base/Reflection/Reflection.h"
 
 namespace BDXKEngine
 {
@@ -11,6 +11,8 @@ namespace BDXKEngine
     class GameObject : public ScriptableObject
     {
     public:
+        static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject",const ObjectPtr<GameObject>& parent = nullptr);
+
         bool GetIsActivating() const override;
 
         ObjectPtr<GameObject> GetParent();

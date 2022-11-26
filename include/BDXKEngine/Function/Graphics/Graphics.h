@@ -4,6 +4,7 @@
 #include "BDXKEngine/Platform/GL/Mesh/Mesh.h"
 #include "BDXKEngine/Platform/GL/Texture/Texture2D.h"
 #include "BDXKEngine/Platform/GL/Texture/TextureCube.h"
+#include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEngine
 {
@@ -12,25 +13,21 @@ namespace BDXKEngine
     public:
         static void Initialize(Window* window);
 
-        static void UpdateWorldInfo(WorldInfo worldInfo);
-        static void UpdateCameraInfo(CameraInfo cameraInfo);
-        static void UpdateObjectInfo(ObjectInfo objectInfo);
-        static void UpdateLightInfo(LightInfo lightInfo, const ObjectPtr<Texture>& shadowMap);
+        static void SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox);
+        static void SetLightInfo(LightInfo lightInfo, const ObjectPtr<Texture>& shadowMap);
+        static void SetCameraInfoNull();
+        static void SetLightInfoNull();
 
         static void DrawMeshNow(const ObjectPtr<Mesh>& mesh);
         static void DrawTexture(const ObjectPtr<Texture2D>& texture, Rect screenRect);
-        static void Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest,
-                         const ObjectPtr<Material>& material = blitMaterial);
+        static void Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest, const ObjectPtr<Material>& material);
     private:
-        static ObjectPtr<Buffer> worldInfoBuffer;
         static ObjectPtr<Buffer> cameraInfoBuffer;
-        static ObjectPtr<Buffer> objectInfoBuffer;
         static ObjectPtr<Buffer> lightInfoBuffer;
 
         static Window* window;
         static ObjectPtr<Mesh> drawTextureMesh;
         static ObjectPtr<Texture2D> defaultTexture2D;
         static ObjectPtr<TextureCube> defaultTextureCube;
-        static ObjectPtr<Material> blitMaterial;
     };
 }

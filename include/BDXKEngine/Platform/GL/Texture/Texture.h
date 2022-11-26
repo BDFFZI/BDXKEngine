@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "TextureFormat.h"
 #include "BDXKEngine/Base/Object/Core/Object.h"
-#include "../GL.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector2.h"
+#include "../Core/GL.h"
 
 namespace BDXKEngine
 {

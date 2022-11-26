@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ObjectTransferer.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
-#include "BDXKEngine/Base/Serialization/Serializer.h"
+#include "BDXKEngine/Base/Serialization/Core/Serializer.h"
 #include "Core/ObjectPtrTransferer.h"
 #include "Guid/Guid.h"
 

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <sstream>
 #include "BDXKEngine/Base/Reflection/Transferer.h"
-#include "BDXKEngine/Base/Serialization/IOTransferer.h"
+#include "BDXKEngine/Base/Serialization/Core/IOTransferer.h"
 
 namespace BDXKEngine
 {

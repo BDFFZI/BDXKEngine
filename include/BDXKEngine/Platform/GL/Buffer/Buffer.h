@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/Core/Object.h"
-#include "../GL.h"
+#include "../Core/GL.h"
 
 namespace BDXKEngine
 {
