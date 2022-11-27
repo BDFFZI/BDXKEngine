@@ -1,6 +1,6 @@
 ﻿#include "JsonExporter.h"
 #include <rapidjson/prettywriter.h>
-#include "BDXKEngine/Base/Extension/String.h"
+#include "BDXKEngine/Base/Data/String/String.h"
 
 namespace BDXKEngine
 {

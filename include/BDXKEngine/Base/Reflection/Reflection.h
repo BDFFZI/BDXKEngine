@@ -26,7 +26,7 @@ namespace BDXKEngine
         template <typename Type>
         static const Reflection& GetReflection()
         {
-            return GetReflection(GetTypeIDOf<Type>());
+            return GetReflection(GetTypeOf<Type>());
         }
         static const Reflection& GetReflection(const Type& id);
         static const Reflection& GetReflection(const Reflective* reflective);

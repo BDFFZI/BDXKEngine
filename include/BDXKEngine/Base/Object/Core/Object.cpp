@@ -5,10 +5,7 @@
 
 namespace BDXKEngine
 {
-    int Object::instanceIDCount = 0;
-    std::map<int, Object*> Object::allObjects = {};
-
-    std::map<int, Object*> Object::GetAllObjects()
+    std::map<int, Object*> Object::GetObjects()
     {
         return allObjects;
     }
@@ -26,6 +23,7 @@ namespace BDXKEngine
     void Object::Instantiate(ObjectPtrBase& objectPtr)
     {
         if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
+        if (objectPtr->name.empty()) objectPtr->name = objectPtr->GetType();
 
         //获取关联物体
         ObjectPtrTransferer referenceTransferer = {objectPtr.GetInstanceID()};

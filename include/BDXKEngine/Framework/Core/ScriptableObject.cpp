@@ -48,13 +48,6 @@ namespace BDXKEngine
 
     void ScriptableObject::Enable()
     {
-        if (isAwakened == false)
-        {
-            if (const auto handler = dynamic_cast<AwakeHandler*>(this); handler != nullptr)
-                handler->OnAwake();
-            isAwakened = true;
-        }
-
         if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
             handler->OnEnable();
 
@@ -77,11 +70,18 @@ namespace BDXKEngine
 
         isActivating = GetIsActivating();
 
+        if (isActivating == true)
+        {
+            if (const auto handler = dynamic_cast<AwakeHandler*>(this); handler != nullptr)
+                handler->OnAwake();
+            isAwakened = true;
+        }
+
         if (IsActivatingAndEnabling())Enable();
     }
     void ScriptableObject::Destroy()
     {
-        if (isAwakened)
+        if (isAwakened == true)
         {
             if (const auto handler = dynamic_cast<DestroyHandler*>(this); handler != nullptr)
                 handler->OnDestroy();

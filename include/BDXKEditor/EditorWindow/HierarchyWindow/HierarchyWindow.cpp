@@ -1,23 +1,26 @@
 ﻿#include "HierarchyWindow.h"
-#include "InspectorWindow.h"
-#include "BDXKEditor/EditorSystem.h"
-#include "BDXKEngine/Base/Serialization/Json/JsonWriter.h"
+#include <rapidjson/document.h>
+#include "imgui/imgui.h"
 
 
 namespace BDXKEditor
 {
+    void HierarchyWindow::SetClickGameObjectEvent(const std::function<void(const ObjectPtr<GameObject>&)>& clickGameObjectEvent)
+    {
+        this->clickGameObjectEvent = clickGameObjectEvent;
+    }
     void HierarchyWindow::DrawGameObject(const ObjectPtr<GameObject>& gameObject, float offsetX)
     {
         const int instanceID = gameObject->GetInstanceID();
         const std::string name = gameObject->GetName();
-        const ObjectPtr<Transform> transform = gameObject->GetTransform();
-        const int childCount = transform->GetChildCount();
+        const int childCount = gameObject->GetChildCount();
 
 
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offsetX);
 
         static char checkboxID[30];
-        int length = sprintf_s(checkboxID, "##%s_isSpread", name.c_str());
+        const int length = sprintf_s(checkboxID, "##%s_isSpread", name.c_str());
+        if (length > 30)throw std::exception("物体名称过长");
         isSpreads[instanceID] = ImGui::CollapsingHeader(
             checkboxID,
             ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen | (childCount == 0 ? ImGuiTreeNodeFlags_Leaf : 0));
@@ -25,10 +28,8 @@ namespace BDXKEditor
         //按钮
         ImGui::SameLine();
         ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetColorU32(ImGuiCol_Button, gameObject->IsActivatingAndEnabling() ? 1 : 0.3f));
-        if (ImGui::Button(name.c_str()))
-        {
-            EditorSystem::SetFocusing(gameObject);
-        }
+        if (ImGui::Button(name.c_str()) && clickGameObjectEvent != nullptr)
+            clickGameObjectEvent(gameObject);
         ImGui::PopStyleColor();
         //拖拽
         if (ImGui::BeginDragDropSource())
@@ -43,7 +44,7 @@ namespace BDXKEditor
                 const ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
                 const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
                 if (droppingGameObject.IsNotNull())
-                    droppingGameObject->GetTransform()->SetParent(transform);
+                    droppingGameObject->SetParent(gameObject);
             }
             ImGui::EndDragDropTarget();
         }
@@ -51,45 +52,30 @@ namespace BDXKEditor
         if (isSpreads[instanceID])
         {
             for (int i = 0; i < childCount; i++)
-                DrawGameObject(transform->GetChild(i)->GetGameObject(), offsetX + 30);
+                DrawGameObject(gameObject->GetChild(i), offsetX + 30);
         }
     }
 
     void HierarchyWindow::OnGUI()
     {
-        if (ImGui::Button("保存"))
-        {
-            rapidjson::Document document;
-            document.Parse("{}");
-            JsonWriter writer(document);
-
-            Serialization* serializable = EditorSystem::GetMainScene().ToObjectBase();
-            serializable->Transfer(writer);
-
-            Debug::Log(writer.ToString());
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("加载"))
-        {
-        }
-        ImGui::SameLine();
-        ImGui::Button("孤儿箱");
+        ImGui::Button("Isolate");
         if (ImGui::BeginDragDropTarget())
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
             {
-                ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
+                const ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
                 const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
                 if (droppingGameObject.IsNotNull())
-                    droppingGameObject->GetTransform()->SetParent(nullptr);
+                    droppingGameObject->SetParent(nullptr);
             }
             ImGui::EndDragDropTarget();
         }
 
-        const std::vector<ObjectPtr<Transform>> rootTransforms = TransformManager::GetRootTransforms();
-        for (const ObjectPtr<Transform>& transform : rootTransforms)
+        const std::vector<ObjectPtr<GameObject>> gameObjects = GameObject::GetGameObjects();
+        for (const ObjectPtr<GameObject>& gameObject : gameObjects)
         {
-            DrawGameObject(transform->GetGameObject(), 0);
+            if (gameObject->GetParent().IsNull())
+                DrawGameObject(gameObject, 0);
         }
     }
 }

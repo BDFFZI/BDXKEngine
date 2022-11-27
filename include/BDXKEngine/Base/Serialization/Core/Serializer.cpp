@@ -21,7 +21,7 @@ namespace BDXKEngine
     {
         //解析类型信息
         importer.Reset(input);
-        const Type type = Reflective::GetTypeID(importer);
+        const Type type = Reflective::GetType(importer);
 
         //创建实例
         auto* result = Reflection::GetReflection(type).GetConstruction<Reflective>();

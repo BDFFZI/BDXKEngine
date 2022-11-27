@@ -1,53 +1,50 @@
-#include <iostream>
-#include "BDXKEngine/BDXKEngine.h"
-#include "BDXKEngine/Framework/Core/Component.h"
-#include "BDXKEngine/Framework/Renderer/Core/Camera.h"
+// #include "BDXKEngine/Framework/Renderer/Core/Camera.h"
 
-using namespace BDXKEngine;
+// using namespace BDXKEngine;
 
+#include "BDXKEditor/BDXKEditor.h"
 int main()
 {
-    //Run([]() { return Scene::CreateDefault(); });
+    BDXKEditor::Run();
+    
+    // Window window{L"BDXKEngine"};
+    //
+    // {
+    //     auto a = GameObject::Create("A");
+    //     auto b = GameObject::Create("B", a);
+    //     GL::Initialize(&window);
+    //     GUI::Initialize(&window);
+    //     Component::Create<Camera>(a);
+    //     Component::Create<Camera>(b);
+    //     Texture::ResetDefaultRenderTarget();
+    //     window.AddRenewEvent([&]()
+    //     {
+    //         //渲染
+    //         Texture::SetRenderTargetDefault();
+    //         GL::Clear(true, true, Color::clear);
+    //
+    //         //UI
+    //         GUI::BeginDraw();
+    //         ImGui::ShowDemoWindow();
+    //         if (ImGui::Button("A"))
+    //         {
+    //             a->SetIsEnabling(!a->GetIsEnabling());
+    //         }
+    //         if (ImGui::Button("B"))
+    //         {
+    //             b->SetIsEnabling(!b->GetIsEnabling());
+    //         }
+    //         GUI::EndDraw();
+    //
+    //         GL::Present();
+    //     });
+    //
+    //     window.Show();
+    //
+    //     Object::DestroyImmediate(a);
+    // }
 
-
-    Window window{L"BDXKEngine"};
-
-    {
-        auto a = GameObject::Create("A");
-        auto b = GameObject::Create("B", a);
-        GL::Initialize(&window);
-        GUI::Initialize(&window);
-        Component::Create<Camera>(a);
-        Component::Create<Camera>(b);
-        Texture::ResetDefaultRenderTarget();
-        window.AddRenewEvent([&]()
-        {
-            //渲染
-            Texture::SetRenderTargetDefault();
-            GL::Clear(true, true, Color::clear);
-
-            //UI
-            GUI::BeginDraw();
-            ImGui::ShowDemoWindow();
-            if (ImGui::Button("A"))
-            {
-                a->SetIsEnabling(!a->GetIsEnabling());
-            }
-            if (ImGui::Button("B"))
-            {
-                b->SetIsEnabling(!b->GetIsEnabling());
-            }
-            GUI::EndDraw();
-
-            GL::Present();
-        });
-
-        window.Show();
-
-        Object::DestroyImmediate(a);
-    }
-
-    getchar();
+    // getchar();
 }
 
 // {

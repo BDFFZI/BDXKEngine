@@ -5,29 +5,27 @@
 
 namespace BDXKEngine
 {
-    template <typename TIOTransferer>
-    class ObjectTransferer : public TIOTransferer
+    template <typename TTransferer>
+    class ObjectTransferer : public TTransferer
     {
     protected:
-        void TransferObjectPtrBase(ObjectPtrBase& value)
-        {
-            throw std::exception("ObjectPtrBase的传输方式未定义");
-        }
-        CustomTransferFunc(ObjectPtrBase, TransferObjectPtrBase)
-
         std::function<void(void*, const Type&)> GetTransferFuncFallback(const Type& type) override
         {
+            if (this->IsContainTransferFunc(GetTypeOf<ObjectPtrBase>()) == false) throw std::exception("ObjectPtrBase的传送方式未定义");
             if (type.find("ObjectPtr") != std::string::npos && type.find("std::vector") == std::string::npos)
             {
                 return [this](void* value, const Type& type)
                 {
-                    if (this->IsImporter())*static_cast<std::uintptr_t*>(value) = *reinterpret_cast<std::uintptr_t*>(&null);
+                    IOTransferer* ioTransferer = dynamic_cast<IOTransferer*>(this);
+                    if (ioTransferer != nullptr && ioTransferer->IsImporter())
+                        *static_cast<std::uintptr_t*>(value) = *reinterpret_cast<std::uintptr_t*>(&null);
+
                     const auto objectPtrBase = static_cast<ObjectPtrBase*>(value);
-                    this->TransferValue(objectPtrBase, GetTypeIDOf<ObjectPtrBase>());
+                    this->TransferValue(objectPtrBase, GetTypeOf<ObjectPtrBase>());
                 };
             }
 
-            return TIOTransferer::GetTransferFuncFallback(type);
+            return TTransferer::GetTransferFuncFallback(type);
         }
         int GetTypeSizeFallback(const Type& type) override
         {
@@ -36,7 +34,7 @@ namespace BDXKEngine
                 return sizeof(ObjectPtr<Object>);
             }
 
-            return TIOTransferer::GetTypeSizeFallback(type);
+            return TTransferer::GetTypeSizeFallback(type);
         }
     private:
         ObjectPtr<Object> null;

@@ -33,7 +33,7 @@ namespace BDXKEngine
         return lights;
     }
 
-    LightType Light::GetType() const
+    LightType Light::GetLightType() const
     {
         return lightType;
     }

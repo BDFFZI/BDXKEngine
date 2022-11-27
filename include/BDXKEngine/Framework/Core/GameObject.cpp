@@ -7,13 +7,19 @@
 
 namespace BDXKEngine
 {
+    std::vector<ObjectPtr<GameObject>> GameObject::gameObjects;
+
     ObjectPtr<GameObject> GameObject::Create(const std::string& name, const ObjectPtr<GameObject>& parent)
     {
         ObjectPtr gameObject = new GameObject();
-        Reflection::GetReflection(GetTypeIDOf<GameObject>()).GetFieldOf<std::string>(gameObject.ToObjectBase(), "name") = name;
+        Reflection::GetReflection(GetTypeOf<GameObject>()).GetFieldOf<std::string>(gameObject.ToObjectBase(), "name") = name;
         Instantiate(gameObject);
         if (parent.IsNotNull()) gameObject->SetParent(parent);
         return gameObject;
+    }
+    const std::vector<ObjectPtr<GameObject>>& GameObject::GetGameObjects()
+    {
+        return gameObjects;
     }
     bool GameObject::GetIsActivating() const
     {
@@ -110,8 +116,9 @@ namespace BDXKEngine
         RenewEulerAngles();
         RenewPositionAndMatrix();
 
-        if (oldActivating != newparent->GetIsActivating())
-            SetIsActivating(!oldActivating);
+        const bool newActivating = newparent.IsNotNull() ? newparent->GetIsActivating() : GetIsActivating();
+        if (oldActivating != newActivating)
+            SetIsActivating(newActivating);
     }
     void GameObject::SetLocalPosition(Vector3 value)
     {
@@ -133,7 +140,6 @@ namespace BDXKEngine
         RenewScale();
         RenewPositionAndMatrix();
     }
-
     void GameObject::RenewPositionAndMatrix(bool renewChild)
     {
         position = parent.IsNull() ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
@@ -207,7 +213,7 @@ namespace BDXKEngine
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);
 
-        const Reflection gameObjectReflection = Reflection::GetReflection(GetTypeIDOf<GameObject>());
+        const Reflection gameObjectReflection = Reflection::GetReflection(GetTypeOf<GameObject>());
         for (ObjectPtr<GameObject>& child : children)
         {
             if (child->GetParent() != this)
@@ -218,7 +224,7 @@ namespace BDXKEngine
             }
         }
 
-        const Reflection componentReflection = Reflection::GetReflection(GetTypeIDOf<Component>());
+        const Reflection componentReflection = Reflection::GetReflection(GetTypeOf<Component>());
         for (ObjectPtr<Component>& component : components)
         {
             if (component->GetGameObject() != this)
@@ -228,9 +234,13 @@ namespace BDXKEngine
                 Instantiate(component);
             }
         }
+
+        gameObjects.emplace_back(this);
     }
     void GameObject::Destroy()
     {
+        std::erase(gameObjects, this);
+
         for (const ObjectPtr<GameObject>& child : std::vector{children})
             DestroyImmediate(child);
         children.clear();

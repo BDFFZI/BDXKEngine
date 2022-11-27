@@ -13,6 +13,10 @@ namespace BDXKEngine
         const int size = typeSizes[type];
         return size != 0 ? size : GetTypeSizeFallback(type);
     }
+    bool Transferer::IsContainTransferFunc(const Type& type) const
+    {
+        return transferFuncs.contains(type);
+    }
 
     void Transferer::PushPath(const std::string& key)
     {

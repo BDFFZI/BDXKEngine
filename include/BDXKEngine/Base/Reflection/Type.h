@@ -7,12 +7,12 @@ namespace BDXKEngine
     typedef std::string Type;
 
     template <typename T>
-    Type GetTypeIDOf()
+    Type GetTypeOf()
     {
         return typeid(T).name();
     }
     template <typename T>
-    Type GetTypeID(const T& value)
+    Type GetType(const T& value)
     {
         return typeid(value).name();
     }

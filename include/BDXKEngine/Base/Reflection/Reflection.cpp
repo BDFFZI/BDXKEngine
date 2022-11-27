@@ -28,7 +28,7 @@ namespace BDXKEngine
     }
     const Reflection& Reflection::GetReflection(const Reflective* reflective)
     {
-        return GetReflection(reflective->GetTypeID());
+        return GetReflection(reflective->GetType());
     }
 
     Reflection::Reflection(const std::function<Reflective*()>& constructor, int size)
@@ -45,7 +45,7 @@ namespace BDXKEngine
         ReflectionTransferer reflecttransferer = {*reflective, *this};
         reflective->Transfer(reflecttransferer);
         //注册反射
-        reflections[reflective->GetTypeID()] = this;
+        reflections[reflective->GetType()] = this;
 
         delete reflective;
     }

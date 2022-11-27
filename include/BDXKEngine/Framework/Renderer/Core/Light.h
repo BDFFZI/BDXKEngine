@@ -22,7 +22,7 @@ namespace BDXKEngine
 
         LightInfo GetLightInfo(int order = 0) const;
         ObjectPtr<Texture> GetShadowMap() const;
-        LightType GetType() const;
+        LightType GetLightType() const;
         Color GetColor() const;
         float GetIntensity() const;
 

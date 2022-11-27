@@ -1,14 +1,14 @@
 ﻿#pragma once
-#include "Editor.h"
-#include "BDXKEngine/Base/Object/ObjectPtr.h"
+#include "BDXKEngine/Framework/Core/GameObject.h"
+#include "Core/Editor.h"
 
 namespace BDXKEditor
 {
     class GameObjectEditor : public Editor
     {
-    public:
+    protected:
         void OnInspectorGUI() override;
-    private:
-        std::unordered_map<int, ObjectPtr<Editor>> editors;
     };
+
+    CustomEditor(GameObject, GameObjectEditor)
 }

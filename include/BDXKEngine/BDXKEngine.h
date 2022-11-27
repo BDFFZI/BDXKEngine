@@ -1,14 +1,5 @@
 ﻿#pragma once
-#include "Framework/Scene.h"
-#include "Framework/Behavior/BehaviorEvent.h"
-#include "Framework/Renderer/RenderEvent.h"
-#include "Function/Assets/Assets.h"
-#include "Function/Graphics/Graphics.h"
-#include "Function/Time/Time.h"
-#include "Function/Window/Cursor.h"
-#include "Function/Window/Input.h"
-#include "Function/Window/Screen.h"
-#include "Platform/GUI/GUI.h"
+#include <functional>
 
 //C++匈牙利表示法，允许组合使用
 //W 宽，如wchar_t,以处理Unicode中utf-16,注意现在都用这个
@@ -39,35 +30,5 @@
 
 namespace BDXKEngine
 {
-    inline void Run(const std::function<ObjectPtr<Scene>()>& loadScene)
-    {
-        if (std::setlocale(LC_ALL, "zh-CN.UTF-8") == nullptr) // NOLINT(concurrency-mt-unsafe)
-            throw std::exception("设置本地化失败");
-        
-        //平台层
-        Window window{L"BDXKEngine"};
-        GL::Initialize(&window);
-        GUI::Initialize(&window);
-        //功能层
-        Assets::Initialize(&window);
-        //框架层
-        Graphics::Initialize(&window);
-        Screen::Initialize(&window);
-        Cursor::Initialize(&window);
-        Input::Initialize(&window);
-        Time::Initialize(&window);
-        BehaviorEvent::Initialize(&window);
-        RenderEvent::Initialize(&window);
-
-        {
-            //正式循环
-            const auto scene = loadScene();
-            window.Show();
-        }
-
-        // Debug::LogError("系统回收检查");
-        // BDXKObject::DebugObjectCount();
-        // ObjectPtrBase::PrintRefCountMap();
-        // BehaviorManager::DebugHandlersCount();
-    }
+    void Run(const std::function<void()>& onStart);
 }

@@ -6,9 +6,9 @@ namespace BDXKEngine
     class Reflective : public Transferable
     {
     public:
-        static Type GetTypeID(Transferer& transferer);
+        static Type GetType(Transferer& transferer);
 
-        Type GetTypeID() const;
+        Type GetType() const;
 
         void Transfer(Transferer& transferer) override;
 

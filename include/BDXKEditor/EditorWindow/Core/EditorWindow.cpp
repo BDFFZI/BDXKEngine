@@ -1,5 +1,5 @@
-﻿#include "imgui/imgui.h"
-#include "EditorWindow.h"
+﻿#include "EditorWindow.h"
+#include "imgui/imgui.h"
 
 
 namespace BDXKEditor
@@ -8,15 +8,13 @@ namespace BDXKEditor
     {
         SetIsEnabling(true);
     }
-
-
+    
     void EditorWindow::OnGUI()
     {
     }
-
     void EditorWindow::OnDrawGUI()
     {
-        ImGui::Begin(this->GetTypeID().c_str());
+        ImGui::Begin(this->GetType().c_str());
 
         OnGUI();
 

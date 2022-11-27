@@ -1,7 +1,7 @@
 ﻿#include "TextureImporter.h"
 #include <wincodec.h>
 
-#include "BDXKEngine/Base/Extension/String.h"
+#include "BDXKEngine/Base/Data/String/String.h"
 
 namespace BDXKEngine
 {

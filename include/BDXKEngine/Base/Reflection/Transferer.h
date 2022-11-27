@@ -33,10 +33,11 @@ namespace BDXKEngine
         
         std::function<void(void*, const Type&)> GetTransferFunc(const Type& type);
         int GetTypeSize(const Type& type);
+        bool IsContainTransferFunc(const Type& type) const;
         template <typename TValue>
         void SetTransferFunc(std::function<void(TValue& value)> func)
         {
-            const Type type = GetTypeIDOf<TValue>();
+            const Type type = GetTypeOf<TValue>();
             transferFuncs[type] = [=](void* value, const Type&)
             {
                 TValue* target = static_cast<TValue*>(value);
@@ -44,7 +45,7 @@ namespace BDXKEngine
             };
             typeSizes[type] = sizeof(TValue);
         }
-
+        
         virtual void PushPath(const std::string& key);
         virtual void PopPath(std::string& key);
         void TransferNested(std::string key, Transferable& value);
@@ -73,7 +74,7 @@ namespace BDXKEngine
         template <typename TTransfer, typename TSource>
         void TransferValueOf(TSource& value)
         {
-            TransferValue(&value, GetTypeIDOf<TTransfer>());
+            TransferValue(&value, GetTypeOf<TTransfer>());
         }
         template <typename TSource>
         void TransferValue(TSource& value)

@@ -21,7 +21,7 @@ namespace BDXKEngine
     class Object : public Reflective
     {
     public:
-        static std::map<int, Object*> GetAllObjects();
+        static std::map<int, Object*> GetObjects();
 
         Object();
         ~Object() override;
@@ -64,8 +64,8 @@ namespace BDXKEngine
         virtual void Awake(); //代替构造函数
         virtual void Destroy(); //代替析构函数
     private:
-        static int instanceIDCount;
-        static std::map<int, Object*> allObjects; //内存中的所有Object，包括未激活的Object
+        inline static int instanceIDCount = 0;
+        inline static std::map<int, Object*> allObjects = {}; //内存中的所有Object，包括未激活的Object
 
         std::string name;
         int instanceID = 0; //0为空占位符,只有原生状态会使用

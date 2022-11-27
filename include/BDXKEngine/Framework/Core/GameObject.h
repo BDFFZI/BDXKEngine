@@ -12,6 +12,7 @@ namespace BDXKEngine
     {
     public:
         static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject",const ObjectPtr<GameObject>& parent = nullptr);
+        static const std::vector<ObjectPtr<GameObject>>& GetGameObjects();
 
         bool GetIsActivating() const override;
 
@@ -42,21 +43,23 @@ namespace BDXKEngine
         Vector3 GetRight() const;
         Vector3 GetUp() const;
         Vector3 GetFront() const;
-
+        
         void SetParent(const ObjectPtr<GameObject>& parent);
         void SetLocalPosition(Vector3 value);
         void SetLocalEulerAngles(Vector3 value);
         void SetLocalScale(Vector3 value);
-
+        
         void AddComponent(const ObjectPtr<Component>& component);
         void RemoveComponent(const ObjectPtr<Component>& component);
-    protected:
         void Transfer(Transferer& transferer) override;
+    protected:
         void Awake() override;
         void Destroy() override;
         void Enable() override;
         void Disable() override;
     private:
+        static std::vector<ObjectPtr<GameObject>> gameObjects;
+        
         Vector3 position = Vector3::zero;
         Vector3 eulerAngles = Vector3::zero;
         Vector3 scale = Vector3::one;

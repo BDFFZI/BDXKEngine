@@ -36,22 +36,21 @@ namespace BDXKEngine
         }
 
         //UI渲染
-        // {
-        //     Texture::SetRenderTargetDefault();
-        //     GUI::BeginDraw();
-        //
-        //     //绘制后期物体
-        //     for (const auto drawGizmosHandler : drawGizmosHandlers)
-        //         drawGizmosHandler->OnDrawGizmos();
-        //
-        //     //绘制UI
-        //     for (const auto drawGUIHandler : drawGUIHandlers)
-        //         drawGUIHandler->OnDrawGUI();
-        //
-        //     GUI::EndDraw();
-        // }
-
-
+        {
+            Texture::SetRenderTargetDefault();
+            GUI::BeginDraw();
+        
+            //绘制后期物体
+            for (const auto drawGizmosHandler : drawGizmosHandlers)
+                drawGizmosHandler->OnDrawGizmos();
+        
+            //绘制UI
+            for (const auto drawGUIHandler : drawGUIHandlers)
+                drawGUIHandler->OnDrawGUI();
+        
+            GUI::EndDraw();
+        }
+        
         GL::Present();
     }
 }
