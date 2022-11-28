@@ -10,8 +10,8 @@ Pixel VertexPass(Vertex vertex)
 {
     Pixel pixed;
 
-    pixed.positionWS = TransformObjectToWorld(vertex.position);
-    pixed.positionCS = TransformWorldToClip(pixed.positionWS);
+    pixed.positionCS = TransformWorldToClip(vertex.position);
+    pixed.positionWS = mul(matrix0, float4(pixed.positionCS.xy,1,1));
 
     return pixed;
 }

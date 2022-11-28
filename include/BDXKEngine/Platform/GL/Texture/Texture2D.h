@@ -9,7 +9,7 @@ namespace BDXKEngine
     {
     public:
         static ObjectPtr<Texture2D> Create(Color color);
-        static ObjectPtr<Texture2D> Create(int width, int height, TextureFormat textureFormat = TextureFormat::B8G8R8A8_UNORM);
+        static ObjectPtr<Texture2D> Create(int width, int height, TextureFormat textureFormat);
         static ObjectPtr<Texture2D> Create(int widthf, int heightf, TextureFormat textureFormat, const char* pixels);
 
         void SetRenderTarget() const;

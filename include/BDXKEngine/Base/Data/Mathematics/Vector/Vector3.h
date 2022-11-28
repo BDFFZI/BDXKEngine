@@ -43,6 +43,7 @@ namespace BDXKEngine
         bool operator==(Vector3 value) const;
         bool operator!=(Vector3 value) const;
         Vector3 operator+=(Vector3 value);
+        Vector3 operator*=(float value);
         Vector3 operator/=(float value);
     };
 }

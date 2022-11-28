@@ -21,7 +21,7 @@ namespace BDXKEngine
     class Object : public Reflective
     {
     public:
-        static std::map<int, Object*> GetObjects();
+        static const std::map<int, Object*>& GetObjects();
 
         Object();
         ~Object() override;

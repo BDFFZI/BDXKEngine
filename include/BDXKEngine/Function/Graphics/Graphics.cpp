@@ -17,11 +17,16 @@ namespace BDXKEngine
     ObjectPtr<Texture2D> Graphics::defaultTexture2D = nullptr;
     ObjectPtr<TextureCube> Graphics::defaultTextureCube = nullptr;
 
+    CameraInfo LastCameraInfo;
+    ObjectPtr<TextureCube> LastSkybox;
     void Graphics::SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox)
     {
         cameraInfoBuffer->SetData(&cameraInfo);
         if (skybox.IsNotNull()) skybox->SetPass(4);
         else defaultTextureCube->SetPass(4);
+
+        LastCameraInfo = cameraInfo;
+        LastSkybox = skybox;
     }
     void Graphics::SetCameraInfoNull()
     {
@@ -79,11 +84,15 @@ namespace BDXKEngine
         });
         drawTextureMesh->UpdataMeshData();
 
+        //TODO 矩阵堆栈
+        const CameraInfo lastCameraInfo = LastCameraInfo;
+        const ObjectPtr<TextureCube> lastSkybox = LastSkybox;
+
         SetCameraInfo(
             CameraInfo::Orthographic(
                 screenSize.x / screenSize.y, 0, 1, screenSize.y,
                 Matrix4x4::identity, Vector3::zero, Color::black, 0
-            ), nullptr
+            ), lastSkybox
         );
         if (texture.IsNotNull())
         {
@@ -92,6 +101,8 @@ namespace BDXKEngine
             Texture::SetPassNull(0);
         }
         else DrawMeshNow(drawTextureMesh);
+
+        SetCameraInfo(lastCameraInfo, lastSkybox);
     }
     void Graphics::Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest, const ObjectPtr<Material>& blitMaterial)
     {
@@ -114,8 +125,8 @@ namespace BDXKEngine
         cameraInfoBuffer->SetPass(1);
         lightInfoBuffer->SetPass(2);
 
-        defaultTexture2D = Texture2D::Create(1, 1);
-        defaultTextureCube = TextureCube::Create(1, 1);
+        defaultTexture2D = Texture2D::Create(1, 1, TextureFormat::B8G8R8A8_UNORM);
+        defaultTextureCube = TextureCube::Create(1, 1, TextureFormat::B8G8R8A8_UNORM);
         drawTextureMesh = Mesh::Create();
         drawTextureMesh->SetTriangles({
             0, 1, 3,

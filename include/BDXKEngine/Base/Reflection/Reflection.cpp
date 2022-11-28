@@ -1,5 +1,7 @@
 ﻿#include "Reflection.h"
 
+#include <ranges>
+
 namespace BDXKEngine
 {
     ReflectionTransferer::ReflectionTransferer(const Reflective& reflective, Reflection& reflection):
@@ -13,10 +15,15 @@ namespace BDXKEngine
     {
         currentKey = key;
     }
-    void ReflectionTransferer::TransferValue(void* value, const Type& typeID)
+    void ReflectionTransferer::TransferValue(void* value, const Type& type)
     {
         const int addressOffset = static_cast<int>(reinterpret_cast<std::uintptr_t>(value) - origin);
-        if (addressOffset >= 0 && addressOffset < length)reflection.fields[currentKey] = addressOffset;
+        if (addressOffset >= 0 && addressOffset < length)
+        {
+            reflection.fieldName.emplace_back(currentKey);
+            reflection.fieldPos.emplace_back(addressOffset);
+            reflection.fieldType.emplace_back(type);
+        }
     }
 
     const Reflection& Reflection::GetReflection(const Type& id)
@@ -49,7 +56,7 @@ namespace BDXKEngine
 
         delete reflective;
     }
-    
+
     int Reflection::GetSize() const
     {
         return size;
@@ -64,9 +71,25 @@ namespace BDXKEngine
     }
     void* Reflection::GetField(Reflective* target, const std::string& key) const
     {
-        const auto& item = fields.find(key);
-        if (item == fields.end()) throw std::exception((key + "的字段信息未定义").c_str());
+        const auto& item = std::ranges::find(fieldName, key);
+        if (item == fieldName.end()) throw std::exception((key + "的字段信息未定义").c_str());
 
-        return reinterpret_cast<char*>(target) + item->second;
+        return reinterpret_cast<char*>(target) + fieldPos[(item - fieldName.begin())];
+    }
+    int Reflection::GetFields(Reflective* target, std::vector<std::string>& names, std::vector<void*>& values,
+                              std::vector<Type>& types) const
+    {
+        names.clear();
+        values.clear();
+        types.clear();
+        const int count = static_cast<int>(fieldName.size());
+        for (int i = 0; i < count; i++)
+        {
+            names.emplace_back(fieldName.at(i));
+            values.emplace_back(reinterpret_cast<char*>(target) + fieldPos.at(i));
+            types.emplace_back(fieldType.at(i));
+        }
+
+        return count;
     }
 }

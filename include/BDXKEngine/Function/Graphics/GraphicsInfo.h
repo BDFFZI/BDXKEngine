@@ -41,7 +41,7 @@ namespace BDXKEngine
 
         int lightIndex = {};
         LightType lightType = {};
-        Vector2 null;
+        Vector2 null = {};
     };
 
     static_assert((sizeof(LightInfo) % 16) == 0, "常量缓冲区大小必须是16字节的倍数");

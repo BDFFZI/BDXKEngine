@@ -11,7 +11,7 @@ namespace BDXKEditor
     }
     void GUITransferer::PushPath(const std::string& key)
     {
-        if (isInPath)
+        if (isInPath && fieldName.c_str()[0] != '#')
         {
             ImGui::Text(fieldName.c_str());
             isInPath = false;
@@ -56,11 +56,14 @@ namespace BDXKEditor
         Vector4 row1 = value.GetRow(1);
         Vector4 row2 = value.GetRow(2);
         Vector4 row3 = value.GetRow(3);
-
-        TransferVector4(row0);
-        TransferVector4(row1);
-        TransferVector4(row2);
-        TransferVector4(row3);
+        ImGui::DragFloat4((GetFieldID() + "1").c_str(), reinterpret_cast<float*>(&row0), 0.05f);
+        ImGui::DragFloat4((GetFieldID() + "2").c_str(), reinterpret_cast<float*>(&row1), 0.05f);
+        ImGui::DragFloat4((GetFieldID() + "3").c_str(), reinterpret_cast<float*>(&row2), 0.05f);
+        ImGui::DragFloat4((GetFieldID() + "4").c_str(), reinterpret_cast<float*>(&row3), 0.05f);
+        value.SetRow(0, row0);
+        value.SetRow(1, row1);
+        value.SetRow(2, row2);
+        value.SetRow(3, row3);
     }
     void GUITransferer::TransferColor(Color& value) const
     {

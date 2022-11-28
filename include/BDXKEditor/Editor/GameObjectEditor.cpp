@@ -7,7 +7,7 @@ namespace BDXKEditor
 {
     void GameObjectEditor::OnInspectorGUI()
     {
-        Transferer* gui = GetGui();
+        Transferer* gui = GetGUITransferer();
         auto* target = GetTarget().ToObject<GameObject>();
         const Reflection reflection = Reflection::GetReflection<GameObject>();
 
@@ -32,7 +32,7 @@ namespace BDXKEditor
             for (int index = 0; index < count; index++)
             {
                 auto* component = components[index].ToObject<Component>();
-                std::string path = "Component " + std::to_string(index);
+                std::string path = "##Component" + std::to_string(index);
                 gui->PushPath(path);
                 ImGui::Separator();
                 ImGui::Separator();
@@ -45,7 +45,7 @@ namespace BDXKEditor
                 gui->TransferField("Name", reflection.GetFieldOf<std::string>(component, "name"));
 
                 //自定义面板
-                Editor* editor = GetEditor(component->GetType());
+                Editor* editor = GetEditor(*component);
                 editor->SetTarget(components[index]);
                 editor->SetGui(gui);
                 editor->DrawInspectorGUI();

@@ -32,7 +32,7 @@ namespace BDXKEngine
         bool operator !=(const ObjectPtrBase& other) const;
         ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr);
     protected:
-        static std::map<int, int> refCountMap;
+        inline static std::map<int, int> refCountMap = {};
 
         int instanceID = 0;
 

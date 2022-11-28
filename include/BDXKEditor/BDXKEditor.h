@@ -11,12 +11,9 @@ namespace BDXKEditor
     class EditorSystem : public Component, public AwakeHandler, public DestroyHandler, public DrawGUIHandler
     {
     public:
-
         static const ObjectPtr<SceneWindow>& GetSceneView();
         static const ObjectPtr<HierarchyWindow>& GetHierarchyView();
         static const ObjectPtr<InspectorWindow>& GetInspectorView();
-
-
     private:
         static ObjectPtr<SceneWindow> sceneView;
         static ObjectPtr<HierarchyWindow> hierarchyView;
@@ -27,6 +24,7 @@ namespace BDXKEditor
         void OnAwake() override;
         void OnDestroy() override;
     };
+    CustomReflection(EditorSystem)
 
     void TestLight();
     void Run();

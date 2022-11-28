@@ -98,7 +98,7 @@ namespace BDXKEngine
 
             for (int index = 0; index < 6; index++)
             {
-                shadowMapCube->SetPass(index);
+                shadowMapCube->SetRenderTarget(index);
                 GL::Clear(true, true);
 
                 lightInfo.worldToLightView = Matrix4x4::TRS(gameObject->GetPosition(), rotations[index], Vector3::one).GetInverse();
@@ -157,8 +157,8 @@ namespace BDXKEngine
     {
         Component::Awake();
 
-        shadowMap = Texture2D::Create(1024, 1024);
-        shadowMapCube = TextureCube::Create(512, 512);
+        shadowMap = Texture2D::Create(2048, 2048, TextureFormat::R32G32B32A32_FLOAT);
+        shadowMapCube = TextureCube::Create(512, 512, TextureFormat::R32G32B32A32_FLOAT);
     }
     void Light::Destroy()
     {

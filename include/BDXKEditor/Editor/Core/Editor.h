@@ -9,18 +9,18 @@ namespace BDXKEditor
     class Editor
     {
     public:
-        static Editor* GetEditor(const Type& type);
+        static Editor* GetEditor(const Reflective& reflective);
         template <typename TObject, typename TEditor>
         static void SetEditor()
         {
             editors[GetTypeOf<TObject>()] = new TEditor();
         }
 
-        static void SetGetEditorFallback(const std::function<Editor*(const Type&)>& getEditorFallback);
+        static void AddEditorFallback(const std::function<Editor*(const Reflective&)>& getEditorFallback);
 
         virtual ~Editor() = default;
         const ObjectPtrBase& GetTarget() const;
-        Transferer* GetGui() const;
+        Transferer* GetGUITransferer() const;
 
         void SetTarget(const ObjectPtrBase& target);
         void SetGui(Transferer* gui);
@@ -31,7 +31,7 @@ namespace BDXKEditor
         virtual void OnInspectorGUI();
         virtual void OnSceneGUI();
     private:
-        static std::function<Editor*(const Type&)> getEditorFallback;
+        inline static std::vector<std::function<Editor*(const Reflective&)>> getEditorFallback = {};
         static std::unordered_map<Type, Editor*> editors;
 
         ObjectPtrBase target = nullptr;
@@ -45,7 +45,12 @@ namespace BDXKEditor
         {
             Editor::SetEditor<TObject, TEditor>();
         }
+        CustomEditorLauncher(std::function<Editor*(const Reflective&)> func)
+        {
+            Editor::AddEditorFallback(func);
+        }
     };
 
 #define CustomEditor(TObject,TEditor) inline CustomEditorLauncher<TObject,TEditor> CustomEditor##TObject = {};
+#define CustomEditorFallback(func) inline static CustomEditorLauncher<void,void> CustomEditorFallback##func = {func};
 }

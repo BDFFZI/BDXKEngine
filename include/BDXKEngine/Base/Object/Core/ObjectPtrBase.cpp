@@ -6,8 +6,6 @@
 
 namespace BDXKEngine
 {
-    std::map<int, int> ObjectPtrBase::refCountMap = {};
-
     void ObjectPtrBase::PrintRefCountMap()
     {
         std::stringstream stream = {};

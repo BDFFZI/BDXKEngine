@@ -3,27 +3,28 @@
 namespace BDXKEditor
 {
     std::unordered_map<Type, Editor*> Editor::editors = {};
-    std::function<Editor*(const Type&)> Editor::getEditorFallback = [](const Type&) { return nullptr; };
-    Editor* defaultEditor = new Editor();
 
-    Editor* Editor::GetEditor(const Type& type)
+    Editor defaultEditor;
+    Editor* Editor::GetEditor(const Reflective& reflective)
     {
+        const Type type = reflective.GetType();
         if (editors.contains(type))
             return editors[type];
-        if (Editor* editor = getEditorFallback(type); editor != nullptr)
-            return editor;
+        for (auto& func : getEditorFallback)
+            if (Editor* editor = func(reflective); editor != nullptr)
+                return editor;
 
-        return defaultEditor;
+        return &defaultEditor;
     }
-    void Editor::SetGetEditorFallback(const std::function<Editor*(const Type&)>& getEditorFallback)
+    void Editor::AddEditorFallback(const std::function<Editor*(const Reflective&)>& getEditorFallback)
     {
-        Editor::getEditorFallback = getEditorFallback;
+        Editor::getEditorFallback.push_back(getEditorFallback);
     }
     const ObjectPtrBase& Editor::GetTarget() const
     {
         return target;
     }
-    Transferer* Editor::GetGui() const
+    Transferer* Editor::GetGUITransferer() const
     {
         return gui;
     }

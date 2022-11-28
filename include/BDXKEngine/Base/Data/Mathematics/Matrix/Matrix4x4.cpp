@@ -78,7 +78,7 @@ namespace BDXKEngine
     }
     Matrix4x4 Matrix4x4::Perspective(float fieldOfView, float aspectRatio, float nearClipPlane, float farClipPlane)
     {
-        const float unitClipPlaneHalfHeight = std::tan(Deg2Rad(fieldOfView / 2));
+        const float unitClipPlaneHalfHeight = std::tan(fieldOfView / 2 * Deg2Rad());
         //裁剪面的作用是使当深度等于远截面时最终深度恰好为1，等于近截面时恰好为0
         //而最终深度计算结果=(az+b)/z
         //故我们的目标便是求该式中的a和b
@@ -98,6 +98,44 @@ namespace BDXKEngine
     {
         //矩阵的计算顺序是从右到左[Translate(Rotate(Scale(vector)))]
         return Translate(position) * Rotate(eulerAngles) * Scale(scale);
+    }
+    void Matrix4x4::DecomposeTRS(Matrix4x4 matrix4X4, Vector3& position, Vector3& eulerAngles, Vector3& scale)
+    {
+        position = static_cast<Vector3>(matrix4X4.GetColumn(3));
+        const Matrix4x4 sqrScaleMatrix = matrix4X4.GetTranspose() * matrix4X4;
+        scale = Vector3(sqrt(sqrScaleMatrix.m00), sqrt(sqrScaleMatrix.m11), sqrt(sqrScaleMatrix.m22));
+        const Matrix4x4 rotationMatrix = matrix4X4 * Scale(Vector3(1 / scale.x, 1 / scale.y, 1 / scale.z));
+        if (abs(abs(rotationMatrix.m12) - 1) > 0.0001f) //A(Sinx) != 1,CosX != 0
+        {
+            //cosX为负?
+            eulerAngles.y = atan2(rotationMatrix.m02, rotationMatrix.m22);
+            eulerAngles.z = atan2(rotationMatrix.m10, rotationMatrix.m11);
+            const float cosX = abs(rotationMatrix.m02) > 0.0001f
+                                   ? rotationMatrix.m02 / sin(eulerAngles.y)
+                                   : rotationMatrix.m22 / cos(eulerAngles.y);
+            eulerAngles.x = cosX > 0
+                                ? asin(-rotationMatrix.m12)
+                                : static_cast<float>(M_PI) - asin(-rotationMatrix.m12);
+        }
+        else //Abs(Sinx) == 1,CosX == 0
+        {
+            if (-rotationMatrix.m12 > 0)
+            {
+                const float yMinusZ = atan2(rotationMatrix.m01, rotationMatrix.m00);
+                eulerAngles.z = 0;
+                eulerAngles.y = yMinusZ;
+                eulerAngles.x = static_cast<float>(M_PI / 2);
+            }
+            else
+            {
+                const float yAddZ = atan2(-rotationMatrix.m01, rotationMatrix.m00);
+                eulerAngles.z = 0;
+                eulerAngles.y = yAddZ;
+                eulerAngles.x = static_cast<float>(-M_PI / 2);
+            }
+        }
+
+        eulerAngles *= Rad2Deg();
     }
 
     Matrix4x4::Matrix4x4()
@@ -241,6 +279,20 @@ namespace BDXKEngine
         };
 
         return matrix;
+    }
+    void Matrix4x4::SetRow(int row, Vector4 vector4)
+    {
+        reinterpret_cast<float*>(this)[0 * 4 + row] = vector4.x;
+        reinterpret_cast<float*>(this)[1 * 4 + row] = vector4.y;
+        reinterpret_cast<float*>(this)[2 * 4 + row] = vector4.z;
+        reinterpret_cast<float*>(this)[3 * 4 + row] = vector4.w;
+    }
+    void Matrix4x4::SetColumn(int column, Vector4 vector4)
+    {
+        reinterpret_cast<float*>(this)[column * 4 + 0] = vector4.x;
+        reinterpret_cast<float*>(this)[column * 4 + 1] = vector4.y;
+        reinterpret_cast<float*>(this)[column * 4 + 2] = vector4.z;
+        reinterpret_cast<float*>(this)[column * 4 + 3] = vector4.w;
     }
     Vector3 Matrix4x4::MultiplyVector(Vector3 value) const
     {

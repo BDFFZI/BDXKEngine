@@ -108,6 +108,10 @@ namespace BDXKEngine
     {
         return *this = *this + value;
     }
+    Vector3 Vector3::operator*=(float value)
+    {
+        return *this = *this * value;
+    }
     Vector3 Vector3::operator/=(float value)
     {
         return *this = *this / value;

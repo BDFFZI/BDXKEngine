@@ -27,4 +27,6 @@ namespace BDXKEngine
 
         void OnUpdate() override;
     };
+    
+    CustomReflection(Animator)
 }

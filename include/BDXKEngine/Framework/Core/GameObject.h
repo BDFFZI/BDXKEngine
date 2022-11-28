@@ -13,6 +13,7 @@ namespace BDXKEngine
     public:
         static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject",const ObjectPtr<GameObject>& parent = nullptr);
         static const std::vector<ObjectPtr<GameObject>>& GetGameObjects();
+        static  ObjectPtr<GameObject> Find(const std::string& name);
 
         bool GetIsActivating() const override;
 

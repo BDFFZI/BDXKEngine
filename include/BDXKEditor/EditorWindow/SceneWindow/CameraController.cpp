@@ -2,18 +2,22 @@
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Function/Window/Cursor.h"
 #include "BDXKEngine/Function/Window/Input.h"
-#include "imgui/imgui.h"
 
 
 namespace BDXKEngine
 {
+    bool CameraController::IsControlling() const
+    {
+        return isControlling;
+    }
     void CameraController::OnStart()
     {
         transform = GetGameObject();
     }
     void CameraController::OnUpdate()
     {
-        if (Input::GetMouseButton(1))
+        isControlling = Input::GetMouseButton(1);
+        if (isControlling)
         {
             Vector3 position = transform->GetLocalPosition();
             const float deltaTime = Time::GetDeltaTime();

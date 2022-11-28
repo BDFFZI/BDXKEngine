@@ -15,6 +15,7 @@ namespace BDXKEngine
         static Matrix4x4 Ortho(float halfWidth, float halfHeight, float nearClipPlane, float farClipPlane);
         static Matrix4x4 Perspective(float fieldOfView, float aspectRatio, float nearClipPlane, float farClipPlane);
         static Matrix4x4 TRS(Vector3 position, Vector3 eulerAngles, Vector3 scale);
+        static void DecomposeTRS(Matrix4x4 matrix4X4, Vector3& position, Vector3& eulerAngles, Vector3& scale);
 
         float m00, m10, m20, m30;
         float m01, m11, m21, m31;
@@ -35,6 +36,10 @@ namespace BDXKEngine
         float GetDeterminant();
         Matrix4x4 GetInverse();
         Matrix4x4 GetTranspose() const;
+
+        void SetRow(int row, Vector4 vector4);
+        void SetColumn(int column, Vector4 vector4);
+
         Vector3 MultiplyVector(Vector3 value) const;
         Vector3 MultiplyPoint(Vector3 value) const;
 

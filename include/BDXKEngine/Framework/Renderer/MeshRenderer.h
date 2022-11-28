@@ -12,4 +12,6 @@ namespace BDXKEngine
     private:
         ObjectPtr<Mesh> mesh;
     };
+
+    CustomReflection(MeshRenderer)
 }

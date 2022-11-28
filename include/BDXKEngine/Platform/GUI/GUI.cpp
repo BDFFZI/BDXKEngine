@@ -3,6 +3,8 @@
 #include <imgui/imgui_impl_win32.h>
 #include <ImGuizmo/ImGuizmo.h>
 
+#include "imgui/imgui_internal.h"
+
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -12,23 +14,29 @@ namespace BDXKEngine
     {
         return texture->GetShaderResourceView();
     }
+    bool GUI::IsDockTabVisible()
+    {
+        return ImGui::GetCurrentWindow()->DockTabIsVisible;
+    }
+
     void GUI::Initialize(Window* window)
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
         ImGui::StyleColorsDark();
+        ImGui_ImplWin32_Init(window->GetHwnd());
+        ImGui_ImplDX11_Init(GL::GetDevice(), GL::GetDeviceContext());
 
+        ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
         // 中文支持
         // io.Fonts->AddFontFromFileTTF(
         //     "C:/Windows/Fonts/simkai.ttf", 18.0f, nullptr,
         //     io.Fonts->GetGlyphRangesChineseFull()
         // );
 
-        ImGui_ImplWin32_Init(window->GetHwnd());
-        ImGui_ImplDX11_Init(GL::GetDevice(), GL::GetDeviceContext());
+        ImGuizmo::AllowAxisFlip(false);
+        ImGuizmo::SetGizmoSizeClipSpace(0.2f);
 
         window->AddNativeEvent(ImGui_ImplWin32_WndProcHandler);
 

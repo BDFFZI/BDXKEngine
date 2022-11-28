@@ -15,7 +15,7 @@ namespace BDXKEditor
     {
         if (target.IsNotNull())
         {
-            Editor* editor = Editor::GetEditor(target->GetType());
+            Editor* editor = Editor::GetEditor(*target.ToObjectBase());
             editor->SetGui(&gui);
             editor->SetTarget(target);
             editor->DrawInspectorGUI();

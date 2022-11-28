@@ -1,4 +1,7 @@
 ﻿#include "BDXKEngine.h"
+
+#include <ranges>
+
 #include "Framework/Scene.h"
 #include "Framework/Behavior/BehaviorEvent.h"
 #include "Framework/Renderer/RenderEvent.h"
@@ -38,8 +41,11 @@ namespace BDXKEngine
             window.Show();
         }
 
-        for (const ObjectPtr<GameObject>& gameObject : std::vector{GameObject::GetGameObjects()})
-            Object::DestroyImmediate(gameObject);
+        std::vector<ObjectPtrBase> objectPtrBases = {};
+        for (const auto& item : GameObject::GetObjects() | std::ranges::views::values)
+            objectPtrBases.emplace_back(item);
+        for (const auto& item : objectPtrBases)
+            Object::DestroyImmediate(item);
 
         // Debug::LogError("系统回收检查");
         // BDXKObject::DebugObjectCount();

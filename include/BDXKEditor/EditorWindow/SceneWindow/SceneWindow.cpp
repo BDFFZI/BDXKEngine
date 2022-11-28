@@ -2,7 +2,6 @@
 #include "CameraController.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Function/Time/Time.h"
-#include "BDXKEngine/Function/Window/Input.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "ImGuizmo/ImGuizmo.h"
 
@@ -15,11 +14,11 @@ namespace BDXKEditor
 
     void SceneWindow::OnAwake()
     {
-        const ObjectPtr<GameObject> editorCameraGameObject = Creation::CreateCamera("EditorCamera");
-        Component::Create<CameraController>(editorCameraGameObject);
+        const ObjectPtr<GameObject> editorCameraGameObject = Creation::CreateCamera(":SceneWindow");
 
         camera = editorCameraGameObject->GetComponent<Camera>();
-        cameraTexture = Texture2D::Create(960, 540);
+        cameraTexture = Texture2D::Create(960, 540, TextureFormat::B8G8R8A8_UNORM);
+        cameraController = Component::Create<CameraController>(editorCameraGameObject);
         viewSize = {960, 540};
 
         camera->SetRenderTarget(cameraTexture);
@@ -30,7 +29,7 @@ namespace BDXKEditor
         //更新渲染纹理大小
         if (cameraTexture->GetSize() != viewSize && viewSize.x * viewSize.y > 0)
         {
-            cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt());
+            cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
             camera->SetRenderTarget(cameraTexture);
         }
 
@@ -46,8 +45,35 @@ namespace BDXKEditor
             cameraTexture->GetSize()
         );
         ImGui::SetCursorPos(cursorPos);
-        //绘制小物件
+        //手柄选项
+        static constexpr char optionsName[4][10] = {"Bounds", "Position", "Rotation", "Scale"};
+        static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::BOUNDS, ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
+        const float width = ImGui::GetContentRegionAvail().x / 4 - 10;
+        static int handleMode = 1;
+        for (int i = 0; i < 4; i++)
         {
+            ImGui::SetCursorPos(cursorPos + Vector2{(width + 10) * static_cast<float>(i), 0.0f});
+            if (ImGui::Selectable(optionsName[i], handleMode == i, 0, Vector2{width, 0.0f}))
+                handleMode = i;
+        }
+        //帧率信息
+        ImGui::Text(
+            "Rate %.3f ms/frame (%.1f FPS)",
+            static_cast<double>(Time::GetDeltaTime() * 1000.0f),
+            static_cast<double>(1.0f / Time::GetDeltaTime())
+        );
+
+        cameraController->SetIsEnabling(ImGui::IsWindowHovered());
+        if (ImGui::IsWindowHovered() && cameraController->IsControlling() == false)
+        {
+            if (ImGui::IsKeyDown(ImGuiKey_Q))handleMode = 0;
+            if (ImGui::IsKeyDown(ImGuiKey_W))handleMode = 1;
+            if (ImGui::IsKeyDown(ImGuiKey_E))handleMode = 2;
+            if (ImGui::IsKeyDown(ImGuiKey_R))handleMode = 3;
+        }
+        if (GUI::IsDockTabVisible())
+        {
+            //绘制小物件
             CameraInfo cameraInfo = camera->GetCameraInfo();
             ImGuizmo::SetRect(viewPosition.x, viewPosition.y, viewSize.x, viewSize.y);
             ImGuizmo::SetOrthographic(false);
@@ -61,60 +87,29 @@ namespace BDXKEditor
                     10
                 );
             }
-
             //绘制手柄
+            if (target.IsNotNull())
             {
-                //选项
-                const float width = ImGui::GetContentRegionAvail().x / 3 - 10;
-                static constexpr char optionsName[3][10] = {"Position", "Rotation", "Scale"};
-                static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
-                static int selected = 0;
-                for (int i = 0; i < 3; i++)
-                {
-                    ImGui::SetCursorPos(cursorPos + Vector2{(width + 10) * static_cast<float>(i), 0.0f});
-                    if (ImGui::Selectable(optionsName[i], selected == i, 0, Vector2{width, 0.0f}))
-                        selected = i;
-                }
-                if (ImGui::IsKeyDown(ImGuiKey_W))selected = 0;
-                if (ImGui::IsKeyDown(ImGuiKey_E))selected = 1;
-                if (ImGui::IsKeyDown(ImGuiKey_R))selected = 2;
+                Matrix4x4 objectToWorld = target->GetLocalToWorldMatrix();
+                Manipulate(
+                    reinterpret_cast<float*>(&cameraInfo.worldToView),
+                    reinterpret_cast<float*>(&cameraInfo.viewToClip),
+                    options[handleMode], ImGuizmo::LOCAL,
+                    reinterpret_cast<float*>(&objectToWorld)
+                );
 
-                //绘制手柄
-                if (target.IsNotNull())
-                {
-                    Matrix4x4 objectToWorld = target->GetLocalToWorldMatrix();
-                    Manipulate(
-                        reinterpret_cast<float*>(&cameraInfo.worldToView),
-                        reinterpret_cast<float*>(&cameraInfo.viewToClip),
-                        options[selected], ImGuizmo::LOCAL,
-                        reinterpret_cast<float*>(&objectToWorld)
-                    );
-                    switch (selected)
-                    {
-                    case 0:
-                        target->SetLocalPosition(static_cast<Vector3>(objectToWorld.GetColumn(3)));
-                        break;
-                    case 1:
-                        {
-                            //TODO 解码旋转
-                        }
-                        break;
-                    case 2:
-                        {
-                            Matrix4x4 sqrScale = objectToWorld.GetTranspose() * objectToWorld;
-                            target->SetLocalScale({sqrt(sqrScale.m00), sqrt(sqrScale.m11), sqrt(sqrScale.m22)});
-                            break;
-                        }
-                    default: throw std::exception("数值越界");
-                    }
-                }
+                Vector3 position;
+                Vector3 rotation;
+                Vector3 scale;
+                ObjectPtr<GameObject> parent = target->GetParent();
+                Matrix4x4::DecomposeTRS(
+                    parent.IsNull() ? objectToWorld : parent->GetWorldToLocalMatrix() * objectToWorld,
+                    position, rotation, scale
+                );
+                target->SetLocalPosition(position);
+                target->SetLocalEulerAngles(rotation);
+                target->SetLocalScale(scale);
             }
         }
-        //绘制帧率信息
-        ImGui::Text(
-            "Rate %.3f ms/frame (%.1f FPS)",
-            static_cast<double>(Time::GetDeltaTime() * 1000.0f),
-            static_cast<double>(1.0f / Time::GetDeltaTime())
-        );
     }
 }

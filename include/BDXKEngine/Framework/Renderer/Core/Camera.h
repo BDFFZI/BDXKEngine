@@ -47,7 +47,6 @@ namespace BDXKEngine
         
         ObjectPtr<Texture2D> renderTarget = {};
         ClearFlags clearFlags = ClearFlags::Color;
-    private:
         Projection projection = Projection::Perspective;
         Color background = Color::gray;
         float nearClipPlane = 0.3f;
@@ -60,4 +59,6 @@ namespace BDXKEngine
         void Enable() override;
         void Disable() override;
     };
+
+    CustomReflection(Camera)
 }

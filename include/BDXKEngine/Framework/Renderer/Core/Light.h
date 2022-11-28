@@ -46,4 +46,6 @@ namespace BDXKEngine
         void Awake() override;
         void Destroy() override;
     };
+
+    CustomReflection(Light)
 }

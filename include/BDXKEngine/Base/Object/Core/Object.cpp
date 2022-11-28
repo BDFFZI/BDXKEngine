@@ -5,7 +5,7 @@
 
 namespace BDXKEngine
 {
-    std::map<int, Object*> Object::GetObjects()
+    const std::map<int, Object*>& Object::GetObjects()
     {
         return allObjects;
     }

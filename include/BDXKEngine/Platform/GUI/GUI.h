@@ -15,6 +15,7 @@ namespace BDXKEngine
     {
     public:
         static ImTextureID GetImTextureID(const ObjectPtr<Texture2D>& texture);
+        static bool IsDockTabVisible();
         static void Initialize(Window* window);
         static void BeginDraw();
         static void EndDraw();

@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "Reflective.h"
 
 namespace BDXKEngine
@@ -11,7 +12,7 @@ namespace BDXKEngine
         ReflectionTransferer(const Reflective& reflective, Reflection& reflection);
 
         void PushPath(const std::string& key) override;
-        void TransferValue(void* value, const Type& typeID) override;
+        void TransferValue(void* value, const Type& type) override;
 
         std::uintptr_t origin;
         int length;
@@ -37,6 +38,7 @@ namespace BDXKEngine
         Reflective* GetConstruction() const;
         std::uintptr_t GetVirtualTable() const;
         void* GetField(Reflective* target, const std::string& key) const;
+        int GetFields(Reflective* target, std::vector<std::string>& names, std::vector<void*>& values, std::vector<Type>& types) const;
 
         template <typename T>
         T* GetConstruction() const
@@ -54,12 +56,14 @@ namespace BDXKEngine
         int size = 0;
         std::function<Reflective*()> constructor;
         std::uintptr_t virtualTable;
-        std::unordered_map<std::string, int> fields;
+        std::vector<std::string> fieldName;
+        std::vector<int> fieldPos;
+        std::vector<Type> fieldType;
     };
 
     //请确保注册类已继承Reflective并存在无参构造函数
 #define CustomReflection(target) inline Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
 #define CustomReflectionInClass(target) static Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
-    
+
     CustomReflection(Reflective)
 }

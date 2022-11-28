@@ -9,8 +9,12 @@ namespace BDXKEngine
     {
         return abs(a - b) < 0.0001f;
     }
-    inline float Deg2Rad(float degree)
+    inline float Deg2Rad()
     {
-        return degree / 180 * static_cast<float>(M_PI);
+        return static_cast<float>(M_PI) / 180;
+    }
+    inline float Rad2Deg()
+    {
+        return 180 / static_cast<float>(M_PI);
     }
 }

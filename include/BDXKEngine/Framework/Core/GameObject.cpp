@@ -21,6 +21,11 @@ namespace BDXKEngine
     {
         return gameObjects;
     }
+    ObjectPtr<GameObject> GameObject::Find(const std::string& name)
+    {
+        const auto result = std::ranges::find_if(gameObjects, [name](auto& item) { return item->GetName() == name; });
+        return result == gameObjects.end() ? nullptr : *result;
+    }
     bool GameObject::GetIsActivating() const
     {
         if (parent != nullptr)
