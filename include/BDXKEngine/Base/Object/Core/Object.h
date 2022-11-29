@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <map>
+#include <ranges>
 #include <vector>
 #include "BDXKEngine/Base/Serialization/Core/Serializer.h"
 #include "ObjectPtr.h"
@@ -42,9 +44,9 @@ namespace BDXKEngine
         static std::vector<TObject*> FindObjectsOfType()
         {
             std::vector<TObject*> result{};
-            for (auto& item : allObjects)
+            for (auto& value : allObjects | std::views::values)
             {
-                TObject* object = dynamic_cast<TObject*>(item.second);
+                TObject* object = dynamic_cast<TObject*>(value);
                 if (object != nullptr)result.emplace_back(object);
             }
 

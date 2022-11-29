@@ -10,18 +10,11 @@ namespace BDXKEngine
     class Component : public ScriptableObject
     {
     public:
+        static ObjectPtr<Component> Create(const ObjectPtr<GameObject>& gameObject, const Type& type);
         template <typename TComponent>
-        static ObjectPtr<TComponent> Create(const ObjectPtr<GameObject> gameObject)
+        static ObjectPtr<TComponent> Create(const ObjectPtr<GameObject>& gameObject)
         {
-            ObjectPtr component = new TComponent();
-            if (component.template ToObject<Component>() == nullptr)
-                throw std::exception("TComponent并不是组件类型");
-
-            component->gameObject = gameObject;
-            gameObject->AddComponent(component.template ToObjectPtr<Component>());
-            Instantiate(component);
-
-            return component;
+            return Create(gameObject, GetTypeOf<TComponent>()).ToObjectPtr<TComponent>();
         }
 
         bool GetIsActivating() const override;

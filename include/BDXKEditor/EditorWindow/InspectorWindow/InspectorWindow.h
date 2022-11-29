@@ -1,9 +1,7 @@
 ﻿#pragma once
-#include "GUITransferer.h"
 #include "../Core/EditorWindow.h"
 #include "BDXKEditor/Editor/Core/Editor.h"
 #include "BDXKEngine/Base/Object/ObjectTransferer.h"
-
 
 namespace BDXKEditor
 {

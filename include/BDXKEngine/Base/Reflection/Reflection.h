@@ -31,31 +31,39 @@ namespace BDXKEngine
         }
         static const Reflection& GetReflection(const Type& id);
         static const Reflection& GetReflection(const Reflective* reflective);
+        static int GetReflections(std::vector<Reflection*>& reflections,
+                                  std::function<bool(const Reflection&)> condition = [](const Reflection&) { return true; }
+        );
 
         Reflection(const std::function<Reflective*()>& constructor, int size);
-
+        
+        Type GetType() const;
         int GetSize() const;
         Reflective* GetConstruction() const;
-        std::uintptr_t GetVirtualTable() const;
-        void* GetField(Reflective* target, const std::string& key) const;
-        int GetFields(Reflective* target, std::vector<std::string>& names, std::vector<void*>& values, std::vector<Type>& types) const;
-
         template <typename T>
         T* GetConstruction() const
         {
             return dynamic_cast<T*>(GetConstruction());
         }
+        std::uintptr_t GetVirtualTable() const;
+        void* GetField(Reflective* target, const std::string& key) const;
         template <typename T>
         T& GetFieldOf(Reflective* target, const std::string& key) const
         {
             return *static_cast<T*>(GetField(target, key));
         }
+        int GetFields(Reflective* target, std::vector<std::string>& names, std::vector<void*>& values, std::vector<Type>& types) const;
+        template <typename T>
+        bool IsType() const
+        {
+            return dynamic_cast<T*>(instance) != nullptr;
+        }
     private:
         inline static std::unordered_map<Type, Reflection*> reflections = {}; //必须提前在头文件中定义，以便在触发宏时能确保容器已初始化
 
         int size = 0;
+        Reflective* instance;
         std::function<Reflective*()> constructor;
-        std::uintptr_t virtualTable;
         std::vector<std::string> fieldName;
         std::vector<int> fieldPos;
         std::vector<Type> fieldType;

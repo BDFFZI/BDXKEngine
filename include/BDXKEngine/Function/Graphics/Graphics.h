@@ -18,8 +18,8 @@ namespace BDXKEngine
         static void SetCameraInfoNull();
         static void SetLightInfoNull();
 
-        static void DrawMeshNow(const ObjectPtr<Mesh>& mesh);
-        static void DrawTexture(const ObjectPtr<Texture2D>& texture, Rect screenRect);
+        static void DrawMesh(const ObjectPtr<Mesh>& mesh);
+        static void DrawRect(Rect screenRect);
         static void Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest, const ObjectPtr<Material>& material);
     private:
         static ObjectPtr<Buffer> cameraInfoBuffer;

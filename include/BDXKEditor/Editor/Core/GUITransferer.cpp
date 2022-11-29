@@ -80,17 +80,17 @@ namespace BDXKEditor
     }
     void GUITransferer::TransferObjectPtrBase(const ObjectPtrBase& value) const
     {
-        const Object* object = value.ToObjectBase();
-        if (object == nullptr)
+        std::string name = value.GetType();
+        name = name.substr(name.find("ObjectPtr"));
+        if (value.IsNull())
         {
-            ImGui::Button(GetFieldID("nullptr").c_str());
+            ImGui::Button(GetFieldID(name + " nullptr").c_str());
             ImGui::SameLine();
             ImGui::Text(GetFieldName().c_str());
         }
         else
         {
-            const std::string typeID = object->GetType();
-            if (ImGui::Button(GetFieldID(typeID + " " + std::to_string(value.GetInstanceID())).c_str()))
+            if (ImGui::Button(GetFieldID(name + " " + std::to_string(value.GetInstanceID())).c_str()))
                 if (clickObjectEvent != nullptr) clickObjectEvent(value);
             ImGui::SameLine();
             ImGui::Text(GetFieldName().c_str());

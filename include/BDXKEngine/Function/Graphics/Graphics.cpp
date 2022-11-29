@@ -17,16 +17,11 @@ namespace BDXKEngine
     ObjectPtr<Texture2D> Graphics::defaultTexture2D = nullptr;
     ObjectPtr<TextureCube> Graphics::defaultTextureCube = nullptr;
 
-    CameraInfo LastCameraInfo;
-    ObjectPtr<TextureCube> LastSkybox;
     void Graphics::SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox)
     {
         cameraInfoBuffer->SetData(&cameraInfo);
         if (skybox.IsNotNull()) skybox->SetPass(4);
         else defaultTextureCube->SetPass(4);
-
-        LastCameraInfo = cameraInfo;
-        LastSkybox = skybox;
     }
     void Graphics::SetCameraInfoNull()
     {
@@ -60,12 +55,12 @@ namespace BDXKEngine
         defaultTextureCube->SetPass(6);
     }
 
-    void Graphics::DrawMeshNow(const ObjectPtr<Mesh>& mesh)
+    void Graphics::DrawMesh(const ObjectPtr<Mesh>& mesh)
     {
         mesh->SetPass();
         GL::Render(mesh->GetTrianglesCount());
     }
-    void Graphics::DrawTexture(const ObjectPtr<Texture2D>& texture, Rect screenRect)
+    void Graphics::DrawRect(Rect screenRect)
     {
         const ObjectPtr<Texture> renderTarget = Texture::GetRenderTarget();
         Vector2 screenSize;
@@ -84,33 +79,23 @@ namespace BDXKEngine
         });
         drawTextureMesh->UpdataMeshData();
 
-        //TODO 矩阵堆栈
-        const CameraInfo lastCameraInfo = LastCameraInfo;
-        const ObjectPtr<TextureCube> lastSkybox = LastSkybox;
-
-        SetCameraInfo(
-            CameraInfo::Orthographic(
-                screenSize.x / screenSize.y, 0, 1, screenSize.y,
-                Matrix4x4::identity, Vector3::zero, Color::black, 0
-            ), lastSkybox
-        );
-        if (texture.IsNotNull())
-        {
-            texture->SetPass(0);
-            DrawMeshNow(drawTextureMesh);
-            Texture::SetPassNull(0);
-        }
-        else DrawMeshNow(drawTextureMesh);
-
-        SetCameraInfo(lastCameraInfo, lastSkybox);
+        DrawMesh(drawTextureMesh);
     }
     void Graphics::Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest, const ObjectPtr<Material>& blitMaterial)
     {
         dest->SetRenderTarget();
         blitMaterial->SetMatrix(0, Matrix4x4::identity);
+        blitMaterial->SetTexture2D(0, source);
         blitMaterial->SetPass(0);
 
-        DrawTexture(source, {0, 0, static_cast<float>(source->GetWidth()), static_cast<float>(source->GetHeight())});
+        const Vector2 sourceSize = {source->GetWidth(), source->GetHeight()};
+        SetCameraInfo(
+            CameraInfo::Orthographic(
+                sourceSize.x / sourceSize.y, 0, 1, sourceSize.y,
+                Matrix4x4::identity, Vector3::zero, Color::black, 0
+            ), nullptr
+        );
+        DrawRect({Vector2::zero, sourceSize});
 
         Material::SetPassNull();
         Texture::SetRenderTargetDefault();

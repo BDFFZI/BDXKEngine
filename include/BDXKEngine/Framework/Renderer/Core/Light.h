@@ -20,7 +20,7 @@ namespace BDXKEngine
     public:
         static const std::vector<Light*>& GetLightQueue(Vector3 position = Vector3::zero);
 
-        LightInfo GetLightInfo(int order = 0) const;
+        LightInfo GetLightInfo(int order) const;
         ObjectPtr<Texture> GetShadowMap() const;
         LightType GetLightType() const;
         Color GetColor() const;

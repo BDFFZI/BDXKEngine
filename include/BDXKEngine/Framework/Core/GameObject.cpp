@@ -218,7 +218,7 @@ namespace BDXKEngine
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);
 
-        const Reflection gameObjectReflection = Reflection::GetReflection(GetTypeOf<GameObject>());
+        const Reflection& gameObjectReflection = Reflection::GetReflection(GetTypeOf<GameObject>());
         for (ObjectPtr<GameObject>& child : children)
         {
             if (child->GetParent() != this)
@@ -229,7 +229,7 @@ namespace BDXKEngine
             }
         }
 
-        const Reflection componentReflection = Reflection::GetReflection(GetTypeOf<Component>());
+        const Reflection& componentReflection = Reflection::GetReflection(GetTypeOf<Component>());
         for (ObjectPtr<Component>& component : components)
         {
             if (component->GetGameObject() != this)

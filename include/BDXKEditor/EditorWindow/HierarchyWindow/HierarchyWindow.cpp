@@ -5,6 +5,8 @@
 
 namespace BDXKEditor
 {
+    char checkboxID[128];
+
     void HierarchyWindow::SetClickGameObjectEvent(const std::function<void(const ObjectPtr<GameObject>&)>& clickGameObjectEvent)
     {
         this->clickGameObjectEvent = clickGameObjectEvent;
@@ -17,10 +19,7 @@ namespace BDXKEditor
 
 
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offsetX);
-
-        static char checkboxID[30];
-        const int length = sprintf_s(checkboxID, "##%s_isSpread", name.c_str());
-        if (length > 30)throw std::exception("物体名称过长");
+        sprintf_s(checkboxID, "##%s_isSpread", name.c_str());
         isSpreads[instanceID] = ImGui::CollapsingHeader(
             checkboxID,
             ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen | (childCount == 0 ? ImGuiTreeNodeFlags_Leaf : 0));
@@ -28,7 +27,7 @@ namespace BDXKEditor
         //按钮
         ImGui::SameLine();
         ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetColorU32(ImGuiCol_Button, gameObject->IsActivatingAndEnabling() ? 1 : 0.3f));
-        if (ImGui::Button(name.c_str()) && clickGameObjectEvent != nullptr)
+        if (ImGui::Button((name + "##" + std::to_string(instanceID)).c_str()) && clickGameObjectEvent != nullptr)
             clickGameObjectEvent(gameObject);
         ImGui::PopStyleColor();
         //拖拽
@@ -69,6 +68,12 @@ namespace BDXKEditor
                     droppingGameObject->SetParent(nullptr);
             }
             ImGui::EndDragDropTarget();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("New GameObject"))
+        {
+            GameObject::Create();
+            return;
         }
 
         const std::vector<ObjectPtr<GameObject>> gameObjects = GameObject::GetGameObjects();

@@ -14,7 +14,7 @@ namespace BDXKEditor
         static ObjectPtr<TEditorWindow> Create()
         {
             ObjectPtr window = new TEditorWindow{};
-            const Reflection reflection = Reflection::GetReflection<ScriptableObject>();
+            const Reflection& reflection = Reflection::GetReflection<ScriptableObject>();
             reflection.GetFieldOf<std::string>(window.ToObjectBase(), "name") = GetTypeOf<TEditorWindow>();
             reflection.GetFieldOf<bool>(window.ToObjectBase(), "isEnabling") = false;
             Instantiate(window);

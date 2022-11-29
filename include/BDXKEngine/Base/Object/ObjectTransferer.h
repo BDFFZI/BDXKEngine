@@ -18,7 +18,7 @@ namespace BDXKEngine
                 {
                     IOTransferer* ioTransferer = dynamic_cast<IOTransferer*>(this);
                     if (ioTransferer != nullptr && ioTransferer->IsImporter())
-                        *static_cast<std::uintptr_t*>(value) = *reinterpret_cast<std::uintptr_t*>(&null);
+                        ObjectPtrBase::GetVirtualTable(type, static_cast<ObjectPtrBase*>(value));
 
                     const auto objectPtrBase = static_cast<ObjectPtrBase*>(value);
                     this->TransferValue(objectPtrBase, GetTypeOf<ObjectPtrBase>());
@@ -31,12 +31,10 @@ namespace BDXKEngine
         {
             if (type.find("ObjectPtr") != std::string::npos && type.find("std::vector") == std::string::npos)
             {
-                return sizeof(ObjectPtr<Object>);
+                return sizeof ObjectPtr<Object>;
             }
 
             return TTransferer::GetTypeSizeFallback(type);
         }
-    private:
-        ObjectPtr<Object> null;
     };
 }

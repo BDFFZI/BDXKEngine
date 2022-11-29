@@ -111,28 +111,40 @@ namespace BDXKEngine
         //渲染排序 TODO
         //遮挡剔除 TODO
 
-        //上传相机信息
-        Graphics::SetCameraInfo(GetCameraInfo(), renderSettings->skybox);
-
         //渲染背景,在上传相机世界数据等之前使用，否则会覆盖数据
         switch (clearFlags)
         {
         case ClearFlags::Color:
-            GL::Clear(true, true, background);
-            break;
+            {
+                GL::Clear(true, true, background);
+                break;
+            }
         case ClearFlags::Skybox:
             {
                 GL::Clear(true, true);
+
                 const auto& skyboxMaterial = renderSettings->skyboxMaterial;
                 skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
                 skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
                 skyboxMaterial->SetPass(0);
-                Graphics::DrawTexture(nullptr, {Vector2::zero, Screen::GetSize()});
+
+                const Vector2 screenSize = Screen::GetSize();
+                Graphics::SetCameraInfo(
+                    CameraInfo::Orthographic(
+                        screenSize.x / screenSize.y, 0, 1, screenSize.y,
+                        Matrix4x4::identity, Vector3::zero, Color::black, 0
+                    ), renderSettings->skybox
+                );
+
+                Graphics::DrawRect({Vector2::zero, screenSize});
                 break;
             }
         case ClearFlags::Not:
             break;
         }
+
+        //上传相机信息
+        Graphics::SetCameraInfo(GetCameraInfo(), nullptr);
 
         //渲染物体，注意没灯光时不会触发渲染
         for (const Renderer* renderer : rendererQueue)
@@ -141,21 +153,21 @@ namespace BDXKEngine
             const ObjectPtr<Mesh> mesh = renderer->GetMesh(); //获取网格
             const ObjectPtr<Material> material = renderer->GetMaterial(); //获取材质
 
-            //每个灯光都需要单独渲染一遍,每一次光照都是一次Pass
-            for (const Light* light : lightQueue)
+            //每个灯光都需要单独渲染一遍,每一次光照都是一次物体的一次Pass
+            const int lightCount = static_cast<int>(lightQueue.size());
+            for (int lightIndex = 0; lightIndex < lightCount; lightIndex++)
             {
-                //上传灯光和阴影信息至渲染管线
-                Graphics::SetLightInfo(light->GetLightInfo(), light->GetShadowMap());
+                const Light* light = lightQueue[lightIndex];
+                const PassType lightPass = lightIndex == 0 ? PassType::ForwardBase : PassType::ForwardAdd; //渲染符合该类型的Pass
+                Graphics::SetLightInfo(light->GetLightInfo(lightIndex), light->GetShadowMap()); //上传灯光和阴影信息至渲染管线
 
-                //渲染符合该类型的Pass
-                const PassType lightPass = light == *lightQueue.begin() ? PassType::ForwardBase : PassType::ForwardAdd;
                 const int passCount = material->GetPassCount();
                 for (int passIndex = 0; passIndex < passCount; passIndex++)
                 {
                     if (material->GetPassType(passIndex) == lightPass)
                     {
                         material->SetPass(passIndex); //将该Pass信息上传渲染管线
-                        Graphics::DrawMeshNow(mesh); //启动渲染管线进行渲染
+                        Graphics::DrawMesh(mesh); //启动渲染管线进行渲染
                     }
                 }
             }

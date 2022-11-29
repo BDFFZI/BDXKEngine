@@ -6,6 +6,15 @@
 
 namespace BDXKEngine
 {
+    void ObjectPtrBase::SetVirtualTable(const Type& type, ObjectPtrBase* objectPtrBase)
+    {
+        virtualTable[type] = *reinterpret_cast<std::uintptr_t*>(objectPtrBase);
+    }
+    void ObjectPtrBase::GetVirtualTable(const Type& type, ObjectPtrBase* objectPtrBase)
+    {
+        if (virtualTable.contains(type) == false)throw std::exception("该类型的虚表未被注册");
+        *reinterpret_cast<std::uintptr_t*>(objectPtrBase) = virtualTable[type];
+    }
     void ObjectPtrBase::PrintRefCountMap()
     {
         std::stringstream stream = {};
@@ -51,6 +60,10 @@ namespace BDXKEngine
     int ObjectPtrBase::GetInstanceID() const
     {
         return instanceID;
+    }
+    Type ObjectPtrBase::GetType() const
+    {
+        return BDXKEngine::GetType(*this);
     }
 
     bool ObjectPtrBase::IsNull() const

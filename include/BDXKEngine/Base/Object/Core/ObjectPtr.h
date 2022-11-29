@@ -46,6 +46,8 @@ namespace BDXKEngine
         }
 
     protected:
+        inline static CustomObjectPtrLauncher<ObjectPtr<TObject>> customObjectPtr = {};
+
         TObject* debugPtr = nullptr; //该值可能出错，仅供调试用
 
         void AddRef(const int refInstanceID) override

@@ -7,6 +7,8 @@
 
 namespace BDXKEditor
 {
+    ImGuizmo::OPERATION handleOption;
+
     void SceneWindow::SetTarget(const ObjectPtr<GameObject>& target)
     {
         this->target = target;
@@ -22,23 +24,24 @@ namespace BDXKEditor
         viewSize = {960, 540};
 
         camera->SetRenderTarget(cameraTexture);
+        camera->SetBackground(Color::gray * 0.5f);
     }
 
     void SceneWindow::OnGUI()
     {
         //更新渲染纹理大小
+        const Vector2 windowMin = ImGui::GetWindowContentRegionMin();
+        const Vector2 windowMax = ImGui::GetWindowContentRegionMax();
+        viewSize = windowMax - windowMin;
         if (cameraTexture->GetSize() != viewSize && viewSize.x * viewSize.y > 0)
         {
             cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
             camera->SetRenderTarget(cameraTexture);
         }
+        //控制场景相机
+        cameraController->SetIsEnabling(ImGui::IsWindowHovered());
 
-        const Vector2 windowMin = ImGui::GetWindowContentRegionMin();
-        const Vector2 windowMax = ImGui::GetWindowContentRegionMax();
-        const Vector2 viewPosition = Vector2{ImGui::GetWindowPos()} + windowMin;
-        viewSize = windowMax - windowMin;
-
-        //显示相机画面
+        //相机画面
         const Vector2 cursorPos = ImGui::GetCursorPos();
         ImGui::Image(
             GUI::GetImTextureID(cameraTexture),
@@ -46,15 +49,25 @@ namespace BDXKEditor
         );
         ImGui::SetCursorPos(cursorPos);
         //手柄选项
-        static constexpr char optionsName[4][10] = {"Bounds", "Position", "Rotation", "Scale"};
-        static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::BOUNDS, ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
-        const float width = ImGui::GetContentRegionAvail().x / 4 - 10;
-        static int handleMode = 1;
-        for (int i = 0; i < 4; i++)
         {
-            ImGui::SetCursorPos(cursorPos + Vector2{(width + 10) * static_cast<float>(i), 0.0f});
-            if (ImGui::Selectable(optionsName[i], handleMode == i, 0, Vector2{width, 0.0f}))
-                handleMode = i;
+            static constexpr char optionsName[4][10] = {"Bounds", "Position", "Rotation", "Scale"};
+            static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::BOUNDS, ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
+            const float width = ImGui::GetContentRegionAvail().x / 4 - 10;
+            static int handleMode = 1;
+            for (int i = 0; i < 4; i++)
+            {
+                ImGui::SetCursorPos(cursorPos + Vector2{(width + 10) * static_cast<float>(i), 0.0f});
+                if (ImGui::Selectable(optionsName[i], handleMode == i, 0, Vector2{width, 0.0f}))
+                    handleMode = i;
+            }
+            if (ImGui::IsWindowHovered() && cameraController->IsControlling() == false)
+            {
+                if (ImGui::IsKeyDown(ImGuiKey_Q))handleMode = 0;
+                if (ImGui::IsKeyDown(ImGuiKey_W))handleMode = 1;
+                if (ImGui::IsKeyDown(ImGuiKey_E))handleMode = 2;
+                if (ImGui::IsKeyDown(ImGuiKey_R))handleMode = 3;
+            }
+            handleOption = options[handleMode];
         }
         //帧率信息
         ImGui::Text(
@@ -63,20 +76,13 @@ namespace BDXKEditor
             static_cast<double>(1.0f / Time::GetDeltaTime())
         );
 
-        cameraController->SetIsEnabling(ImGui::IsWindowHovered());
-        if (ImGui::IsWindowHovered() && cameraController->IsControlling() == false)
-        {
-            if (ImGui::IsKeyDown(ImGuiKey_Q))handleMode = 0;
-            if (ImGui::IsKeyDown(ImGuiKey_W))handleMode = 1;
-            if (ImGui::IsKeyDown(ImGuiKey_E))handleMode = 2;
-            if (ImGui::IsKeyDown(ImGuiKey_R))handleMode = 3;
-        }
+        //OnDrawGizmos
         if (GUI::IsDockTabVisible())
         {
-            //绘制小物件
-            CameraInfo cameraInfo = camera->GetCameraInfo();
+            const Vector2 viewPosition = Vector2{ImGui::GetWindowPos()} + windowMin;
             ImGuizmo::SetRect(viewPosition.x, viewPosition.y, viewSize.x, viewSize.y);
             ImGuizmo::SetOrthographic(false);
+            CameraInfo cameraInfo = camera->GetCameraInfo();
             //绘制网格
             {
                 Matrix4x4 objectToWorld = Matrix4x4::identity;
@@ -94,7 +100,7 @@ namespace BDXKEditor
                 Manipulate(
                     reinterpret_cast<float*>(&cameraInfo.worldToView),
                     reinterpret_cast<float*>(&cameraInfo.viewToClip),
-                    options[handleMode], ImGuizmo::LOCAL,
+                    handleOption, ImGuizmo::LOCAL,
                     reinterpret_cast<float*>(&objectToWorld)
                 );
 

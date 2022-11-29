@@ -26,22 +26,21 @@ float4 PixelPass(Pixel pixel) : SV_TARGET
     float4 albedo = Texture2D0.Sample(SamplerState0, pixel.uv);
     float metallic = float0_3.x;
     float smoothness = float0_3.y;
-    //计算数据
-    float3 environment = 0;
+    //解码数据
+    float3 environment = LightOrder == 0 ? Environment.rgb : 0;
+    float3 lightColor = DecodeShadowMap(pixel.positionWS);
     float3 lightNormal = 0;
-    float3 lightColor = 0;
     if (LightType == 0) //平行光
     {
+        lightColor *= LightColor.rgb;
         lightNormal = LightNormal.xyz;
-        lightColor = LightColor.rgb;
     }
     else if (LightType == 1) //点光
     {
+        lightColor *= LightColor.rgb * clamp(1 / distance(pixel.positionWS, LightPosition.xyz), 0, 1);
         lightNormal = normalize(pixel.positionWS - LightPosition.xyz);
-        lightColor = LightColor.rgb * clamp(1 / distance(pixel.positionWS, LightPosition.xyz), 0, 1);
     }
-    lightColor *= DecodeShadowMap(pixel.positionWS);
-    environment = LightOrder == 0 ? Environment.rgb : 0;
+
     //渲染
 
     //漫射光+环境光

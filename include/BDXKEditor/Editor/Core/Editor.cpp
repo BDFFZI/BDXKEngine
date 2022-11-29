@@ -24,7 +24,7 @@ namespace BDXKEditor
     {
         return target;
     }
-    Transferer* Editor::GetGUITransferer() const
+    GUITransferer* Editor::GetGUITransferer() const
     {
         return gui;
     }
@@ -32,7 +32,7 @@ namespace BDXKEditor
     {
         this->target = target;
     }
-    void Editor::SetGui(Transferer* gui)
+    void Editor::SetGui(GUITransferer* gui)
     {
         this->gui = gui;
     }

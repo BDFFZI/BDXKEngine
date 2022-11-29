@@ -85,7 +85,7 @@ namespace BDXKEngine
     {
         const ObjectPtr<RenderSettings> renderSettings = RenderSettings::GetSingleton();
         const ObjectPtr<GameObject> gameObject = GetGameObject();
-        LightInfo lightInfo = GetLightInfo();
+        LightInfo lightInfo = GetLightInfo(0);
 
         //渲染深度信息
         if (lightType == LightType::Point)
@@ -107,10 +107,10 @@ namespace BDXKEngine
                 for (const ObjectPtr<Renderer>& renderer : rendererQueue)
                 {
                     if (renderer->GetCastShadows() == false)
-                        return;
+                        continue;
 
                     renderer->GetMaterial()->SetPass(PassType::ShadowCaster);
-                    Graphics::DrawMeshNow(renderer->GetMesh());
+                    Graphics::DrawMesh(renderer->GetMesh());
                 }
             }
         }
@@ -123,10 +123,10 @@ namespace BDXKEngine
             for (const ObjectPtr<Renderer>& renderer : rendererQueue)
             {
                 if (renderer->GetCastShadows() == false)
-                    return;
+                    continue;
 
                 renderer->GetMaterial()->SetPass(PassType::ShadowCaster);
-                Graphics::DrawMeshNow(renderer->GetMesh());
+                Graphics::DrawMesh(renderer->GetMesh());
             }
         }
 

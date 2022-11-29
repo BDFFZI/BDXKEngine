@@ -2,11 +2,13 @@
 
 // using namespace BDXKEngine;
 
+#include <iostream>
+
 #include "BDXKEditor/BDXKEditor.h"
 int main()
 {
     BDXKEditor::Run();
-    
+
     // Window window{L"BDXKEngine"};
     //
     // {

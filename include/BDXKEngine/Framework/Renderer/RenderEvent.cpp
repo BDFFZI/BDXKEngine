@@ -5,6 +5,13 @@
 
 namespace BDXKEngine
 {
+    ObjectPtr<Camera> RenderEvent::currentCamera = nullptr;
+
+    const ObjectPtr<Camera>& RenderEvent::GetCurrentCamera()
+    {
+        return currentCamera;
+    }
+
     void RenderEvent::Initialize(Window* window)
     {
         Texture::ResetDefaultRenderTarget();
@@ -22,10 +29,7 @@ namespace BDXKEngine
         const std::vector<Light*>& lightQueue = Light::GetLightQueue();
         for (const Light* light : lightQueue)light->UpdateShadowMap(rendererQueue);
 
-        Texture::SetRenderTargetDefault();
-        GL::Clear(true, true, Color::clear);
-
-        //标准渲染管线（相机渲染）
+        //相机渲染
         for (const auto& camera : cameraQueue)
         {
             ObjectPtr<Texture2D> rendererTarget = camera->GetRenderTarget();
@@ -33,24 +37,24 @@ namespace BDXKEngine
             else Texture::SetRenderTargetDefault();
 
             camera->Render(lightQueue, rendererQueue);
+
+            //绘制后期物体
+            currentCamera = camera;
+            for (const auto drawGizmosHandler : drawGizmosHandlers)
+                drawGizmosHandler->OnDrawGizmos();
         }
 
         //UI渲染
         {
             Texture::SetRenderTargetDefault();
             GUI::BeginDraw();
-        
-            //绘制后期物体
-            for (const auto drawGizmosHandler : drawGizmosHandlers)
-                drawGizmosHandler->OnDrawGizmos();
-        
-            //绘制UI
+
             for (const auto drawGUIHandler : drawGUIHandlers)
                 drawGUIHandler->OnDrawGUI();
-        
+
             GUI::EndDraw();
         }
-        
+
         GL::Present();
     }
 }

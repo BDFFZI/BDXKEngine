@@ -23,7 +23,7 @@ namespace BDXKEditor
         const Object* target = GetTarget().ToObjectBase();
         Transferer* gui = GetGUITransferer();
 
-        const Reflection reflection = Reflection::GetReflection(target);
+        const Reflection& reflection = Reflection::GetReflection(target);
         const int count = reflection.GetFields(GetTarget().ToObjectBase(), names, values, types);
         for (int i = 3; i < count; i++)
         {

@@ -37,26 +37,38 @@ namespace BDXKEngine
     {
         return GetReflection(reflective->GetType());
     }
+    int Reflection::GetReflections(std::vector<Reflection*>& reflections, const std::function<bool(const Reflection&)> condition)
+    {
+        reflections.clear();
+        for (const auto& item : Reflection::reflections | std::ranges::views::values)
+        {
+            if (condition(*item) == true)
+                reflections.emplace_back(item);
+        }
+
+        return static_cast<int>(reflections.size());
+    }
+
 
     Reflection::Reflection(const std::function<Reflective*()>& constructor, int size)
     {
-        Reflective* reflective = constructor();
-
         //获取类型大小
         this->size = size;
         //获取构造函数
         this->constructor = constructor;
-        //获取虚表地址
-        this->virtualTable = size >= static_cast<int>(sizeof(std::uintptr_t)) ? *reinterpret_cast<std::uintptr_t*>(reflective) : 0;
+        //获取实例
+        instance = constructor();
         //获取字段信息
-        ReflectionTransferer reflecttransferer = {*reflective, *this};
-        reflective->Transfer(reflecttransferer);
+        ReflectionTransferer reflecttransferer = {*instance, *this};
+        instance->Transfer(reflecttransferer);
         //注册反射
-        reflections[reflective->GetType()] = this;
-
-        delete reflective;
+        reflections[instance->GetType()] = this;
     }
 
+    Type Reflection::GetType() const
+    {
+        return instance->GetType();
+    }
     int Reflection::GetSize() const
     {
         return size;
@@ -67,7 +79,7 @@ namespace BDXKEngine
     }
     std::uintptr_t Reflection::GetVirtualTable() const
     {
-        return virtualTable;
+        return *reinterpret_cast<std::uintptr_t*>(instance);
     }
     void* Reflection::GetField(Reflective* target, const std::string& key) const
     {

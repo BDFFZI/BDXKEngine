@@ -239,7 +239,11 @@
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\HierarchyWindow\HierarchyWindow.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\GUITransferer.cpp">
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\InspectorWindow.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\SceneWindow\CameraController.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\SceneWindow\SceneWindow.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\Editor\ComponentEditor.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\Editor\Core\Editor.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -316,11 +320,7 @@
       <AdditionalOptions>/utf-8</AdditionalOptions>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\InspectorWindow.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\EditorWindow\SceneWindow\CameraController.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\EditorWindow\SceneWindow\SceneWindow.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\Editor\ComponentEditor.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\Editor\Core\Editor.cpp">
+    <ClCompile Include="..\include\BDXKEditor\Editor\Core\GUITransferer.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -484,7 +484,6 @@
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\Core\EditorWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\Debug.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\HierarchyWindow\HierarchyWindow.h" />
-    <ClInclude Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\GUITransferer.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\InspectorWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\SceneWindow\CameraController.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\SceneWindow\SceneWindow.h" />

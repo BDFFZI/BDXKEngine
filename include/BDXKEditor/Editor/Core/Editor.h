@@ -1,6 +1,6 @@
 ﻿#pragma once
+#include "GUITransferer.h"
 #include "BDXKEngine/Framework/Core/ScriptableObject.h"
-
 
 namespace BDXKEditor
 {
@@ -20,10 +20,10 @@ namespace BDXKEditor
 
         virtual ~Editor() = default;
         const ObjectPtrBase& GetTarget() const;
-        Transferer* GetGUITransferer() const;
+        GUITransferer* GetGUITransferer() const;
 
         void SetTarget(const ObjectPtrBase& target);
-        void SetGui(Transferer* gui);
+        void SetGui(GUITransferer* gui);
 
         void DrawInspectorGUI();
         void DrawSceneGUI();
@@ -35,7 +35,7 @@ namespace BDXKEditor
         static std::unordered_map<Type, Editor*> editors;
 
         ObjectPtrBase target = nullptr;
-        Transferer* gui = nullptr;
+        GUITransferer* gui = nullptr;
     };
 
     template <typename TObject, typename TEditor>
