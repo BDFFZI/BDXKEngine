@@ -33,7 +33,7 @@ namespace BDXKEditor
         void TransferRect(Rect& value) const;
         void TransferString(std::string& value) const;
         void TransferBytes(const std::vector<char>& value) const;
-        void TransferObjectPtrBase(const ObjectPtrBase& value) const;
+        void TransferObjectPtrBase(ObjectPtrBase& value) const;
     private:
         std::string fieldPath;
         std::string fieldName;

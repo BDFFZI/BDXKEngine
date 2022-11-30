@@ -5,6 +5,7 @@
 
 namespace BDXKEngine
 {
+    //TODO 无法传送容器内的指针
     class ObjectPtrTransferer : public Transferer
     {
     public:

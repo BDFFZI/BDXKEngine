@@ -25,6 +25,10 @@ namespace BDXKEditor
     protected:
         virtual void OnGUI();
     private:
+        static std::vector<ObjectPtr<EditorWindow>> windows;
+
         void OnDrawGUI() override;
+        void Awake() override;
+        void Destroy() override;
     };
 }

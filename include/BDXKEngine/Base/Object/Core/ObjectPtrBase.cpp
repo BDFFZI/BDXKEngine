@@ -40,7 +40,7 @@ namespace BDXKEngine
         else
         {
             instanceID = object->GetInstanceID();
-            if (refCountMap.count(instanceID) == 0)
+            if (refCountMap.contains(instanceID) == false)
                 refCountMap[instanceID] = 0;
 
             ObjectPtrBase::AddRef(instanceID);
@@ -50,6 +50,8 @@ namespace BDXKEngine
     {
         if (objectPtr.instanceID != 0)
             ObjectPtrBase::AddRef(objectPtr.instanceID);
+
+        GetVirtualTable(objectPtr.GetType(), this);
     }
     ObjectPtrBase::~ObjectPtrBase()
     {
@@ -64,6 +66,10 @@ namespace BDXKEngine
     Type ObjectPtrBase::GetType() const
     {
         return BDXKEngine::GetType(*this);
+    }
+    Type ObjectPtrBase::GetObjectType() const
+    {
+        return GetTypeOf<Object>();
     }
 
     bool ObjectPtrBase::IsNull() const
@@ -107,6 +113,7 @@ namespace BDXKEngine
         if (objectPtr.instanceID != 0)
             AddRef(objectPtr.instanceID);
 
+        GetVirtualTable(objectPtr.GetType(), this);
         return *this;
     }
 
@@ -136,7 +143,7 @@ namespace BDXKEngine
             const Object* object = ToObjectBase();
             if (object != nullptr && object->IsDestroyed() == false)
             {
-                Object::DestroyImmediate(object);
+                Object::DestroyImmediate(*this);
             }
         }
 

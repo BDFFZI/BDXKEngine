@@ -41,6 +41,16 @@ namespace BDXKEngine
     {
         return children[index];
     }
+
+    ObjectPtr<Component> GameObject::GetComponent(const Type& type) const
+    {
+        for (const ObjectPtr<Component>& component : components)
+        {
+            if (Reflection::GetReflection(component.ToObjectBase()).IsType(type))
+                return component;
+        }
+        return nullptr;
+    }
     int GameObject::GetChildCount() const
     {
         return static_cast<int>(children.size());

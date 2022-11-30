@@ -1,5 +1,4 @@
 ﻿#include "HierarchyWindow.h"
-#include <rapidjson/document.h>
 #include "imgui/imgui.h"
 
 
@@ -30,6 +29,7 @@ namespace BDXKEditor
         if (ImGui::Button((name + "##" + std::to_string(instanceID)).c_str()) && clickGameObjectEvent != nullptr)
             clickGameObjectEvent(gameObject);
         ImGui::PopStyleColor();
+
         //拖拽
         if (ImGui::BeginDragDropSource())
         {
@@ -40,7 +40,7 @@ namespace BDXKEditor
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
             {
-                const ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
+                const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
                 const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
                 if (droppingGameObject.IsNotNull())
                     droppingGameObject->SetParent(gameObject);
@@ -62,7 +62,7 @@ namespace BDXKEditor
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
             {
-                const ObjectPtrBase dropping = *static_cast<ObjectPtrBase*>(payload->Data);
+                const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
                 const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
                 if (droppingGameObject.IsNotNull())
                     droppingGameObject->SetParent(nullptr);

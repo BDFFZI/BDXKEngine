@@ -5,9 +5,7 @@
 
 namespace BDXKEditor
 {
-    class Editor;
     using namespace BDXKEngine;
-
 
     class InspectorWindow : public EditorWindow, public AwakeHandler
     {
@@ -16,6 +14,7 @@ namespace BDXKEditor
     private:
         ObjectPtrBase target;
         ObjectTransferer<GUITransferer> gui;
+        bool isSpecial = false;
 
         void OnAwake() override;
         void OnGUI() override;

@@ -6,8 +6,8 @@ namespace BDXKEditor
     class ComponentEditor : public Editor
     {
     public:
-        static Editor* EditorFallback(const Reflective& reflective);
-        CustomEditorFallback(EditorFallback)
+        static void StaticConstructor();
+        CustomStaticConstructor(StaticConstructor)
 
         void OnInspectorGUI() override;
     private:

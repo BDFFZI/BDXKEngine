@@ -1,6 +1,8 @@
 ﻿// ReSharper disable CppClangTidyClangDiagnosticFormatSecurity
 #include "GUITransferer.h"
 #include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Framework/Core/GameObject.h"
+#include "BDXKEngine/Framework/Core/Component.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -78,23 +80,45 @@ namespace BDXKEditor
     {
         ImGui::InputText(GetFieldID().c_str(), value.data(), value.size() + 1);
     }
-    void GUITransferer::TransferObjectPtrBase(const ObjectPtrBase& value) const
+    void GUITransferer::TransferObjectPtrBase(ObjectPtrBase& value) const
     {
-        std::string name = value.GetType();
-        name = name.substr(name.find("ObjectPtr"));
+        std::string name = value.GetObjectType();
+        name = name.substr(name.find(' ') + 1);
         if (value.IsNull())
         {
             ImGui::Button(GetFieldID(name + " nullptr").c_str());
-            ImGui::SameLine();
-            ImGui::Text(GetFieldName().c_str());
         }
         else
         {
             if (ImGui::Button(GetFieldID(name + " " + std::to_string(value.GetInstanceID())).c_str()))
                 if (clickObjectEvent != nullptr) clickObjectEvent(value);
-            ImGui::SameLine();
-            ImGui::Text(GetFieldName().c_str());
         }
+
+        //拖拽
+        if (ImGui::BeginDragDropSource())
+        {
+            ImGui::SetDragDropPayload("Dragging", &value, sizeof(ObjectPtrBase));
+            ImGui::EndDragDropSource();
+        }
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
+            {
+                const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
+                const Reflection& droppingReflection = Reflection::GetReflection(dropping.GetObjectType());
+                if (droppingReflection.IsType(value.GetObjectType()))
+                    value = dropping;
+                else if (const ObjectPtr gameObject = dropping.ToObject<GameObject>(); gameObject.IsNotNull())
+                {
+                    const auto component = gameObject->GetComponent(value.GetObjectType());
+                    if (component.IsNotNull()) value = static_cast<ObjectPtrBase>(component);
+                }
+            }
+            ImGui::EndDragDropTarget();
+        }
+
+        ImGui::SameLine();
+        ImGui::Text(GetFieldName().c_str());
     }
     void GUITransferer::TransferBytes(const std::vector<char>& value) const
     {

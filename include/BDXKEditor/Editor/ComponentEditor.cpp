@@ -1,7 +1,4 @@
 ﻿#include "ComponentEditor.h"
-
-#include <iostream>
-
 #include "BDXKEngine/Framework/Core/Component.h"
 
 namespace BDXKEditor
@@ -11,23 +8,26 @@ namespace BDXKEditor
     std::vector<void*> values;
     std::vector<Type> types;
 
-    Editor* ComponentEditor::EditorFallback(const Reflective& reflective)
+    void ComponentEditor::StaticConstructor()
     {
-        if (dynamic_cast<const Component*>(&reflective) != nullptr)
-            return &componentEditor;
+        AddEditorFallback([](const Reflective& reflective)
+        {
+            if (dynamic_cast<const Component*>(&reflective) != nullptr)
+                return &componentEditor;
 
-        return nullptr;
+            return static_cast<ComponentEditor*>(nullptr);
+        });
     }
     void ComponentEditor::OnInspectorGUI()
     {
         const Object* target = GetTarget().ToObjectBase();
-        Transferer* gui = GetGUITransferer();
+        Transferer& gui = GetGUITransferer();
 
         const Reflection& reflection = Reflection::GetReflection(target);
         const int count = reflection.GetFields(GetTarget().ToObjectBase(), names, values, types);
         for (int i = 3; i < count; i++)
         {
-            gui->TransferField(names[i], values[i], types[i]);
+            gui.TransferField(names[i], values[i], types[i]);
         }
     }
 }

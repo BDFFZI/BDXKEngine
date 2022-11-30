@@ -1,0 +1,42 @@
+{
+    "serializationsCount": 3,
+    "serialization_0": {
+        "object": "{4C1EA222-486E-40FA-7796-40D1F36FFFF2}",
+        "data": {
+            "type": "struct BDXKEngine::RenderSettings",
+            "name": "struct BDXKEngine::RenderSettings",
+            "skybox": "{F1413D12-6162-4A46-ED90-57AE70D0CD25}"
+        }
+    },
+    "serialization_1": {
+        "object": "{34F710C1-49FD-45FA-46B8-D77152327B67}",
+        "data": {
+            "type": "struct BDXKEngine::Scene",
+            "name": "struct BDXKEngine::Scene",
+            "renderSettings": "{4C1EA222-486E-40FA-7796-40D1F36FFFF2}",
+            "gameObjects": {
+                "count": 10,
+                "item0": "{9C392C3C-D207-4DC4-3BBA-846A04D93558}",
+                "item1": "{F0480C73-BFA5-4EF8-9CA0-0255E2ACEC0B}",
+                "item2": "{9BE50288-CFE3-48E4-83B0-6EDC8779704F}",
+                "item3": "{3986955E-BD6B-4888-31B9-FFF9BA2ECFDA}",
+                "item4": "{AEEEFBCE-7506-420C-ED90-AAC481846915}",
+                "item5": "{0DC91F26-7967-4D40-C99E-5658FD747A7D}",
+                "item6": "{CB6C7BC3-8C26-44D4-768B-7FF46050BD3D}",
+                "item7": "{751B0D2C-2559-4D54-1983-4EC379451F77}",
+                "item8": "{4348A1BC-4325-4F33-E781-21A0E71B9DBB}",
+                "item9": "{A30F0352-4045-4C8D-1E8E-DC751A54031C}"
+            }
+        }
+    },
+    "serialization_2": {
+        "object": "{F1413D12-6162-4A46-ED90-57AE70D0CD25}",
+        "data": {
+            "type": "class BDXKEngine::TextureCube",
+            "name": "class BDXKEngine::TextureCube",
+            "width": 512,
+            "height": 512,
+            "format": 2
+        }
+    }
+}

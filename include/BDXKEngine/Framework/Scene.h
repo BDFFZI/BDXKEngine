@@ -20,11 +20,15 @@ namespace BDXKEngine
 
     struct Scene : Object
     {
-        static ObjectPtr<Scene> CreateDefault();
+        static void CreateDefault();
+        static void Save(const std::string& path);
+        static void Load(const std::string& path);
 
         ObjectPtr<RenderSettings> renderSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;
 
         void Transfer(Transferer& transferer) override;
     };
+
+    CustomReflection(Scene)
 }

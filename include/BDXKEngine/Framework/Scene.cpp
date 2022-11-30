@@ -59,7 +59,7 @@ namespace BDXKEngine
         return gameObject;
     }
 
-    ObjectPtr<Scene> Scene::CreateDefault()
+    void Scene::CreateDefault()
     {
         const ObjectPtr<GameObject> sun = Creation::CreateDirectionalLight("Sun");
         const ObjectPtr<GameObject> ground = Creation::CreatePlane("Ground");
@@ -68,15 +68,23 @@ namespace BDXKEngine
         sun->SetLocalEulerAngles({45, -45, 0});
         sphere->SetLocalPosition({0, 0.5f, 0});
         camera->SetLocalPosition({0, 1, -10});
-
+        RenderSettings::Create();
+    }
+    void Scene::Save(const std::string& path)
+    {
         ObjectPtr scene = new Scene{};
         Instantiate(scene);
-
-        scene->renderSettings = RenderSettings::Create();
-        scene->gameObjects = {sun, ground, sphere, camera};
-
-        return scene;
+        scene->renderSettings = RenderSettings::GetSingleton();
+        scene->gameObjects = GameObject::GetGameObjects();
+        Resources::Save(path, scene, Resources::GetJsonSerializer());
     }
+    void Scene::Load(const std::string& path)
+    {
+        for (const auto& item : GameObject::GetGameObjects())
+            DestroyImmediate(item);
+        Resources::Load(path, Resources::GetJsonSerializer());
+    }
+
     void Scene::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);

@@ -39,7 +39,7 @@ namespace BDXKEngine
         })
         {
         }
-        
+
         std::string Serialize(Reflective* input) override
         {
             if (dynamic_cast<Object*>(input) == nullptr)throw std::exception("只允许序列化Object物体");
@@ -109,8 +109,8 @@ namespace BDXKEngine
                 objectImporter.TransferValue(guid);
 
                 if (guid.empty())return; //空引用不用管
-                if (references.count(guid) == 0)references[guid] = {}; //引用第一次出现
-                
+                if (references.contains(guid) == false)references[guid] = {}; //引用第一次出现
+
                 references[guid].push_back(&value);
             });
 

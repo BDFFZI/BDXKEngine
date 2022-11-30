@@ -20,9 +20,9 @@ namespace BDXKEditor
 
         virtual ~Editor() = default;
         const ObjectPtrBase& GetTarget() const;
-        GUITransferer* GetGUITransferer() const;
+        GUITransferer& GetGUITransferer() const;
 
-        void SetTarget(const ObjectPtrBase& target);
+        void SetTarget(ObjectPtrBase* target);
         void SetGui(GUITransferer* gui);
 
         void DrawInspectorGUI();
@@ -34,7 +34,7 @@ namespace BDXKEditor
         inline static std::vector<std::function<Editor*(const Reflective&)>> getEditorFallback = {};
         static std::unordered_map<Type, Editor*> editors;
 
-        ObjectPtrBase target = nullptr;
+        ObjectPtrBase* target = nullptr;
         GUITransferer* gui = nullptr;
     };
 
@@ -45,12 +45,7 @@ namespace BDXKEditor
         {
             Editor::SetEditor<TObject, TEditor>();
         }
-        CustomEditorRegister(std::function<Editor*(const Reflective&)> func)
-        {
-            Editor::AddEditorFallback(func);
-        }
     };
 
-#define CustomEditor(TObject,TEditor) inline CustomEditorRegister<TObject,TEditor> CustomEditor##TObject = {};
-#define CustomEditorFallback(func) inline static CustomEditorRegister<void,void> CustomEditorFallback##func = {func};
+#define CustomEditor(TObject,TEditor) inline CustomEditorRegister<TObject,TEditor> CustomEditor##TObject##TEditor = {};
 }

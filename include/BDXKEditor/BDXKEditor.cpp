@@ -5,6 +5,7 @@
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
 #include "BDXKEngine/Function/Time/Time.h"
+#include "BDXKEngine/Platform/Resources/Resources.h"
 #include "EditorWindow/Core/EditorWindow.h"
 #include "imgui/imgui.h"
 
@@ -31,6 +32,22 @@ namespace BDXKEditor
     void EditorSystem::OnDrawGUI()
     {
         ImGui::ShowDemoWindow();
+
+        ImGui::BeginMainMenuBar();
+        if (ImGui::BeginMenu("Scene"))
+        {
+            if (ImGui::MenuItem("Save"))
+            {
+                Scene::Save("scene.json");
+            }
+            if (ImGui::MenuItem("Load"))
+            {
+                Scene::Load("scene.json");
+            }
+
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
     }
     void EditorSystem::OnAwake()
     {

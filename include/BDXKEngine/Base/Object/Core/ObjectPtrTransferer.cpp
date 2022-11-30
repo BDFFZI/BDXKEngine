@@ -15,10 +15,10 @@ namespace BDXKEngine
     }
     void ObjectPtrTransferer::TransferValue(void* value, const Type& type)
     {
-        if (type.find("ObjectPtr") != std::string::npos)
+        if (type.find("ObjectPtr") != std::string::npos && type.find("std::vector") == std::string::npos)
         {
             Object* object = static_cast<ObjectPtrBase*>(value)->ToObjectBase();
-            if (object != nullptr && references.count(object->GetInstanceID()) == 0)
+            if (object != nullptr && references.contains(object->GetInstanceID()) == false)
             {
                 references.insert(object->GetInstanceID());
                 object->Transfer(*this);

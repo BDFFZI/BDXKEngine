@@ -10,15 +10,17 @@ namespace BDXKEngine
     {
     public:
         ReflectionTransferer(const Reflective& reflective, Reflection& reflection);
-
+        bool IsValid() const;
+    private:
         void PushPath(const std::string& key) override;
         void TransferValue(void* value, const Type& type) override;
-
         std::uintptr_t origin;
         int length;
         Reflection& reflection;
         std::string currentKey;
+        std::string startKey;
     };
+
 
     class Reflection
     {
@@ -32,13 +34,15 @@ namespace BDXKEngine
         static const Reflection& GetReflection(const Type& id);
         static const Reflection& GetReflection(const Reflective* reflective);
         static int GetReflections(std::vector<Reflection*>& reflections,
-                                  std::function<bool(const Reflection&)> condition = [](const Reflection&) { return true; }
+                                  const std::function<bool(const Reflection&)>& condition = [](const Reflection&) { return true; }
         );
 
         Reflection(const std::function<Reflective*()>& constructor, int size);
-        
+        virtual ~Reflection() = default;
+
         Type GetType() const;
         int GetSize() const;
+        Reflective* GetInstance() const;
         Reflective* GetConstruction() const;
         template <typename T>
         T* GetConstruction() const
@@ -53,10 +57,13 @@ namespace BDXKEngine
             return *static_cast<T*>(GetField(target, key));
         }
         int GetFields(Reflective* target, std::vector<std::string>& names, std::vector<void*>& values, std::vector<Type>& types) const;
+
+        virtual bool IsReceivable(Reflective* reflective) const = 0;
+        virtual bool IsType(const Type& type) const;
         template <typename T>
-        bool IsType() const
+        bool IsTypeOf() const
         {
-            return dynamic_cast<T*>(instance) != nullptr;
+            return IsType(GetTypeOf<T>());
         }
     private:
         inline static std::unordered_map<Type, Reflection*> reflections = {}; //必须提前在头文件中定义，以便在触发宏时能确保容器已初始化
@@ -69,18 +76,32 @@ namespace BDXKEngine
         std::vector<Type> fieldType;
     };
 
-    //请确保注册类已继承Reflective并存在无参构造函数
-#define CustomReflection(target) inline Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
-#define CustomReflectionInClass(target) static Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
+    template <class T>
+    class Internal_Reflection : public Reflection
+    {
+    public:
+        Internal_Reflection()
+            : Reflection([] { return static_cast<Reflective*>(new T()); }, sizeof(T))
+        {
+        }
+    private:
+        bool IsReceivable(Reflective* reflective) const override
+        {
+            return dynamic_cast<T*>(reflective) != nullptr;
+        }
+    };
 
+    //请确保注册类已继承Reflective并存在无参构造函数
+#define CustomReflection(target) inline Internal_Reflection<target> CustomReflection##target = {};
     CustomReflection(Reflective)
 
-#define CustomStaticConstructor(Func) struct StaticConstructorRegister\
-    {\
-        StaticConstructorRegister(void (*staticConstructor)())\
-        {\
-            staticConstructor();\
-        }\
-    };\
-    inline static StaticConstructorRegister staticConstructorRegister = {&Func};
+    struct StaticConstructorRegister
+    {
+        StaticConstructorRegister(void (*staticConstructor)())
+        {
+            staticConstructor();
+        }
+    };
+
+#define CustomStaticConstructor(Func) inline static StaticConstructorRegister staticConstructorRegister = {&(Func)};
 }

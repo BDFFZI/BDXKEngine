@@ -42,7 +42,7 @@ namespace BDXKEngine
         }
 
         std::vector<ObjectPtrBase> objectPtrBases = {};
-        for (const auto& item : GameObject::GetObjects() | std::ranges::views::values)
+        for (const auto& item : Object::GetObjects() | std::ranges::views::values)
             objectPtrBases.emplace_back(item);
         for (const auto& item : objectPtrBases)
             Object::DestroyImmediate(item);

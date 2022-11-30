@@ -16,12 +16,8 @@ namespace BDXKEngine
             {
                 return [this](void* value, const Type& type)
                 {
-                    IOTransferer* ioTransferer = dynamic_cast<IOTransferer*>(this);
-                    if (ioTransferer != nullptr && ioTransferer->IsImporter())
-                        ObjectPtrBase::GetVirtualTable(type, static_cast<ObjectPtrBase*>(value));
-
-                    const auto objectPtrBase = static_cast<ObjectPtrBase*>(value);
-                    this->TransferValue(objectPtrBase, GetTypeOf<ObjectPtrBase>());
+                    ObjectPtrBase::GetVirtualTable(type, static_cast<ObjectPtrBase*>(value));
+                    this->TransferValue(value, GetTypeOf<ObjectPtrBase>());
                 };
             }
 

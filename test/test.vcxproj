@@ -489,6 +489,7 @@
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\SceneWindow\SceneWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\Editor\ComponentEditor.h" />
     <ClInclude Include="..\include\BDXKEditor\Editor\Core\Editor.h" />
+    <ClInclude Include="..\include\BDXKEditor\Editor\Core\GUITransferer.h" />
     <ClInclude Include="..\include\BDXKEditor\Editor\GameObjectEditor.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Color.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Rect.h" />

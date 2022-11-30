@@ -100,7 +100,7 @@ namespace BDXKEngine
         }
     };
 
-#define CustomTransferFuncInternal(Type,FuncName,ID) TransferFunc CustomTransferFunc##FuncName##ID = {this,std::function([this](Type##& value){FuncName(value);})};
-#define CustomTransferFuncInternal2(Type,FuncName,ID) CustomTransferFuncInternal(Type,FuncName,ID)
-#define CustomTransferFunc(Type,FuncName) CustomTransferFuncInternal2(Type,FuncName,__LINE__)
+#define Internal_CustomTransferFunc(Type,FuncName,ID) TransferFunc CustomTransferFunc##FuncName##ID = {this,std::function([this](Type##& value){FuncName(value);})};
+#define Internal_CustomTransferFunc2(Type,FuncName,ID) Internal_CustomTransferFunc(Type,FuncName,ID)
+#define CustomTransferFunc(Type,FuncName) Internal_CustomTransferFunc2(Type,FuncName,__LINE__)
 }

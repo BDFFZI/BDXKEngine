@@ -20,6 +20,7 @@ namespace BDXKEngine
         ObjectPtr<GameObject> GetParent();
         int GetChildCount() const;
         ObjectPtr<GameObject> GetChild(int index);
+        ObjectPtr<Component> GetComponent(const Type& type) const;
         template <typename TComponent>
         ObjectPtr<TComponent> GetComponent() const
         {

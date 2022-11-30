@@ -22,7 +22,7 @@ namespace BDXKEngine
     // ReSharper disable once CppParameterMayBeConstPtrOrRef 禁止设置为常量，因为这可能导致填入参数为右值，从而错误触发安全指针的回收功能
     void Object::Instantiate(ObjectPtrBase& objectPtr)
     {
-        if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
+        if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
         if (objectPtr->name.empty()) objectPtr->name = objectPtr->GetType();
 
         //获取关联物体
@@ -43,7 +43,7 @@ namespace BDXKEngine
     }
     ObjectPtrBase Object::Clone(const ObjectPtrBase& objectPtr, Serializer& serializer, bool instantiate)
     {
-        if (objectPtr == nullptr) throw std::exception("实例化的物体为空");
+        if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
 
         //克隆并注册
         ObjectPtrBase instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));

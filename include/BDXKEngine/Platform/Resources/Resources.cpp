@@ -15,7 +15,7 @@ namespace BDXKEngine
         }
     };
     ObjectSerializer<BinaryExporter2, BinaryImporter2> Resources::binarySerializer;
-    
+
     ObjectSerializer<JsonExporter, JsonImporter>& Resources::GetJsonSerializer()
     {
         return jsonSerializer;

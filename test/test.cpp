@@ -1,10 +1,24 @@
-// #include "BDXKEngine/Framework/Renderer/Core/Camera.h"
-
-// using namespace BDXKEngine;
-
 #include <iostream>
 
 #include "BDXKEditor/BDXKEditor.h"
+using namespace BDXKEngine;
+
+class Test : public Behavior
+{
+    ObjectPtr<GameObject> target;
+
+    void Transfer(Transferer& transferer) override
+    {
+        Behavior::Transfer(transferer);
+
+        TransferFieldInfo(target);
+        if (target != nullptr)
+            std::cout << "Nice" << std::endl;
+    }
+};
+
+CustomReflection(Test)
+
 int main()
 {
     BDXKEditor::Run();

@@ -10,10 +10,15 @@ namespace BDXKEngine
         origin = reinterpret_cast<std::uintptr_t>(&reflective);
         length = reflection.size;
     }
+    bool ReflectionTransferer::IsValid() const
+    {
+        return startKey == "type";
+    }
 
     void ReflectionTransferer::PushPath(const std::string& key)
     {
         currentKey = key;
+        if (startKey.empty())startKey = key;
     }
     void ReflectionTransferer::TransferValue(void* value, const Type& type)
     {
@@ -37,7 +42,7 @@ namespace BDXKEngine
     {
         return GetReflection(reflective->GetType());
     }
-    int Reflection::GetReflections(std::vector<Reflection*>& reflections, const std::function<bool(const Reflection&)> condition)
+    int Reflection::GetReflections(std::vector<Reflection*>& reflections, const std::function<bool(const Reflection&)>& condition)
     {
         reflections.clear();
         for (const auto& item : Reflection::reflections | std::ranges::views::values)
@@ -61,6 +66,7 @@ namespace BDXKEngine
         //获取字段信息
         ReflectionTransferer reflecttransferer = {*instance, *this};
         instance->Transfer(reflecttransferer);
+        if (reflecttransferer.IsValid() == false)throw std::exception("注册类不符合反射规范");
         //注册反射
         reflections[instance->GetType()] = this;
     }
@@ -72,6 +78,10 @@ namespace BDXKEngine
     int Reflection::GetSize() const
     {
         return size;
+    }
+    Reflective* Reflection::GetInstance() const
+    {
+        return instance;
     }
     Reflective* Reflection::GetConstruction() const
     {
@@ -103,5 +113,9 @@ namespace BDXKEngine
         }
 
         return count;
+    }
+    bool Reflection::IsType(const Type& type) const
+    {
+        return reflections[type]->IsReceivable(instance);
     }
 }

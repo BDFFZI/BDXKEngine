@@ -38,10 +38,10 @@ namespace BDXKEngine
     }
     bool ObjectSerializerDatabase::IsSerialization(const Guid& guid)
     {
-        return serialization.count(guid) != 0;
+        return serialization.contains(guid);
     }
     bool ObjectSerializerDatabase::IsSerialization(int instanceID)
     {
-        return serialization.count(GetOrSetGuid(instanceID)) != 0;
+        return serialization.contains(GetOrSetGuid(instanceID));
     }
 }
