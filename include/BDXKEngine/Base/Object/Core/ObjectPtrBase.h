@@ -48,9 +48,9 @@ namespace BDXKEngine
     };
 
     template <typename TObjectPtr>
-    struct CustomObjectPtrLauncher
+    struct CustomObjectPtrRegister
     {
-        CustomObjectPtrLauncher()
+        CustomObjectPtrRegister()
         {
             TObjectPtr* objectPtr = new TObjectPtr();
             ObjectPtrBase::SetVirtualTable(objectPtr->GetType(), objectPtr);

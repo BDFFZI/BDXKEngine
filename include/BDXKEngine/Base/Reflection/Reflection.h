@@ -74,4 +74,13 @@ namespace BDXKEngine
 #define CustomReflectionInClass(target) static Reflection CustomReflection##target([] {return static_cast<Reflective*>(new target());},sizeof(target));
 
     CustomReflection(Reflective)
+
+#define CustomStaticConstructor(Func) struct StaticConstructorRegister\
+    {\
+        StaticConstructorRegister(void (*staticConstructor)())\
+        {\
+            staticConstructor();\
+        }\
+    };\
+    inline static StaticConstructorRegister staticConstructorRegister = {&Func};
 }

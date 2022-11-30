@@ -46,7 +46,7 @@ namespace BDXKEngine
         }
 
     protected:
-        inline static CustomObjectPtrLauncher<ObjectPtr<TObject>> customObjectPtr = {};
+        inline static CustomObjectPtrRegister<ObjectPtr<TObject>> customObjectPtr = {};
 
         TObject* debugPtr = nullptr; //该值可能出错，仅供调试用
 

@@ -39,18 +39,18 @@ namespace BDXKEditor
     };
 
     template <typename TObject, typename TEditor>
-    struct CustomEditorLauncher
+    struct CustomEditorRegister
     {
-        CustomEditorLauncher()
+        CustomEditorRegister()
         {
             Editor::SetEditor<TObject, TEditor>();
         }
-        CustomEditorLauncher(std::function<Editor*(const Reflective&)> func)
+        CustomEditorRegister(std::function<Editor*(const Reflective&)> func)
         {
             Editor::AddEditorFallback(func);
         }
     };
 
-#define CustomEditor(TObject,TEditor) inline CustomEditorLauncher<TObject,TEditor> CustomEditor##TObject = {};
-#define CustomEditorFallback(func) inline static CustomEditorLauncher<void,void> CustomEditorFallback##func = {func};
+#define CustomEditor(TObject,TEditor) inline CustomEditorRegister<TObject,TEditor> CustomEditor##TObject = {};
+#define CustomEditorFallback(func) inline static CustomEditorRegister<void,void> CustomEditorFallback##func = {func};
 }

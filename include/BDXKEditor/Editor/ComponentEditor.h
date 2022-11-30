@@ -7,9 +7,9 @@ namespace BDXKEditor
     {
     public:
         static Editor* EditorFallback(const Reflective& reflective);
+        CustomEditorFallback(EditorFallback)
 
         void OnInspectorGUI() override;
     private:
-        CustomEditorFallback(EditorFallback)
     };
 }
