@@ -10,4 +10,10 @@ namespace BDXKEngine
     {
         this->mesh = mesh;
     }
+    void MeshRenderer::Transfer(Transferer& transferer)
+    {
+        Renderer::Transfer(transferer);
+
+        TransferFieldInfo(mesh);
+    }
 }

@@ -26,13 +26,14 @@ namespace BDXKEngine
     {
         friend ReflectionTransferer;
     public:
+        static Reflection* FindReflection(const Type& id);
+        static const Reflection& GetReflection(const Type& id);
+        static const Reflection& GetReflection(const Reflective* reflective);
         template <typename Type>
         static const Reflection& GetReflection()
         {
             return GetReflection(GetTypeOf<Type>());
         }
-        static const Reflection& GetReflection(const Type& id);
-        static const Reflection& GetReflection(const Reflective* reflective);
         static int GetReflections(std::vector<Reflection*>& reflections,
                                   const std::function<bool(const Reflection&)>& condition = [](const Reflection&) { return true; }
         );
@@ -58,12 +59,12 @@ namespace BDXKEngine
         }
         int GetFields(Reflective* target, std::vector<std::string>& names, std::vector<void*>& values, std::vector<Type>& types) const;
 
-        virtual bool IsReceivable(Reflective* reflective) const = 0;
-        virtual bool IsType(const Type& type) const;
+        virtual bool CanReceiveFrom(Reflective* reflective) const = 0;
+        virtual bool CanConvertTo(const Type& type) const;
         template <typename T>
-        bool IsTypeOf() const
+        bool CanConvertTo() const
         {
-            return IsType(GetTypeOf<T>());
+            return CanConvertTo(GetTypeOf<T>());
         }
     private:
         inline static std::unordered_map<Type, Reflection*> reflections = {}; //必须提前在头文件中定义，以便在触发宏时能确保容器已初始化
@@ -85,7 +86,7 @@ namespace BDXKEngine
         {
         }
     private:
-        bool IsReceivable(Reflective* reflective) const override
+        bool CanReceiveFrom(Reflective* reflective) const override
         {
             return dynamic_cast<T*>(reflective) != nullptr;
         }

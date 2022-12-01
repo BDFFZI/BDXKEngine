@@ -1,6 +1,6 @@
 ﻿// ReSharper disable CppClangTidyClangDiagnosticFormatSecurity
 #include "GUITransferer.h"
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
 #include "BDXKEngine/Framework/Core/Component.h"
 #include "imgui/imgui.h"
@@ -106,7 +106,7 @@ namespace BDXKEditor
             {
                 const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
                 const Reflection& droppingReflection = Reflection::GetReflection(dropping.GetObjectType());
-                if (droppingReflection.IsType(value.GetObjectType()))
+                if (droppingReflection.CanConvertTo(value.GetObjectType()))
                     value = dropping;
                 else if (const ObjectPtr gameObject = dropping.ToObject<GameObject>(); gameObject.IsNotNull())
                 {

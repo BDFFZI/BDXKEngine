@@ -59,7 +59,7 @@ namespace BDXKEngine
         return gameObject;
     }
 
-    void Scene::CreateDefault()
+    void Scene::LoadDefault()
     {
         const ObjectPtr<GameObject> sun = Creation::CreateDirectionalLight("Sun");
         const ObjectPtr<GameObject> ground = Creation::CreatePlane("Ground");
@@ -68,23 +68,32 @@ namespace BDXKEngine
         sun->SetLocalEulerAngles({45, -45, 0});
         sphere->SetLocalPosition({0, 0.5f, 0});
         camera->SetLocalPosition({0, 1, -10});
-        RenderSettings::Create();
     }
-    void Scene::Save(const std::string& path)
+    void Scene::Load(const ObjectPtr<Scene>& path)
+    {
+        for (const auto& item : path->gameObjects)
+        {
+            Resources::Clone(item);
+            //DestroyImmediate(item);
+        }
+    }
+    ObjectPtr<Scene> Scene::GetCurrentScene()
     {
         ObjectPtr scene = new Scene{};
         Instantiate(scene);
-        scene->renderSettings = RenderSettings::GetSingleton();
-        scene->gameObjects = GameObject::GetGameObjects();
-        Resources::Save(path, scene, Resources::GetJsonSerializer());
-    }
-    void Scene::Load(const std::string& path)
-    {
-        for (const auto& item : GameObject::GetGameObjects())
-            DestroyImmediate(item);
-        Resources::Load(path, Resources::GetJsonSerializer());
+        scene->renderSettings = &RenderSettings::GetSingleton();
+        for (const auto& item : ScriptableObject::FindScriptableObjectsOfType<GameObject>())
+        {
+            if (Resources::IsResource(item) == false && item->GetParent().IsNull())
+                scene->gameObjects.emplace_back(item);
+        }
+        return scene;
     }
 
+    std::vector<ObjectPtr<GameObject>>& Scene::GameObjects()
+    {
+        return gameObjects;
+    }
     void Scene::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);

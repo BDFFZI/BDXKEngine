@@ -2,7 +2,7 @@
 #include "ObjectTransferer.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Serialization/Core/Serializer.h"
-#include "Core/ObjectPtrTransferer.h"
+#include "ObjectPtrTransferer.h"
 #include "Guid/Guid.h"
 
 namespace BDXKEngine
@@ -14,13 +14,14 @@ namespace BDXKEngine
         static int GetInstanceID(const Guid& guid);
         static void SetInstanceID(const Guid& guid, int instanceID);
 
-        static void SignSerialization(const Guid& guid);
-        static bool IsSerialization(const Guid& guid);
+        static void SignRootSerialization(const Guid& guid);
+        static bool IsRootSerialization(const Guid& guid);
+        static bool IsRootSerialization(int instanceID);
         static bool IsSerialization(int instanceID);
     private:
         static std::unordered_map<int, Guid> instanceIDToGuid;
         static std::unordered_map<Guid, int> guidToInstanceID;
-        static std::unordered_set<Guid> serialization;
+        static std::unordered_set<Guid> rootSerialization;
     };
 
 
@@ -47,15 +48,14 @@ namespace BDXKEngine
             Object* rootObject = dynamic_cast<Object*>(input);
             const int rootInstanceID = rootObject->GetInstanceID();
             const Guid rootGuid = ObjectSerializerDatabase::GetOrSetGuid(rootInstanceID);
-            ObjectSerializerDatabase::SignSerialization(rootGuid);
+            ObjectSerializerDatabase::SignRootSerialization(rootGuid);
 
             //统计引用
-            ObjectPtrTransferer objectPtrTransferer = {rootObject->GetInstanceID()};
-            rootObject->Transfer(objectPtrTransferer);
+            ObjectPtrTransferer objectPtrTransferer = {rootObject};
             const auto references = objectPtrTransferer.GetReferences();
 
             //序列化相关物体
-            objectExporter.template SetTransferFunc<ObjectPtrBase>([this](ObjectPtrBase& value)
+            objectExporter.template SetTransferFunc<ObjectPtrBase>([this](const ObjectPtrBase& value)
             {
                 const int instanceID = value.GetInstanceID();
                 if (Object::FindObjectOfInstanceID(instanceID) == nullptr)
@@ -69,25 +69,22 @@ namespace BDXKEngine
                     objectExporter.TransferValue(guid);
                 }
             });
-            std::unordered_map<Guid, std::string> serializations;
+            std::vector<std::tuple<Guid, std::string>> serializations;
             for (auto& instanceID : references)
             {
                 Guid guid = ObjectSerializerDatabase::GetOrSetGuid(instanceID);
-                if (ObjectSerializerDatabase::IsSerialization(instanceID) && instanceID != rootInstanceID)
-                    serializations[guid] = "";
+                if (ObjectSerializerDatabase::IsRootSerialization(instanceID) && instanceID != rootInstanceID)
+                    serializations.push_back(std::make_tuple(guid, ""));
                 else
-                    serializations[guid] = Serializer::Serialize(Object::FindObjectOfInstanceID(instanceID));
+                    serializations.push_back(std::make_tuple(guid, Serializer::Serialize(Object::FindObjectOfInstanceID(instanceID))));
             }
 
-            //合并序列化数据
+            //输出序列化数据
             int serializationsCount = static_cast<int>(serializations.size());
             objectExporter.TransferField("serializationsCount", serializationsCount);
             int index = 0;
-            for (const auto& item : serializations)
+            for (auto& [target,data] : serializations)
             {
-                Guid target = item.first;
-                std::string data = item.second;
-
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectExporter.PushPath(itemName);
                 objectExporter.TransferField("object", target);
@@ -102,6 +99,29 @@ namespace BDXKEngine
         }
         Reflective* Deserialize(std::string input) override
         {
+            //获取反序列化数据
+            objectImporter.Reset(input);
+            int serializationsCount;
+            objectImporter.TransferField("serializationsCount", serializationsCount);
+            std::vector<std::tuple<Guid, std::string>> serializations;
+            for (int index = 0; index < serializationsCount; index++)
+            {
+                Guid guid = {};
+                std::string data = {};
+
+                std::string itemName = "serialization_" + std::to_string(index);
+                objectImporter.PushPath(itemName);
+                objectImporter.TransferField("object", guid);
+                transferSerialization(objectImporter, data);
+                objectImporter.PopPath(itemName);
+
+                serializations.push_back(std::make_tuple(guid, data));
+            }
+
+            const Guid rootGuid = std::get<0>(serializations[0]);
+            ObjectSerializerDatabase::SignRootSerialization(rootGuid);
+
+            //反序列化
             std::unordered_map<Guid, std::vector<ObjectPtrBase*>> references;
             objectImporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
             {
@@ -113,60 +133,32 @@ namespace BDXKEngine
 
                 references[guid].push_back(&value);
             });
-
-            //分离序列化数据
-            objectImporter.Reset(input);
-            int serializationsCount;
-            objectImporter.TransferField("serializationsCount", serializationsCount);
-            std::unordered_map<Guid, std::string> serializations;
-            for (int index = 0; index < serializationsCount; index++)
+            for (const auto& [guid,data] : serializations)
             {
-                Guid target = {};
-                std::string data = {};
-
-                std::string itemName = "serialization_" + std::to_string(index);
-                objectImporter.PushPath(itemName);
-                objectImporter.TransferField("object", target);
-                transferSerialization(objectImporter, data);
-                objectImporter.PopPath(itemName);
-
-                serializations[target] = data;
-            }
-
-            Guid rootGuid = serializations.begin()->first;
-            ObjectSerializerDatabase::SignSerialization(rootGuid);
-
-            //反序列化相关物体
-            for (const auto& serialization : serializations)
-            {
-                Guid target = serialization.first;
-                std::string data = serialization.second;
-
-                //TODO 重新加载
-                if (ObjectSerializerDatabase::IsSerialization(target) == false || target == rootGuid)
+                if (ObjectSerializerDatabase::IsRootSerialization(guid) == false || guid == rootGuid)
                 {
-                    Object* object = dynamic_cast<Object*>(Serializer::Deserialize(data));
-                    ObjectSerializerDatabase::SetInstanceID(target, object->GetInstanceID());
+                    const Object* object = dynamic_cast<Object*>(Serializer::Deserialize(data));
+                    ObjectSerializerDatabase::SetInstanceID(guid, object->GetInstanceID());
                 }
             }
 
             //链接引用关系
             for (const auto& reference : references)
             {
-                ObjectPtrBase object = Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(reference.first));
-                for (auto objectPtr : reference.second)
+                const ObjectPtrBase object = Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(reference.first));
+                for (const auto objectPtr : reference.second)
                     *objectPtr = object;
             }
 
 
-            return Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(serializations.begin()->first));
+            return Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(rootGuid));
         }
         Reflective* Clone(Reflective* input) override
         {
             const Object* inputObject = dynamic_cast<Object*>(input);
             if (inputObject == nullptr)throw std::exception("只允许序列化Object物体");
 
-            objectExporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
+            objectExporter.template SetTransferFunc<ObjectPtrBase>([&](const ObjectPtrBase& value)
             {
                 int instanceID = value.GetInstanceID();
                 objectExporter.TransferValue(instanceID);

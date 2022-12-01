@@ -11,22 +11,27 @@
 
 namespace BDXKEditor
 {
-    ObjectPtr<SceneWindow> EditorSystem::sceneView;
-    ObjectPtr<HierarchyWindow> EditorSystem::hierarchyView;
-    ObjectPtr<InspectorWindow> EditorSystem::inspectorView;
+    ObjectPtr<SceneWindow> EditorSystem::sceneWindow;
+    ObjectPtr<HierarchyWindow> EditorSystem::hierarchyWindow;
+    ObjectPtr<InspectorWindow> EditorSystem::inspectorWindow;
+    ObjectPtr<ProfilerWindow> EditorSystem::profilerWindow;
 
 
     const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
     {
-        return sceneView;
+        return sceneWindow;
     }
     const ObjectPtr<HierarchyWindow>& EditorSystem::GetHierarchyView()
     {
-        return hierarchyView;
+        return hierarchyWindow;
     }
     const ObjectPtr<InspectorWindow>& EditorSystem::GetInspectorView()
     {
-        return inspectorView;
+        return inspectorWindow;
+    }
+    void EditorSystem::SetScene(const std::string& name)
+    {
+        sceneFile = name;
     }
 
     void EditorSystem::OnDrawGUI()
@@ -38,11 +43,12 @@ namespace BDXKEditor
         {
             if (ImGui::MenuItem("Save"))
             {
-                Scene::Save("scene.json");
+                const ObjectPtr<Scene> scene = Scene::GetCurrentScene();
+                Resources::Save(sceneFile, scene, Resources::GetJsonSerializer());
             }
             if (ImGui::MenuItem("Load"))
             {
-                Scene::Load("scene.json");
+                // Scene::Load("scene.json");
             }
 
             ImGui::EndMenu();
@@ -51,25 +57,28 @@ namespace BDXKEditor
     }
     void EditorSystem::OnAwake()
     {
-        hierarchyView = EditorWindow::Create<HierarchyWindow>();
-        sceneView = EditorWindow::Create<SceneWindow>();
-        inspectorView = EditorWindow::Create<InspectorWindow>();
+        hierarchyWindow = EditorWindow::Create<HierarchyWindow>();
+        sceneWindow = EditorWindow::Create<SceneWindow>();
+        inspectorWindow = EditorWindow::Create<InspectorWindow>();
+        profilerWindow = EditorWindow::Create<ProfilerWindow>();
 
-        hierarchyView->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
+        hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
         {
-            sceneView->SetTarget(gameObject);
-            inspectorView->SetTarget(gameObject);
+            sceneWindow->SetTarget(gameObject);
+            inspectorWindow->SetTarget(gameObject);
         });
 
-        hierarchyView->Show();
-        sceneView->Show();
-        inspectorView->Show();
+        hierarchyWindow->Show();
+        sceneWindow->Show();
+        inspectorWindow->Show();
+        profilerWindow->Show();
     }
     void EditorSystem::OnDestroy()
     {
-        sceneView = nullptr;
-        hierarchyView = nullptr;
-        inspectorView = nullptr;
+        sceneWindow = nullptr;
+        hierarchyWindow = nullptr;
+        inspectorWindow = nullptr;
+        profilerWindow = nullptr;
     }
     void TestLight()
     {
@@ -106,7 +115,7 @@ namespace BDXKEditor
 
             ObjectPtr<Camera> camera = GameObject::Find("Camera")->GetComponent<Camera>();
             camera->SetClearFlags(ClearFlags::Skybox);
-            RenderSettings::GetSingleton()->skybox = sphere_light->GetShadowMap().ToObjectPtr<TextureCube>();
+            RenderSettings::GetSingleton().SetSkybox(sphere_light->GetShadowMap().ToObjectPtr<TextureCube>());
         }
 
         ObjectPtr<GameObject> cube = Creation::CreateCube("Stick");
@@ -115,15 +124,15 @@ namespace BDXKEditor
             cube->SetLocalScale({0.2f, 0.05f, 0.05f});
         }
     }
-    void Run()
-    {
-        BDXKEngine::Run([]
-        {
-            Scene::CreateDefault();
-            TestLight();
-            Component::Create<EditorSystem>(GameObject::Create(":EditorSystem"));
-        });
 
+    ObjectPtr<EditorSystem> editorSystem;
+    void Run(const std::string& sceneFile)
+    {
+        BDXKEngine::Run(sceneFile, [&]
+        {
+            editorSystem = Object::Create<EditorSystem>();
+            editorSystem->SetScene(sceneFile);
+        });
         std::cout << "\n按任意键退出" << std::endl;
         std::getchar();
     }

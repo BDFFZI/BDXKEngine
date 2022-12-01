@@ -56,8 +56,22 @@ namespace BDXKEngine
         ofstream << data;
         ofstream.close();
     }
+    bool Resources::IsResource(const Object* object)
+    {
+        return ObjectSerializerDatabase::IsSerialization(object->GetInstanceID());
+    }
     bool Resources::IsResource(const ObjectPtrBase& objectPtr)
     {
         return ObjectSerializerDatabase::IsSerialization(objectPtr.GetInstanceID());
+    }
+    bool Resources::IsExisting(const std::string& path)
+    {
+        std::ifstream ifstream(rootDirectory + path, std::ios_base::binary);
+        if (ifstream.is_open())
+        {
+            ifstream.close();
+            return true;
+        }
+        return false;
     }
 }

@@ -21,8 +21,8 @@ namespace BDXKEngine
     void RenderEvent::Render()
     {
         //获取渲染事件
-        const std::vector<DrawGUIHandler*> drawGUIHandlers = ScriptableObject::FindScriptableObjectPtrsOfType<DrawGUIHandler>();
-        const std::vector<DrawGizmosHandler*> drawGizmosHandlers = ScriptableObject::FindScriptableObjectPtrsOfType<DrawGizmosHandler>();
+        const std::vector<ObjectPtr<Object>> drawGUIHandlers = ScriptableObject::FindScriptableObjectsOfType<DrawGUIHandler, Object>();
+        const std::vector<ObjectPtr<Object>> drawGizmosHandlers = ScriptableObject::FindScriptableObjectsOfType<DrawGizmosHandler, Object>();
         //获取渲染资源
         const std::vector<Camera*>& cameraQueue = Camera::GetCameraQueue();
         const std::vector<Renderer*>& rendererQueue = Renderer::GetRendererQueue();
@@ -40,8 +40,8 @@ namespace BDXKEngine
 
             //绘制后期物体
             currentCamera = camera;
-            for (const auto drawGizmosHandler : drawGizmosHandlers)
-                drawGizmosHandler->OnDrawGizmos();
+            for (const auto& drawGizmosHandler : drawGizmosHandlers)
+                if (drawGizmosHandler.IsNotNull()) drawGizmosHandler.ToObject<DrawGizmosHandler>()->OnDrawGizmos();
         }
 
         //UI渲染
@@ -49,8 +49,8 @@ namespace BDXKEngine
             Texture::SetRenderTargetDefault();
             GUI::BeginDraw();
 
-            for (const auto drawGUIHandler : drawGUIHandlers)
-                drawGUIHandler->OnDrawGUI();
+            for (const auto& drawGUIHandler : drawGUIHandlers)
+                if (drawGUIHandler.IsNotNull()) drawGUIHandler.ToObject<DrawGUIHandler>()->OnDrawGUI();
 
             GUI::EndDraw();
         }

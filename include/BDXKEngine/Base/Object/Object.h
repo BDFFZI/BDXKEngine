@@ -23,6 +23,13 @@ namespace BDXKEngine
     class Object : public Reflective
     {
     public:
+        template <class TObject>
+        static ObjectPtr<TObject> Create()
+        {
+            ObjectPtr window = new TObject{};
+            Instantiate(window);
+            return window;
+        }
         static const std::map<int, Object*>& GetObjects();
 
         Object();

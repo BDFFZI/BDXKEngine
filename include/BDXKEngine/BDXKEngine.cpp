@@ -12,10 +12,11 @@
 #include "Function/Window/Input.h"
 #include "Function/Window/Screen.h"
 #include "Platform/GUI/GUI.h"
+#include "Platform/Resources/Resources.h"
 
 namespace BDXKEngine
 {
-    void Run(const std::function<void()>& onStart)
+    void Run(const std::string& sceneFile, const std::function<void()>& onSceneloaded)
     {
         if (std::setlocale(LC_ALL, "zh-CN.UTF-8") == nullptr) // NOLINT(concurrency-mt-unsafe)
             throw std::exception("设置本地化失败");
@@ -35,9 +36,13 @@ namespace BDXKEngine
         BehaviorEvent::Initialize(&window);
         RenderEvent::Initialize(&window);
 
+        //正式开始
         {
-            //正式循环
-            onStart();
+            if (Resources::IsExisting(sceneFile))
+                Scene::Load(Resources::Load<Scene>(sceneFile, Resources::GetJsonSerializer()));
+            else
+                Scene::LoadDefault();
+            if (onSceneloaded != nullptr)onSceneloaded();
             window.Show();
         }
 

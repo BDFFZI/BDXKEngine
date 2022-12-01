@@ -4,7 +4,7 @@
 namespace BDXKEngine
 {
     std::vector<Renderer*> Renderer::renderers = {};
-    
+
     const std::vector<Renderer*>& Renderer::GetRendererQueue()
     {
         for (const auto& renderer : renderers)
@@ -48,22 +48,6 @@ namespace BDXKEngine
         this->receiveShadows = receiveShadows;
     }
 
-    void Renderer::Enable()
-    {
-        Component::Enable();
-
-        renderers.push_back(this);
-
-        //Debug::LogWarning(static_cast<String>("Renderer::Enable ") + GetInstanceID() + " " + GetName());
-    }
-    void Renderer::Disable()
-    {
-        renderers.erase(std::ranges::find(renderers, this));
-
-        Component::Disable();
-
-        //Debug::LogWarning(static_cast<String>("Renderer::Disable ") + GetInstanceID() + " " + GetName());
-    }
     void Renderer::Transfer(Transferer& transferer)
     {
         Component::Transfer(transferer);
@@ -71,5 +55,13 @@ namespace BDXKEngine
         TransferFieldInfo(material);
         TransferFieldInfo(castShadows);
         TransferFieldInfo(receiveShadows);
+    }
+    void Renderer::OnEnable()
+    {
+        renderers.push_back(this);
+    }
+    void Renderer::OnDisable()
+    {
+        renderers.erase(std::ranges::find(renderers, this));
     }
 }

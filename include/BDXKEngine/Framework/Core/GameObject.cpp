@@ -26,6 +26,10 @@ namespace BDXKEngine
         const auto result = std::ranges::find_if(gameObjects, [name](auto& item) { return item->GetName() == name; });
         return result == gameObjects.end() ? nullptr : *result;
     }
+    void GameObject::Hide(const ObjectPtr<GameObject>& gameObject)
+    {
+        std::erase(gameObjects, gameObject);
+    }
     bool GameObject::GetIsActivating() const
     {
         if (parent != nullptr)
@@ -46,7 +50,7 @@ namespace BDXKEngine
     {
         for (const ObjectPtr<Component>& component : components)
         {
-            if (Reflection::GetReflection(component.ToObjectBase()).IsType(type))
+            if (Reflection::GetReflection(component.ToObjectBase()).CanConvertTo(type))
                 return component;
         }
         return nullptr;
@@ -249,13 +253,9 @@ namespace BDXKEngine
                 Instantiate(component);
             }
         }
-
-        gameObjects.emplace_back(this);
     }
     void GameObject::Destroy()
     {
-        std::erase(gameObjects, this);
-
         for (const ObjectPtr<GameObject>& child : std::vector{children})
             DestroyImmediate(child);
         children.clear();
@@ -284,5 +284,13 @@ namespace BDXKEngine
             component->SetIsActivating(false);
 
         ScriptableObject::Disable();
+    }
+    void GameObject::OnAwake()
+    {
+        gameObjects.emplace_back(this);
+    }
+    void GameObject::OnDestroy()
+    {
+        std::erase(gameObjects, this);
     }
 }

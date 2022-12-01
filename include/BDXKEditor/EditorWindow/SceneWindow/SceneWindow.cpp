@@ -17,6 +17,7 @@ namespace BDXKEditor
     void SceneWindow::OnAwake()
     {
         const ObjectPtr<GameObject> editorCameraGameObject = Creation::CreateCamera(":SceneWindow");
+        GameObject::Hide(editorCameraGameObject);
 
         camera = editorCameraGameObject->GetComponent<Camera>();
         cameraTexture = Texture2D::Create(960, 540, TextureFormat::B8G8R8A8_UNORM);
@@ -33,7 +34,7 @@ namespace BDXKEditor
         const Vector2 windowMin = ImGui::GetWindowContentRegionMin();
         const Vector2 windowMax = ImGui::GetWindowContentRegionMax();
         viewSize = windowMax - windowMin;
-        if (cameraTexture->GetSize() != viewSize && viewSize.x * viewSize.y > 0)
+        if (cameraTexture->GetSize() != viewSize && viewSize.x > 0 && viewSize.y > 0)
         {
             cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
             camera->SetRenderTarget(cameraTexture);

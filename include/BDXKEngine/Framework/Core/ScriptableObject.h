@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <unordered_set>
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 
 namespace BDXKEngine
@@ -47,27 +47,14 @@ namespace BDXKEngine
     class ScriptableObject : public Object
     {
     public:
-        template <typename TObject>
-        static std::vector<ObjectPtr<TObject>> FindScriptableObjectsOfType()
+        template <class TObject, class TResult = TObject>
+        static std::vector<ObjectPtr<TResult>> FindScriptableObjectsOfType()
         {
-            std::vector<ObjectPtr<TObject>> result{};
+            std::vector<ObjectPtr<TResult>> result{};
             for (const auto& item : allScriptableObjects)
             {
                 TObject* object = dynamic_cast<TObject*>(item);
-                if (object != nullptr)result.emplace_back(object);
-            }
-
-            return result;
-        }
-
-        template <typename TObject>
-        static std::vector<TObject*> FindScriptableObjectPtrsOfType()
-        {
-            std::vector<TObject*> result{};
-            for (const auto& item : allScriptableObjects)
-            {
-                TObject* object = dynamic_cast<TObject*>(item);
-                if (object != nullptr)result.push_back(object);
+                if (object != nullptr)result.emplace_back(dynamic_cast<TResult*>(object));
             }
 
             return result;

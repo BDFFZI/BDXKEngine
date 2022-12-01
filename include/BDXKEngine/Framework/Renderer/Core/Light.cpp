@@ -83,7 +83,6 @@ namespace BDXKEngine
 
     void Light::UpdateShadowMap(const std::vector<Renderer*>& rendererQueue) const
     {
-        const ObjectPtr<RenderSettings> renderSettings = RenderSettings::GetSingleton();
         const ObjectPtr<GameObject> gameObject = GetGameObject();
         LightInfo lightInfo = GetLightInfo(0);
 
@@ -141,18 +140,6 @@ namespace BDXKEngine
         transferer.TransferField("color", color);
         transferer.TransferField("intensity", intensity);
     }
-    void Light::Enable()
-    {
-        lights.emplace_back(this);
-
-        Component::Enable();
-    }
-    void Light::Disable()
-    {
-        erase(lights, this);
-
-        Component::Disable();
-    }
     void Light::Awake()
     {
         Component::Awake();
@@ -166,5 +153,13 @@ namespace BDXKEngine
         DestroyImmediate(shadowMapCube);
 
         Component::Destroy();
+    }
+    void Light::OnEnable()
+    {
+        lights.emplace_back(this);
+    }
+    void Light::OnDisable()
+    {
+        erase(lights, this);
     }
 }

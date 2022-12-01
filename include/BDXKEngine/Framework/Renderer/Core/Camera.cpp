@@ -106,7 +106,6 @@ namespace BDXKEngine
     void Camera::Render(const std::vector<Light*>& lightQueue, const std::vector<Renderer*>& rendererQueue) const
     {
         const ObjectPtr<GameObject> gameObject = GetGameObject();
-        const ObjectPtr<RenderSettings> renderSettings = RenderSettings::GetSingleton();
 
         //渲染排序 TODO
         //遮挡剔除 TODO
@@ -123,7 +122,7 @@ namespace BDXKEngine
             {
                 GL::Clear(true, true);
 
-                const auto& skyboxMaterial = renderSettings->skyboxMaterial;
+                const auto& skyboxMaterial = RenderSettings::GetSingleton().GetSkyboxMaterial();
                 skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
                 skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
                 skyboxMaterial->SetPass(0);
@@ -133,7 +132,7 @@ namespace BDXKEngine
                     CameraInfo::Orthographic(
                         screenSize.x / screenSize.y, 0, 1, screenSize.y,
                         Matrix4x4::identity, Vector3::zero, Color::black, 0
-                    ), renderSettings->skybox
+                    ), RenderSettings::GetSingleton().GetSkybox()
                 );
 
                 Graphics::DrawRect({Vector2::zero, screenSize});
@@ -192,16 +191,12 @@ namespace BDXKEngine
         TransferFieldInfo(size);
         TransferFieldInfo(priority);
     }
-    void Camera::Enable()
+    void Camera::OnEnable()
     {
-        Component::Enable();
-
         cameras.push_back(this);
     }
-    void Camera::Disable()
+    void Camera::OnDisable()
     {
-        Component::Disable();
-
         std::erase(cameras, this);
     }
 }

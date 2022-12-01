@@ -9,6 +9,8 @@ namespace BDXKEngine
     public:
         const ObjectPtr<Mesh>& GetMesh() const override;
         void SetMesh(const ObjectPtr<Mesh>& mesh);
+    protected:
+        void Transfer(Transferer& transferer) override;
     private:
         ObjectPtr<Mesh> mesh;
     };

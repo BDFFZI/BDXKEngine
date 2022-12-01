@@ -84,7 +84,7 @@ namespace BDXKEditor
 
                 const int count = Reflection::GetReflections(
                     componentReflections,
-                    [](const Reflection& reflection) { return reflection.IsTypeOf<Component>(); }
+                    [](const Reflection& reflection) { return reflection.CanConvertTo<Component>(); }
                 );
 
                 for (int i = 0; i < count; i++)

@@ -31,12 +31,17 @@ namespace BDXKEngine
         }
     }
 
+    Reflection* Reflection::FindReflection(const Type& id)
+    {
+        const auto& item = reflections.find(id);
+        return item == reflections.end() ? nullptr : item->second;
+    }
     const Reflection& Reflection::GetReflection(const Type& id)
     {
         const auto& item = reflections.find(id);
         if (item == reflections.end())throw std::exception((id + "的反射信息未定义").c_str());
 
-        return *reflections[id];
+        return *item->second;
     }
     const Reflection& Reflection::GetReflection(const Reflective* reflective)
     {
@@ -114,8 +119,8 @@ namespace BDXKEngine
 
         return count;
     }
-    bool Reflection::IsType(const Type& type) const
+    bool Reflection::CanConvertTo(const Type& type) const
     {
-        return reflections[type]->IsReceivable(instance);
+        return reflections[type]->CanReceiveFrom(instance);
     }
 }

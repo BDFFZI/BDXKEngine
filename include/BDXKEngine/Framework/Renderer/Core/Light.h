@@ -15,7 +15,7 @@ namespace BDXKEngine
     //     NotImportant,
     // };
 
-    class Light : public Component
+    class Light : public Component, public EnableHandler, public DisableHandler
     {
     public:
         static const std::vector<Light*>& GetLightQueue(Vector3 position = Vector3::zero);
@@ -41,10 +41,10 @@ namespace BDXKEngine
         ObjectPtr<TextureCube> shadowMapCube;
 
         void Transfer(Transferer& transferer) override;
-        void Enable() override;
-        void Disable() override;
         void Awake() override;
         void Destroy() override;
+        void OnEnable() override;
+        void OnDisable() override;
     };
 
     CustomReflection(Light)

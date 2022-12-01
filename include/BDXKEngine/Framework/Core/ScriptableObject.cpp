@@ -48,21 +48,34 @@ namespace BDXKEngine
 
     void ScriptableObject::Enable()
     {
-        if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
-            handler->OnEnable();
+        if (isActivating == true && isAwakened == false)
+        {
+            if (const auto handler = dynamic_cast<AwakeHandler*>(this); handler != nullptr)
+                handler->OnAwake();
+            isAwakened = true;
+        }
 
-        allScriptableObjects.insert(this);
+        if (isAwakened)
+        {
+            if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
+                handler->OnEnable();
 
-        std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
+            allScriptableObjects.insert(this);
+
+            std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
+        }
     }
     void ScriptableObject::Disable()
     {
-        allScriptableObjects.erase(this);
+        if (isAwakened)
+        {
+            allScriptableObjects.erase(this);
 
-        if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
-            handler->OnDisable();
+            if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
+                handler->OnDisable();
 
-        std::cout << "SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
+            std::cout << "SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
+        }
     }
     void ScriptableObject::Awake()
     {
@@ -70,24 +83,17 @@ namespace BDXKEngine
 
         isActivating = GetIsActivating();
 
-        if (isActivating == true)
-        {
-            if (const auto handler = dynamic_cast<AwakeHandler*>(this); handler != nullptr)
-                handler->OnAwake();
-            isAwakened = true;
-        }
-
         if (IsActivatingAndEnabling())Enable();
     }
     void ScriptableObject::Destroy()
     {
+        if (IsActivatingAndEnabling())Disable();
+
         if (isAwakened == true)
         {
             if (const auto handler = dynamic_cast<DestroyHandler*>(this); handler != nullptr)
                 handler->OnDestroy();
         }
-
-        if (IsActivatingAndEnabling())Disable();
 
         Object::Destroy();
     }

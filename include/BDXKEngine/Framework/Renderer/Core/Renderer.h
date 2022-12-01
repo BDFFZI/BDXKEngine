@@ -5,7 +5,7 @@
 
 namespace BDXKEngine
 {
-    class Renderer : public Component
+    class Renderer : public Component, public EnableHandler, public DisableHandler
     {
     public:
         static const std::vector<Renderer*>& GetRendererQueue();
@@ -18,15 +18,15 @@ namespace BDXKEngine
         void SetMaterial(const ObjectPtr<Material>& material);
         void SetCastShadows(bool castShadows);
         void SetReceiveShadows(bool receiveShadows);
+    protected:
+        void Transfer(Transferer& transferer) override;
+        void OnEnable() override;
+        void OnDisable() override;
     private:
         static std::vector<Renderer*> renderers;
 
         ObjectPtr<Material> material = nullptr;
         bool castShadows = true;
         bool receiveShadows = true;
-
-        void Enable() override;
-        void Disable() override;
-        void Transfer(Transferer& transferer) override;
     };
 }

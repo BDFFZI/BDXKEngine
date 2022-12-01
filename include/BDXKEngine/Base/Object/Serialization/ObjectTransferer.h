@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <regex>
 #include "BDXKEngine/Base/Reflection/Transferer.h"
-#include "Core/Object.h"
+#include "../Object.h"
 
 namespace BDXKEngine
 {

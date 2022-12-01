@@ -1,7 +1,9 @@
 #include <iostream>
 
 #include "BDXKEditor/BDXKEditor.h"
+#include "BDXKEngine/BDXKEngine.h"
 using namespace BDXKEngine;
+using namespace BDXKEditor;
 
 class Test : public Behavior
 {
@@ -21,7 +23,7 @@ CustomReflection(Test)
 
 int main()
 {
-    BDXKEditor::Run();
+    BDXKEditor::Run("scene.json");
 
     // Window window{L"BDXKEngine"};
     //

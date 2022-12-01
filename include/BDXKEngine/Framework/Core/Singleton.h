@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEngine
 {
@@ -7,15 +7,14 @@ namespace BDXKEngine
     class Singleton : public Object
     {
     public:
-        static const ObjectPtr<TSingleton>& GetSingleton()
+        static TSingleton& GetSingleton()
         {
-            if (singleton.IsNull())
-                throw std::exception("该单例尚未创建");
-            return singleton;
+            if (singleton.IsNull())TSingleton::Reset();
+            return *singleton.template ToObject<TSingleton>();
         }
     private:
         static ObjectPtr<TSingleton> singleton;
-        
+
         void Awake() override
         {
             Object::Awake();

@@ -4,7 +4,7 @@ namespace BDXKEngine
 {
     std::unordered_map<int, Guid> ObjectSerializerDatabase::instanceIDToGuid = {};
     std::unordered_map<Guid, int> ObjectSerializerDatabase::guidToInstanceID = {};
-    std::unordered_set<Guid> ObjectSerializerDatabase::serialization = {};
+    std::unordered_set<Guid> ObjectSerializerDatabase::rootSerialization = {};
 
     Guid ObjectSerializerDatabase::GetOrSetGuid(int instanceID)
     {
@@ -23,7 +23,7 @@ namespace BDXKEngine
     }
     int ObjectSerializerDatabase::GetInstanceID(const Guid& guid)
     {
-        if (guidToInstanceID.count(guid) != 0)
+        if (guidToInstanceID.contains(guid))
             return guidToInstanceID[guid];
         return 0;
     }
@@ -32,16 +32,20 @@ namespace BDXKEngine
         guidToInstanceID[guid] = instanceID;
         instanceIDToGuid[instanceID] = guid;
     }
-    void ObjectSerializerDatabase::SignSerialization(const Guid& guid)
+    void ObjectSerializerDatabase::SignRootSerialization(const Guid& guid)
     {
-        serialization.insert(guid);
+        rootSerialization.insert(guid);
     }
-    bool ObjectSerializerDatabase::IsSerialization(const Guid& guid)
+    bool ObjectSerializerDatabase::IsRootSerialization(const Guid& guid)
     {
-        return serialization.contains(guid);
+        return rootSerialization.contains(guid);
+    }
+    bool ObjectSerializerDatabase::IsRootSerialization(int instanceID)
+    {
+        return rootSerialization.contains(GetOrSetGuid(instanceID));
     }
     bool ObjectSerializerDatabase::IsSerialization(int instanceID)
     {
-        return serialization.contains(GetOrSetGuid(instanceID));
+        return instanceIDToGuid.contains(instanceID);
     }
 }

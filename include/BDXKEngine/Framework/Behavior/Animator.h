@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
 #include "Core/Behavior.h"
 
@@ -13,8 +13,12 @@ namespace BDXKEngine
         const std::function<void(ObjectPtr<GameObject>)>& GetClip() const;
         void SetClip(const std::function<void(ObjectPtr<GameObject>)>& nativeClip);
     private:
-        std::function<void(ObjectPtr<GameObject>)> clip = nullptr;
+        std::function<void(ObjectPtr<GameObject>)> clip = [](ObjectPtr<GameObject>)
+        {
+        };
     };
+
+    CustomReflection(AnimatorClip)
 
     class Animator : public Behavior, public UpdateHandler
     {
@@ -27,6 +31,6 @@ namespace BDXKEngine
 
         void OnUpdate() override;
     };
-    
+
     CustomReflection(Animator)
 }

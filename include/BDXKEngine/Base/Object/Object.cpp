@@ -1,7 +1,7 @@
 ﻿#include "Object.h"
 #include <iostream>
 #include <sstream>
-#include "ObjectPtrTransferer.h"
+#include "Serialization/ObjectPtrTransferer.h"
 
 namespace BDXKEngine
 {
@@ -26,8 +26,7 @@ namespace BDXKEngine
         if (objectPtr->name.empty()) objectPtr->name = objectPtr->GetType();
 
         //获取关联物体
-        ObjectPtrTransferer referenceTransferer = {objectPtr.GetInstanceID()};
-        objectPtr->Transfer(referenceTransferer);
+        ObjectPtrTransferer referenceTransferer = {objectPtr};
         auto references = referenceTransferer.GetReferences();
 
         //激活

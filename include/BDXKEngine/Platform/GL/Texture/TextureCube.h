@@ -17,4 +17,6 @@ namespace BDXKEngine
 
         void Awake() override;
     };
+
+    CustomReflection(TextureCube)
 }

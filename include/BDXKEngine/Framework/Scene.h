@@ -18,15 +18,17 @@ namespace BDXKEngine
         ObjectPtr<GameObject> CreateCamera(const char* name = "Camera");
     }
 
-    struct Scene : Object
+    class Scene : public Object
     {
-        static void CreateDefault();
-        static void Save(const std::string& path);
-        static void Load(const std::string& path);
+    public:
+        static void LoadDefault();
+        static void Load(const ObjectPtr<Scene>& path);
+        static ObjectPtr<Scene> GetCurrentScene();
 
+        std::vector<ObjectPtr<GameObject>>& GameObjects();
+    private:
         ObjectPtr<RenderSettings> renderSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;
-
         void Transfer(Transferer& transferer) override;
     };
 

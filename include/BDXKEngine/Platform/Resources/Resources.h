@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/ObjectSerializer.h"
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Serialization/ObjectSerializer.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Base/SerializationExtension/Binary/BinaryExporter2.h"
 #include "BDXKEngine/Base/SerializationExtension/Binary/BinaryImporter2.h"
 #include "BDXKEngine/Base/SerializationExtension/Json/JsonExporter.h"
@@ -29,7 +29,9 @@ namespace BDXKEngine
         }
         static void Save(const std::string& path, const ObjectPtrBase& objectPtr, Serializer& serializer = binarySerializer);
 
+        static bool IsResource(const Object* object);
         static bool IsResource(const ObjectPtrBase& objectPtr);
+        static bool IsExisting(const std::string& path);
     private:
         static const std::string rootDirectory;
         static ObjectSerializer<JsonExporter, JsonImporter> jsonSerializer;

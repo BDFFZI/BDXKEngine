@@ -51,7 +51,7 @@ namespace BDXKEngine
     void Behavior::Enable()
     {
         Component::Enable();
-
+        
         if (startHandler != nullptr)
         {
             allStartHandlers[startHandler] = true;

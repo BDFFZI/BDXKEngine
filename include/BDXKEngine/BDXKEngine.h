@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <functional>
+#include <string>
 
 //C++匈牙利表示法，允许组合使用
 //W 宽，如wchar_t,以处理Unicode中utf-16,注意现在都用这个
@@ -30,5 +31,5 @@
 
 namespace BDXKEngine
 {
-    void Run(const std::function<void()>& onStart);
+    void Run(const std::string& sceneFile, const std::function<void()>& onSceneloaded = nullptr);
 }

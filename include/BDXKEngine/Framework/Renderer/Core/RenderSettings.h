@@ -5,13 +5,20 @@
 
 namespace BDXKEngine
 {
-    struct RenderSettings : Singleton<RenderSettings>
+    class RenderSettings : public Singleton<RenderSettings>
     {
-        static ObjectPtr<RenderSettings> Create();
-        
-        ObjectPtr<TextureCube> skybox = nullptr;
-        ObjectPtr<Material> skyboxMaterial;
+    public:
+        static void Reset();
 
+        const ObjectPtr<TextureCube>& GetSkybox() const;
+        const ObjectPtr<Material>& GetSkyboxMaterial() const;
+        void SetSkybox(const ObjectPtr<TextureCube>& skybox);
+        void SetSkyboxMaterial(const ObjectPtr<Material>& skyboxMaterial);
+    private:
+        ObjectPtr<TextureCube> skybox = nullptr;
+        ObjectPtr<Material> skyboxMaterial = nullptr;
         void Transfer(Transferer& transferer) override;
     };
+
+    CustomReflection(RenderSettings)
 }
