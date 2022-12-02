@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
-#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Platform/GL/Buffer/Buffer.h"
 #include "BDXKEngine/Platform/GL/Shader/Shader.h"
 #include "BDXKEngine/Platform/GL/Texture/Texture2D.h"

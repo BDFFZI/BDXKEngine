@@ -4,29 +4,57 @@
 
 namespace BDXKEngine
 {
-    // std::vector<Guid> BDXKObject::guidStream = {};
-    // std::map<Guid, std::string> BDXKObject::guidToPath = {};
+    const std::string rootDirectory = "Resources/";
 
-    const std::string Resources::rootDirectory = "Resources/";
-    ObjectSerializer<JsonExporter, JsonImporter> Resources::jsonSerializer = {
-        [](Transferer& transferer, std::string& serialization)
+    Object* LoadNatice(const Guid& guid, Serializer& serializer)
+    {
+        std::ifstream ifstream(rootDirectory + guid, std::ios_base::binary);
+        const auto size = static_cast<int>(std::filesystem::file_size(rootDirectory + guid));
+        const auto buffer = new char[size];
+        ifstream.read(buffer, size);
+        ifstream.close();
+        return dynamic_cast<Object*>(serializer.Deserialize(std::string(buffer, size)));
+    }
+
+    class JsonSerializerAdapter : public ObjectSerializerAdapter
+    {
+        void TransferSerialization(Transferer& transferer, std::string& serialization) override
         {
             dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
+            if (serialization == "null")serialization = "";
+        }
+
+        Object* LoadSerialization(const Guid& guid) override
+        {
+            ObjectSerializer<JsonImporter, JsonExporter> jsonSerializer = {*this};
+            return LoadNatice(guid, jsonSerializer);
         }
     };
-    ObjectSerializer<BinaryExporter2, BinaryImporter2> Resources::binarySerializer;
 
-    ObjectSerializer<JsonExporter, JsonImporter>& Resources::GetJsonSerializer()
+    class BinarySerializerAdapter : public ObjectSerializerAdapter
     {
-        return jsonSerializer;
+        Object* LoadSerialization(const Guid& guid) override
+        {
+            ObjectSerializer<BinaryImporter2, BinaryExporter2> binarySerializer = {*this};
+            return LoadNatice(guid, binarySerializer);
+        }
+    };
+
+    JsonSerializerAdapter jsonSerializerAdapter = {};
+    BinarySerializerAdapter binarySerializerAdapter = {};
+
+    ObjectSerializer<JsonImporter, JsonExporter> Resources::GetJsonSerializer()
+    {
+        return ObjectSerializer<JsonImporter, JsonExporter>{jsonSerializerAdapter};
     }
-    ObjectSerializer<BinaryExporter2, BinaryImporter2>& Resources::GetBinarySerializer()
+    ObjectSerializer<BinaryImporter2, BinaryExporter2> Resources::GetBinarySerializer()
     {
-        return binarySerializer;
+        return ObjectSerializer<BinaryImporter2, BinaryExporter2>{binarySerializerAdapter};
     }
 
     ObjectPtrBase Resources::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
     {
+        auto binarySerializer = GetBinarySerializer();
         return Object::Clone(objectPtr, binarySerializer, instantiate);
     }
 

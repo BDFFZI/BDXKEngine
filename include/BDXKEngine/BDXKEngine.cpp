@@ -40,7 +40,10 @@ namespace BDXKEngine
         //正式开始
         {
             if (Resources::IsExisting(sceneFile))
-                Scene::Load(Resources::Load<Scene>(sceneFile, Resources::GetJsonSerializer()));
+            {
+                auto serializer = Resources::GetJsonSerializer();
+                Scene::Load(Resources::Load<Scene>(sceneFile, serializer));
+            }
             else
                 Scene::LoadDefault();
             if (onSceneloaded != nullptr)onSceneloaded();

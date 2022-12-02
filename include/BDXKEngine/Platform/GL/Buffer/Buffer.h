@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/Core/Object.h"
 #include "../Core/GL.h"
 
 namespace BDXKEngine

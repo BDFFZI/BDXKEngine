@@ -1,9 +1,7 @@
 ﻿#pragma once
-#include "ObjectTransferer.h"
-#include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Serialization/Core/Serializer.h"
-#include "ObjectPtrTransferer.h"
-#include "Guid/Guid.h"
+#include "../Core/ObjectPtrTransferer.h"
+#include "../Guid/Guid.h"
 
 namespace BDXKEngine
 {
@@ -24,20 +22,21 @@ namespace BDXKEngine
         static std::unordered_set<Guid> rootSerialization;
     };
 
+    class ObjectSerializerAdapter
+    {
+    public:
+        virtual ~ObjectSerializerAdapter() = default;
 
-    template <typename TExporter, typename TImporter>
+        virtual void TransferSerialization(Transferer& transferer, std::string& serialization);
+        virtual Object* LoadSerialization(const Guid& guid); //以便支持分包加载
+    };
+
+    template <typename TImporter, typename TExporter>
     class ObjectSerializer : public Serializer
     {
     public:
-        ObjectSerializer(std::function<void(Transferer&, std::string&)> transferSerialization): Serializer(
-            objectImporter, objectExporter)
-        {
-            this->transferSerialization = transferSerialization;
-        }
-        ObjectSerializer(): ObjectSerializer([](Transferer& transferer, std::string& serialization)
-        {
-            transferer.TransferField("data", serialization);
-        })
+        ObjectSerializer(ObjectSerializerAdapter& adapter):
+            Serializer(objectImporter, objectExporter), adapter(adapter)
         {
         }
 
@@ -88,7 +87,7 @@ namespace BDXKEngine
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectExporter.PushPath(itemName);
                 objectExporter.TransferField("object", target);
-                transferSerialization(objectExporter, data);
+                adapter.TransferSerialization(objectExporter, data);
                 objectExporter.PopPath(itemName);
 
                 index++;
@@ -112,7 +111,7 @@ namespace BDXKEngine
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectImporter.PushPath(itemName);
                 objectImporter.TransferField("object", guid);
-                transferSerialization(objectImporter, data);
+                adapter.TransferSerialization(objectImporter, data);
                 objectImporter.PopPath(itemName);
 
                 serializations.push_back(std::make_tuple(guid, data));
@@ -133,13 +132,16 @@ namespace BDXKEngine
 
                 references[guid].push_back(&value);
             });
-            for (const auto& [guid,data] : serializations)
+            for (auto& [guid,data] : serializations)
             {
-                if (ObjectSerializerDatabase::IsRootSerialization(guid) == false || guid == rootGuid)
-                {
-                    const Object* object = dynamic_cast<Object*>(Serializer::Deserialize(data));
-                    ObjectSerializerDatabase::SetInstanceID(guid, object->GetInstanceID());
-                }
+                //已加载的前置资源
+                if (ObjectSerializerDatabase::IsRootSerialization(guid) != false && guid != rootGuid)
+                    continue;
+
+                const Object* object = data.empty()
+                                           ? adapter.LoadSerialization(guid) //未加载的前置资源
+                                           : dynamic_cast<Object*>(Serializer::Deserialize(data));
+                ObjectSerializerDatabase::SetInstanceID(guid, object->GetInstanceID());
             }
 
             //链接引用关系
@@ -176,6 +178,6 @@ namespace BDXKEngine
     private:
         ObjectTransferer<TExporter> objectExporter;
         ObjectTransferer<TImporter> objectImporter;
-        std::function<void(Transferer&, std::string&)> transferSerialization;
+        ObjectSerializerAdapter& adapter;
     };
 }

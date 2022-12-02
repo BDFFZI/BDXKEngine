@@ -3,7 +3,7 @@
 #include "BDXKEngine/Base/Data/Graphics/Rect.h"
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
-#include "BDXKEngine/Base/Object/ObjectPtrBase.h"
+#include "BDXKEngine/Base/Object/Core/ObjectPtrBase.h"
 #include "BDXKEngine/Base/Serialization/Core/IOTransferer.h"
 
 namespace BDXKEditor

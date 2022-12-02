@@ -3,7 +3,7 @@
 #include "Command/Cull.h"
 #include "Command/ZTest.h"
 #include "Command/Blend.h"
-#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 
 namespace BDXKEngine

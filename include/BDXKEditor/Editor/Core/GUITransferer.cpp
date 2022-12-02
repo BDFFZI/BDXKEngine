@@ -1,6 +1,6 @@
 ﻿// ReSharper disable CppClangTidyClangDiagnosticFormatSecurity
 #include "GUITransferer.h"
-#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
 #include "imgui/imgui.h"
 

@@ -1,7 +1,7 @@
 ﻿#include "Object.h"
 #include <iostream>
 #include <sstream>
-#include "Serialization/ObjectPtrTransferer.h"
+#include "ObjectPtrTransferer.h"
 
 namespace BDXKEngine
 {

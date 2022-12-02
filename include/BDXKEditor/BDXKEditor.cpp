@@ -46,7 +46,8 @@ namespace BDXKEditor
             if (ImGui::MenuItem("Save"))
             {
                 const ObjectPtr<Scene> scene = Scene::GetCurrentScene();
-                Resources::Save(sceneFile, scene, Resources::GetJsonSerializer());
+                auto serializer = Resources::GetJsonSerializer();
+                Resources::Save(sceneFile, scene, serializer);
             }
             if (ImGui::MenuItem("Load"))
             {
