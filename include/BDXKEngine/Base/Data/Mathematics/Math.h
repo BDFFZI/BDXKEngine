@@ -4,10 +4,10 @@
 
 namespace BDXKEngine
 {
-    inline int precision = 4;
+    inline int precision = 3;
     inline bool Equal(float a, float b)
     {
-        return abs(a - b) < 0.0001f;
+        return abs(a - b) < 0.001f;
     }
     inline float Deg2Rad()
     {

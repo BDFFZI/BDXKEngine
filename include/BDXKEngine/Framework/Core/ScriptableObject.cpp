@@ -48,34 +48,28 @@ namespace BDXKEngine
 
     void ScriptableObject::Enable()
     {
-        if (isActivating == true && isAwakened == false)
+        if (isAwakened == false)
         {
             if (const auto handler = dynamic_cast<AwakeHandler*>(this); handler != nullptr)
                 handler->OnAwake();
             isAwakened = true;
         }
+        
+        if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
+            handler->OnEnable();
 
-        if (isAwakened)
-        {
-            if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
-                handler->OnEnable();
+        allScriptableObjects.insert(this);
 
-            allScriptableObjects.insert(this);
-
-            std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
-        }
+        std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
     }
     void ScriptableObject::Disable()
     {
-        if (isAwakened)
-        {
-            allScriptableObjects.erase(this);
+        allScriptableObjects.erase(this);
 
-            if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
-                handler->OnDisable();
+        if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
+            handler->OnDisable();
 
-            std::cout << "SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
-        }
+        std::cout << "SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
     }
     void ScriptableObject::Awake()
     {

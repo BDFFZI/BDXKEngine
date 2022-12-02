@@ -19,8 +19,8 @@ namespace BDXKEngine
             nativeName, //窗口类名称
             nativeName, //窗口标题
             WS_OVERLAPPEDWINDOW, //窗口样式
-            CW_USEDEFAULT, CW_USEDEFAULT, //窗口位置xy
-            CW_USEDEFAULT, CW_USEDEFAULT, //窗口大小xy
+            0, 0, //窗口位置xy
+            1920, 1030, //窗口大小xy
             parent == nullptr ? nullptr : parent->GetHwnd(), //父窗口
             nullptr, //窗口菜单
             nullptr, //实例句柄,默认

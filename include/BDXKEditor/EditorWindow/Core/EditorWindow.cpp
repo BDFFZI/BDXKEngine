@@ -11,9 +11,6 @@ namespace BDXKEditor
         SetIsEnabling(true);
     }
 
-    void EditorWindow::OnGUI()
-    {
-    }
     void EditorWindow::OnDrawGUI()
     {
         ImGui::Begin(GetName().c_str());
@@ -22,7 +19,6 @@ namespace BDXKEditor
 
         ImGui::End();
     }
-
     void EditorWindow::Awake()
     {
         ScriptableObject::Awake();

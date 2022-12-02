@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "EditorWindow/ConsoleWindow/ConsoleWindow.h"
 #include "EditorWindow/HierarchyWindow/HierarchyWindow.h"
 #include "EditorWindow/InspectorWindow/InspectorWindow.h"
 #include "EditorWindow/ProfilerWindow/ProfilerWindow.h"
@@ -9,7 +10,7 @@ namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-    class EditorSystem : public ScriptableObject, public AwakeHandler, public DestroyHandler, public DrawGUIHandler
+    class EditorSystem : public ScriptableObject, public AwakeHandler, public DrawGUIHandler
     {
     public:
         static const ObjectPtr<SceneWindow>& GetSceneView();
@@ -22,12 +23,12 @@ namespace BDXKEditor
         static ObjectPtr<HierarchyWindow> hierarchyWindow;
         static ObjectPtr<InspectorWindow> inspectorWindow;
         static ObjectPtr<ProfilerWindow> profilerWindow;
+        static ObjectPtr<ConsoleWindow> consoleWindow;
 
         std::string sceneFile;
 
         void OnDrawGUI() override;
         void OnAwake() override;
-        void OnDestroy() override;
     };
 
     CustomReflection(EditorSystem)

@@ -51,7 +51,7 @@ namespace BDXKEditor
         ImGui::SetCursorPos(cursorPos);
         //手柄选项
         {
-            static constexpr char optionsName[4][10] = {"Bounds", "Position", "Rotation", "Scale"};
+            static constexpr char optionsName[4][10] = {"Hide", "Position", "Rotation", "Scale"};
             static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::BOUNDS, ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
             const float width = ImGui::GetContentRegionAvail().x / 4 - 10;
             static int handleMode = 1;
@@ -85,6 +85,7 @@ namespace BDXKEditor
             ImGuizmo::SetOrthographic(false);
             CameraInfo cameraInfo = camera->GetCameraInfo();
             //绘制网格
+            if (handleOption != ImGuizmo::BOUNDS)
             {
                 Matrix4x4 objectToWorld = Matrix4x4::identity;
                 ImGuizmo::DrawGrid(

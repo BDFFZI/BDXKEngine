@@ -217,6 +217,27 @@ namespace BDXKEngine
     {
         ScriptableObject::Transfer(transferer);
 
+        for (ObjectPtr<GameObject>& child : children)
+        {
+            const Reflection& gameObjectReflection = Reflection::GetReflection(GetTypeOf<GameObject>());
+            if (child->GetParent() != this)
+            {
+                child = Resources::Clone<GameObject>(child, false);
+                gameObjectReflection.GetFieldOf<ObjectPtr<GameObject>>(child.ToObjectBase(), "parent") = this;
+            }
+        }
+
+        for (ObjectPtr<Component>& component : components)
+        {
+            const Reflection& componentReflection = Reflection::GetReflection(GetTypeOf<Component>());
+            if (component->GetGameObject() != this)
+            {
+                component = Resources::Clone<Component>(component, false);
+                componentReflection.GetFieldOf<ObjectPtr<GameObject>>(component.ToObjectBase(), "gameObject") = this;
+            }
+        }
+
+
         TransferFieldInfo(localPosition);
         TransferFieldInfo(localEulerAngles);
         TransferFieldInfo(localScale);
@@ -231,28 +252,6 @@ namespace BDXKEngine
         RenewScale(false);
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);
-
-        const Reflection& gameObjectReflection = Reflection::GetReflection(GetTypeOf<GameObject>());
-        for (ObjectPtr<GameObject>& child : children)
-        {
-            if (child->GetParent() != this)
-            {
-                child = Resources::Clone<GameObject>(child, false);
-                gameObjectReflection.GetFieldOf<ObjectPtr<GameObject>>(child.ToObjectBase(), "parent") = this;
-                Instantiate(child);
-            }
-        }
-
-        const Reflection& componentReflection = Reflection::GetReflection(GetTypeOf<Component>());
-        for (ObjectPtr<Component>& component : components)
-        {
-            if (component->GetGameObject() != this)
-            {
-                component = Resources::Clone<Component>(component, false);
-                componentReflection.GetFieldOf<ObjectPtr<GameObject>>(component.ToObjectBase(), "gameObject") = this;
-                Instantiate(component);
-            }
-        }
     }
     void GameObject::Destroy()
     {

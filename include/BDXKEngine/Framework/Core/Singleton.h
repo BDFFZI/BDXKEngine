@@ -9,8 +9,11 @@ namespace BDXKEngine
     public:
         static TSingleton& GetSingleton()
         {
-            if (singleton.IsNull())TSingleton::Reset();
             return *singleton.template ToObject<TSingleton>();
+        }
+        static void SetSingleton(const ObjectPtr<TSingleton>& singleton)
+        {
+            Singleton<TSingleton>::singleton = singleton;
         }
     private:
         static ObjectPtr<TSingleton> singleton;

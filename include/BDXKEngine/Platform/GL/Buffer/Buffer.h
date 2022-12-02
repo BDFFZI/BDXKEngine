@@ -26,7 +26,9 @@ namespace BDXKEngine
         std::vector<char> buffer;
 
         CComPtr<ID3D11Buffer> glBuffer;
-        
+
         void Awake() override;
     };
+
+    CustomReflection(Buffer)
 }

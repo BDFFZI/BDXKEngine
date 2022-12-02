@@ -6,6 +6,7 @@
 #include "BDXKEngine/Framework/Behavior/Animator.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Resources/Resources.h"
+#include "EditorWindow/ConsoleWindow/ConsoleWindow.h"
 #include "EditorWindow/Core/EditorWindow.h"
 #include "imgui/imgui.h"
 
@@ -15,6 +16,7 @@ namespace BDXKEditor
     ObjectPtr<HierarchyWindow> EditorSystem::hierarchyWindow;
     ObjectPtr<InspectorWindow> EditorSystem::inspectorWindow;
     ObjectPtr<ProfilerWindow> EditorSystem::profilerWindow;
+    ObjectPtr<ConsoleWindow> EditorSystem::consoleWindow;
 
 
     const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
@@ -61,24 +63,24 @@ namespace BDXKEditor
         sceneWindow = EditorWindow::Create<SceneWindow>();
         inspectorWindow = EditorWindow::Create<InspectorWindow>();
         profilerWindow = EditorWindow::Create<ProfilerWindow>();
+        consoleWindow = EditorWindow::Create<ConsoleWindow>();
 
         hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
         {
             sceneWindow->SetTarget(gameObject);
             inspectorWindow->SetTarget(gameObject);
         });
+        profilerWindow->SetClickObjectEvent([](const ObjectPtrBase& object)
+        {
+            sceneWindow->SetTarget(object.ToObject<GameObject>());
+            inspectorWindow->SetTarget(object);
+        });
 
         hierarchyWindow->Show();
         sceneWindow->Show();
         inspectorWindow->Show();
         profilerWindow->Show();
-    }
-    void EditorSystem::OnDestroy()
-    {
-        sceneWindow = nullptr;
-        hierarchyWindow = nullptr;
-        inspectorWindow = nullptr;
-        profilerWindow = nullptr;
+        consoleWindow->Show();
     }
     void TestLight()
     {
@@ -128,12 +130,11 @@ namespace BDXKEditor
     ObjectPtr<EditorSystem> editorSystem;
     void Run(const std::string& sceneFile)
     {
+        std::cout.rdbuf(ConsoleWindow::GetConsole().rdbuf());
         BDXKEngine::Run(sceneFile, [&]
         {
             editorSystem = Object::Create<EditorSystem>();
             editorSystem->SetScene(sceneFile);
         });
-        std::cout << "\n按任意键退出" << std::endl;
-        std::getchar();
     }
 }

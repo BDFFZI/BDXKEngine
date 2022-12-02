@@ -21,7 +21,7 @@ namespace BDXKEditor
 
         void Show();
     protected:
-        virtual void OnGUI();
+        virtual void OnGUI() = 0;
     private:
         static std::vector<ObjectPtr<EditorWindow>> windows;
 

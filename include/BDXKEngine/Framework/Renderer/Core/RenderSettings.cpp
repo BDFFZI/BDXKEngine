@@ -5,11 +5,12 @@
 
 namespace BDXKEngine
 {
-    void RenderSettings::Reset()
+    ObjectPtr<RenderSettings> RenderSettings::Create()
     {
         ObjectPtr renderSettings = new RenderSettings();
         renderSettings->skyboxMaterial = Assets::GetSkyboxMaterial(); //绘制天空盒
         Instantiate(renderSettings);
+        return renderSettings;
     }
 
     const ObjectPtr<TextureCube>& RenderSettings::GetSkybox() const

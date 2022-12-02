@@ -61,6 +61,7 @@ namespace BDXKEngine
 
     void Scene::LoadDefault()
     {
+        RenderSettings::SetSingleton(RenderSettings::Create());
         const ObjectPtr<GameObject> sun = Creation::CreateDirectionalLight("Sun");
         const ObjectPtr<GameObject> ground = Creation::CreatePlane("Ground");
         const ObjectPtr<GameObject> sphere = Creation::CreateSphere("Sphere");
@@ -71,10 +72,11 @@ namespace BDXKEngine
     }
     void Scene::Load(const ObjectPtr<Scene>& path)
     {
+        RenderSettings::SetSingleton(path->renderSettings);
         for (const auto& item : path->gameObjects)
         {
             Resources::Clone(item);
-            //DestroyImmediate(item);
+            DestroyImmediate(item);
         }
     }
     ObjectPtr<Scene> Scene::GetCurrentScene()

@@ -56,10 +56,6 @@ namespace BDXKEngine
         ofstream << data;
         ofstream.close();
     }
-    bool Resources::IsResource(const Object* object)
-    {
-        return ObjectSerializerDatabase::IsSerialization(object->GetInstanceID());
-    }
     bool Resources::IsResource(const ObjectPtrBase& objectPtr)
     {
         return ObjectSerializerDatabase::IsSerialization(objectPtr.GetInstanceID());

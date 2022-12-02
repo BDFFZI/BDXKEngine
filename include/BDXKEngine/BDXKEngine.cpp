@@ -1,5 +1,6 @@
 ﻿#include "BDXKEngine.h"
 
+#include <iostream>
 #include <ranges>
 
 #include "Framework/Scene.h"

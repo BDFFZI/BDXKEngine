@@ -2,7 +2,6 @@
 #include "GUITransferer.h"
 #include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
-#include "BDXKEngine/Framework/Core/Component.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -15,7 +14,9 @@ namespace BDXKEditor
     {
         if (isInPath && fieldName.c_str()[0] != '#')
         {
+            ImGui::Separator();
             ImGui::Text(fieldName.c_str());
+            isNested = fieldPath.size();
             isInPath = false;
         }
 
@@ -25,6 +26,9 @@ namespace BDXKEditor
     }
     void GUITransferer::PopPath(std::string& key)
     {
+        if (fieldPath.size() == isNested)
+            ImGui::Separator();
+
         fieldPath.resize(fieldPath.size() - key.size());
         isInPath = false;
     }

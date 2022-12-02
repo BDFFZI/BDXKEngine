@@ -43,7 +43,6 @@ namespace BDXKEditor
             for (int index = 0; index < count; index++)
             {
                 ImGui::Separator();
-                ImGui::Separator();
 
                 auto* component = components[index].ToObject<Component>();
                 std::string path = "##Component" + std::to_string(index);
@@ -69,14 +68,13 @@ namespace BDXKEditor
                 editor->DrawInspectorGUI();
 
                 gui.PopPath(path);
+
+                ImGui::Separator();
             }
         }
 
         //添加组件
         {
-            ImGui::Separator();
-            ImGui::Separator();
-
             if (ImGui::Button("AddComponent", {ImGui::GetContentRegionAvail().x, 0}))addComponenting = true;
             if (addComponenting)
             {

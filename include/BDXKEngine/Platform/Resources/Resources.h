@@ -28,8 +28,7 @@ namespace BDXKEngine
             return Load(path, serializer, instantiate).ToObject<TObject>();
         }
         static void Save(const std::string& path, const ObjectPtrBase& objectPtr, Serializer& serializer = binarySerializer);
-
-        static bool IsResource(const Object* object);
+        
         static bool IsResource(const ObjectPtrBase& objectPtr);
         static bool IsExisting(const std::string& path);
     private:

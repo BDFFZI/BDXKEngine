@@ -160,8 +160,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\include\BDXKEditor\BDXKEditor.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\EditorWindow\Core\EditorWindow.cpp" />
-    <ClCompile Include="..\include\BDXKEditor\EditorWindow\Debug.cpp">
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\ConsoleWindow\ConsoleWindow.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\ConsoleWindow\Debug.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <Optimization>Disabled</Optimization>
@@ -238,6 +238,7 @@
       <AdditionalOptions>/utf-8</AdditionalOptions>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\Core\EditorWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\HierarchyWindow\HierarchyWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\InspectorWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\ProfilerWindow\ProfilerWindow.cpp" />
@@ -862,8 +863,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BDXKEditor\BDXKEditor.h" />
+    <ClInclude Include="..\include\BDXKEditor\EditorWindow\ConsoleWindow\ConsoleWindow.h" />
+    <ClInclude Include="..\include\BDXKEditor\EditorWindow\ConsoleWindow\Debug.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\Core\EditorWindow.h" />
-    <ClInclude Include="..\include\BDXKEditor\EditorWindow\Debug.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\HierarchyWindow\HierarchyWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\InspectorWindow\InspectorWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\ProfilerWindow\ProfilerWindow.h" />

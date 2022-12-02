@@ -83,3 +83,5 @@ namespace BDXKEngine
         void RenewScale(bool renewChild = true);
     };
 }
+
+#include "Component.h"
