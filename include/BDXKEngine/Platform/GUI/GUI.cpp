@@ -10,6 +10,36 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace BDXKEngine
 {
+    bool GUI::BeginDragDrop(const ObjectPtrBase& value)
+    {
+        if (ImGui::BeginDragDropSource())
+        {
+            ImGui::SetDragDropPayload("Dragging", &value, sizeof(ObjectPtrBase));
+            ImGui::EndDragDropSource();
+            return true;
+        }
+
+        return false;
+    }
+    bool GUI::EndDragDrop(ObjectPtrBase& value)
+    {
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
+            {
+                const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
+                const Reflection& droppingReflection = Reflection::GetReflection(dropping.GetObjectType());
+                if (droppingReflection.CanConvertTo(value.GetObjectType()))
+                {
+                    value = dropping;
+                    return true;
+                }
+            }
+            ImGui::EndDragDropTarget();
+        }
+
+        return false;
+    }
     ImTextureID GUI::GetImTextureID(const ObjectPtr<Texture2D>& texture)
     {
         return texture->GetShaderResourceView();

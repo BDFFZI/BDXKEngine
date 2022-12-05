@@ -23,6 +23,7 @@ namespace BDXKEngine
     class Object : public Reflective
     {
     public:
+        static ObjectPtrBase Create(const Type& type);
         template <class TObject>
         static ObjectPtr<TObject> Create()
         {
@@ -82,4 +83,6 @@ namespace BDXKEngine
         bool isInstantiated = false;
         bool isDestroyed = false;
     };
+
+    CustomReflection(Object)
 }

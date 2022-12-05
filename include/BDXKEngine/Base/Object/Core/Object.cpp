@@ -5,6 +5,14 @@
 
 namespace BDXKEngine
 {
+    ObjectPtrBase Object::Create(const Type& type)
+    {
+        const auto object = dynamic_cast<Object*>(Reflection::GetReflection(type).GetConstruction());
+        if (object == nullptr)throw std::exception("目标未Object类型");
+        ObjectPtrBase window = object;
+        Instantiate(window);
+        return window;
+    }
     const std::map<int, Object*>& Object::GetObjects()
     {
         return allObjects;

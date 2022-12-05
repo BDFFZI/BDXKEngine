@@ -69,7 +69,9 @@ namespace BDXKEngine
     }
     Type ObjectPtrBase::GetObjectType() const
     {
-        return GetTypeOf<Object>();
+        const Object* object = ToObjectBase();
+        if (object == nullptr)return GetTypeOf<Object>();
+        return object->GetType();
     }
 
     bool ObjectPtrBase::IsNull() const
@@ -148,5 +150,12 @@ namespace BDXKEngine
         }
 
         instanceID = 0;
+    }
+
+    void ObjectPtrBase::StaticConstructor()
+    {
+        const auto objectPtr = new ObjectPtrBase();
+        SetVirtualTable(objectPtr->GetType(), objectPtr);
+        delete objectPtr;
     }
 }

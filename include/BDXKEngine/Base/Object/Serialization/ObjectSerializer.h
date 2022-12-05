@@ -1,34 +1,17 @@
 ﻿#pragma once
+#include "ObjectGuid.h"
+#include "BDXKEngine/Base/Object/Core/ObjectPtrTransferer.h"
 #include "BDXKEngine/Base/Serialization/Core/Serializer.h"
-#include "../Core/ObjectPtrTransferer.h"
-#include "../Guid/Guid.h"
 
 namespace BDXKEngine
 {
-    class ObjectSerializerDatabase
-    {
-    public:
-        static Guid GetOrSetGuid(int instanceID);
-        static int GetInstanceID(const Guid& guid);
-        static void SetInstanceID(const Guid& guid, int instanceID);
-
-        static void SignRootSerialization(const Guid& guid);
-        static bool IsRootSerialization(const Guid& guid);
-        static bool IsRootSerialization(int instanceID);
-        static bool IsSerialization(int instanceID);
-    private:
-        static std::unordered_map<int, Guid> instanceIDToGuid;
-        static std::unordered_map<Guid, int> guidToInstanceID;
-        static std::unordered_set<Guid> rootSerialization;
-    };
-
     class ObjectSerializerAdapter
     {
     public:
         virtual ~ObjectSerializerAdapter() = default;
 
         virtual void TransferSerialization(Transferer& transferer, std::string& serialization);
-        virtual Object* LoadSerialization(const Guid& guid); //以便支持分包加载
+        virtual std::string LoadSerialization(const Guid& guid); //以便支持分包加载
     };
 
     template <typename TImporter, typename TExporter>
@@ -40,14 +23,22 @@ namespace BDXKEngine
         {
         }
 
+        const ObjectSerializerAdapter& GetAdapter() const
+        {
+            return adapter;
+        }
+        void SetAdapter(const ObjectSerializerAdapter& adapter) const
+        {
+            this->adapter = adapter;
+        }
         std::string Serialize(Reflective* input) override
         {
             if (dynamic_cast<Object*>(input) == nullptr)throw std::exception("只允许序列化Object物体");
 
             Object* rootObject = dynamic_cast<Object*>(input);
             const int rootInstanceID = rootObject->GetInstanceID();
-            const Guid rootGuid = ObjectSerializerDatabase::GetOrSetGuid(rootInstanceID);
-            ObjectSerializerDatabase::SignRootSerialization(rootGuid);
+            const Guid rootGuid = ObjectGuid::GetOrSetGuid(rootInstanceID);
+            ObjectGuid::SignMainGuid(rootGuid);
 
             //统计引用
             ObjectPtrTransferer objectPtrTransferer = {rootObject};
@@ -64,15 +55,15 @@ namespace BDXKEngine
                 }
                 else
                 {
-                    Guid guid = ObjectSerializerDatabase::GetOrSetGuid(instanceID);
+                    Guid guid = ObjectGuid::GetOrSetGuid(instanceID);
                     objectExporter.TransferValue(guid);
                 }
             });
             std::vector<std::tuple<Guid, std::string>> serializations;
             for (auto& instanceID : references)
             {
-                Guid guid = ObjectSerializerDatabase::GetOrSetGuid(instanceID);
-                if (ObjectSerializerDatabase::IsRootSerialization(instanceID) && instanceID != rootInstanceID)
+                Guid guid = ObjectGuid::GetOrSetGuid(instanceID);
+                if (ObjectGuid::IsMainGuid(instanceID) && instanceID != rootInstanceID)
                     serializations.push_back(std::make_tuple(guid, ""));
                 else
                     serializations.push_back(std::make_tuple(guid, Serializer::Serialize(Object::FindObjectOfInstanceID(instanceID))));
@@ -118,7 +109,7 @@ namespace BDXKEngine
             }
 
             const Guid rootGuid = std::get<0>(serializations[0]);
-            ObjectSerializerDatabase::SignRootSerialization(rootGuid);
+            ObjectGuid::SignMainGuid(rootGuid);
 
             //反序列化
             std::unordered_map<Guid, std::vector<ObjectPtrBase*>> references;
@@ -135,25 +126,26 @@ namespace BDXKEngine
             for (auto& [guid,data] : serializations)
             {
                 //已加载的前置资源
-                if (ObjectSerializerDatabase::IsRootSerialization(guid) != false && guid != rootGuid)
+                if (ObjectGuid::IsMainGuid(guid) != false && guid != rootGuid)
                     continue;
 
-                const Object* object = data.empty()
-                                           ? adapter.LoadSerialization(guid) //未加载的前置资源
-                                           : dynamic_cast<Object*>(Serializer::Deserialize(data));
-                ObjectSerializerDatabase::SetInstanceID(guid, object->GetInstanceID());
+                const Object* object = dynamic_cast<Object*>(
+                    data.empty()
+                        ? ObjectSerializer<TImporter, TExporter>(adapter).Deserialize(guid) //未加载的前置资源
+                        : Serializer::Deserialize(data));
+                ObjectGuid::SetInstanceID(guid, object->GetInstanceID());
             }
 
             //链接引用关系
             for (const auto& reference : references)
             {
-                const ObjectPtrBase object = Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(reference.first));
+                const ObjectPtrBase object = Object::FindObjectOfInstanceID(ObjectGuid::GetInstanceID(reference.first));
                 for (const auto objectPtr : reference.second)
                     *objectPtr = object;
             }
 
 
-            return Object::FindObjectOfInstanceID(ObjectSerializerDatabase::GetInstanceID(rootGuid));
+            return Object::FindObjectOfInstanceID(ObjectGuid::GetInstanceID(rootGuid));
         }
         Reflective* Clone(Reflective* input) override
         {

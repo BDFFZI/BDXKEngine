@@ -1,12 +1,8 @@
 ﻿#include "BDXKEngine.h"
-
-#include <iostream>
 #include <ranges>
-
 #include "Framework/Scene.h"
 #include "Framework/Behavior/BehaviorEvent.h"
 #include "Framework/Renderer/RenderEvent.h"
-#include "Function/Assets/Assets.h"
 #include "Function/Graphics/Graphics.h"
 #include "Function/Time/Time.h"
 #include "Function/Window/Cursor.h"
@@ -26,8 +22,6 @@ namespace BDXKEngine
         Window window{L"BDXKEngine"};
         GL::Initialize(&window);
         GUI::Initialize(&window);
-        //功能层
-        Assets::Initialize(&window);
         //框架层
         Graphics::Initialize(&window);
         Screen::Initialize(&window);
@@ -40,10 +34,7 @@ namespace BDXKEngine
         //正式开始
         {
             if (Resources::IsExisting(sceneFile))
-            {
-                auto serializer = Resources::GetJsonSerializer();
-                Scene::Load(Resources::Load<Scene>(sceneFile, serializer));
-            }
+                Scene::Load(Resources::LoadOf<Scene>(sceneFile));
             else
                 Scene::LoadDefault();
             if (onSceneloaded != nullptr)onSceneloaded();

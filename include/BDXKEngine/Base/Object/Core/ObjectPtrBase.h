@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <unordered_map>
-
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Reflection/Type.h"
 
@@ -17,8 +16,8 @@ namespace BDXKEngine
 
         ObjectPtrBase();
         ObjectPtrBase(const Object* object);
-        ObjectPtrBase(const ObjectPtrBase& objectPtr); //可能导致类型信息丢失，所以需要显式调用
-        virtual ~ObjectPtrBase(); //为了序列化所以不能使用虚函数功能（虚表指针无法初始化）
+        ObjectPtrBase(const ObjectPtrBase& objectPtr);
+        virtual ~ObjectPtrBase();
 
         int GetInstanceID() const;
         Type GetType() const;
@@ -45,12 +44,7 @@ namespace BDXKEngine
         inline static std::unordered_map<Type, std::uintptr_t> virtualTable = {};
         inline static std::unordered_map<int, int> refCountMap = {};
 
-        static void StaticConstructor()
-        {
-            const auto objectPtr = new ObjectPtrBase();
-            SetVirtualTable(objectPtr->GetType(), objectPtr);
-            delete objectPtr;
-        }
+        static void StaticConstructor();
         CustomStaticConstructor(StaticConstructor)
 
         int instanceID = 0;

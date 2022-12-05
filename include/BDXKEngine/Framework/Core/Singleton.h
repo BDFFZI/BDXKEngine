@@ -7,15 +7,11 @@ namespace BDXKEngine
     class Singleton : public Object
     {
     public:
-        static TSingleton& GetSingleton()
+        static ObjectPtr<TSingleton>& GetSingleton()
         {
-            return *singleton.template ToObject<TSingleton>();
+            return singleton;
         }
-        static void SetSingleton(const ObjectPtr<TSingleton>& singleton)
-        {
-            Singleton<TSingleton>::singleton = singleton;
-        }
-    private:
+    protected:
         static ObjectPtr<TSingleton> singleton;
 
         void Awake() override

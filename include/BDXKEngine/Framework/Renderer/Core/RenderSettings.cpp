@@ -1,33 +1,23 @@
 ﻿#include "RenderSettings.h"
-
-#include "BDXKEngine/Function/Assets/Assets.h"
-#include "BDXKEngine/Platform/GL/Shader/ShaderImporter.h"
+#include "BDXKEngine/Platform/GL/Shader/ShaderImport.h"
 
 namespace BDXKEngine
 {
-    ObjectPtr<RenderSettings> RenderSettings::Create()
+    const ObjectPtr<TextureCube>& RenderSettings::GetSkybox()
     {
-        ObjectPtr renderSettings = new RenderSettings();
-        renderSettings->skyboxMaterial = Assets::GetSkyboxMaterial(); //绘制天空盒
-        Instantiate(renderSettings);
-        return renderSettings;
+        return GetSingleton()->skybox;
     }
-
-    const ObjectPtr<TextureCube>& RenderSettings::GetSkybox() const
+    const ObjectPtr<Material>& RenderSettings::GetSkyboxMaterial()
     {
-        return skybox;
-    }
-    const ObjectPtr<Material>& RenderSettings::GetSkyboxMaterial() const
-    {
-        return skyboxMaterial;
+        return GetSingleton()->skyboxMaterial;
     }
     void RenderSettings::SetSkybox(const ObjectPtr<TextureCube>& skybox)
     {
-        this->skybox = skybox;
+        GetSingleton()->skybox = skybox;
     }
     void RenderSettings::SetSkyboxMaterial(const ObjectPtr<Material>& skyboxMaterial)
     {
-        this->skyboxMaterial = skyboxMaterial;
+        GetSingleton()->skyboxMaterial = skyboxMaterial;
     }
 
     void RenderSettings::Transfer(Transferer& transferer)
@@ -35,5 +25,6 @@ namespace BDXKEngine
         Object::Transfer(transferer);
 
         TransferFieldInfo(skybox);
+        TransferFieldInfo(skyboxMaterial);
     }
 }

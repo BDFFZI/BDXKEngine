@@ -8,12 +8,10 @@ namespace BDXKEngine
     class RenderSettings : public Singleton<RenderSettings>
     {
     public:
-        static ObjectPtr<RenderSettings> Create();
-
-        const ObjectPtr<TextureCube>& GetSkybox() const;
-        const ObjectPtr<Material>& GetSkyboxMaterial() const;
-        void SetSkybox(const ObjectPtr<TextureCube>& skybox);
-        void SetSkyboxMaterial(const ObjectPtr<Material>& skyboxMaterial);
+        static const ObjectPtr<TextureCube>& GetSkybox();
+        static const ObjectPtr<Material>& GetSkyboxMaterial();
+        static void SetSkybox(const ObjectPtr<TextureCube>& skybox);
+        static void SetSkyboxMaterial(const ObjectPtr<Material>& skyboxMaterial);
     private:
         ObjectPtr<TextureCube> skybox = nullptr;
         ObjectPtr<Material> skyboxMaterial = nullptr;

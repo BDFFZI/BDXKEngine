@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include "Reflective.h"
 
 namespace BDXKEngine
@@ -104,5 +103,20 @@ namespace BDXKEngine
         }
     };
 
+    struct StaticDestructorRegister
+    {
+        StaticDestructorRegister(void (*staticDestructor)())
+        {
+            this->staticDestructor = staticDestructor;
+        }
+        ~StaticDestructorRegister()
+        {
+            staticDestructor();
+        }
+
+        void (*staticDestructor)();
+    };
+
 #define CustomStaticConstructor(Func) inline static StaticConstructorRegister staticConstructorRegister = {&(Func)};
+#define CustomStaticDestructor(Func) inline static StaticDestructorRegister staticDestructorRegister = {&(Func)};
 }

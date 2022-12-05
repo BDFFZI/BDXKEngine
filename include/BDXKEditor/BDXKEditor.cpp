@@ -1,13 +1,10 @@
 ﻿#include "BDXKEditor.h"
 #include <iostream>
-#include <ranges>
 #include "BDXKEngine/BDXKEngine.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Resources/Resources.h"
-#include "EditorWindow/ConsoleWindow/ConsoleWindow.h"
-#include "EditorWindow/Core/EditorWindow.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -17,6 +14,7 @@ namespace BDXKEditor
     ObjectPtr<InspectorWindow> EditorSystem::inspectorWindow;
     ObjectPtr<ProfilerWindow> EditorSystem::profilerWindow;
     ObjectPtr<ConsoleWindow> EditorSystem::consoleWindow;
+    ObjectPtr<ProjectWindow> EditorSystem::projectWindow;
 
 
     const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
@@ -45,9 +43,7 @@ namespace BDXKEditor
         {
             if (ImGui::MenuItem("Save"))
             {
-                const ObjectPtr<Scene> scene = Scene::GetCurrentScene();
-                auto serializer = Resources::GetJsonSerializer();
-                Resources::Save(sceneFile, scene, serializer);
+                Resources::Save(sceneFile, Scene::GetCurrentScene());
             }
             if (ImGui::MenuItem("Load"))
             {
@@ -65,6 +61,7 @@ namespace BDXKEditor
         inspectorWindow = EditorWindow::Create<InspectorWindow>();
         profilerWindow = EditorWindow::Create<ProfilerWindow>();
         consoleWindow = EditorWindow::Create<ConsoleWindow>();
+        projectWindow = EditorWindow::Create<ProjectWindow>();
 
         hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
         {
@@ -76,12 +73,17 @@ namespace BDXKEditor
             sceneWindow->SetTarget(object.ToObject<GameObject>());
             inspectorWindow->SetTarget(object);
         });
+        projectWindow->SetClickObjectEvent([](const ObjectPtrBase& object)
+        {
+            inspectorWindow->SetTarget(object);
+        });
 
         hierarchyWindow->Show();
         sceneWindow->Show();
         inspectorWindow->Show();
         profilerWindow->Show();
         consoleWindow->Show();
+        projectWindow->Show();
     }
     void TestLight()
     {
@@ -104,13 +106,13 @@ namespace BDXKEditor
             }));
         }
 
-        ObjectPtr<GameObject> sphere = Creation::CreateSphere("Small Sphere");
+        ObjectPtr<GameObject> sphere = PresetGameObject::CreateSphere("Small Sphere");
         ObjectPtr<Light> sphere_light;
         {
             sphere->SetParent(aureole);
             sphere->SetLocalScale({0.1f, 0.1f, 0.1f});
 
-            sphere_light = Creation::CreatePointLight("Red PointLight")->GetComponent<Light>();
+            sphere_light = PresetGameObject::CreatePointLight("Red PointLight")->GetComponent<Light>();
             sphere_light->SetType(LightType::Point);
             sphere_light->SetColor(Color::red);
             sphere_light->SetIntensity(0.5f);
@@ -118,10 +120,10 @@ namespace BDXKEditor
 
             ObjectPtr<Camera> camera = GameObject::Find("Camera")->GetComponent<Camera>();
             camera->SetClearFlags(ClearFlags::Skybox);
-            RenderSettings::GetSingleton().SetSkybox(sphere_light->GetShadowMap().ToObjectPtr<TextureCube>());
+            RenderSettings::SetSkybox(sphere_light->GetShadowMap().ToObjectPtr<TextureCube>());
         }
 
-        ObjectPtr<GameObject> cube = Creation::CreateCube("Stick");
+        ObjectPtr<GameObject> cube = PresetGameObject::CreateCube("Stick");
         {
             cube->SetParent(aureole);
             cube->SetLocalScale({0.2f, 0.05f, 0.05f});

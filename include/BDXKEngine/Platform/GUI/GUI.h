@@ -14,6 +14,8 @@ namespace BDXKEngine
     class GUI
     {
     public:
+        static bool BeginDragDrop(const ObjectPtrBase& value);
+        static bool EndDragDrop(ObjectPtrBase& value);
         static ImTextureID GetImTextureID(const ObjectPtr<Texture2D>& texture);
         static bool IsDockTabVisible();
         static void Initialize(Window* window);

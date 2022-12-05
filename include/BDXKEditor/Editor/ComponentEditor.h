@@ -10,6 +10,5 @@ namespace BDXKEditor
         CustomStaticConstructor(StaticConstructor)
 
         void OnInspectorGUI() override;
-    private:
     };
 }

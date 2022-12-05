@@ -1,9 +1,10 @@
 ﻿#pragma once
-#include "EditorWindow/ConsoleWindow/ConsoleWindow.h"
-#include "EditorWindow/HierarchyWindow/HierarchyWindow.h"
-#include "EditorWindow/InspectorWindow/InspectorWindow.h"
-#include "EditorWindow/ProfilerWindow/ProfilerWindow.h"
-#include "EditorWindow/SceneWindow/SceneWindow.h"
+#include "EditorWindow/ConsoleWindow.h"
+#include "EditorWindow/HierarchyWindow.h"
+#include "EditorWindow/InspectorWindow.h"
+#include "EditorWindow/ProfilerWindow.h"
+#include "EditorWindow/ProjectWindow.h"
+#include "EditorWindow/SceneWindow.h"
 
 
 namespace BDXKEditor
@@ -24,6 +25,7 @@ namespace BDXKEditor
         static ObjectPtr<InspectorWindow> inspectorWindow;
         static ObjectPtr<ProfilerWindow> profilerWindow;
         static ObjectPtr<ConsoleWindow> consoleWindow;
+        static ObjectPtr<ProjectWindow> projectWindow;
 
         std::string sceneFile;
 

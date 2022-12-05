@@ -5,16 +5,17 @@
 
 namespace BDXKEngine
 {
-    //TODO 无法传送容器内的指针
     class Internal_ObjectPtrTransferer : public Transferer
     {
     public:
         std::vector<int> GetReferences();
     protected:
+        void SetHeadInstanceID(int root);
         void TransferValue(void* value, const Type& type) override;
         void TransferObjectPtr(const ObjectPtrBase& objectPtrBase);
         CustomTransferFunc(ObjectPtrBase, TransferObjectPtr)
     private:
+        int headInstanceID = 0;
         std::unordered_set<int> references;
     };
 

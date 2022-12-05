@@ -122,7 +122,7 @@ namespace BDXKEngine
             {
                 GL::Clear(true, true);
 
-                const auto& skyboxMaterial = RenderSettings::GetSingleton().GetSkyboxMaterial();
+                const auto& skyboxMaterial = RenderSettings::GetSkyboxMaterial();
                 skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
                 skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
                 skyboxMaterial->SetPass(0);
@@ -132,7 +132,7 @@ namespace BDXKEngine
                     CameraInfo::Orthographic(
                         screenSize.x / screenSize.y, 0, 1, screenSize.y,
                         Matrix4x4::identity, Vector3::zero, Color::black, 0
-                    ), RenderSettings::GetSingleton().GetSkybox()
+                    ), RenderSettings::GetSkybox()
                 );
 
                 Graphics::DrawRect({Vector2::zero, screenSize});

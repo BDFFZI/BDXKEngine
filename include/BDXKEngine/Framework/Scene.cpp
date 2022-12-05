@@ -1,5 +1,6 @@
 ﻿#include "Scene.h"
-#include "BDXKEngine/Function/Assets/Assets.h"
+#include "BDXKEngine/Platform/GL/Mesh/MeshImport.h"
+#include "BDXKEngine/Platform/GL/Shader/ShaderImport.h"
 #include "BDXKEngine/Platform/Resources/Resources.h"
 #include "Renderer/MeshRenderer.h"
 #include "Renderer/Core/Camera.h"
@@ -7,10 +8,88 @@
 
 namespace BDXKEngine
 {
-    ObjectPtr<GameObject> Creation::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
+    ObjectPtr<Material> PresetResources::unlitMaterial = nullptr;
+    ObjectPtr<Material> PresetResources::standardMaterial = nullptr;
+    ObjectPtr<Material> PresetResources::skyboxMaterial = nullptr;
+    ObjectPtr<Mesh> PresetResources::cubeMesh = nullptr;
+    ObjectPtr<Mesh> PresetResources::sphereMesh = nullptr;
+    ObjectPtr<Mesh> PresetResources::blenderMesh = nullptr;
+    ObjectPtr<Texture2D> PresetResources::whiteTexture = nullptr;
+
+    ObjectPtr<Material> PresetResources::GetUnlitMaterial()
+    {
+        return unlitMaterial;
+    }
+    ObjectPtr<Material> PresetResources::GetStandardMaterial()
+    {
+        return standardMaterial;
+    }
+    ObjectPtr<Material> PresetResources::GetSkyboxMaterial()
+    {
+        return skyboxMaterial;
+    }
+    ObjectPtr<Texture2D> PresetResources::GetWhiteTexture()
+    {
+        return whiteTexture;
+    }
+    ObjectPtr<Mesh> PresetResources::GetCubeMesh()
+    {
+        return cubeMesh;
+    }
+    ObjectPtr<Mesh> PresetResources::GetSphereMesh()
+    {
+        return sphereMesh;
+    }
+    ObjectPtr<Mesh> PresetResources::GetBlenderMesh()
+    {
+        return blenderMesh;
+    }
+
+
+    void PresetResources::Create()
+    {
+# define ParsePath(path) Resources::GetRootPath()+"/BDXKEngine/"#path
+        //材质球
+        ObjectPtr<Shader> shadowMapShader = ShaderImport::Hlsl(ParsePath(Shaders/ShadowMap.hlsl));
+        auto unlitShader = ShaderImport::Hlsl(ParsePath(Shaders/Unlit.hlsl));
+        auto unlitShaderAdditive = ShaderImport::Hlsl(ParsePath(Shaders/Unlit.hlsl));
+        unlitShaderAdditive->SetBlend(Blend::Additive);
+        unlitMaterial = Material::Create({
+            {unlitShader, PassType::ForwardBase},
+            {unlitShaderAdditive, PassType::ForwardAdd},
+            {shadowMapShader, PassType::ShadowCaster}
+        });
+        auto standardShader = ShaderImport::Hlsl(ParsePath(Shaders/Standard.hlsl));
+        auto standardShaderAdditive = ShaderImport::Hlsl(ParsePath(Shaders/Standard.hlsl));
+        standardShaderAdditive->SetBlend(Blend::Additive);
+        standardMaterial = Material::Create({
+            {standardShader, PassType::ForwardBase},
+            {standardShaderAdditive, PassType::ForwardAdd},
+            {shadowMapShader, PassType::ShadowCaster}
+        });
+        ObjectPtr<Shader> skyboxShader = ShaderImport::Hlsl(ParsePath(Shaders/Skybox.hlsl));
+        ZTest ztest = {};
+        ztest.write = false;
+        ztest.operation = ZTest::Operation::Always;
+        skyboxShader->SetZTest(ztest);
+        skyboxMaterial = Material::Create({
+            {
+                skyboxShader,
+                PassType::ForwardBase
+            }
+        });
+        //网格
+        cubeMesh = MeshImport::Glb(ParsePath(Meshes/Cube.glb));
+        sphereMesh = MeshImport::Glb(ParsePath(Meshes/Sphere.glb));
+        blenderMesh = MeshImport::Glb(ParsePath(Meshes/Blender.glb));
+        //贴图
+        whiteTexture = Texture2D::Create(Color::white);
+    }
+
+    ObjectPtr<GameObject> PresetGameObject::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
     {
         //创建材质球
-        const ObjectPtr<Material> material = Resources::Clone(Assets::GetStandardMaterial());
+        const ObjectPtr<Material> material = Resources::Clone(PresetResources::GetStandardMaterial());
         material->SetTexture2D(0, Texture2D::Create(color));
         //创建物体
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
@@ -20,22 +99,22 @@ namespace BDXKEngine
 
         return gameObject;
     }
-    ObjectPtr<GameObject> Creation::CreateCube(const char* name, Color color)
+    ObjectPtr<GameObject> PresetGameObject::CreateCube(const char* name, Color color)
     {
-        return CreateObject3D(Assets::GetCubeMesh(), name, color);
+        return CreateObject3D(PresetResources::GetCubeMesh(), name, color);
     }
-    ObjectPtr<GameObject> Creation::CreatePlane(const char* name, Color color)
+    ObjectPtr<GameObject> PresetGameObject::CreatePlane(const char* name, Color color)
     {
         ObjectPtr<GameObject> plane = CreateCube(name, color);
         plane->SetLocalScale({10, 0.01f, 10});
         plane->SetLocalPosition({0, -0.005f, 0});
         return plane;
     }
-    ObjectPtr<GameObject> Creation::CreateSphere(const char* name, Color color)
+    ObjectPtr<GameObject> PresetGameObject::CreateSphere(const char* name, Color color)
     {
-        return CreateObject3D(Assets::GetSphereMesh(), name, color);
+        return CreateObject3D(PresetResources::GetSphereMesh(), name, color);
     }
-    ObjectPtr<GameObject> Creation::CreateLight(LightType lightType, const char* name)
+    ObjectPtr<GameObject> PresetGameObject::CreateLight(LightType lightType, const char* name)
     {
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
         const ObjectPtr<Light> light = Component::Create<Light>(gameObject);
@@ -44,15 +123,15 @@ namespace BDXKEngine
         light->SetType(lightType);
         return gameObject;
     }
-    ObjectPtr<GameObject> Creation::CreateDirectionalLight(const char* name)
+    ObjectPtr<GameObject> PresetGameObject::CreateDirectionalLight(const char* name)
     {
         return CreateLight(LightType::Directional, name);
     }
-    ObjectPtr<GameObject> Creation::CreatePointLight(const char* name)
+    ObjectPtr<GameObject> PresetGameObject::CreatePointLight(const char* name)
     {
         return CreateLight(LightType::Point, name);
     }
-    ObjectPtr<GameObject> Creation::CreateCamera(const char* name)
+    ObjectPtr<GameObject> PresetGameObject::CreateCamera(const char* name)
     {
         ObjectPtr<GameObject> gameObject = GameObject::Create(name);
         Component::Create<Camera>(gameObject);
@@ -61,18 +140,20 @@ namespace BDXKEngine
 
     void Scene::LoadDefault()
     {
-        RenderSettings::SetSingleton(RenderSettings::Create());
-        const ObjectPtr<GameObject> sun = Creation::CreateDirectionalLight("Sun");
-        const ObjectPtr<GameObject> ground = Creation::CreatePlane("Ground");
-        const ObjectPtr<GameObject> sphere = Creation::CreateSphere("Sphere");
-        const ObjectPtr<GameObject> camera = Creation::CreateCamera("Camera");
+        PresetResources::Create();
+        const ObjectPtr<RenderSettings> renderSettings = Create<RenderSettings>();
+        renderSettings->SetSkyboxMaterial(PresetResources::GetSkyboxMaterial());
+
+        const ObjectPtr<GameObject> sun = PresetGameObject::CreateDirectionalLight("Sun");
+        const ObjectPtr<GameObject> ground = PresetGameObject::CreatePlane("Ground");
+        const ObjectPtr<GameObject> sphere = PresetGameObject::CreateSphere("Sphere");
+        const ObjectPtr<GameObject> camera = PresetGameObject::CreateCamera("Camera");
         sun->SetLocalEulerAngles({45, -45, 0});
         sphere->SetLocalPosition({0, 0.5f, 0});
         camera->SetLocalPosition({0, 1, -10});
     }
     void Scene::Load(const ObjectPtr<Scene>& path)
     {
-        RenderSettings::SetSingleton(path->renderSettings);
         for (const auto& item : path->gameObjects)
         {
             Resources::Clone(item);
@@ -83,7 +164,7 @@ namespace BDXKEngine
     {
         ObjectPtr scene = new Scene{};
         Instantiate(scene);
-        scene->renderSettings = &RenderSettings::GetSingleton();
+        scene->renderSettings = RenderSettings::GetSingleton();
         for (const auto& item : ScriptableObject::FindScriptableObjectsOfType<GameObject>())
         {
             if (Resources::IsResource(item) == false && item->GetParent().IsNull())

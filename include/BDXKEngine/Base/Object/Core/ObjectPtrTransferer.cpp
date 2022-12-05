@@ -4,7 +4,15 @@ namespace BDXKEngine
 {
     std::vector<int> Internal_ObjectPtrTransferer::GetReferences()
     {
-        return {references.begin(), references.end()};
+        references.erase(headInstanceID);
+        std::vector<int> result = {};
+        result.insert(result.end(), headInstanceID);
+        result.insert(result.end(), references.begin(), references.end());
+        return result;
+    }
+    void Internal_ObjectPtrTransferer::SetHeadInstanceID(int root)
+    {
+        headInstanceID = root;
     }
     void Internal_ObjectPtrTransferer::TransferObjectPtr(const ObjectPtrBase& objectPtrBase)
     {
@@ -24,6 +32,6 @@ namespace BDXKEngine
     }
     ObjectPtrTransferer::ObjectPtrTransferer(const ObjectPtrBase& root)
     {
-        TransferObjectPtr(root);
+        SetHeadInstanceID(root.GetInstanceID());
     }
 }

@@ -1,10 +1,7 @@
 ﻿#include "Light.h"
-
 #include <algorithm>
-
 #include "Renderer.h"
 #include "RenderSettings.h"
-#include "BDXKEngine/Function/Assets/Assets.h"
 #include "BDXKEngine/Function/Graphics/Graphics.h"
 
 namespace BDXKEngine
