@@ -2,12 +2,12 @@
 
 namespace BDXKEngine
 {
-    void ObjectSerializerAdapter::TransferSerialization(Transferer& transferer, std::string& serialization)
+    void ObjectSerializerBase::AddFindSerializationFallback(const std::function<std::string(const Guid& guid)>& fallback)
     {
-        transferer.TransferField("data", serialization);
+        findSerializationFallback.push_back(fallback);
     }
-    std::string ObjectSerializerAdapter::LoadSerialization(const Guid& guid)
+    const std::vector<std::function<std::string(const Guid& guid)>>& ObjectSerializerBase::GetFindSerializationFallback()
     {
-        throw std::exception("前置资源未加载");
+        return findSerializationFallback;
     }
 }

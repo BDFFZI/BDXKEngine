@@ -1,0 +1,11 @@
+{
+    "serializationsCount": 1,
+    "serialization_0": {
+        "object": "{DC1292B7-A00E-47A8-E299-21597939D96E}",
+        "data": {
+            "type": "class BDXKEditor::MeshImporter",
+            "name": "class BDXKEditor::MeshImporter",
+            "guid": "{C8F29D2A-A33C-4687-B0AB-34F0C0A11BF8}"
+        }
+    }
+}

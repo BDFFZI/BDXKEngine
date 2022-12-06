@@ -20,7 +20,7 @@ namespace BDXKEditor
             DestroyImmediate(this);
             return;
         }
-        
+
         if (target.IsNotNull())
         {
             if (isSpecial == false && ImGui::Button("Clone InspectorWindow", {ImGui::GetContentRegionAvail().x, 0}))

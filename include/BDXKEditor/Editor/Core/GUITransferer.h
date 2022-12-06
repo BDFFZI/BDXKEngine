@@ -38,7 +38,7 @@ namespace BDXKEditor
         std::string fieldPath;
         std::string fieldName;
         bool isInPath = false;
-        size_t isNested = -1;
+        int isNested = -1;
         std::function<void(const ObjectPtrBase&)> clickObjectEvent;
 
         CustomTransferFunc(int, TransferInt)

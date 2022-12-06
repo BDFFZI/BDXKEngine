@@ -66,7 +66,7 @@ namespace BDXKEngine
 
             char* GetPtr()
             {
-                return reinterpret_cast<char*>(this + std::uintptr_t{});
+                return reinterpret_cast<char*>(this) + sizeof(std::uintptr_t);
             }
             void Transfer(Transferer& transferer) override
             {

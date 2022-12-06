@@ -12,8 +12,8 @@ namespace BDXKEditor
     public:
         void SetTarget(const ObjectPtrBase& target);
     private:
-        ObjectPtrBase target;
-        ObjectTransferer<GUITransferer> gui;
+        ObjectPtrBase target = {};
+        ObjectTransferer<GUITransferer> gui = {};
         bool isSpecial = false;
 
         void OnAwake() override;

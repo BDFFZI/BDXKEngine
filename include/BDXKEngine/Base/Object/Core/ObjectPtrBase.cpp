@@ -50,8 +50,6 @@ namespace BDXKEngine
     {
         if (objectPtr.instanceID != 0)
             ObjectPtrBase::AddRef(objectPtr.instanceID);
-
-        GetVirtualTable(objectPtr.GetType(), this);
     }
     ObjectPtrBase::~ObjectPtrBase()
     {
@@ -114,8 +112,7 @@ namespace BDXKEngine
 
         if (objectPtr.instanceID != 0)
             AddRef(objectPtr.instanceID);
-
-        GetVirtualTable(objectPtr.GetType(), this);
+        
         return *this;
     }
 
@@ -150,12 +147,5 @@ namespace BDXKEngine
         }
 
         instanceID = 0;
-    }
-
-    void ObjectPtrBase::StaticConstructor()
-    {
-        const auto objectPtr = new ObjectPtrBase();
-        SetVirtualTable(objectPtr->GetType(), objectPtr);
-        delete objectPtr;
     }
 }

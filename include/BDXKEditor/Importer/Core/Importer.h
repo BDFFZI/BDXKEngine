@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Guid/Guid.h"
 
 namespace BDXKEditor
 {
@@ -14,8 +15,14 @@ namespace BDXKEditor
         static void SetAssetsImporter(const std::string& extension, const Type& type);
 
         virtual ObjectPtrBase Import(std::string filePath) = 0;
+        const Guid& GetGuid();
     private:
         inline static std::unordered_map<std::string, Type> assetsImporter = {};
+
+        Guid guid;
+
+        void Transfer(Transferer& transferer) override;
+        void Awake() override;
     };
 
     struct CustomAssetsImporterRegister

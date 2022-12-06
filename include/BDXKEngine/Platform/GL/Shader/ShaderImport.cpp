@@ -31,7 +31,7 @@ namespace BDXKEngine
         //编译顶点着色器
         CComPtr<ID3DBlob> vertexBlob;
         CompileShaderFromFile(fileName, "VertexPass", "vs_5_0", &vertexBlob.p);
-        //编译像素着色器
+        //编译像素着色器s
         CComPtr<ID3DBlob> pixelBlob;
         CompileShaderFromFile(fileName, "PixelPass", "ps_5_0", &pixelBlob.p);
 

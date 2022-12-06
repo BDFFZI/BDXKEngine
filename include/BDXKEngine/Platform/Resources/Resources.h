@@ -13,19 +13,7 @@ namespace BDXKEngine
     class Resources
     {
     public:
-        class JsonSerializerAdapter : public ObjectSerializerAdapter
-        {
-        protected:
-            void TransferSerialization(Transferer& transferer, std::string& serialization) override;
-            std::string LoadSerialization(const Guid& guid) override;
-        };
-
-        class BinarySerializerAdapter : public ObjectSerializerAdapter
-        {
-        protected:
-            std::string LoadSerialization(const Guid& guid) override;
-        };
-
+        static std::string ReadFile(const std::string& path);
         static ObjectSerializer<JsonImporter, JsonExporter> CreateJsonSerializer();
         static ObjectSerializer<BinaryImporter2, BinaryExporter2> CreateBinarySerializer();
         static std::string GetRootPath();
@@ -57,5 +45,8 @@ namespace BDXKEngine
         static bool IsExisting(const std::string& path);
     private:
         static std::string rootDirectory;
+
+        static void StaticConstructor();
+        CustomStaticConstructor(StaticConstructor)
     };
 }

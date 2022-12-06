@@ -165,7 +165,7 @@ namespace BDXKEngine
         ObjectPtr scene = new Scene{};
         Instantiate(scene);
         scene->renderSettings = RenderSettings::GetSingleton();
-        for (const auto& item : ScriptableObject::FindScriptableObjectsOfType<GameObject>())
+        for (const auto& item : GameObject::GetGameObjects())
         {
             if (Resources::IsResource(item) == false && item->GetParent().IsNull())
                 scene->gameObjects.emplace_back(item);

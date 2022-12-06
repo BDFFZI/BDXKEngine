@@ -1,4 +1,6 @@
 ﻿#include "GameObjectEditor.h"
+
+#include "BDXKEngine/Base/Object/Core/ObjectTransferer.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
 #include "BDXKEngine/Framework/Core/Component.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
@@ -13,7 +15,7 @@ namespace BDXKEditor
         GUITransferer& gui = GetGUITransferer();
         auto* target = GetTarget().ToObject<GameObject>();
         const Reflection& reflection = Reflection::GetReflection<GameObject>();
-
+        
         //物体
         {
             bool enable = reflection.GetFieldOf<bool>(target, "isEnabling");

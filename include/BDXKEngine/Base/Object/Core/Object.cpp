@@ -35,6 +35,7 @@ namespace BDXKEngine
 
         //获取关联物体
         ObjectPtrTransferer referenceTransferer = {objectPtr};
+        objectPtr->Transfer(referenceTransferer);
         auto references = referenceTransferer.GetReferences();
 
         //激活
@@ -54,7 +55,7 @@ namespace BDXKEngine
 
         //克隆并注册
         ObjectPtrBase instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
-        instance->name = instance->name + " (Clone)";
+        instance->name = instance->name;
         if (instantiate)Instantiate(instance);
         return instance;
     }

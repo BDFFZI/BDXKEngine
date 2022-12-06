@@ -44,7 +44,12 @@ namespace BDXKEngine
         inline static std::unordered_map<Type, std::uintptr_t> virtualTable = {};
         inline static std::unordered_map<int, int> refCountMap = {};
 
-        static void StaticConstructor();
+        static void StaticConstructor()
+        {
+            const auto objectPtr = new ObjectPtrBase();
+            SetVirtualTable(objectPtr->GetType(), objectPtr);
+            delete objectPtr;
+        }
         CustomStaticConstructor(StaticConstructor)
 
         int instanceID = 0;

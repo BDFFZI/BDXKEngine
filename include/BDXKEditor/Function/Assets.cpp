@@ -1,17 +1,10 @@
 ﻿#include "Assets.h"
 #include <filesystem>
-#include <fstream>
+
 #include "BDXKEngine/Platform/Resources/Resources.h"
 
 namespace BDXKEditor
 {
-    const std::string rootDirectory = "Assets/";
-
-    std::string Assets::JsonSerializerAdapter::LoadSerialization(const Guid& guid)
-    {
-        return ReadFile(guidToPath[guid]);
-    }
-
     std::string Assets::GetRootPath()
     {
         return rootDirectory.substr(0, rootDirectory.size() - 1);
@@ -32,7 +25,8 @@ namespace BDXKEditor
         ObjectPtrBase object = importer->Import(rootDirectory + path);
         object->SetName(ParseFileName(path));
 
-        const Guid guid = ObjectGuid::GetOrSetGuid(object.GetInstanceID());
+        const Guid guid = importer->GetGuid();
+        ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
         pathToGuid[path] = guid;
         guidToPath[guid] = path;
         Resources::Save(guid, object);
@@ -41,12 +35,10 @@ namespace BDXKEditor
     }
     ObjectPtr<Importer> Assets::LoadImporter(const std::string& path)
     {
-        auto jsonSerializer = Resources::CreateJsonSerializer();
-        jsonSerializer.SetAdapter(JsonSerializerAdapter{});
-
         const std::string lastRootPath = Resources::GetRootPath();
         Resources::SetRootPath(rootDirectory);
 
+        auto jsonSerializer = Resources::CreateJsonSerializer();
         const std::string importerPath = path + ".importer";
         ObjectPtr<Importer> importer = Resources::IsExisting(importerPath) == false
                                            ? Importer::GetAssetsImporter(path.substr(path.find('.') + 1))
@@ -55,61 +47,46 @@ namespace BDXKEditor
             Resources::Save(importerPath, importer, jsonSerializer);
 
         Resources::SetRootPath(lastRootPath);
-
         return importer;
     }
 
     void Assets::StaticConstructor()
     {
-        std::string json = ReadFile("assets.json");
-        if (json.empty())return;
-
-        JsonImporter importer = {};
-        importer.Reset(json);
-
-        int count = static_cast<int>(pathToGuid.size());
-        importer.TransferField("Count", count);
-
-        for (int index = 0; index < count; index++)
+        ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
         {
-            std::string path;
-            std::string guid;
+            const std::string path = guidToPath[guid];
+            if (std::filesystem::exists(path))
+            {
+                Load(path.substr(rootDirectory.size()));
+                return Resources::ReadFile(guid);
+            }
 
-            std::string layer = "Item_" + std::to_string(index);
-            importer.PushPath(layer);
-            importer.TransferField("Path", path);
-            importer.TransferField("Guid", guid);
-            importer.PopPath(layer);
+            return std::string{};
+        });
 
-            pathToGuid[path] = guid;
-            guidToPath[guid] = path;
-        }
-    }
-    void Assets::StaticDestructor()
-    {
-        JsonExporter exporter = {};
-
-        int count = static_cast<int>(pathToGuid.size());
-        exporter.TransferField("Count", count);
-
-        int index = 0;
-        for (const auto& item : pathToGuid)
+        std::stack<std::filesystem::directory_entry> directories = {};
+        directories.push(std::filesystem::directory_entry{GetRootPath()});
+        while (directories.empty() == false)
         {
-            std::string path = item.first;
-            std::string guid = item.second;
+            auto iterator = std::filesystem::directory_iterator{directories.top()};
+            directories.pop();
+            for (const auto& item : iterator)
+            {
+                if (item.is_directory())
+                    directories.push(item);
+                else if (item.path().extension() == ".importer")
+                {
+                    std::string path = item.path().string();
 
-            std::string layer = "Item_" + std::to_string(index);
-            exporter.PushPath(layer);
-            exporter.TransferField("Path", path);
-            exporter.TransferField("Guid", guid);
-            exporter.PopPath(layer);
-            index++;
+                    rapidjson::Document document = {};
+                    document.Parse(ReadFile(path).c_str());
+                    Guid guid = document["serialization_0"]["data"]["guid"].GetString();
+
+                    path = path.substr(0, path.size() - 9);
+                    pathToGuid[path] = guid;
+                    guidToPath[guid] = path;
+                }
+            }
         }
-
-        std::string json;
-        exporter.Reset(json);
-        std::ofstream ofstream = std::ofstream{"assets.json", std::fstream::binary};
-        ofstream << json;
-        ofstream.close();
     }
 }

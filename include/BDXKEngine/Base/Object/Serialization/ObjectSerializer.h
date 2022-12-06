@@ -5,32 +5,32 @@
 
 namespace BDXKEngine
 {
-    class ObjectSerializerAdapter
+    class ObjectSerializerBase : public Serializer
     {
     public:
-        virtual ~ObjectSerializerAdapter() = default;
-
-        virtual void TransferSerialization(Transferer& transferer, std::string& serialization);
-        virtual std::string LoadSerialization(const Guid& guid); //以便支持分包加载
+        static void AddFindSerializationFallback(const std::function<std::string(const Guid& guid)>& fallback);
+        static const std::vector<std::function<std::string(const Guid& guid)>>& GetFindSerializationFallback();
+    protected:
+        ObjectSerializerBase(IOTransferer& importer, IOTransferer& exporter)
+            : Serializer(importer, exporter)
+        {
+        }
+    private:
+        inline static std::vector<std::function<std::string(const Guid& guid)>> findSerializationFallback = {};
     };
 
     template <typename TImporter, typename TExporter>
-    class ObjectSerializer : public Serializer
+    class ObjectSerializer : public ObjectSerializerBase
     {
     public:
-        ObjectSerializer(ObjectSerializerAdapter& adapter):
-            Serializer(objectImporter, objectExporter), adapter(adapter)
+        ObjectSerializer(std::function<void(Transferer&, std::string&)> transferSerialization = [](Transferer& transferer, std::string& serialization)
+        {
+            transferer.TransferField("data", serialization);
+        }):
+            ObjectSerializerBase(objectImporter, objectExporter), transferSerialization(transferSerialization)
         {
         }
 
-        const ObjectSerializerAdapter& GetAdapter() const
-        {
-            return adapter;
-        }
-        void SetAdapter(const ObjectSerializerAdapter& adapter) const
-        {
-            this->adapter = adapter;
-        }
         std::string Serialize(Reflective* input) override
         {
             if (dynamic_cast<Object*>(input) == nullptr)throw std::exception("只允许序列化Object物体");
@@ -42,6 +42,7 @@ namespace BDXKEngine
 
             //统计引用
             ObjectPtrTransferer objectPtrTransferer = {rootObject};
+            rootObject->Transfer(objectPtrTransferer);
             const auto references = objectPtrTransferer.GetReferences();
 
             //序列化相关物体
@@ -78,7 +79,7 @@ namespace BDXKEngine
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectExporter.PushPath(itemName);
                 objectExporter.TransferField("object", target);
-                adapter.TransferSerialization(objectExporter, data);
+                transferSerialization(objectExporter, data);
                 objectExporter.PopPath(itemName);
 
                 index++;
@@ -89,6 +90,8 @@ namespace BDXKEngine
         }
         Reflective* Deserialize(std::string input) override
         {
+            if (input.empty())throw std::exception("序列化数据为空");
+
             //获取反序列化数据
             objectImporter.Reset(input);
             int serializationsCount;
@@ -102,7 +105,7 @@ namespace BDXKEngine
                 std::string itemName = "serialization_" + std::to_string(index);
                 objectImporter.PushPath(itemName);
                 objectImporter.TransferField("object", guid);
-                adapter.TransferSerialization(objectImporter, data);
+                transferSerialization(objectImporter, data);
                 objectImporter.PopPath(itemName);
 
                 serializations.push_back(std::make_tuple(guid, data));
@@ -129,11 +132,22 @@ namespace BDXKEngine
                 if (ObjectGuid::IsMainGuid(guid) != false && guid != rootGuid)
                     continue;
 
-                const Object* object = dynamic_cast<Object*>(
-                    data.empty()
-                        ? ObjectSerializer<TImporter, TExporter>(adapter).Deserialize(guid) //未加载的前置资源
-                        : Serializer::Deserialize(data));
-                ObjectGuid::SetInstanceID(guid, object->GetInstanceID());
+                Reflective* reflective = nullptr;
+                if (data.empty() == false)
+                    reflective = Serializer::Deserialize(data);
+                else //未加载的前置资源
+                    for (auto& fallback : GetFindSerializationFallback())
+                    {
+                        data = fallback(guid);
+                        if (data.empty() == false)
+                        {
+                            reflective = ObjectSerializer<TImporter, TExporter>(transferSerialization).Deserialize(data);
+                            break;
+                        }
+                    }
+
+                if (reflective == nullptr)throw std::exception("无法获取序列化数据");
+                ObjectGuid::SetInstanceID(guid, dynamic_cast<Object*>(reflective)->GetInstanceID());
             }
 
             //链接引用关系
@@ -170,6 +184,6 @@ namespace BDXKEngine
     private:
         ObjectTransferer<TExporter> objectExporter;
         ObjectTransferer<TImporter> objectImporter;
-        ObjectSerializerAdapter& adapter;
+        std::function<void(Transferer&, std::string&)> transferSerialization;
     };
 }

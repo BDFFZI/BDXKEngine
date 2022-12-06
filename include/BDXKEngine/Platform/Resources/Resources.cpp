@@ -4,6 +4,8 @@
 
 namespace BDXKEngine
 {
+    std::string Resources::rootDirectory = "Resources/";
+
     std::string ReadFile(const std::string& path)
     {
         std::ifstream ifstream(path, std::ios_base::binary);
@@ -15,22 +17,9 @@ namespace BDXKEngine
         return {buffer.get(), static_cast<size_t>(size)};
     }
 
-    std::string Resources::rootDirectory = "Resources/";
-    Resources::JsonSerializerAdapter jsonSerializerAdapter = {};
-    Resources::BinarySerializerAdapter binarySerializerAdapter = {};
-
-    void Resources::JsonSerializerAdapter::TransferSerialization(Transferer& transferer, std::string& serialization)
+    std::string Resources::ReadFile(const std::string& path)
     {
-        dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
-        if (serialization == "null")serialization = "";
-    }
-    std::string Resources::JsonSerializerAdapter::LoadSerialization(const Guid& guid)
-    {
-        return ReadFile(rootDirectory + guid);
-    }
-    std::string Resources::BinarySerializerAdapter::LoadSerialization(const Guid& guid)
-    {
-        return ReadFile(rootDirectory + guid);
+        return BDXKEngine::ReadFile(rootDirectory + path);
     }
 
     std::string Resources::GetRootPath()
@@ -43,11 +32,17 @@ namespace BDXKEngine
     }
     ObjectSerializer<JsonImporter, JsonExporter> Resources::CreateJsonSerializer()
     {
-        return ObjectSerializer<JsonImporter, JsonExporter>{jsonSerializerAdapter};
+        return ObjectSerializer<JsonImporter, JsonExporter>{
+            [](Transferer& transferer, std::string& serialization)
+            {
+                dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
+                if (serialization == "null")serialization = "";
+            }
+        };
     }
     ObjectSerializer<BinaryImporter2, BinaryExporter2> Resources::CreateBinarySerializer()
     {
-        return ObjectSerializer<BinaryImporter2, BinaryExporter2>{binarySerializerAdapter};
+        return ObjectSerializer<BinaryImporter2, BinaryExporter2>{};
     }
 
     ObjectPtrBase Resources::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
@@ -57,7 +52,7 @@ namespace BDXKEngine
     }
     ObjectPtrBase Resources::Load(const std::string& path, Serializer& serializer, bool instantiate)
     {
-        ObjectPtrBase object = dynamic_cast<Object*>(serializer.Deserialize(ReadFile(rootDirectory + path)));
+        ObjectPtrBase object = dynamic_cast<Object*>(serializer.Deserialize(ReadFile(path)));
         if (instantiate)Object::Instantiate(object);
         return object;
     }
@@ -104,5 +99,15 @@ namespace BDXKEngine
             return true;
         }
         return false;
+    }
+
+    void Resources::StaticConstructor()
+    {
+        ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
+        {
+            if (std::filesystem::exists(rootDirectory + guid))
+                return ReadFile(guid);
+            return std::string{};
+        });
     }
 }

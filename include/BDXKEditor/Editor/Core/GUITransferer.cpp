@@ -16,7 +16,7 @@ namespace BDXKEditor
         {
             ImGui::Separator();
             ImGui::Text(fieldName.c_str());
-            isNested = fieldPath.size();
+            isNested = static_cast<int>(fieldPath.size());
             isInPath = false;
         }
 
@@ -26,7 +26,7 @@ namespace BDXKEditor
     }
     void GUITransferer::PopPath(std::string& key)
     {
-        if (fieldPath.size() == isNested)
+        if (isInPath == false && static_cast<int>(fieldPath.size()) == isNested)
             ImGui::Separator();
 
         fieldPath.resize(fieldPath.size() - key.size());

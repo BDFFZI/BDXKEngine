@@ -11,11 +11,6 @@ namespace BDXKEditor
 
     class Assets
     {
-        class JsonSerializerAdapter : public Resources::JsonSerializerAdapter
-        {
-            std::string LoadSerialization(const Guid& guid) override;
-        };
-
     public:
         static std::string GetRootPath();
         static ObjectPtrBase Load(const std::string& path);
@@ -25,13 +20,12 @@ namespace BDXKEditor
             return Load(path).ToObject<TObject>();
         }
     private:
-        inline static std::unordered_map<std::string, Guid> pathToGuid;
-        inline static std::unordered_map<Guid, std::string> guidToPath;
+        inline static std::string rootDirectory = "Assets/";
+        inline static std::unordered_map<std::string, Guid> pathToGuid = {};
+        inline static std::unordered_map<Guid, std::string> guidToPath = {};
 
         static void StaticConstructor();
         CustomStaticConstructor(StaticConstructor)
-        static void StaticDestructor();
-        CustomStaticDestructor(StaticDestructor)
 
         static ObjectPtr<Importer> LoadImporter(const std::string& path);
     };

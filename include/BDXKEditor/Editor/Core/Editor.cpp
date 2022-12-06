@@ -1,5 +1,7 @@
 ﻿#include "Editor.h"
 
+#include "BDXKEngine/Base/Object/Core/ObjectTransferer.h"
+
 namespace BDXKEditor
 {
     std::unordered_map<Type, Editor*> Editor::editors = {};
