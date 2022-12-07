@@ -17,6 +17,17 @@ namespace BDXKEngine
     {
         return allObjects;
     }
+    void Object::ReplaceObject(ObjectPtrBase& source, int targetInstanceID)
+    {
+        Object* object = source.ToObjectBase();
+
+        DestroyImmediate(FindObjectOfInstanceID(targetInstanceID));
+        allObjects[targetInstanceID] = object;
+        allObjects.erase(object->instanceID);
+        object->instanceID = targetInstanceID;
+
+        source = {object};
+    }
     Object::Object()
     {
         instanceID = ++instanceIDCount;

@@ -34,6 +34,8 @@ namespace BDXKEditor
 
         for (auto& item : logs)
             ImGui::Text(item.c_str());
+        if (logs.size() > 1000)
+            logs.erase(logs.begin(), logs.begin() + static_cast<std::ptrdiff_t>(logs.size() - 1000));
     }
 
     void ConsoleWindow::OnAwake()

@@ -81,6 +81,27 @@ namespace BDXKEngine
 
         DrawMesh(drawTextureMesh);
     }
+    void Graphics::DrawViewport(bool setDefaultCameraInfo)
+    {
+        if (setDefaultCameraInfo)
+            SetCameraInfo(
+                {
+                    Matrix4x4::identity, Matrix4x4::identity,
+                    Vector4{}, Color{}, Vector4{},
+                },
+                nullptr
+            );
+
+        drawTextureMesh->SetPositions({
+            {-1, 1, 0},
+            {1, 1, 0},
+            {1, -1, 0},
+            {-1, -1, 0},
+        });
+        drawTextureMesh->UpdataMeshData();
+
+        DrawMesh(drawTextureMesh);
+    }
     void Graphics::Blit(const ObjectPtr<Texture2D>& source, const ObjectPtr<Texture2D>& dest, const ObjectPtr<Material>& blitMaterial)
     {
         dest->SetRenderTarget();

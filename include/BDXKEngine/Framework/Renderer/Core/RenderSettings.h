@@ -10,11 +10,15 @@ namespace BDXKEngine
     public:
         static const ObjectPtr<TextureCube>& GetSkybox();
         static const ObjectPtr<Material>& GetSkyboxMaterial();
+        static const ObjectPtr<Material>& GetUnlitMaterial();
         static void SetSkybox(const ObjectPtr<TextureCube>& skybox);
         static void SetSkyboxMaterial(const ObjectPtr<Material>& skyboxMaterial);
+        static void SetUnlitMaterial(const ObjectPtr<Material>& unlitMaterial);
     private:
         ObjectPtr<TextureCube> skybox = nullptr;
         ObjectPtr<Material> skyboxMaterial = nullptr;
+        ObjectPtr<Material> unlitMaterial = nullptr;
+
         void Transfer(Transferer& transferer) override;
     };
 

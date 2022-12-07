@@ -61,6 +61,7 @@ namespace BDXKEngine
         depthStencilTextureDescription.BindFlags = D3D11_BIND_DEPTH_STENCIL;
         depthStencilTextureDescription.Width = defaultRenderTargetDescription.Width;
         depthStencilTextureDescription.Height = defaultRenderTargetDescription.Height;
+        depthStencilTextureDescription.MipLevels = 1;
         depthStencilTextureDescription.ArraySize = 1;
         depthStencilTextureDescription.SampleDesc = {1, 0};
         HRESULT result = device->CreateTexture2D(&depthStencilTextureDescription, nullptr, &depthStencilTexture.p);

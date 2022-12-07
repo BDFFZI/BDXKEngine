@@ -30,6 +30,7 @@ namespace BDXKEngine
         Vector2 operator/(float value) const;
         Vector2 operator+(Vector2 value) const;
         Vector2 operator-(Vector2 value) const;
+        Vector2 operator*(Vector2 value) const;
         bool operator==(Vector2 value) const;
     };
 }

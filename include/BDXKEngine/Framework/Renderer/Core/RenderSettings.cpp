@@ -11,6 +11,10 @@ namespace BDXKEngine
     {
         return GetSingleton()->skyboxMaterial;
     }
+    const ObjectPtr<Material>& RenderSettings::GetUnlitMaterial()
+    {
+        return GetSingleton()->unlitMaterial;
+    }
     void RenderSettings::SetSkybox(const ObjectPtr<TextureCube>& skybox)
     {
         GetSingleton()->skybox = skybox;
@@ -20,11 +24,16 @@ namespace BDXKEngine
         GetSingleton()->skyboxMaterial = skyboxMaterial;
     }
 
+    void RenderSettings::SetUnlitMaterial(const ObjectPtr<Material>& unlitMaterial)
+    {
+        GetSingleton()->unlitMaterial = unlitMaterial;
+    }
     void RenderSettings::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);
 
         TransferFieldInfo(skybox);
         TransferFieldInfo(skyboxMaterial);
+        TransferFieldInfo(unlitMaterial);
     }
 }

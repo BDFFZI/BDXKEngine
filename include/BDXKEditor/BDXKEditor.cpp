@@ -15,6 +15,7 @@ namespace BDXKEditor
     ObjectPtr<ProfilerWindow> EditorSystem::profilerWindow;
     ObjectPtr<ConsoleWindow> EditorSystem::consoleWindow;
     ObjectPtr<ProjectWindow> EditorSystem::projectWindow;
+    ObjectPtr<GameWindow> EditorSystem::gameWindow;
 
 
     const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
@@ -62,6 +63,7 @@ namespace BDXKEditor
         profilerWindow = EditorWindow::Create<ProfilerWindow>();
         consoleWindow = EditorWindow::Create<ConsoleWindow>();
         projectWindow = EditorWindow::Create<ProjectWindow>();
+        gameWindow = EditorWindow::Create<GameWindow>();
 
         hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
         {
@@ -84,6 +86,7 @@ namespace BDXKEditor
         profilerWindow->Show();
         consoleWindow->Show();
         projectWindow->Show();
+        gameWindow->Show();
     }
     void TestLight()
     {

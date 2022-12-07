@@ -26,16 +26,27 @@ namespace BDXKEditor
                     ShowDirectory(item);
                 else
                 {
-                    if (ImGui::Button(ParseFileName(item.path().string()).c_str()))
+                    if (item.path().extension() == ".importer")
                     {
-                        const std::string itemPath = item.path().string().substr(Assets::GetRootPath().size() + 1);
-                        selectedItemObject = Assets::Load(itemPath);
-                        if (clickObjectEvent != nullptr)clickObjectEvent(selectedItemObject);
+                        if (ImGui::Button(ParseFileName(item.path().string()).c_str()))
+                        {
+                            const std::string itemPath = item.path().string().substr(Assets::GetRootPath().size() + 1);
+                            Assets::Load(itemPath.substr(0, itemPath.size() - 9), true);
+                        }
                     }
-                    if (GUI::BeginDragDrop(selectedItemObject))
+                    else
                     {
-                        const std::string itemPath = item.path().string().substr(Assets::GetRootPath().size() + 1);
-                        selectedItemObject = Assets::Load(itemPath);
+                        if (ImGui::Button(ParseFileName(item.path().string()).c_str()))
+                        {
+                            const std::string itemPath = item.path().string().substr(Assets::GetRootPath().size() + 1);
+                            selectedItemObject = Assets::Load(itemPath);
+                            if (clickObjectEvent != nullptr)clickObjectEvent(selectedItemObject);
+                        }
+                        if (GUI::BeginDragDrop(selectedItemObject))
+                        {
+                            const std::string itemPath = item.path().string().substr(Assets::GetRootPath().size() + 1);
+                            selectedItemObject = Assets::Load(itemPath);
+                        }
                     }
                 }
             }

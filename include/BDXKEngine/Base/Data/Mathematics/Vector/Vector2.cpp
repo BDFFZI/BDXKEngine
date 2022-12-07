@@ -67,6 +67,10 @@ namespace BDXKEngine
     {
         return {x - value.x, y - value.y};
     }
+    Vector2 Vector2::operator*(Vector2 value) const
+    {
+        return {x * value.x, y * value.y};
+    }
     bool Vector2::operator==(Vector2 value) const
     {
         return Equal(x, value.x) && Equal(y, value.y);

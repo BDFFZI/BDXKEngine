@@ -143,6 +143,7 @@ namespace BDXKEngine
         PresetResources::Create();
         const ObjectPtr<RenderSettings> renderSettings = Create<RenderSettings>();
         renderSettings->SetSkyboxMaterial(PresetResources::GetSkyboxMaterial());
+        renderSettings->SetUnlitMaterial(PresetResources::GetUnlitMaterial());
 
         const ObjectPtr<GameObject> sun = PresetGameObject::CreateDirectionalLight("Sun");
         const ObjectPtr<GameObject> ground = PresetGameObject::CreatePlane("Ground");

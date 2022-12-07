@@ -10,9 +10,9 @@ namespace BDXKEditor
         return rootDirectory.substr(0, rootDirectory.size() - 1);
     }
 
-    ObjectPtrBase Assets::Load(const std::string& path)
+    ObjectPtrBase Assets::Load(const std::string& path, bool reimport)
     {
-        if (pathToGuid.contains(path))
+        if (reimport == false && pathToGuid.contains(path))
         {
             const Guid guid = pathToGuid[path];
             const int instance = ObjectGuid::GetInstanceID(guid);
@@ -20,12 +20,17 @@ namespace BDXKEditor
             if (Resources::IsExisting(guid))return Resources::Load(guid);
         }
 
+        //加载导入器
         const ObjectPtr<Importer> importer = LoadImporter(path);
         if (importer == nullptr) return {};
+        const Guid guid = importer->GetGuid();
+        //导入物体
         ObjectPtrBase object = importer->Import(rootDirectory + path);
         object->SetName(ParseFileName(path));
+        //检查是否为重新导入
+        if (const int lastInstance = ObjectGuid::GetInstanceID(guid); lastInstance != 0)
+            Object::ReplaceObject(object, lastInstance);
 
-        const Guid guid = importer->GetGuid();
         ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
         pathToGuid[path] = guid;
         guidToPath[guid] = path;
@@ -82,7 +87,7 @@ namespace BDXKEditor
                     document.Parse(ReadFile(path).c_str());
                     Guid guid = document["serialization_0"]["data"]["guid"].GetString();
 
-                    path = path.substr(0, path.size() - 9);
+                    path = path.substr(rootDirectory.size(), path.size() - 9 - rootDirectory.size());
                     pathToGuid[path] = guid;
                     guidToPath[guid] = path;
                 }

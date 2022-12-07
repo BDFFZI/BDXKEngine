@@ -27,9 +27,11 @@ namespace BDXKEngine
     {
     public:
         static const ObjectPtr<Camera>& GetCurrentCamera();
+        static const ObjectPtr<Texture2D>& GetCameraCanvas();
         static void Initialize(Window* window);
     private:
         static ObjectPtr<Camera> currentCamera;
+        static ObjectPtr<Texture2D> cameraCanvas;
 
         static void Render();
     };

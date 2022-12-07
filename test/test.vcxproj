@@ -137,6 +137,7 @@
     <ClCompile Include="..\include\BDXKEditor\BDXKEditor.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\ConsoleWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\Core\EditorWindow.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\EditorWindow\GameWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\HierarchyWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\InspectorWindow.cpp" />
     <ClCompile Include="..\include\BDXKEditor\EditorWindow\ProfilerWindow.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="..\include\BDXKEditor\BDXKEditor.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\ConsoleWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\Core\EditorWindow.h" />
+    <ClInclude Include="..\include\BDXKEditor\EditorWindow\GameWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\HierarchyWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\InspectorWindow.h" />
     <ClInclude Include="..\include\BDXKEditor\EditorWindow\ProfilerWindow.h" />

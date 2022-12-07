@@ -32,6 +32,7 @@ namespace BDXKEngine
             return window;
         }
         static const std::map<int, Object*>& GetObjects();
+        static void ReplaceObject(ObjectPtrBase& source,int targetInstanceID);
 
         Object();
         ~Object() override;

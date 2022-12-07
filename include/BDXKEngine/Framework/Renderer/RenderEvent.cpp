@@ -1,22 +1,35 @@
 ﻿#include "RenderEvent.h"
-
+#include "BDXKEngine/Function/Graphics/Graphics.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "Core/Camera.h"
+#include "Core/RenderSettings.h"
 
 namespace BDXKEngine
 {
     ObjectPtr<Camera> RenderEvent::currentCamera = nullptr;
+    ObjectPtr<Texture2D> RenderEvent::cameraCanvas = nullptr;
 
     const ObjectPtr<Camera>& RenderEvent::GetCurrentCamera()
     {
         return currentCamera;
     }
+    const ObjectPtr<Texture2D>& RenderEvent::GetCameraCanvas()
+    {
+        return cameraCanvas;
+    }
 
     void RenderEvent::Initialize(Window* window)
     {
         Texture::ResetDefaultRenderTarget();
+        const Vector2 ScreenSize = window->GetSize();
+        cameraCanvas = Texture2D::Create(ScreenSize.GetXInt(), ScreenSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+
         window->AddRenewEvent(Render);
-        window->AddResizeEvent([](Vector2) { Texture::ResetDefaultRenderTarget(); });
+        window->AddResizeEvent([](Vector2 size)
+        {
+            Texture::ResetDefaultRenderTarget();
+            cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+        });
     }
     void RenderEvent::Render()
     {
@@ -32,9 +45,9 @@ namespace BDXKEngine
         //相机渲染
         for (const auto& camera : cameraQueue)
         {
-            ObjectPtr<Texture2D> rendererTarget = camera->GetRenderTarget();
-            if (rendererTarget != nullptr)rendererTarget->SetRenderTarget();
-            else Texture::SetRenderTargetDefault();
+            ObjectPtr<Texture2D> renderTarget = camera->GetRenderTarget();
+            if (renderTarget != nullptr)renderTarget->SetRenderTarget();
+            else cameraCanvas->SetRenderTarget();
 
             camera->Render(lightQueue, rendererQueue);
 
@@ -44,9 +57,17 @@ namespace BDXKEngine
                 if (drawGizmosHandler.IsNotNull()) drawGizmosHandler.ToObject<DrawGizmosHandler>()->OnDrawGizmos();
         }
 
+        //将相机渲染传输到屏幕
+        Texture::SetRenderTargetDefault();
+        GL::Clear(true, true);
+        const ObjectPtr<Material> material = RenderSettings::GetUnlitMaterial();
+        material->SetMatrix(0, Matrix4x4::identity);
+        material->SetTexture2D(0, cameraCanvas);
+        material->SetPass(PassType::ForwardBase);
+        Graphics::DrawViewport();
+
         //UI渲染
         {
-            Texture::SetRenderTargetDefault();
             GUI::BeginDraw();
 
             for (const auto& drawGUIHandler : drawGUIHandlers)
@@ -54,6 +75,7 @@ namespace BDXKEngine
 
             GUI::EndDraw();
         }
+
 
         GL::Present();
     }
