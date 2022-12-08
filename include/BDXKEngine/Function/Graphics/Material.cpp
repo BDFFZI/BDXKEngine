@@ -29,7 +29,7 @@ namespace BDXKEngine
     }
     int Material::GetPassCount() const
     {
-        return static_cast<int>(shaders.size());
+        return static_cast<int>(shaderTypes.size());
     }
     PassType Material::GetPassType(int index) const
     {
@@ -125,5 +125,6 @@ namespace BDXKEngine
         Object::Awake();
 
         parametersBuffer = Buffer::Create(BufferTarget::Constant, Parameters::GetSize());
+        if (texture2D0.IsNull()) texture2D0 = Texture2D::Create(Color::white);
     }
 }

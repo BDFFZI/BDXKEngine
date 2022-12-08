@@ -4,21 +4,24 @@
 namespace BDXKEngine
 {
     std::vector<Renderer*> Renderer::renderers = {};
+    std::vector<Renderer*> rendererQueue = {};
 
     const std::vector<Renderer*>& Renderer::GetRendererQueue()
     {
+        rendererQueue.clear();
+
         for (const auto& renderer : renderers)
-            if (renderer->GetMaterial().IsNull() || renderer->GetMesh().IsNull())
-                throw std::exception("渲染器的材质球或网格为空");
+            if (renderer->GetMesh().IsNotNull())
+                rendererQueue.emplace_back(renderer);
 
         std::ranges::sort(
-            renderers,
+            rendererQueue,
             [](const Renderer* a, const Renderer* b)
             {
                 return a->GetMaterial()->GetRenderQueue() < b->GetMaterial()->GetRenderQueue();
             }
         );
-        return renderers;
+        return rendererQueue;
     }
 
     const ObjectPtr<Material>& Renderer::GetMaterial() const
@@ -56,12 +59,22 @@ namespace BDXKEngine
         TransferFieldInfo(castShadows);
         TransferFieldInfo(receiveShadows);
     }
-    void Renderer::OnEnable()
+    void Renderer::Awake()
     {
+        Component::Awake();
+
+        if (material == nullptr)material = Material::Create({});
+    }
+    void Renderer::Enable()
+    {
+        Component::Enable();
+
         renderers.push_back(this);
     }
-    void Renderer::OnDisable()
+    void Renderer::Disable()
     {
-        renderers.erase(std::ranges::find(renderers, this));
+        std::erase(renderers, this);
+
+        Component::Disable();
     }
 }

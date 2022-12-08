@@ -5,7 +5,7 @@
 
 namespace BDXKEngine
 {
-    class Renderer : public Component, public EnableHandler, public DisableHandler
+    class Renderer : public Component
     {
     public:
         static const std::vector<Renderer*>& GetRendererQueue();
@@ -20,8 +20,9 @@ namespace BDXKEngine
         void SetReceiveShadows(bool receiveShadows);
     protected:
         void Transfer(Transferer& transferer) override;
-        void OnEnable() override;
-        void OnDisable() override;
+        void Awake() override;
+        void Enable() override;
+        void Disable() override;
     private:
         static std::vector<Renderer*> renderers;
 

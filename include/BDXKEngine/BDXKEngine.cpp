@@ -13,7 +13,14 @@
 
 namespace BDXKEngine
 {
-    void Run(const std::string& sceneFile, const std::function<void()>& onSceneloaded)
+    void Run(const std::string& sceneName)
+    {
+        Run([&]
+        {
+            Scene::Load(sceneName);
+        });
+    }
+    void Run(const std::function<void()>& onStart)
     {
         if (std::setlocale(LC_ALL, "zh-CN.UTF-8") == nullptr) // NOLINT(concurrency-mt-unsafe)
             throw std::exception("设置本地化失败");
@@ -33,11 +40,7 @@ namespace BDXKEngine
 
         //正式开始
         {
-            if (Resources::IsExisting(sceneFile))
-                Scene::Load(Resources::LoadOf<Scene>(sceneFile));
-            else
-                Scene::LoadDefault();
-            if (onSceneloaded != nullptr)onSceneloaded();
+            onStart();
             window.Show();
         }
 

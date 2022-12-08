@@ -140,6 +140,7 @@ namespace BDXKEngine
 
     void Scene::LoadDefault()
     {
+        GameObject::Clear();
         PresetResources::Create();
         const ObjectPtr<RenderSettings> renderSettings = Create<RenderSettings>();
         renderSettings->SetSkyboxMaterial(PresetResources::GetSkyboxMaterial());
@@ -153,13 +154,24 @@ namespace BDXKEngine
         sphere->SetLocalPosition({0, 0.5f, 0});
         camera->SetLocalPosition({0, 1, -10});
     }
-    void Scene::Load(const ObjectPtr<Scene>& path)
+
+    void Scene::Load(const std::string& sceneName, bool asResource)
     {
-        for (const auto& item : path->gameObjects)
-        {
-            Resources::Clone(item);
-            DestroyImmediate(item);
-        }
+        GameObject::Clear();
+
+        const ObjectPtr<Scene> scene = Resources::LoadOf<Scene>(sceneName);
+        if (asResource == false)
+            for (const auto& item : scene->gameObjects)
+            {
+                Resources::Clone(item);
+                DestroyImmediate(item);
+            }
+    }
+    void Scene::Save(const std::string& sceneName)
+    {
+        const ObjectPtr<Scene> newScene = GetCurrentScene();
+        newScene->SetName(sceneName);
+        Resources::Save(sceneName, newScene);
     }
     ObjectPtr<Scene> Scene::GetCurrentScene()
     {
@@ -168,16 +180,12 @@ namespace BDXKEngine
         scene->renderSettings = RenderSettings::GetSingleton();
         for (const auto& item : GameObject::GetGameObjects())
         {
-            if (Resources::IsResource(item) == false && item->GetParent().IsNull())
+            if (item->GetParent().IsNull())
                 scene->gameObjects.emplace_back(item);
         }
         return scene;
     }
-
-    std::vector<ObjectPtr<GameObject>>& Scene::GameObjects()
-    {
-        return gameObjects;
-    }
+    
     void Scene::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);

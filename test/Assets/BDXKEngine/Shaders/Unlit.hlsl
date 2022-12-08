@@ -18,5 +18,5 @@ Pixel VertexPass(Vertex vertex)
 
 float4 PixelPass(Pixel pixel) : SV_TARGET
 {
-    return Texture2D0.Sample(SamplerState0, pixel.uv);
+    return Texture2D0.Sample(SamplerState0, pixel.uv)*vector0;
 }

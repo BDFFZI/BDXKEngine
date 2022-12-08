@@ -23,6 +23,9 @@ namespace BDXKEngine
     class Object : public Reflective
     {
     public:
+        static const std::map<int, Object*>& GetObjects();
+        static void ReplaceObject(ObjectPtrBase& source, int targetInstanceID);
+        static void SetConstructedObjectEvent(const std::function<void(Object*)>& onConstructedObject);
         static ObjectPtrBase Create(const Type& type);
         template <class TObject>
         static ObjectPtr<TObject> Create()
@@ -31,8 +34,6 @@ namespace BDXKEngine
             Instantiate(window);
             return window;
         }
-        static const std::map<int, Object*>& GetObjects();
-        static void ReplaceObject(ObjectPtrBase& source,int targetInstanceID);
 
         Object();
         ~Object() override;
@@ -77,6 +78,7 @@ namespace BDXKEngine
     private:
         inline static int instanceIDCount = 0;
         inline static std::map<int, Object*> allObjects = {}; //内存中的所有Object，包括未激活的Object
+        inline static std::function<void(Object*)> onConstructedObject = {};
 
         std::string name;
         int instanceID = 0; //0为空占位符,只有原生状态会使用

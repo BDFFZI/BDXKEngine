@@ -129,7 +129,7 @@ namespace BDXKEngine
             for (auto& [guid,data] : serializations)
             {
                 //已加载的前置资源
-                if (ObjectGuid::IsMainGuid(guid) != false && guid != rootGuid)
+                if (ObjectGuid::IsMainGuid(guid) != false && ObjectGuid::GetInstanceID(guid) != 0 && guid != rootGuid)
                     continue;
 
                 Reflective* reflective = nullptr;

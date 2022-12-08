@@ -22,7 +22,7 @@ namespace BDXKEditor
         ImGui::InputText("Type", typeSelect, sizeof(typeSelect));
         const Reflection* reflection = Reflection::FindReflection(typeSelect);
 
-        if (ImGui::BeginTable("Title", 6))
+        if (ImGui::BeginTable("Title", 7))
         {
             ImGui::TableNextColumn();
             ImGui::TableHeader("InstanceID");
@@ -32,6 +32,8 @@ namespace BDXKEditor
             ImGui::TableHeader("Type");
             ImGui::TableNextColumn();
             ImGui::TableHeader("IsResource");
+            ImGui::TableNextColumn();
+            ImGui::TableHeader("IsHandleable");
             ImGui::TableNextColumn();
             ImGui::TableHeader("IsActivating");
             ImGui::TableNextColumn();
@@ -43,7 +45,7 @@ namespace BDXKEditor
         ImGui::BeginChild("##");
 
         const auto Objects = GetObjects();
-        if (ImGui::BeginTable("Content", 6))
+        if (ImGui::BeginTable("Content", 7))
         {
             for (const auto& [instanceID,object] : Objects)
             {
@@ -63,7 +65,7 @@ namespace BDXKEditor
                     if (clickObjectEvent != nullptr)clickObjectEvent(object);
                 }
                 ImGui::TableNextColumn();
-                if (ImGui::Button(GetUIID(object->GetType(), "Type")))
+                if (ImGui::Button(GetUIID(object->GetType().substr(6), "Type")))
                 {
                     std::string type = object->GetType();
                     strcpy_s(typeSelect, type.data());
@@ -78,9 +80,12 @@ namespace BDXKEditor
                 }
                 else
                 {
+                    bool isHandleable = scriptableObject->IsNotResource();
                     bool isActivating = scriptableObject->GetIsActivating();
                     bool isEnabling = scriptableObject->GetIsEnabling();
 
+                    ImGui::TableNextColumn();
+                    ImGui::Checkbox("##", &isHandleable);
                     ImGui::TableNextColumn();
                     ImGui::Checkbox("##", &isActivating);
                     ImGui::TableNextColumn();

@@ -20,7 +20,7 @@ namespace BDXKEngine
         Perspective
     };
     
-    class Camera : public Component, public EnableHandler, public DisableHandler
+    class Camera : public Component
     {
     public:
         static const std::vector<Camera*>& GetCameraQueue();
@@ -56,8 +56,8 @@ namespace BDXKEngine
         int priority = 0;
 
         void Transfer(Transferer& transferer) override;
-        void OnEnable() override;
-        void OnDisable() override;
+        void Enable() override;
+        void Disable() override;
     };
 
     CustomReflection(Camera)

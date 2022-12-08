@@ -44,10 +44,9 @@ namespace BDXKEngine
     {
     public:
         static void LoadDefault();
-        static void Load(const ObjectPtr<Scene>& path);
+        static void Load(const std::string& sceneName, bool asResource = false);
+        static void Save(const std::string& sceneName);
         static ObjectPtr<Scene> GetCurrentScene();
-
-        std::vector<ObjectPtr<GameObject>>& GameObjects();
     private:
         ObjectPtr<RenderSettings> renderSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;

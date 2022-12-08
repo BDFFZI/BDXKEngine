@@ -1,6 +1,7 @@
 ﻿#include "Behavior.h"
 #include <iostream>
 #include <sstream>
+#include "BDXKEngine/Platform/Resources/Resources.h"
 
 namespace BDXKEngine
 {
@@ -51,7 +52,7 @@ namespace BDXKEngine
     void Behavior::Enable()
     {
         Component::Enable();
-        
+
         if (startHandler != nullptr)
         {
             allStartHandlers[startHandler] = true;
@@ -69,9 +70,9 @@ namespace BDXKEngine
     }
     void Behavior::Awake()
     {
-        startHandler = dynamic_cast<StartHandler*>(this);
-        updateHandler = dynamic_cast<UpdateHandler*>(this);
-        lateUpdateHandler = dynamic_cast<LateUpdateHandler*>(this);
+        if (IsNotResource()) startHandler = dynamic_cast<StartHandler*>(this);
+        if (IsNotResource()) updateHandler = dynamic_cast<UpdateHandler*>(this);
+        if (IsNotResource()) lateUpdateHandler = dynamic_cast<LateUpdateHandler*>(this);
 
         Component::Awake();
     }

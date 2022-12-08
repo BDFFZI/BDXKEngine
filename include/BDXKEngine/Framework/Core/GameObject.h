@@ -8,13 +8,14 @@ namespace BDXKEngine
 {
     class Component;
 
-    class GameObject : public ScriptableObject, public AwakeHandler, public DestroyHandler
+    class GameObject : public ScriptableObject
     {
     public:
         static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject", const ObjectPtr<GameObject>& parent = nullptr);
         static const std::vector<ObjectPtr<GameObject>>& GetGameObjects();
         static ObjectPtr<GameObject> Find(const std::string& name);
         static void Hide(const ObjectPtr<GameObject>& gameObject);
+        static void Clear();
 
         bool GetIsActivating() const override;
 
@@ -60,8 +61,6 @@ namespace BDXKEngine
         void Destroy() override;
         void Enable() override;
         void Disable() override;
-        void OnAwake() override;
-        void OnDestroy() override;
     private:
         static std::vector<ObjectPtr<GameObject>> gameObjects;
 

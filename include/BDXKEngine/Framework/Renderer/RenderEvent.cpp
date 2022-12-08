@@ -27,6 +27,9 @@ namespace BDXKEngine
         window->AddRenewEvent(Render);
         window->AddResizeEvent([](Vector2 size)
         {
+            if (size.x <= 0 || size.y <= 0)
+                return;
+            
             Texture::ResetDefaultRenderTarget();
             cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
         });

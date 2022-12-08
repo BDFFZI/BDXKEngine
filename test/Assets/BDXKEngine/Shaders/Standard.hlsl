@@ -23,7 +23,7 @@ float4 PixelPass(Pixel pixel) : SV_TARGET
 {
     pixel.normalWS = normalize(pixel.normalWS);
     //外部数据
-    float4 albedo = Texture2D0.Sample(SamplerState0, pixel.uv);
+    float4 albedo = Texture2D0.Sample(SamplerState0, pixel.uv)*vector0;
     float metallic = float0_3.x;
     float smoothness = float0_3.y;
     //解码数据

@@ -10,10 +10,17 @@ namespace BDXKEditor
     {
         SetIsEnabling(true);
     }
+    bool EditorWindow::HasMenu()
+    {
+        return false;
+    }
 
     void EditorWindow::OnDrawGUI()
     {
-        ImGui::Begin(GetName().c_str());
+        ImGui::Begin(
+            GetName().c_str(),
+            nullptr, HasMenu() ? ImGuiWindowFlags_MenuBar : 0
+        );
 
         OnGUI();
 

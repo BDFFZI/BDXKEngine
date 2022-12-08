@@ -5,14 +5,6 @@
 
 namespace BDXKEngine
 {
-    ObjectPtrBase Object::Create(const Type& type)
-    {
-        const auto object = dynamic_cast<Object*>(Reflection::GetReflection(type).GetConstruction());
-        if (object == nullptr)throw std::exception("目标未Object类型");
-        ObjectPtrBase window = object;
-        Instantiate(window);
-        return window;
-    }
     const std::map<int, Object*>& Object::GetObjects()
     {
         return allObjects;
@@ -28,10 +20,24 @@ namespace BDXKEngine
 
         source = {object};
     }
+    void Object::SetConstructedObjectEvent(const std::function<void(Object*)>& onConstructedObject)
+    {
+        Object::onConstructedObject = onConstructedObject;
+    }
+    ObjectPtrBase Object::Create(const Type& type)
+    {
+        const auto object = dynamic_cast<Object*>(Reflection::GetReflection(type).GetConstruction());
+        if (object == nullptr)throw std::exception("目标未Object类型");
+        ObjectPtrBase window = object;
+        Instantiate(window);
+        return window;
+    }
     Object::Object()
     {
         instanceID = ++instanceIDCount;
         allObjects[instanceID] = this;
+
+        if (onConstructedObject != nullptr)onConstructedObject(this);
     }
     Object::~Object()
     {

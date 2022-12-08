@@ -30,6 +30,11 @@ namespace BDXKEngine
     {
         std::erase(gameObjects, gameObject);
     }
+    void GameObject::Clear()
+    {
+        for (const auto& item : std::vector{GetGameObjects()})
+            DestroyImmediate(item);
+    }
     bool GameObject::GetIsActivating() const
     {
         if (parent != nullptr)
@@ -252,9 +257,13 @@ namespace BDXKEngine
         RenewScale(false);
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);
+
+        gameObjects.emplace_back(this);
     }
     void GameObject::Destroy()
     {
+        std::erase(gameObjects, this);
+
         for (const ObjectPtr<GameObject>& child : std::vector{children})
             DestroyImmediate(child);
         children.clear();
@@ -283,13 +292,5 @@ namespace BDXKEngine
             component->SetIsActivating(false);
 
         ScriptableObject::Disable();
-    }
-    void GameObject::OnAwake()
-    {
-        gameObjects.emplace_back(this);
-    }
-    void GameObject::OnDestroy()
-    {
-        std::erase(gameObjects, this);
     }
 }

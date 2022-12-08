@@ -15,7 +15,7 @@ namespace BDXKEditor
         GUITransferer& gui = GetGUITransferer();
         auto* target = GetTarget().ToObject<GameObject>();
         const Reflection& reflection = Reflection::GetReflection<GameObject>();
-        
+
         //物体
         {
             bool enable = reflection.GetFieldOf<bool>(target, "isEnabling");

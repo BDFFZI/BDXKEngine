@@ -8,16 +8,6 @@ namespace BDXKEngine
     std::unordered_map<Guid, int> ObjectGuid::guidToInstanceID = {};
     std::unordered_set<Guid> ObjectGuid::mainGuid = {};
 
-    bool ObjectGuid::HasGuid(int instanceID)
-    {
-        return instanceIDToGuid.contains(instanceID);
-    }
-    Guid ObjectGuid::GetGuid(int instanceID)
-    {
-        if (instanceIDToGuid.contains(instanceID) == false)
-            throw std::exception("目标物体没有Guid");
-        return instanceIDToGuid[instanceID];
-    }
     Guid ObjectGuid::GetOrSetGuid(int instanceID)
     {
         const auto guidItem = instanceIDToGuid.find(instanceID);
@@ -48,6 +38,15 @@ namespace BDXKEngine
     {
         guidToInstanceID[guid] = instanceID;
         instanceIDToGuid[instanceID] = guid;
+    }
+    bool ObjectGuid::HasGuid(int instanceID)
+    {
+        return instanceIDToGuid.contains(instanceID);
+    }
+    void ObjectGuid::RemoveGuid(int instanceID)
+    {
+        guidToInstanceID.erase(instanceIDToGuid[instanceID]);
+        instanceIDToGuid.erase(instanceID);
     }
 
     void ObjectGuid::SignMainGuid(const Guid& guid)

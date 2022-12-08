@@ -151,12 +151,16 @@ namespace BDXKEngine
 
         Component::Destroy();
     }
-    void Light::OnEnable()
+    void Light::Enable()
     {
+        Component::Enable();
+        
         lights.emplace_back(this);
     }
-    void Light::OnDisable()
+    void Light::Disable()
     {
         erase(lights, this);
+
+        Component::Disable();
     }
 }

@@ -191,12 +191,16 @@ namespace BDXKEngine
         TransferFieldInfo(size);
         TransferFieldInfo(priority);
     }
-    void Camera::OnEnable()
+    void Camera::Enable()
     {
+        Component::Enable();
+
         cameras.push_back(this);
     }
-    void Camera::OnDisable()
+    void Camera::Disable()
     {
         std::erase(cameras, this);
+
+        Component::Disable();
     }
 }

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "BDXKEngine/Framework/Scene.h"
 #include "EditorWindow/ConsoleWindow.h"
 #include "EditorWindow/GameWindow.h"
 #include "EditorWindow/HierarchyWindow.h"
@@ -19,7 +20,7 @@ namespace BDXKEditor
         static const ObjectPtr<HierarchyWindow>& GetHierarchyView();
         static const ObjectPtr<InspectorWindow>& GetInspectorView();
 
-        void SetScene(const std::string& name);
+        void SetScene(const std::string& sceneName);
     private:
         static ObjectPtr<SceneWindow> sceneWindow;
         static ObjectPtr<HierarchyWindow> hierarchyWindow;
@@ -29,14 +30,16 @@ namespace BDXKEditor
         static ObjectPtr<ProjectWindow> projectWindow;
         static ObjectPtr<GameWindow> gameWindow;
 
-        std::string sceneFile;
+        std::string sceneName;
+        bool isRunning;
 
         void OnDrawGUI() override;
+        void DrawGUI();
         void OnAwake() override;
     };
 
     CustomReflection(EditorSystem)
 
     void TestLight();
-    void Run(const std::string& sceneFile);
+    void Run(const std::string& sceneName);
 }

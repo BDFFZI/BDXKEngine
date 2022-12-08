@@ -65,6 +65,7 @@ namespace BDXKEngine
         void SetIsActivating(bool state);
         void SetIsEnabling(bool state);
 
+        bool IsNotResource() const;
         bool IsActivatingAndEnabling() const;
 
         void Transfer(Transferer& transferer) override;
@@ -75,10 +76,10 @@ namespace BDXKEngine
         void Destroy() override;
     private:
         static std::unordered_set<ScriptableObject*> allScriptableObjects;
-
-        bool isAwakened = false;
+        
         bool isActivating = false;
         bool isEnabling = true;
+        bool isAwakened = false;
     };
 
     CustomReflection(ScriptableObject)

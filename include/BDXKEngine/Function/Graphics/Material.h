@@ -10,6 +10,7 @@ namespace BDXKEngine
 {
     enum class PassType
     {
+        None,
         ForwardBase,
         ForwardAdd,
         ShadowCaster
@@ -51,15 +52,15 @@ namespace BDXKEngine
                 return sizeof(Parameters) - sizeof(std::uintptr_t);
             }
 
-            Vector4 float0_3; //metallic,smoothness
+            Vector4 float0_3 = Vector4{0, 0.5f, 0, 0}; //metallic,smoothness
             Vector4 float4_7;
-            Vector4 vector0;
+            Vector4 vector0 = Vector4{Color::white}; //color
             Vector4 vector1;
             Vector4 vector2;
             Vector4 vector3;
             Vector4 vector4;
             Vector4 vector5;
-            Matrix4x4 matrix0; //objectToWorld
+            Matrix4x4 matrix0 = Matrix4x4::identity; //objectToWorld
             Matrix4x4 matrix1;
             Matrix4x4 matrix2;
             Matrix4x4 matrix3;

@@ -5,7 +5,7 @@
 #include "BDXKEngine/Framework/Behavior/Animator.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Resources/Resources.h"
-#include "imgui/imgui.h"
+#include "BDXKEngine/Platform/GUI/GUI.h"
 
 namespace BDXKEditor
 {
@@ -30,25 +30,60 @@ namespace BDXKEditor
     {
         return inspectorWindow;
     }
-    void EditorSystem::SetScene(const std::string& name)
+    void EditorSystem::SetScene(const std::string& sceneName)
     {
-        sceneFile = name;
+        this->sceneName = sceneName;
     }
 
     void EditorSystem::OnDrawGUI()
     {
         ImGui::ShowDemoWindow();
 
-        ImGui::BeginMainMenuBar();
-        if (ImGui::BeginMenu("Scene"))
+        if (isRunning)
         {
-            if (ImGui::MenuItem("Save"))
+            ImGui::PushStyleColor(ImGuiCol_MenuBarBg, Color::darkGreen);
+            DrawGUI();
+            ImGui::PopStyleColor();
+        }
+        else DrawGUI();
+    }
+    void EditorSystem::DrawGUI()
+    {
+        ImGui::BeginMainMenuBar();
+        if (isRunning == false)
+        {
+            if (ImGui::BeginMenu("Scene"))
             {
-                Resources::Save(sceneFile, Scene::GetCurrentScene());
+                if (ImGui::MenuItem("Save"))
+                {
+                    Scene::Save(sceneName);
+                }
+                if (ImGui::MenuItem("Load"))
+                {
+                    Scene::Load(sceneName, true);
+                }
+
+                ImGui::EndMenu();
             }
-            if (ImGui::MenuItem("Load"))
+        }
+
+        if (ImGui::BeginMenu("Run"))
+        {
+            if (isRunning == false && ImGui::MenuItem("Play"))
             {
-                // Scene::Load("scene.json");
+                SetConstructedObjectEvent({});
+                Scene::Save(sceneName);
+                Scene::Load(sceneName);
+                isRunning = true;
+            }
+            if (isRunning && ImGui::MenuItem("Stop"))
+            {
+                SetConstructedObjectEvent([](const Object* object)
+                {
+                    ObjectGuid::GetOrSetGuid(object->GetInstanceID());
+                });
+                Scene::Load(sceneName, true);
+                isRunning = false;
             }
 
             ImGui::EndMenu();
@@ -87,6 +122,16 @@ namespace BDXKEditor
         consoleWindow->Show();
         projectWindow->Show();
         gameWindow->Show();
+
+        SetConstructedObjectEvent([](const Object* object)
+        {
+            ObjectGuid::GetOrSetGuid(object->GetInstanceID());
+        });
+
+        //两个游戏窗口便于观看，放这里创建是为了测试上方代码的影响
+        const ObjectPtr<GameWindow> previewWindow = EditorWindow::Create<GameWindow>();
+        previewWindow->SetName("PreviewWindow");
+        previewWindow->Show();
     }
     void TestLight()
     {
@@ -134,13 +179,20 @@ namespace BDXKEditor
     }
 
     ObjectPtr<EditorSystem> editorSystem;
-    void Run(const std::string& sceneFile)
+    void Run(const std::string& sceneName)
     {
         std::cout.rdbuf(ConsoleWindow::GetConsole().rdbuf());
-        BDXKEngine::Run(sceneFile, [&]
+        BDXKEngine::Run([&]
         {
+            if (Resources::IsExisting(sceneName) == false)
+            {
+                Scene::LoadDefault();
+                Scene::Save(sceneName);
+            }
+
+            Scene::Load(sceneName, true);
             editorSystem = Object::Create<EditorSystem>();
-            editorSystem->SetScene(sceneFile);
+            editorSystem->SetScene(sceneName);
         });
     }
 }

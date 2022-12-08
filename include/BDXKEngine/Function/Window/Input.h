@@ -5,7 +5,7 @@ namespace BDXKEngine {
 	class Input {
 	public:
 		static void Initialize(Window* window);
-		
+
 		static bool GetMouseButtonDown(int mouseButtonIndex);
 		static bool GetMouseButton(int mouseButtonIndex);
 		static bool GetMouseButtonUp(int mouseButtonIndex);
@@ -15,11 +15,14 @@ namespace BDXKEngine {
 		static bool GetKeyDown(KeyCode keyCode);
 		static bool GetKey(KeyCode keyCode);
 		static bool GetKeyUp(KeyCode keyCode);
+		
+		static void SetEnable(bool state);
 	private:
 		static Window* window;
 		static Vector2 mouseScrollDelta;
 		static Vector2 mousePosition;
 		static bool mouseButtonState[3][3];
 		static bool keyboardState[256][3];
+		static bool enable;
 	};
 }

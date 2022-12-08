@@ -15,7 +15,7 @@ namespace BDXKEngine
     //     NotImportant,
     // };
 
-    class Light : public Component, public EnableHandler, public DisableHandler
+    class Light : public Component
     {
     public:
         static const std::vector<Light*>& GetLightQueue(Vector3 position = Vector3::zero);
@@ -43,8 +43,8 @@ namespace BDXKEngine
         void Transfer(Transferer& transferer) override;
         void Awake() override;
         void Destroy() override;
-        void OnEnable() override;
-        void OnDisable() override;
+        void Enable() override;
+        void Disable() override;
     };
 
     CustomReflection(Light)

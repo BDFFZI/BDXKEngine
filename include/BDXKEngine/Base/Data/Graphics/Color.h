@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include<sstream>
 
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
+
 namespace BDXKEngine
 {
     struct Color
@@ -17,6 +19,9 @@ namespace BDXKEngine
         static const Color lightGreen;
         static const Color lightBlue;
         static const Color lightYellow;
+        static const Color darkRed;
+        static const Color darkGreen;
+        static const Color darkBlue;
 
         float r;
         float g;
@@ -31,5 +36,6 @@ namespace BDXKEngine
 
         Color operator*(float value) const;
         Color operator/(float value) const;
+        explicit operator Vector4() const;
     };
 }

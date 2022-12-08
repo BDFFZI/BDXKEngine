@@ -32,5 +32,6 @@
 
 namespace BDXKEngine
 {
-    void Run(const std::string& sceneFile, const std::function<void()>& onSceneloaded = nullptr);
+    void Run(const std::string& sceneName);
+    void Run(const std::function<void()>& onStart = nullptr);
 }
