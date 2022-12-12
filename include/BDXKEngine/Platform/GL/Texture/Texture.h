@@ -11,7 +11,7 @@ namespace BDXKEngine
     public:
         static ObjectPtr<Texture> GetRenderTarget();
         static void SetRenderTargetDefault();
-        static void SetPassNull(unsigned startSlot);
+        static void UploadRPNull(unsigned startSlot);
         static void ResetDefaultRenderTarget();
 
         int GetWidth() const;
@@ -19,7 +19,7 @@ namespace BDXKEngine
         Vector2 GetSize() const;
         CComPtr<ID3D11ShaderResourceView> GetShaderResourceView();
 
-        void SetPass(unsigned int startSlot) const; // 设置当前渲染管线中的着色器资源,如纹理之类的
+        void UploadRP(unsigned int startSlot) const; // 设置当前渲染管线中的着色器资源,如纹理之类的
     protected:
         static ObjectPtr<Texture> renderTarget;
         static D3D11_TEXTURE2D_DESC defaultRenderTargetDescription;

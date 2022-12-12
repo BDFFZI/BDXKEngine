@@ -20,44 +20,44 @@ namespace BDXKEngine
     void Graphics::SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox)
     {
         cameraInfoBuffer->SetData(&cameraInfo);
-        if (skybox.IsNotNull()) skybox->SetPass(4);
-        else defaultTextureCube->SetPass(4);
+        if (skybox.IsNotNull()) skybox->UploadRP(4);
+        else defaultTextureCube->UploadRP(4);
     }
     void Graphics::SetCameraInfoNull()
     {
-        defaultTextureCube->SetPass(4);
+        defaultTextureCube->UploadRP(4);
     }
     void Graphics::SetLightInfo(LightInfo lightInfo, const ObjectPtr<Texture>& shadowMap)
     {
         lightInfoBuffer->SetData(&lightInfo);
         if (shadowMap.IsNull())
         {
-            defaultTexture2D->SetPass(5);
-            defaultTextureCube->SetPass(6);
+            defaultTexture2D->UploadRP(5);
+            defaultTextureCube->UploadRP(6);
         }
         else
         {
             if (lightInfo.lightType == LightType::Point)
             {
-                defaultTexture2D->SetPass(5);
-                shadowMap->SetPass(6);
+                defaultTexture2D->UploadRP(5);
+                shadowMap->UploadRP(6);
             }
             else
             {
-                shadowMap->SetPass(5);
-                defaultTextureCube->SetPass(6);
+                shadowMap->UploadRP(5);
+                defaultTextureCube->UploadRP(6);
             }
         }
     }
     void Graphics::SetLightInfoNull()
     {
-        defaultTexture2D->SetPass(5);
-        defaultTextureCube->SetPass(6);
+        defaultTexture2D->UploadRP(5);
+        defaultTextureCube->UploadRP(6);
     }
 
     void Graphics::DrawMesh(const ObjectPtr<Mesh>& mesh)
     {
-        mesh->SetPass();
+        mesh->UploadRP();
         GL::Render(mesh->GetTrianglesCount());
     }
     void Graphics::DrawRect(Rect screenRect)
@@ -77,7 +77,7 @@ namespace BDXKEngine
             maxPosition,
             {minPosition.x, maxPosition.y, 0}
         });
-        drawTextureMesh->UpdataMeshData();
+        drawTextureMesh->UpdateGL();
 
         DrawMesh(drawTextureMesh);
     }
@@ -98,7 +98,7 @@ namespace BDXKEngine
             {1, -1, 0},
             {-1, -1, 0},
         });
-        drawTextureMesh->UpdataMeshData();
+        drawTextureMesh->UpdateGL();
 
         DrawMesh(drawTextureMesh);
     }
@@ -107,7 +107,7 @@ namespace BDXKEngine
         dest->SetRenderTarget();
         blitMaterial->SetMatrix(0, Matrix4x4::identity);
         blitMaterial->SetTexture2D(0, source);
-        blitMaterial->SetPass(0);
+        blitMaterial->UploadRP(0);
 
         const Vector2 sourceSize = {source->GetWidth(), source->GetHeight()};
         SetCameraInfo(
@@ -118,7 +118,7 @@ namespace BDXKEngine
         );
         DrawRect({Vector2::zero, sourceSize});
 
-        Material::SetPassNull();
+        Material::UploadRPNull();
         Texture::SetRenderTargetDefault();
     }
 
@@ -128,8 +128,8 @@ namespace BDXKEngine
         cameraInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(CameraInfo));
         lightInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(LightInfo));
         //设置缓冲区
-        cameraInfoBuffer->SetPass(1);
-        lightInfoBuffer->SetPass(2);
+        cameraInfoBuffer->UploadRP(1);
+        lightInfoBuffer->UploadRP(2);
 
         defaultTexture2D = Texture2D::Create(1, 1, TextureFormat::B8G8R8A8_UNORM);
         defaultTextureCube = TextureCube::Create(1, 1, TextureFormat::B8G8R8A8_UNORM);

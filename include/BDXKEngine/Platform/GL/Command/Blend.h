@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include <d3d11.h>
+#include "BDXKEngine/Platform/GL/Core/GL.h"
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 
 namespace BDXKEngine
 {
-    struct Blend : Transferable
+    struct Blend
     {
         enum class Factor
         {
@@ -36,6 +36,11 @@ namespace BDXKEngine
 
         Blend();
         Blend(bool state, Factor sourceFactor, Factor destinationFactor, Operation operation);
-        void Transfer(Transferer& transferer) override;
+
+        void UpdateGL();
+        void UploadRP() const;
+        void Transfer(Transferer& transferer);
+    private:
+        CComPtr<ID3D11BlendState> blendState;
     };
 }

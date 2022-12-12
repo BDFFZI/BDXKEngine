@@ -3,6 +3,9 @@
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
 #include "BDXKEngine/Base/Object/Core/Object.h"
 #include "BDXKEngine/Platform/GL/Buffer/Buffer.h"
+#include "BDXKEngine/Platform/GL/Command/Blend.h"
+#include "BDXKEngine/Platform/GL/Command/Cull.h"
+#include "BDXKEngine/Platform/GL/Command/ZTest.h"
 #include "BDXKEngine/Platform/GL/Shader/Shader.h"
 #include "BDXKEngine/Platform/GL/Texture/Texture2D.h"
 
@@ -28,30 +31,30 @@ namespace BDXKEngine
     class Material : public Object
     {
     public:
-        static ObjectPtr<Material> Create(const std::vector<std::tuple<ObjectPtr<Shader>, PassType>>& passes);
-        static void SetPassNull();
+        static ObjectPtr<Material> Create(const std::vector<std::tuple<PassType, ObjectPtr<Shader>>>& passes);
+        static void UploadRPNull();
 
-        RenderQueue GetRenderQueue() const;
         int GetPassCount() const;
         PassType GetPassType(int index) const;
-        const ObjectPtr<Shader>& GetPass(int index) const;
+        const Blend& GetPassBlend(int index) const;
+        const ZTest& GetPassZTest(int index) const;
+        const Cull& GetPassCull(int index) const;
+        RenderQueue GetRenderQueue() const;
 
+        void SetPassBlend(int index, const Blend& blend);
+        void SetPassZTest(int index, const ZTest& zTest);
+        void SetPassCull(int index, const Cull& cull);
         void SetRenderQueue(RenderQueue renderQueue);
         void SetFloat(int slotIndex, float value);
         void SetVector(int slotIndex, Vector4 value);
         void SetMatrix(int slotIndex, Matrix4x4 value);
         void SetTexture2D(int slotIndex, const ObjectPtr<Texture2D>& texture);
         /// 用当前材质的所有物填充渲染管线
-        void SetPass(int shaderIndex);
-        bool SetPass(PassType shaderType);
+        void UploadRP(int passIndex) const;
+        bool UploadRP(PassType passType) const;
     private:
-        struct Parameters : Transferable
+        struct Parameters
         {
-            static int GetSize()
-            {
-                return sizeof(Parameters) - sizeof(std::uintptr_t);
-            }
-
             Vector4 float0_3 = Vector4{0, 0.5f, 0, 0}; //metallic,smoothness
             Vector4 float4_7;
             Vector4 vector0 = Vector4{Color::white}; //color
@@ -65,11 +68,7 @@ namespace BDXKEngine
             Matrix4x4 matrix2;
             Matrix4x4 matrix3;
 
-            char* GetPtr()
-            {
-                return reinterpret_cast<char*>(this) + sizeof(std::uintptr_t);
-            }
-            void Transfer(Transferer& transferer) override
+            void Transfer(Transferer& transferer)
             {
                 TransferFieldInfo(float0_3);
                 TransferFieldInfo(float4_7);
@@ -86,17 +85,21 @@ namespace BDXKEngine
             }
         };
 
-        // 渲染顺序
+        //渲染顺序
         RenderQueue renderQueue = RenderQueue::Geometry;
-        std::vector<ObjectPtr<Shader>> shaders;
-        std::vector<PassType> shaderTypes;
+        //pass数据
+        std::vector<PassType> passTypes;
+        std::vector<ObjectPtr<Shader>> passShaders;
+        std::vector<Blend> passBlends;
+        std::vector<ZTest> passZTests;
+        std::vector<Cull> passCulls;
+        //参数
         Parameters parameters;
+        ObjectPtr<Buffer> parametersBuffer;
         ObjectPtr<Texture2D> texture2D0; //albedo
         ObjectPtr<Texture2D> texture2D1;
         ObjectPtr<Texture2D> texture2D2;
         ObjectPtr<Texture2D> texture2D3;
-
-        ObjectPtr<Buffer> parametersBuffer;
 
         void Transfer(Transferer& transferer) override;
         void Awake() override;

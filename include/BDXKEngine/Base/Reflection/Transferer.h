@@ -5,32 +5,23 @@
 
 namespace BDXKEngine
 {
-    class Transferer;
-
-    class Transferable
-    {
-    public:
-        virtual ~Transferable() = default;
-        virtual void Transfer(Transferer& transferer) = 0;
-    };
-
     //只专注于传送功能，能传送各种东西
     class Transferer
     {
     public:
-#define TransferNestedInfo(fieldName) transferer.TransferNested(#fieldName, fieldName)
+#define TransferFieldNestedInfo(fieldName) transferer.TransferFieldNested(#fieldName, fieldName)
 #define TransferFieldInfo(fieldName) transferer.TransferField(#fieldName, fieldName)
 #define TransferFieldInfoOf(fieldName,transferType) transferer.TransferFieldOf<transferType>(#fieldName, fieldName)
         //下方这些宏和反射功能不兼容，不建议使用，请尝试使用IsInput()来实现类似功能
-// #define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
-//                 transferer.TransferField(#propertyName,propertyName);\
-//                 Set##propertyName(propertyName)
-// #define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
-// transferer.TransferField(#propertyName,propertyName)
+        // #define TransferProperty(propertyName) auto (propertyName) = Get##propertyName();\
+        //                 transferer.TransferField(#propertyName,propertyName);\
+        //                 Set##propertyName(propertyName)
+        // #define TransferPropertyReadOnly(propertyName) auto (propertyName) = Get##propertyName();\
+        // transferer.TransferField(#propertyName,propertyName)
 
 
         virtual ~Transferer() = default;
-        
+
         std::function<void(void*, const Type&)> GetTransferFunc(const Type& type);
         int GetTypeSize(const Type& type);
         bool IsContainTransferFunc(const Type& type) const;
@@ -45,10 +36,9 @@ namespace BDXKEngine
             };
             typeSizes[type] = sizeof(TValue);
         }
-        
+
         virtual void PushPath(const std::string& key);
         virtual void PopPath(std::string& key);
-        void TransferNested(std::string key, Transferable& value);
 
         void TransferField(std::string key, void* value, const Type& type);
         template <typename TTransfer, typename TField>
@@ -69,6 +59,13 @@ namespace BDXKEngine
 
             PopPath(key);
         }
+        template <typename TField>
+        void TransferFieldNested(std::string key, TField& value)
+        {
+            PushPath(key);
+            TransferValueNested(value);
+            PopPath(key);
+        }
 
         virtual void TransferValue(void* value, const Type& type);
         template <typename TTransfer, typename TSource>
@@ -80,6 +77,11 @@ namespace BDXKEngine
         void TransferValue(TSource& value)
         {
             TransferValueOf<TSource>(value);
+        }
+        template <typename TField>
+        void TransferValueNested(TField& value)
+        {
+            value.Transfer(*this);
         }
     protected:
         virtual std::function<void(void*, const Type&)> GetTransferFuncFallback(const Type& type);

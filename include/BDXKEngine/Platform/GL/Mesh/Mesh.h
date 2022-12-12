@@ -26,9 +26,9 @@ namespace BDXKEngine
         void SetNormals(std::vector<Vector3> data);
         void SetUVs(std::vector<Vector2> data);
         void SetColors(std::vector<Color> data);
-        void SetPass() const; // 设置当前渲染管线中的顶点索引数据
 
-        void UpdataMeshData() const;
+        void UpdateGL() const;
+        void UploadRP() const; // 设置当前渲染管线中的顶点索引数据
     private:
         std::vector<Vertex> vertices = {};
         std::vector<unsigned short> triangles = {};

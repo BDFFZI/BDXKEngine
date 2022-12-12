@@ -20,7 +20,7 @@ namespace BDXKEngine
         CComPtr<ID3D11Buffer> GetGLBuffer();
 
         void SetData(const void* data);
-        void SetPass(unsigned int startSlot) const; // 设置当前渲染管线中的常量缓冲区，矩阵灯光数据之类的
+        void UploadRP(unsigned int startSlot) const; // 设置当前渲染管线中的常量缓冲区，矩阵灯光数据之类的
     private:
         BufferTarget target = BufferTarget::Constant;
         std::vector<char> buffer;

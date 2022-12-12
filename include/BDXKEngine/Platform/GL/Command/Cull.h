@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include <d3d11.h>
+#include "BDXKEngine/Platform/GL/Core/GL.h"
 #include "BDXKEngine/Base/Reflection/Transferer.h"
 
 namespace BDXKEngine
 {
-    struct Cull : Transferable
+    struct Cull
     {
         enum class State
         {
@@ -19,6 +19,11 @@ namespace BDXKEngine
 
         Cull();
         Cull(State state);
-        void Transfer(Transferer& transferer) override;
+
+        void UpdateGL();
+        void UploadRP() const;
+        void Transfer(Transferer& transferer);
+    private:
+        CComPtr<ID3D11RasterizerState> rasterizerState;
     };
 }

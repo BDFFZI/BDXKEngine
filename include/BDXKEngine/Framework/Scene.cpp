@@ -49,35 +49,28 @@ namespace BDXKEngine
     void PresetResources::Create()
     {
 # define ParsePath(path) Resources::GetRootPath()+"/BDXKEngine/"#path
-        //材质球
+        //着色器
         ObjectPtr<Shader> shadowMapShader = ShaderImport::Hlsl(ParsePath(Shaders/ShadowMap.hlsl));
-        auto unlitShader = ShaderImport::Hlsl(ParsePath(Shaders/Unlit.hlsl));
-        auto unlitShaderAdditive = ShaderImport::Hlsl(ParsePath(Shaders/Unlit.hlsl));
-        unlitShaderAdditive->SetBlend(Blend::Additive);
-        unlitMaterial = Material::Create({
-            {unlitShader, PassType::ForwardBase},
-            {unlitShaderAdditive, PassType::ForwardAdd},
-            {shadowMapShader, PassType::ShadowCaster}
-        });
-        auto standardShader = ShaderImport::Hlsl(ParsePath(Shaders/Standard.hlsl));
-        auto standardShaderAdditive = ShaderImport::Hlsl(ParsePath(Shaders/Standard.hlsl));
-        standardShaderAdditive->SetBlend(Blend::Additive);
-        standardMaterial = Material::Create({
-            {standardShader, PassType::ForwardBase},
-            {standardShaderAdditive, PassType::ForwardAdd},
-            {shadowMapShader, PassType::ShadowCaster}
-        });
+        ObjectPtr<Shader> unlitShader = ShaderImport::Hlsl(ParsePath(Shaders/Unlit.hlsl));
+        ObjectPtr<Shader> standardShader = ShaderImport::Hlsl(ParsePath(Shaders/Standard.hlsl));
         ObjectPtr<Shader> skyboxShader = ShaderImport::Hlsl(ParsePath(Shaders/Skybox.hlsl));
-        ZTest ztest = {};
-        ztest.write = false;
-        ztest.operation = ZTest::Operation::Always;
-        skyboxShader->SetZTest(ztest);
-        skyboxMaterial = Material::Create({
-            {
-                skyboxShader,
-                PassType::ForwardBase
-            }
+        //材质球
+        unlitMaterial = Material::Create({
+            {PassType::ForwardBase, unlitShader},
+            {PassType::ForwardAdd, unlitShader},
+            {PassType::ShadowCaster, shadowMapShader}
         });
+        unlitMaterial->SetPassBlend(1, Blend::Additive);
+        standardMaterial = Material::Create({
+            {PassType::ForwardBase, standardShader},
+            {PassType::ForwardAdd, standardShader},
+            {PassType::ShadowCaster, shadowMapShader}
+        });
+        standardMaterial->SetPassBlend(1, Blend::Additive);
+        skyboxMaterial = Material::Create({
+            {PassType::ForwardBase, skyboxShader}
+        });
+        skyboxMaterial->SetPassZTest(0, ZTest::Background);
         //网格
         cubeMesh = MeshImport::Glb(ParsePath(Meshes/Cube.glb));
         sphereMesh = MeshImport::Glb(ParsePath(Meshes/Sphere.glb));
@@ -185,7 +178,7 @@ namespace BDXKEngine
         }
         return scene;
     }
-    
+
     void Scene::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);

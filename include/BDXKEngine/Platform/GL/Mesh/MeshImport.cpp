@@ -21,7 +21,7 @@ namespace BDXKEngine
             mesh->SetNormals(normals);
             mesh->SetUVs(uvs);
             mesh->SetColors(colors);
-            mesh->UpdataMeshData();
+            mesh->UpdateGL();
             return mesh;
         }
     };

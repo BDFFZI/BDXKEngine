@@ -16,7 +16,7 @@ namespace BDXKEngine
         std::memcpy(buffer.data(), data, buffer.size());
         GL::GetDeviceContext()->UpdateSubresource(glBuffer, 0, nullptr, buffer.data(), 0, 0);
     }
-    void Buffer::SetPass(unsigned int startSlot) const
+    void Buffer::UploadRP(unsigned int startSlot) const
     {
         if (target != BufferTarget::Constant)
             throw std::exception("不支持除常量缓冲区以外的类型");

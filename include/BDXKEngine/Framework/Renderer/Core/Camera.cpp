@@ -125,7 +125,7 @@ namespace BDXKEngine
                 const auto& skyboxMaterial = RenderSettings::GetSkyboxMaterial();
                 skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
                 skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
-                skyboxMaterial->SetPass(0);
+                skyboxMaterial->UploadRP(0);
 
                 const Vector2 screenSize = Screen::GetSize();
                 Graphics::SetCameraInfo(
@@ -165,7 +165,7 @@ namespace BDXKEngine
                 {
                     if (material->GetPassType(passIndex) == lightPass)
                     {
-                        material->SetPass(passIndex); //将该Pass信息上传渲染管线
+                        material->UploadRP(passIndex); //将该Pass信息上传渲染管线
                         Graphics::DrawMesh(mesh); //启动渲染管线进行渲染
                     }
                 }
@@ -174,7 +174,7 @@ namespace BDXKEngine
 
         Graphics::SetCameraInfoNull();
         Graphics::SetLightInfoNull();
-        Material::SetPassNull();
+        Material::UploadRPNull();
     }
 
     void Camera::Transfer(Transferer& transferer)

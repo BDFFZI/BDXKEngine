@@ -66,7 +66,7 @@ namespace BDXKEngine
         const ObjectPtr<Material> material = RenderSettings::GetUnlitMaterial();
         material->SetMatrix(0, Matrix4x4::identity);
         material->SetTexture2D(0, cameraCanvas);
-        material->SetPass(PassType::ForwardBase);
+        material->UploadRP(PassType::ForwardBase);
         Graphics::DrawViewport();
 
         //UI渲染

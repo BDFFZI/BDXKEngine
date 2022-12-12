@@ -31,7 +31,7 @@ namespace BDXKEngine
 
         renderTarget = nullptr;
     }
-    void Texture::SetPassNull(unsigned startSlot)
+    void Texture::UploadRPNull(unsigned startSlot)
     {
         const auto context = GL::GetDeviceContext();
         ID3D11ShaderResourceView* resourceView = nullptr;
@@ -92,7 +92,7 @@ namespace BDXKEngine
     {
         return colorTextureSRV;
     }
-    void Texture::SetPass(unsigned int startSlot) const
+    void Texture::UploadRP(unsigned int startSlot) const
     {
         const auto context = GL::GetDeviceContext();
         context->PSSetShaderResources(startSlot, 1, &colorTextureSRV.p);

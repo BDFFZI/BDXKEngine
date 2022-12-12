@@ -131,7 +131,7 @@ namespace BDXKEngine
             vertices[index].color = data[index];
         }
     }
-    void Mesh::SetPass() const
+    void Mesh::UploadRP() const
     {
         const auto context = GL::GetDeviceContext();
         const auto vertexGLBuffer = vertexBuffer->GetGLBuffer();
@@ -145,7 +145,7 @@ namespace BDXKEngine
         context->IASetIndexBuffer(triangleGLBuffer.p, DXGI_FORMAT_R16_UINT, 0);
     }
 
-    void Mesh::UpdataMeshData() const
+    void Mesh::UpdateGL() const
     {
         vertexBuffer->SetData(vertices.data());
         triangleBuffer->SetData(triangles.data());
@@ -172,6 +172,6 @@ namespace BDXKEngine
 
         ResetVerticesBuffer();
         ResetTrianglesBuffer();
-        UpdataMeshData();
+        UpdateGL();
     }
 }

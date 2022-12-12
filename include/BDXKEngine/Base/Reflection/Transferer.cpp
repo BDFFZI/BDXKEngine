@@ -24,12 +24,6 @@ namespace BDXKEngine
     void Transferer::PopPath(std::string& key)
     {
     }
-    void Transferer::TransferNested(std::string key, Transferable& value)
-    {
-        PushPath(key);
-        value.Transfer(*this);
-        PopPath(key);
-    }
 
     void Transferer::TransferField(std::string key, void* value, const Type& type)
     {
@@ -44,7 +38,6 @@ namespace BDXKEngine
         if (transferFunc != nullptr)transferFunc(value, type);
         else TransferValueFallback(value, type);
     }
-
 
     void Transferer::TransferValueFallback(void* value, const Type& type)
     {
@@ -75,6 +68,7 @@ namespace BDXKEngine
 
             if (itemSize != 0)
             {
+                //注意以这种方式创建的对象没有虚表信息，需自行额外处理
                 std::vector<char>& vector = *static_cast<std::vector<char>*>(value);
                 int count = static_cast<int>(vector.size() / itemSize);
 
