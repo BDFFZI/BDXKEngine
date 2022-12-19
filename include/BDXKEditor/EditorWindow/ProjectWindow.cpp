@@ -11,20 +11,20 @@ namespace BDXKEditor
 
     bool DirectoryMenu(const std::string& path)
     {
-        if (ImGui::Button("Create Folder"))
-        {
-            std::filesystem::create_directory(path + "/Unnamed");
-            return true;
-        }
-        if (ImGui::Button("Delete Folder"))
-        {
-            std::filesystem::remove(path);
-            return true;
-        }
-        if (ImGui::Button("Rename Folder"))
-        {
-            return true;
-        }
+        // if (ImGui::Button("Create Folder"))
+        // {
+        //     std::filesystem::create_directory(path + "/Unnamed");
+        //     return true;
+        // }
+        // if (ImGui::Button("Delete Folder"))
+        // {
+        //     std::filesystem::remove(path);
+        //     return true;
+        // }
+        // if (ImGui::Button("Rename Folder"))
+        // {
+        //     return true;
+        // }
 
         return false;
     }

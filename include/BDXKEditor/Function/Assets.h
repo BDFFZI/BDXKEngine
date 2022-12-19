@@ -13,6 +13,7 @@ namespace BDXKEditor
     {
     public:
         static std::string GetRootPath();
+        
         static ObjectPtrBase Load(const std::string& path,bool reimport = false);
         template <typename TObject>
         static ObjectPtr<TObject> Load(const std::string& path)
@@ -27,6 +28,7 @@ namespace BDXKEditor
         static void StaticConstructor();
         CustomStaticConstructor(StaticConstructor)
 
+        static void LoadPathGuid();
         static ObjectPtr<Importer> LoadImporter(const std::string& path);
     };
 }

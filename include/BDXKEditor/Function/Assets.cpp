@@ -12,6 +12,9 @@ namespace BDXKEditor
 
     ObjectPtrBase Assets::Load(const std::string& path, bool reimport)
     {
+        if (pathToGuid.contains(path) == false)
+            LoadPathGuid();
+
         if (reimport == false && pathToGuid.contains(path))
         {
             const Guid guid = pathToGuid[path];
@@ -38,22 +41,6 @@ namespace BDXKEditor
 
         return object;
     }
-    ObjectPtr<Importer> Assets::LoadImporter(const std::string& path)
-    {
-        const std::string lastRootPath = Resources::GetRootPath();
-        Resources::SetRootPath(rootDirectory);
-
-        auto jsonSerializer = Resources::CreateJsonSerializer();
-        const std::string importerPath = path + ".importer";
-        ObjectPtr<Importer> importer = Resources::IsExisting(importerPath) == false
-                                           ? Importer::GetAssetsImporter(path.substr(path.find('.') + 1))
-                                           : Resources::LoadOf<Importer>(importerPath, jsonSerializer);
-        if (importer.IsNotNull())
-            Resources::Save(importerPath, importer, jsonSerializer);
-
-        Resources::SetRootPath(lastRootPath);
-        return importer;
-    }
 
     void Assets::StaticConstructor()
     {
@@ -68,6 +55,12 @@ namespace BDXKEditor
 
             return std::string{};
         });
+    }
+
+    void Assets::LoadPathGuid()
+    {
+        pathToGuid.clear();
+        guidToPath.clear();
 
         std::stack<std::filesystem::directory_entry> directories = {};
         directories.push(std::filesystem::directory_entry{GetRootPath()});
@@ -93,5 +86,21 @@ namespace BDXKEditor
                 }
             }
         }
+    }
+    ObjectPtr<Importer> Assets::LoadImporter(const std::string& path)
+    {
+        const std::string lastRootPath = Resources::GetRootPath();
+        Resources::SetRootPath(rootDirectory);
+
+        auto jsonSerializer = Resources::CreateJsonSerializer();
+        const std::string importerPath = path + ".importer";
+        ObjectPtr<Importer> importer = Resources::IsExisting(importerPath) == false
+                                           ? Importer::GetAssetsImporter(path.substr(path.find('.') + 1))
+                                           : Resources::LoadOf<Importer>(importerPath, jsonSerializer);
+        if (importer.IsNotNull())
+            Resources::Save(importerPath, importer, jsonSerializer);
+
+        Resources::SetRootPath(lastRootPath);
+        return importer;
     }
 }
