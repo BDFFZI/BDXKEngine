@@ -1,7 +1,8 @@
 ﻿#include "Scene.h"
+#include "BDXKEngine/Function/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "BDXKEngine/Platform/GL/Mesh/MeshImport.h"
 #include "BDXKEngine/Platform/GL/Shader/ShaderImport.h"
-#include "BDXKEngine/Platform/Resources/Resources.h"
 #include "Renderer/MeshRenderer.h"
 #include "Renderer/Core/Camera.h"
 #include "Renderer/Core/Light.h"
@@ -48,7 +49,7 @@ namespace BDXKEngine
 
     void PresetResources::Create()
     {
-# define ParsePath(path) Resources::GetRootPath()+"/BDXKEngine/"#path
+# define ParsePath(path) "ResourcesBase/"#path
         //着色器
         ObjectPtr<Shader> shadowMapShader = ShaderImport::Hlsl(ParsePath(Shaders/ShadowMap.hlsl));
         ObjectPtr<Shader> unlitShader = ShaderImport::Hlsl(ParsePath(Shaders/Unlit.hlsl));
@@ -82,7 +83,7 @@ namespace BDXKEngine
     ObjectPtr<GameObject> PresetGameObject::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
     {
         //创建材质球
-        const ObjectPtr<Material> material = Resources::Clone(PresetResources::GetStandardMaterial());
+        const ObjectPtr<Material> material = Serialization::Clone(PresetResources::GetStandardMaterial());
         material->SetTexture2D(0, Texture2D::Create(color));
         //创建物体
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
@@ -148,15 +149,15 @@ namespace BDXKEngine
         camera->SetLocalPosition({0, 1, -10});
     }
 
-    void Scene::Load(const std::string& sceneName, bool asResource)
+    void Scene::Load(const std::string& sceneName, bool keepPersistent)
     {
         GameObject::Clear();
 
-        const ObjectPtr<Scene> scene = Resources::LoadOf<Scene>(sceneName);
-        if (asResource == false)
+        const ObjectPtr<Scene> scene = Resources::Load<Scene>(sceneName);
+        if (keepPersistent == false)
             for (const auto& item : scene->gameObjects)
             {
-                Resources::Clone(item);
+                Serialization::Clone(item);
                 DestroyImmediate(item);
             }
     }

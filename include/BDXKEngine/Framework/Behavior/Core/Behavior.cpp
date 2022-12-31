@@ -1,7 +1,7 @@
 ﻿#include "Behavior.h"
 #include <iostream>
 #include <sstream>
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 
 namespace BDXKEngine
 {

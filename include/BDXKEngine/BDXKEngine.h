@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <functional>
-#include <sstream>
 #include <string>
 
 //C++匈牙利表示法，允许组合使用

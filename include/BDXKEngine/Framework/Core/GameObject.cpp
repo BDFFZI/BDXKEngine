@@ -2,7 +2,7 @@
 
 #include <forward_list>
 
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "Component.h"
 
 namespace BDXKEngine
@@ -233,7 +233,7 @@ namespace BDXKEngine
             const Reflection& gameObjectReflection = Reflection::GetReflection(GetTypeOf<GameObject>());
             if (child->GetParent() != this)
             {
-                child = Resources::Clone<GameObject>(child, false);
+                child = Serialization::Clone<GameObject>(child, false);
                 gameObjectReflection.GetFieldOf<ObjectPtr<GameObject>>(child.ToObjectBase(), "parent") = this;
             }
         }
@@ -243,7 +243,7 @@ namespace BDXKEngine
             const Reflection& componentReflection = Reflection::GetReflection(GetTypeOf<Component>());
             if (component->GetGameObject() != this)
             {
-                component = Resources::Clone<Component>(component, false);
+                component = Serialization::Clone<Component>(component, false);
                 componentReflection.GetFieldOf<ObjectPtr<GameObject>>(component.ToObjectBase(), "gameObject") = this;
             }
         }

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable CppClangTidyClangDiagnosticFormatSecurity
 #include "ProfilerWindow.h"
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -54,7 +54,7 @@ namespace BDXKEditor
 
 #define GetUIID(name,type) ((name) + "##"##type + std::to_string(instanceID)).c_str()
 
-                bool isResource = Resources::IsResource(object);
+                bool isResource = Serialization::IsPersistent(object);
                 const ScriptableObject* scriptableObject = dynamic_cast<ScriptableObject*>(object);
 
                 ImGui::TableNextColumn();

@@ -170,20 +170,15 @@
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Core\ObjectTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Object\Guid\Guid.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Object\Serialization\ObjectGuid.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Object\Serialization\ObjectSerializer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Object\Serializer\ObjectGuid.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Object\Serializer\ObjectSerializer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Reflection\Reflection.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Reflection\Reflective.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Reflection\Transferer.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryExporter2.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryImporter2.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonExporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonImporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Core\IOTransferer.cpp" />
-    <ClCompile Include="..\include\BDXKEngine\Base\Serialization\Core\Serializer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serializer\Binary\BinaryExporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serializer\Binary\BinaryImporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serializer\Core\IOTransferer.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Base\Serializer\Core\Serializer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\BDXKEngine.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Framework\Behavior\Animator.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Framework\Behavior\BehaviorEvent.cpp" />
@@ -355,6 +350,7 @@
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Material.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Random\Random.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Resources\Resources.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Time\Time.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Cursor.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Input.cpp" />
@@ -449,7 +445,12 @@
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
-    <ClCompile Include="..\include\BDXKEngine\Platform\Resources\Resources.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Serialization\Serialization.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryExporter2.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryImporter2.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonExporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonImporter.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Platform\Window\Window.cpp" />
     <ClCompile Include="..\include\ImGuizmo\GraphEditor.cpp" />
     <ClCompile Include="..\include\ImGuizmo\ImCurveEdit.cpp" />
@@ -501,21 +502,16 @@
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Core\ObjectTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Object\Guid\Guid.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Object\Serialization\ObjectGuid.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Object\Serialization\ObjectSerializer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Object\Serializer\ObjectGuid.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Object\Serializer\ObjectSerializer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Reflection.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Reflective.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Transferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Reflection\Type.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryExporter2.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Binary\BinaryImporter2.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonExporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonImporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\SerializationExtension\Json\JsonTransferer.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryExporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Binary\BinaryImporter.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Core\IOTransferer.h" />
-    <ClInclude Include="..\include\BDXKEngine\Base\Serialization\Core\Serializer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serializer\Binary\BinaryExporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serializer\Binary\BinaryImporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serializer\Core\IOTransferer.h" />
+    <ClInclude Include="..\include\BDXKEngine\Base\Serializer\Core\Serializer.h" />
     <ClInclude Include="..\include\BDXKEngine\BDXKEngine.h" />
     <ClInclude Include="..\include\BDXKEngine\Framework\Behavior\Animator.h" />
     <ClInclude Include="..\include\BDXKEngine\Framework\Behavior\BehaviorEvent.h" />
@@ -539,6 +535,7 @@
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Material.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Random\Random.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Resources\Resources.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Time\Time.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Cursor.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Input.h" />
@@ -560,7 +557,12 @@
     <ClInclude Include="..\include\BDXKEngine\Platform\GL\Texture\TextureImport.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\GUI\GUI.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\Phys\Phys.h" />
-    <ClInclude Include="..\include\BDXKEngine\Platform\Resources\Resources.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Serialization\Serialization.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryExporter2.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryImporter2.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonExporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonImporter.h" />
+    <ClInclude Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.h" />
     <ClInclude Include="..\include\BDXKEngine\Platform\Window\Window.h" />
     <ClInclude Include="..\include\ImGuizmo\GraphEditor.h" />
     <ClInclude Include="..\include\ImGuizmo\ImCurveEdit.h" />
@@ -582,13 +584,13 @@
     <Content Include="..\include\BDXKEngine\Base\Object\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Base\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Base\Reflection\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\SerializationExtension\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Base\Serialization\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Base\Serializer\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Framework\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Function\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Platform\GL\ReadMe.md" />
     <Content Include="..\include\BDXKEngine\Platform\ReadMe.md" />
-    <Content Include="..\include\BDXKEngine\Platform\Resources\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Platform\Serialization\ReadMe.md" />
+    <Content Include="..\include\BDXKEngine\Platform\Serialization\SerializerExtension\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="..\include\BDXKEngine\Framework\Physics\Material" />

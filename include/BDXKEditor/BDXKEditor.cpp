@@ -3,8 +3,9 @@
 #include "BDXKEngine/BDXKEngine.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
+#include "BDXKEngine/Function/Resources/Resources.h"
 #include "BDXKEngine/Function/Time/Time.h"
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 
 namespace BDXKEditor

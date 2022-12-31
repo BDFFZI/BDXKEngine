@@ -1,6 +1,6 @@
 ﻿#include "InspectorWindow.h"
 #include "BDXKEditor/Editor/Core/Editor.h"
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor

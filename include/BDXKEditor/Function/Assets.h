@@ -3,7 +3,6 @@
 #include "BDXKEditor/Importer/Core/Importer.h"
 #include "BDXKEngine/Base/Object/Core/ObjectPtr.h"
 #include "BDXKEngine/Base/Object/Core/ObjectPtrBase.h"
-#include "BDXKEngine/Platform/Resources/Resources.h"
 
 namespace BDXKEditor
 {
@@ -24,11 +23,11 @@ namespace BDXKEditor
         inline static std::string rootDirectory = "Assets/";
         inline static std::unordered_map<std::string, Guid> pathToGuid = {};
         inline static std::unordered_map<Guid, std::string> guidToPath = {};
-
-        static void StaticConstructor();
-        CustomStaticConstructor(StaticConstructor)
-
+        
         static void LoadPathGuid();
         static ObjectPtr<Importer> LoadImporter(const std::string& path);
+        
+        static void StaticConstructor();
+        CustomStaticConstructor(StaticConstructor)
     };
 }

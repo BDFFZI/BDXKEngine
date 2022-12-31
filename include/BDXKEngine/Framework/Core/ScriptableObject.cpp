@@ -1,6 +1,6 @@
 ﻿#include "ScriptableObject.h"
 #include <iostream>
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 
 namespace BDXKEngine
 {
@@ -35,7 +35,7 @@ namespace BDXKEngine
 
     bool ScriptableObject::IsNotResource() const
     {
-        return !Resources::IsResource(this);
+        return !Serialization::IsPersistent(this);
     }
     bool ScriptableObject::IsActivatingAndEnabling() const
     {

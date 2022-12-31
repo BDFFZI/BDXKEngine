@@ -1,22 +1,22 @@
 ﻿#pragma once
 #include "ObjectGuid.h"
 #include "BDXKEngine/Base/Object/Core/ObjectPtrTransferer.h"
-#include "BDXKEngine/Base/Serialization/Core/Serializer.h"
+#include "BDXKEngine/Base/Serializer/Core/Serializer.h"
 
 namespace BDXKEngine
 {
     class ObjectSerializerBase : public Serializer
     {
     public:
-        static void AddFindSerializationFallback(const std::function<std::string(const Guid& guid)>& fallback);
-        static const std::vector<std::function<std::string(const Guid& guid)>>& GetFindSerializationFallback();
+        static void AddFindSerializationFallback(const std::function<Reflective*(const Guid& guid)>& fallback);
+        static const std::vector<std::function<Reflective*(const Guid& guid)>>& GetFindSerializationFallback();
     protected:
         ObjectSerializerBase(IOTransferer& importer, IOTransferer& exporter)
             : Serializer(importer, exporter)
         {
         }
     private:
-        inline static std::vector<std::function<std::string(const Guid& guid)>> findSerializationFallback = {};
+        inline static std::vector<std::function<Reflective*(const Guid& guid)>> findSerializationFallback = {};
     };
 
     template <typename TImporter, typename TExporter>
@@ -136,15 +136,14 @@ namespace BDXKEngine
                 if (data.empty() == false)
                     reflective = Serializer::Deserialize(data);
                 else //未加载的前置资源
-                    for (auto& fallback : GetFindSerializationFallback())
+                {
+                    auto& fallbacks = GetFindSerializationFallback();
+                    for (auto& fallback : fallbacks)
                     {
-                        data = fallback(guid);
-                        if (data.empty() == false)
-                        {
-                            reflective = ObjectSerializer<TImporter, TExporter>(transferSerialization).Deserialize(data);
-                            break;
-                        }
+                        reflective = fallback(guid);
+                        if (reflective != nullptr)break;
                     }
+                }
 
                 if (reflective == nullptr)throw std::exception("无法获取序列化数据");
                 ObjectGuid::SetInstanceID(guid, dynamic_cast<Object*>(reflective)->GetInstanceID());

@@ -1,6 +1,6 @@
 ﻿#include "Importer.h"
 
-#include "BDXKEngine/Base/Object/Serialization/ObjectGuid.h"
+#include "BDXKEngine/Base/Object/Serializer/ObjectGuid.h"
 
 namespace BDXKEditor
 {

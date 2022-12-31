@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Serialization/ObjectGuid.h"
+#include "BDXKEngine/Base/Object/Serializer/ObjectGuid.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Framework/Core/ScriptableObject.h"
 #include "BDXKEngine/Framework/Renderer/RenderEvent.h"

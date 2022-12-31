@@ -1,7 +1,7 @@
 ﻿#include "Assets.h"
 #include <filesystem>
-
-#include "BDXKEngine/Platform/Resources/Resources.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
+#include "BDXKEngine/Function/Resources/Resources.h"
 
 namespace BDXKEditor
 {
@@ -41,22 +41,6 @@ namespace BDXKEditor
 
         return object;
     }
-
-    void Assets::StaticConstructor()
-    {
-        ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
-        {
-            const std::string path = guidToPath[guid];
-            if (std::filesystem::exists(path))
-            {
-                Load(path.substr(rootDirectory.size()));
-                return Resources::ReadFile(guid);
-            }
-
-            return std::string{};
-        });
-    }
-
     void Assets::LoadPathGuid()
     {
         pathToGuid.clear();
@@ -89,18 +73,27 @@ namespace BDXKEditor
     }
     ObjectPtr<Importer> Assets::LoadImporter(const std::string& path)
     {
-        const std::string lastRootPath = Resources::GetRootPath();
-        Resources::SetRootPath(rootDirectory);
-
-        auto jsonSerializer = Resources::CreateJsonSerializer();
-        const std::string importerPath = path + ".importer";
-        ObjectPtr<Importer> importer = Resources::IsExisting(importerPath) == false
+        auto jsonSerializer = Serialization::CreateJsonSerializer();
+        const std::string importerPath = rootDirectory + path + ".importer";
+        ObjectPtr<Importer> importer = Serialization::IsExisting(importerPath) == false
                                            ? Importer::GetAssetsImporter(path.substr(path.find('.') + 1))
-                                           : Resources::LoadOf<Importer>(importerPath, jsonSerializer);
+                                           : Serialization::Load<Importer>(importerPath, jsonSerializer);
         if (importer.IsNotNull())
-            Resources::Save(importerPath, importer, jsonSerializer);
-
-        Resources::SetRootPath(lastRootPath);
+            Serialization::Save(importerPath, importer, jsonSerializer);
         return importer;
+    }
+
+    void Assets::StaticConstructor()
+    {
+        ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
+        {
+            const std::string path = guidToPath[guid];
+            if (std::filesystem::exists(path))
+            {
+                Load(path.substr(rootDirectory.size()));
+                return Resources::FindSerializationFallback(guid);
+            }
+            return static_cast<Reflective*>(nullptr);
+        });
     }
 }

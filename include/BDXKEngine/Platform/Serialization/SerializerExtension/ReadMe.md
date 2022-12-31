@@ -1,7 +1,7 @@
 ﻿# 依赖
 
 - Reflection
-- Serialization
+- Serializer
 - Data
 
 # 功能

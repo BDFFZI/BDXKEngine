@@ -11,7 +11,7 @@
 #include "Function/Window/Screen.h"
 #include "Platform/GUI/GUI.h"
 #include "Platform/Phys/Phys.h"
-#include "Platform/Resources/Resources.h"
+#include "Function/Resources/Resources.h"
 
 
 namespace BDXKEngine
