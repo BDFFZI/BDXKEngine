@@ -37,6 +37,7 @@ namespace BDXKEngine
 
             Texture::ResetDefaultRenderTarget();
             cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+            blitMaterial->SetTexture2D(0, cameraCanvas);
         });
     }
     void RenderEvent::Render()

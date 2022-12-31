@@ -1,17 +1,17 @@
 {
     "serializationsCount": 26,
     "serialization_0": {
-        "object": "{604B3685-A911-4904-ABA4-CB4D6071E64A}",
+        "object": "{CF317394-7700-469B-46B7-AD3C0FEF05FD}",
         "data": {
             "type": "class BDXKEngine::Scene",
             "name": "test.scene",
             "renderSettings": "{6A8219D7-6FD2-4CC1-3189-2DC612121E34}",
             "gameObjects": {
                 "count": 4,
-                "item0": "{B188D92E-ACD8-4F2B-D4BB-D58AEEFEC08A}",
-                "item1": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
-                "item2": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
-                "item3": "{869DB29C-F998-41F9-499F-B6662BD21FA2}"
+                "item0": "{869DB29C-F998-41F9-499F-B6662BD21FA2}",
+                "item1": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
+                "item2": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
+                "item3": "{B188D92E-ACD8-4F2B-D4BB-D58AEEFEC08A}"
             }
         }
     },
@@ -436,48 +436,42 @@
         }
     },
     "serialization_8": {
-        "object": "{3EB3C1D0-DE97-457E-FA9C-1A5BAA2D855D}",
+        "object": "{532295CE-44B5-46BE-CFBA-9675DA34A178}",
         "data": {
-            "type": "class BDXKEngine::Camera",
-            "name": "class BDXKEngine::Camera",
+            "type": "class BDXKEngine::Light",
+            "name": "class BDXKEngine::Light",
             "isEnabling": true,
-            "gameObject": "{B188D92E-ACD8-4F2B-D4BB-D58AEEFEC08A}",
-            "renderTarget": "",
-            "clearFlags": 1,
-            "projection": 1,
-            "background": [
-                0.7401961088180542,
-                0.7401961088180542,
-                0.7401961088180542,
+            "gameObject": "{869DB29C-F998-41F9-499F-B6662BD21FA2}",
+            "lightType": 0,
+            "color": [
+                1.0,
+                1.0,
+                1.0,
                 1.0
             ],
-            "nearClipPlane": 0.30000001192092898,
-            "farClipPlane": 1000.0,
-            "fieldOfView": 60.0,
-            "size": 5.0,
-            "priority": 0
+            "intensity": 0.5
         }
     },
     "serialization_9": {
-        "object": "{B188D92E-ACD8-4F2B-D4BB-D58AEEFEC08A}",
+        "object": "{869DB29C-F998-41F9-499F-B6662BD21FA2}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Camera",
+            "name": "Sun",
             "isEnabling": true,
             "localPosition": [
                 0.0,
-                1.0,
-                -10.0
-            ],
-            "localEulerAngles": [
-                -0.0,
                 0.0,
                 0.0
             ],
+            "localEulerAngles": [
+                45.00000381469727,
+                -45.0,
+                0.0
+            ],
             "localScale": [
-                1.0,
-                1.0,
-                1.0
+                0.9999998807907105,
+                0.9999998807907105,
+                0.9999999403953552
             ],
             "parent": "",
             "children": {
@@ -485,17 +479,17 @@
             },
             "components": {
                 "count": 1,
-                "item0": "{3EB3C1D0-DE97-457E-FA9C-1A5BAA2D855D}"
+                "item0": "{532295CE-44B5-46BE-CFBA-9675DA34A178}"
             }
         }
     },
     "serialization_10": {
-        "object": "{620FBF7C-E5FA-4986-62A1-FF112594D549}",
+        "object": "{3C1CC898-2595-47C9-4997-7618CE2DD8C8}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
             "name": "class BDXKEngine::MeshRenderer",
             "isEnabling": true,
-            "gameObject": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
+            "gameObject": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
             "material": "{C5594ACC-CFB0-4F90-31B3-EEEEDC8E15C6}",
             "castShadows": true,
             "receiveShadows": true,
@@ -536,35 +530,35 @@
         }
     },
     "serialization_15": {
-        "object": "{3703F0AD-C48B-465D-37BE-7DF00DD5B7F1}",
-        "data": {
-            "type": "class BDXKEngine::Rigidbody",
-            "name": "class BDXKEngine::Rigidbody",
-            "isEnabling": true,
-            "gameObject": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
-            "constraints": 0,
-            "useGravity": true,
-            "mass": 1.0
-        }
-    },
-    "serialization_16": {
-        "object": "{D63611CC-DA9F-4124-D6B8-310909673E77}",
+        "object": "{9A507AED-C97E-4446-B385-9E06DD80EFEA}",
         "data": {
             "type": "class BDXKEngine::BoxCollision",
             "name": "class BDXKEngine::BoxCollision",
             "isEnabling": true,
-            "gameObject": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}"
+            "gameObject": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}"
+        }
+    },
+    "serialization_16": {
+        "object": "{25C1BBBE-DB04-468D-358E-CEC8DA7597CB}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "name": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
+            "constraints": 63,
+            "useGravity": true,
+            "mass": 1.0
         }
     },
     "serialization_17": {
-        "object": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
+        "object": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Cube",
+            "name": "Ground",
             "isEnabling": true,
             "localPosition": [
                 0.0,
-                2.6079115867614748,
+                -4.755000114440918,
                 0.0
             ],
             "localEulerAngles": [
@@ -583,19 +577,19 @@
             },
             "components": {
                 "count": 3,
-                "item0": "{620FBF7C-E5FA-4986-62A1-FF112594D549}",
-                "item1": "{3703F0AD-C48B-465D-37BE-7DF00DD5B7F1}",
-                "item2": "{D63611CC-DA9F-4124-D6B8-310909673E77}"
+                "item0": "{3C1CC898-2595-47C9-4997-7618CE2DD8C8}",
+                "item1": "{9A507AED-C97E-4446-B385-9E06DD80EFEA}",
+                "item2": "{25C1BBBE-DB04-468D-358E-CEC8DA7597CB}"
             }
         }
     },
     "serialization_18": {
-        "object": "{3C1CC898-2595-47C9-4997-7618CE2DD8C8}",
+        "object": "{620FBF7C-E5FA-4986-62A1-FF112594D549}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
             "name": "class BDXKEngine::MeshRenderer",
             "isEnabling": true,
-            "gameObject": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
+            "gameObject": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
             "material": "{C5594ACC-CFB0-4F90-31B3-EEEEDC8E15C6}",
             "castShadows": true,
             "receiveShadows": true,
@@ -740,7 +734,7 @@
                     1.0,
                     0.0,
                     0.0,
-                    -0.004999999888241291,
+                    6.4079999923706059,
                     0.0,
                     1.0
                 ],
@@ -815,35 +809,35 @@
         }
     },
     "serialization_21": {
-        "object": "{9A507AED-C97E-4446-B385-9E06DD80EFEA}",
-        "data": {
-            "type": "class BDXKEngine::BoxCollision",
-            "name": "class BDXKEngine::BoxCollision",
-            "isEnabling": true,
-            "gameObject": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}"
-        }
-    },
-    "serialization_22": {
-        "object": "{25C1BBBE-DB04-468D-358E-CEC8DA7597CB}",
+        "object": "{3703F0AD-C48B-465D-37BE-7DF00DD5B7F1}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
             "name": "class BDXKEngine::Rigidbody",
             "isEnabling": true,
-            "gameObject": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
-            "constraints": 63,
+            "gameObject": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
+            "constraints": 0,
             "useGravity": true,
             "mass": 1.0
         }
     },
+    "serialization_22": {
+        "object": "{D63611CC-DA9F-4124-D6B8-310909673E77}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollision",
+            "name": "class BDXKEngine::BoxCollision",
+            "isEnabling": true,
+            "gameObject": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}"
+        }
+    },
     "serialization_23": {
-        "object": "{22D978ED-9DCE-4C87-85B1-2AE1B759A1F0}",
+        "object": "{80F6C9A8-AD48-4DB5-FEB1-C8EE1A78F57B}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Ground",
+            "name": "Cube",
             "isEnabling": true,
             "localPosition": [
                 0.0,
-                -0.004999999888241291,
+                6.4079999923706059,
                 0.0
             ],
             "localEulerAngles": [
@@ -862,49 +856,55 @@
             },
             "components": {
                 "count": 3,
-                "item0": "{3C1CC898-2595-47C9-4997-7618CE2DD8C8}",
-                "item1": "{9A507AED-C97E-4446-B385-9E06DD80EFEA}",
-                "item2": "{25C1BBBE-DB04-468D-358E-CEC8DA7597CB}"
+                "item0": "{620FBF7C-E5FA-4986-62A1-FF112594D549}",
+                "item1": "{3703F0AD-C48B-465D-37BE-7DF00DD5B7F1}",
+                "item2": "{D63611CC-DA9F-4124-D6B8-310909673E77}"
             }
         }
     },
     "serialization_24": {
-        "object": "{532295CE-44B5-46BE-CFBA-9675DA34A178}",
+        "object": "{3EB3C1D0-DE97-457E-FA9C-1A5BAA2D855D}",
         "data": {
-            "type": "class BDXKEngine::Light",
-            "name": "class BDXKEngine::Light",
+            "type": "class BDXKEngine::Camera",
+            "name": "class BDXKEngine::Camera",
             "isEnabling": true,
-            "gameObject": "{869DB29C-F998-41F9-499F-B6662BD21FA2}",
-            "lightType": 0,
-            "color": [
-                1.0,
-                1.0,
-                1.0,
+            "gameObject": "{B188D92E-ACD8-4F2B-D4BB-D58AEEFEC08A}",
+            "renderTarget": "",
+            "clearFlags": 1,
+            "projection": 1,
+            "background": [
+                0.7401961088180542,
+                0.7401961088180542,
+                0.7401961088180542,
                 1.0
             ],
-            "intensity": 0.5
+            "nearClipPlane": 0.30000001192092898,
+            "farClipPlane": 1000.0,
+            "fieldOfView": 60.0,
+            "size": 5.0,
+            "priority": 0
         }
     },
     "serialization_25": {
-        "object": "{869DB29C-F998-41F9-499F-B6662BD21FA2}",
+        "object": "{B188D92E-ACD8-4F2B-D4BB-D58AEEFEC08A}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Sun",
+            "name": "Camera",
             "isEnabling": true,
             "localPosition": [
                 0.0,
+                1.0,
+                -10.0
+            ],
+            "localEulerAngles": [
+                -0.0,
                 0.0,
                 0.0
             ],
-            "localEulerAngles": [
-                45.00000381469727,
-                -45.0,
-                0.0
-            ],
             "localScale": [
-                0.9999998807907105,
-                0.9999998807907105,
-                0.9999999403953552
+                1.0,
+                1.0,
+                1.0
             ],
             "parent": "",
             "children": {
@@ -912,7 +912,7 @@
             },
             "components": {
                 "count": 1,
-                "item0": "{532295CE-44B5-46BE-CFBA-9675DA34A178}"
+                "item0": "{3EB3C1D0-DE97-457E-FA9C-1A5BAA2D855D}"
             }
         }
     }

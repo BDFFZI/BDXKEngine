@@ -89,12 +89,16 @@ namespace BDXKEditor
     {
         ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
         {
-            const std::string path = rootDirectory + guidToPath[guid];
-            if (std::filesystem::exists(path))
+            if (guidToPath.contains(guid))
             {
-                Load(path.substr(rootDirectory.size()));
-                return Resources::FindSerializationFallback(guid);
+                const std::string path = rootDirectory + guidToPath[guid];
+                if (std::filesystem::exists(path))
+                {
+                    Load(path.substr(rootDirectory.size()));
+                    return Resources::FindSerializationFallback(guid);
+                }
             }
+
             return static_cast<Reflective*>(nullptr);
         });
     }
