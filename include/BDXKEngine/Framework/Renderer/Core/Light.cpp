@@ -105,8 +105,8 @@ namespace BDXKEngine
                     if (renderer->GetCastShadows() == false)
                         continue;
 
-                    renderer->GetMaterial()->UploadRP(PassType::ShadowCaster);
-                    Graphics::DrawMesh(renderer->GetMesh());
+                    if (renderer->GetMaterial()->UploadRP(PassType::ShadowCaster))
+                        Graphics::DrawMesh(renderer->GetMesh());
                 }
             }
         }
@@ -121,8 +121,8 @@ namespace BDXKEngine
                 if (renderer->GetCastShadows() == false)
                     continue;
 
-                renderer->GetMaterial()->UploadRP(PassType::ShadowCaster);
-                Graphics::DrawMesh(renderer->GetMesh());
+                if (renderer->GetMaterial()->UploadRP(PassType::ShadowCaster))
+                    Graphics::DrawMesh(renderer->GetMesh());
             }
         }
 
@@ -154,7 +154,7 @@ namespace BDXKEngine
     void Light::Enable()
     {
         Component::Enable();
-        
+
         lights.emplace_back(this);
     }
     void Light::Disable()

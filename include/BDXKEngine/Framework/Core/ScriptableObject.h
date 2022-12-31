@@ -47,14 +47,14 @@ namespace BDXKEngine
     class ScriptableObject : public Object
     {
     public:
-        template <class TObject, class TResult = TObject>
-        static std::vector<ObjectPtr<TResult>> FindScriptableObjectsOfType()
+        template <class TTarget, class TBack = TTarget>
+        static std::vector<ObjectPtr<TBack>> FindScriptableObjectsOfType()
         {
-            std::vector<ObjectPtr<TResult>> result{};
+            std::vector<ObjectPtr<TBack>> result{};
             for (const auto& item : allScriptableObjects)
             {
-                TObject* object = dynamic_cast<TObject*>(item);
-                if (object != nullptr)result.emplace_back(dynamic_cast<TResult*>(object));
+                TTarget* object = dynamic_cast<TTarget*>(item);
+                if (object != nullptr)result.emplace_back(dynamic_cast<TBack*>(object));
             }
 
             return result;
@@ -73,11 +73,12 @@ namespace BDXKEngine
         virtual void Enable();
         virtual void Disable();
         void Awake() override;
-        void Destroy() override;
+        void PostAwake() override;
+        void PreDestroy() override;
     private:
         static std::unordered_set<ScriptableObject*> allScriptableObjects;
         
-        bool isActivating = false;
+        bool isActivating = true;
         bool isEnabling = true;
         bool isAwakened = false;
     };

@@ -8,7 +8,7 @@ namespace BDXKEngine
     class Internal_ObjectPtrTransferer : public Transferer
     {
     public:
-        std::vector<int> GetReferences();
+        std::vector<int> GetReferences() const;
     protected:
         void SetHeadInstanceID(int root);
         void TransferValue(void* value, const Type& type) override;
@@ -16,7 +16,7 @@ namespace BDXKEngine
         CustomTransferFunc(ObjectPtrBase, TransferObjectPtr)
     private:
         int headInstanceID = 0;
-        std::unordered_set<int> references;
+        std::vector<int> references;
     };
 
     class ObjectPtrTransferer : public ObjectTransferer<Internal_ObjectPtrTransferer>

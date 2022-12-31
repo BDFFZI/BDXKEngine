@@ -75,6 +75,12 @@ namespace BDXKEngine
     protected:
         virtual void Awake(); //代替构造函数
         virtual void Destroy(); //代替析构函数
+        virtual void PostAwake()
+        {
+        }
+        virtual void PreDestroy()
+        {
+        }
     private:
         inline static int instanceIDCount = 0;
         inline static std::map<int, Object*> allObjects = {}; //内存中的所有Object，包括未激活的Object

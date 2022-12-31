@@ -2,6 +2,7 @@
 #include <ranges>
 #include "Framework/Scene.h"
 #include "Framework/Behavior/BehaviorEvent.h"
+#include "Framework/Physics/PhysicsEvent.h"
 #include "Framework/Renderer/RenderEvent.h"
 #include "Function/Graphics/Graphics.h"
 #include "Function/Time/Time.h"
@@ -9,7 +10,9 @@
 #include "Function/Window/Input.h"
 #include "Function/Window/Screen.h"
 #include "Platform/GUI/GUI.h"
+#include "Platform/Phys/Phys.h"
 #include "Platform/Resources/Resources.h"
+
 
 namespace BDXKEngine
 {
@@ -29,12 +32,14 @@ namespace BDXKEngine
         Window window{L"BDXKEngine"};
         GL::Initialize(&window);
         GUI::Initialize(&window);
+        Phys::Initialize(&window);
         //框架层
         Graphics::Initialize(&window);
         Screen::Initialize(&window);
         Cursor::Initialize(&window);
         Input::Initialize(&window);
         Time::Initialize(&window);
+        PhysicsEvent::Initialize(&window);
         BehaviorEvent::Initialize(&window);
         RenderEvent::Initialize(&window);
 

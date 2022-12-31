@@ -36,14 +36,14 @@ namespace BDXKEngine
         }
         std::vector<ObjectPtr<Component>> GetComponents() const;
 
-        Vector3 GetPosition() const;
-        Vector3 GetEulerAngles() const;
-        Vector3 GetScale() const;
         Vector3 GetLocalPosition() const;
         Vector3 GetLocalEulerAngles() const;
         Vector3 GetLocalScale() const;
         Matrix4x4 GetLocalToWorldMatrix() const;
         Matrix4x4 GetWorldToLocalMatrix() const;
+        Vector3 GetPosition() const;
+        Vector3 GetEulerAngles() const;
+        Vector3 GetScale() const;
         Vector3 GetRight() const;
         Vector3 GetUp() const;
         Vector3 GetFront() const;
@@ -52,6 +52,7 @@ namespace BDXKEngine
         void SetLocalPosition(Vector3 value);
         void SetLocalEulerAngles(Vector3 value);
         void SetLocalScale(Vector3 value);
+        void SetPosition(Vector3 value);
 
         void AddComponent(const ObjectPtr<Component>& component);
         void RemoveComponent(const ObjectPtr<Component>& component);

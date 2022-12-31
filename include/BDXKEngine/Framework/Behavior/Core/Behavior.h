@@ -43,6 +43,10 @@ namespace BDXKEngine
         static void Update();
         static void LateUpdate();
 
+    protected:
+        void Enable() override;
+        void Disable() override;
+        void Awake() override;
     private:
         //保存所有Behavior的事件注册信息
         //遍历容器时删除物体会导致出现野指针，为保证遍历继续正常运行，使用bool标记目标指针是否可用
@@ -53,9 +57,5 @@ namespace BDXKEngine
         StartHandler* startHandler = nullptr;
         UpdateHandler* updateHandler = nullptr;
         LateUpdateHandler* lateUpdateHandler = nullptr;
-
-        void Enable() override;
-        void Disable() override;
-        void Awake() override;
     };
 }

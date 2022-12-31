@@ -56,6 +56,7 @@ namespace BDXKEngine
         auto references = referenceTransferer.GetReferences();
 
         //激活
+        std::vector<int> awakeObjects;
         for (auto reference = references.rbegin(); reference != references.rend(); ++reference)
         {
             Object* referenceObject = FindObjectOfInstanceID(*reference);
@@ -63,7 +64,13 @@ namespace BDXKEngine
             {
                 referenceObject->isInstantiated = true;
                 referenceObject->Awake();
+                awakeObjects.push_back(*reference);
             }
+        }
+        for (const auto instanceID : awakeObjects)
+        {
+            Object* referenceObject = FindObjectOfInstanceID(instanceID);
+            if (referenceObject != nullptr)referenceObject->PostAwake();
         }
     }
     ObjectPtrBase Object::Clone(const ObjectPtrBase& objectPtr, Serializer& serializer, bool instantiate)
@@ -89,6 +96,7 @@ namespace BDXKEngine
         }
 
         object->isDestroyed = true;
+        object->PreDestroy();
         object->Destroy();
         delete object;
     }

@@ -164,6 +164,12 @@ namespace BDXKEngine
         RenewScale();
         RenewPositionAndMatrix();
     }
+    void GameObject::SetPosition(Vector3 value)
+    {
+        if (parent.IsNull()) SetLocalPosition(value);
+        else SetLocalPosition(parent->GetWorldToLocalMatrix().MultiplyPoint(value));
+    }
+
     void GameObject::RenewPositionAndMatrix(bool renewChild)
     {
         position = parent.IsNull() ? localPosition : parent->GetLocalToWorldMatrix().MultiplyPoint(localPosition);
@@ -252,13 +258,13 @@ namespace BDXKEngine
     }
     void GameObject::Awake()
     {
-        ScriptableObject::Awake();
-
         RenewScale(false);
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);
 
         gameObjects.emplace_back(this);
+        
+        ScriptableObject::Awake();
     }
     void GameObject::Destroy()
     {

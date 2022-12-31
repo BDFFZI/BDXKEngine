@@ -8,7 +8,7 @@ namespace BDXKEngine
 
     bool ScriptableObject::GetIsActivating() const
     {
-        return true;
+        return isActivating;
     }
     bool ScriptableObject::GetIsEnabling() const
     {
@@ -61,12 +61,14 @@ namespace BDXKEngine
         if (const auto handler = dynamic_cast<EnableHandler*>(this); handler != nullptr)
             if (IsNotResource()) handler->OnEnable();
 
+        assert(allScriptableObjects.contains(this) == false); //事件函数执行异常
         allScriptableObjects.insert(this);
 
         std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
     }
     void ScriptableObject::Disable()
     {
+        assert(allScriptableObjects.contains(this)); //事件函数执行异常
         allScriptableObjects.erase(this);
 
         if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
@@ -79,10 +81,14 @@ namespace BDXKEngine
         Object::Awake();
 
         isActivating = GetIsActivating();
+    }
+    void ScriptableObject::PostAwake()
+    {
+        Object::PostAwake();
 
         if (IsActivatingAndEnabling())Enable();
     }
-    void ScriptableObject::Destroy()
+    void ScriptableObject::PreDestroy()
     {
         if (IsActivatingAndEnabling())Disable();
 
@@ -92,6 +98,6 @@ namespace BDXKEngine
                 if (IsNotResource()) handler->OnDestroy();
         }
 
-        Object::Destroy();
+        Object::PreDestroy();
     }
 }

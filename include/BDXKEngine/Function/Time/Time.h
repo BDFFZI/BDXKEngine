@@ -15,6 +15,7 @@ namespace BDXKEngine {
 		static long startTime;
 		static long frameTime;
 		static float deltaTime;
+		
 
 		static void BeginFrame();
 		static void EndFrame();
