@@ -4,9 +4,9 @@
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
 #include "BDXKEngine/Function/Resources/Resources.h"
-#include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
+#include "Function/Assets.h"
 
 namespace BDXKEditor
 {
@@ -17,7 +17,6 @@ namespace BDXKEditor
     ObjectPtr<ConsoleWindow> EditorSystem::consoleWindow;
     ObjectPtr<ProjectWindow> EditorSystem::projectWindow;
     ObjectPtr<GameWindow> EditorSystem::gameWindow;
-
 
     const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
     {
@@ -34,8 +33,72 @@ namespace BDXKEditor
     void EditorSystem::SetScene(const std::string& sceneName)
     {
         this->sceneName = sceneName;
+        LoadScene(sceneName);
     }
 
+    void EditorSystem::LoadScene(const std::string& sceneName, bool keepPersistent)
+    {
+        if (Assets::IsExisting(sceneName) == false)
+        {
+            Scene::LoadDefault();
+            SaveScene(sceneName);
+        }
+
+        Assets::Load<Scene>(sceneName, true);
+        Scene::Load(Assets::LoadImporter(sceneName)->GetTargetGuid(), keepPersistent);
+    }
+    void EditorSystem::SaveScene(const std::string& sceneName)
+    {
+        const auto scene = Scene::GetCurrentScene();
+        scene->SetName(sceneName);
+        Assets::Save(sceneName, scene);
+        Scene::Save(sceneName); //仅提供给运行时用
+    }
+    void EditorSystem::DrawGUI()
+    {
+        ImGui::BeginMainMenuBar();
+        if (isRunning == false)
+        {
+            if (ImGui::BeginMenu("Scene"))
+            {
+                if (ImGui::MenuItem("Save"))
+                {
+                    SaveScene(sceneName);
+                }
+                if (ImGui::MenuItem("Load"))
+                {
+                    LoadScene(sceneName);
+                }
+
+                ImGui::EndMenu();
+            }
+        }
+
+        if (ImGui::BeginMenu("Run"))
+        {
+            if (isRunning == false && ImGui::MenuItem("Play"))
+            {
+                isRunning = true;
+
+                SaveScene(sceneName);
+                SetConstructedObjectEvent({});
+                LoadScene(sceneName, false);
+            }
+            if (isRunning && ImGui::MenuItem("Stop"))
+            {
+                isRunning = false;
+
+                SetConstructedObjectEvent([](const Object* object)
+                {
+                    ObjectGuid::GetOrSetGuid(object->GetInstanceID());
+                });
+                LoadScene(sceneName);
+            }
+
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
     void EditorSystem::OnDrawGUI()
     {
         ImGui::ShowDemoWindow();
@@ -47,49 +110,6 @@ namespace BDXKEditor
             ImGui::PopStyleColor();
         }
         else DrawGUI();
-    }
-    void EditorSystem::DrawGUI()
-    {
-        ImGui::BeginMainMenuBar();
-        if (isRunning == false)
-        {
-            if (ImGui::BeginMenu("Scene"))
-            {
-                if (ImGui::MenuItem("Save"))
-                {
-                    Scene::Save(sceneName);
-                }
-                if (ImGui::MenuItem("Load"))
-                {
-                    Scene::Load(sceneName, true);
-                }
-
-                ImGui::EndMenu();
-            }
-        }
-
-        if (ImGui::BeginMenu("Run"))
-        {
-            if (isRunning == false && ImGui::MenuItem("Play"))
-            {
-                SetConstructedObjectEvent({});
-                Scene::Save(sceneName);
-                Scene::Load(sceneName);
-                isRunning = true;
-            }
-            if (isRunning && ImGui::MenuItem("Stop"))
-            {
-                SetConstructedObjectEvent([](const Object* object)
-                {
-                    ObjectGuid::GetOrSetGuid(object->GetInstanceID());
-                });
-                Scene::Load(sceneName, true);
-                isRunning = false;
-            }
-
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
     }
     void EditorSystem::OnAwake()
     {
@@ -134,50 +154,6 @@ namespace BDXKEditor
         previewWindow->SetName("PreviewWindow");
         previewWindow->Show();
     }
-    void TestLight()
-    {
-        ObjectPtr<GameObject> aureole = GameObject::Create("Aureole");
-        {
-            aureole->SetParent(GameObject::Find("Camera"));
-            aureole->SetLocalPosition({0, 0, 0.7f});
-
-            const ObjectPtr<Animator> animator = Component::Create<Animator>(aureole);
-            animator->SetAnimation(AnimatorClip::Create([](ObjectPtr<GameObject> transform)
-            {
-                Vector3 position = transform->GetLocalPosition();
-                position.x = std::cosf(Time::GetRealtimeSinceStartup()) * 0.3f;
-                position.y = std::sinf(Time::GetRealtimeSinceStartup()) * 0.3f;
-                transform->SetLocalPosition(position);
-
-                Vector3 eulerAngles = transform->GetLocalEulerAngles();
-                eulerAngles.z -= 90 * Time::GetDeltaTime();
-                transform->SetLocalEulerAngles(eulerAngles);
-            }));
-        }
-
-        ObjectPtr<GameObject> sphere = PresetGameObject::CreateSphere("Small Sphere");
-        ObjectPtr<Light> sphere_light;
-        {
-            sphere->SetParent(aureole);
-            sphere->SetLocalScale({0.1f, 0.1f, 0.1f});
-
-            sphere_light = PresetGameObject::CreatePointLight("Red PointLight")->GetComponent<Light>();
-            sphere_light->SetType(LightType::Point);
-            sphere_light->SetColor(Color::red);
-            sphere_light->SetIntensity(0.5f);
-            sphere_light->GetGameObject()->SetParent(sphere);
-
-            ObjectPtr<Camera> camera = GameObject::Find("Camera")->GetComponent<Camera>();
-            camera->SetClearFlags(ClearFlags::Skybox);
-            RenderSettings::SetSkybox(sphere_light->GetShadowMap().ToObjectPtr<TextureCube>());
-        }
-
-        ObjectPtr<GameObject> cube = PresetGameObject::CreateCube("Stick");
-        {
-            cube->SetParent(aureole);
-            cube->SetLocalScale({0.2f, 0.05f, 0.05f});
-        }
-    }
 
     ObjectPtr<EditorSystem> editorSystem;
     void Run(const std::string& sceneName)
@@ -185,13 +161,6 @@ namespace BDXKEditor
         std::cout.rdbuf(ConsoleWindow::GetConsole().rdbuf());
         BDXKEngine::Run([&]
         {
-            if (Resources::IsExisting(sceneName) == false)
-            {
-                Scene::LoadDefault();
-                Scene::Save(sceneName);
-            }
-
-            Scene::Load(sceneName, true);
             editorSystem = Object::Create<EditorSystem>();
             editorSystem->SetScene(sceneName);
         });

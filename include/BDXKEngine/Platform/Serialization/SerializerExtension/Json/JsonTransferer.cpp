@@ -34,6 +34,10 @@ namespace BDXKEngine
     {
         return *nodes.top();
     }
+    bool JsonTransferer::HasCurrentNode()
+    {
+        return nodes.top() != nullptr;
+    }
 
     void JsonTransferer::PushNode(rapidjson::Value* node)
     {

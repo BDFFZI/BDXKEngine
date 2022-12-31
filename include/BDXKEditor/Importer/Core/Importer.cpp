@@ -21,9 +21,22 @@ namespace BDXKEditor
         assetsImporter[extension] = type;
     }
 
-    const Guid& Importer::GetGuid()
+    const Guid& Importer::GetTargetGuid()
     {
         return guid;
+    }
+    ObjectPtrBase Importer::Import(const std::string& filePath)
+    {
+        //导入物体
+        ObjectPtrBase object = ImportObject(filePath);
+        object->SetName(ParseFileName(filePath));
+        //检查是否为重新导入
+        if (const int lastInstance = ObjectGuid::GetInstanceID(guid); lastInstance != 0)
+            ReplaceObject(object, lastInstance);
+        //设置Guid关联信息
+        ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
+
+        return object;
     }
 
     void Importer::Transfer(Transferer& transferer)

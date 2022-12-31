@@ -24,13 +24,13 @@ namespace BDXKEditor
     }
     const ObjectPtrBase& Editor::GetTarget() const
     {
-        return *target;
+        return target;
     }
     GUITransferer& Editor::GetGUITransferer() const
     {
         return *gui;
     }
-    void Editor::SetTarget(ObjectPtrBase* target)
+    void Editor::SetTarget(const ObjectPtrBase& target)
     {
         this->target = target;
     }
@@ -49,7 +49,7 @@ namespace BDXKEditor
     }
     void Editor::OnInspectorGUI()
     {
-        target->ToObjectBase()->Transfer(*gui);
+        target.ToObjectBase()->Transfer(*gui);
     }
     void Editor::OnSceneGUI()
     {

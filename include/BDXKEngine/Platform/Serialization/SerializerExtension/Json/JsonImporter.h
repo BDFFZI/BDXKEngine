@@ -11,6 +11,12 @@ namespace BDXKEngine
     {
     public:
         void TransferJson(std::string key, std::string& value) override;
+        void TransferValue(void* value, const Type& type) override;
+        template <typename TSource>
+        void TransferValue(TSource& value)
+        {
+            TransferValueOf<TSource>(value);
+        }
 
         bool IsImporter() override;
         void Reset(std::string& data) override;

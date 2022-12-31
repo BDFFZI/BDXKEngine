@@ -168,13 +168,13 @@ namespace BDXKEngine
             objectExporter.template SetTransferFunc<ObjectPtrBase>([&](const ObjectPtrBase& value)
             {
                 int instanceID = value.GetInstanceID();
-                objectExporter.TransferValue(instanceID);
+                objectExporter.template TransferValue<int>(instanceID);
             });
 
             objectImporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
             {
                 int instanceID;
-                objectImporter.TransferValue(instanceID);
+                objectImporter.template TransferValue<int>(instanceID);
                 value = Object::FindObjectOfInstanceID(instanceID);
             });
 

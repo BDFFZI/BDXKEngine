@@ -23,23 +23,24 @@ namespace BDXKEditor
             if (Resources::IsExisting(guid))return Resources::Load(guid);
         }
 
-        //加载导入器
+        //加载物体
         const ObjectPtr<Importer> importer = LoadImporter(path);
-        if (importer == nullptr) return {};
-        const Guid guid = importer->GetGuid();
-        //导入物体
-        ObjectPtrBase object = importer->Import(rootDirectory + path);
-        object->SetName(ParseFileName(path));
-        //检查是否为重新导入
-        if (const int lastInstance = ObjectGuid::GetInstanceID(guid); lastInstance != 0)
-            Object::ReplaceObject(object, lastInstance);
+        const ObjectPtrBase object = importer->Import(rootDirectory + path);
+        const Guid guid = importer->GetTargetGuid();
 
-        ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
         pathToGuid[path] = guid;
         guidToPath[guid] = path;
         Resources::Save(guid, object);
-
         return object;
+    }
+    void Assets::Save(const std::string& path, const ObjectPtrBase& objectPtr)
+    {
+        auto serializer = Serialization::CreateJsonSerializer();
+        return Serialization::Save(rootDirectory + path, objectPtr, serializer);
+    }
+    bool Assets::IsExisting(const std::string& path)
+    {
+        return Serialization::IsExisting("Assets/" + path);
     }
     void Assets::LoadPathGuid()
     {
@@ -78,8 +79,9 @@ namespace BDXKEditor
         ObjectPtr<Importer> importer = Serialization::IsExisting(importerPath) == false
                                            ? Importer::GetAssetsImporter(path.substr(path.find('.') + 1))
                                            : Serialization::Load<Importer>(importerPath, jsonSerializer);
-        if (importer.IsNotNull())
-            Serialization::Save(importerPath, importer, jsonSerializer);
+        if (importer.IsNull())throw std::exception("无法加载目标对应的导入器");
+
+        Serialization::Save(importerPath, importer, jsonSerializer);
         return importer;
     }
 
@@ -87,7 +89,7 @@ namespace BDXKEditor
     {
         ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
         {
-            const std::string path = guidToPath[guid];
+            const std::string path = rootDirectory + guidToPath[guid];
             if (std::filesystem::exists(path))
             {
                 Load(path.substr(rootDirectory.size()));

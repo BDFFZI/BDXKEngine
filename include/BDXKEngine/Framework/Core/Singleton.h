@@ -9,6 +9,8 @@ namespace BDXKEngine
     public:
         static ObjectPtr<TSingleton>& GetSingleton()
         {
+            if (singleton == nullptr)
+                Create<TSingleton>();
             return singleton;
         }
     protected:

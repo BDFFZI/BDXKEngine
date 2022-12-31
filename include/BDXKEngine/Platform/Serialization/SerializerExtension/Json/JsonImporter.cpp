@@ -10,6 +10,12 @@ namespace BDXKEngine
         document.CopyFrom(GetCurrentNode()[key.c_str()], document.GetAllocator());
         Export(document, value);
     }
+    void JsonImporter::TransferValue(void* value, const Type& type)
+    {
+        if (HasCurrentNode())
+            JsonTransferer::TransferValue(value, type);
+    }
+
     bool JsonImporter::IsImporter()
     {
         return true;
@@ -21,12 +27,16 @@ namespace BDXKEngine
     }
     void JsonImporter::PushPath(const std::string& key)
     {
-        PushNode(&GetCurrentNode()[key.c_str()]);
+        if (GetCurrentNode().HasMember(key.c_str()) == false)
+            PushNode(nullptr);
+        else
+            PushNode(&GetCurrentNode()[key.c_str()]);
     }
     void JsonImporter::PopPath(std::string& key)
     {
         PopNode();
     }
+
 
     void JsonImporter::TransferInt(int& value)
     {

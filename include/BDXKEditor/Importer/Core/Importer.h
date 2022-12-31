@@ -14,8 +14,11 @@ namespace BDXKEditor
         static ObjectPtr<Importer> GetAssetsImporter(const std::string& extension);
         static void SetAssetsImporter(const std::string& extension, const Type& type);
 
-        virtual ObjectPtrBase Import(std::string filePath) = 0;
-        const Guid& GetGuid();
+        const Guid& GetTargetGuid();
+
+        ObjectPtrBase Import(const std::string& filePath);
+    protected:
+        virtual ObjectPtrBase ImportObject(std::string filePath) = 0;
     private:
         inline static std::unordered_map<std::string, Type> assetsImporter = {};
 

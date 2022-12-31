@@ -65,7 +65,7 @@ namespace BDXKEditor
 
                 //自定义面板
                 Editor* editor = GetEditor(*component);
-                editor->SetTarget(&components[index]);
+                editor->SetTarget(components[index]);
                 editor->SetGui(&gui);
                 editor->DrawInspectorGUI();
 

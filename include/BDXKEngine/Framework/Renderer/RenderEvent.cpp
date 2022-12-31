@@ -1,13 +1,15 @@
 ﻿#include "RenderEvent.h"
 #include "BDXKEngine/Function/Graphics/Graphics.h"
+#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
+#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "Core/Camera.h"
-#include "Core/RenderSettings.h"
 
 namespace BDXKEngine
 {
     ObjectPtr<Camera> RenderEvent::currentCamera = nullptr;
     ObjectPtr<Texture2D> RenderEvent::cameraCanvas = nullptr;
+    ObjectPtr<Material> RenderEvent::blitMaterial = nullptr;
 
     const ObjectPtr<Camera>& RenderEvent::GetCurrentCamera()
     {
@@ -23,13 +25,16 @@ namespace BDXKEngine
         Texture::ResetDefaultRenderTarget();
         const Vector2 ScreenSize = window->GetSize();
         cameraCanvas = Texture2D::Create(ScreenSize.GetXInt(), ScreenSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+        blitMaterial = Serialization::Clone(ResourcesDefault::GetUnlitMaterial());
+        blitMaterial->SetMatrix(0, Matrix4x4::identity);
+        blitMaterial->SetTexture2D(0, cameraCanvas);
 
         window->AddRenewEvent(Render);
         window->AddResizeEvent([](Vector2 size)
         {
             if (size.x <= 0 || size.y <= 0)
                 return;
-            
+
             Texture::ResetDefaultRenderTarget();
             cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
         });
@@ -63,11 +68,8 @@ namespace BDXKEngine
         //将相机渲染传输到屏幕
         Texture::SetRenderTargetDefault();
         GL::Clear(true, true);
-        const ObjectPtr<Material> material = RenderSettings::GetUnlitMaterial();
-        material->SetMatrix(0, Matrix4x4::identity);
-        material->SetTexture2D(0, cameraCanvas);
-        material->UploadRP(PassType::ForwardBase);
-        Graphics::DrawViewport();
+        if (blitMaterial->UploadRP(PassType::ForwardBase))
+            Graphics::DrawViewport();
 
         //UI渲染
         {

@@ -34,7 +34,7 @@ namespace BDXKEditor
 
             Editor* editor = Editor::GetEditor(*target.ToObjectBase());
             editor->SetGui(&gui);
-            editor->SetTarget(&target);
+            editor->SetTarget(target);
             editor->DrawInspectorGUI();
         }
     }

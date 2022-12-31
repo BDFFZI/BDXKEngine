@@ -22,7 +22,7 @@ namespace BDXKEditor
         const ObjectPtrBase& GetTarget() const;
         GUITransferer& GetGUITransferer() const;
 
-        void SetTarget(ObjectPtrBase* target);
+        void SetTarget(const ObjectPtrBase& target);
         void SetGui(GUITransferer* gui);
 
         void DrawInspectorGUI();
@@ -34,7 +34,7 @@ namespace BDXKEditor
         inline static std::vector<std::function<Editor*(const Reflective&)>> getEditorFallback = {};
         static std::unordered_map<Type, Editor*> editors;
 
-        ObjectPtrBase* target = nullptr;
+        ObjectPtrBase target = nullptr;
         GUITransferer* gui = nullptr;
     };
 

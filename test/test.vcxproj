@@ -155,6 +155,7 @@
     <ClCompile Include="..\include\BDXKEditor\Function\Debug.cpp" />
     <ClCompile Include="..\include\BDXKEditor\Importer\Core\Importer.cpp" />
     <ClCompile Include="..\include\BDXKEditor\Importer\MeshImporter.cpp" />
+    <ClCompile Include="..\include\BDXKEditor\Importer\ObjectImporter.cpp" />
     <ClCompile Include="..\include\BDXKEditor\Importer\ShaderImporter.cpp" />
     <ClCompile Include="..\include\BDXKEditor\Importer\Texture2DImporter.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Base\Data\Graphics\Color.cpp" />
@@ -350,6 +351,7 @@
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Graphics\Material.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Random\Random.cpp" />
+    <ClCompile Include="..\include\BDXKEngine\Function\Resources\ResourcesDefault.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Resources\Resources.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Time\Time.cpp" />
     <ClCompile Include="..\include\BDXKEngine\Function\Window\Cursor.cpp" />
@@ -485,6 +487,7 @@
     <ClInclude Include="..\include\BDXKEditor\Function\Debug.h" />
     <ClInclude Include="..\include\BDXKEditor\Importer\Core\Importer.h" />
     <ClInclude Include="..\include\BDXKEditor\Importer\MeshImporter.h" />
+    <ClInclude Include="..\include\BDXKEditor\Importer\ObjectImporter.h" />
     <ClInclude Include="..\include\BDXKEditor\Importer\ShaderImporter.h" />
     <ClInclude Include="..\include\BDXKEditor\Importer\Texture2DImporter.h" />
     <ClInclude Include="..\include\BDXKEngine\Base\Data\Graphics\Color.h" />
@@ -535,6 +538,7 @@
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Graphics\Material.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Random\Random.h" />
+    <ClInclude Include="..\include\BDXKEngine\Function\Resources\ResourcesDefault.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Resources\Resources.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Time\Time.h" />
     <ClInclude Include="..\include\BDXKEngine\Function\Window\Cursor.h" />

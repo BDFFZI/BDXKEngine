@@ -6,27 +6,6 @@
 
 namespace BDXKEngine
 {
-    class PresetResources
-    {
-    public:
-        static ObjectPtr<Material> GetUnlitMaterial();
-        static ObjectPtr<Material> GetStandardMaterial();
-        static ObjectPtr<Material> GetSkyboxMaterial();
-        static ObjectPtr<Mesh> GetCubeMesh();
-        static ObjectPtr<Mesh> GetSphereMesh();
-        static ObjectPtr<Mesh> GetBlenderMesh();
-        static ObjectPtr<Texture2D> GetWhiteTexture();
-        static void Create();
-    private:
-        static ObjectPtr<Material> unlitMaterial;
-        static ObjectPtr<Material> standardMaterial;
-        static ObjectPtr<Material> skyboxMaterial;
-        static ObjectPtr<Mesh> cubeMesh;
-        static ObjectPtr<Mesh> sphereMesh;
-        static ObjectPtr<Mesh> blenderMesh;
-        static ObjectPtr<Texture2D> whiteTexture;
-    };
-
     class PresetGameObject
     {
     public:
@@ -50,6 +29,7 @@ namespace BDXKEngine
     private:
         ObjectPtr<RenderSettings> renderSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;
+        
         void Transfer(Transferer& transferer) override;
     };
 

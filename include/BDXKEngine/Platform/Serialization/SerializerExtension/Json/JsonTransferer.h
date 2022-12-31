@@ -20,6 +20,7 @@ namespace BDXKEngine
         rapidjson::Document& GetDocument();
         rapidjson::MemoryPoolAllocator<>& GetAllocator();
         rapidjson::Value& GetCurrentNode();
+        bool HasCurrentNode();
 
         void PushNode(rapidjson::Value* node);
         void PopNode();

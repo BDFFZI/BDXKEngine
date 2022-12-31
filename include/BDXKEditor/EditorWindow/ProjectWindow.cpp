@@ -80,6 +80,7 @@ namespace BDXKEditor
                 else if (child.path().extension() != ".importer")
                 {
                     std::string filePath = child.path().string();
+                    ImGui::PushID(filePath.c_str());
                     if (ImGui::Button(ParseFileName(child.path().string()).c_str()))
                     {
                         const std::string itemPath = filePath.substr(Assets::GetRootPath().size() + 1);
@@ -99,6 +100,7 @@ namespace BDXKEditor
                             ImGui::CloseCurrentPopup();
                         ImGui::EndPopup();
                     }
+                    ImGui::PopID();
                 }
             }
 
