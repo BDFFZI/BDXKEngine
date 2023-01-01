@@ -18,6 +18,7 @@
 mono_crash.*
 
 # Build results
+Resources/
 Output/
 [Dd]ebug/
 [Dd]ebugPublic/
