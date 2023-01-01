@@ -1,7 +1,7 @@
 {
     "serializationsCount": 28,
     "serialization_0": {
-        "object": "{5687EC52-BE23-4E61-96A3-74DDC0B6A704}",
+        "object": "{943D0AB7-86F3-423E-01B6-F197679A0B9D}",
         "data": {
             "type": "class BDXKEngine::Scene",
             "name": "HelloWorld.scene",
