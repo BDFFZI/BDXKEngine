@@ -18,11 +18,4 @@
 ### 4. 第三方库除了以上情况一律禁用
 
 ## 外部依赖：
-* Window 10 SDK (需手动配置)
-* ATL (需手动配置)
-* Tencent/rapidjson
-* ocornut/imgui
-* CedricGuillemet/ImGuizmo
-
-## 注意事项：
-由于Github有上传大小限制，而部分第三方库过于庞大，因此需要手动配置  
+详见bin和include文件夹

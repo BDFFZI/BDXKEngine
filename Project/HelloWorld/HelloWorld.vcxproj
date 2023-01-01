@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{346f9c2d-5f01-4d17-9bd0-3f1160a1bcfb}</ProjectGuid>
+    <RootNamespace>test</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>Output\</OutDir>
+    <IntDir>Output\Object\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Core/include/;$(SolutionDir)Core/include/PhysX5/</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Core/bin/</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Core\include\BDXKEditor\BDXKEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\ConsoleWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\Core\EditorWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\GameWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\HierarchyWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\InspectorWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\ProfilerWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\ProjectWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\SceneWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\ComponentEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\Core\Editor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\Core\GUITransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\GameObjectEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\MaterialEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Function\Assets.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Function\Debug.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\Core\Importer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\MeshImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\ObjectImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\ShaderImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\Texture2DImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Color.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Rect.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix4x4.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Quaternion\Quaternion.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector2.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector3.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\String\String.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Core\Object.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectPtrBase.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectTransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Guid\Guid.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Serializer\ObjectGuid.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Object\Serializer\ObjectSerializer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflection.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflective.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Reflection\Transferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryExporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\IOTransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\Serializer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\BDXKEngine.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Behavior\Animator.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Behavior\BehaviorEvent.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Behavior\Core\Behavior.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Core\Component.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Core\GameObject.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Core\ScriptableObject.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Core\Singleton.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collision\BoxCollider.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collision\Collider.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collision\SphereCollider.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Material\PhysicMaterial.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\PhysicsEvent.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Rigidbody\Rigidbody.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Camera.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Light.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Renderer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\RenderSettings.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\MeshRenderer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\RenderEvent.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Scene.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Graphics\Material.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Random\Random.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Resources\Resources.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Resources\ResourcesDefault.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Time\Time.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Window\Cursor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Window\Input.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Window\Screen.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Buffer\Buffer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Command\Bleed.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Command\Cull.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Command\ZTest.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Core\GL.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Mesh\Mesh.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Mesh\MeshImport.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Shader\Shader.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Shader\ShaderImport.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\Texture.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\Texture2D.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\TextureCube.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\TextureFormat.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\TextureImport.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\GUI\GUI.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Phys\Phys.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\Serialization.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryExporter2.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryImporter2.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonExporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Window\Window.cpp" />
+    <ClCompile Include="..\..\Core\include\ImGuizmo\GraphEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="..\..\Core\include\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="..\..\Core\include\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\..\Core\include\ImGuizmo\ImSequencer.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\Core\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="HelloWorld.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Core\include\BDXKEditor\BDXKEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\ConsoleWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\Core\EditorWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\GameWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\HierarchyWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\InspectorWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\ProfilerWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\ProjectWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\SceneWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\ComponentEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\Core\Editor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\Core\GUITransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\GameObjectEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\MaterialEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Function\Assets.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Function\Debug.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\Core\Importer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\MeshImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\ObjectImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\ShaderImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\Texture2DImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Color.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Rect.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Math.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix4x4.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Quaternion\Quaternion.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector2.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector3.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\String\String.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Core\Object.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectPtr.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectPtrBase.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectPtrTransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Core\ObjectTransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Guid\Guid.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Serializer\ObjectGuid.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Object\Serializer\ObjectSerializer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflection.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflective.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Transferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Type.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryExporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\IOTransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\Serializer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\BDXKEngine.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Behavior\Animator.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Behavior\BehaviorEvent.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Behavior\Core\Behavior.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Core\Component.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Core\GameObject.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Core\ScriptableObject.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Core\Singleton.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collision\BoxCollider.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collision\Collider.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collision\SphereCollider.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Material\PhysicMaterial.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\PhysicsEvent.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Rigidbody\Rigidbody.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Camera.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Light.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Renderer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\RenderSettings.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\MeshRenderer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\RenderEvent.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Scene.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Graphics\Graphics.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Graphics\Material.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Random\Random.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Resources\Resources.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Resources\ResourcesDefault.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Time\Time.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Window\Cursor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Window\Input.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Window\Screen.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Buffer\Buffer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Command\Blend.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Command\Cull.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Command\ZTest.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Core\GL.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Core\GLLayout.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Mesh\Mesh.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Mesh\MeshImport.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Shader\Shader.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Shader\ShaderImport.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\Texture.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\Texture2D.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\TextureCube.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\TextureFormat.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GL\Texture\TextureImport.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\GUI\GUI.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Phys\Phys.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\Serialization.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryExporter2.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryImporter2.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonExporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Window\Window.h" />
+    <ClInclude Include="..\..\Core\include\ImGuizmo\GraphEditor.h" />
+    <ClInclude Include="..\..\Core\include\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="..\..\Core\include\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="..\..\Core\include\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="..\..\Core\include\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="..\..\Core\include\ImGuizmo\ImZoomSlider.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imconfig.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imgui.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\Core\include\imgui\imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\Core\include\BDXKEngine\Base\Data\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\Object\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\Reflection\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\Serializer\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Framework\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Function\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Platform\GL\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Platform\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Platform\Serialization\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\ReadMe.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

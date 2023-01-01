@@ -1,0 +1,12 @@
+- 直接将该文件夹(include)添加到附加包含目录
+- 需要单独添加进附加包含目录的
+    - PhysX5
+- 需要额外编译源文件的
+    - BDXKEngine
+    - BDXKEditor
+    - imgui
+    - ImGuizmo
+- 需要用VS单独下载的
+    - Windows SDK
+    - ATL
+- obsolete内是无效头文件，不要使用
