@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include <regex>
+#include "BDXKEngine/Base/Object/Pointer/ObjectPtr.h"
 #include "BDXKEngine/Base/Reflection/Transferer.h"
-#include "Object.h"
 
 namespace BDXKEngine
 {
+    //使用该传送器传输数据时能自动识别出所有ObjectPtr类型，并将其以ObjectPtrBase类型回调
     template <typename TTransferer>
     class ObjectTransferer : public TTransferer
     {

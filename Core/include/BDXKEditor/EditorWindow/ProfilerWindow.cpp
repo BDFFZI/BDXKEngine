@@ -10,8 +10,7 @@ namespace BDXKEditor
     {
         this->clickObjectEvent = clickObjectEvent;
     }
-
-    void ProfilerWindow::OnGUI()
+    void ProfilerWindow::DrawObjects() const
     {
         if (ImGui::Button("Clear"))
         {
@@ -99,5 +98,61 @@ namespace BDXKEditor
         }
 
         ImGui::EndChild();
+    }
+    void ProfilerWindow::DrawGuids() const
+    {
+        if (ImGui::BeginTable("Title", 3))
+        {
+            ImGui::TableNextColumn();
+            ImGui::TableHeader("Guid");
+            ImGui::TableNextColumn();
+            ImGui::TableHeader("InstanceID");
+            ImGui::TableNextColumn();
+            ImGui::TableHeader("IsMainGuid");
+
+            ImGui::EndTable();
+        }
+
+        if (ImGui::BeginTable("Content", 3))
+        {
+            for (auto& [guid,instanceID] : ObjectGuid::GetAllGuids())
+            {
+                if (FindObjectOfInstanceID(instanceID) == nullptr)continue;
+
+                ImGui::TableNextColumn();
+                ImGui::Text(guid.c_str());
+
+                ImGui::TableNextColumn();
+                if (ImGui::Button(std::to_string(instanceID).c_str()))
+                    if (clickObjectEvent != nullptr)
+                        clickObjectEvent(FindObjectOfInstanceID(instanceID));
+
+                ImGui::TableNextColumn();
+                bool isMain = ObjectGuid::IsMainGuid(guid);
+                ImGui::Checkbox("##", &isMain);
+
+                ImGui::TableNextRow();
+            }
+
+            ImGui::EndTable();
+        }
+    }
+
+    void ProfilerWindow::OnGUI()
+    {
+        if (ImGui::BeginTabBar("Target"))
+        {
+            if (ImGui::BeginTabItem("Objects"))
+            {
+                DrawObjects();
+                ImGui::EndTabItem();
+            }
+            if (ImGui::BeginTabItem("Guids"))
+            {
+                DrawGuids();
+                ImGui::EndTabItem();
+            }
+            ImGui::EndTabBar();
+        }
     }
 }

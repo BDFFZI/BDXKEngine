@@ -2,12 +2,12 @@
 
 namespace BDXKEngine
 {
-    void ObjectSerializerBase::AddFindSerializationFallback(const std::function<Reflective*(const Guid& guid)>& fallback)
+    void ObjectSerializerBase::AddDeserializeFallback(const std::function<ObjectPtrBase(const Guid& guid)>& fallback)
     {
-        findSerializationFallback.push_back(fallback);
+        deserializeFallback.push_back(fallback);
     }
-    const std::vector<std::function<Reflective*(const Guid& guid)>>& ObjectSerializerBase::GetFindSerializationFallback()
+    const std::vector<std::function<ObjectPtrBase(const Guid& guid)>>& ObjectSerializerBase::GetDeserializeFallback()
     {
-        return findSerializationFallback;
+        return deserializeFallback;
     }
 }

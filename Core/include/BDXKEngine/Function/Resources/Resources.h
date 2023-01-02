@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/ObjectPtr.h"
-#include "BDXKEngine/Base/Object/Core/ObjectPtrBase.h"
+#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Base/Object/Serializer/ObjectSerializer.h"
 
 namespace BDXKEngine
@@ -18,7 +18,7 @@ namespace BDXKEngine
 
         static bool IsExisting(const std::string& path);
 
-        static Reflective* FindSerializationFallback(const Guid& guid);
+        static ObjectPtrBase FindSerializationFallback(const Guid& guid);
     private:
         static void StaticConstructor();
         CustomStaticConstructor(StaticConstructor)

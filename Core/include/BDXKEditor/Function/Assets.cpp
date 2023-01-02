@@ -30,13 +30,17 @@ namespace BDXKEditor
 
         pathToGuid[path] = guid;
         guidToPath[guid] = path;
-        Resources::Save(guid, object);
+        Resources::Save(guid, object); //便于下次直接用缓存文件加载
         return object;
     }
     void Assets::Save(const std::string& path, const ObjectPtrBase& objectPtr)
     {
         auto serializer = Serialization::CreateJsonSerializer();
-        return Serialization::Save(rootDirectory + path, objectPtr, serializer);
+        Serialization::Save(rootDirectory + path, objectPtr, serializer);
+
+        //更新缓存文件
+        if (pathToGuid.contains(path))
+            Resources::Save(pathToGuid[path], objectPtr);
     }
     bool Assets::IsExisting(const std::string& path)
     {
@@ -89,8 +93,8 @@ namespace BDXKEditor
     {
         if (std::filesystem::exists("Assets") == false)
             std::filesystem::create_directory("Assets");
-        
-        ObjectSerializerBase::AddFindSerializationFallback([](const Guid& guid)
+
+        ObjectSerializerBase::AddDeserializeFallback([](const Guid& guid)
         {
             if (guidToPath.contains(guid))
             {
@@ -102,7 +106,7 @@ namespace BDXKEditor
                 }
             }
 
-            return static_cast<Reflective*>(nullptr);
+            return ObjectPtrBase{};
         });
     }
 }

@@ -2,9 +2,7 @@
 #include <map>
 #include <ranges>
 #include <vector>
-#include "BDXKEngine/Base/Serializer/Core/Serializer.h"
-#include "ObjectPtr.h"
-
+#include "Pointer/ObjectPtr.h"
 
 namespace BDXKEngine
 {
@@ -38,15 +36,8 @@ namespace BDXKEngine
         Object();
         ~Object() override;
 
-        //转换，将object从原生状态转为实例状态
+        //转换，将object从原生状态转为实例状态，使用序列化功能创建的物体默认都是原生状态
         static void Instantiate(ObjectPtrBase& objectPtr);
-        //克隆
-        static ObjectPtrBase Clone(const ObjectPtrBase& objectPtr, Serializer& serializer, bool instantiate = true);
-        template <typename TObject>
-        static ObjectPtr<TObject> Clone(const ObjectPtr<TObject>& objectPtr, Serializer& serializer, bool instantiate = true)
-        {
-            return Clone(static_cast<ObjectPtrBase>(objectPtr), serializer, instantiate).template ToObject<TObject>();
-        }
         //销毁
         static void DestroyImmediate(const ObjectPtrBase& object);
         //搜索

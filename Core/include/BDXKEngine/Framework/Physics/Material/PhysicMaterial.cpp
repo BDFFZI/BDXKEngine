@@ -6,7 +6,7 @@ namespace BDXKEngine
     {
         return *material;
     }
-    
+
     float PhysicMaterial::GetDynamicFriction() const
     {
         return dynamicFriction;
@@ -48,7 +48,7 @@ namespace BDXKEngine
     {
         Object::Awake();
 
-        material = Phys::GetPhysics().createMaterial(staticFriction, dynamicFriction, bounciness);
+        material = Phys::GetPhysics().createMaterial(staticFriction, dynamicFriction, bounciness + 1);
     }
     void PhysicMaterial::Destroy()
     {

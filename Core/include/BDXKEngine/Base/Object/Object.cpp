@@ -1,7 +1,7 @@
 ﻿#include "Object.h"
 #include <iostream>
 #include <sstream>
-#include "ObjectPtrTransferer.h"
+#include "Transferer/ObjectPtrTransferer.h"
 
 namespace BDXKEngine
 {
@@ -12,6 +12,10 @@ namespace BDXKEngine
     void Object::ReplaceObject(ObjectPtrBase& source, int targetInstanceID)
     {
         Object* object = source.ToObjectBase();
+        if (object == nullptr)
+            throw std::exception("替换物体不存在");
+        if (object->GetInstanceID() == targetInstanceID)
+            throw std::exception("新旧ID相同");
 
         DestroyImmediate(FindObjectOfInstanceID(targetInstanceID));
         allObjects[targetInstanceID] = object;
@@ -73,16 +77,7 @@ namespace BDXKEngine
             if (referenceObject != nullptr)referenceObject->PostAwake();
         }
     }
-    ObjectPtrBase Object::Clone(const ObjectPtrBase& objectPtr, Serializer& serializer, bool instantiate)
-    {
-        if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
 
-        //克隆并注册
-        ObjectPtrBase instance = dynamic_cast<Object*>(serializer.Clone(objectPtr.ToObjectBase()));
-        instance->name = instance->name;
-        if (instantiate)Instantiate(instance);
-        return instance;
-    }
     void Object::DestroyImmediate(const ObjectPtrBase& objectPtr)
     {
         Object* object = objectPtr.ToObjectBase();

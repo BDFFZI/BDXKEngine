@@ -8,11 +8,9 @@ namespace BDXKEngine
     {
     public:
         Serializer(IOTransferer& importer, IOTransferer& exporter);
-
-        virtual ~Serializer() = default;
-        virtual std::string Serialize(Reflective* input);
-        virtual Reflective* Deserialize(std::string input);
-        virtual Reflective* Clone(Reflective* input);
+        std::string Serialize(Reflective* input) const;
+        Reflective* Deserialize(std::string input) const;
+        Reflective* Clone(Reflective* input) const;
     private:
         IOTransferer& importer;
         IOTransferer& exporter;

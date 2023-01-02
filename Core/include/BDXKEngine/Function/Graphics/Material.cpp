@@ -14,12 +14,6 @@ namespace BDXKEngine
             material->passZTests.emplace_back(ZTest::Default);
             material->passCulls.emplace_back(Cull::Default);
         }
-        const ObjectPtr<Texture2D> defaultTex = Texture2D::Create(Color::white);
-        material->texture2D0 = defaultTex;
-        material->texture2D1 = defaultTex;
-        material->texture2D2 = defaultTex;
-        material->texture2D3 = defaultTex;
-
         Instantiate(material);
         return material;
     }

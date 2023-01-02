@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Platform/Phys/Phys.h"
 
 namespace BDXKEngine
@@ -8,7 +8,7 @@ namespace BDXKEngine
     {
     public:
         physx::PxMaterial& GetPxMaterial() const;
-        
+
         float GetDynamicFriction() const;
         float GetStaticFriction() const;
         float GetBounciness() const;
@@ -25,4 +25,6 @@ namespace BDXKEngine
         void Awake() override;
         void Destroy() override;
     };
+
+    CustomReflection(PhysicMaterial)
 }

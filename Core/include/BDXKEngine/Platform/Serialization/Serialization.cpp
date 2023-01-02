@@ -33,21 +33,26 @@ namespace BDXKEngine
     ObjectPtrBase Serialization::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
     {
         auto binarySerializer = CreateBinarySerializer();
-        return Object::Clone(objectPtr, binarySerializer, instantiate);
+
+        if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
+
+        //克隆并注册
+        ObjectPtrBase instance = binarySerializer.Clone(objectPtr.ToObjectBase());
+        if (instantiate)Object::Instantiate(instance);
+        return instance;
     }
-    ObjectPtrBase Serialization::Load(const std::string& path, Serializer& serializer, bool instantiate)
+    ObjectPtrBase Serialization::Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate)
     {
-        ObjectPtrBase object = dynamic_cast<Object*>(serializer.Deserialize(ReadFile(path)));
+        ObjectPtrBase object = serializer.Deserialize(ReadFile(path));
         if (instantiate)Object::Instantiate(object);
-       Object* a = object.ToObjectBase();
-        return a;
+        return object;
     }
-    void Serialization::Save(const std::string& path, const ObjectPtrBase& objectPtr, Serializer& serializer)
+    void Serialization::Save(const std::string& path, const ObjectPtrBase& objectPtr, ObjectSerializerBase& serializer)
     {
         if (std::filesystem::exists(path.substr(0, path.rfind('/'))) == false)
             throw std::exception("目录不存在");
 
-        const std::string data = serializer.Serialize(objectPtr.ToObjectBase());
+        const std::string data = serializer.Serialize(objectPtr);
 
         //保存文件位置
         // const std::string guid = guidStream[0];

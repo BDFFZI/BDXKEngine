@@ -1,6 +1,6 @@
 ﻿#include "PhysicsEvent.h"
 
-#include "BDXKEngine/Base/Object/Core/ObjectPtr.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Core/ScriptableObject.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Phys/Phys.h"

@@ -1,4 +1,5 @@
 ﻿#include "ObjectPtrTransferer.h"
+#include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEngine
 {

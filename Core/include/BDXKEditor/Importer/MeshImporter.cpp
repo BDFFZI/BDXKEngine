@@ -3,7 +3,7 @@
 
 namespace BDXKEditor
 {
-    ObjectPtrBase MeshImporter::ImportObject(std::string filePath)
+    ObjectPtrBase MeshImporter::ImportAsset(std::string filePath)
     {
         return static_cast<ObjectPtrBase>(MeshImport::Glb(filePath));
     }

@@ -1,8 +1,7 @@
 ﻿#include "ObjectPtrBase.h"
 #include <iostream>
 #include <sstream>
-#include "Object.h"
-
+#include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEngine
 {

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/ObjectPtr.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Platform/Window/Window.h"
 #include "Core/Camera.h"
 

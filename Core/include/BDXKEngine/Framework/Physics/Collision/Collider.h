@@ -6,7 +6,7 @@
 
 namespace BDXKEngine
 {
-    class Collider : public Behavior, public EnableHandler, public DisableHandler
+    class Collider : public Behavior, public AwakeHandler, public DestroyHandler, public EnableHandler, public DisableHandler
     {
     protected:
         virtual physx::PxGeometry& GetPxGeometry() =0;
@@ -19,8 +19,8 @@ namespace BDXKEngine
 
         void OnEnable() override;
         void OnDisable() override;
-        
+        void OnAwake() override;
+        void OnDestroy() override;
         void Awake() override;
-        void Destroy() override;
     };
 }

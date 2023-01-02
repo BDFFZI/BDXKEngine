@@ -1,7 +1,8 @@
 ﻿// ReSharper disable CppClangTidyClangDiagnosticFormatSecurity
 #include "GUITransferer.h"
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
+#include "BDXKEngine/Platform/GUI/GUI.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -99,27 +100,23 @@ namespace BDXKEditor
         }
 
         //拖拽
-        if (ImGui::BeginDragDropSource())
+        GUI::DragDropSource(value);
+        if (ObjectPtrBase dropping; GUI::DragDropTarget(dropping))
         {
-            ImGui::SetDragDropPayload("Dragging", &value, sizeof(ObjectPtrBase));
-            ImGui::EndDragDropSource();
-        }
-        if (ImGui::BeginDragDropTarget())
-        {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
+            const Reflection& droppingReflection = Reflection::GetReflection(dropping.GetObjectType());
+            if (droppingReflection.CanConvertTo(value.GetObjectType()))
+                value = dropping;
+            else if (const ObjectPtr gameObject = dropping.ToObject<GameObject>(); gameObject.IsNotNull())
             {
-                const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
-                const Reflection& droppingReflection = Reflection::GetReflection(dropping.GetObjectType());
-                if (droppingReflection.CanConvertTo(value.GetObjectType()))
-                    value = dropping;
-                else if (const ObjectPtr gameObject = dropping.ToObject<GameObject>(); gameObject.IsNotNull())
-                {
-                    const auto component = gameObject->GetComponent(value.GetObjectType());
-                    if (component.IsNotNull()) value = static_cast<ObjectPtrBase>(component);
-                }
+                const auto component = gameObject->GetComponent(value.GetObjectType());
+                if (component.IsNotNull()) value = static_cast<ObjectPtrBase>(component);
             }
-            ImGui::EndDragDropTarget();
         }
+
+        //清空
+        ImGui::SameLine();
+        if (ImGui::Button(GetFieldID("X").c_str()))
+            value = nullptr;
 
         ImGui::SameLine();
         ImGui::Text(GetFieldName().c_str());

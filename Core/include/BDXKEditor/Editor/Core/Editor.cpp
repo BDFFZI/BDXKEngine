@@ -1,6 +1,6 @@
 ﻿#include "Editor.h"
 
-#include "BDXKEngine/Base/Object/Core/ObjectTransferer.h"
+#include "BDXKEngine/Base/Object/Transferer/ObjectTransferer.h"
 
 namespace BDXKEditor
 {

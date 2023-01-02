@@ -5,7 +5,7 @@ namespace BDXKEditor
 {
     class MeshImporter : public Importer
     {
-        ObjectPtrBase ImportObject(std::string filePath) override;
+        ObjectPtrBase ImportAsset(std::string filePath) override;
     };
 
     CustomReflection(MeshImporter)

@@ -19,7 +19,8 @@ namespace BDXKEditor
     {
         ImGui::Begin(
             GetName().c_str(),
-            nullptr, HasMenu() ? ImGuiWindowFlags_MenuBar : 0
+            nullptr,
+            HasMenu() ? ImGuiWindowFlags_MenuBar : 0
         );
 
         OnGUI();

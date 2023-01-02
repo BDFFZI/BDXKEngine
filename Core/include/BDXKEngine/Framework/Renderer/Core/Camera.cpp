@@ -150,7 +150,7 @@ namespace BDXKEngine
         {
             //获取该物体的渲染管线资源
             const ObjectPtr<Mesh> mesh = renderer->GetMesh(); //获取网格
-            const ObjectPtr<Material> material = renderer->GetMaterial(); //获取材质
+            const ObjectPtr<Material> material = renderer->GetMaterialFallback(); //获取材质
 
             //每个灯光都需要单独渲染一遍,每一次光照都是一次物体的一次Pass
             const int lightCount = static_cast<int>(lightQueue.size());

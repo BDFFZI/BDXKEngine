@@ -1,5 +1,4 @@
 ﻿#include "Importer.h"
-
 #include "BDXKEngine/Base/Object/Serializer/ObjectGuid.h"
 
 namespace BDXKEditor
@@ -28,13 +27,15 @@ namespace BDXKEditor
     ObjectPtrBase Importer::Import(const std::string& filePath)
     {
         //导入物体
-        ObjectPtrBase object = ImportObject(filePath);
-        object->SetName(ParseFileName(filePath));
-        //检查是否为重新导入
-        if (const int lastInstance = ObjectGuid::GetInstanceID(guid); lastInstance != 0)
-            ReplaceObject(object, lastInstance);
-        //设置Guid关联信息
-        ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
+        ObjectPtrBase object = ImportAsset(filePath);
+        //检查是否为重新导入(以导入器中的Guid为准，因为有些资源自身不带Guid)
+        if (ObjectGuid::GetInstanceID(guid) != object.GetInstanceID()) //资源自带Guid时序列化器会自动处理，所以不需要再次处理
+        {
+            if (ObjectGuid::GetInstanceID(guid) == 0)
+                ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
+            else
+                ReplaceObject(object, ObjectGuid::GetInstanceID(guid));
+        }
 
         return object;
     }

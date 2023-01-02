@@ -105,7 +105,7 @@ namespace BDXKEngine
                     if (renderer->GetCastShadows() == false)
                         continue;
 
-                    if (renderer->GetMaterial()->UploadRP(PassType::ShadowCaster))
+                    if (renderer->GetMaterialFallback()->UploadRP(PassType::ShadowCaster))
                         Graphics::DrawMesh(renderer->GetMesh());
                 }
             }
@@ -121,7 +121,7 @@ namespace BDXKEngine
                 if (renderer->GetCastShadows() == false)
                     continue;
 
-                if (renderer->GetMaterial()->UploadRP(PassType::ShadowCaster))
+                if (renderer->GetMaterialFallback()->UploadRP(PassType::ShadowCaster))
                     Graphics::DrawMesh(renderer->GetMesh());
             }
         }

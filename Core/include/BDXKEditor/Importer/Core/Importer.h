@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/Object.h"
-#include "BDXKEngine/Base/Object/Guid/Guid.h"
+#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Data/Guid/Guid.h"
 
 namespace BDXKEditor
 {
@@ -18,7 +18,7 @@ namespace BDXKEditor
 
         ObjectPtrBase Import(const std::string& filePath);
     protected:
-        virtual ObjectPtrBase ImportObject(std::string filePath) = 0;
+        virtual ObjectPtrBase ImportAsset(std::string filePath) = 0;
     private:
         inline static std::unordered_map<std::string, Type> assetsImporter = {};
 

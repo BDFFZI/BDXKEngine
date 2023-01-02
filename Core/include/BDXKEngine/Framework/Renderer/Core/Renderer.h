@@ -9,7 +9,8 @@ namespace BDXKEngine
     {
     public:
         static const std::vector<Renderer*>& GetRendererQueue();
-
+        const ObjectPtr<Material>& GetMaterialFallback() const;
+        
         const ObjectPtr<Material>& GetMaterial() const;
         virtual const ObjectPtr<Mesh>& GetMesh() const = 0;
         bool GetCastShadows() const;

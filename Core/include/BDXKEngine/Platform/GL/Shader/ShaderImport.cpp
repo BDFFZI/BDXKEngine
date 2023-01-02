@@ -1,11 +1,16 @@
 ﻿#include "ShaderImport.h"
 #include <d3dcompiler.h>
+#include <filesystem>
+
 #include "BDXKEngine/Base/Data/String/String.h"
 
 namespace BDXKEngine
 {
     void CompileShaderFromFile(const std::string& path, const char* entrypoint, const char* target, ID3DBlob** blob)
     {
+        if (std::filesystem::exists(path) == false)
+            throw std::exception("文件不存在");
+
         CComPtr<ID3DBlob> compileError;
         const HRESULT result = D3DCompileFromFile(String::to_wstring(path).c_str(),
                                                   nullptr,

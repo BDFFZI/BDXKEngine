@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "BDXKEditor/Editor/Core/Editor.h"
-#include "BDXKEngine/Base/Object/Core/ObjectTransferer.h"
+#include "BDXKEngine/Base/Object/Transferer/ObjectTransferer.h"
 #include "Core/EditorWindow.h"
 
 namespace BDXKEditor

@@ -10,14 +10,11 @@ namespace BDXKEngine
 {
     ObjectPtr<GameObject> PresetGameObject::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
     {
-        //创建材质球
-        const ObjectPtr<Material> material = Serialization::Clone(ResourcesDefault::GetStandardMaterial());
-        material->SetTexture2D(0, Texture2D::Create(color));
         //创建物体
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
         const ObjectPtr<MeshRenderer> meshRenderer = Component::Create<MeshRenderer>(gameObject);
         meshRenderer->SetMesh(mesh);
-        meshRenderer->SetMaterial(material);
+        meshRenderer->SetMaterial(ResourcesDefault::GetStandardMaterial());
 
         return gameObject;
     }

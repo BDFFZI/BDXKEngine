@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include <string>
 #include "BDXKEditor/Importer/Core/Importer.h"
-#include "BDXKEngine/Base/Object/Core/ObjectPtr.h"
-#include "BDXKEngine/Base/Object/Core/ObjectPtrBase.h"
+#include "BDXKEngine/Base/Object/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEditor
 {

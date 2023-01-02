@@ -10,7 +10,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace BDXKEngine
 {
-    bool GUI::BeginDragDrop(const ObjectPtrBase& value)
+    bool GUI::DragDropSource(const ObjectPtrBase& value)
     {
         if (ImGui::BeginDragDropSource())
         {
@@ -21,7 +21,7 @@ namespace BDXKEngine
 
         return false;
     }
-    bool GUI::EndDragDrop(ObjectPtrBase& value)
+    bool GUI::DragDropTarget(ObjectPtrBase& value)
     {
         if (ImGui::BeginDragDropTarget())
         {
@@ -47,6 +47,20 @@ namespace BDXKEngine
     bool GUI::IsDockTabVisible()
     {
         return ImGui::GetCurrentWindow()->DockTabIsVisible;
+    }
+    void GUI::Dropdown(const std::string& name, const std::function<void()>& onGui)
+    {
+        static bool dropdownOpening = false;
+        
+        if (ImGui::Button(name.c_str(), {ImGui::GetContentRegionAvail().x, 0}))dropdownOpening = true;
+        if (dropdownOpening && ImGui::BeginListBox(("##" + name).c_str(), {ImGui::GetContentRegionAvail().x, ImGui::GetWindowHeight() / 3}))
+        {
+            onGui();
+
+            ImGui::EndListBox();
+            if (ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) == false)
+                dropdownOpening = false;
+        }
     }
 
     void GUI::Initialize(Window* window)

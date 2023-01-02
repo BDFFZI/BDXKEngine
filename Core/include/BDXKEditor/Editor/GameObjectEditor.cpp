@@ -1,6 +1,6 @@
 ﻿#include "GameObjectEditor.h"
 
-#include "BDXKEngine/Base/Object/Core/ObjectTransferer.h"
+#include "BDXKEngine/Base/Object/Transferer/ObjectTransferer.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
 #include "BDXKEngine/Framework/Core/Component.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
@@ -40,7 +40,7 @@ namespace BDXKEditor
 
         //组件
         {
-            auto& components = reflection.GetFieldOf<std::vector<ObjectPtr<Component>>>(target, "components");
+            const auto& components = reflection.GetFieldOf<std::vector<ObjectPtr<Component>>>(target, "components");
             const int count = static_cast<int>(components.size());
             for (int index = 0; index < count; index++)
             {
@@ -76,31 +76,20 @@ namespace BDXKEditor
         }
 
         //添加组件
+        GUI::Dropdown("AddComponent", [&]
         {
-            if (ImGui::Button("AddComponent", {ImGui::GetContentRegionAvail().x, 0}))addComponenting = true;
-            if (addComponenting)
+            const int count = Reflection::GetReflections(
+                componentReflections,
+                [](const Reflection& reflection) { return reflection.CanConvertTo<Component>(); }
+            );
+
+            for (int i = 0; i < count; i++)
             {
-                ImGui::BeginListBox("##AddComponent", {ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y});
-
-                const int count = Reflection::GetReflections(
-                    componentReflections,
-                    [](const Reflection& reflection) { return reflection.CanConvertTo<Component>(); }
-                );
-
-                for (int i = 0; i < count; i++)
+                if (ImGui::Button(componentReflections[i]->GetType().c_str()))
                 {
-                    if (ImGui::Button(componentReflections[i]->GetType().c_str()))
-                    {
-                        Component::Create(target, componentReflections[i]->GetType());
-                        ImGui::EndListBox();
-                        return;
-                    }
+                    Component::Create(target, componentReflections[i]->GetType());
                 }
-
-                ImGui::EndListBox();
-                if (ImGui::IsWindowHovered(ImGuiHoveredFlags_RootAndChildWindows | ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) == false)
-                    addComponenting = false;
             }
-        }
+        });
     }
 }

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <unordered_set>
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 
 namespace BDXKEngine

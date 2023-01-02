@@ -8,7 +8,7 @@ namespace BDXKEngine
         importer(importer), exporter(exporter)
     {
     }
-    std::string Serializer::Serialize(Reflective* input)
+    std::string Serializer::Serialize(Reflective* input) const
     {
         //获取数据
         std::string result;
@@ -17,7 +17,7 @@ namespace BDXKEngine
 
         return result;
     }
-    Reflective* Serializer::Deserialize(std::string input)
+    Reflective* Serializer::Deserialize(std::string input) const
     {
         //解析类型信息
         importer.Reset(input);
@@ -32,7 +32,7 @@ namespace BDXKEngine
 
         return result;
     }
-    Reflective* Serializer::Clone(Reflective* input)
+    Reflective* Serializer::Clone(Reflective* input) const
     {
         //导出数据
         input->Transfer(exporter);

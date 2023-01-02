@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Core/Object.h"
+#include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEngine
 {
@@ -20,7 +20,8 @@ namespace BDXKEngine
         {
             Object::Awake();
 
-            if (singleton.IsNotNull()) DestroyImmediate(singleton);
+            if (singleton.IsNotNull() && singleton.GetInstanceID() != GetInstanceID())
+                DestroyImmediate(singleton);
             singleton = dynamic_cast<TSingleton*>(this);
         }
     };

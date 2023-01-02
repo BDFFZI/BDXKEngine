@@ -23,7 +23,7 @@ namespace BDXKEngine
         return Serialization::IsExisting("Resources/" + path);
     }
 
-    Reflective* Resources::FindSerializationFallback(const Guid& guid)
+    ObjectPtrBase Resources::FindSerializationFallback(const Guid& guid)
     {
         if (IsExisting(guid))
             return Serialization::CreateBinarySerializer().Deserialize(ReadFile("Resources/" + guid));
@@ -35,6 +35,6 @@ namespace BDXKEngine
         if (std::filesystem::exists("Resources") == false)
             std::filesystem::create_directory("Resources");
 
-        ObjectSerializerBase::AddFindSerializationFallback(FindSerializationFallback);
+        ObjectSerializerBase::AddDeserializeFallback(FindSerializationFallback);
     }
 }

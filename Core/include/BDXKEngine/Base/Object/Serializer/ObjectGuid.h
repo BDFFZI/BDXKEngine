@@ -1,16 +1,20 @@
 ﻿#pragma once
 #include <unordered_map>
 #include <unordered_set>
-#include "BDXKEngine/Base/Object/Guid/Guid.h"
+#include "BDXKEngine/Base/Data/Guid/Guid.h"
 
 namespace BDXKEngine
 {
     class ObjectGuid
     {
     public:
-        static int GetInstanceID(const Guid& guid);
+        static std::unordered_map<Guid, int>& GetAllGuids();
+
         static Guid GetOrSetGuid(int instanceID);
-        static void SetInstanceID(const Guid& guid, int instanceID);
+
+        static int GetInstanceID(const Guid& guid); //当检索到的instance已不存在时也会返回0
+        static void SetInstanceID(const Guid& guid, int instanceID); //当guid未绑定或旧的绑定instance已不存在时可用
+
         static bool HasGuid(int instanceID);
         static void RemoveGuid(int instanceID);
 

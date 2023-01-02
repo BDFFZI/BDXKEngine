@@ -29,12 +29,17 @@ namespace BDXKEditor
         return false;
     }
 
-    bool FileMenu(const std::string& path)
+    bool FileMenu(const std::string& assetPath)
     {
-        const std::string fileName = ParseFileName(path);
         if (ImGui::Button("ReImport"))
         {
-            Assets::Load(path.substr(Assets::GetRootPath().size() + 1), true);
+            Assets::Load(assetPath, true);
+            return true;
+        }
+        if (ImGui::Button("Save & ReImport"))
+        {
+            Assets::Save(assetPath, Assets::Load(assetPath));
+            Assets::Load(assetPath, true);
             return true;
         }
 
@@ -79,24 +84,23 @@ namespace BDXKEditor
                     ShowDirectory(child);
                 else if (child.path().extension() != ".importer")
                 {
-                    std::string filePath = child.path().string();
-                    ImGui::PushID(filePath.c_str());
-                    if (ImGui::Button(ParseFileName(child.path().string()).c_str()))
+                    const std::string filePath = child.path().string();
+                    const std::string assetPath = filePath.substr(Assets::GetRootPath().size() + 1);
+                    ImGui::PushID(assetPath.c_str());
+                    if (ImGui::Button(ParseFileName(child.path().string()).c_str())) //查看资源属性
                     {
-                        const std::string itemPath = filePath.substr(Assets::GetRootPath().size() + 1);
-                        selectedItemObject = Assets::Load(itemPath);
+                        selectedItemObject = Assets::Load(assetPath);
                         if (clickObjectEvent != nullptr)clickObjectEvent(selectedItemObject);
                     }
-                    if (GUI::BeginDragDrop(selectedItemObject))
+                    if (GUI::DragDropSource(selectedItemObject)) //拖拽资源
                     {
-                        const std::string itemPath = filePath.substr(Assets::GetRootPath().size() + 1);
-                        selectedItemObject = Assets::Load(itemPath);
+                        selectedItemObject = Assets::Load(assetPath);
                     }
                     //文件菜单
                     if (contextMenu == false && ImGui::BeginPopupContextItem("##FileMenu"))
                     {
                         contextMenu = true;
-                        if (FileMenu(filePath))
+                        if (FileMenu(assetPath))
                             ImGui::CloseCurrentPopup();
                         ImGui::EndPopup();
                     }
@@ -112,23 +116,5 @@ namespace BDXKEditor
     {
         contextMenu = false;
         ShowDirectory(std::filesystem::directory_entry(Assets::GetRootPath()));
-
-        // if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-        // {
-        //     leftMenu = 10;
-        //     ImGui::SetNextWindowPos(Vector2{ImGui::GetMousePos()} - Vector2{100, 100});
-        //     ImGui::SetNextWindowSize({1000, 1000});
-        // }
-        //
-        // if (leftMenu != 0)
-        // {
-        //     ImGui::Begin("##CreateAssetMenu", nullptr, ImGuiWindowFlags_NoTitleBar);
-        //     ImGui::End();
-        //
-        //     if (leftMenu > 1)
-        //         leftMenu--;
-        //     else if (ImGui::IsWindowHovered() == false)
-        //         leftMenu = 0;
-        // }
     }
 }

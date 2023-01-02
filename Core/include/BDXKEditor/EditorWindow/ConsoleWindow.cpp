@@ -19,6 +19,11 @@ namespace BDXKEditor
 
     void ConsoleWindow::OnGUI()
     {
+        if (ImGui::Button("Clear"))
+            logs.clear();
+
+        ImGui::BeginChild("##");
+
         if (Equal(ImGui::GetScrollY(), lastScrollMaxY))
             ImGui::SetScrollY(ImGui::GetScrollMaxY());
         lastScrollMaxY = ImGui::GetScrollMaxY();
@@ -36,6 +41,8 @@ namespace BDXKEditor
             ImGui::Text(item.c_str());
         if (logs.size() > 1000)
             logs.erase(logs.begin(), logs.begin() + static_cast<std::ptrdiff_t>(logs.size() - 1000));
+
+        ImGui::EndChild();
     }
 
     void ConsoleWindow::OnAwake()

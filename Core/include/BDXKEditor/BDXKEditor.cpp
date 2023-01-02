@@ -3,10 +3,12 @@
 #include "BDXKEngine/BDXKEngine.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
-#include "BDXKEngine/Function/Resources/Resources.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "Function/Assets.h"
+#include "Function/Debug.h"
+#include "Menu/CreateAssetMenu.h"
+#include "Menu/CreateGameObjectMenu.h"
 
 namespace BDXKEditor
 {
@@ -54,27 +56,24 @@ namespace BDXKEditor
         Assets::Save(sceneName, scene);
         Scene::Save(sceneName); //仅提供给运行时用
     }
-    void EditorSystem::DrawGUI()
-    {
-        ImGui::BeginMainMenuBar();
-        if (isRunning == false)
-        {
-            if (ImGui::BeginMenu("Scene"))
-            {
-                if (ImGui::MenuItem("Save"))
-                {
-                    SaveScene(sceneName);
-                }
-                if (ImGui::MenuItem("Load"))
-                {
-                    LoadScene(sceneName);
-                }
 
-                ImGui::EndMenu();
+    void EditorSystem::DrawMainMenuBar()
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Save"))
+            {
+                SaveScene(sceneName);
             }
+            if (ImGui::MenuItem("Load"))
+            {
+                LoadScene(sceneName);
+            }
+
+            ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("Run"))
+        if (ImGui::BeginMenu("Edit"))
         {
             if (isRunning == false && ImGui::MenuItem("Play"))
             {
@@ -97,7 +96,36 @@ namespace BDXKEditor
 
             ImGui::EndMenu();
         }
-        ImGui::EndMainMenuBar();
+
+        if (ImGui::BeginMenu("Assets"))
+        {
+            for (auto& [name,func] : CreateAssetMenu::GetMenuItems())
+            {
+                if (ImGui::MenuItem(name.c_str()))
+                {
+                    ObjectPtrBase asset = func();
+                    std::string assetName = CreateAssetMenu::GetAssetName(name);
+                    Assets::Save(assetName, asset);
+                    Debug::Log("Create Asset " + assetName);
+                }
+            }
+
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("GameObject"))
+        {
+            for (auto& [name,func] : CreateGameObjectMenu::GetMenuItems())
+            {
+                if (ImGui::MenuItem(name.c_str()))
+                {
+                    const ObjectPtr<GameObject> gameObject = func();
+                    Debug::Log("Create GameObject " + gameObject->GetName());
+                }
+            }
+
+            ImGui::EndMenu();
+        }
     }
     void EditorSystem::OnDrawGUI()
     {
@@ -106,10 +134,21 @@ namespace BDXKEditor
         if (isRunning)
         {
             ImGui::PushStyleColor(ImGuiCol_MenuBarBg, Color::darkGreen);
-            DrawGUI();
+            if (ImGui::BeginMainMenuBar())
+            {
+                DrawMainMenuBar();
+                ImGui::EndMainMenuBar();
+            }
             ImGui::PopStyleColor();
         }
-        else DrawGUI();
+        else
+        {
+            if (ImGui::BeginMainMenuBar())
+            {
+                DrawMainMenuBar();
+                ImGui::EndMainMenuBar();
+            }
+        }
     }
     void EditorSystem::OnAwake()
     {

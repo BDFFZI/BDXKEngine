@@ -32,7 +32,7 @@ namespace BDXKEngine
         sceneDesc.filterShader = PxDefaultSimulationFilterShader;
         scene = physics->createScene(sceneDesc);
         //创建默认资源
-        material = physics->createMaterial(0.6f, 0.6f, 0);
+        material = physics->createMaterial(0.6f, 0.6f, 1);
     }
 
     physx::PxPhysics& Phys::GetPhysics()

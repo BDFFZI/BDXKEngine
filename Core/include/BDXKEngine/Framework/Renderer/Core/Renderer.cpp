@@ -1,6 +1,9 @@
 ﻿#include "Renderer.h"
 #include <algorithm>
 
+#include "BDXKEngine/Function/Resources/Resources.h"
+#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
+
 namespace BDXKEngine
 {
     std::vector<Renderer*> Renderer::renderers = {};
@@ -18,15 +21,28 @@ namespace BDXKEngine
             rendererQueue,
             [](const Renderer* a, const Renderer* b)
             {
-                return a->GetMaterial()->GetRenderQueue() < b->GetMaterial()->GetRenderQueue();
+                return a->GetMaterialFallback()->GetRenderQueue() < b->GetMaterialFallback()->GetRenderQueue();
             }
         );
         return rendererQueue;
     }
+    const ObjectPtr<Material>& Renderer::GetMaterialFallback() const
+    {
+        if (material.IsNotNull())
+        {
+            material->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
+            return material;
+        }
+
+        auto& fallbackMaterial = ResourcesDefault::GetFallbackMaterial();
+        fallbackMaterial->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
+        return fallbackMaterial;
+    }
 
     const ObjectPtr<Material>& Renderer::GetMaterial() const
     {
-        material->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
+        if (material.IsNotNull())
+            material->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
         return material;
     }
     bool Renderer::GetCastShadows() const

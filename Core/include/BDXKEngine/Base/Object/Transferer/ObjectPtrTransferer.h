@@ -19,6 +19,7 @@ namespace BDXKEngine
         std::vector<int> references;
     };
 
+    //使用该传送器传送一次ObjectPtr后，将会自动统计其引用的所有其他ObjectPtr，并将该ObjectPtr自身插入到首位
     class ObjectPtrTransferer : public ObjectTransferer<Internal_ObjectPtrTransferer>
     {
     public:

@@ -34,7 +34,7 @@ namespace BDXKEditor
         std::string sceneName;
         bool isRunning = false;
         
-        void DrawGUI();
+        void DrawMainMenuBar();
         void OnDrawGUI() override;
         void OnAwake() override;
     };
