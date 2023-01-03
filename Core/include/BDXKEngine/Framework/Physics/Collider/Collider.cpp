@@ -7,7 +7,6 @@ namespace BDXKEngine
     void Collider::OnEnable()
     {
         shape->setGeometry(GetPxGeometry());
-
         rightbody->GetPxRigidbody().attachShape(*shape);
         rightbody->ResetCenterOfMassAndInertiaTensor();
     }
@@ -19,6 +18,7 @@ namespace BDXKEngine
     void Collider::OnAwake()
     {
         shape = Phys::GetPhysics().createShape(GetPxGeometry(), material.IsNotNull() ? material->GetPxMaterial() : Phys::GetMaterial());
+        shape->userData = this;
     }
     void Collider::OnDestroy()
     {
@@ -39,7 +39,7 @@ namespace BDXKEngine
         if (rightbody == nullptr)
         {
             rightbody = Create<Rigidbody>(GetGameObject());
-            rightbody->SetConstraints(RigidbodyConstraints::FreezeAll);
+            rightbody->SetIsKinematic(true);
         }
     }
 }

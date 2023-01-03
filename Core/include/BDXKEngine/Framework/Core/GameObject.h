@@ -23,18 +23,29 @@ namespace BDXKEngine
         int GetChildCount() const;
         ObjectPtr<GameObject> GetChild(int index);
         ObjectPtr<Component> GetComponent(const Type& type) const;
-        template <typename TComponent>
-        ObjectPtr<TComponent> GetComponent() const
+        template <typename TComponent, class TBack = TComponent>
+        ObjectPtr<TBack> GetComponent() const
         {
             for (const ObjectPtr<Component>& component : components)
             {
-                ObjectPtr<TComponent> target = component.ToObjectPtr<TComponent>();
-                if (target.IsNull() == false)
-                    return target;
+                TComponent* target = component.ToObject<TComponent>();
+                if (target != nullptr)
+                    return dynamic_cast<TBack*>(target);
             }
             return nullptr;
         }
         std::vector<ObjectPtr<Component>> GetComponents() const;
+        template <typename TComponent, class TBack = TComponent>
+        std::vector<ObjectPtr<TBack>> GetComponents() const
+        {
+            std::vector<ObjectPtr<TBack>> back = {};
+            for (const ObjectPtr<Component>& component : components)
+            {
+                TComponent* target = component.ToObject<TComponent>();
+                if (target != nullptr)back.push_back(dynamic_cast<TBack*>(target));
+            }
+            return back;
+        }
 
         Vector3 GetLocalPosition() const;
         Vector3 GetLocalEulerAngles() const;

@@ -21,7 +21,6 @@ namespace BDXKEngine
         void SetReceiveShadows(bool receiveShadows);
     protected:
         void Transfer(Transferer& transferer) override;
-        void Awake() override;
         void Enable() override;
         void Disable() override;
     private:

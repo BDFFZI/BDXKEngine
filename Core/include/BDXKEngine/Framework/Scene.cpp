@@ -1,14 +1,17 @@
 ﻿#include "Scene.h"
 #include "BDXKEngine/Function/Resources/Resources.h"
 #include "BDXKEngine/Function/Resources/ResourcesDefault.h"
+#include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
+#include "BDXKEngine/Framework/Physics/Collider/BoxCollider.h"
+#include "BDXKEngine/Framework/Physics/Collider/SphereCollider.h"
 #include "Renderer/MeshRenderer.h"
 #include "Renderer/Core/Camera.h"
 #include "Renderer/Core/Light.h"
 
 namespace BDXKEngine
 {
-    ObjectPtr<GameObject> PresetGameObject::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
+    ObjectPtr<GameObject> SceneDefault::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
     {
         //创建物体
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
@@ -18,22 +21,27 @@ namespace BDXKEngine
 
         return gameObject;
     }
-    ObjectPtr<GameObject> PresetGameObject::CreateCube(const char* name, Color color)
+    ObjectPtr<GameObject> SceneDefault::CreateCube(const char* name, Color color)
     {
-        return CreateObject3D(ResourcesDefault::GetCubeMesh(), name, color);
+        auto cube = CreateObject3D(ResourcesDefault::GetCubeMesh(), name, color);
+        Component::Create<BoxCollider>(cube);
+        return cube;
     }
-    ObjectPtr<GameObject> PresetGameObject::CreatePlane(const char* name, Color color)
+    ObjectPtr<GameObject> SceneDefault::CreatePlane(const char* name, Color color)
     {
         ObjectPtr<GameObject> plane = CreateCube(name, color);
+        Component::Create<BoxCollider>(plane);
         plane->SetLocalScale({10, 0.01f, 10});
         plane->SetLocalPosition({0, -0.005f, 0});
         return plane;
     }
-    ObjectPtr<GameObject> PresetGameObject::CreateSphere(const char* name, Color color)
+    ObjectPtr<GameObject> SceneDefault::CreateSphere(const char* name, Color color)
     {
-        return CreateObject3D(ResourcesDefault::GetSphereMesh(), name, color);
+        auto sphere = CreateObject3D(ResourcesDefault::GetSphereMesh(), name, color);
+        Component::Create<SphereCollider>(sphere);
+        return sphere;
     }
-    ObjectPtr<GameObject> PresetGameObject::CreateLight(LightType lightType, const char* name)
+    ObjectPtr<GameObject> SceneDefault::CreateLight(LightType lightType, const char* name)
     {
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
         const ObjectPtr<Light> light = Component::Create<Light>(gameObject);
@@ -42,15 +50,15 @@ namespace BDXKEngine
         light->SetType(lightType);
         return gameObject;
     }
-    ObjectPtr<GameObject> PresetGameObject::CreateDirectionalLight(const char* name)
+    ObjectPtr<GameObject> SceneDefault::CreateDirectionalLight(const char* name)
     {
         return CreateLight(LightType::Directional, name);
     }
-    ObjectPtr<GameObject> PresetGameObject::CreatePointLight(const char* name)
+    ObjectPtr<GameObject> SceneDefault::CreatePointLight(const char* name)
     {
         return CreateLight(LightType::Point, name);
     }
-    ObjectPtr<GameObject> PresetGameObject::CreateCamera(const char* name)
+    ObjectPtr<GameObject> SceneDefault::CreateCamera(const char* name)
     {
         ObjectPtr<GameObject> gameObject = GameObject::Create(name);
         Component::Create<Camera>(gameObject);
@@ -63,10 +71,10 @@ namespace BDXKEngine
         RenderSettings::SetSkyboxMaterial(ResourcesDefault::GetSkyboxMaterial());
         RenderSettings::SetUnlitMaterial(ResourcesDefault::GetUnlitMaterial());
 
-        const ObjectPtr<GameObject> sun = PresetGameObject::CreateDirectionalLight("Sun");
-        const ObjectPtr<GameObject> ground = PresetGameObject::CreatePlane("Ground");
-        const ObjectPtr<GameObject> sphere = PresetGameObject::CreateSphere("Sphere");
-        const ObjectPtr<GameObject> camera = PresetGameObject::CreateCamera("Camera");
+        const ObjectPtr<GameObject> sun = SceneDefault::CreateDirectionalLight("Sun");
+        const ObjectPtr<GameObject> ground = SceneDefault::CreatePlane("Ground");
+        const ObjectPtr<GameObject> sphere = SceneDefault::CreateSphere("Sphere");
+        const ObjectPtr<GameObject> camera = SceneDefault::CreateCamera("Camera");
         sun->SetLocalEulerAngles({45, -45, 0});
         sphere->SetLocalPosition({0, 0.5f, 0});
         camera->SetLocalPosition({0, 1, -10});
@@ -83,6 +91,8 @@ namespace BDXKEngine
                 Serialization::Clone(item);
                 DestroyImmediate(item);
             }
+
+        Time::RenewFrame();
     }
     void Scene::Save(const std::string& sceneName)
     {

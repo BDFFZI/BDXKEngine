@@ -2,10 +2,19 @@
 #include "BDXKEngine/Platform/Phys/Phys.h"
 #include "BDXKEngine/Framework/Behavior/Core/Behavior.h"
 #include "BDXKEngine/Framework/Core/Component.h"
-#include "BDXKEngine/Framework/Physics/PhysicsEvent.h"
 
 namespace BDXKEngine
 {
+    class PhysicsEvent;
+
+    class FixedUpdateHandler
+    {
+        friend PhysicsEvent;
+    protected:
+        virtual ~FixedUpdateHandler() = default;
+        virtual void OnFixedUpdate() = 0;
+    };
+
     enum class RigidbodyConstraints
     {
         None = 0,
@@ -16,6 +25,7 @@ namespace BDXKEngine
         FreezeRotationY = physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y,
         FreezeRotationZ = physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z,
         FreezePosition = FreezePositionX | FreezePositionY | FreezePositionZ,
+        FreezeRotation = FreezeRotationX | FreezeRotationY | FreezeRotationZ,
         FreezeAll = FreezePositionX | FreezePositionY | FreezePositionZ | FreezeRotationX | FreezeRotationY | FreezeRotationZ,
     };
 
@@ -44,10 +54,12 @@ namespace BDXKEngine
         float GetMass() const;
         const Vector3& GetCenterOfMass() const;
         bool GetUseGravity() const;
+        bool IsIsKinematic() const;
         RigidbodyConstraints GetConstraints() const;
         void SetMass(float mass);
         void SetCenterOfMass(const Vector3& centerOfMass);
         void SetUseGravity(bool useGravity);
+        void SetIsKinematic(bool isKinematic);
         void SetConstraints(RigidbodyConstraints constraints);
 
         void AddForce(Vector3 force, ForceMode forceMode = ForceMode::Force) const;
@@ -56,6 +68,7 @@ namespace BDXKEngine
         float mass = 1;
         Vector3 centerOfMass = Vector3::zero;
         bool useGravity = true;
+        bool isKinematic = false;
         RigidbodyConstraints constraints = RigidbodyConstraints::None;
         physx::PxRigidDynamic* actor = nullptr;
 

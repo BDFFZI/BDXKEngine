@@ -5,10 +5,6 @@ namespace BDXKEngine
 {
     struct Vector3
     {
-        /// <summary>
-        /// 不要拿这个用作比较对象，nan无法比较，请使用IsNaN()
-        /// </summary>
-        static const Vector3 nan;
         static const Vector3 zero;
         static const Vector3 one;
         static const Vector3 up;
@@ -34,7 +30,6 @@ namespace BDXKEngine
         float GetSqrMagnitude() const;
         float GetMagnitude() const;
         Vector3 GetNormalized() const;
-        bool IsNaN() const;
 
         std::string ToString() const;
 

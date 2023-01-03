@@ -88,7 +88,7 @@ namespace BDXKEditor
     }
     void SceneWindow::OnAwake()
     {
-        const ObjectPtr<GameObject> editorCameraGameObject = PresetGameObject::CreateCamera(":SceneWindow");
+        const ObjectPtr<GameObject> editorCameraGameObject = SceneDefault::CreateCamera(":SceneWindow");
         GameObject::Hide(editorCameraGameObject);
 
         camera = editorCameraGameObject->GetComponent<Camera>();

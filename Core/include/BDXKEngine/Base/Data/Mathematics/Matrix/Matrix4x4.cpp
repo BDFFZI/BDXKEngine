@@ -151,7 +151,9 @@ namespace BDXKEngine
         position = static_cast<Vector3>(matrix4X4.GetColumn(3));
         const Matrix4x4 sqrScaleMatrix = matrix4X4.GetTranspose() * matrix4X4;
         scale = Vector3(sqrt(sqrScaleMatrix.m00), sqrt(sqrScaleMatrix.m11), sqrt(sqrScaleMatrix.m22));
-        const Matrix4x4 rotationMatrix = matrix4X4 * Scale(Vector3(1 / scale.x, 1 / scale.y, 1 / scale.z));
+        const Matrix4x4 rotationMatrix = matrix4X4 * Scale(
+            Vector3(Equal(scale.x, 0) ? 0 : 1 / scale.x, Equal(scale.y, 0) ? 0 : 1 / scale.y, Equal(scale.z, 0) ? 0 : 1 / scale.z)
+        );
         if (abs(abs(rotationMatrix.m12) - 1) > 0.0001f) //A(Sinx) != 1,CosX != 0
         {
             //cosX为负?

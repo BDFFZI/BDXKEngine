@@ -12,6 +12,10 @@
 
 namespace BDXKEngine
 {
+    class PhysCallback : public physx::PxContactModifyCallback
+    {
+    };
+
     class Phys
     {
     public:
@@ -20,7 +24,8 @@ namespace BDXKEngine
         static physx::PxPhysics& GetPhysics();
         static physx::PxScene& GetScene();
         static physx::PxMaterial& GetMaterial();
-        
+        static void SetCallback(PhysCallback* physCallback);
+
         static Vector3 ToVector3(const physx::PxVec3T<float>& value);
         static physx::PxVec3T<float> ToVec3T(Vector3 value);
         static Vector3 ToEulerAngles(const physx::PxQuat& value);

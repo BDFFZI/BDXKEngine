@@ -114,7 +114,7 @@ namespace BDXKEngine
                 transferSerialization(objectImporter, data);
                 objectImporter.PopPath(itemName);
 
-                serializations.push_back(std::make_tuple(guid, data));
+                serializations.emplace_back(guid, data);
             }
 
             //获取目标Guid信息
@@ -138,30 +138,34 @@ namespace BDXKEngine
             std::unordered_map<Guid, ObjectPtrBase> objects;
             for (auto& [guid,data] : serializations)
             {
-                //已加载的前置资源
-                if (ObjectGuid::IsMainGuid(guid) && ObjectGuid::GetInstanceID(guid) != 0 && guid != rootGuid)
-                    continue;
-
                 ObjectPtrBase object = nullptr;
-                if (data.empty() == false)
+                if (data.empty()) //外部资源
                 {
-                    object = static_cast<Object*>(serializer.Deserialize(data));
-                    if (ObjectGuid::GetInstanceID(guid) == 0)
-                        ObjectGuid::SetInstanceID(guid, object->GetInstanceID());
-                    else //重新导入
-                        Object::ReplaceObject(object, ObjectGuid::GetInstanceID(guid));
-                }
-                else //未加载的前置资源
-                {
-                    auto& fallbacks = GetDeserializeFallback();
-                    for (auto& fallback : fallbacks)
+                    if (ObjectGuid::GetInstanceID(guid) != 0) //已加载
+                        object = Object::FindObjectOfInstanceID(ObjectGuid::GetInstanceID(guid));
+                    else //未加载
                     {
-                        object = fallback(guid);
-                        if (object.IsNotNull())break;
+                        auto& fallbacks = GetDeserializeFallback();
+                        for (auto& fallback : fallbacks)
+                        {
+                            object = fallback(guid);
+                            if (object.IsNotNull())break;
+                        }
                     }
                 }
+                else //内部资源
+                {
+                    //因为内部资源中的主资源永远第一个加载，所以重新加载时，部分旧的相关非主资源开始反序列化前就会被连带删除
+                    //强关联资源（如GameObject和Component）一定被删除，所以重新导入时不会出现关联异常的问题（如GameObject携带着不属于自己的Component）
+                    //部分资源类物体，如Shader可能不会被删除，但因为本身没有专门的从属关系，所以重新导入也不会有影响
+                    object = static_cast<Object*>(serializer.Deserialize(data));
+                    if (ObjectGuid::GetInstanceID(guid) != 0)
+                        Object::ReplaceObject(object, ObjectGuid::GetInstanceID(guid)); //重新加载资源
+                    else
+                        ObjectGuid::SetInstanceID(guid, object->GetInstanceID());
+                }
 
-                if (object.IsNull())throw std::exception("无法序列化物体");
+                if (object.IsNull())throw std::exception("无法获取序列化物体");
                 objects[guid] = object;
             }
 

@@ -20,6 +20,10 @@ namespace BDXKEngine
     {
         return useGravity;
     }
+    bool Rigidbody::IsIsKinematic() const
+    {
+        return isKinematic;
+    }
     RigidbodyConstraints Rigidbody::GetConstraints() const
     {
         return constraints;
@@ -38,6 +42,10 @@ namespace BDXKEngine
     {
         this->useGravity = useGravity;
     }
+    void Rigidbody::SetIsKinematic(bool isKinematic)
+    {
+        this->isKinematic = isKinematic;
+    }
     void Rigidbody::SetConstraints(RigidbodyConstraints constraints)
     {
         this->constraints = constraints;
@@ -46,6 +54,8 @@ namespace BDXKEngine
 
     void Rigidbody::AddForce(Vector3 force, ForceMode forceMode) const
     {
+        if (isKinematic)return;
+
         if ((constraints & RigidbodyConstraints::FreezePositionX) != RigidbodyConstraints::None)force.x = 0;
         if ((constraints & RigidbodyConstraints::FreezePositionY) != RigidbodyConstraints::None)force.y = 0;
         if ((constraints & RigidbodyConstraints::FreezePositionZ) != RigidbodyConstraints::None)force.z = 0;
@@ -61,22 +71,19 @@ namespace BDXKEngine
 
     void Rigidbody::OnUpdate()
     {
-        physx::PxTransform newTransform = actor->getGlobalPose();
-
-        if ((constraints & RigidbodyConstraints::FreezePosition) != RigidbodyConstraints::None)
+        if (isKinematic)
         {
-            const Vector3 position = GetGameObject()->GetPosition();
-            if (newTransform.p != Phys::ToVec3T(position))
-            {
-                if ((constraints & RigidbodyConstraints::FreezePositionX) != RigidbodyConstraints::None)newTransform.p.x = position.x;
-                if ((constraints & RigidbodyConstraints::FreezePositionY) != RigidbodyConstraints::None)newTransform.p.y = position.y;
-                if ((constraints & RigidbodyConstraints::FreezePositionZ) != RigidbodyConstraints::None)newTransform.p.z = position.z;
-                actor->setGlobalPose(newTransform);
-            }
+            actor->setGlobalPose({
+                Phys::ToVec3T(GetGameObject()->GetPosition()),
+                Phys::ToQuat(GetGameObject()->GetEulerAngles())
+            });
         }
-
-        GetGameObject()->SetPosition(Phys::ToVector3(newTransform.p));
-        GetGameObject()->SetEulerAngles(Phys::ToEulerAngles(newTransform.q));
+        else
+        {
+            const physx::PxTransform newTransform = actor->getGlobalPose();
+            GetGameObject()->SetPosition(Phys::ToVector3(newTransform.p));
+            GetGameObject()->SetEulerAngles(Phys::ToEulerAngles(newTransform.q));
+        }
     }
     void Rigidbody::OnFixedUpdate()
     {
@@ -86,6 +93,7 @@ namespace BDXKEngine
     void Rigidbody::OnEnable()
     {
         ResetCenterOfMassAndInertiaTensor();
+        actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, isKinematic);
         actor->setRigidDynamicLockFlags(static_cast<physx::PxRigidDynamicLockFlag::Enum>(constraints));
         actor->setGlobalPose(physx::PxTransform(
             Phys::ToVec3T(GetGameObject()->GetPosition()),
@@ -104,14 +112,16 @@ namespace BDXKEngine
         Behavior::Transfer(transferer);
 
         TransferFieldInfoOf(constraints, int);
-        TransferFieldInfo(useGravity);
         TransferFieldInfo(mass);
+        TransferFieldInfo(useGravity);
+        TransferFieldInfo(isKinematic);
     }
     void Rigidbody::Awake()
     {
         Behavior::Awake();
 
         actor = Phys::GetPhysics().createRigidDynamic(physx::PxTransform(0, 0, 0));
+        actor->userData = this;
     }
     void Rigidbody::Destroy()
     {

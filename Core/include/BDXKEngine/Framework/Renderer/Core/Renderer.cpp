@@ -75,12 +75,6 @@ namespace BDXKEngine
         TransferFieldInfo(castShadows);
         TransferFieldInfo(receiveShadows);
     }
-    void Renderer::Awake()
-    {
-        Component::Awake();
-
-        if (material == nullptr)material = Material::Create({});
-    }
     void Renderer::Enable()
     {
         Component::Enable();

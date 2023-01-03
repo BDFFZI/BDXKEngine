@@ -64,7 +64,7 @@ namespace BDXKEngine
         assert(allScriptableObjects.contains(this) == false); //事件函数执行异常
         allScriptableObjects.insert(this);
 
-        std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
+        //std::cout << "SwitchableObject::Enable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
     }
     void ScriptableObject::Disable()
     {
@@ -74,7 +74,7 @@ namespace BDXKEngine
         if (const auto handler = dynamic_cast<DisableHandler*>(this); handler != nullptr)
             if (IsNotResource()) handler->OnDisable();
 
-        std::cout << "SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
+        //std::cout << "SwitchableObject::Disable " + std::to_string(GetInstanceID()) + " " + GetName() << std::endl;
     }
     void ScriptableObject::Awake()
     {

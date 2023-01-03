@@ -29,11 +29,25 @@ namespace BDXKEngine
         PxSceneDesc sceneDesc(physics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, 0.0f, 0.0f);
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
-        sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+        sceneDesc.filterShader = [](PxFilterObjectAttributes,
+                                    PxFilterData,
+                                    PxFilterObjectAttributes,
+                                    PxFilterData,
+                                    PxPairFlags& pairFlags,
+                                    const void*,
+                                    PxU32)
+        {
+            pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+            pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
+            pairFlags |= PxPairFlag::eMODIFY_CONTACTS;
+            PxFilterFlags ret = PxFilterFlag::eDEFAULT;
+            return ret;
+        };
         scene = physics->createScene(sceneDesc);
         //创建默认资源
-        material = physics->createMaterial(0.6f, 0.6f, 1);
+        material = physics->createMaterial(0.6f, 0.6f, 0.0f);
     }
+
 
     physx::PxPhysics& Phys::GetPhysics()
     {
@@ -46,6 +60,10 @@ namespace BDXKEngine
     physx::PxMaterial& Phys::GetMaterial()
     {
         return *material;
+    }
+    void Phys::SetCallback(PhysCallback* physCallback)
+    {
+        scene->setContactModifyCallback(physCallback);
     }
     Vector3 Phys::ToVector3(const physx::PxVec3T<float>& value)
     {

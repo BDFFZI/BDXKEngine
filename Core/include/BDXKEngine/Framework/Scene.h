@@ -6,7 +6,7 @@
 
 namespace BDXKEngine
 {
-    class PresetGameObject
+    class SceneDefault
     {
     public:
         static ObjectPtr<GameObject> CreateCube(const char* name = "Cube", Color color = Color::white);

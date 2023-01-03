@@ -10,6 +10,8 @@ namespace BDXKEngine {
 		static float GetRealtimeSinceStartup();
 		static float GetDeltaTime();
 		static int GetFrameCount();
+
+		static void RenewFrame();
 	private:
 		static int frameCount;
 		static long startTime;

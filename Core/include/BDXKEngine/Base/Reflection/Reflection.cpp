@@ -71,7 +71,7 @@ namespace BDXKEngine
         //获取字段信息
         ReflectionTransferer reflecttransferer = {*instance, *this};
         instance->Transfer(reflecttransferer);
-        if (reflecttransferer.IsValid() == false)throw std::exception("注册类不符合反射规范");
+        if (reflecttransferer.IsValid() == false)throw std::exception("注册类不符合反射规范(未调用父类Transfer函数)");
         //注册反射
         reflections[instance->GetType()] = this;
     }

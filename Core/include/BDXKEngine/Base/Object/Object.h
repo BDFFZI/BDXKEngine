@@ -56,7 +56,7 @@ namespace BDXKEngine
         static Object* FindObjectOfInstanceID(int instanceID);
 
         int GetInstanceID() const;
-        std::string GetName() const;
+        const std::string& GetName() const;
         void SetName(const std::string& name);
 
         bool IsInstantiated() const;

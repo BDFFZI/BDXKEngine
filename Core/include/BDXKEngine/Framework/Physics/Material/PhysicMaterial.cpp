@@ -48,7 +48,7 @@ namespace BDXKEngine
     {
         Object::Awake();
 
-        material = Phys::GetPhysics().createMaterial(staticFriction, dynamicFriction, bounciness + 1);
+        material = Phys::GetPhysics().createMaterial(staticFriction, dynamicFriction, bounciness);
     }
     void PhysicMaterial::Destroy()
     {

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include<sstream>
-
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
 
 namespace BDXKEngine
@@ -36,6 +35,6 @@ namespace BDXKEngine
 
         Color operator*(float value) const;
         Color operator/(float value) const;
-        explicit operator Vector4() const;
+        operator Vector4() const;
     };
 }

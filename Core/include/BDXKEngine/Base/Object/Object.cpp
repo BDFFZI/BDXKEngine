@@ -108,7 +108,7 @@ namespace BDXKEngine
     {
         return instanceID;
     }
-    std::string Object::GetName() const
+    const std::string& Object::GetName() const
     {
         return name;
     }
@@ -136,10 +136,10 @@ namespace BDXKEngine
 
     void Object::Awake()
     {
-        std::cout << "Object::Awake " + std::to_string(instanceID) + " " + name << std::endl;
+        //std::cout << "Object::Awake " + std::to_string(instanceID) + " " + name << std::endl;
     }
     void Object::Destroy()
     {
-        std::cout << "Object::Destroy " + std::to_string(instanceID) + " " + name << std::endl;
+        //std::cout << "Object::Destroy " + std::to_string(instanceID) + " " + name << std::endl;
     }
 }

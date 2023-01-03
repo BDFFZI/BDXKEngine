@@ -7,7 +7,7 @@
             "name": "Material.physicMaterial",
             "dynamicFriction": 0.6000000238418579,
             "staticFriction": 0.6000000238418579,
-            "bounciness": 3.0
+            "bounciness": 1.5
         }
     }
 }

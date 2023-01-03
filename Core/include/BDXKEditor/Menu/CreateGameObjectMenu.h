@@ -11,4 +11,18 @@ namespace BDXKEditor
     };
 
 #define CustomCreateGameObjectMenu(funcName) CustomMenu(ObjectPtr<GameObject>(),funcName)
+
+    ObjectPtr<GameObject> CreateCamera();
+    ObjectPtr<GameObject> CreateDirectionalLight();
+    ObjectPtr<GameObject> CreatePointLight();
+    ObjectPtr<GameObject> CreateCube();
+    ObjectPtr<GameObject> CreateSphere();
+    ObjectPtr<GameObject> CreatePlane();
+
+    CustomCreateGameObjectMenu(CreateCamera)
+    CustomCreateGameObjectMenu(CreateDirectionalLight)
+    CustomCreateGameObjectMenu(CreatePointLight)
+    CustomCreateGameObjectMenu(CreateCube)
+    CustomCreateGameObjectMenu(CreateSphere)
+    CustomCreateGameObjectMenu(CreatePlane)
 }

@@ -29,6 +29,11 @@ namespace BDXKEngine
     {
         return frameCount;
     }
+    void Time::RenewFrame()
+    {
+        EndFrame();
+        BeginFrame();
+    }
 
     void Time::Initialize(Window* window)
     {

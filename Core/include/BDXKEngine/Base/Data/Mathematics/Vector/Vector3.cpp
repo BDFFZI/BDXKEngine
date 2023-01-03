@@ -5,12 +5,6 @@
 
 namespace BDXKEngine
 {
-    const Vector3 Vector3::nan = {
-        std::nanf(nullptr),
-        std::nanf(nullptr),
-        std::nanf(nullptr)
-    };
-
     const Vector3 Vector3::zero = {0, 0, 0};
     const Vector3 Vector3::one = {1, 1, 1};
     const Vector3 Vector3::right = {1, 0, 0};
@@ -78,10 +72,6 @@ namespace BDXKEngine
     Vector3 Vector3::GetNormalized() const
     {
         return *this / GetMagnitude();
-    }
-    bool Vector3::IsNaN() const
-    {
-        return std::isnan(x) || std::isnan(y) || std::isnan(z);
     }
 
     std::string Vector3::ToString() const
