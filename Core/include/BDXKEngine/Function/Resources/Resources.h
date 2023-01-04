@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "BDXKEngine/Base/Object/Object.h"
-#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Base/Object/Serializer/ObjectSerializer.h"
 
 namespace BDXKEngine
@@ -8,11 +6,11 @@ namespace BDXKEngine
     class Resources
     {
     public:
-        static ObjectPtrBase Load(const std::string& path);
+        static ObjectPtrBase Load(const std::string& path, bool retainPersistent = true);
         template <typename TObject>
-        static ObjectPtr<TObject> Load(const std::string& path)
+        static ObjectPtr<TObject> Load(const std::string& path, bool retainPersistent = true)
         {
-            return Load(path).ToObject<TObject>();
+            return Load(path, retainPersistent).ToObject<TObject>();
         }
         static void Save(const std::string& path, const ObjectPtrBase& objectPtr);
 

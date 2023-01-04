@@ -38,8 +38,8 @@ namespace BDXKEngine
     bool GameObject::GetIsActivating() const
     {
         if (parent != nullptr)
-            return parent->IsActivatingAndEnabling() && ScriptableObject::GetIsActivating();
-        return ScriptableObject::GetIsActivating();
+            return parent->IsActivatingAndEnabling();
+        return true;
     }
 
     ObjectPtr<GameObject> GameObject::GetParent()
@@ -140,7 +140,7 @@ namespace BDXKEngine
         RenewEulerAngles();
         RenewPositionAndMatrix();
 
-        const bool newActivating = newparent.IsNotNull() ? newparent->GetIsActivating() : GetIsActivating();
+        const bool newActivating = GetIsActivating();
         if (oldActivating != newActivating)
             SetIsActivating(newActivating);
     }

@@ -9,12 +9,12 @@ namespace BDXKEngine
     class ObjectSerializerBase
     {
     public:
-        static void AddDeserializeFallback(const std::function<ObjectPtrBase(const Guid& guid)>& fallback);
         static const std::vector<std::function<ObjectPtrBase(const Guid& guid)>>& GetDeserializeFallback();
+        static void AddDeserializeFallback(const std::function<ObjectPtrBase(const Guid& guid)>& fallback);
 
         virtual ~ObjectSerializerBase() = default;
         virtual std::string Serialize(ObjectPtrBase input) = 0;
-        virtual ObjectPtrBase Deserialize(std::string input) = 0;
+        virtual ObjectPtrBase Deserialize(std::string input, std::vector<Guid>* guidsInInput = nullptr) = 0;
         virtual ObjectPtrBase Clone(ObjectPtrBase input) = 0;
     private:
         inline static std::vector<std::function<ObjectPtrBase(const Guid& guid)>> deserializeFallback = {};
@@ -41,7 +41,7 @@ namespace BDXKEngine
             //获取目标Guid信息
             const int rootInstanceID = rootObject->GetInstanceID();
             const Guid rootGuid = ObjectGuid::GetOrSetGuid(rootInstanceID);
-            ObjectGuid::SignMainGuid(rootGuid);
+            ObjectGuid::MarkMainGuid(rootGuid);
 
             //统计需要序列化的物体
             ObjectPtrTransferer objectPtrTransferer = {rootObject};
@@ -93,7 +93,7 @@ namespace BDXKEngine
             objectExporter.Reset(result);
             return result;
         }
-        ObjectPtrBase Deserialize(std::string input) override
+        ObjectPtrBase Deserialize(std::string input, std::vector<Guid>* guidsInInput = nullptr) override
         {
             if (input.empty())
                 throw std::exception("序列化数据为空");
@@ -119,7 +119,7 @@ namespace BDXKEngine
 
             //获取目标Guid信息
             const Guid rootGuid = std::get<0>(serializations[0]);
-            ObjectGuid::SignMainGuid(rootGuid);
+            ObjectGuid::MarkMainGuid(rootGuid);
 
             //设置反序列化物体的方式（将Guid转为物体引用）
             std::unordered_map<Guid, std::vector<ObjectPtrBase*>> references;
@@ -135,7 +135,8 @@ namespace BDXKEngine
             });
 
             //反序列化
-            std::unordered_map<Guid, ObjectPtrBase> objects;
+            std::vector<ObjectPtrBase> allObjects = {}; //保存所有相关物体指针，防止被错误回收
+            std::vector<std::tuple<ObjectPtrBase, int>> replaceObjects = {}; //需要重新导入的物体
             for (auto& [guid,data] : serializations)
             {
                 ObjectPtrBase object = nullptr;
@@ -155,19 +156,22 @@ namespace BDXKEngine
                 }
                 else //内部资源
                 {
-                    //因为内部资源中的主资源永远第一个加载，所以重新加载时，部分旧的相关非主资源开始反序列化前就会被连带删除
-                    //强关联资源（如GameObject和Component）一定被删除，所以重新导入时不会出现关联异常的问题（如GameObject携带着不属于自己的Component）
-                    //部分资源类物体，如Shader可能不会被删除，但因为本身没有专门的从属关系，所以重新导入也不会有影响
                     object = static_cast<Object*>(serializer.Deserialize(data));
                     if (ObjectGuid::GetInstanceID(guid) != 0)
-                        Object::ReplaceObject(object, ObjectGuid::GetInstanceID(guid)); //重新加载资源
+                        replaceObjects.push_back({object, ObjectGuid::GetInstanceID(guid)}); //重新加载资源
                     else
                         ObjectGuid::SetInstanceID(guid, object->GetInstanceID());
                 }
 
                 if (object.IsNull())throw std::exception("无法获取序列化物体");
-                objects[guid] = object;
+                allObjects.push_back(object);
             }
+
+            //替换旧物体(必须先完全删除旧的，直接替换可能出现旧物体将新物体删除的情况，比如GameObject和Component的关联删除)
+            for (auto& [object,instanceID] : replaceObjects)
+                Object::DestroyImmediate(Object::FindObjectOfInstanceID(instanceID));
+            for (auto& [object,instanceID] : replaceObjects)
+                Object::ReplaceObject(object, instanceID);
 
             //链接引用关系
             for (const auto& reference : references)
@@ -177,8 +181,15 @@ namespace BDXKEngine
                     *objectPtr = object;
             }
 
+            //返回该序列化数据中的Guid
+            if (guidsInInput != nullptr)
+            {
+                for (auto& [guid,data] : serializations)
+                    if (data.empty() == false)
+                        guidsInInput->emplace_back(guid);
+            }
 
-            return objects[rootGuid];
+            return allObjects[0];
         }
         ObjectPtrBase Clone(ObjectPtrBase input) override
         {

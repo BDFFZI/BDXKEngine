@@ -78,10 +78,10 @@ namespace BDXKEditor
             if (isRunning == false && ImGui::MenuItem("Play"))
             {
                 isRunning = true;
-
                 SaveScene(sceneName);
+
                 SetConstructedObjectEvent({});
-                LoadScene(sceneName, false);
+                Scene::Load(Assets::LoadImporter(sceneName)->GetTargetGuid(), false);
             }
             if (isRunning && ImGui::MenuItem("Stop"))
             {
@@ -89,9 +89,9 @@ namespace BDXKEditor
 
                 SetConstructedObjectEvent([](const Object* object)
                 {
-                    ObjectGuid::GetOrSetGuid(object->GetInstanceID());
+                    Serialization::MarkPersistent(object->GetInstanceID());
                 });
-                LoadScene(sceneName);
+                Scene::Load(Assets::LoadImporter(sceneName)->GetTargetGuid(), true);
             }
 
             ImGui::EndMenu();

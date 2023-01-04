@@ -6,12 +6,13 @@
 
 namespace BDXKEngine
 {
-    ObjectPtrBase Resources::Load(const std::string& path)
+    ObjectPtrBase Resources::Load(const std::string& path, bool retainPersistent)
     {
         if (IsExisting(path) == false)throw std::exception("文件不存在");
 
         auto serializer = Serialization::CreateBinarySerializer();
-        return Serialization::Load("Resources/" + path, serializer);
+        ObjectPtrBase result = Serialization::Load("Resources/" + path, serializer, true, retainPersistent);
+        return result;
     }
     void Resources::Save(const std::string& path, const ObjectPtrBase& objectPtr)
     {

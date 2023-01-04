@@ -1,10 +1,18 @@
 ﻿#include "GameWindow.h"
+#include <algorithm>
+
+#include "BDXKEngine/Function/Window/Input.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 
 namespace BDXKEditor
 {
+    std::unordered_map<int, bool> GameWindow::isWindowHovered = {};
+    
     void GameWindow::OnGUI()
     {
+        isWindowHovered[GetInstanceID()] = ImGui::IsWindowHovered();
+        Input::SetIsEnabling(std::ranges::any_of(isWindowHovered, [](const std::pair<const int, bool>& item) { return item.second; }));
+
         const Vector2 windowMin = ImGui::GetWindowContentRegionMin();
         const Vector2 windowMax = ImGui::GetWindowContentRegionMax();
         const Vector2 viewSize = windowMax - windowMin;

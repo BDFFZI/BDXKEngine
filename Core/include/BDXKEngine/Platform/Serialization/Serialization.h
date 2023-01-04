@@ -16,11 +16,11 @@ namespace BDXKEngine
         static ObjectSerializer<JsonImporter, JsonExporter> CreateJsonSerializer();
         static ObjectSerializer<BinaryImporter2, BinaryExporter2> CreateBinarySerializer();
 
-        static ObjectPtrBase Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate = true);
+        static ObjectPtrBase Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate = true, bool persistent = true);
         template <typename TObject>
-        static ObjectPtr<TObject> Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate = true)
+        static ObjectPtr<TObject> Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate = true, bool persistent = true)
         {
-            return Load(path, serializer, instantiate).ToObject<TObject>();
+            return Load(path, serializer, instantiate, persistent).ToObject<TObject>();
         }
         static void Save(const std::string& path, const ObjectPtrBase& objectPtr, ObjectSerializerBase& serializer);
         static ObjectPtrBase Clone(const ObjectPtrBase& objectPtr, bool instantiate = true);
@@ -32,5 +32,8 @@ namespace BDXKEngine
 
         static bool IsPersistent(const ObjectPtrBase& objectPtr);
         static bool IsExisting(const std::string& path);
+
+        static void MarkPersistent(int instanceID);
+        static void UnMarkPersistent(int instanceID);
     };
 }

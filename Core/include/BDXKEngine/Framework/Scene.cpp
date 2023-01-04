@@ -80,18 +80,10 @@ namespace BDXKEngine
         camera->SetLocalPosition({0, 1, -10});
     }
 
-    void Scene::Load(const std::string& sceneName, bool keepPersistent)
+    void Scene::Load(const std::string& sceneName, bool retainPersistent)
     {
         GameObject::Clear();
-
-        const ObjectPtr<Scene> scene = Resources::Load<Scene>(sceneName);
-        if (keepPersistent == false)
-            for (const auto& item : scene->gameObjects)
-            {
-                Serialization::Clone(item);
-                DestroyImmediate(item);
-            }
-
+        const ObjectPtr<Scene> scene = Resources::Load<Scene>(sceneName, retainPersistent);
         Time::RenewFrame();
     }
     void Scene::Save(const std::string& sceneName)

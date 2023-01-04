@@ -54,6 +54,11 @@ namespace BDXKEngine
             return result;
         }
         static Object* FindObjectOfInstanceID(int instanceID);
+        template <typename TObject>
+        static TObject* FindObjectOfInstanceID(int instanceID)
+        {
+            return dynamic_cast<TObject*>(FindObjectOfInstanceID(instanceID));
+        }
 
         int GetInstanceID() const;
         const std::string& GetName() const;

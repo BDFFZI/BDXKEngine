@@ -9,6 +9,10 @@ namespace BDXKEditor
         using namespace std;
         cout << str << endl;
     }
+    void Debug::Log(const char* str)
+    {
+        Log(std::string(str));
+    }
 
     /// <summary>
     /// 输出带颜色的日志

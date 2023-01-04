@@ -11,12 +11,12 @@ namespace BDXKEngine {
 		static bool GetMouseButtonUp(int mouseButtonIndex);
 		static Vector2 GetMousePosition() { return mousePosition; }
 		static Vector2 GetMouseScrollDelta() { return mouseScrollDelta; }
-		static Vector2 GetMouseMoveDelta() { return window->GetCursorMoveDelta(); }
+		static Vector2 GetMouseMoveDelta();
 		static bool GetKeyDown(KeyCode keyCode);
 		static bool GetKey(KeyCode keyCode);
 		static bool GetKeyUp(KeyCode keyCode);
 		
-		static void SetEnable(bool state);
+		static void SetIsEnabling(bool state);
 	private:
 		static Window* window;
 		static Vector2 mouseScrollDelta;

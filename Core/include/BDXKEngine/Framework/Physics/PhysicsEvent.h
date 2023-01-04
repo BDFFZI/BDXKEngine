@@ -2,11 +2,18 @@
 #include "BDXKEngine/Base/Object/Pointer/ObjectPtr.h"
 #include "BDXKEngine/Platform/Window/Window.h"
 #include "BDXKEngine/Framework/Physics/Collider/Collider.h"
+#include "BDXKEngine/Framework/Physics/Rigidbody/Rigidbody.h"
 
 namespace BDXKEngine
 {
     class PhysicsEvent;
     class PhysicsCallback;
+
+    struct Collision
+    {
+        ObjectPtr<Rigidbody> rigidbody;
+        ObjectPtr<Collider> collider;
+    };
 
     class CollisionEnterHandler
     {
@@ -14,7 +21,7 @@ namespace BDXKEngine
         friend PhysicsEvent;
     protected:
         virtual ~CollisionEnterHandler() = default;
-        virtual void OnCollisionEnter(ObjectPtr<Collider> collider) = 0;
+        virtual void OnCollisionEnter(const Collision& collision) = 0;
     };
 
     class CollisionStayHandler
@@ -23,7 +30,7 @@ namespace BDXKEngine
         friend PhysicsEvent;
     protected:
         virtual ~CollisionStayHandler() = default;
-        virtual void OnCollisionStay(ObjectPtr<Collider> collider) = 0;
+        virtual void OnCollisionStay(const Collision& collision) = 0;
     };
 
     class CollisionExitHandler
@@ -32,7 +39,7 @@ namespace BDXKEngine
         friend PhysicsEvent;
     protected:
         virtual ~CollisionExitHandler() = default;
-        virtual void OnCollisionExit(ObjectPtr<Collider> collider) = 0;
+        virtual void OnCollisionExit(const Collision& collision) = 0;
     };
 
     class PhysicsEvent

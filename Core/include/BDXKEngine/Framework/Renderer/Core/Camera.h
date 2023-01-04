@@ -19,12 +19,12 @@ namespace BDXKEngine
         Orthographic,
         Perspective
     };
-    
+
     class Camera : public Component
     {
     public:
         static const std::vector<Camera*>& GetCameraQueue();
-        
+
         CameraInfo GetCameraInfo() const;
         ObjectPtr<Texture2D> GetRenderTarget();
         ClearFlags GetClearFlags() const;
@@ -32,7 +32,7 @@ namespace BDXKEngine
         const Color& GetBackground() const;
         int GetPriority() const;
         float GetAspectRatio() const;
-        
+
         void SetRenderTarget(const ObjectPtr<Texture2D>& renderTarget);
         void SetClearFlags(ClearFlags clearFlags);
         void SetProjection(Projection projection);
@@ -44,11 +44,11 @@ namespace BDXKEngine
         void Render(const std::vector<Light*>& lightQueue, const std::vector<Renderer*>& rendererQueue) const;
     private:
         static std::vector<Camera*> cameras;
-        
+
         ObjectPtr<Texture2D> renderTarget = {};
         ClearFlags clearFlags = ClearFlags::Color;
         Projection projection = Projection::Perspective;
-        Color background = Color::gray;
+        Color background = {0.5f, 0.75f, 1, 1};
         float nearClipPlane = 0.3f;
         float farClipPlane = 1000;
         float fieldOfView = 60;

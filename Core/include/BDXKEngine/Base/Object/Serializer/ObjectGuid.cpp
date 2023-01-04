@@ -70,8 +70,13 @@ namespace BDXKEngine
         guidToInstanceID.erase(instanceIDToGuid[instanceID]);
         instanceIDToGuid.erase(instanceID);
     }
+    void ObjectGuid::RemoveGuid(const Guid& guid)
+    {
+        instanceIDToGuid.erase(guidToInstanceID[guid]);
+        guidToInstanceID.erase(guid);
+    }
 
-    void ObjectGuid::SignMainGuid(const Guid& guid)
+    void ObjectGuid::MarkMainGuid(const Guid& guid)
     {
         mainGuid.insert(guid);
     }

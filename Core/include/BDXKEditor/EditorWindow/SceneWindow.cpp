@@ -4,7 +4,6 @@
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "ImGuizmo/ImGuizmo.h"
 #include "BDXKEngine/Function/Window/Cursor.h"
-#include "BDXKEngine/Function/Window/Input.h"
 
 namespace BDXKEditor
 {
@@ -20,65 +19,54 @@ namespace BDXKEditor
     }
     void CameraController::OnUpdate()
     {
-        isControlling = Input::GetMouseButton(1);
-        if (isControlling)
-        {
-            Vector3 position = transform->GetLocalPosition();
-            const float deltaTime = Time::GetDeltaTime();
-
-            if (Input::GetKey(KeyCode::W))
-            {
-                position += transform->GetFront().GetNormalized() * deltaTime * 4;
-            }
-            if (Input::GetKey(KeyCode::S))
-            {
-                position += -transform->GetFront().GetNormalized() * deltaTime * 4;
-            }
-            if (Input::GetKey(KeyCode::A))
-            {
-                position += -transform->GetRight().GetNormalized() * deltaTime * 4;
-            }
-            if (Input::GetKey(KeyCode::D))
-            {
-                position += transform->GetRight().GetNormalized() * deltaTime * 4;
-            }
-            if (Input::GetKey(KeyCode::Q))
-            {
-                position += -transform->GetUp().GetNormalized() * deltaTime * 4;
-            }
-            if (Input::GetKey(KeyCode::E))
-            {
-                position += transform->GetUp().GetNormalized() * deltaTime * 4;
-            }
-
-            transform->SetLocalPosition(position);
-
-            Vector3 localEulerAngles = transform->GetLocalEulerAngles();
-            const Vector2 mouseMoveDelta = Input::GetMouseMoveDelta();
-
-            localEulerAngles.y += mouseMoveDelta.x * deltaTime * 5;
-            localEulerAngles.x += mouseMoveDelta.y * deltaTime * 5;
-
-            if (Input::GetKey(KeyCode::Z))
-            {
-                localEulerAngles.z += deltaTime * 20;
-            }
-            if (Input::GetKey(KeyCode::X))
-            {
-                localEulerAngles.z -= deltaTime * 20;
-            }
-
-            transform->SetLocalEulerAngles(localEulerAngles);
-        }
-        if (Input::GetMouseButtonDown(1))
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right))
         {
             Cursor::SetLockState(true);
             Cursor::SetVisible(false);
         }
-        if (Input::GetMouseButtonUp(1))
+        if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
         {
             Cursor::SetLockState(false);
             Cursor::SetVisible(true);
+        }
+        if ((isControlling = ImGui::IsMouseDown(ImGuiMouseButton_Right)))
+        {
+            const float deltaTime = Time::GetDeltaTime();
+
+            //位置调整
+            Vector3 position = transform->GetLocalPosition();
+            if (ImGui::IsKeyDown(ImGuiKey_W))
+            {
+                position += transform->GetFront().GetNormalized() * deltaTime * 4;
+            }
+            if (ImGui::IsKeyDown(ImGuiKey_S))
+            {
+                position += -transform->GetFront().GetNormalized() * deltaTime * 4;
+            }
+            if (ImGui::IsKeyDown(ImGuiKey_A))
+            {
+                position += -transform->GetRight().GetNormalized() * deltaTime * 4;
+            }
+            if (ImGui::IsKeyDown(ImGuiKey_D))
+            {
+                position += transform->GetRight().GetNormalized() * deltaTime * 4;
+            }
+            if (ImGui::IsKeyDown(ImGuiKey_Q))
+            {
+                position += -transform->GetUp().GetNormalized() * deltaTime * 4;
+            }
+            if (ImGui::IsKeyDown(ImGuiKey_E))
+            {
+                position += transform->GetUp().GetNormalized() * deltaTime * 4;
+            }
+            transform->SetLocalPosition(position);
+
+            //视角调整
+            Vector3 localEulerAngles = transform->GetLocalEulerAngles();
+            const Vector2 mouseMoveDelta = ImGui::GetMouseDragDelta(1);
+            localEulerAngles.y += mouseMoveDelta.x * deltaTime * 5;
+            localEulerAngles.x += mouseMoveDelta.y * deltaTime * 5;
+            transform->SetLocalEulerAngles(localEulerAngles);
         }
     }
 

@@ -6,13 +6,13 @@ namespace BDXKEditor
     class Debug
     {
     public:
+        static void Log(const std::string& str);
+        static void Log(const char* str);
         template <typename TData>
-        static void LogGenerics(const TData& str)
+        static void Log(const TData& str)
         {
             Log(std::to_string(str));
         }
-
-        static void Log(const std::string& str);
 
         /// <summary>
         /// 输出带颜色的日志

@@ -15,7 +15,7 @@ namespace BDXKEngine
     }
     bool Component::GetIsActivating() const
     {
-        return gameObject->IsActivatingAndEnabling() && ScriptableObject::GetIsActivating();
+        return gameObject->IsActivatingAndEnabling();
     }
     ObjectPtr<GameObject> Component::GetGameObject() const { return gameObject; }
 

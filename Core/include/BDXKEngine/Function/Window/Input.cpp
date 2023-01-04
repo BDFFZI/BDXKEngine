@@ -31,6 +31,13 @@ namespace BDXKEngine
         return false;
     }
 
+    Vector2 Input::GetMouseMoveDelta()
+    {
+        if (enable == false)
+            return Vector2::zero;
+
+        return window->GetCursorMoveDelta();
+    }
     bool Input::GetKeyDown(KeyCode keyCode)
     {
         if (keyboardState[static_cast<int>(keyCode)][0] == false &&
@@ -52,7 +59,7 @@ namespace BDXKEngine
             return true;
         return false;
     }
-    void Input::SetEnable(bool state)
+    void Input::SetIsEnabling(bool state)
     {
         enable = state;
     }
@@ -77,25 +84,29 @@ namespace BDXKEngine
         });
         window->AddMouseMoveEvent([](Vector2 position)
         {
-            if (enable == false)return;
+            if (enable == false)
+                position = mousePosition;
 
             mousePosition = position;
         });
         window->AddMouseWheelEvent([](Vector2 delta)
         {
-            if (enable == false)delta = Vector2::zero;
+            if (enable == false)
+                delta = Vector2::zero;
 
             mouseScrollDelta = delta;
         });
         window->AddMouseButtonEvent([](int mouseButton, bool state)
         {
-            if (enable == false)state = false;
+            if (enable == false)
+                state = false;
 
             mouseButtonState[mouseButton][2] = state;
         });
         window->AddKeyCodeEvent([](KeyCode keyCode, bool state)
         {
-            if (enable == false)state = false;
+            if (enable == false)
+                state = false;
 
             keyboardState[static_cast<int>(keyCode)][2] = state;
         });

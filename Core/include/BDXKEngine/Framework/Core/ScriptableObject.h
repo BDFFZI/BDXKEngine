@@ -78,7 +78,7 @@ namespace BDXKEngine
     private:
         static std::unordered_set<ScriptableObject*> allScriptableObjects;
         
-        bool isActivating = true;
+        bool isActivating = true;//预防重复激活或关闭，如Component被单独激活后又被GameObject连带激活，以及GameObject删除时会先关闭然后再删除Component
         bool isEnabling = true;
         bool isAwakened = false;
     };

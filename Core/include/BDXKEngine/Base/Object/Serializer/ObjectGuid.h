@@ -17,8 +17,9 @@ namespace BDXKEngine
 
         static bool HasGuid(int instanceID);
         static void RemoveGuid(int instanceID);
+        static void RemoveGuid(const Guid& guid);
 
-        static void SignMainGuid(const Guid& guid);
+        static void MarkMainGuid(const Guid& guid);
         static bool IsMainGuid(const Guid& guid);
         static bool IsMainGuid(int instanceID);
     private:

@@ -51,7 +51,7 @@ namespace BDXKEngine
     void GUI::Dropdown(const std::string& name, const std::function<void()>& onGui)
     {
         static bool dropdownOpening = false;
-        
+
         if (ImGui::Button(name.c_str(), {ImGui::GetContentRegionAvail().x, 0}))dropdownOpening = true;
         if (dropdownOpening && ImGui::BeginListBox(("##" + name).c_str(), {ImGui::GetContentRegionAvail().x, ImGui::GetWindowHeight() / 3}))
         {
@@ -113,7 +113,7 @@ namespace BDXKEngine
     }
     void GUI::EndDraw()
     {
-        // ImGui::End();
+        //ImGui::End();
         ImGui::Render();
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     }

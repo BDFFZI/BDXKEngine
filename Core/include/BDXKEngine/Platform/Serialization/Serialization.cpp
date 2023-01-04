@@ -29,22 +29,16 @@ namespace BDXKEngine
     {
         return ObjectSerializer<BinaryImporter2, BinaryExporter2>{};
     }
-
-    ObjectPtrBase Serialization::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
+    ObjectPtrBase Serialization::Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate, bool persistent)
     {
-        auto binarySerializer = CreateBinarySerializer();
+        std::vector<Guid> guids = {};
+        ObjectPtrBase object = serializer.Deserialize(ReadFile(path), &guids);
 
-        if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
-
-        //克隆并注册
-        ObjectPtrBase instance = binarySerializer.Clone(objectPtr.ToObjectBase());
-        if (instantiate)Object::Instantiate(instance);
-        return instance;
-    }
-    ObjectPtrBase Serialization::Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate)
-    {
-        ObjectPtrBase object = serializer.Deserialize(ReadFile(path));
+        if (persistent == false)
+            for (auto& guid : guids)
+                UnMarkPersistent(ObjectGuid::GetInstanceID(guid));
         if (instantiate)Object::Instantiate(object);
+
         return object;
     }
     void Serialization::Save(const std::string& path, const ObjectPtrBase& objectPtr, ObjectSerializerBase& serializer)
@@ -64,6 +58,17 @@ namespace BDXKEngine
         ofstream << data;
         ofstream.close();
     }
+    ObjectPtrBase Serialization::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
+    {
+        auto binarySerializer = CreateBinarySerializer();
+
+        if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
+
+        //克隆并注册
+        ObjectPtrBase instance = binarySerializer.Clone(objectPtr.ToObjectBase());
+        if (instantiate)Object::Instantiate(instance);
+        return instance;
+    }
 
 
     bool Serialization::IsPersistent(const ObjectPtrBase& objectPtr)
@@ -79,5 +84,13 @@ namespace BDXKEngine
             return true;
         }
         return false;
+    }
+    void Serialization::MarkPersistent(int instanceID)
+    {
+        ObjectGuid::GetOrSetGuid(instanceID);
+    }
+    void Serialization::UnMarkPersistent(int instanceID)
+    {
+        ObjectGuid::RemoveGuid(instanceID);
     }
 }

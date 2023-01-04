@@ -23,7 +23,7 @@ namespace BDXKEngine
     {
     public:
         static void LoadDefault();
-        static void Load(const std::string& sceneName, bool keepPersistent = false);
+        static void Load(const std::string& sceneName, bool retainPersistent = false);
         static void Save(const std::string& sceneName);
         static ObjectPtr<Scene> GetCurrentScene();
     private:
