@@ -9,11 +9,9 @@
 #include "Function/Time/Time.h"
 #include "Function/Window/Cursor.h"
 #include "Function/Window/Input.h"
-#include "Function/Window/Screen.h"
 #include "Platform/GUI/GUI.h"
 #include "Platform/Phys/Phys.h"
 #include "Function/Resources/Resources.h"
-
 
 namespace BDXKEngine
 {
@@ -30,26 +28,24 @@ namespace BDXKEngine
             throw std::exception("设置本地化失败");
 
         //平台层
-        Window window{L"BDXKEngine"};
-        GL::Initialize(&window);
-        GUI::Initialize(&window);
-        Phys::Initialize(&window);
+        Window::Initialize(L"BDXKEngine");
+        GL::Initialize();
+        GUI::Initialize();
+        Phys::Initialize();
         //功能层
-        Graphics::Initialize(&window);
-        Screen::Initialize(&window);
-        Cursor::Initialize(&window);
-        Input::Initialize(&window);
-        Time::Initialize(&window);
+        Graphics::Initialize();
+        Input::Initialize();
+        Time::Initialize();
         ResourcesDefault::Initialize();
         //框架层
-        PhysicsEvent::Initialize(&window);
-        BehaviorEvent::Initialize(&window);
-        RenderEvent::Initialize(&window);
+        PhysicsEvent::Initialize();
+        BehaviorEvent::Initialize();
+        RenderEvent::Initialize();
 
         //正式开始
         {
             onStart();
-            window.Show();
+            Window::Show();
         }
 
         std::vector<ObjectPtrBase> objectPtrBases = {};

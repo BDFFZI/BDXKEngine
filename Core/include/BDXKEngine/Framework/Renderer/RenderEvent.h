@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/Object.h"
-#include "BDXKEngine/Platform/Window/Window.h"
 #include "Core/Camera.h"
 
 namespace BDXKEngine
@@ -26,9 +25,10 @@ namespace BDXKEngine
     class RenderEvent
     {
     public:
+        static void Initialize();
+        
         static const ObjectPtr<Camera>& GetCurrentCamera();
         static const ObjectPtr<Texture2D>& GetCameraCanvas();
-        static void Initialize(Window* window);
     private:
         static ObjectPtr<Camera> currentCamera;
         static ObjectPtr<Texture2D> cameraCanvas;

@@ -57,7 +57,7 @@ namespace BDXKEditor
 
     void HierarchyWindow::OnGUI()
     {
-        ImGui::Button("Isolate");
+        ImGui::Button("SetParent Null", {ImGui::GetContentRegionAvail().x, 0});
         if (ImGui::BeginDragDropTarget())
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
@@ -68,12 +68,6 @@ namespace BDXKEditor
                     droppingGameObject->SetParent(nullptr);
             }
             ImGui::EndDragDropTarget();
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("New GameObject"))
-        {
-            GameObject::Create();
-            return;
         }
 
         const std::vector<ObjectPtr<GameObject>> gameObjects = GameObject::GetGameObjects();

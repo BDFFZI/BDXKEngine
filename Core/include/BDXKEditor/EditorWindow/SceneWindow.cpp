@@ -4,6 +4,7 @@
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "ImGuizmo/ImGuizmo.h"
 #include "BDXKEngine/Function/Window/Cursor.h"
+#include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEditor
 {
@@ -63,7 +64,7 @@ namespace BDXKEditor
 
             //视角调整
             Vector3 localEulerAngles = transform->GetLocalEulerAngles();
-            const Vector2 mouseMoveDelta = ImGui::GetMouseDragDelta(1);
+            const Vector2 mouseMoveDelta = Window::GetCursorMoveDelta();
             localEulerAngles.y += mouseMoveDelta.x * deltaTime * 5;
             localEulerAngles.x += mouseMoveDelta.y * deltaTime * 5;
             transform->SetLocalEulerAngles(localEulerAngles);
@@ -80,7 +81,7 @@ namespace BDXKEditor
         GameObject::Hide(editorCameraGameObject);
 
         camera = editorCameraGameObject->GetComponent<Camera>();
-        cameraTexture = Texture2D::Create(960, 540, TextureFormat::B8G8R8A8_UNORM);
+        cameraTexture = Texture2D::Create(960, 540, TextureFormat::R8G8B8A8_UNORM);
         cameraController = Component::Create<CameraController>(editorCameraGameObject);
         viewSize = {960, 540};
 
@@ -95,7 +96,7 @@ namespace BDXKEditor
         viewSize = windowMax - windowMin;
         if (cameraTexture->GetSize() != viewSize && viewSize.x > 0 && viewSize.y > 0)
         {
-            cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+            cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
             camera->SetRenderTarget(cameraTexture);
         }
         //控制场景相机

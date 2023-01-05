@@ -136,7 +136,7 @@ namespace BDXKEngine
 
             //反序列化
             std::vector<ObjectPtrBase> allObjects = {}; //保存所有相关物体指针，防止被错误回收
-            std::vector<std::tuple<ObjectPtrBase, int>> replaceObjects = {}; //需要重新导入的物体
+            std::unordered_map<int, int> replaceObjects = {}; //需要重新导入的物体
             for (auto& [guid,data] : serializations)
             {
                 ObjectPtrBase object = nullptr;
@@ -158,7 +158,7 @@ namespace BDXKEngine
                 {
                     object = static_cast<Object*>(serializer.Deserialize(data));
                     if (ObjectGuid::GetInstanceID(guid) != 0)
-                        replaceObjects.push_back({object, ObjectGuid::GetInstanceID(guid)}); //重新加载资源
+                        replaceObjects[object.GetInstanceID()] = ObjectGuid::GetInstanceID(guid); //重新加载资源
                     else
                         ObjectGuid::SetInstanceID(guid, object->GetInstanceID());
                 }
@@ -168,10 +168,13 @@ namespace BDXKEngine
             }
 
             //替换旧物体(必须先完全删除旧的，直接替换可能出现旧物体将新物体删除的情况，比如GameObject和Component的关联删除)
-            for (auto& [object,instanceID] : replaceObjects)
+            for (auto& instanceID : replaceObjects | std::views::values)
                 Object::DestroyImmediate(Object::FindObjectOfInstanceID(instanceID));
-            for (auto& [object,instanceID] : replaceObjects)
-                Object::ReplaceObject(object, instanceID);
+            for (auto& object : allObjects)
+            {
+                int oldInstanceID = replaceObjects[object.GetInstanceID()];
+                if (oldInstanceID != 0)Object::ReplaceObject(object, oldInstanceID);
+            }
 
             //链接引用关系
             for (const auto& reference : references)

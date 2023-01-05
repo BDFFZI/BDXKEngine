@@ -68,8 +68,6 @@ namespace BDXKEngine
     void Scene::LoadDefault()
     {
         GameObject::Clear();
-        RenderSettings::SetSkyboxMaterial(ResourcesDefault::GetSkyboxMaterial());
-        RenderSettings::SetUnlitMaterial(ResourcesDefault::GetUnlitMaterial());
 
         const ObjectPtr<GameObject> sun = SceneDefault::CreateDirectionalLight("Sun");
         const ObjectPtr<GameObject> ground = SceneDefault::CreatePlane("Ground");

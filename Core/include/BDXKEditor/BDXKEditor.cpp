@@ -126,6 +126,14 @@ namespace BDXKEditor
 
             ImGui::EndMenu();
         }
+
+        if (ImGui::BeginMenu("Scene"))
+        {
+            if (ImGui::MenuItem("RenderSettings"))
+                inspectorWindow->SetTarget(RenderSettings::GetSingleton());
+
+            ImGui::EndMenu();
+        }
     }
     void EditorSystem::OnDrawGUI()
     {

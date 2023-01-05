@@ -30,6 +30,10 @@ Texture2D Texture2D2 : register(t2);
 SamplerState SamplerState2 : register(s2);
 Texture2D Texture2D3 : register(t3);
 SamplerState SamplerState3 : register(s3);
+Texture2D Texture2D4 : register(t4);
+SamplerState SamplerState4 : register(s4);
+Texture2D Texture2D5 : register(t5);
+SamplerState SamplerState5 : register(s5);
 //当前相机信息
 cbuffer CameraInfo : register(b1)
 {
@@ -39,8 +43,6 @@ float4 CameraPosition;
 float4 Environment;
 float4 Time;
 };
-TextureCube Skybox : register(t4);
-SamplerState SkyboxSampler : register(s4);
 
 float4 TransformObjectToWorld(float3 positionOS)
 {

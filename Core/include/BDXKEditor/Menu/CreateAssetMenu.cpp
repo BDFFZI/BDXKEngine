@@ -4,9 +4,13 @@
 
 namespace BDXKEditor
 {
-    ObjectPtr<Material> CreateMaterial()
+    ObjectPtr<Material> CreateStandardMaterial()
     {
         return ResourcesDefault::GetStandardMaterial();
+    }
+    ObjectPtr<Material> CreateSkyboxMaterial()
+    {
+        return ResourcesDefault::GetSkyboxMaterial();
     }
     ObjectPtr<PhysicMaterial> CreatePhysicMaterial()
     {

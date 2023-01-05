@@ -11,11 +11,10 @@ float4x4 ViewToClipLight;
 int LightOrder;
 int LightType;
 }
-Texture2D ShadowMap : register(t5);
-SamplerState ShadowMapSampler : register(s5);
-TextureCube ShadowMapCube : register(t6);
-SamplerState ShadowMapCubeSampler : register(s6);
-
+Texture2D ShadowMap : register(t6);
+SamplerState ShadowMapSampler : register(s6);
+TextureCube ShadowMapCube : register(t7);
+SamplerState ShadowMapCubeSampler : register(s7);
 
 float DecodeShadowMap(float3 worldPosition)
 {

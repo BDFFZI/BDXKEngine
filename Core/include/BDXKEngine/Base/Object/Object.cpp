@@ -51,6 +51,9 @@ namespace BDXKEngine
     // ReSharper disable once CppParameterMayBeConstPtrOrRef 禁止设置为常量，因为这可能导致填入参数为右值，从而错误触发安全指针的回收功能
     void Object::Instantiate(ObjectPtrBase& objectPtr)
     {
+        if(objectPtr.GetInstanceID() == 142)
+            printf("");
+        
         if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
         if (objectPtr->name.empty()) objectPtr->name = objectPtr->GetType();
 
@@ -91,7 +94,7 @@ namespace BDXKEngine
         }
 
         object->isDestroyed = true;
-        object->PreDestroy();
+        object->PreDestroy(); //利用Transfer我可以知道实例化一个物体时需要连带实例化的其他物体，但我无法知道删除一个物体需要连带删除哪些，所以PreDestroy目前名存实亡
         object->Destroy();
         delete object;
     }

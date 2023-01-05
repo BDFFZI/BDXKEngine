@@ -3,6 +3,7 @@
 
 namespace BDXKEngine
 {
+    //使用单例很可能是因为即想成为静态类又想能够序列化
     template <typename TSingleton>
     class Singleton : public Object
     {

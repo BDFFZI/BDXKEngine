@@ -6,14 +6,24 @@ namespace BDXKEngine
 {
     void Collider::OnEnable()
     {
+        rightbody = GetGameObject()->GetComponent<Rigidbody>();
+        if (rightbody == nullptr)
+        {
+            rightbody = Create<Rigidbody>(GetGameObject());
+            rightbody->SetIsKinematic(true);
+        }
+
         shape->setGeometry(GetPxGeometry());
         rightbody->GetPxRigidbody().attachShape(*shape);
         rightbody->ResetCenterOfMassAndInertiaTensor();
     }
     void Collider::OnDisable()
     {
-        rightbody->GetPxRigidbody().detachShape(*shape);
-        rightbody->ResetCenterOfMassAndInertiaTensor();
+        if (rightbody.IsNotNull())
+        {
+            rightbody->GetPxRigidbody().detachShape(*shape);
+            rightbody->ResetCenterOfMassAndInertiaTensor();
+        }
     }
     void Collider::OnAwake()
     {
@@ -34,12 +44,5 @@ namespace BDXKEngine
     void Collider::Awake()
     {
         Behavior::Awake();
-
-        rightbody = GetGameObject()->GetComponent<Rigidbody>();
-        if (rightbody == nullptr)
-        {
-            rightbody = Create<Rigidbody>(GetGameObject());
-            rightbody->SetIsKinematic(true);
-        }
     }
 }

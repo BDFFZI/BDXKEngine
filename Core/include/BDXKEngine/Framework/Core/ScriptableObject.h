@@ -60,16 +60,16 @@ namespace BDXKEngine
             return result;
         }
 
-        virtual bool GetIsActivating() const;
         bool GetIsEnabling() const;
-        void SetIsActivating(bool state);
         void SetIsEnabling(bool state);
-
         bool IsNotResource() const;
         bool IsActivatingAndEnabling() const;
 
-        void Transfer(Transferer& transferer) override;
+        virtual bool GetIsActivating() const;
+        void UpdateActivating();
     protected:
+        
+        void Transfer(Transferer& transferer) override;
         virtual void Enable();
         virtual void Disable();
         void Awake() override;
@@ -77,10 +77,10 @@ namespace BDXKEngine
         void PreDestroy() override;
     private:
         static std::unordered_set<ScriptableObject*> allScriptableObjects;
-        
-        bool isActivating = true;//预防重复激活或关闭，如Component被单独激活后又被GameObject连带激活，以及GameObject删除时会先关闭然后再删除Component
-        bool isEnabling = true;
+
+        bool lastIsActivating = true; //上一次的激活状态
         bool isAwakened = false;
+        bool isEnabling = true;
     };
 
     CustomReflection(ScriptableObject)

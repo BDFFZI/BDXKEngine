@@ -3,43 +3,61 @@
 
 namespace BDXKEngine
 {
-    Window::Window(const std::wstring& name, const Window* parent)
+    PCWSTR Window::name = {};
+    HWND Window::hwnd = {};
+    HCURSOR Window::hCursor = LoadCursor(nullptr, IDC_ARROW);
+    std::vector<RenewEvent> Window::renewEvents = {};
+    std::vector<ResizeEvent> Window::resizeEvents = {};
+    std::vector<DestroyEvent> Window::destroyEvents = {};
+    std::vector<MouseMoveEvent> Window::mouseMoveEvents = {};
+    std::vector<MouseWheelEvent> Window::mouseWheelEvents = {};
+    std::vector<MouseButtonEvent> Window::mouseButtonEvents = {};
+    std::vector<KeyCodeEvent> Window::keyCodeEvents = {};
+    std::vector<CharacterEvent> Window::characterEvents = {};
+    std::vector<NativeEvent> Window::nativeEvents = {};
+    bool Window::cursorlock = false;
+    bool Window::cursorVisible = true;
+    Vector2 Window::lockCursorPos = {};
+    Vector2 Window::lastCursorPos = {};
+    Vector2 Window::cursorPos = {};
+    int Window::pressedMouse = 0;
+
+    void Window::Initialize(const wchar_t* name)
     {
-        this->nativeName = name.c_str();
+        Window::name = name;
 
         //向操作系统注册窗口类
         WNDCLASSW windowClass = {};
-        windowClass.lpszClassName = nativeName; //类名，标识
+        windowClass.lpszClassName = name; //类名，标识
         windowClass.lpfnWndProc = WindowProcess; //窗口消息处理函数
         RegisterClassW(&windowClass);
 
         //创建窗口
-        hwnd = CreateWindowExW(
+        CreateWindowExW(
             0, //窗口行为
-            nativeName, //窗口类名称
-            nativeName, //窗口标题
+            name, //窗口类名称
+            name, //窗口标题
             WS_OVERLAPPEDWINDOW, //窗口样式
             100, 100, //窗口位置xy
-            1920-200, 1030-200, //窗口大小xy
-            parent == nullptr ? nullptr : parent->GetHwnd(), //父窗口
+            1920 - 200, 1030 - 200, //窗口大小xy
+            nullptr, //父窗口
             nullptr, //窗口菜单
             nullptr, //实例句柄,默认
-            this //附加的数据
+            nullptr //附加的数据
         );
 
         cursorPos = GetCursorLocalPosition();
         lastCursorPos = cursorPos;
     }
-
-    std::wstring Window::GetName() const
+    std::wstring Window::GetName()
     {
-        return nativeName;
+        return name;
     }
-    HWND Window::GetHwnd() const
+    HWND Window::GetHwnd()
     {
         return hwnd;
     }
-    Rect Window::GetScreenRect() const
+    Rect Window::GetScreenRect()
     {
         const Vector2 size = GetSize();
 
@@ -55,33 +73,18 @@ namespace BDXKEngine
             static_cast<float>(max.y - min.y)
         };
     }
-    Vector2 Window::GetSize() const
+    Vector2 Window::GetSize()
     {
         RECT rect;
         GetClientRect(GetHwnd(), &rect);
         return {static_cast<float>(rect.right), static_cast<float>(rect.bottom)};
     }
-    Vector2 Window::GetCursorLocalPosition() const
-    {
-        const Vector2 origin = GetScreenRect().GetMin();
 
-        POINT point;
-        GetCursorPos(&point);
-
-        return {static_cast<float>(point.x) - origin.x, static_cast<float>(point.y) - origin.y};
-    }
-    Vector2 Window::GetCursorMoveDelta() const
+    Vector2 Window::GetCursorMoveDelta()
     {
         return cursorPos - lastCursorPos;
     }
-    void Window::SetCursorTrack(bool state) const
-    {
-        if (state)
-            SetCapture(GetHwnd());
-        else
-            ReleaseCapture();
-    }
-    void Window::SetCursorConfining(bool state) const
+    void Window::SetCursorConfining(bool state)
     {
         if (state)
         {
@@ -112,13 +115,7 @@ namespace BDXKEngine
         cursorVisible = state;
         UpdateCursor();
     }
-    void Window::SetCursorLocalPosition(Vector2 localPosition) const
-    {
-        Rect rect = GetScreenRect();
-        const Vector2 position = rect.GetMin() + localPosition;
 
-        SetCursorPos(static_cast<int>(std::round(position.x)), static_cast<int>(std::round(position.y)));
-    }
     void Window::AddRenewEvent(const RenewEvent& renewEvent)
     {
         renewEvents.push_back(renewEvent);
@@ -155,8 +152,7 @@ namespace BDXKEngine
     {
         nativeEvents.push_back(characterEvent);
     }
-
-    void Window::Show() const
+    void Window::Show()
     {
         //显示窗口
         ShowWindow(hwnd, SW_SHOWDEFAULT);
@@ -174,7 +170,30 @@ namespace BDXKEngine
         }
     }
 
-    void Window::UpdateCursor() const
+    Vector2 Window::GetCursorLocalPosition()
+    {
+        const Vector2 origin = GetScreenRect().GetMin();
+
+        POINT point;
+        GetCursorPos(&point);
+
+        return {static_cast<float>(point.x) - origin.x, static_cast<float>(point.y) - origin.y};
+    }
+    void Window::SetCursorLocalPosition(Vector2 localPosition)
+    {
+        Rect rect = GetScreenRect();
+        const Vector2 position = rect.GetMin() + localPosition;
+
+        SetCursorPos(static_cast<int>(std::round(position.x)), static_cast<int>(std::round(position.y)));
+    }
+    void Window::SetCursorTrack(bool state)
+    {
+        if (state)
+            SetCapture(GetHwnd());
+        else
+            ReleaseCapture();
+    }
+    void Window::UpdateCursor()
     {
         if (cursorVisible)
             SetCursor(hCursor);
@@ -182,7 +201,7 @@ namespace BDXKEngine
             SetCursor(nullptr);
     }
 
-    LRESULT Window::HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter)
+    LRESULT Window::WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
     {
         for (auto& nativeEvent : nativeEvents)
             nativeEvent(hwnd, messageSign, wparameter, lparameter);
@@ -235,27 +254,34 @@ namespace BDXKEngine
             {
                 for (auto& mouseButtonEvent : mouseButtonEvents)
                     mouseButtonEvent(0, true);
+                pressedMouse++;
+                SetCursorTrack(pressedMouse != 0);
                 break;
             }
         case WM_LBUTTONUP:
             {
                 for (auto& mouseButtonEvent : mouseButtonEvents)
                     mouseButtonEvent(0, false);
+                pressedMouse--;
+                SetCursorTrack(pressedMouse != 0);
                 break;
             }
         case WM_RBUTTONDOWN:
             {
                 for (auto& mouseButtonEvent : mouseButtonEvents)
                     mouseButtonEvent(1, true);
+                pressedMouse++;
+                SetCursorTrack(pressedMouse != 0);
                 break;
             }
         case WM_RBUTTONUP:
             {
                 for (auto& mouseButtonEvent : mouseButtonEvents)
                     mouseButtonEvent(1, false);
+                pressedMouse--;
+                SetCursorTrack(pressedMouse != 0);
                 break;
             }
-
         case WM_MOUSEWHEEL:
             {
                 const Vector2 delta = {0.0f,GET_WHEEL_DELTA_WPARAM(wparameter) / 120.0f};
@@ -267,12 +293,16 @@ namespace BDXKEngine
             {
                 for (auto& mouseButtonEvent : mouseButtonEvents)
                     mouseButtonEvent(2, true);
+                pressedMouse++;
+                SetCursorTrack(pressedMouse != 0);
                 break;
             }
         case WM_MBUTTONUP:
             {
                 for (auto& mouseButtonEvent : mouseButtonEvents)
                     mouseButtonEvent(2, false);
+                pressedMouse--;
+                SetCursorTrack(pressedMouse != 0);
                 break;
             }
 #pragma endregion
@@ -301,39 +331,15 @@ namespace BDXKEngine
 
                 break;
             }
+        case WM_NCCREATE:
+            {
+                Window::hwnd = hwnd;
+                break;
+            }
         default:
             break;
         }
 
         return DefWindowProcW(GetHwnd(), messageSign, wparameter, lparameter);
-    }
-    LRESULT Window::WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter)
-    {
-        Window* window;
-
-        //获取窗口实例
-        if (messageSign == WM_NCCREATE)
-        {
-            //第一次需转存实例
-            const CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lparameter);
-            window = static_cast<Window*>(createStruct->lpCreateParams);
-            window->hwnd = hwnd;
-            SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
-        }
-        else
-        {
-            window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-        }
-
-
-        if (window != nullptr)
-        {
-            //使用窗口实例提供的消息处理程序
-            return window->HandleMessage(messageSign, wparameter, lparameter);
-        }
-        else
-        {
-            return DefWindowProc(hwnd, messageSign, wparameter, lparameter);
-        }
     }
 }

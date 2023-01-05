@@ -20,23 +20,23 @@ namespace BDXKEngine
         return cameraCanvas;
     }
 
-    void RenderEvent::Initialize(Window* window)
+    void RenderEvent::Initialize()
     {
         Texture::ResetDefaultRenderTarget();
-        const Vector2 ScreenSize = window->GetSize();
-        cameraCanvas = Texture2D::Create(ScreenSize.GetXInt(), ScreenSize.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+        const Vector2 ScreenSize = Window::GetSize();
+        cameraCanvas = Texture2D::Create(ScreenSize.GetXInt(), ScreenSize.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
         blitMaterial = Serialization::Clone(ResourcesDefault::GetUnlitMaterial());
         blitMaterial->SetMatrix(0, Matrix4x4::identity);
         blitMaterial->SetTexture2D(0, cameraCanvas);
 
-        window->AddRenewEvent(Render);
-        window->AddResizeEvent([](Vector2 size)
+        Window::AddRenewEvent(Render);
+        Window::AddResizeEvent([](Vector2 size)
         {
             if (size.x <= 0 || size.y <= 0)
                 return;
 
             Texture::ResetDefaultRenderTarget();
-            cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::B8G8R8A8_UNORM);
+            cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
             blitMaterial->SetTexture2D(0, cameraCanvas);
         });
     }
@@ -80,7 +80,7 @@ namespace BDXKEngine
 
             for (const auto& drawGUIHandler : drawGUIHandlers)
                 if (drawGUIHandler.IsNotNull() && drawGUIHandler->IsNotResource()) drawGUIHandler.ToObject<DrawGUIHandler>()->OnDrawGUI();
-            
+
             GUI::EndDraw();
         }
 

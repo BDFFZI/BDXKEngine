@@ -1,11 +1,10 @@
 ﻿#pragma once
-#include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEngine {
 	class Time
 	{
 	public:
-		static void Initialize(Window* window);
+		static void Initialize();
 		
 		static float GetRealtimeSinceStartup();
 		static float GetDeltaTime();
@@ -18,7 +17,6 @@ namespace BDXKEngine {
 		static long frameTime;
 		static float deltaTime;
 		
-
 		static void BeginFrame();
 		static void EndFrame();
 	};

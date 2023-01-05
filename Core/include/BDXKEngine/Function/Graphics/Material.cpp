@@ -1,6 +1,8 @@
 ﻿#include "Material.h"
 #include <algorithm>
 
+#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
+
 namespace BDXKEngine
 {
     ObjectPtr<Material> Material::Create(const std::vector<std::tuple<PassType, ObjectPtr<Shader>>>& passes)
@@ -97,14 +99,9 @@ namespace BDXKEngine
     void Material::UploadRP(int passIndex) const
     {
         //设置纹理
-        if (texture2D0 != nullptr) texture2D0->UploadRP(0);
-        else Texture::UploadRPNull(0);
-        if (texture2D1 != nullptr)texture2D1->UploadRP(1);
-        else Texture::UploadRPNull(1);
-        if (texture2D2 != nullptr)texture2D2->UploadRP(2);
-        else Texture::UploadRPNull(2);
-        if (texture2D3 != nullptr)texture2D3->UploadRP(3);
-        else Texture::UploadRPNull(3);
+        for (int i = 0; i < 6; i++)
+            if ((&texture2D0)[i] != nullptr) (&texture2D0)[i]->UploadRP(i);
+            else ResourcesDefault::GetFallbackTexture2D()->UploadRP(i);
 
         //设置常量
         parametersBuffer->SetData(&parameters);
@@ -165,6 +162,8 @@ namespace BDXKEngine
         TransferFieldInfo(texture2D1);
         TransferFieldInfo(texture2D2);
         TransferFieldInfo(texture2D3);
+        TransferFieldInfo(texture2D4);
+        TransferFieldInfo(texture2D5);
     }
     void Material::Awake()
     {

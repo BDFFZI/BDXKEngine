@@ -1,14 +1,11 @@
 ﻿#pragma once
-#include "BDXKEngine/Platform/Window/Window.h"
+#include "BDXKEngine/Base/Data/Mathematics/Vector/Vector2.h"
 
-namespace BDXKEngine {
-	class Screen
-	{
-	public:
-		static void Initialize(Window* window);
-		
-		static Vector2 GetSize();
-	private:
-		inline static Window* window{};
-	};
+namespace BDXKEngine
+{
+    class Screen
+    {
+    public:
+        static Vector2 GetSize();
+    };
 }

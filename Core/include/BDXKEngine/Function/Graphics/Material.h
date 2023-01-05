@@ -100,6 +100,8 @@ namespace BDXKEngine
         ObjectPtr<Texture2D> texture2D1;
         ObjectPtr<Texture2D> texture2D2;
         ObjectPtr<Texture2D> texture2D3;
+        ObjectPtr<Texture2D> texture2D4;
+        ObjectPtr<Texture2D> texture2D5;
 
         void Transfer(Transferer& transferer) override;
         void Awake() override;

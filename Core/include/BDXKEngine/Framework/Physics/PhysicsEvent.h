@@ -45,7 +45,7 @@ namespace BDXKEngine
     class PhysicsEvent
     {
     public:
-        static void Initialize(Window* window);
+        static void Initialize();
 
     private:
         static float fixedTime;

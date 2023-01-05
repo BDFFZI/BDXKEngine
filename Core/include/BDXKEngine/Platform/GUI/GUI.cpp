@@ -3,8 +3,8 @@
 #include <imgui/imgui_impl_win32.h>
 #include <ImGuizmo/ImGuizmo.h>
 
+#include "BDXKEngine/Platform/Window/Window.h"
 #include "imgui/imgui_internal.h"
-
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -63,12 +63,12 @@ namespace BDXKEngine
         }
     }
 
-    void GUI::Initialize(Window* window)
+    void GUI::Initialize()
     {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
-        ImGui_ImplWin32_Init(window->GetHwnd());
+        ImGui_ImplWin32_Init(Window::GetHwnd());
         ImGui_ImplDX11_Init(GL::GetDevice(), GL::GetDeviceContext());
 
         ImGuiIO& io = ImGui::GetIO();
@@ -82,9 +82,8 @@ namespace BDXKEngine
         ImGuizmo::AllowAxisFlip(false);
         ImGuizmo::SetGizmoSizeClipSpace(0.2f);
 
-        window->AddNativeEvent(ImGui_ImplWin32_WndProcHandler);
-
-        window->AddDestroyEvent([]
+        Window::AddNativeEvent(ImGui_ImplWin32_WndProcHandler);
+        Window::AddDestroyEvent([]
         {
             ImGui_ImplDX11_Shutdown();
             ImGui_ImplWin32_Shutdown();

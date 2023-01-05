@@ -4,6 +4,10 @@
 
 namespace BDXKEditor
 {
+    ObjectPtr<GameObject> CreateGameObject()
+    {
+        return GameObject::Create();
+    }
     ObjectPtr<GameObject> CreateCamera()
     {
         return SceneDefault::CreateCamera();

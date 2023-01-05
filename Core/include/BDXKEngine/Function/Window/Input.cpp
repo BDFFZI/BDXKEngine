@@ -2,7 +2,6 @@
 
 namespace BDXKEngine
 {
-    Window* Input::window{};
     Vector2 Input::mouseScrollDelta;
     Vector2 Input::mousePosition;
     bool Input::mouseButtonState[3][3];
@@ -36,7 +35,7 @@ namespace BDXKEngine
         if (enable == false)
             return Vector2::zero;
 
-        return window->GetCursorMoveDelta();
+        return Window::GetCursorMoveDelta();
     }
     bool Input::GetKeyDown(KeyCode keyCode)
     {
@@ -64,10 +63,9 @@ namespace BDXKEngine
         enable = state;
     }
 
-    void Input::Initialize(Window* window)
+    void Input::Initialize()
     {
-        Input::window = window;
-        window->AddRenewEvent([]()
+        Window::AddRenewEvent([]()
         {
             mouseScrollDelta = Vector2::zero;
 
@@ -82,28 +80,28 @@ namespace BDXKEngine
                 state[1] = state[2];
             }
         });
-        window->AddMouseMoveEvent([](Vector2 position)
+        Window::AddMouseMoveEvent([](Vector2 position)
         {
             if (enable == false)
                 position = mousePosition;
 
             mousePosition = position;
         });
-        window->AddMouseWheelEvent([](Vector2 delta)
+        Window::AddMouseWheelEvent([](Vector2 delta)
         {
             if (enable == false)
                 delta = Vector2::zero;
 
             mouseScrollDelta = delta;
         });
-        window->AddMouseButtonEvent([](int mouseButton, bool state)
+        Window::AddMouseButtonEvent([](int mouseButton, bool state)
         {
             if (enable == false)
                 state = false;
 
             mouseButtonState[mouseButton][2] = state;
         });
-        window->AddKeyCodeEvent([](KeyCode keyCode, bool state)
+        Window::AddKeyCodeEvent([](KeyCode keyCode, bool state)
         {
             if (enable == false)
                 state = false;

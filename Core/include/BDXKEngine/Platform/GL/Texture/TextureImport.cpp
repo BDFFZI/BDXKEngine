@@ -39,20 +39,37 @@ namespace BDXKEngine
             bitmapFrameDecode->GetPixelFormat(&wicPixelFormatGuid);
 
             TextureFormat textureFormat;
-            if (wicPixelFormatGuid == GUID_WICPixelFormat24bppBGR ||
-                wicPixelFormatGuid == GUID_WICPixelFormat32bppBGRA)
+            CComPtr<IWICBitmapSource> iwicBitmapSource;
+            if (wicPixelFormatGuid == GUID_WICPixelFormat24bppBGR)
+            {
                 textureFormat = TextureFormat::B8G8R8A8_UNORM;
+                CComPtr<IWICFormatConverter> formatConverter;
+                imagingFactory->CreateFormatConverter(&formatConverter.p);
+                formatConverter->Initialize(
+                    bitmapFrameDecode.p, GUID_WICPixelFormat32bppBGRA,
+                    WICBitmapDitherTypeErrorDiffusion, nullptr, 0, WICBitmapPaletteTypeCustom
+                );
+                iwicBitmapSource = formatConverter;
+            }
+            else if (wicPixelFormatGuid == GUID_WICPixelFormat32bppBGRA)
+            {
+                textureFormat = TextureFormat::B8G8R8A8_UNORM;
+                iwicBitmapSource = bitmapFrameDecode;
+            }
             else if (wicPixelFormatGuid == GUID_WICPixelFormat128bppRGBAFloat)
+            {
                 textureFormat = TextureFormat::R32G32B32A32_FLOAT;
+                iwicBitmapSource = bitmapFrameDecode;
+            }
             else throw std::exception("不支持的图片格式");
 
             unsigned int width, height;
-            bitmapFrameDecode->GetSize(&width, &height);
+            iwicBitmapSource->GetSize(&width, &height);
             const int pixelSize = GetPixelSize(textureFormat);
             const unsigned int bufferSize = width * height * pixelSize;
 
             const auto buffer = new unsigned char[bufferSize];
-            bitmapFrameDecode->CopyPixels(nullptr, width * pixelSize, bufferSize, buffer);
+            iwicBitmapSource->CopyPixels(nullptr, width * pixelSize, bufferSize, buffer);
 
             texture2d = Texture2D::Create(
                 static_cast<int>(width), static_cast<int>(height),

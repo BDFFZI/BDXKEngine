@@ -6,25 +6,10 @@ namespace BDXKEngine
 {
     std::unordered_set<ScriptableObject*> ScriptableObject::allScriptableObjects;
 
-    bool ScriptableObject::GetIsActivating() const
-    {
-        return true;
-    }
+
     bool ScriptableObject::GetIsEnabling() const
     {
         return isEnabling;
-    }
-    void ScriptableObject::SetIsActivating(bool state)
-    {
-        if (isActivating == state)return;
-        isActivating = state;
-
-        if (GetInstanceID() == 92)
-            printf("");
-
-        if (isEnabling == false)return;
-        if (state)Enable();
-        else Disable();
     }
     void ScriptableObject::SetIsEnabling(bool state)
     {
@@ -35,7 +20,6 @@ namespace BDXKEngine
         if (state)Enable();
         else Disable();
     }
-
     bool ScriptableObject::IsNotResource() const
     {
         return !Serialization::IsPersistent(this);
@@ -45,18 +29,29 @@ namespace BDXKEngine
         return GetIsActivating() && GetIsEnabling();
     }
 
+    bool ScriptableObject::GetIsActivating() const
+    {
+        return true;
+    }
+    void ScriptableObject::UpdateActivating()
+    {
+        if (GetIsActivating() == lastIsActivating)
+            return; //活性状态实际并没有改变，跳过（因为Enable和Disable并不是总在状态改变时才触发（创建销毁时会额外触发），加上GameObject和Component的关系，导致会多次调用）
+        lastIsActivating = !lastIsActivating;
+        
+        if (isEnabling == false)return;
+        if (lastIsActivating)Enable();
+        else Disable();
+    }
+
     void ScriptableObject::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);
 
         TransferFieldInfo(isEnabling);
     }
-
     void ScriptableObject::Enable()
     {
-        if (GetInstanceID() == 92)
-            printf("");
-
         if (isAwakened == false)
         {
             if (const auto handler = dynamic_cast<AwakeHandler*>(this); handler != nullptr)
@@ -74,9 +69,6 @@ namespace BDXKEngine
     }
     void ScriptableObject::Disable()
     {
-        if (GetInstanceID() == 92)
-            printf("");
-
         assert(allScriptableObjects.contains(this)); //事件函数执行异常
         allScriptableObjects.erase(this);
 
@@ -89,17 +81,17 @@ namespace BDXKEngine
     {
         Object::Awake();
 
-        isActivating = GetIsActivating();
+        lastIsActivating = GetIsActivating();
     }
     void ScriptableObject::PostAwake()
     {
         Object::PostAwake();
 
-        if (IsActivatingAndEnabling() && isActivating)Enable();
+        if (IsActivatingAndEnabling())Enable();
     }
     void ScriptableObject::PreDestroy()
     {
-        if (IsActivatingAndEnabling() && isActivating)Disable();
+        if (IsActivatingAndEnabling())Disable();
 
         if (isAwakened == true)
         {

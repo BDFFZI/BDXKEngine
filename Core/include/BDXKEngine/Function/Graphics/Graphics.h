@@ -11,9 +11,9 @@ namespace BDXKEngine
     class Graphics
     {
     public:
-        static void Initialize(Window* window);
+        static void Initialize();
 
-        static void SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox);
+        static void SetCameraInfo(CameraInfo cameraInfo);
         static void SetLightInfo(LightInfo lightInfo, const ObjectPtr<Texture>& shadowMap);
         static void SetCameraInfoNull();
         static void SetLightInfoNull();
@@ -26,7 +26,6 @@ namespace BDXKEngine
         static ObjectPtr<Buffer> cameraInfoBuffer;
         static ObjectPtr<Buffer> lightInfoBuffer;
 
-        static Window* window;
         static ObjectPtr<Mesh> drawTextureMesh;
         static ObjectPtr<Texture2D> defaultTexture2D;
         static ObjectPtr<TextureCube> defaultTextureCube;

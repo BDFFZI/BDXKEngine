@@ -8,7 +8,7 @@ namespace BDXKEngine
     physx::PxScene* Phys::scene = nullptr;
     physx::PxMaterial* Phys::material = nullptr;
 
-    void Phys::Initialize(Window* window)
+    void Phys::Initialize()
     {
         using namespace physx;
 
@@ -47,7 +47,6 @@ namespace BDXKEngine
         //创建默认资源
         material = physics->createMaterial(0.6f, 0.6f, 0.0f);
     }
-
 
     physx::PxPhysics& Phys::GetPhysics()
     {

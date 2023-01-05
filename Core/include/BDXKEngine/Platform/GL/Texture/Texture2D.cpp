@@ -7,7 +7,7 @@ namespace BDXKEngine
         ObjectPtr texture2d = new Texture2D{};
         texture2d->width = 1;
         texture2d->height = 1;
-        texture2d->format = TextureFormat::B8G8R8A8_UNORM;
+        texture2d->format = TextureFormat::R8G8B8A8_UNORM;
 
         const unsigned char* data = new unsigned char[]
         {
@@ -16,7 +16,7 @@ namespace BDXKEngine
             static_cast<unsigned char>(color.r * 255),
             static_cast<unsigned char>(color.a * 255)
         };
-        texture2d->pixels.resize(GetPixelSize(TextureFormat::B8G8R8A8_UNORM));
+        texture2d->pixels.resize(GetPixelSize(TextureFormat::R8G8B8A8_UNORM));
         memcpy_s(texture2d->pixels.data(), texture2d->pixels.size(), data, texture2d->pixels.size());
         delete[] data;
 

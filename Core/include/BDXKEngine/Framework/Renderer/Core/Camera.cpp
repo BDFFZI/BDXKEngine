@@ -3,6 +3,7 @@
 #include <cmath>
 #include "RenderSettings.h"
 #include "BDXKEngine/Function/Graphics/Graphics.h"
+#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Function/Window/Screen.h"
 
@@ -107,9 +108,6 @@ namespace BDXKEngine
     {
         const ObjectPtr<GameObject> gameObject = GetGameObject();
 
-        //渲染排序 TODO
-        //遮挡剔除 TODO
-
         //渲染背景,在上传相机世界数据等之前使用，否则会覆盖数据
         switch (clearFlags)
         {
@@ -122,19 +120,16 @@ namespace BDXKEngine
             {
                 GL::Clear(true, true);
 
-                const auto& skyboxMaterial = RenderSettings::GetSkyboxMaterial();
+                const auto& skyboxMaterial = RenderSettings::GetSkybox();
                 skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
                 skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
                 skyboxMaterial->UploadRP(0);
 
                 const Vector2 screenSize = Screen::GetSize();
-                Graphics::SetCameraInfo(
-                    CameraInfo::Orthographic(
-                        screenSize.x / screenSize.y, 0, 1, screenSize.y,
-                        Matrix4x4::identity, Vector3::zero, Color::black, 0
-                    ), RenderSettings::GetSkybox()
-                );
-
+                Graphics::SetCameraInfo(CameraInfo::Orthographic(
+                    screenSize.x / screenSize.y, 0, 1, screenSize.y,
+                    Matrix4x4::identity, Vector3::zero, Color::black, 0
+                ));
                 Graphics::DrawRect({Vector2::zero, screenSize});
                 break;
             }
@@ -143,7 +138,7 @@ namespace BDXKEngine
         }
 
         //上传相机信息
-        Graphics::SetCameraInfo(GetCameraInfo(), nullptr);
+        Graphics::SetCameraInfo(GetCameraInfo());
 
         //渲染物体，注意没灯光时不会触发渲染
         for (const Renderer* renderer : rendererQueue)

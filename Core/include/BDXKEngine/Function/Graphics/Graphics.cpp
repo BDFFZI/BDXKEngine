@@ -12,16 +12,13 @@ namespace BDXKEngine
     ObjectPtr<Buffer> Graphics::cameraInfoBuffer = nullptr;
     ObjectPtr<Buffer> Graphics::lightInfoBuffer = nullptr;
 
-    Window* Graphics::window = nullptr;
     ObjectPtr<Mesh> Graphics::drawTextureMesh = nullptr;
     ObjectPtr<Texture2D> Graphics::defaultTexture2D = nullptr;
     ObjectPtr<TextureCube> Graphics::defaultTextureCube = nullptr;
 
-    void Graphics::SetCameraInfo(CameraInfo cameraInfo, const ObjectPtr<TextureCube>& skybox)
+    void Graphics::SetCameraInfo(CameraInfo cameraInfo)
     {
         cameraInfoBuffer->SetData(&cameraInfo);
-        if (skybox.IsNotNull()) skybox->UploadRP(4);
-        else defaultTextureCube->UploadRP(4);
     }
     void Graphics::SetCameraInfoNull()
     {
@@ -32,20 +29,20 @@ namespace BDXKEngine
         lightInfoBuffer->SetData(&lightInfo);
         if (shadowMap.IsNull())
         {
-            defaultTexture2D->UploadRP(5);
-            defaultTextureCube->UploadRP(6);
+            defaultTexture2D->UploadRP(6);
+            defaultTextureCube->UploadRP(7);
         }
         else
         {
             if (lightInfo.lightType == LightType::Point)
             {
-                defaultTexture2D->UploadRP(5);
-                shadowMap->UploadRP(6);
+                defaultTexture2D->UploadRP(6);
+                shadowMap->UploadRP(7);
             }
             else
             {
-                shadowMap->UploadRP(5);
-                defaultTextureCube->UploadRP(6);
+                shadowMap->UploadRP(6);
+                defaultTextureCube->UploadRP(7);
             }
         }
     }
@@ -67,7 +64,7 @@ namespace BDXKEngine
         if (renderTarget.IsNull() == false)
             screenSize = {static_cast<float>(renderTarget->GetWidth()), static_cast<float>(renderTarget->GetHeight())};
         else
-            screenSize = window->GetSize();
+            screenSize = Window::GetSize();
         Vector3 minPosition = ScreenToViewPos(screenSize, screenRect.GetMin());
         Vector3 maxPosition = ScreenToViewPos(screenSize, screenRect.GetMax());
 
@@ -84,13 +81,10 @@ namespace BDXKEngine
     void Graphics::DrawViewport(bool setDefaultCameraInfo)
     {
         if (setDefaultCameraInfo)
-            SetCameraInfo(
-                {
-                    Matrix4x4::identity, Matrix4x4::identity,
-                    Vector4{}, Color{}, Vector4{},
-                },
-                nullptr
-            );
+            SetCameraInfo({
+                Matrix4x4::identity, Matrix4x4::identity,
+                Vector4{}, Color{}, Vector4{},
+            });
 
         drawTextureMesh->SetPositions({
             {-1, 1, 0},
@@ -110,19 +104,17 @@ namespace BDXKEngine
         blitMaterial->UploadRP(0);
 
         const Vector2 sourceSize = {source->GetWidth(), source->GetHeight()};
-        SetCameraInfo(
-            CameraInfo::Orthographic(
-                sourceSize.x / sourceSize.y, 0, 1, sourceSize.y,
-                Matrix4x4::identity, Vector3::zero, Color::black, 0
-            ), nullptr
-        );
+        SetCameraInfo(CameraInfo::Orthographic(
+            sourceSize.x / sourceSize.y, 0, 1, sourceSize.y,
+            Matrix4x4::identity, Vector3::zero, Color::black, 0
+        ));
         DrawRect({Vector2::zero, sourceSize});
 
         Material::UploadRPNull();
         Texture::SetRenderTargetDefault();
     }
 
-    void Graphics::Initialize(Window* window)
+    void Graphics::Initialize()
     {
         //创建渲染用的通用常量缓冲区
         cameraInfoBuffer = Buffer::Create(BufferTarget::Constant, sizeof(CameraInfo));
@@ -131,8 +123,8 @@ namespace BDXKEngine
         cameraInfoBuffer->UploadRP(1);
         lightInfoBuffer->UploadRP(2);
 
-        defaultTexture2D = Texture2D::Create(1, 1, TextureFormat::B8G8R8A8_UNORM);
-        defaultTextureCube = TextureCube::Create(1, 1, TextureFormat::B8G8R8A8_UNORM);
+        defaultTexture2D = Texture2D::Create(1, 1, TextureFormat::R8G8B8A8_UNORM);
+        defaultTextureCube = TextureCube::Create(1, 1, TextureFormat::R8G8B8A8_UNORM);
         drawTextureMesh = Mesh::Create();
         drawTextureMesh->SetTriangles({
             0, 1, 3,
@@ -145,8 +137,7 @@ namespace BDXKEngine
             {0, 0},
         });
 
-        Graphics::window = window;
-        window->AddDestroyEvent([]()
+        Window::AddDestroyEvent([]
         {
             drawTextureMesh = nullptr;
             defaultTexture2D = nullptr;

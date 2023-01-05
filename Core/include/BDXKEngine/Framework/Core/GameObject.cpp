@@ -130,8 +130,6 @@ namespace BDXKEngine
             while (newUpLayer.IsNull() == false);
         }
 
-        const bool oldActivating = GetIsActivating();
-
         if (parent.IsNull() == false)std::erase(parent->children, ObjectPtr(this));
         if (newparent.IsNull() == false)newparent->children.emplace_back(this);
         this->parent = newparent;
@@ -139,10 +137,7 @@ namespace BDXKEngine
         RenewScale();
         RenewEulerAngles();
         RenewPositionAndMatrix();
-
-        const bool newActivating = GetIsActivating();
-        if (oldActivating != newActivating)
-            SetIsActivating(newActivating);
+        UpdateActivating();
     }
     void GameObject::SetLocalPosition(Vector3 value)
     {
@@ -291,16 +286,16 @@ namespace BDXKEngine
         ScriptableObject::Enable();
 
         for (const ObjectPtr<GameObject>& child : children)
-            child->SetIsActivating(true);
+            child->UpdateActivating();
         for (const ObjectPtr<Component>& component : components)
-            component->SetIsActivating(true);
+            component->UpdateActivating();
     }
     void GameObject::Disable()
     {
         for (const ObjectPtr<GameObject>& child : children)
-            child->SetIsActivating(false);
+            child->UpdateActivating();
         for (const ObjectPtr<Component>& component : components)
-            component->SetIsActivating(false);
+            component->UpdateActivating();
 
         ScriptableObject::Disable();
     }

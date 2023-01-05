@@ -36,8 +36,11 @@ namespace BDXKEditor
 #define CustomCreateAssetMenu(funcName,assetName) inline CustomCreateAssetMenuRegister CustomCreateAssetMenu##funcName = {#funcName,funcName,assetName};
 
 
-    ObjectPtr<Material> CreateMaterial();
-    CustomCreateAssetMenu(CreateMaterial, "Material.material")
+    ObjectPtr<Material> CreateStandardMaterial();
+    ObjectPtr<Material> CreateSkyboxMaterial();
     ObjectPtr<PhysicMaterial> CreatePhysicMaterial();
+
+    CustomCreateAssetMenu(CreateStandardMaterial, "Standard.material")
+    CustomCreateAssetMenu(CreateSkyboxMaterial, "Skybox.material")
     CustomCreateAssetMenu(CreatePhysicMaterial, "Material.physicMaterial")
 }

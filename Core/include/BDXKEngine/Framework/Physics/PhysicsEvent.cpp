@@ -25,7 +25,7 @@ namespace BDXKEngine
                     if (component.IsNotNull())
                         send(component.ToObject<EventType>(), ACollision);
             }
-            
+
             if (gameObjectA.IsNotNull() && gameObjectB.IsNotNull())
             {
                 const std::vector<ObjectPtr<Component>> eventHandlers = gameObjectB->GetComponents<EventType, Component>();
@@ -83,9 +83,9 @@ namespace BDXKEngine
         }
     };
 
-    void PhysicsEvent::Initialize(Window* window)
+    void PhysicsEvent::Initialize()
     {
-        window->AddRenewEvent([]
+        Window::AddRenewEvent([]
         {
             const std::vector<ObjectPtr<ScriptableObject>> fixedUpdateHandlers =
                 ScriptableObject::FindScriptableObjectsOfType<FixedUpdateHandler, ScriptableObject>();

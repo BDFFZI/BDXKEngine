@@ -1,5 +1,6 @@
 ﻿#include "Time.h"
 #include <chrono>
+#include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEngine
 {
@@ -35,12 +36,12 @@ namespace BDXKEngine
         BeginFrame();
     }
 
-    void Time::Initialize(Window* window)
+    void Time::Initialize()
     {
         startTime = GetSystemTime();
         BeginFrame();
 
-        window->AddRenewEvent([]()
+        Window::AddRenewEvent([]()
         {
             EndFrame();
             frameCount++;

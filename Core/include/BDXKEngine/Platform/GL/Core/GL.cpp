@@ -1,11 +1,11 @@
 ﻿#include "GL.h"
 #include <exception>
+#include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEngine
 {
-    void GL::Initialize(Window* window)
+    void GL::Initialize()
     {
-        GL::window = window;
         CreateDevice();
         CreateSwapChain();
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -56,7 +56,6 @@ namespace BDXKEngine
         swapChain->Present(0, 0);
     }
 
-    Window* GL::window = nullptr;
     CComPtr<ID3D11Device> GL::device = nullptr;
     CComPtr<ID3D11DeviceContext> GL::context = nullptr;
     CComPtr<IDXGISwapChain1> GL::swapChain = nullptr;
@@ -85,7 +84,7 @@ namespace BDXKEngine
     }
     void GL::CreateSwapChain()
     {
-        const HWND hwnd = window->GetHwnd();
+        const HWND hwnd = Window::GetHwnd();
 
         //获取底层DXGI的工厂
         CComPtr<IDXGIDevice> dxglDevice;

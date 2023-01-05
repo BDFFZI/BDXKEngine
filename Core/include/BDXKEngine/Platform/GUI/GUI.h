@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "BDXKEngine/Platform/Window/Window.h"
 #include "BDXKEngine/Platform/GL/Texture/Texture2D.h"
 #include "BDXKEngine/Base/Object/Object.h"
 #define IM_VEC2_CLASS_EXTRA ImVec2(BDXKEngine::Vector2 value){x=value.x;y=value.y;} \
@@ -21,7 +20,7 @@ namespace BDXKEngine
         static bool IsDockTabVisible();
         static void Dropdown(const std::string& name, const std::function<void()>& onGui);
 
-        static void Initialize(Window* window);
+        static void Initialize();
         static void BeginDraw();
         static void EndDraw();
     };

@@ -19,7 +19,7 @@ namespace BDXKEngine
     class Phys
     {
     public:
-        static void Initialize(Window* window);
+        static void Initialize();
 
         static physx::PxPhysics& GetPhysics();
         static physx::PxScene& GetScene();

@@ -66,53 +66,52 @@ namespace BDXKEngine
     class Window
     {
     public:
-        Window(const std::wstring& name, const Window* parent = nullptr);
+        static void Initialize(const wchar_t* name);
 
-        std::wstring GetName() const;
-        HWND GetHwnd() const;
-        Rect GetScreenRect() const;
-        Vector2 GetSize() const;
-        Vector2 GetCursorLocalPosition() const;
-        Vector2 GetCursorMoveDelta() const;
-        void SetCursorTrack(bool state) const;
-        void SetCursorConfining(bool state) const;
-        void SetCursorLocalPosition(Vector2 localPosition) const;
-        void SetCursorLock(bool state);
-        void SetCursorVisible(bool state);
-        void AddRenewEvent(const RenewEvent& renewEvent);
-        void AddResizeEvent(const ResizeEvent& resizeEvent);
-        void AddDestroyEvent(const DestroyEvent& destroyEvent);
-        void AddMouseMoveEvent(const MouseMoveEvent& mouseMoveEvent);
-        void AddMouseWheelEvent(const MouseWheelEvent& mouseWheelEvent);
-        void AddMouseButtonEvent(const MouseButtonEvent& mouseButtonEvent);
-        void AddKeyCodeEvent(const KeyCodeEvent& keyCodeEvent);
-        void AddCharacterEvent(const CharacterEvent& characterEvent);
-        void AddNativeEvent(const NativeEvent& characterEvent);
+        static std::wstring GetName();
+        static HWND GetHwnd();
+        static Vector2 GetSize();
+        static Vector2 GetCursorMoveDelta();
+        static void SetCursorLock(bool state);
+        static void SetCursorVisible(bool state);
+        static void AddRenewEvent(const RenewEvent& renewEvent);
+        static void AddResizeEvent(const ResizeEvent& resizeEvent);
+        static void AddDestroyEvent(const DestroyEvent& destroyEvent);
+        static void AddMouseMoveEvent(const MouseMoveEvent& mouseMoveEvent);
+        static void AddMouseWheelEvent(const MouseWheelEvent& mouseWheelEvent);
+        static void AddMouseButtonEvent(const MouseButtonEvent& mouseButtonEvent);
+        static void AddKeyCodeEvent(const KeyCodeEvent& keyCodeEvent);
+        static void AddCharacterEvent(const CharacterEvent& characterEvent);
+        static void AddNativeEvent(const NativeEvent& characterEvent);
+        static void Show();
 
-        void Show() const;
+        static Rect GetScreenRect(); //获取当前窗口在屏幕中的范围
+        static Vector2 GetCursorLocalPosition(); //获取当前光标相对窗口的位置
+        static void SetCursorLocalPosition(Vector2 localPosition); //设置当前光标相对窗口的位置
+        static void SetCursorConfining(bool state); //将光标限制在窗口内
     private:
-        static LRESULT CALLBACK WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+        static PCWSTR name;
+        static HWND hwnd;
+        static HCURSOR hCursor;
+        static std::vector<RenewEvent> renewEvents;
+        static std::vector<ResizeEvent> resizeEvents;
+        static std::vector<DestroyEvent> destroyEvents;
+        static std::vector<MouseMoveEvent> mouseMoveEvents;
+        static std::vector<MouseWheelEvent> mouseWheelEvents;
+        static std::vector<MouseButtonEvent> mouseButtonEvents;
+        static std::vector<KeyCodeEvent> keyCodeEvents;
+        static std::vector<CharacterEvent> characterEvents;
+        static std::vector<NativeEvent> nativeEvents;
+        static bool cursorlock;
+        static bool cursorVisible;
+        static Vector2 lockCursorPos;
+        static Vector2 lastCursorPos;
+        static Vector2 cursorPos;
+        static int pressedMouse; //当前按下的鼠标按钮数量
 
-        PCWSTR nativeName;
-        HWND hwnd;
-        Vector2 lockCursorPos = {};
-        Vector2 lastCursorPos = {};
-        Vector2 cursorPos = {};
-        bool cursorlock = false;
-        bool cursorVisible = true;
-        HCURSOR hCursor = LoadCursor(nullptr, IDC_ARROW);
-        std::vector<RenewEvent> renewEvents;
-        std::vector<ResizeEvent> resizeEvents;
-        std::vector<DestroyEvent> destroyEvents;
-        std::vector<MouseMoveEvent> mouseMoveEvents;
-        std::vector<MouseWheelEvent> mouseWheelEvents;
-        std::vector<MouseButtonEvent> mouseButtonEvents;
-        std::vector<KeyCodeEvent> keyCodeEvents;
-        std::vector<CharacterEvent> characterEvents;
-        std::vector<NativeEvent> nativeEvents;
+        static void SetCursorTrack(bool state); //当光标超出窗口范围后是否继续跟踪鼠标状态
+        static void UpdateCursor(); //更新光标显示效果
 
-        void UpdateCursor() const;
-
-        LRESULT HandleMessage(UINT messageSign, WPARAM wparameter, LPARAM lparameter);
+        static LRESULT WindowProcess(HWND hwnd, UINT messageSign, WPARAM wparameter, LPARAM lparameter);
     };
 }
