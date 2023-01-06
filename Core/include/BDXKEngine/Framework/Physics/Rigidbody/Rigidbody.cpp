@@ -45,6 +45,7 @@ namespace BDXKEngine
     void Rigidbody::SetIsKinematic(bool isKinematic)
     {
         this->isKinematic = isKinematic;
+        actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, isKinematic);
     }
     void Rigidbody::SetConstraints(RigidbodyConstraints constraints)
     {

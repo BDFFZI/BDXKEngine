@@ -1,11 +1,11 @@
 {
     "serializationsCount": 1,
     "serialization_0": {
-        "object": "{49F98948-03B5-4595-1D9F-80E4FC53666F}",
+        "object": "{1B0628A5-85C6-4AB2-CC99-5B5E57DDB2D0}",
         "data": {
             "type": "class BDXKEditor::Texture2DImporter",
             "name": "class BDXKEditor::Texture2DImporter",
-            "guid": "{C6183D42-B5C4-4A98-B394-C4ADC5E5E789}"
+            "guid": "{4FAEF2F4-386A-4D91-D388-E1D5FC5154B2}"
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿#include "RenderEvent.h"
 #include "BDXKEngine/Function/Graphics/Graphics.h"
-#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "Core/Camera.h"
+#include "Core/RenderSettings.h"
 
 namespace BDXKEngine
 {
     ObjectPtr<Camera> RenderEvent::currentCamera = nullptr;
     ObjectPtr<Texture2D> RenderEvent::cameraCanvas = nullptr;
-    ObjectPtr<Material> RenderEvent::blitMaterial = nullptr;
 
     const ObjectPtr<Camera>& RenderEvent::GetCurrentCamera()
     {
@@ -25,9 +24,6 @@ namespace BDXKEngine
         Texture::ResetDefaultRenderTarget();
         const Vector2 ScreenSize = Window::GetSize();
         cameraCanvas = Texture2D::Create(ScreenSize.GetXInt(), ScreenSize.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
-        blitMaterial = Serialization::Clone(ResourcesDefault::GetUnlitMaterial());
-        blitMaterial->SetMatrix(0, Matrix4x4::identity);
-        blitMaterial->SetTexture2D(0, cameraCanvas);
 
         Window::AddRenewEvent(Render);
         Window::AddResizeEvent([](Vector2 size)
@@ -37,7 +33,6 @@ namespace BDXKEngine
 
             Texture::ResetDefaultRenderTarget();
             cameraCanvas = Texture2D::Create(size.GetXInt(), size.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
-            blitMaterial->SetTexture2D(0, cameraCanvas);
         });
     }
     void RenderEvent::Render()
@@ -71,8 +66,12 @@ namespace BDXKEngine
         //将相机渲染传输到屏幕
         Texture::SetRenderTargetDefault();
         GL::Clear(true, true);
-        if (blitMaterial->UploadRP(PassType::ForwardBase))
-            Graphics::DrawViewport();
+        auto& blitMaterial = RenderSettings::GetBlitMaterial();
+        if (blitMaterial.IsNull())throw std::exception("必须要设置BlitMaterial");
+        blitMaterial->SetMatrix(0, Matrix4x4::identity);
+        blitMaterial->SetTexture2D(0, cameraCanvas);
+        blitMaterial->UploadRP(0);
+        Graphics::DrawViewport(true);
 
         //UI渲染
         {

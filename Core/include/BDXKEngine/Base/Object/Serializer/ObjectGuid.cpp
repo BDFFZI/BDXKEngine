@@ -1,4 +1,7 @@
 ﻿#include "ObjectGuid.h"
+
+#include <format>
+
 #include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEngine
@@ -48,7 +51,7 @@ namespace BDXKEngine
                 guidToInstanceID.erase(guid);
                 instanceIDToGuid.erase(oldInstanceID);
             }
-            else throw std::exception("Guid已被绑定");
+            else throw std::exception(std::format("Guid已被绑定至 %i", oldInstanceID).c_str());
         }
 
         const Guid oldGuid = instanceIDToGuid[instanceID]; //创建物体时可能随机生成默认的Guid，所以允许修改

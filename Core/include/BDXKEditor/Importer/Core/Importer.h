@@ -25,7 +25,6 @@ namespace BDXKEditor
         Guid guid;
 
         void Transfer(Transferer& transferer) override;
-        void Awake() override;
     };
 
     struct CustomAssetsImporterRegister

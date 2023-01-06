@@ -32,7 +32,6 @@ namespace BDXKEngine
     private:
         static ObjectPtr<Camera> currentCamera;
         static ObjectPtr<Texture2D> cameraCanvas;
-        static ObjectPtr<Material> blitMaterial;
 
         static void Render();
     };

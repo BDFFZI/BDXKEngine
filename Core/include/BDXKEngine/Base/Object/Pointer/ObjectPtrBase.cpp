@@ -111,40 +111,27 @@ namespace BDXKEngine
 
         if (objectPtr.instanceID != 0)
             AddRef(objectPtr.instanceID);
-        
+
         return *this;
     }
 
     void ObjectPtrBase::AddRef(const int refInstanceID)
     {
+        refCountMap[refInstanceID]++;
+
         instanceID = refInstanceID;
-        refCountMap[instanceID]++;
-        //Debug::LogWarning(
-        //	L"ObjectPtrBase::AddRef 实例编号:"
-        //	+ std::to_string(instanceID)
-        //	+ "\t新计数:"
-        //	+ std::to_string(refCountMap[instanceID])
-        //);
+        instancePtr = ToObjectBase();
     }
     void ObjectPtrBase::RemoveRef()
     {
         const int refCount = --refCountMap[instanceID];
-        //Debug::LogWarning(
-        //	L"ObjectPtrBase::RemoveRef 实例编号:"
-        //	+ std::to_string(instanceID)
-        //	+ "\t新计数:"
-        //	+ std::to_string(refCount)
-        //);
         if (refCount == 0)
         {
             refCountMap.erase(instanceID);
-            const Object* object = ToObjectBase();
-            if (object != nullptr && object->IsDestroyed() == false)
-            {
-                Object::DestroyImmediate(*this);
-            }
+            Object::DestroyImmediate(*this);
         }
 
         instanceID = 0;
+        instancePtr = nullptr;
     }
 }

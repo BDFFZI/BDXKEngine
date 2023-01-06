@@ -27,7 +27,7 @@ namespace BDXKEngine
     ObjectPtrBase Resources::FindSerializationFallback(const Guid& guid)
     {
         if (IsExisting(guid))
-            return Serialization::CreateBinarySerializer().Deserialize(ReadFile("Resources/" + guid));
+            return Load(guid);
         return nullptr;
     }
 

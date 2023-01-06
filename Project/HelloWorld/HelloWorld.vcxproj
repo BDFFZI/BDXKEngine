@@ -152,6 +152,7 @@
     <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\GameObjectEditor.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\MaterialEditor.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Function\Assets.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Function\AssetsBuiltIn.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Function\Debug.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\Core\Importer.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\MeshImporter.cpp" />
@@ -205,12 +206,12 @@
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\MeshRenderer.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\RenderEvent.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Scene.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Fallback\Fallback.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Graphics\Graphics.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Graphics\Material.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Random\Random.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Resources\Resources.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Resources\ResourcesDefault.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Time\Time.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Window\Cursor.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Function\Window\Input.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\GameObjectEditor.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\MaterialEditor.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Function\Assets.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Function\AssetsBuiltIn.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Function\Debug.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\Core\Importer.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\MeshImporter.h" />
@@ -324,12 +326,12 @@
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\MeshRenderer.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\RenderEvent.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Scene.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Fallback\Fallback.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Graphics\Graphics.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Graphics\Material.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Random\Random.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Resources\Resources.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Resources\ResourcesDefault.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Time\Time.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Window\Cursor.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Function\Window\Input.h" />

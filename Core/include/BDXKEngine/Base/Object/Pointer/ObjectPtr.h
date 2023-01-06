@@ -13,15 +13,9 @@ namespace BDXKEngine
         }
         ObjectPtr(const TObject* object) : ObjectPtrBase(object)
         {
-            debugPtr = static_cast<TObject*>(ToObjectBase());
         }
         ObjectPtr(const ObjectPtr& other): ObjectPtrBase(other)
         {
-            debugPtr = other.debugPtr;
-        }
-        ~ObjectPtr() override
-        {
-            debugPtr = nullptr;
         }
 
         Type GetObjectType() const override
@@ -57,10 +51,8 @@ namespace BDXKEngine
                 return *this;
 
             ObjectPtrBase::operator =(other);
-            debugPtr = other.debugPtr;
             return *this;
         }
-
     private:
         static void StaticConstructor()
         {
@@ -69,18 +61,5 @@ namespace BDXKEngine
             delete objectPtr;
         }
         CustomStaticConstructor(StaticConstructor)
-        
-        TObject* debugPtr = nullptr; //该值可能出错，仅供调试用
-
-        void AddRef(const int refInstanceID) override
-        {
-            ObjectPtrBase::AddRef(refInstanceID);
-            debugPtr = reinterpret_cast<TObject*>(ToObjectBase());
-        }
-        void RemoveRef() override
-        {
-            ObjectPtrBase::RemoveRef();
-            debugPtr = nullptr;
-        }
     };
 }

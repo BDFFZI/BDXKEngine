@@ -53,5 +53,6 @@ namespace BDXKEngine
         CustomStaticConstructor(StaticConstructor)
 
         int instanceID = 0;
+        Object* instancePtr = nullptr; //仅供调试用
     };
 }

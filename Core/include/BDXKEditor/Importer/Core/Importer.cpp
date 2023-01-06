@@ -28,8 +28,10 @@ namespace BDXKEditor
     {
         //导入物体
         ObjectPtrBase object = ImportAsset(filePath);
-        //检查是否为重新导入(以导入器中的Guid为准，因为有些资源自身不带Guid)
-        if (ObjectGuid::GetInstanceID(guid) != object.GetInstanceID()) //资源自带Guid时序列化器会自动处理，所以不需要再次处理
+        if (guid.empty())guid = ObjectGuid::GetOrSetGuid(object.GetInstanceID()); //首次导入，必须保证导入器提供的Guid和Object的Guid一致
+
+        //检查是否为重新导入(以导入器中的Guid为准,因为有些资源自身不带Guid，若带有Guid也应该和导入器中的Guid一致)
+        if (ObjectGuid::GetInstanceID(guid) != object.GetInstanceID())
         {
             if (ObjectGuid::GetInstanceID(guid) == 0)
                 ObjectGuid::SetInstanceID(guid, object.GetInstanceID());
@@ -45,12 +47,5 @@ namespace BDXKEditor
         Object::Transfer(transferer);
 
         TransferFieldInfo(guid);
-    }
-    void Importer::Awake()
-    {
-        Object::Awake();
-
-        if (guid.empty())
-            guid = NewGuid();
     }
 }

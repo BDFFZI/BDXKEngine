@@ -1,0 +1,4 @@
+编辑器必要的内置资源
+请务必将该文件夹放在编辑器生成的Assets文件夹中
+
+注意：目前请使用Project/HelloWorld/Assets/build-in作为内置资源

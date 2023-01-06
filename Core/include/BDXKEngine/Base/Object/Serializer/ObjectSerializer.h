@@ -117,10 +117,6 @@ namespace BDXKEngine
                 serializations.emplace_back(guid, data);
             }
 
-            //获取目标Guid信息
-            const Guid rootGuid = std::get<0>(serializations[0]);
-            ObjectGuid::MarkMainGuid(rootGuid);
-
             //设置反序列化物体的方式（将Guid转为物体引用）
             std::unordered_map<Guid, std::vector<ObjectPtrBase*>> references;
             objectImporter.template SetTransferFunc<ObjectPtrBase>([&](ObjectPtrBase& value)
@@ -192,6 +188,7 @@ namespace BDXKEngine
                         guidsInInput->emplace_back(guid);
             }
 
+            ObjectGuid::MarkMainGuid(std::get<0>(serializations[0]));
             return allObjects[0];
         }
         ObjectPtrBase Clone(ObjectPtrBase input) override

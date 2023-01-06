@@ -29,5 +29,5 @@ namespace BDXKEditor
         }
     };
 
-#define CustomMenu(funcType,funcName) inline CustomMenuRegister<##funcType> CustomMenu##funcName = {#funcName,funcName};
+#define CustomMenu(funcType,funcName) inline static CustomMenuRegister<##funcType> CustomMenu##funcName = {#funcName,funcName};
 }

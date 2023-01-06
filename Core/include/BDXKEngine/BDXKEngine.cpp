@@ -5,9 +5,7 @@
 #include "Framework/Physics/PhysicsEvent.h"
 #include "Framework/Renderer/RenderEvent.h"
 #include "Function/Graphics/Graphics.h"
-#include "Function/Resources/ResourcesDefault.h"
 #include "Function/Time/Time.h"
-#include "Function/Window/Cursor.h"
 #include "Function/Window/Input.h"
 #include "Platform/GUI/GUI.h"
 #include "Platform/Phys/Phys.h"
@@ -36,7 +34,6 @@ namespace BDXKEngine
         Graphics::Initialize();
         Input::Initialize();
         Time::Initialize();
-        ResourcesDefault::Initialize();
         //框架层
         PhysicsEvent::Initialize();
         BehaviorEvent::Initialize();

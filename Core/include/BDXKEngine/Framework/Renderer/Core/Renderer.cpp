@@ -1,8 +1,6 @@
 ﻿#include "Renderer.h"
 #include <algorithm>
-
-#include "BDXKEngine/Function/Resources/Resources.h"
-#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
+#include "BDXKEngine/Function/Fallback/Fallback.h"
 
 namespace BDXKEngine
 {
@@ -13,36 +11,44 @@ namespace BDXKEngine
     {
         rendererQueue.clear();
 
-        for (const auto& renderer : renderers)
-            if (renderer->GetMesh().IsNotNull())
-                rendererQueue.emplace_back(renderer);
+        if (Fallback::GetMaterial().IsNotNull())
+        {
+            for (const auto& renderer : renderers)
+                if (renderer->GetMesh().IsNotNull())
+                    rendererQueue.emplace_back(renderer);
+        }
+        else
+        {
+            for (const auto& renderer : renderers)
+                if (renderer->GetMesh().IsNotNull() && renderer->GetMaterial().IsNotNull())
+                    rendererQueue.emplace_back(renderer);
+        }
 
         std::ranges::sort(
             rendererQueue,
             [](const Renderer* a, const Renderer* b)
             {
-                return a->GetMaterialFallback()->GetRenderQueue() < b->GetMaterialFallback()->GetRenderQueue();
+                ObjectPtr<Material> materialA = a->GetMaterial();
+                ObjectPtr<Material> materialB = b->GetMaterial();
+
+                if (materialA.IsNull())materialA = Fallback::GetMaterial();
+                if (materialB.IsNull())materialB = Fallback::GetMaterial();
+
+                return materialA->GetRenderQueue() < materialB->GetRenderQueue();
             }
         );
         return rendererQueue;
     }
-    const ObjectPtr<Material>& Renderer::GetMaterialFallback() const
+
+    const ObjectPtr<Material>& Renderer::GetMaterial(bool fallback) const
     {
         if (material.IsNotNull())
+            material->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
+        else if (fallback)
         {
-            material->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
-            return material;
+            Fallback::GetMaterial()->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
+            return Fallback::GetMaterial();
         }
-
-        auto& fallbackMaterial = ResourcesDefault::GetFallbackMaterial();
-        fallbackMaterial->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
-        return fallbackMaterial;
-    }
-
-    const ObjectPtr<Material>& Renderer::GetMaterial() const
-    {
-        if (material.IsNotNull())
-            material->SetMatrix(0, GetGameObject()->GetLocalToWorldMatrix());
         return material;
     }
     bool Renderer::GetCastShadows() const

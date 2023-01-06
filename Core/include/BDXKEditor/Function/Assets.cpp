@@ -33,14 +33,27 @@ namespace BDXKEditor
         Resources::Save(guid, object); //便于下次直接用缓存文件加载
         return object;
     }
-    void Assets::Save(const std::string& path, const ObjectPtrBase& objectPtr)
+    void Assets::Save(const std::string& path, ObjectPtrBase& objectPtr)
     {
+        if (objectPtr.IsNull())throw std::exception("目标物体不存在");
+
+        if (pathToGuid.contains(path))
+        {
+            const Guid guid = pathToGuid[path];
+            const int instanceID = ObjectGuid::GetInstanceID(guid);
+            if (objectPtr.GetInstanceID() != instanceID)
+            {
+                //检测到覆盖保存，Guid必须锁定为和导入器一致（首次导入时导入器能够负责这一块，但无法保证后续修改的问题）
+                //虽然导入器导入时会纠正Guid，但无法纠正在这之前发生的反序列化阶段的Guid
+                //所以覆盖资源时必须保证和导入器Guid一致
+                if (instanceID != 0)Object::ReplaceObject(objectPtr, instanceID); //替换旧物体
+                else ObjectGuid::SetInstanceID(guid, objectPtr.GetInstanceID()); //旧物体并未被加载
+            }
+        }
+
         auto serializer = Serialization::CreateJsonSerializer();
         Serialization::Save(rootDirectory + path, objectPtr, serializer);
-
-        //更新缓存文件
-        if (pathToGuid.contains(path))
-            Resources::Save(pathToGuid[path], objectPtr);
+        Resources::Save(ObjectGuid::GetOrSetGuid(objectPtr.GetInstanceID()), objectPtr); //更新或创建缓存文件
     }
     bool Assets::IsExisting(const std::string& path)
     {
@@ -61,7 +74,7 @@ namespace BDXKEditor
             {
                 if (item.is_directory())
                     directories.push(item);
-                else if (item.path().extension() == ".importer")
+                else if (item.path().extension() == ".importer") //以importer提供的Guid和名称为准
                 {
                     std::string path = item.path().string();
 
@@ -85,6 +98,7 @@ namespace BDXKEditor
                                            : Serialization::Load<Importer>(importerPath, jsonSerializer);
         if (importer.IsNull())throw std::exception("无法加载目标对应的导入器");
 
+        if (importer->GetTargetGuid().empty())importer->Import(rootDirectory + path); //新创建的importer保存前必须要先用一次（从而获得资源的Guid）
         Serialization::Save(importerPath, importer, jsonSerializer);
         return importer;
     }
@@ -100,10 +114,7 @@ namespace BDXKEditor
             {
                 const std::string path = rootDirectory + guidToPath[guid];
                 if (std::filesystem::exists(path))
-                {
-                    Load(path.substr(rootDirectory.size()));
-                    return Resources::FindSerializationFallback(guid);
-                }
+                    return Load(path.substr(rootDirectory.size()));
             }
 
             return ObjectPtrBase{};

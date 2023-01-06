@@ -1,5 +1,4 @@
 ﻿#include "RenderSettings.h"
-#include "BDXKEngine/Platform/GL/Shader/ShaderImport.h"
 
 namespace BDXKEngine
 {
@@ -7,15 +6,24 @@ namespace BDXKEngine
     {
         return GetSingleton()->skybox;
     }
+    const ObjectPtr<Material>& RenderSettings::GetBlitMaterial()
+    {
+        return GetSingleton()->blitMaterial;
+    }
     void RenderSettings::SetSkybox(const ObjectPtr<Material>& skybox)
     {
         GetSingleton()->skybox = skybox;
     }
-    
+    void RenderSettings::SetBlitMaterial(const ObjectPtr<Material>& blitMaterial)
+    {
+        GetSingleton()->blitMaterial = blitMaterial;
+    }
+
     void RenderSettings::Transfer(Transferer& transferer)
     {
         Object::Transfer(transferer);
 
         TransferFieldInfo(skybox);
+        TransferFieldInfo(blitMaterial);
     }
 }

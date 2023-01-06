@@ -3,7 +3,6 @@
 #include <cmath>
 #include "RenderSettings.h"
 #include "BDXKEngine/Function/Graphics/Graphics.h"
-#include "BDXKEngine/Function/Resources/ResourcesDefault.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Function/Window/Screen.h"
 
@@ -124,13 +123,7 @@ namespace BDXKEngine
                 skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
                 skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
                 skyboxMaterial->UploadRP(0);
-
-                const Vector2 screenSize = Screen::GetSize();
-                Graphics::SetCameraInfo(CameraInfo::Orthographic(
-                    screenSize.x / screenSize.y, 0, 1, screenSize.y,
-                    Matrix4x4::identity, Vector3::zero, Color::black, 0
-                ));
-                Graphics::DrawRect({Vector2::zero, screenSize});
+                Graphics::DrawViewport(true);
                 break;
             }
         case ClearFlags::Not:
@@ -145,7 +138,7 @@ namespace BDXKEngine
         {
             //获取该物体的渲染管线资源
             const ObjectPtr<Mesh> mesh = renderer->GetMesh(); //获取网格
-            const ObjectPtr<Material> material = renderer->GetMaterialFallback(); //获取材质
+            const ObjectPtr<Material> material = renderer->GetMaterial(true); //获取材质
 
             //每个灯光都需要单独渲染一遍,每一次光照都是一次物体的一次Pass
             const int lightCount = static_cast<int>(lightQueue.size());

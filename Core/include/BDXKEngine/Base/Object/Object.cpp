@@ -16,13 +16,15 @@ namespace BDXKEngine
             throw std::exception("替换物体不存在");
         if (object->GetInstanceID() == targetInstanceID)
             throw std::exception("新旧ID相同");
+        if (targetInstanceID <= 0)
+            throw std::exception("目标ID不可使用");
 
         DestroyImmediate(FindObjectOfInstanceID(targetInstanceID));
         allObjects[targetInstanceID] = object;
         allObjects.erase(object->instanceID);
         object->instanceID = targetInstanceID;
 
-        source = {object};
+        source = {object}; //source.instanceID已从allObjects移除，所以替换时并不会导致错误删除
     }
     void Object::SetConstructedObjectEvent(const std::function<void(Object*)>& onConstructedObject)
     {
@@ -45,15 +47,15 @@ namespace BDXKEngine
     }
     Object::~Object()
     {
+        if (instanceID == 88)
+            printf("");
+
         allObjects.erase(instanceID);
     }
 
     // ReSharper disable once CppParameterMayBeConstPtrOrRef 禁止设置为常量，因为这可能导致填入参数为右值，从而错误触发安全指针的回收功能
     void Object::Instantiate(ObjectPtrBase& objectPtr)
     {
-        if(objectPtr.GetInstanceID() == 142)
-            printf("");
-        
         if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
         if (objectPtr->name.empty()) objectPtr->name = objectPtr->GetType();
 

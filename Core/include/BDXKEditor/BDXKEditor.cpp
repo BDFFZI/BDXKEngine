@@ -3,9 +3,11 @@
 #include "BDXKEngine/BDXKEngine.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
+#include "BDXKEngine/Function/Fallback/Fallback.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "Function/Assets.h"
+#include "Function/AssetsBuiltIn.h"
 #include "Function/Debug.h"
 #include "Menu/CreateAssetMenu.h"
 #include "Menu/CreateGameObjectMenu.h"
@@ -42,16 +44,29 @@ namespace BDXKEditor
     {
         if (Assets::IsExisting(sceneName) == false)
         {
-            Scene::LoadDefault();
+            GameObject::Clear();
+            RenderSettings::SetSkybox(CreateAssetMenu::CreateSkyboxMaterial());
+            RenderSettings::SetBlitMaterial(CreateAssetMenu::CreateUnlitMaterial());
+            const ObjectPtr<GameObject> sun = CreateGameObjectMenu::CreateDirectionalLight();
+            sun->SetName("Sun");
+            sun->SetLocalEulerAngles({45, -45, 0});
+            const ObjectPtr<GameObject> ground = CreateGameObjectMenu::CreatePlane();
+            ground->SetName("Ground");
+            const ObjectPtr<GameObject> sphere = CreateGameObjectMenu::CreateSphere();
+            sphere->SetName("Sphere");
+            sphere->SetLocalPosition({0, 0.5f, 0});
+            const ObjectPtr<GameObject> camera = CreateGameObjectMenu::CreateCamera();
+            camera->SetName("Camera");
+            camera->SetLocalPosition({0, 1, -10});
             SaveScene(sceneName);
         }
 
-        Assets::Load<Scene>(sceneName, true);
+        auto scene = Assets::Load<Scene>(sceneName, true);
         Scene::Load(Assets::LoadImporter(sceneName)->GetTargetGuid(), keepPersistent);
     }
     void EditorSystem::SaveScene(const std::string& sceneName)
     {
-        const auto scene = Scene::GetCurrentScene();
+        auto scene = Scene::GetCurrentScene();
         scene->SetName(sceneName);
         Assets::Save(sceneName, scene);
         Scene::Save(sceneName); //仅提供给运行时用
@@ -160,6 +175,17 @@ namespace BDXKEditor
     }
     void EditorSystem::OnAwake()
     {
+        AssetsBuiltIn::Initialize();
+
+        //TODO Fallback需要保存
+        const auto fallbackMaterial = CreateAssetMenu::CreateUnlitMaterial();
+        const auto fallbackTexture2D = Texture2D::Create(Color::white);
+        fallbackMaterial->SetTexture2D(0, fallbackTexture2D);
+        fallbackMaterial->SetVector(0, {1, 0, 1, 1});
+        Fallback::SetMaterial(fallbackMaterial);
+        Fallback::SetTexture2D(fallbackTexture2D);
+
+        //初始化编辑器窗口
         hierarchyWindow = EditorWindow::Create<HierarchyWindow>();
         sceneWindow = EditorWindow::Create<SceneWindow>();
         inspectorWindow = EditorWindow::Create<InspectorWindow>();
@@ -167,7 +193,6 @@ namespace BDXKEditor
         consoleWindow = EditorWindow::Create<ConsoleWindow>();
         projectWindow = EditorWindow::Create<ProjectWindow>();
         gameWindow = EditorWindow::Create<GameWindow>();
-
         hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
         {
             sceneWindow->SetTarget(gameObject);
@@ -182,7 +207,6 @@ namespace BDXKEditor
         {
             inspectorWindow->SetTarget(object);
         });
-
         hierarchyWindow->Show();
         sceneWindow->Show();
         inspectorWindow->Show();
@@ -191,15 +215,16 @@ namespace BDXKEditor
         projectWindow->Show();
         gameWindow->Show();
 
-        SetConstructedObjectEvent([](const Object* object)
-        {
-            ObjectGuid::GetOrSetGuid(object->GetInstanceID());
-        });
-
-        //两个游戏窗口便于观看，放这里创建是为了测试上方代码的影响
+        //两个游戏窗口便于观看
         const ObjectPtr<GameWindow> previewWindow = EditorWindow::Create<GameWindow>();
         previewWindow->SetName("PreviewWindow");
         previewWindow->Show();
+
+        //非运行模式下创建的物体都是标记持久化的物体
+        SetConstructedObjectEvent([](const Object* object)
+        {
+            Serialization::MarkPersistent(object->GetInstanceID());
+        });
     }
 
     ObjectPtr<EditorSystem> editorSystem;

@@ -38,7 +38,8 @@ namespace BDXKEditor
         }
         if (ImGui::Button("Save & ReImport"))
         {
-            Assets::Save(assetPath, Assets::Load(assetPath));
+            ObjectPtrBase object = Assets::Load(assetPath);
+            Assets::Save(assetPath, object);
             Assets::Load(assetPath, true);
             return true;
         }
