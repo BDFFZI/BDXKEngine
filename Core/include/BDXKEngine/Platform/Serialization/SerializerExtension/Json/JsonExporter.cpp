@@ -130,11 +130,11 @@ namespace BDXKEngine
     {
         std::string base64;
 
-        base64.resize((value.size() + 2) / 3 * 4);
+        base64.resize((value.size() + 2) / 3 * 4); //每3个普通字节转为4个base64字节储存，所以数量必须为3的倍数
         base64.resize(String::EncodingBase64(
                 reinterpret_cast<const unsigned char*>(value.data()),
                 static_cast<int>(value.size()),
-                base64.data())
+                reinterpret_cast<unsigned char*>(base64.data()))
         );
 
         TransferString(base64);

@@ -1,4 +1,6 @@
 ﻿#include "SceneWindow.h"
+
+#include "InspectorWindow.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
@@ -77,13 +79,13 @@ namespace BDXKEditor
     }
     void SceneWindow::OnAwake()
     {
-        const ObjectPtr<GameObject> editorCameraGameObject = GameObject::Create("SceneWindow");
-        Component::Create<Camera>(editorCameraGameObject);
-        GameObject::Hide(editorCameraGameObject);
+        gameObject = GameObject::Create("SceneWindow");
+        Component::Create<Camera>(gameObject);
+        GameObject::Hide(gameObject);
 
-        camera = editorCameraGameObject->GetComponent<Camera>();
+        camera = gameObject->GetComponent<Camera>();
         cameraTexture = Texture2D::Create(960, 540, TextureFormat::R8G8B8A8_UNORM);
-        cameraController = Component::Create<CameraController>(editorCameraGameObject);
+        cameraController = Component::Create<CameraController>(gameObject);
         viewSize = {960, 540};
 
         camera->SetRenderTarget(cameraTexture);
@@ -110,6 +112,20 @@ namespace BDXKEditor
             cameraTexture->GetSize()
         );
         ImGui::SetCursorPos(cursorPos);
+        //SceneWindow物体
+        if (ImGui::Button("SceneWindowSettings"))
+        {
+            ObjectPtr<InspectorWindow> inspectorWindow = Create<InspectorWindow>();
+            inspectorWindow->SetTarget(gameObject);
+            inspectorWindow->Show();
+        }
+        //帧率信息
+        ImGui::SameLine();
+        ImGui::Text(
+            "Rate %.3f ms/frame (%.1f FPS)",
+            static_cast<double>(Time::GetDeltaTime() * 1000.0f),
+            static_cast<double>(1.0f / Time::GetDeltaTime())
+        );
         //手柄选项
         {
             static constexpr char optionsName[4][10] = {"Hide", "Position", "Rotation", "Scale"};
@@ -118,7 +134,7 @@ namespace BDXKEditor
             static int handleMode = 1;
             for (int i = 0; i < 4; i++)
             {
-                ImGui::SetCursorPos(cursorPos + Vector2{(width + 10) * static_cast<float>(i), 0.0f});
+                if (i != 0)ImGui::SameLine();
                 if (ImGui::Selectable(optionsName[i], handleMode == i, 0, Vector2{width, 0.0f}))
                     handleMode = i;
             }
@@ -131,12 +147,7 @@ namespace BDXKEditor
             }
             handleOption = options[handleMode];
         }
-        //帧率信息
-        ImGui::Text(
-            "Rate %.3f ms/frame (%.1f FPS)",
-            static_cast<double>(Time::GetDeltaTime() * 1000.0f),
-            static_cast<double>(1.0f / Time::GetDeltaTime())
-        );
+
 
         //OnDrawGizmos
         if (GUI::IsDockTabVisible())

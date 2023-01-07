@@ -1,11 +1,11 @@
 {
     "serializationsCount": 1,
     "serialization_0": {
-        "object": "{90657742-A4C3-4F4A-3098-6DF2B0410BD4}",
+        "object": "{5F5165D6-944E-4153-CB8D-5932FF98CE41}",
         "data": {
             "type": "class BDXKEditor::ObjectImporter",
             "name": "class BDXKEditor::ObjectImporter",
-            "guid": "{6E95EA1B-D5F3-46E0-A693-54024E82A4D2}"
+            "guid": "{4531ADF6-F6F0-4FB5-F0AF-BDA1B5DB91FD}"
         }
     }
 }

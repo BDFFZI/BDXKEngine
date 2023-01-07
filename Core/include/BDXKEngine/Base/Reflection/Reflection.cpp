@@ -31,10 +31,9 @@ namespace BDXKEngine
         }
     }
 
-    Reflection* Reflection::FindReflection(const Type& id)
+    bool Reflection::HasReflection(const Type& id)
     {
-        const auto& item = reflections.find(id);
-        return item == reflections.end() ? nullptr : item->second;
+        return reflections.contains(id);
     }
     const Reflection& Reflection::GetReflection(const Type& id)
     {
@@ -62,12 +61,18 @@ namespace BDXKEngine
 
     Reflection::Reflection(const std::function<Reflective*()>& constructor, int size)
     {
+        //获取实例
+        instance = constructor();
+        if (HasReflection(instance->GetType()))
+        {
+            delete instance;
+            return;
+        }
+
         //获取类型大小
         this->size = size;
         //获取构造函数
         this->constructor = constructor;
-        //获取实例
-        instance = constructor();
         //获取字段信息
         ReflectionTransferer reflecttransferer = {*instance, *this};
         instance->Transfer(reflecttransferer);

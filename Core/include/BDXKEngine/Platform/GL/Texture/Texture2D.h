@@ -11,9 +11,12 @@ namespace BDXKEngine
         static ObjectPtr<Texture2D> Create(Color color);
         static ObjectPtr<Texture2D> Create(int width, int height, TextureFormat textureFormat);
         static ObjectPtr<Texture2D> Create(int widthf, int heightf, TextureFormat textureFormat, const char* pixels);
+        static const ObjectPtr<Texture2D>& GetWhiteTexture();
 
         void SetRenderTarget() const;
     private:
+        static ObjectPtr<Texture2D> whiteTexture;
+
         std::vector<char> pixels;
         CComPtr<ID3D11RenderTargetView> renderTextureRTV = nullptr;
 

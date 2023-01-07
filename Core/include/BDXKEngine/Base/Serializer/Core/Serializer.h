@@ -4,6 +4,9 @@
 
 namespace BDXKEngine
 {
+    std::string ReadFile(const std::string& path);
+    void WriteFile(const std::string& path, const std::string& data);
+
     class Serializer
     {
     public:
@@ -14,5 +17,17 @@ namespace BDXKEngine
     private:
         IOTransferer& importer;
         IOTransferer& exporter;
+    };
+
+    template <typename TImporter, typename TExporter>
+    class Serializer1 : public Serializer
+    {
+    public:
+        Serializer1(): Serializer(importer, exporter)
+        {
+        }
+    private:
+        TImporter importer;
+        TExporter exporter;
     };
 }

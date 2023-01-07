@@ -2,7 +2,6 @@
 #include <string>
 #include "BDXKEditor/Importer/Core/Importer.h"
 #include "BDXKEngine/Base/Object/Object.h"
-#include "BDXKEngine/Base/Object/Object.h"
 
 namespace BDXKEditor
 {
@@ -12,6 +11,10 @@ namespace BDXKEditor
     {
     public:
         static std::string GetRootPath();
+        static std::string GetAssetPath(const ObjectPtrBase& objectPtr);
+
+        static bool IsCanImport(const std::string& path);
+        static bool IsExisting(const std::string& path);
 
         static ObjectPtrBase Load(const std::string& path, bool reimport = false);
         template <typename TObject>
@@ -20,10 +23,7 @@ namespace BDXKEditor
             return Load(path, reimport).ToObject<TObject>();
         }
         static ObjectPtr<Importer> LoadImporter(const std::string& path);
-
         static void Save(const std::string& path, ObjectPtrBase& objectPtr);
-
-        static bool IsExisting(const std::string& path);
     private:
         inline static std::string rootDirectory = "Assets/";
         inline static std::unordered_map<std::string, Guid> pathToGuid = {};

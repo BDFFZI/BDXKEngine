@@ -21,11 +21,19 @@ namespace BDXKEngine
     };
 
 
+    template <typename T>
+    class Internal_Reflection;
+
     class Reflection
     {
         friend ReflectionTransferer;
     public:
-        static Reflection* FindReflection(const Type& id);
+        static bool HasReflection(const Type& id);
+        template <typename Type>
+        static bool HasReflection()
+        {
+            return HasReflection(GetTypeOf<Type>());
+        }
         static const Reflection& GetReflection(const Type& id);
         static const Reflection& GetReflection(const Reflective* reflective);
         template <typename Type>
@@ -36,6 +44,12 @@ namespace BDXKEngine
         static int GetReflections(std::vector<Reflection*>& reflections,
                                   const std::function<bool(const Reflection&)>& condition = [](const Reflection&) { return true; }
         );
+        template <typename Type>
+        static void SetReflection()
+        {
+            if (HasReflection<Type>() == false)
+                new Internal_Reflection<Type>();
+        }
 
         Reflection(const std::function<Reflective*()>& constructor, int size);
         virtual ~Reflection() = default;
@@ -117,6 +131,7 @@ namespace BDXKEngine
         void (*staticDestructor)();
     };
 
+    //使用该功能时，应注意执行顺序问题，涉及的变量头文件引入等有可能需要直接放在头文件中定义和初始化
 #define CustomStaticConstructor(Func) inline static StaticConstructorRegister staticConstructorRegister = {&(Func)};
 #define CustomStaticDestructor(Func) inline static StaticDestructorRegister staticDestructorRegister = {&(Func)};
 }

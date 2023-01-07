@@ -5,6 +5,10 @@
 
 namespace BDXKEditor
 {
+    const ObjectPtrBase& InspectorWindow::GetTarget()
+    {
+        return target;
+    }
     void InspectorWindow::SetTarget(const ObjectPtrBase& target)
     {
         this->target = target;
@@ -15,20 +19,12 @@ namespace BDXKEditor
     }
     void InspectorWindow::OnGUI()
     {
-        if (isSpecial == true && ImGui::Button("Close InspectorWindow", {ImGui::GetContentRegionAvail().x, 0}))
-        {
-            DestroyImmediate(this);
-            return;
-        }
-
         if (target.IsNotNull())
         {
-            if (isSpecial == false && ImGui::Button("Clone InspectorWindow", {ImGui::GetContentRegionAvail().x, 0}))
+            if (ImGui::Button("Clone InspectorWindow", {ImGui::GetContentRegionAvail().x, 0}))
             {
                 const ObjectPtr<InspectorWindow> window = Create<InspectorWindow>();
-                window->SetName(target->GetName() + "##" + std::to_string(target.GetInstanceID()));
                 window->target = target;
-                window->isSpecial = true;
                 window->Show();
             }
 

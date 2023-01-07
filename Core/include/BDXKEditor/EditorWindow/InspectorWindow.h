@@ -10,11 +10,11 @@ namespace BDXKEditor
     class InspectorWindow : public EditorWindow, public AwakeHandler
     {
     public:
+        const ObjectPtrBase& GetTarget();
         void SetTarget(const ObjectPtrBase& target);
     private:
         ObjectPtrBase target = {};
         ObjectTransferer<GUITransferer> gui = {};
-        bool isSpecial = false;
 
         void OnAwake() override;
         void OnGUI() override;

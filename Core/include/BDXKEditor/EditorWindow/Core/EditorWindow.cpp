@@ -6,6 +6,14 @@ namespace BDXKEditor
 {
     std::vector<ObjectPtr<EditorWindow>> EditorWindow::windows = {};
 
+    bool EditorWindow::GetCloseable() const
+    {
+        return closeable;
+    }
+    void EditorWindow::SetCloseable(bool closeable)
+    {
+        this->closeable = closeable;
+    }
     void EditorWindow::Show()
     {
         SetIsEnabling(true);
@@ -17,11 +25,14 @@ namespace BDXKEditor
 
     void EditorWindow::OnDrawGUI()
     {
-        ImGui::Begin(
-            GetName().c_str(),
-            nullptr,
-            HasMenu() ? ImGuiWindowFlags_MenuBar : 0
-        );
+        bool isOpen = true;
+        ImGui::Begin(GetName().c_str(), closeable ? &isOpen : nullptr, HasMenu() ? ImGuiWindowFlags_MenuBar : 0);
+        if (isOpen == false && closeable) //用户尝试关闭窗口
+        {
+            DestroyImmediate(this);
+            ImGui::End();
+            return;
+        }
 
         OnGUI();
 

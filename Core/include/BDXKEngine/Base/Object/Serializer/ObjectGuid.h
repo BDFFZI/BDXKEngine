@@ -10,12 +10,12 @@ namespace BDXKEngine
     public:
         static std::unordered_map<Guid, int>& GetAllGuids();
 
+        static Guid GetGuid(int instanceID);
         static Guid GetOrSetGuid(int instanceID);
 
         static int GetInstanceID(const Guid& guid); //当检索到的instance已不存在时也会返回0
         static void SetInstanceID(const Guid& guid, int instanceID); //当guid未绑定或旧的绑定instance已不存在时可用
-
-        static bool HasGuid(int instanceID);
+        
         static void RemoveGuid(int instanceID);
         static void RemoveGuid(const Guid& guid);
 

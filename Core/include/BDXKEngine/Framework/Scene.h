@@ -7,10 +7,16 @@ namespace BDXKEngine
     class Scene : public Object
     {
     public:
-        static void Load(const std::string& sceneName, bool retainPersistent = false);
-        static void Save(const std::string& sceneName);
         static ObjectPtr<Scene> GetCurrentScene();
+        static std::string GetCurrentSceneName();
+
+        static void Create(const std::string& sceneName);
+        static void Load(const std::string& sceneName, bool retainPersistent = false);
+        static void Save();
+        static void SaveAs(const std::string& sceneName);
     private:
+        static std::string currentSceneName;
+
         ObjectPtr<RenderSettings> renderSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;
 

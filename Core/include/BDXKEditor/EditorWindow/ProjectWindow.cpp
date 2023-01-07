@@ -2,34 +2,20 @@
 #include <filesystem>
 #include "BDXKEditor/Function/Assets.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
+#include "BDXKEngine/Base/Package/Map.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
 {
     ObjectPtrBase selectedItemObject;
-    bool contextMenu = false;
+    bool isPopupShowing = false; //表示右键菜单是否显示中，锁定每帧只显示一次，不然在TreeNode中会有问题（可能imgui用法错了）
 
-    bool DirectoryMenu(const std::string& path)
+    void ProjectWindow::SetClickObjectEvent(const std::function<void(const ObjectPtrBase&)>& clickObjectEvent)
     {
-        // if (ImGui::Button("Create Folder"))
-        // {
-        //     std::filesystem::create_directory(path + "/Unnamed");
-        //     return true;
-        // }
-        // if (ImGui::Button("Delete Folder"))
-        // {
-        //     std::filesystem::remove(path);
-        //     return true;
-        // }
-        // if (ImGui::Button("Rename Folder"))
-        // {
-        //     return true;
-        // }
-
-        return false;
+        this->clickObjectEvent = clickObjectEvent;
     }
 
-    bool FileMenu(const std::string& assetPath)
+    bool ShowFileMenu(const std::string& assetPath)
     {
         if (ImGui::Button("ReImport"))
         {
@@ -46,76 +32,96 @@ namespace BDXKEditor
 
         return false;
     }
-
-    void ProjectWindow::SetClickObjectEvent(const std::function<void(const ObjectPtrBase&)>& clickObjectEvent)
-    {
-        this->clickObjectEvent = clickObjectEvent;
-    }
-
-    void ProjectWindow::ShowDirectory(const std::filesystem::directory_entry& directoryEntry)
+    void ProjectWindow::ShowDirectory(const std::filesystem::path& directoryEntry)
     {
         //统计目录信息
-        const std::string directoryPath = directoryEntry.path().string();
+        const std::string directoryPath = directoryEntry.string();
         const std::string directoryName = ParseFileName(directoryPath);
 
         std::filesystem::directory_iterator iterator = std::filesystem::directory_iterator{directoryPath};
         const bool unfold = ImGui::TreeNodeEx(
             directoryName.c_str(),
-            ImGuiTreeNodeFlags_DefaultOpen |
-            (iterator == end(iterator) ? ImGuiTreeNodeFlags_Leaf : 0)
+            (isUnfolding[directoryPath] ? ImGuiTreeNodeFlags_DefaultOpen : 0)
+            | (iterator == end(iterator) ? ImGuiTreeNodeFlags_Leaf : 0)
         );
-        //路径菜单
-        if (contextMenu == false && ImGui::BeginPopupContextItem("##DirectoryMenu"))
-        {
-            contextMenu = true;
-            if (DirectoryMenu(directoryPath))
-            {
-                ImGui::CloseCurrentPopup();
-                ImGui::EndPopup();
-                ImGui::TreePop();
-                return;
-            }
-            ImGui::EndPopup();
-        }
+        isUnfolding[directoryPath] = unfold;
+
         if (unfold)
         {
+            //统计目录下元素
+            std::vector<std::filesystem::path> directories = {};
+            std::vector<std::filesystem::path> files = {};
             for (const auto& child : std::filesystem::directory_iterator{directoryPath})
+                if (child.is_directory())directories.emplace_back(child.path());
+                else files.emplace_back(child.path());
+
+            //显示目录
+            for (auto& path : directories)
+                ShowDirectory(path);
+
+            //显示文件
+            for (auto& path : files)
             {
-                if (child.is_directory())
-                    ShowDirectory(child);
-                else if (child.path().extension() != ".importer")
+                if (path.extension() != ".importer")
                 {
-                    const std::string filePath = child.path().string();
+                    const std::string filePath = path.string();
                     const std::string assetPath = filePath.substr(Assets::GetRootPath().size() + 1);
-                    ImGui::PushID(assetPath.c_str());
-                    if (ImGui::Button(ParseFileName(child.path().string()).c_str())) //查看资源属性
+
+                    if (Assets::IsCanImport(assetPath) == false)
                     {
-                        selectedItemObject = Assets::Load(assetPath);
-                        if (clickObjectEvent != nullptr)clickObjectEvent(selectedItemObject);
+                        ImGui::Text(ParseFileName(path.string()).c_str());
                     }
-                    if (GUI::DragDropSource(selectedItemObject)) //拖拽资源
+                    else
                     {
-                        selectedItemObject = Assets::Load(assetPath);
+                        ImGui::PushID(assetPath.c_str());
+                        if (ImGui::Button(ParseFileName(path.string()).c_str())) //查看资源属性
+                        {
+                            selectedItemObject = Assets::Load(assetPath);
+                            if (clickObjectEvent != nullptr)clickObjectEvent(selectedItemObject);
+                        }
+                        if (GUI::DragDropSource(selectedItemObject)) //拖拽资源
+                        {
+                            selectedItemObject = Assets::Load(assetPath);
+                        }
+                        //右键菜单
+                        if (isPopupShowing == false && Assets::IsCanImport(assetPath) && ImGui::BeginPopupContextItem("##FileMenu"))
+                        {
+                            isPopupShowing = true;
+                            if (ShowFileMenu(assetPath))
+                                ImGui::CloseCurrentPopup();
+                            ImGui::EndPopup();
+                        }
+                        ImGui::PopID();
                     }
-                    //文件菜单
-                    if (contextMenu == false && ImGui::BeginPopupContextItem("##FileMenu"))
-                    {
-                        contextMenu = true;
-                        if (FileMenu(assetPath))
-                            ImGui::CloseCurrentPopup();
-                        ImGui::EndPopup();
-                    }
-                    ImGui::PopID();
                 }
             }
 
             ImGui::TreePop();
         }
     }
-
     void ProjectWindow::OnGUI()
     {
-        contextMenu = false;
-        ShowDirectory(std::filesystem::directory_entry(Assets::GetRootPath()));
+        isPopupShowing = false;
+        ShowDirectory(std::filesystem::path(Assets::GetRootPath()));
+    }
+
+    void ProjectWindow::StaticConstructor()
+    {
+        if (std::filesystem::exists("projectWindow.ini") == false)
+            return;
+
+        Reflection::SetReflection<Map<std::string, bool>>();
+        const std::string data = BDXKEngine::ReadFile("projectWindow.ini");
+        const Serializer1<JsonImporter, JsonExporter> serializer = {};
+        Map<std::string, bool>* isUnfoldingPackage = dynamic_cast<Map<std::string, bool>*>(serializer.Deserialize(data));
+        isUnfolding = isUnfoldingPackage->ToUnorderedMap();
+        delete isUnfoldingPackage;
+    }
+    void ProjectWindow::StaticDestructor()
+    {
+        Map isUnfoldingPackage = {isUnfolding};
+        const Serializer1<JsonImporter, JsonExporter> serializer = {};
+        const std::string data = serializer.Serialize(&isUnfoldingPackage);
+        BDXKEngine::WriteFile("projectWindow.ini", data);
     }
 }

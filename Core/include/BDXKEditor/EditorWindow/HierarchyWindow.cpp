@@ -1,7 +1,6 @@
 ﻿#include "HierarchyWindow.h"
 #include "imgui/imgui.h"
 
-
 namespace BDXKEditor
 {
     char checkboxID[128];
@@ -18,8 +17,8 @@ namespace BDXKEditor
 
 
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offsetX);
-        sprintf_s(checkboxID, "##%s_isSpread", name.c_str());
-        isSpreads[instanceID] = ImGui::CollapsingHeader(
+        sprintf_s(checkboxID, "##%s_isSpread", name.c_str()); // NOLINT(cert-err33-c)
+        isUnfolding[instanceID] = ImGui::CollapsingHeader(
             checkboxID,
             ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_DefaultOpen | (childCount == 0 ? ImGuiTreeNodeFlags_Leaf : 0));
 
@@ -48,7 +47,7 @@ namespace BDXKEditor
             ImGui::EndDragDropTarget();
         }
 
-        if (isSpreads[instanceID])
+        if (isUnfolding[instanceID])
         {
             for (int i = 0; i < childCount; i++)
                 DrawGameObject(gameObject->GetChild(i), offsetX + 30);
@@ -57,19 +56,6 @@ namespace BDXKEditor
 
     void HierarchyWindow::OnGUI()
     {
-        ImGui::Button("SetParent Null", {ImGui::GetContentRegionAvail().x, 0});
-        if (ImGui::BeginDragDropTarget())
-        {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Dragging"))
-            {
-                const ObjectPtrBase& dropping = *static_cast<ObjectPtrBase*>(payload->Data);
-                const ObjectPtr droppingGameObject = dropping.ToObject<GameObject>();
-                if (droppingGameObject.IsNotNull())
-                    droppingGameObject->SetParent(nullptr);
-            }
-            ImGui::EndDragDropTarget();
-        }
-
         const std::vector<ObjectPtr<GameObject>> gameObjects = GameObject::GetGameObjects();
         for (const ObjectPtr<GameObject>& gameObject : gameObjects)
         {

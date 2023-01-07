@@ -1,6 +1,5 @@
 ﻿#include "Material.h"
 #include <algorithm>
-#include "BDXKEngine/Function/Fallback/Fallback.h"
 
 namespace BDXKEngine
 {
@@ -100,7 +99,7 @@ namespace BDXKEngine
         //设置纹理
         for (int i = 0; i < 6; i++)
             if ((&texture2D0)[i] != nullptr) (&texture2D0)[i]->UploadRP(i);
-            else Fallback::GetTexture2D().IsNotNull() ? Fallback::GetTexture2D()->UploadRP(i) : Texture2D::UploadRPNull(i);
+            else Texture2D::GetWhiteTexture()->UploadRP(i);
 
         //设置常量
         parametersBuffer->SetData(&parameters);

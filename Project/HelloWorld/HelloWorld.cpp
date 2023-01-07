@@ -1,8 +1,8 @@
 #include "BDXKEditor/BDXKEditor.h"
 #include "BDXKEngine/BDXKEngine.h"
-
-#include "BDXKEditor/Function/Debug.h"
+#include "BDXKEngine/Base/Package/Map.h"
 #include "BDXKEngine/Framework/Physics/PhysicsEvent.h"
+#include "BDXKEngine/Function/Debug/Debug.h"
 #include "BDXKEngine/Function/Random/Random.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Function/Window/Cursor.h"
@@ -101,18 +101,18 @@ class CollisionTest : public Behavior, public CollisionEnterHandler, public Coll
     void OnCollisionEnter(const Collision& collision) override
     {
         DestroyImmediate(collision.rigidbody->GetGameObject());
-        BDXKEditor::Debug::Log("OnCollisionEnter");
+        Debug::Log("OnCollisionEnter");
     }
 
     void OnCollisionExit(const Collision& collision) override
     {
         GetGameObject()->GetComponent<Renderer>()->GetMaterial()->SetVector(0, Random::ColorHSV());
-        BDXKEditor::Debug::Log("OnCollisionExit");
+        Debug::Log("OnCollisionExit");
     }
 
     void OnCollisionStay(const Collision& collision) override
     {
-        BDXKEditor::Debug::Log("OnCollisionStay");
+        Debug::Log("OnCollisionStay");
     }
 };
 
@@ -156,5 +156,10 @@ CustomReflection(Fire);
 
 int main()
 {
+    Reflection::SetReflection<Map<std::string, bool>>();
+    const std::string data = BDXKEngine::ReadFile("projectWindow.ini");
+    const Serializer1<JsonImporter, JsonExporter> serializer = {};
+    Map<std::string, bool>* isUnfoldingPackage = dynamic_cast<Map<std::string, bool>*>(serializer.Deserialize(data));
+    
     BDXKEditor::Run("HelloWorld.scene");
 }

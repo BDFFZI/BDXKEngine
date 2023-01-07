@@ -31,7 +31,8 @@ namespace BDXKEngine
         static const ObjectPtr<Texture2D>& GetCameraCanvas();
     private:
         static ObjectPtr<Camera> currentCamera;
-        static ObjectPtr<Texture2D> cameraCanvas;
+        static ObjectPtr<Texture2D> cameraCanvas;//默认RenderTarget
+        static ObjectPtr<Shader> blitShader;
 
         static void Render();
     };

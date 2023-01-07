@@ -4,17 +4,6 @@
 
 namespace BDXKEngine
 {
-    std::string ReadFile(const std::string& path)
-    {
-        std::ifstream ifstream(path, std::ios_base::binary);
-        if (ifstream.is_open() == false)return {};
-        const auto size = static_cast<int>(std::filesystem::file_size(path));
-        const std::unique_ptr<char[]> buffer = std::unique_ptr<char[]>(new char[size]);
-        ifstream.read(buffer.get(), size);
-        ifstream.close();
-        return {buffer.get(), static_cast<size_t>(size)};
-    }
-
     ObjectSerializer<JsonImporter, JsonExporter> Serialization::CreateJsonSerializer()
     {
         return ObjectSerializer<JsonImporter, JsonExporter>{
@@ -46,26 +35,18 @@ namespace BDXKEngine
         if (std::filesystem::exists(path.substr(0, path.rfind('/'))) == false)
             throw std::exception("目录不存在");
 
-        const std::string data = serializer.Serialize(objectPtr);
-
-        //保存文件位置
-        // const std::string guid = guidStream[0];
-        // guidStream.clear();
-        // guidToPath[guid] = path;
-
         //保存持久化数据
-        std::ofstream ofstream(path, std::ios_base::binary);
-        ofstream << data;
-        ofstream.close();
+        const std::string data = serializer.Serialize(objectPtr);
+        WriteFile(path, data);
     }
     ObjectPtrBase Serialization::Clone(const ObjectPtrBase& objectPtr, bool instantiate)
     {
-        auto binarySerializer = CreateBinarySerializer();
-
         if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
 
-        //克隆并注册
+        //克隆
+        auto binarySerializer = CreateBinarySerializer();
         ObjectPtrBase instance = binarySerializer.Clone(objectPtr.ToObjectBase());
+
         if (instantiate)Object::Instantiate(instance);
         return instance;
     }
@@ -73,7 +54,7 @@ namespace BDXKEngine
 
     bool Serialization::IsPersistent(const ObjectPtrBase& objectPtr)
     {
-        return ObjectGuid::HasGuid(objectPtr.GetInstanceID());
+        return ObjectGuid::GetGuid(objectPtr.GetInstanceID()).empty() == false;
     }
     bool Serialization::IsExisting(const std::string& path)
     {

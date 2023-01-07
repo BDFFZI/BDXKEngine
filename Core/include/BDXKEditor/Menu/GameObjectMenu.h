@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Core/Menu.h"
 #include "BDXKEngine/Framework/Core/GameObject.h"
+#include "Core/Menu.h"
 #include "BDXKEngine/Function/Graphics/GraphicsInfo.h"
 #include "BDXKEngine/Platform/GL/Mesh/Mesh.h"
 
@@ -8,9 +8,9 @@ namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-#define CustomCreateGameObjectMenu(funcName) CustomMenu(ObjectPtr<GameObject>(),funcName)
+#define CustomCreateGameObjectMenu(menuItemName,funcName) CustomMenu("GameObject/Create/" menuItemName,funcName)
 
-    class CreateGameObjectMenu : public Menu<ObjectPtr<GameObject>()>
+    class GameObjectMenu
     {
     public:
         static ObjectPtr<GameObject> CreateGameObject();
@@ -22,13 +22,16 @@ namespace BDXKEditor
         static ObjectPtr<GameObject> CreateCube();
         static ObjectPtr<GameObject> CreateSphere();
         static ObjectPtr<GameObject> CreatePlane();
+
+        static void ClearParent();
     private:
-        CustomCreateGameObjectMenu(CreateGameObject)
-        CustomCreateGameObjectMenu(CreateCamera)
-        CustomCreateGameObjectMenu(CreateDirectionalLight)
-        CustomCreateGameObjectMenu(CreatePointLight)
-        CustomCreateGameObjectMenu(CreateCube)
-        CustomCreateGameObjectMenu(CreateSphere)
-        CustomCreateGameObjectMenu(CreatePlane)
+        CustomCreateGameObjectMenu("Empty", CreateGameObject)
+        CustomCreateGameObjectMenu("Camera", CreateCamera)
+        CustomCreateGameObjectMenu("Light/Directional Light", CreateDirectionalLight)
+        CustomCreateGameObjectMenu("Light/Point Light", CreatePointLight)
+        CustomCreateGameObjectMenu("3D Object/Cube", CreateCube)
+        CustomCreateGameObjectMenu("3D Object/Sphere", CreateSphere)
+        CustomCreateGameObjectMenu("3D Object/Plane", CreatePlane)
+        CustomMenu("GameObject/Clear Parent", ClearParent)
     };
 }

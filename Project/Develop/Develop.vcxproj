@@ -159,22 +159,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix4x4.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Quaternion\Quaternion.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector2.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector3.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\String\String.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflection.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflective.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Reflection\Transferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryExporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\IOTransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\Serializer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryExporter2.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryImporter2.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonExporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.cpp" />
     <ClCompile Include="Develop.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Math.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix4x4.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Quaternion\Quaternion.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector2.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector3.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.h" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\Reflection\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Base\Serializer\ReadMe.md" />
+    <Content Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\String\String.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflection.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Reflective.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Transferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Reflection\Type.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryExporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Binary\BinaryImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\IOTransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Serializer\Core\Serializer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryExporter2.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryImporter2.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonExporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,8 @@
 
 namespace BDXKEngine
 {
+    ObjectPtr<Texture2D> Texture2D::whiteTexture = nullptr;
+
     ObjectPtr<Texture2D> Texture2D::Create(Color color)
     {
         ObjectPtr texture2d = new Texture2D{};
@@ -35,7 +37,6 @@ namespace BDXKEngine
 
         return texture2d;
     }
-
     ObjectPtr<Texture2D> Texture2D::Create(const int widthf, const int heightf, TextureFormat textureFormat, const char* pixels)
     {
         ObjectPtr texture2d = new Texture2D{};
@@ -47,6 +48,12 @@ namespace BDXKEngine
         Instantiate(texture2d);
 
         return texture2d;
+    }
+    const ObjectPtr<Texture2D>& Texture2D::GetWhiteTexture()
+    {
+        if (whiteTexture.IsNull())
+            whiteTexture = Create(Color::white);
+        return whiteTexture;
     }
     void Texture2D::SetRenderTarget() const
     {

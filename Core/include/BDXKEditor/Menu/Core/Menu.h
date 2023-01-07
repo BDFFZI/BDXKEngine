@@ -4,30 +4,29 @@
 
 namespace BDXKEditor
 {
-    template <typename TFunc>
     class Menu
     {
     public:
-        static void AddMenuItem(const std::string& name, const std::function<TFunc>& createFunc)
-        {
-            menuItems.emplace_back(name, createFunc);
-        }
-        static std::vector<std::tuple<std::string, std::function<TFunc>>>& GetMenuItems()
-        {
-            return menuItems;
-        }
+        static std::vector<std::tuple<std::string, std::function<void()>>>& GetMenuItems();
+        static void AddMenuItem(const std::string& name, const std::function<void()>& createFunc);
     private:
-        inline static std::vector<std::tuple<std::string, std::function<TFunc>>> menuItems = {};
+        inline static std::vector<std::tuple<std::string, std::function<void()>>> menuItems = {};
     };
 
-    template <typename TFunc>
     struct CustomMenuRegister
     {
-        CustomMenuRegister(const std::string& name, const std::function<TFunc>& createFunc)
+        CustomMenuRegister(const std::string& name, const std::function<void()>& createFunc)
         {
-            Menu<TFunc>::AddMenuItem(name, createFunc);
+            Menu::AddMenuItem(name, createFunc);
         }
     };
 
-#define CustomMenu(funcType,funcName) inline static CustomMenuRegister<##funcType> CustomMenu##funcName = {#funcName,funcName};
+    inline void NullMenuItem()
+    {
+    }
+
+#define CustomMenu(menuItemName,func) inline static CustomMenuRegister CustomMenu##func = {menuItemName,func};
+#define Internal_CustomMenuSeparator(menuItemName,line) inline static CustomMenuRegister CustomMenu##line = {menuItemName,NullMenuItem};
+#define Internal_CustomMenuSeparator2(menuItemName,line) Internal_CustomMenuSeparator(menuItemName,line);
+#define CustomMenuSeparator(menuItemName) Internal_CustomMenuSeparator2(menuItemName##"##",__LINE__)
 }

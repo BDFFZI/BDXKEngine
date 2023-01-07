@@ -1,6 +1,7 @@
-﻿#include "CreateGameObjectMenu.h"
+﻿#include "GameObjectMenu.h"
 
 #include "CreateAssetMenu.h"
+#include "BDXKEditor/BDXKEditor.h"
 #include "BDXKEditor/Function/AssetsBuiltIn.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Physics/Collider/BoxCollider.h"
@@ -11,19 +12,19 @@
 
 namespace BDXKEditor
 {
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateGameObject()
+    ObjectPtr<GameObject> GameObjectMenu::CreateGameObject()
     {
         return GameObject::Create();
     }
 
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateCamera()
+    ObjectPtr<GameObject> GameObjectMenu::CreateCamera()
     {
         ObjectPtr<GameObject> gameObject = GameObject::Create("Camera");
         Component::Create<Camera>(gameObject);
         return gameObject;
     }
 
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateLight(LightType lightType, const char* name)
+    ObjectPtr<GameObject> GameObjectMenu::CreateLight(LightType lightType, const char* name)
     {
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
         const ObjectPtr<Light> light = Component::Create<Light>(gameObject);
@@ -32,16 +33,16 @@ namespace BDXKEditor
         light->SetType(lightType);
         return gameObject;
     }
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateDirectionalLight()
+    ObjectPtr<GameObject> GameObjectMenu::CreateDirectionalLight()
     {
         return CreateLight(LightType::Directional, "DirectionalLight");
     }
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreatePointLight()
+    ObjectPtr<GameObject> GameObjectMenu::CreatePointLight()
     {
         return CreateLight(LightType::Point, "PointLight");
     }
 
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
+    ObjectPtr<GameObject> GameObjectMenu::CreateObject3D(const ObjectPtr<Mesh>& mesh, const char* name, Color color)
     {
         //创建物体
         const ObjectPtr<GameObject> gameObject = GameObject::Create(name);
@@ -50,24 +51,30 @@ namespace BDXKEditor
         meshRenderer->SetMaterial(CreateAssetMenu::CreateStandardMaterial());
         return gameObject;
     }
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateCube()
+    ObjectPtr<GameObject> GameObjectMenu::CreateCube()
     {
         auto cube = CreateObject3D(AssetsBuiltIn::GetCubeMesh(), "Cube");
         Component::Create<BoxCollider>(cube);
         return cube;
     }
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreateSphere()
+    ObjectPtr<GameObject> GameObjectMenu::CreateSphere()
     {
         auto sphere = CreateObject3D(AssetsBuiltIn::GetSphereMesh(), "Sphere");
         Component::Create<SphereCollider>(sphere);
         return sphere;
     }
-    ObjectPtr<GameObject> CreateGameObjectMenu::CreatePlane()
+    ObjectPtr<GameObject> GameObjectMenu::CreatePlane()
     {
         auto plane = CreateObject3D(AssetsBuiltIn::GetCubeMesh(), "Plane");
         plane->SetLocalScale({10, 0.01f, 10});
         plane->SetLocalPosition({0, -0.005f, 0});
         Component::Create<BoxCollider>(plane);
         return plane;
+    }
+
+    void GameObjectMenu::ClearParent()
+    {
+        const ObjectPtr gameObject = EditorSystem::GetInspectorView()->GetTarget().ToObject<GameObject>();
+        if (gameObject.IsNotNull())gameObject->SetParent(nullptr);
     }
 }

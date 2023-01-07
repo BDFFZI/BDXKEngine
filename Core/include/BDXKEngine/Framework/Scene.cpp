@@ -7,22 +7,13 @@
 
 namespace BDXKEngine
 {
-    void Scene::Load(const std::string& sceneName, bool retainPersistent)
-    {
-        GameObject::Clear();
-        const ObjectPtr<Scene> scene = Resources::Load<Scene>(sceneName, retainPersistent);
-        Time::RenewFrame();
-    }
-    void Scene::Save(const std::string& sceneName)
-    {
-        const ObjectPtr<Scene> newScene = GetCurrentScene();
-        newScene->SetName(sceneName);
-        Resources::Save(sceneName, newScene);
-    }
+    std::string Scene::currentSceneName = "Untitled.scene";
+
     ObjectPtr<Scene> Scene::GetCurrentScene()
     {
         ObjectPtr scene = new Scene{};
         Instantiate(scene);
+        scene->SetName(currentSceneName);
         scene->renderSettings = RenderSettings::GetSingleton();
         for (const auto& item : GameObject::GetGameObjects())
         {
@@ -30,6 +21,32 @@ namespace BDXKEngine
                 scene->gameObjects.emplace_back(item);
         }
         return scene;
+    }
+    std::string Scene::GetCurrentSceneName()
+    {
+        return currentSceneName;
+    }
+    void Scene::Create(const std::string& sceneName)
+    {
+        GameObject::Clear();
+        currentSceneName = sceneName;
+    }
+
+    void Scene::Load(const std::string& sceneName, bool retainPersistent)
+    {
+        GameObject::Clear();
+        currentSceneName = sceneName;
+        const ObjectPtr<Scene> scene = Resources::Load<Scene>(sceneName, retainPersistent);
+        Time::RenewFrame();
+    }
+    void Scene::Save()
+    {
+        Resources::Save(currentSceneName, GetCurrentScene());
+    }
+    void Scene::SaveAs(const std::string& sceneName)
+    {
+        const ObjectPtr<Scene> newScene = GetCurrentScene();
+        Resources::Save(sceneName, newScene);
     }
 
     void Scene::Transfer(Transferer& transferer)

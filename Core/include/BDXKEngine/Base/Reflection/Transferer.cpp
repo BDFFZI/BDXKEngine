@@ -5,8 +5,8 @@ namespace BDXKEngine
 {
     std::function<void(void*, const Type&)> Transferer::GetTransferFunc(const Type& type)
     {
-        const auto transferFunc = transferFuncs[type];
-        return transferFunc != nullptr ? transferFunc : GetTransferFuncFallback(type);
+        const auto transferFunc = transferFuncs.find(type);
+        return transferFunc != transferFuncs.end() ? transferFunc->second : GetTransferFuncFallback(type);
     }
     int Transferer::GetTypeSize(const Type& type)
     {
@@ -48,9 +48,9 @@ namespace BDXKEngine
             std::regex_search(type, matchResult, std::regex{"class std::vector<(.*)>"}); //(?<=<).*(?=,)
             const std::string matchString = matchResult[1];
 
-            Type itemType;
-            size_t itemSize;
-            if (std::regex_search(
+            Type itemType = {};
+            size_t itemSize = 0;
+            if (std::regex_search( //判断是否是vector嵌套
                     matchString, matchResult,
                     std::regex{"(class std::vector<.*,class std::allocator<.*> >),class std::allocator"}) == true
             )
@@ -58,26 +58,69 @@ namespace BDXKEngine
                 itemType = matchResult[1];
                 itemSize = sizeof std::vector<void*>;
             }
-            else
+            else //是基本元素
             {
-                std::regex_search(matchString, matchResult, std::regex{"(.*?),"});
+                //优先显示定义的类型
+                for (const auto& item : typeSizes)
+                {
+                    if (matchString.starts_with(item.first + ","))
+                    {
+                        itemType = item.first;
+                        itemSize = item.second;
+                        break;
+                    }
+                }
 
-                itemType = matchResult[1];
-                itemSize = GetTypeSize(itemType);
+                //无法确定类型，最后放手一搏
+                if (itemSize == 0)
+                {
+                    std::regex_search(matchString, matchResult, std::regex{"(.*?),"});
+                    itemType = matchResult[1];
+                    itemSize = GetTypeSize(itemType);
+                }
             }
 
-            if (itemSize != 0)
+            if (itemSize != 0) //注意以这种方式创建的对象没有虚表信息，需自行额外处理
             {
-                //注意以这种方式创建的对象没有虚表信息，需自行额外处理
-                std::vector<char>& vector = *static_cast<std::vector<char>*>(value);
-                int count = static_cast<int>(vector.size() / itemSize);
-
-                TransferField("count", count);
-                vector.resize(count * itemSize);
-                for (int index = 0; index < count; index++)
+                if (itemType == GetTypeOf<bool>()) //虽然bool以byte为单位，但vector<bool>似乎以bit的方式储存，所以得特殊处理
                 {
-                    TransferField("item" + std::to_string(index), vector.data() + index * itemSize, itemType);
+                    std::vector<bool>& vector = *static_cast<std::vector<bool>*>(value);
+                    int count = static_cast<int>(vector.size() / itemSize);
+
+                    TransferField("count", count);
+                    vector.resize(count * itemSize);
+                    for (int index = 0; index < count; index++)
+                    {
+                        bool element = vector[index];
+                        TransferField("item" + std::to_string(index), element);
+                        vector[index] = element;
+                    }
                 }
+                else if (itemType == GetTypeOf<std::string>())
+                {
+                    std::vector<std::string>& vector = *static_cast<std::vector<std::string>*>(value);
+
+                    int count = static_cast<int>(vector.size());
+                    TransferField("count", count);
+                    vector.resize(count);
+                    for (int index = 0; index < count; index++)
+                    {
+                        TransferField("item" + std::to_string(index), vector[index]);
+                    }
+                }
+                else
+                {
+                    std::vector<char>& vector = *static_cast<std::vector<char>*>(value);
+                    int count = static_cast<int>(vector.size() / itemSize);
+
+                    TransferField("count", count);
+                    vector.resize(count * itemSize);
+                    for (int index = 0; index < count; index++)
+                    {
+                        TransferField("item" + std::to_string(index), vector.data() + index * itemSize, itemType);
+                    }
+                }
+
                 return;
             }
         }

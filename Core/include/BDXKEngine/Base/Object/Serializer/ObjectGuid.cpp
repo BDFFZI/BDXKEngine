@@ -15,16 +15,11 @@ namespace BDXKEngine
     {
         return guidToInstanceID;
     }
-    int ObjectGuid::GetInstanceID(const Guid& guid)
+    
+    Guid ObjectGuid::GetGuid(int instanceID)
     {
-        if (guidToInstanceID.contains(guid))
-        {
-            const int instanceID = guidToInstanceID[guid];
-            if (Object::FindObjectOfInstanceID(instanceID) == nullptr)
-                return 0;
-            return instanceID;
-        }
-        return 0;
+        const auto guidItem = instanceIDToGuid.find(instanceID);
+        return guidItem == instanceIDToGuid.end() ? "" : guidItem->second;
     }
     Guid ObjectGuid::GetOrSetGuid(int instanceID)
     {
@@ -40,6 +35,17 @@ namespace BDXKEngine
             Guid guid = guidItem->second;
             return guid;
         }
+    }
+    int ObjectGuid::GetInstanceID(const Guid& guid)
+    {
+        if (guidToInstanceID.contains(guid))
+        {
+            const int instanceID = guidToInstanceID[guid];
+            if (Object::FindObjectOfInstanceID(instanceID) == nullptr)
+                return 0;
+            return instanceID;
+        }
+        return 0;
     }
     void ObjectGuid::SetInstanceID(const Guid& guid, int instanceID)
     {
@@ -63,10 +69,6 @@ namespace BDXKEngine
 
         guidToInstanceID[guid] = instanceID;
         instanceIDToGuid[instanceID] = guid;
-    }
-    bool ObjectGuid::HasGuid(int instanceID)
-    {
-        return instanceIDToGuid.contains(instanceID);
     }
     void ObjectGuid::RemoveGuid(int instanceID)
     {

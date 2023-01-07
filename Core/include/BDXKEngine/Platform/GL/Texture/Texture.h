@@ -11,8 +11,9 @@ namespace BDXKEngine
     public:
         static ObjectPtr<Texture> GetRenderTarget();
         static void SetRenderTargetDefault();
-        static void UploadRPNull(unsigned startSlot);
         static void ResetDefaultRenderTarget();
+
+        static void UploadRPNull(unsigned startSlot);
 
         int GetWidth() const;
         int GetHeight() const;

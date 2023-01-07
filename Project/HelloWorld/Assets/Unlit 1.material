@@ -1,7 +1,7 @@
 {
     "serializationsCount": 3,
     "serialization_0": {
-        "object": "{4531ADF6-F6F0-4FB5-F0AF-BDA1B5DB91FD}",
+        "object": "{3C27919F-0E14-44FE-3691-E3259F39A3E2}",
         "data": {
             "type": "class BDXKEngine::Material",
             "name": "class BDXKEngine::Material",
@@ -137,9 +137,9 @@
                     0.0,
                     1.0,
                     0.0,
-                    0.0,
-                    0.0,
-                    0.0,
+                    1.899999976158142,
+                    5.900000095367432,
+                    2.0,
                     1.0
                 ],
                 "matrix1": [

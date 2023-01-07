@@ -11,8 +11,8 @@ namespace BDXKEditor
     public:
         void SetClickGameObjectEvent(const std::function<void(const ObjectPtr<GameObject>&)>& clickGameObjectEvent);
     private:
-        std::unordered_map<int, bool> isSpreads;
         std::function<void(const ObjectPtr<GameObject>&)> clickGameObjectEvent;
+        std::unordered_map<int, bool> isUnfolding;
 
         void DrawGameObject(const ObjectPtr<GameObject>& gameObject, float offsetX);
         void OnGUI() override;

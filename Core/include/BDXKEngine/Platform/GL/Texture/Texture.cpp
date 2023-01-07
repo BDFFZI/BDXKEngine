@@ -31,14 +31,6 @@ namespace BDXKEngine
 
         renderTarget = nullptr;
     }
-    void Texture::UploadRPNull(unsigned startSlot)
-    {
-        const auto context = GL::GetDeviceContext();
-        ID3D11ShaderResourceView* resourceView = nullptr;
-        ID3D11SamplerState* samplerState = nullptr;
-        context->PSSetShaderResources(startSlot, 1, &resourceView);
-        context->PSSetSamplers(startSlot, 1, &samplerState);
-    }
     void Texture::ResetDefaultRenderTarget()
     {
         const auto swapChain = GL::GetSwapChain();
@@ -74,6 +66,14 @@ namespace BDXKEngine
         const CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{D3D11_DSV_DIMENSION_TEXTURE2D};
         result = device->CreateDepthStencilView(depthStencilTexture, &depthStencilViewDesc, &defaultDepthStencilView.p);
         if (FAILED(result))throw std::exception("创建深度模板测试视图失败");
+    }
+    void Texture::UploadRPNull(unsigned startSlot)
+    {
+        const auto context = GL::GetDeviceContext();
+        ID3D11ShaderResourceView* resourceView = nullptr;
+        ID3D11SamplerState* samplerState = nullptr;
+        context->PSSetShaderResources(startSlot, 1, &resourceView);
+        context->PSSetSamplers(startSlot, 1, &samplerState);
     }
 
     int Texture::GetWidth() const

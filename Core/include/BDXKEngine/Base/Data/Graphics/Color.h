@@ -35,6 +35,9 @@ namespace BDXKEngine
 
         Color operator*(float value) const;
         Color operator/(float value) const;
+        bool operator==(Color value) const;
+        bool operator!=(Color value) const;
+        
         operator Vector4() const;
     };
 }

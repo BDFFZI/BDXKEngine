@@ -25,9 +25,11 @@ namespace BDXKEditor
         void SetTarget(const ObjectPtr<GameObject>& target);
     private:
         ObjectPtr<GameObject> target;
+        ObjectPtr<GameObject> gameObject;
         ObjectPtr<Camera> camera;
-        ObjectPtr<Texture2D> cameraTexture;
         ObjectPtr<CameraController> cameraController;
+
+        ObjectPtr<Texture2D> cameraTexture;
         Vector2 viewSize;
 
         void OnAwake() override;

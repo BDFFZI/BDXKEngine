@@ -24,6 +24,7 @@ namespace BDXKEngine
         void Disable() override;
     private:
         static std::vector<Renderer*> renderers;
+        static ObjectPtr<Material> fallbackMaterial;
 
         ObjectPtr<Material> material = nullptr;
         bool castShadows = true;

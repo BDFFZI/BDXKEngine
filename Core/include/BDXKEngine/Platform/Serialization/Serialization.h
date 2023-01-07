@@ -8,8 +8,6 @@
 
 namespace BDXKEngine
 {
-    std::string ReadFile(const std::string& path);
-
     class Serialization
     {
     public:

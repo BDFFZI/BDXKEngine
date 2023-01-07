@@ -9,8 +9,8 @@ namespace BDXKEngine
 
         component->gameObject = gameObject;
         gameObject->AddComponent(component.template ToObjectPtr<Component>());
-        Instantiate(component);
 
+        Instantiate(component);
         return component;
     }
     bool Component::GetIsActivating() const

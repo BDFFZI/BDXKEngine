@@ -9,7 +9,6 @@ namespace BDXKEditor
     };
 
     CustomReflection(ObjectImporter)
-    CustomAssetsImporter(scene, ObjectImporter)
     CustomAssetsImporter(material, ObjectImporter)
     CustomAssetsImporter(physicMaterial, ObjectImporter)
     CustomAssetsImporter(prefab, ObjectImporter)

@@ -19,7 +19,9 @@ namespace BDXKEditor
 
         ImGui::SameLine();
         ImGui::InputText("Type", typeSelect, sizeof(typeSelect));
-        const Reflection* reflection = Reflection::FindReflection(typeSelect);
+        const Reflection* reflection = nullptr;
+        if (Reflection::HasReflection(typeSelect))
+            reflection = &Reflection::GetReflection(typeSelect);
 
         if (ImGui::BeginTable("Title", 7))
         {

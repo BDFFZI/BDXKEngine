@@ -8,12 +8,9 @@ namespace BDXKEngine
     {
     public:
         static const ObjectPtr<Material>& GetSkybox();
-        static const ObjectPtr<Material>& GetBlitMaterial();
         static void SetSkybox(const ObjectPtr<Material>& skybox);
-        static void SetBlitMaterial(const ObjectPtr<Material>& blitMaterial);
     private:
         ObjectPtr<Material> skybox = nullptr;
-        ObjectPtr<Material> blitMaterial = nullptr;
         void Transfer(Transferer& transferer) override;
     };
 

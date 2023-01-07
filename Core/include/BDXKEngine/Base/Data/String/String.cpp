@@ -1,45 +1,70 @@
 ﻿#include "String.h"
 
-#include <rapidjson/encodings.h>
+#include <sstream>
 #include <rapidjson/rapidjson.h>
-#include <rapidjson/stream.h>
 
 namespace BDXKEngine
 {
-    std::wstring String::to_wstring(const std::string& input)
+    std::wstring String::ToWString(const std::string& input)
     {
         using namespace std;
         const char* source = input.c_str();
         const size_t charNum = input.size() + 1;
 
-        wchar_t* dest = new wchar_t[charNum];
-        mbstowcs_s(NULL, dest, charNum, source, _TRUNCATE);
-        wstring result = dest;
+        auto* dest = new wchar_t[charNum];
+        const size_t errno_t = mbstowcs_s(nullptr, dest, charNum, source, _TRUNCATE);
+        if (errno_t != 0)throw std::exception("转换字符串失败");
+
+        wstring result = {dest};
         delete[] dest;
         return result;
     }
-    std::string String::to_string(const std::wstring& input)
+    std::string String::ToString(const std::wstring& input)
     {
         using namespace std;
         const wchar_t* wcs = input.c_str();
-        size_t dByteNum = sizeof(wchar_t) * input.size() + 1;
+        const size_t wcharNum = sizeof(wchar_t) * input.size() + 1;
 
-        char* dest = new char[dByteNum];
-        wcstombs_s(NULL, dest, dByteNum, wcs, _TRUNCATE);
-        string result = dest;
+        auto* dest = new char[wcharNum];
+        const size_t errno_t = wcstombs_s(nullptr, dest, wcharNum, wcs, _TRUNCATE);
+        if (errno_t != 0)throw std::exception("转换字符串失败");
+
+        string result = {dest};
         delete[] dest;
         return result;
     }
-    
-    int String::EncodingBase64(const unsigned char* in_data, int in_count, char* out_base64)
+    void String::Split(const std::string& text, const std::string& splitWord, std::vector<std::string>& result)
+    {
+        size_t begin = 0;
+        const size_t splitLength = splitWord.size();
+
+        result.clear();
+
+        while (true)
+        {
+            const size_t fragmentLength = text.find(splitWord, begin) - begin;
+            if (fragmentLength == std::string::npos - begin)
+            {
+                result.emplace_back(text.substr(begin));
+                break;
+            }
+
+            result.emplace_back(text.substr(begin, fragmentLength));
+            begin += fragmentLength;
+
+            begin += splitLength;
+        }
+    }
+
+    int String::EncodingBase64(const unsigned char* in_data, int in_count, unsigned char* out_base64)
     {
         static const char* base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789""+/"; // -_
-        int cnt = in_count / 3 * 3;
+        const int cnt = in_count / 3 * 3;
         for (int i = 0; i < cnt; i += 3, out_base64 += 4)
         {
-            unsigned char a0 = in_data[i];
-            unsigned char a1 = in_data[i + 1];
-            unsigned char a2 = in_data[i + 2];
+            const unsigned char a0 = in_data[i];
+            const unsigned char a1 = in_data[i + 1];
+            const unsigned char a2 = in_data[i + 2];
             out_base64[0] = base64_chars[a0 >> 2];
             out_base64[1] = base64_chars[((a0 & 0x03) << 4) + (a1 >> 4)];
             out_base64[2] = base64_chars[((a1 & 0x0f) << 2) + (a2 >> 6)];
@@ -48,7 +73,7 @@ namespace BDXKEngine
 
         if (cnt + 1 == in_count)
         {
-            unsigned char a0 = in_data[cnt];
+            const unsigned char a0 = in_data[cnt];
             out_base64[0] = base64_chars[a0 >> 2];
             out_base64[1] = base64_chars[(a0 & 0x03) << 4];
             out_base64[2] = '=';
@@ -56,8 +81,8 @@ namespace BDXKEngine
         }
         else if (cnt + 2 == in_count)
         {
-            unsigned char a0 = in_data[cnt];
-            unsigned char a1 = in_data[cnt + 1];
+            const unsigned char a0 = in_data[cnt];
+            const unsigned char a1 = in_data[cnt + 1];
             out_base64[0] = base64_chars[a0 >> 2];
             out_base64[1] = base64_chars[((a0 & 0x03) << 4) + (a1 >> 4)];
             out_base64[2] = base64_chars[(a1 & 0x0f) << 2];
@@ -65,7 +90,7 @@ namespace BDXKEngine
         }
         return (in_count + 2) / 3 * 4;
     }
-    int String::DecodingBase64(const char* in_base64, int in_charcount, unsigned char* out_data)
+    int String::DecodingBase64(const unsigned char* in_base64, int in_charcount, unsigned char* out_data)
     {
         static const unsigned char pm[] = {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0 
@@ -83,44 +108,44 @@ namespace BDXKEngine
             49, 50, 51, 0, 0, 0, 0, 0 // 120 
         };
 
-        int cnt = in_charcount - 4;
+        const int cnt = in_charcount - 4;
         for (int i = 0; i < cnt; i += 4, out_data += 3)
         {
-            unsigned char a0 = pm[in_base64[i]];
-            unsigned char a1 = pm[in_base64[i + 1]];
-            unsigned char a2 = pm[in_base64[i + 2]];
-            unsigned char a3 = pm[in_base64[i + 3]];
-            out_data[0] = (a0 << 2) + (a1 >> 4);
-            out_data[1] = (a1 << 4) + (a2 >> 2);
-            out_data[2] = (a2 << 6) + a3;
+            const unsigned char a0 = pm[in_base64[i]];
+            const unsigned char a1 = pm[in_base64[i + 1]];
+            const unsigned char a2 = pm[in_base64[i + 2]];
+            const unsigned char a3 = pm[in_base64[i + 3]];
+            out_data[0] = static_cast<unsigned char>((a0 << 2) + (a1 >> 4));
+            out_data[1] = static_cast<unsigned char>((a1 << 4) + (a2 >> 2));
+            out_data[2] = static_cast<unsigned char>((a2 << 6) + a3);
         }
 
         int out_cnt = cnt / 4 * 3;
         if (in_base64[cnt + 2] == '=')
         {
-            unsigned char a0 = pm[in_base64[cnt]];
-            unsigned char a1 = pm[in_base64[cnt + 1]];
-            out_data[0] = (a0 << 2) + (a1 >> 4);
+            const unsigned char a0 = pm[in_base64[cnt]];
+            const unsigned char a1 = pm[in_base64[cnt + 1]];
+            out_data[0] = static_cast<unsigned char>((a0 << 2) + (a1 >> 4));
             out_cnt += 1;
         }
         else if (in_base64[cnt + 3] == '=')
         {
-            unsigned char a0 = pm[in_base64[cnt]];
-            unsigned char a1 = pm[in_base64[cnt + 1]];
-            unsigned char a2 = pm[in_base64[cnt + 2]];
-            out_data[0] = (a0 << 2) + (a1 >> 4);
-            out_data[1] = (a1 << 4) + (a2 >> 2);
+            const unsigned char a0 = pm[in_base64[cnt]];
+            const unsigned char a1 = pm[in_base64[cnt + 1]];
+            const unsigned char a2 = pm[in_base64[cnt + 2]];
+            out_data[0] = static_cast<unsigned char>((a0 << 2) + (a1 >> 4));
+            out_data[1] = static_cast<unsigned char>((a1 << 4) + (a2 >> 2));
             out_cnt += 2;
         }
         else
         {
-            unsigned char a0 = pm[in_base64[cnt]];
-            unsigned char a1 = pm[in_base64[cnt + 1]];
-            unsigned char a2 = pm[in_base64[cnt + 2]];
-            unsigned char a3 = pm[in_base64[cnt + 3]];
-            out_data[0] = (a0 << 2) + (a1 >> 4);
-            out_data[1] = (a1 << 4) + (a2 >> 2);
-            out_data[2] = (a2 << 6) + a3;
+            const unsigned char a0 = pm[in_base64[cnt]];
+            const unsigned char a1 = pm[in_base64[cnt + 1]];
+            const unsigned char a2 = pm[in_base64[cnt + 2]];
+            const unsigned char a3 = pm[in_base64[cnt + 3]];
+            out_data[0] = static_cast<unsigned char>((a0 << 2) + (a1 >> 4));
+            out_data[1] = static_cast<unsigned char>((a1 << 4) + (a2 >> 2));
+            out_data[2] = static_cast<unsigned char>((a2 << 6) + a3);
             out_cnt += 3;
         }
         return out_cnt;

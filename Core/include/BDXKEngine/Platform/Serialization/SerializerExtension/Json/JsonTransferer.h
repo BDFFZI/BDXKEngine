@@ -11,13 +11,14 @@ namespace BDXKEngine
     public:
         virtual void TransferJson(std::string key, std::string& value) =0;
 
+        rapidjson::Document& GetDocument();
     protected:
         static void Export(rapidjson::Document& document, std::string& json);
         static void Import(rapidjson::Document& document, std::string& json);
 
         JsonTransferer();
 
-        rapidjson::Document& GetDocument();
+     
         rapidjson::MemoryPoolAllocator<>& GetAllocator();
         rapidjson::Value& GetCurrentNode();
         bool HasCurrentNode();

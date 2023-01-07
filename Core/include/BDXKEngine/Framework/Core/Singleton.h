@@ -21,7 +21,7 @@ namespace BDXKEngine
         {
             Object::Awake();
 
-            if (singleton.IsNotNull() && singleton.GetInstanceID() != GetInstanceID())
+            if (singleton.IsNotNull() && singleton.GetInstanceID() != GetInstanceID()) //由于物体导入替换机制，同一个instanceID的物体可能多次触发Awake等事件
                 DestroyImmediate(singleton);
             singleton = dynamic_cast<TSingleton*>(this);
         }

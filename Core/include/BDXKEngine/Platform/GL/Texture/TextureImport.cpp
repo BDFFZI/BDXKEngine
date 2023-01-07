@@ -24,7 +24,7 @@ namespace BDXKEngine
 
             CComPtr<IWICBitmapDecoder> bitmapDecoder;
             result = imagingFactory->CreateDecoderFromFilename(
-                String::to_wstring(fileName).c_str(),
+                String::ToWString(fileName).c_str(),
                 nullptr,
                 GENERIC_READ,
                 WICDecodeMetadataCacheOnDemand, &bitmapDecoder.p

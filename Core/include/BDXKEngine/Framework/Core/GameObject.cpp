@@ -130,7 +130,7 @@ namespace BDXKEngine
             while (newUpLayer.IsNull() == false);
         }
 
-        if (parent.IsNull() == false)std::erase(parent->children, ObjectPtr(this));
+        if (parent.IsNull() == false)std::erase(parent->children, this);
         if (newparent.IsNull() == false)newparent->children.emplace_back(this);
         this->parent = newparent;
 
@@ -248,7 +248,6 @@ namespace BDXKEngine
             }
         }
 
-
         TransferFieldInfo(localPosition);
         TransferFieldInfo(localEulerAngles);
         TransferFieldInfo(localScale);
@@ -258,6 +257,7 @@ namespace BDXKEngine
     }
     void GameObject::Awake()
     {
+        SetParent(parent);
         RenewScale(false);
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);

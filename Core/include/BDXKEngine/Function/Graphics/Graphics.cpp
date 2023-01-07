@@ -125,6 +125,7 @@ namespace BDXKEngine
 
         defaultTexture2D = Texture2D::Create(1, 1, TextureFormat::R8G8B8A8_UNORM);
         defaultTextureCube = TextureCube::Create(1, 1, TextureFormat::R8G8B8A8_UNORM);
+        //屏幕空间，以左上角为原点，顺时针转一圈
         drawTextureMesh = Mesh::Create();
         drawTextureMesh->SetTriangles({
             0, 1, 3,

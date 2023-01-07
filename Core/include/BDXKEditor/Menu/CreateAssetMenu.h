@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "BDXKEditor/Function/Assets.h"
 #include "Core/Menu.h"
 #include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Physics/Material/PhysicMaterial.h"
@@ -13,19 +14,19 @@ namespace BDXKEditor
         CustomCreateAssetMenuRegister(const char* funcName, const std::function<ObjectPtrBase()>& func, const char* assetName);
     };
 
-#define CustomCreateAssetMenu(funcName,assetName) inline static CustomCreateAssetMenuRegister CustomCreateAssetMenu##funcName = {#funcName,funcName,assetName};
+#define CustomCreateAssetMenu(menuItemName,func,assetName) inline static CustomCreateAssetMenuRegister CustomCreateAssetMenu##func = {menuItemName,func,assetName};
+#define CustomCreateAssetMenu1(func,assetName) inline static CustomCreateAssetMenuRegister CustomCreateAssetMenu##func = {#func,func,assetName};
 
-    class CreateAssetMenu : public Menu<ObjectPtrBase()>
+    class CreateAssetMenu
     {
     public:
         static void AddMenuItem(const std::string& menuItemName, const std::function<ObjectPtrBase()>& func, const std::string& assetName)
         {
-            Menu<ObjectPtrBase()>::AddMenuItem(menuItemName, func);
-            assetNames[menuItemName] = assetName;
-        }
-        static const std::string& GetAssetName(const std::string& menuItemName)
-        {
-            return assetNames[menuItemName];
+            Menu::AddMenuItem("Assets/Create/" + menuItemName, [=]()
+            {
+                ObjectPtrBase asset = func();
+                Assets::Save(assetName, asset);
+            });
         }
 
         static ObjectPtr<Material> CreateStandardMaterial();
@@ -34,9 +35,9 @@ namespace BDXKEditor
         static ObjectPtr<PhysicMaterial> CreatePhysicMaterial();
     private:
         inline static std::unordered_map<std::string, std::string> assetNames = {};
-        CustomCreateAssetMenu(CreateStandardMaterial, "Standard.material")
-        CustomCreateAssetMenu(CreateUnlitMaterial, "Unlit.material")
-        CustomCreateAssetMenu(CreateSkyboxMaterial, "Skybox.material")
-        CustomCreateAssetMenu(CreatePhysicMaterial, "Material.physicMaterial")
+        CustomCreateAssetMenu("StandardMaterial", CreateStandardMaterial, "Standard.material")
+        CustomCreateAssetMenu("UnlitMaterial", CreateUnlitMaterial, "Unlit.material")
+        CustomCreateAssetMenu("SkyboxMaterial", CreateSkyboxMaterial, "Skybox.material")
+        CustomCreateAssetMenu("PhysicMaterial", CreatePhysicMaterial, "Material.physicMaterial")
     };
 }

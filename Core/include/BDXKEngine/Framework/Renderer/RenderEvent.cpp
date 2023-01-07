@@ -3,12 +3,12 @@
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "Core/Camera.h"
-#include "Core/RenderSettings.h"
 
 namespace BDXKEngine
 {
     ObjectPtr<Camera> RenderEvent::currentCamera = nullptr;
     ObjectPtr<Texture2D> RenderEvent::cameraCanvas = nullptr;
+    ObjectPtr<Shader> RenderEvent::blitShader = nullptr;
 
     const ObjectPtr<Camera>& RenderEvent::GetCurrentCamera()
     {
@@ -21,6 +21,29 @@ namespace BDXKEngine
 
     void RenderEvent::Initialize()
     {
+        blitShader = Shader::Create(R"(
+        Texture2D texture2D0:register(t0);
+        SamplerState samplerState0:register(s0);
+        struct Pixel
+        {
+            float4 positionCS:SV_POSITION;
+            float2 uv:TEXCOORD;
+        };
+        
+        Pixel VertexPass(float3 position:POSITION,float2 uv:TEXCOORD)
+        {
+            Pixel pixel;
+            pixel.positionCS = float4(position,1);
+            pixel.uv = uv;
+            return pixel;
+        }
+
+        float4 PixelPass(Pixel pixel):SV_Target
+        {
+            return texture2D0.Sample(samplerState0,pixel.uv);
+        }
+            )");
+
         Texture::ResetDefaultRenderTarget();
         const Vector2 ScreenSize = Window::GetSize();
         cameraCanvas = Texture2D::Create(ScreenSize.GetXInt(), ScreenSize.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
@@ -66,13 +89,10 @@ namespace BDXKEngine
         //将相机渲染传输到屏幕
         Texture::SetRenderTargetDefault();
         GL::Clear(true, true);
-        auto& blitMaterial = RenderSettings::GetBlitMaterial();
-        if (blitMaterial.IsNull())throw std::exception("必须要设置BlitMaterial");
-        blitMaterial->SetMatrix(0, Matrix4x4::identity);
-        blitMaterial->SetTexture2D(0, cameraCanvas);
-        blitMaterial->UploadRP(0);
-        Graphics::DrawViewport(true);
-
+        blitShader->UploadRP();
+        cameraCanvas->UploadRP(0);
+        Graphics::DrawViewport(false);
+        
         //UI渲染
         {
             GUI::BeginDraw();

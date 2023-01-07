@@ -1,5 +1,7 @@
 ﻿#include "Color.h"
 
+#include "BDXKEngine/Base/Data/Mathematics/Math.h"
+
 namespace BDXKEngine
 {
     const Color Color::clear = Color(0, 0, 0, 0);
@@ -46,6 +48,14 @@ namespace BDXKEngine
     Color Color::operator/(float value) const
     {
         return *this * (1 / value);
+    }
+    bool Color::operator==(Color value) const
+    {
+        return Equal(r, value.r) && Equal(g, value.g) && Equal(b, value.b) && Equal(a, value.a);
+    }
+    bool Color::operator!=(Color value) const
+    {
+        return !(*this == value);
     }
     Color::operator Vector4() const
     {

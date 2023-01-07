@@ -9,6 +9,15 @@ namespace BDXKEditor
     {
         return rootDirectory.substr(0, rootDirectory.size() - 1);
     }
+    std::string Assets::GetAssetPath(const ObjectPtrBase& objectPtr)
+    {
+        const Guid guid = ObjectGuid::GetGuid(objectPtr.GetInstanceID());
+        return guidToPath.contains(guid) ? guidToPath.at(guid) : "";
+    }
+    bool Assets::IsCanImport(const std::string& path)
+    {
+        return Importer::GetAssetsImporter(path.substr(path.rfind('.') + 1)).IsNotNull();
+    }
 
     ObjectPtrBase Assets::Load(const std::string& path, bool reimport)
     {
@@ -94,7 +103,7 @@ namespace BDXKEditor
         auto jsonSerializer = Serialization::CreateJsonSerializer();
         const std::string importerPath = rootDirectory + path + ".importer";
         ObjectPtr<Importer> importer = Serialization::IsExisting(importerPath) == false
-                                           ? Importer::GetAssetsImporter(path.substr(path.find('.') + 1))
+                                           ? Importer::GetAssetsImporter(path.substr(path.rfind('.') + 1))
                                            : Serialization::Load<Importer>(importerPath, jsonSerializer);
         if (importer.IsNull())throw std::exception("无法加载目标对应的导入器");
 
