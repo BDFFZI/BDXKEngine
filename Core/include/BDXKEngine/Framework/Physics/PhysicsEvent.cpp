@@ -35,13 +35,13 @@ namespace BDXKEngine
             }
         }
 
-        int AInstanceID;
+        ID AInstanceID;
         Collision ACollision;
-        int BInstanceID;
+        ID BInstanceID;
         Collision BCollision;
         long long hash;
 
-        CollisionInfo(int instanceIDA, const Collision& collisionA, int instanceIDB, const Collision& collisionB)
+        CollisionInfo(ID instanceIDA, const Collision& collisionA, ID instanceIDB, const Collision& collisionB)
         {
             this->AInstanceID = instanceIDA;
             this->ACollision = collisionA;

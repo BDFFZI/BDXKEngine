@@ -75,6 +75,6 @@ namespace BDXKEditor
     void GameObjectMenu::ClearParent()
     {
         const ObjectPtr gameObject = EditorSystem::GetInspectorView()->GetTarget().ToObject<GameObject>();
-        if (gameObject.IsNotNull())gameObject->SetParent(nullptr);
+        if (gameObject.IsNotNull())gameObject->SetParent(nullptr, true);
     }
 }

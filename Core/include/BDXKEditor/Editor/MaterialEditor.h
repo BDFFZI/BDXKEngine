@@ -9,7 +9,7 @@ namespace BDXKEditor
     class MaterialEditor : public Editor
     {
     public:
-        void OnInspectorGUI() override;
+        void OnInspectorGUI() const override;
     };
 
     CustomEditor(Material, MaterialEditor)

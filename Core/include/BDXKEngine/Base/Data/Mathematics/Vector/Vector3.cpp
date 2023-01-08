@@ -108,6 +108,14 @@ namespace BDXKEngine
     {
         return {x - value.x, y - value.y, z - value.z};
     }
+    Vector3 Vector3::operator*(Vector3 value) const
+    {
+        return {x * value.x, y * value.y, z * value.z};
+    }
+    Vector3 Vector3::operator/(Vector3 value) const
+    {
+        return {x / value.x, y / value.y, z / value.z};
+    }
     Vector3 Vector3::operator-() const
     {
         return {-x, -y, -z};

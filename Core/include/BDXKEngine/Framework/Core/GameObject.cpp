@@ -1,7 +1,5 @@
 ﻿#include "GameObject.h"
-
-#include <forward_list>
-
+#include <algorithm>
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "Component.h"
 
@@ -114,7 +112,7 @@ namespace BDXKEngine
         return localToWorldMatrix.MultiplyVector(Vector3::front);
     }
 
-    void GameObject::SetParent(const ObjectPtr<GameObject>& newparent)
+    void GameObject::SetParent(const ObjectPtr<GameObject>& newparent, bool worldPositionStays)
     {
         //嵌套检查
         if (newparent.IsNull() == false)
@@ -134,10 +132,22 @@ namespace BDXKEngine
         if (newparent.IsNull() == false)newparent->children.emplace_back(this);
         this->parent = newparent;
 
+
+        const Vector3 oldScale = scale;
+        const Vector3 oldEulerAngles = eulerAngles;
+        const Vector3 oldPosition = position;
+
         RenewScale();
         RenewEulerAngles();
         RenewPositionAndMatrix();
         UpdateActivating();
+
+        if (worldPositionStays)
+        {
+            SetScale(oldScale);
+            SetEulerAngles(oldEulerAngles);
+            SetPosition(oldPosition);
+        }
     }
     void GameObject::SetLocalPosition(Vector3 value)
     {
@@ -168,6 +178,11 @@ namespace BDXKEngine
     {
         if (parent.IsNull()) SetLocalEulerAngles(value);
         else SetLocalEulerAngles(localEulerAngles + value - eulerAngles);
+    }
+    void GameObject::SetScale(Vector3 value)
+    {
+        if (parent.IsNull()) SetLocalScale(value);
+        else SetLocalScale(value / scale * localScale);
     }
 
     void GameObject::RenewPositionAndMatrix(bool renewChild)
@@ -257,7 +272,9 @@ namespace BDXKEngine
     }
     void GameObject::Awake()
     {
-        SetParent(parent);
+        if (parent != nullptr && std::ranges::find(parent->children, this) == parent->children.end())
+            parent->children.emplace_back(this); //克隆时会遇到这种情况
+
         RenewScale(false);
         RenewEulerAngles(false);
         RenewPositionAndMatrix(false);

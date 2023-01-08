@@ -6,6 +6,8 @@
 
 namespace BDXKEngine
 {
+    typedef unsigned int ID;
+
     /// <summary>
     /// 创建：
     /// 通过InstantiateNoAwake加载未实例化的物体
@@ -21,8 +23,8 @@ namespace BDXKEngine
     class Object : public Reflective
     {
     public:
-        static const std::map<int, Object*>& GetObjects();
-        static void ReplaceObject(ObjectPtrBase& source, int targetInstanceID);
+        static const std::map<ID, Object*>& GetObjects();
+        static void ReplaceObject(ObjectPtrBase& source, ID targetInstanceID);
         static void SetConstructedObjectEvent(const std::function<void(Object*)>& onConstructedObject);
         static ObjectPtrBase Create(const Type& type);
         template <class TObject>
@@ -53,14 +55,14 @@ namespace BDXKEngine
 
             return result;
         }
-        static Object* FindObjectOfInstanceID(int instanceID);
+        static Object* FindObjectOfInstanceID(ID instanceID);
         template <typename TObject>
-        static TObject* FindObjectOfInstanceID(int instanceID)
+        static TObject* FindObjectOfInstanceID(ID instanceID)
         {
             return dynamic_cast<TObject*>(FindObjectOfInstanceID(instanceID));
         }
 
-        int GetInstanceID() const;
+        ID GetInstanceID() const;
         const std::string& GetName() const;
         void SetName(const std::string& name);
 
@@ -78,12 +80,12 @@ namespace BDXKEngine
         {
         }
     private:
-        inline static int instanceIDCount = 0;
-        inline static std::map<int, Object*> allObjects = {}; //内存中的所有Object，包括未激活的Object
+        inline static ID instanceIDCount = 0;
+        inline static std::map<ID, Object*> allObjects = {}; //内存中的所有Object，包括未激活的Object
         inline static std::function<void(Object*)> onConstructedObject = {};
 
         std::string name;
-        int instanceID = 0; //0为空占位符,只有原生状态会使用
+        ID instanceID = 0; //0为空占位符,只有原生状态会使用
         //可以解决重复调用或循环调用的问题，是激活和销毁能以安全正确的顺序执行
         bool isInstantiated = false;
         bool isDestroyed = false;

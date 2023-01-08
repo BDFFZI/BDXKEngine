@@ -1,0 +1,216 @@
+{
+    "serializationsCount": 3,
+    "serialization_0": {
+        "object": "{608455DC-40AF-4F77-E4BF-B179ABD3916B}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "name": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
+                "item1": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
+                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    0.0,
+                    1.0,
+                    0.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.6613411903381348,
+                    5.900000095367432,
+                    0.6723592877388,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_1": {
+        "object": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
+        "data": null
+    },
+    "serialization_2": {
+        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
+        "data": null
+    }
+}

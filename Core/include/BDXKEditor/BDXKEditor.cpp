@@ -8,6 +8,7 @@
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "Function/Assets.h"
 #include "Function/AssetsBuiltIn.h"
+#include "Function/ProjectSettings.h"
 #include "Menu/CreateAssetMenu.h"
 #include "Menu/GameObjectMenu.h"
 
@@ -102,6 +103,10 @@ namespace BDXKEditor
         else Assets::Load<Scene>(sceneName, true);
     }
 
+    void EditorSystem::NewScene()
+    {
+        Scene::Create("Untitled.scene");
+    }
     void EditorSystem::SaveScene()
     {
         auto scene = Scene::GetCurrentScene();
@@ -188,6 +193,7 @@ namespace BDXKEditor
         ImGui::PushStyleColor(ImGuiCol_MenuBarBg, isRunning ? Color::darkGreen : Color{ImGui::GetStyleColorVec4(ImGuiCol_MenuBarBg)});
         if (ImGui::BeginMainMenuBar())
         {
+            //菜单项
             std::vector<std::string> path = {};
             for (auto& [name,func] : Menu::GetMenuItems())
             {
@@ -195,15 +201,31 @@ namespace BDXKEditor
                 DrawMenu(path, func);
             }
 
+            //其他信息
             ImGui::PushStyleColor(ImGuiCol_Text, Color::yellow);
-            ImGui::Text(("Scene:" + Scene::GetCurrentSceneName()).c_str());
-            if (copying.IsNotNull() && ImGui::MenuItem(("Copying:" + copying->GetName()).c_str()))
-                copying = nullptr;
+            {
+                //复制信息
+                if (copying.IsNotNull() && ImGui::MenuItem(("Copying:" + copying->GetName()).c_str()))
+                    copying = nullptr;
+                //当前场景名字
+                static char sceneName[64];
+                strcpy_s(sceneName, Scene::GetCurrentSceneName().data());
+                ImGui::InputText("##CurrentSceneName", sceneName, sizeof (sceneName));
+                Scene::GetCurrentSceneName() = sceneName;
+            }
             ImGui::PopStyleColor();
 
             ImGui::EndMainMenuBar();
         }
         ImGui::PopStyleColor();
+    }
+    void EditorSystem::OnAwake()
+    {
+        ImGui::LoadIniSettingsFromDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
+    }
+    void EditorSystem::OnDestroy()
+    {
+        ImGui::SaveIniSettingsToDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
     }
 
     void Run(const std::string& sceneName)

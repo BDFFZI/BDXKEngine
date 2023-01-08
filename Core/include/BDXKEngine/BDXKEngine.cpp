@@ -15,18 +15,34 @@ namespace BDXKEngine
 {
     void Run(const std::string& sceneName)
     {
-        Run([&]
-        {
-            Scene::Load(sceneName);
-        });
+        engineBeginEvents.emplace_back([=] { Scene::Load(sceneName); }); //此时添加以保证是最后一个执行的启动事件
+        Run();
     }
     void Run(const std::function<void()>& onStart)
+    {
+        engineBeginEvents.emplace_back(onStart); //此时添加以保证是最后一个执行的启动事件
+        Run();
+    }
+    void Run()
     {
         if (std::setlocale(LC_ALL, "zh-CN.UTF-8") == nullptr) // NOLINT(concurrency-mt-unsafe)
             throw std::exception("设置本地化失败");
 
-        //平台层
         Window::Initialize(L"BDXKEngine");
+        Window::AddDestroyEvent([] //保证在所有系统还未关闭前启动
+        {
+            //销毁物体，触发Destroy事件
+            std::vector<ObjectPtrBase> objectPtrBases = {};
+            for (const auto& item : Object::GetObjects() | std::ranges::views::values)
+                objectPtrBases.emplace_back(item);
+            for (const auto& item : objectPtrBases)
+                Object::DestroyImmediate(item);
+
+            for (auto& item : engineEndEvents)
+                item();
+        });
+
+        //平台层
         GL::Initialize();
         GUI::Initialize();
         Phys::Initialize();
@@ -41,15 +57,10 @@ namespace BDXKEngine
 
         //正式开始
         {
-            onStart();
+            for (auto& item : engineBeginEvents)
+                item();
             Window::Show();
         }
-
-        std::vector<ObjectPtrBase> objectPtrBases = {};
-        for (const auto& item : Object::GetObjects() | std::ranges::views::values)
-            objectPtrBases.emplace_back(item);
-        for (const auto& item : objectPtrBases)
-            Object::DestroyImmediate(item);
 
         // Debug::LogError("系统回收检查");
         // BDXKObject::DebugObjectCount();

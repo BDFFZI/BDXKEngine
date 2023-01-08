@@ -1,6 +1,7 @@
 ﻿#include "ProjectWindow.h"
 #include <filesystem>
 #include "BDXKEditor/Function/Assets.h"
+#include "BDXKEditor/Function/ProjectSettings.h"
 #include "BDXKEngine/Platform/GUI/GUI.h"
 #include "BDXKEngine/Base/Package/Map.h"
 #include "imgui/imgui.h"
@@ -79,7 +80,7 @@ namespace BDXKEditor
                             selectedItemObject = Assets::Load(assetPath);
                             if (clickObjectEvent != nullptr)clickObjectEvent(selectedItemObject);
                         }
-                        if (GUI::DragDropSource(selectedItemObject)) //拖拽资源
+                        if (GUI::IsDragSource(selectedItemObject)) //拖拽资源
                         {
                             selectedItemObject = Assets::Load(assetPath);
                         }
@@ -107,21 +108,17 @@ namespace BDXKEditor
 
     void ProjectWindow::StaticConstructor()
     {
-        if (std::filesystem::exists("projectWindow.ini") == false)
-            return;
-
         Reflection::SetReflection<Map<std::string, bool>>();
-        const std::string data = BDXKEngine::ReadFile("projectWindow.ini");
-        const Serializer1<JsonImporter, JsonExporter> serializer = {};
-        Map<std::string, bool>* isUnfoldingPackage = dynamic_cast<Map<std::string, bool>*>(serializer.Deserialize(data));
-        isUnfolding = isUnfoldingPackage->ToUnorderedMap();
-        delete isUnfoldingPackage;
+        auto* isUnfoldingPackage = ProjectSettings::Load<Map<std::string, bool>>("ProjectWindow.settings");
+        if (isUnfoldingPackage != nullptr)
+        {
+            isUnfolding = isUnfoldingPackage->ToUnorderedMap();
+            delete isUnfoldingPackage;
+        }
     }
     void ProjectWindow::StaticDestructor()
     {
         Map isUnfoldingPackage = {isUnfolding};
-        const Serializer1<JsonImporter, JsonExporter> serializer = {};
-        const std::string data = serializer.Serialize(&isUnfoldingPackage);
-        BDXKEngine::WriteFile("projectWindow.ini", data);
+        ProjectSettings::Save("ProjectWindow.settings", &isUnfoldingPackage);
     }
 }

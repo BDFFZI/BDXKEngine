@@ -1,5 +1,5 @@
 {
-    "serializationsCount": 52,
+    "serializationsCount": 60,
     "serialization_0": {
         "object": "{EFF02BD0-47CB-4277-B4B8-B5DBEBFF36B3}",
         "data": {
@@ -7,7 +7,7 @@
             "name": "HelloWorld.scene",
             "renderSettings": "{34DBAA4B-F620-41E9-8EB9-E638D7F09161}",
             "gameObjects": {
-                "count": 8,
+                "count": 9,
                 "item0": "{7339A43A-E1F1-4AD1-A686-0F1C1140E58D}",
                 "item1": "{EC5031BC-76DD-482A-7088-4788AEB747A2}",
                 "item2": "{255FBE54-D0B4-4E06-E29C-9D989D17E006}",
@@ -15,7 +15,8 @@
                 "item4": "{B1BF7D94-291E-44F7-2BAD-8572D645AA64}",
                 "item5": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}",
                 "item6": "{2F5590A2-4EBE-42C8-2F9D-D97B17E71A6D}",
-                "item7": "{EAEC0F9F-1B04-4DE1-C1B7-7FD26DB48292}"
+                "item7": "{EAEC0F9F-1B04-4DE1-C1B7-7FD26DB48292}",
+                "item8": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}"
             }
         }
     },
@@ -80,9 +81,9 @@
                     0.0
                 ],
                 "vector0": [
-                    0.19125644862651826,
-                    2.843911409378052,
-                    -7.461019039154053,
+                    -5.148777961730957,
+                    0.22499999403953553,
+                    -3.251564264297486,
                     1.0
                 ],
                 "vector1": [
@@ -116,21 +117,21 @@
                     0.0
                 ],
                 "matrix0": [
-                    0.996572732925415,
+                    0.6899101734161377,
                     0.0,
-                    0.08272114396095276,
+                    -0.7238948941230774,
                     0.0,
-                    -0.004682485479861498,
-                    0.998396635055542,
-                    0.05641166493296623,
+                    -0.2180408984422684,
+                    0.9535593390464784,
+                    -0.20780451595783237,
                     0.0,
-                    -0.08258850872516632,
-                    -0.05660566687583923,
-                    0.9949748516082764,
+                    0.6902767419815064,
+                    0.3012051284313202,
+                    0.6578702926635742,
                     0.0,
-                    0.19125644862651826,
-                    2.843911409378052,
-                    -7.461019039154053,
+                    -5.148777961730957,
+                    0.22499999403953553,
+                    -3.251564264297486,
                     1.0
                 ],
                 "matrix1": [
@@ -596,7 +597,7 @@
         "object": "{255FBE54-D0B4-4E06-E29C-9D989D17E006}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Sphere",
+            "name": "Sphere 1",
             "isEnabling": true,
             "localPosition": [
                 -0.4594492912292481,
@@ -645,11 +646,15 @@
             "name": "class BDXKEngine::SphereCollider",
             "isEnabling": true,
             "gameObject": "{7AAA7894-26C0-4356-4189-C59217D6AD74}",
-            "material": "",
+            "material": "{544BA3A8-FD30-4C82-72A0-C7FAAF577F52}",
             "radius": 0.5
         }
     },
     "serialization_24": {
+        "object": "{544BA3A8-FD30-4C82-72A0-C7FAAF577F52}",
+        "data": null
+    },
+    "serialization_25": {
         "object": "{AB01ED3A-A72F-4281-3E87-B64542FA6697}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -659,19 +664,19 @@
             "constraints": 0,
             "mass": 1.0,
             "useGravity": true,
-            "isKinematic": true
+            "isKinematic": false
         }
     },
-    "serialization_25": {
+    "serialization_26": {
         "object": "{7AAA7894-26C0-4356-4189-C59217D6AD74}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Sphere",
+            "name": "Ball",
             "isEnabling": true,
             "localPosition": [
-                -1.688532829284668,
-                0.5,
-                -0.8509646654129028
+                -3.8025503158569338,
+                12.94200038909912,
+                2.4894044399261476
             ],
             "localEulerAngles": [
                 -0.0,
@@ -695,7 +700,7 @@
             }
         }
     },
-    "serialization_26": {
+    "serialization_27": {
         "object": "{E8E74C35-313C-4678-ADA0-21F7A743A5B9}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -708,7 +713,7 @@
             "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
         }
     },
-    "serialization_27": {
+    "serialization_28": {
         "object": "{C183D6FD-0964-449B-0AB8-4EFA55E8E27F}",
         "data": {
             "type": "class BDXKEngine::Material",
@@ -913,11 +918,11 @@
             "texture2D5": ""
         }
     },
-    "serialization_28": {
+    "serialization_29": {
         "object": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}",
         "data": null
     },
-    "serialization_29": {
+    "serialization_30": {
         "object": "{DBCEA19B-A896-404F-1AB9-B65AF14E31F0}",
         "data": {
             "type": "class BDXKEngine::SphereCollider",
@@ -928,7 +933,7 @@
             "radius": 0.5
         }
     },
-    "serialization_30": {
+    "serialization_31": {
         "object": "{15965335-87ED-4958-32BD-625CE9E7BBBB}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -941,11 +946,11 @@
             "isKinematic": true
         }
     },
-    "serialization_31": {
+    "serialization_32": {
         "object": "{B1BF7D94-291E-44F7-2BAD-8572D645AA64}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Sphere",
+            "name": "Sphere 3",
             "isEnabling": true,
             "localPosition": [
                 1.8913639783859256,
@@ -974,7 +979,7 @@
             }
         }
     },
-    "serialization_32": {
+    "serialization_33": {
         "object": "{67CFAB43-7BB0-4065-D7AC-99CC61DBB027}",
         "data": {
             "type": "class BDXKEngine::Camera",
@@ -982,7 +987,7 @@
             "isEnabling": true,
             "gameObject": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}",
             "renderTarget": "",
-            "clearFlags": 1,
+            "clearFlags": 2,
             "projection": 1,
             "background": [
                 0.5,
@@ -997,7 +1002,7 @@
             "priority": 0
         }
     },
-    "serialization_33": {
+    "serialization_34": {
         "object": "{DB29574B-38FD-4B66-089E-A23A33EF133B}",
         "data": {
             "type": "class CameraController",
@@ -1006,26 +1011,26 @@
             "gameObject": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}"
         }
     },
-    "serialization_34": {
+    "serialization_35": {
         "object": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}",
         "data": {
             "type": "class BDXKEngine::GameObject",
             "name": "Camera",
             "isEnabling": true,
             "localPosition": [
-                0.0,
-                1.0,
-                -10.0
+                -5.148777961730957,
+                0.22499999403953553,
+                -3.251564264297486
             ],
             "localEulerAngles": [
-                -15.699997901916504,
-                -1.7500001192092896,
+                -17.530000686645509,
+                46.37699890136719,
                 0.0
             ],
             "localScale": [
+                0.9999998807907105,
                 1.0,
-                0.9999998211860656,
-                1.0
+                0.9999998807907105
             ],
             "parent": "",
             "children": {
@@ -1038,24 +1043,24 @@
             }
         }
     },
-    "serialization_35": {
+    "serialization_36": {
         "object": "{8D0FC735-50C6-499B-22A2-B182F0FE32A0}",
         "data": {
             "type": "class BDXKEngine::Light",
-            "name": "class BDXKEngine::Light",
+            "name": "Red Light Component",
             "isEnabling": true,
             "gameObject": "{62096C6D-F621-4024-269E-112C99BB99B5}",
             "lightType": 1,
             "color": [
                 1.0,
-                1.0,
-                1.0,
+                0.0,
+                0.0,
                 1.0
             ],
             "intensity": 0.5
         }
     },
-    "serialization_36": {
+    "serialization_37": {
         "object": "{62096C6D-F621-4024-269E-112C99BB99B5}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -1086,7 +1091,7 @@
             }
         }
     },
-    "serialization_37": {
+    "serialization_38": {
         "object": "{DE0FD068-8481-49EC-15AE-63284CF67837}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -1099,11 +1104,11 @@
             "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
         }
     },
-    "serialization_38": {
+    "serialization_39": {
         "object": "{4531ADF6-F6F0-4FB5-F0AF-BDA1B5DB91FD}",
         "data": null
     },
-    "serialization_39": {
+    "serialization_40": {
         "object": "{22DE1413-AED9-403C-F493-3404EE8BA5FB}",
         "data": {
             "type": "class BDXKEngine::BoxCollider",
@@ -1118,7 +1123,7 @@
             ]
         }
     },
-    "serialization_40": {
+    "serialization_41": {
         "object": "{E7197254-A3CA-4292-9085-AAAE99EF76F8}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -1131,19 +1136,19 @@
             "isKinematic": false
         }
     },
-    "serialization_41": {
+    "serialization_42": {
         "object": "{2F5590A2-4EBE-42C8-2F9D-D97B17E71A6D}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Cube",
+            "name": "Red Cube",
             "isEnabling": true,
             "localPosition": [
-                -0.44999998807907107,
-                5.900000095367432,
-                0.0
+                -0.8379999995231628,
+                5.718538284301758,
+                -0.2520000040531159
             ],
             "localEulerAngles": [
-                0.0,
+                -0.0,
                 0.0,
                 0.0
             ],
@@ -1165,7 +1170,7 @@
             }
         }
     },
-    "serialization_42": {
+    "serialization_43": {
         "object": "{5EF40B14-7276-474E-5585-5A362C8C239B}",
         "data": {
             "type": "class BDXKEngine::Light",
@@ -1174,15 +1179,15 @@
             "gameObject": "{ECC5E28D-2EAC-4278-D0B9-055E63E8AB1B}",
             "lightType": 1,
             "color": [
-                1.0,
-                1.0,
+                0.0,
+                0.0,
                 1.0,
                 1.0
             ],
             "intensity": 0.5
         }
     },
-    "serialization_43": {
+    "serialization_44": {
         "object": "{ECC5E28D-2EAC-4278-D0B9-055E63E8AB1B}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -1213,7 +1218,7 @@
             }
         }
     },
-    "serialization_44": {
+    "serialization_45": {
         "object": "{65E35AA5-4BDF-4A99-458A-D268B44A187F}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -1226,23 +1231,11 @@
             "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
         }
     },
-    "serialization_45": {
+    "serialization_46": {
         "object": "{3C27919F-0E14-44FE-3691-E3259F39A3E2}",
         "data": null
     },
-    "serialization_46": {
-        "object": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
-        "data": null
-    },
     "serialization_47": {
-        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
-        "data": null
-    },
-    "serialization_48": {
-        "object": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}",
-        "data": null
-    },
-    "serialization_49": {
         "object": "{4D5FFEFC-63DD-4B95-ADBD-A3E9B9AB26BA}",
         "data": {
             "type": "class BDXKEngine::BoxCollider",
@@ -1257,7 +1250,7 @@
             ]
         }
     },
-    "serialization_50": {
+    "serialization_48": {
         "object": "{4CFF0EA7-A19D-4419-8791-A72E0DD27D4B}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -1270,19 +1263,19 @@
             "isKinematic": false
         }
     },
-    "serialization_51": {
+    "serialization_49": {
         "object": "{EAEC0F9F-1B04-4DE1-C1B7-7FD26DB48292}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Cube",
+            "name": "Blue Cube",
             "isEnabling": true,
             "localPosition": [
-                1.899999976158142,
-                5.900000095367432,
-                2.0
+                0.7229999899864197,
+                5.688000202178955,
+                -1.0740000009536744
             ],
             "localEulerAngles": [
-                0.0,
+                -0.0,
                 0.0,
                 0.0
             ],
@@ -1301,6 +1294,145 @@
                 "item0": "{65E35AA5-4BDF-4A99-458A-D268B44A187F}",
                 "item1": "{4D5FFEFC-63DD-4B95-ADBD-A3E9B9AB26BA}",
                 "item2": "{4CFF0EA7-A19D-4419-8791-A72E0DD27D4B}"
+            }
+        }
+    },
+    "serialization_50": {
+        "object": "{3DBAACE8-9D80-4878-F3B8-A931813CB062}",
+        "data": {
+            "type": "class BDXKEngine::Light",
+            "name": "class BDXKEngine::Light",
+            "isEnabling": true,
+            "gameObject": "{BEA7A0D3-375C-420F-8DA1-0F2EDDFC79D0}",
+            "lightType": 1,
+            "color": [
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ],
+            "intensity": 0.5
+        }
+    },
+    "serialization_51": {
+        "object": "{BEA7A0D3-375C-420F-8DA1-0F2EDDFC79D0}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "PointLight",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{3DBAACE8-9D80-4878-F3B8-A931813CB062}"
+            }
+        }
+    },
+    "serialization_52": {
+        "object": "{292AF561-5BBF-4CAA-F0B9-322027CA2BD8}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}",
+            "material": "{608455DC-40AF-4F77-E4BF-B179ABD3916B}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_53": {
+        "object": "{608455DC-40AF-4F77-E4BF-B179ABD3916B}",
+        "data": null
+    },
+    "serialization_54": {
+        "object": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
+        "data": null
+    },
+    "serialization_55": {
+        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
+        "data": null
+    },
+    "serialization_56": {
+        "object": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}",
+        "data": null
+    },
+    "serialization_57": {
+        "object": "{CA993B27-D676-4358-B0AD-8840FF305416}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "name": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_58": {
+        "object": "{7405B3E2-38C1-4D17-2C9E-5D31A02A5956}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "name": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": false
+        }
+    },
+    "serialization_59": {
+        "object": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Green Blue",
+            "isEnabling": true,
+            "localPosition": [
+                -0.11400000005960465,
+                6.826305389404297,
+                -0.08399999886751175
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 1,
+                "item0": "{BEA7A0D3-375C-420F-8DA1-0F2EDDFC79D0}"
+            },
+            "components": {
+                "count": 3,
+                "item0": "{292AF561-5BBF-4CAA-F0B9-322027CA2BD8}",
+                "item1": "{CA993B27-D676-4358-B0AD-8840FF305416}",
+                "item2": "{7405B3E2-38C1-4D17-2C9E-5D31A02A5956}"
             }
         }
     }

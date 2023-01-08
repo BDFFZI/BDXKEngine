@@ -3,25 +3,26 @@
 
 namespace BDXKEditor
 {
-    ComponentEditor componentEditor;
-    std::vector<std::string> names;
-    std::vector<void*> values;
-    std::vector<Type> types;
-
     void ComponentEditor::StaticConstructor()
     {
-        AddEditorFallback([](const Reflective& reflective)
+        static ComponentEditor componentEditor = {};
+
+        AddEditorFallback([](const ObjectPtrBase& objectPtr)
         {
-            if (dynamic_cast<const Component*>(&reflective) != nullptr)
+            if (objectPtr.ToObject<Component>() != nullptr)
                 return &componentEditor;
 
             return static_cast<ComponentEditor*>(nullptr);
         });
     }
-    void ComponentEditor::OnInspectorGUI()
+    void ComponentEditor::OnInspectorGUI() const
     {
+        static std::vector<std::string> names = {};
+        static std::vector<void*> values = {};
+        static std::vector<Type> types = {};
+
         const Object* target = GetTarget().ToObjectBase();
-        Transferer& gui = GetGUITransferer();
+        Transferer& gui = GetGUI();
 
         const Reflection& reflection = Reflection::GetReflection(target);
         const int count = reflection.GetFields(GetTarget().ToObjectBase(), names, values, types);

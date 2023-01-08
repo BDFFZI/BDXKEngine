@@ -83,7 +83,11 @@ namespace BDXKEditor
     }
     void GUITransferer::TransferString(std::string& value) const
     {
-        ImGui::InputText(GetFieldID().c_str(), value.data(), value.size() + 1);
+        static char buffer[64] = {};
+        
+        strcpy_s(buffer, value.data());
+        ImGui::InputText(GetFieldID().c_str(), buffer, sizeof(buffer));
+        value = buffer;
     }
     void GUITransferer::TransferObjectPtrBase(ObjectPtrBase& value) const
     {
@@ -100,8 +104,8 @@ namespace BDXKEditor
         }
 
         //拖拽
-        GUI::DragDropSource(value);
-        if (ObjectPtrBase dropping; GUI::DragDropTarget(dropping))
+        GUI::IsDragSource(value);
+        if (ObjectPtrBase dropping; GUI::IsDragTarget(dropping))
         {
             const Reflection& droppingReflection = Reflection::GetReflection(dropping.GetObjectType());
             if (droppingReflection.CanConvertTo(value.GetObjectType()))

@@ -7,7 +7,8 @@ namespace BDXKEditor
     class GameObjectEditor : public Editor
     {
     protected:
-        void OnInspectorGUI() override;
+        bool DrawTitle(ScriptableObject* target) const;
+        void OnInspectorGUI() const override;
     };
 
     CustomEditor(GameObject, GameObjectEditor)

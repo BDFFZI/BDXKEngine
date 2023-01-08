@@ -6,6 +6,8 @@ namespace BDXKEngine
     class Resources
     {
     public:
+        static std::string ParsePath(const std::string& path);
+
         static ObjectPtrBase Load(const std::string& path, bool retainPersistent = true);
         template <typename TObject>
         static ObjectPtr<TObject> Load(const std::string& path, bool retainPersistent = true)

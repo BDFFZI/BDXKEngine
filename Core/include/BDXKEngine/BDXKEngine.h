@@ -32,5 +32,20 @@
 namespace BDXKEngine
 {
     void Run(const std::string& sceneName);
-    void Run(const std::function<void()>& onStart = nullptr);
+    void Run(const std::function<void()>& onStart);
+    void Run();
+
+    inline std::vector<std::function<void()>> engineBeginEvents = {};
+    inline std::vector<std::function<void()>> engineEndEvents = {};;
+
+    struct EngineEventRegister
+    {
+        EngineEventRegister(std::vector<std::function<void()>>& eventType, const std::function<void()>& event)
+        {
+            eventType.emplace_back(event);
+        }
+    };
+
+#define CustomEngineBeginEvent(func) inline EngineEventRegister engineEventRegister(engineBeginEvents,func);
+#define CustomEngineEndEvent(func) inline EngineEventRegister engineEventRegister(engineEndEvents,func);
 }

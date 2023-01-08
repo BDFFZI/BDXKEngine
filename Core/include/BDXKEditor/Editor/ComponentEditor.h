@@ -9,6 +9,6 @@ namespace BDXKEditor
         static void StaticConstructor();
         CustomStaticConstructor(StaticConstructor)
 
-        void OnInspectorGUI() override;
+        void OnInspectorGUI() const override;
     };
 }

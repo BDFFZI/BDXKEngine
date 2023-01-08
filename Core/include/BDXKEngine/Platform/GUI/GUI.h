@@ -7,7 +7,6 @@ operator BDXKEngine::Vector2()const{return{x,y};}
 operator BDXKEngine::Color()const{return{x,y,z,w};}
 #include <imgui/imgui.h>
 
-
 namespace BDXKEngine
 {
     class GUI
@@ -15,8 +14,9 @@ namespace BDXKEngine
     public:
         static ImTextureID GetImTextureID(const ObjectPtr<Texture2D>& texture);
 
-        static bool DragDropSource(const ObjectPtrBase& value); //拖拽时持续触发
-        static bool DragDropTarget(ObjectPtrBase& value);
+        static bool IsDragSource(const ObjectPtrBase& value); //拖拽时持续触发
+        static bool IsDragTarget(ObjectPtrBase& value);
+        static bool IsDragTargetForWindow(const char* label, ObjectPtrBase& value); //请作为第一个UI渲染
         static bool IsDockTabVisible();
         static void Dropdown(const std::string& name, const std::function<void()>& onGui);
 

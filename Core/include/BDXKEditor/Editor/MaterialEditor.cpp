@@ -2,7 +2,7 @@
 
 namespace BDXKEditor
 {
-    void MaterialEditor::OnInspectorGUI()
+    void MaterialEditor::OnInspectorGUI() const
     {
         Editor::OnInspectorGUI();
         auto* material = GetTarget().ToObject<Material>();

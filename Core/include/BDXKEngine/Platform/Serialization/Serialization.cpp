@@ -21,20 +21,20 @@ namespace BDXKEngine
     ObjectPtrBase Serialization::Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate, bool persistent)
     {
         std::vector<Guid> guids = {};
-        ObjectPtrBase object = serializer.Deserialize(ReadFile(path), &guids);
+        ObjectPtrBase objectPtr = serializer.Deserialize(ReadFile(path), &guids);
 
         if (persistent == false)
             for (auto& guid : guids)
                 UnMarkPersistent(ObjectGuid::GetInstanceID(guid));
-        if (instantiate)Object::Instantiate(object);
+        if (instantiate)Object::Instantiate(objectPtr);
 
-        return object;
+        return objectPtr;
     }
     void Serialization::Save(const std::string& path, const ObjectPtrBase& objectPtr, ObjectSerializerBase& serializer)
     {
         if (std::filesystem::exists(path.substr(0, path.rfind('/'))) == false)
             throw std::exception("目录不存在");
-
+        
         //保存持久化数据
         const std::string data = serializer.Serialize(objectPtr);
         WriteFile(path, data);

@@ -10,86 +10,82 @@ namespace BDXKEditor
 {
     bool addComponenting;
     std::vector<Reflection*> componentReflections;
-    void GameObjectEditor::OnInspectorGUI()
+
+    bool GameObjectEditor::DrawTitle(ScriptableObject* target) const
     {
-        GUITransferer& gui = GetGUITransferer();
-        auto* target = GetTarget().ToObject<GameObject>();
-        const Reflection& reflection = Reflection::GetReflection<GameObject>();
-
-        //物体
+        //类型
+        ImGui::TextDisabled(target->GetType().c_str());
+        //实例编号
+        ImGui::SameLine();
+        ImGui::TextDisabled(std::to_string(target->GetInstanceID()).c_str());
+        
+        const Reflection& reflection = Reflection::GetReflection<ScriptableObject>();
+        GUITransferer& gui = GetGUI();
+        //是否启动
+        bool enable = reflection.GetFieldOf<bool>(target, "isEnabling");
+        gui.TransferField("##isEnabling", enable);
+        target->SetIsEnabling(enable);
+        //名称
+        ImGui::SameLine();
+        gui.TransferField("##Name", reflection.GetFieldOf<std::string>(target, "name"));
+        //删除功能
+        ImGui::SameLine();
+        if (ImGui::Button(gui.GetFieldID("X").c_str()))
         {
-            bool enable = reflection.GetFieldOf<bool>(target, "isEnabling");
-            gui.TransferField("##isEnabling", enable);
-            target->SetIsEnabling(enable);
-            ImGui::SameLine();
-            gui.TransferField("##Name", reflection.GetFieldOf<std::string>(target, "name"));
-            ImGui::SameLine();
-            if (ImGui::Button(gui.GetFieldID("X").c_str()))
-            {
-                Object::DestroyImmediate(target);
-                return;
-            }
-
-            gui.TransferField("Position", reflection.GetFieldOf<Vector3>(target, "localPosition"));
-            gui.TransferField("Rotation", reflection.GetFieldOf<Vector3>(target, "localEulerAngles"));
-            gui.TransferField("Scale", reflection.GetFieldOf<Vector3>(target, "localScale"));
-            target->SetLocalPosition(target->GetLocalPosition());
-            target->SetLocalEulerAngles(target->GetLocalEulerAngles());
-            target->SetLocalScale(target->GetLocalScale());
+            Object::DestroyImmediate(target);
+            return false;
         }
 
-        //组件
+        return true;
+    }
+    void GameObjectEditor::OnInspectorGUI() const
+    {
+        GUITransferer& gui = GetGUI();
+        
+        auto* gameObject = GetTarget().ToObject<GameObject>();
+        if (DrawTitle(gameObject))
         {
-            const auto& components = reflection.GetFieldOf<std::vector<ObjectPtr<Component>>>(target, "components");
-            const int count = static_cast<int>(components.size());
-            for (int index = 0; index < count; index++)
-            {
-                ImGui::Separator();
+            const Reflection& reflection = Reflection::GetReflection<GameObject>();
+            gui.TransferField("Position", reflection.GetFieldOf<Vector3>(gameObject, "localPosition"));
+            gui.TransferField("Rotation", reflection.GetFieldOf<Vector3>(gameObject, "localEulerAngles"));
+            gui.TransferField("Scale", reflection.GetFieldOf<Vector3>(gameObject, "localScale"));
+            gameObject->SetLocalPosition(gameObject->GetLocalPosition());
+            gameObject->SetLocalEulerAngles(gameObject->GetLocalEulerAngles());
+            gameObject->SetLocalScale(gameObject->GetLocalScale());
 
-                auto* component = components[index].ToObject<Component>();
-                std::string path = "##Component" + std::to_string(index);
+
+            //组件
+            for (auto& component : gameObject->GetComponents())
+            {
+                std::string path = "##Component" + std::to_string(component.GetInstanceID());
                 gui.PushPath(path);
+                ImGui::Separator();
 
-                //基本面板
-                bool enable = reflection.GetFieldOf<bool>(component, "isEnabling");
-                gui.TransferField("##" + std::to_string(component->GetInstanceID()), enable);
-                component->SetIsEnabling(enable);
-                ImGui::SameLine();
-                gui.TransferField("##Name", reflection.GetFieldOf<std::string>(component, "name"));
-                ImGui::SameLine();
-                if (ImGui::Button(gui.GetFieldID("X").c_str()))
+                if (DrawTitle(component.ToObject<ScriptableObject>()))
                 {
-                    Object::DestroyImmediate(component);
-                    return;
+                    GetEditor(component, gui).DrawInspectorGUI();
                 }
-
-                //自定义面板
-                Editor* editor = GetEditor(*component);
-                editor->SetTarget(components[index]);
-                editor->SetGui(&gui);
-                editor->DrawInspectorGUI();
-
-                gui.PopPath(path);
 
                 ImGui::Separator();
+                gui.PopPath(path);
             }
-        }
 
-        //添加组件
-        GUI::Dropdown("AddComponent", [&]
-        {
-            const int count = Reflection::GetReflections(
-                componentReflections,
-                [](const Reflection& reflection) { return reflection.CanConvertTo<Component>(); }
-            );
-
-            for (int i = 0; i < count; i++)
+            //添加组件
+            GUI::Dropdown("AddComponent", [&]
             {
-                if (ImGui::Button(componentReflections[i]->GetType().c_str()))
+                const int count = Reflection::GetReflections(
+                    componentReflections,
+                    [](const Reflection& reflection) { return reflection.CanConvertTo<Component>(); }
+                );
+
+                for (int i = 0; i < count; i++)
                 {
-                    Component::Create(target, componentReflections[i]->GetType());
+                    if (ImGui::Button(componentReflections[i]->GetType().c_str()))
+                    {
+                        Component::Create(gameObject, componentReflections[i]->GetType());
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

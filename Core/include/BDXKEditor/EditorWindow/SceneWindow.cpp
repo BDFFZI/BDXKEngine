@@ -1,17 +1,13 @@
 ﻿#include "SceneWindow.h"
-
 #include "InspectorWindow.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Function/Time/Time.h"
-#include "BDXKEngine/Platform/GUI/GUI.h"
 #include "ImGuizmo/ImGuizmo.h"
 #include "BDXKEngine/Function/Window/Cursor.h"
 #include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEditor
 {
-    ImGuizmo::OPERATION handleOption;
-
     bool CameraController::IsControlling() const
     {
         return isControlling;
@@ -77,22 +73,42 @@ namespace BDXKEditor
     {
         this->target = target;
     }
+
+    bool SceneWindow::HasMenu()
+    {
+        return true;
+    }
+
     void SceneWindow::OnAwake()
     {
         gameObject = GameObject::Create("SceneWindow");
         Component::Create<Camera>(gameObject);
         GameObject::Hide(gameObject);
 
-        camera = gameObject->GetComponent<Camera>();
+        editorCamera = gameObject->GetComponent<Camera>();
         cameraTexture = Texture2D::Create(960, 540, TextureFormat::R8G8B8A8_UNORM);
         cameraController = Component::Create<CameraController>(gameObject);
         viewSize = {960, 540};
 
-        camera->SetRenderTarget(cameraTexture);
-        camera->SetBackground(Color::gray * 0.5f);
+        editorCamera->SetRenderTarget(cameraTexture);
+        editorCamera->SetBackground(Color::gray * 0.5f);
     }
     void SceneWindow::OnGUI()
     {
+        //控制场景相机
+        cameraController->SetIsEnabling(ImGui::IsWindowHovered());
+        if (cameraOption == 0)
+        {
+            const auto* editorCameraPtr = editorCamera.ToObject<Camera>();
+            for (auto& item : Camera::GetCameraQueue())
+            {
+                if (item != editorCameraPtr)
+                {
+                    editorCamera->SetBackground(item->GetBackground());
+                    editorCamera->SetClearFlags(item->GetClearFlags());
+                }
+            }
+        }
         //更新渲染纹理大小
         const Vector2 windowMin = ImGui::GetWindowContentRegionMin();
         const Vector2 windowMax = ImGui::GetWindowContentRegionMax();
@@ -100,64 +116,74 @@ namespace BDXKEditor
         if (cameraTexture->GetSize() != viewSize && viewSize.x > 0 && viewSize.y > 0)
         {
             cameraTexture = Texture2D::Create(viewSize.GetXInt(), viewSize.GetYInt(), TextureFormat::R8G8B8A8_UNORM);
-            camera->SetRenderTarget(cameraTexture);
+            editorCamera->SetRenderTarget(cameraTexture);
         }
-        //控制场景相机
-        cameraController->SetIsEnabling(ImGui::IsWindowHovered());
 
-        //相机画面
+        if (ImGui::BeginMenuBar())
+        {
+            //手柄选项
+            {
+                ImGui::SetNextItemWidth(viewSize.x * 0.125f);
+                static const char* optionName[] = {"Hide", "Position", "Rotation", "Scale"};
+                ImGui::Combo("Handle", &handleOption, optionName, 4);
+                if (ImGui::IsWindowHovered() && cameraController->IsControlling() == false)
+                {
+                    if (ImGui::IsKeyPressed(ImGuiKey_Q))handleOption = 0;
+                    if (ImGui::IsKeyPressed(ImGuiKey_W))handleOption = 1;
+                    if (ImGui::IsKeyPressed(ImGuiKey_E))handleOption = 2;
+                    if (ImGui::IsKeyPressed(ImGuiKey_R))handleOption = 3;
+                }
+            }
+
+            //编辑器相机设置
+            {
+                ImGui::SetNextItemWidth(viewSize.x * 0.15f);
+                static const char* optionName[] = {"Game Camera", "Custom"};
+                ImGui::Combo("Camera", &cameraOption, optionName, 2);
+                if (cameraOption == 1 && ImGui::MenuItem("Editor Camera"))
+                {
+                    ObjectPtr<InspectorWindow> inspectorWindow = Create<InspectorWindow>();
+                    inspectorWindow->SetTarget(gameObject);
+                    inspectorWindow->Show();
+                }
+            }
+
+            ImGui::EndMenuBar();
+        }
+
+        //显示相机画面
         const Vector2 cursorPos = ImGui::GetCursorPos();
         ImGui::Image(
             GUI::GetImTextureID(cameraTexture),
             cameraTexture->GetSize()
         );
         ImGui::SetCursorPos(cursorPos);
-        //SceneWindow物体
-        if (ImGui::Button("SceneWindowSettings"))
-        {
-            ObjectPtr<InspectorWindow> inspectorWindow = Create<InspectorWindow>();
-            inspectorWindow->SetTarget(gameObject);
-            inspectorWindow->Show();
-        }
-        //帧率信息
-        ImGui::SameLine();
-        ImGui::Text(
-            "Rate %.3f ms/frame (%.1f FPS)",
-            static_cast<double>(Time::GetDeltaTime() * 1000.0f),
-            static_cast<double>(1.0f / Time::GetDeltaTime())
-        );
-        //手柄选项
-        {
-            static constexpr char optionsName[4][10] = {"Hide", "Position", "Rotation", "Scale"};
-            static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::BOUNDS, ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
-            const float width = ImGui::GetContentRegionAvail().x / 4 - 10;
-            static int handleMode = 1;
-            for (int i = 0; i < 4; i++)
-            {
-                if (i != 0)ImGui::SameLine();
-                if (ImGui::Selectable(optionsName[i], handleMode == i, 0, Vector2{width, 0.0f}))
-                    handleMode = i;
-            }
-            if (ImGui::IsWindowHovered() && cameraController->IsControlling() == false)
-            {
-                if (ImGui::IsKeyDown(ImGuiKey_Q))handleMode = 0;
-                if (ImGui::IsKeyDown(ImGuiKey_W))handleMode = 1;
-                if (ImGui::IsKeyDown(ImGuiKey_E))handleMode = 2;
-                if (ImGui::IsKeyDown(ImGuiKey_R))handleMode = 3;
-            }
-            handleOption = options[handleMode];
-        }
 
+        //帧率信息
+        static double deltaTime = 0;
+        deltaTime = std::lerp(deltaTime, Time::GetDeltaTime(), 0.05f);
+        ImGui::TextColored(
+            Color::magenta,
+            "Frame Rate %5.1f ms/frame (%5.1f FPS)",
+            deltaTime * 1000.0,
+            1.0 / deltaTime
+        );
+
+        //DrawSceneGUI回调
+        if (target != nullptr)
+        {
+            Editor::GetEditor(target).DrawSceneGUI();
+        }
 
         //OnDrawGizmos
-        if (GUI::IsDockTabVisible())
+        if (GUI::IsDockTabVisible() && handleOption != 0)
         {
             const Vector2 viewPosition = Vector2{ImGui::GetWindowPos()} + windowMin;
             ImGuizmo::SetRect(viewPosition.x, viewPosition.y, viewSize.x, viewSize.y);
             ImGuizmo::SetOrthographic(false);
-            CameraInfo cameraInfo = camera->GetCameraInfo();
+            CameraInfo cameraInfo = editorCamera->GetCameraInfo();
+
             //绘制网格
-            if (handleOption != ImGuizmo::BOUNDS)
             {
                 Matrix4x4 objectToWorld = Matrix4x4::identity;
                 ImGuizmo::DrawGrid(
@@ -170,11 +196,14 @@ namespace BDXKEditor
             //绘制手柄
             if (target.IsNotNull())
             {
+                static constexpr ImGuizmo::OPERATION options[] = {ImGuizmo::BOUNDS, ImGuizmo::TRANSLATE, ImGuizmo::ROTATE, ImGuizmo::SCALE};
+                ImGuizmo::OPERATION imguiOption = options[handleOption];
+
                 Matrix4x4 objectToWorld = target->GetLocalToWorldMatrix();
                 Manipulate(
                     reinterpret_cast<float*>(&cameraInfo.worldToView),
                     reinterpret_cast<float*>(&cameraInfo.viewToClip),
-                    handleOption, ImGuizmo::LOCAL,
+                    imguiOption, ImGuizmo::LOCAL,
                     reinterpret_cast<float*>(&objectToWorld)
                 );
 

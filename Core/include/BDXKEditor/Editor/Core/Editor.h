@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "GUITransferer.h"
+#include "BDXKEngine/Base/Object/Transferer/ObjectTransferer.h"
 #include "BDXKEngine/Framework/Core/ScriptableObject.h"
 
 namespace BDXKEditor
@@ -9,33 +10,30 @@ namespace BDXKEditor
     class Editor
     {
     public:
-        static Editor* GetEditor(const Reflective& reflective);
+        static const Editor& GetEditor(const ObjectPtrBase& target, GUITransferer& gui = defaultGui);
         template <typename TObject, typename TEditor>
         static void SetEditor()
         {
             editors[GetTypeOf<TObject>()] = new TEditor();
         }
-
-        static void AddEditorFallback(const std::function<Editor*(const Reflective&)>& getEditorFallback);
+        static void AddEditorFallback(const std::function<Editor*(const ObjectPtrBase&)>& getEditorFallback);
 
         virtual ~Editor() = default;
         const ObjectPtrBase& GetTarget() const;
-        GUITransferer& GetGUITransferer() const;
-
-        void SetTarget(const ObjectPtrBase& target);
-        void SetGui(GUITransferer* gui);
-
-        void DrawInspectorGUI();
-        void DrawSceneGUI();
+        GUITransferer& GetGUI() const;
+        void DrawInspectorGUI() const;
+        void DrawSceneGUI() const;
     protected:
-        virtual void OnInspectorGUI();
-        virtual void OnSceneGUI();
+        virtual void OnInspectorGUI() const;
+        virtual void OnSceneGUI() const;
     private:
-        inline static std::vector<std::function<Editor*(const Reflective&)>> getEditorFallback = {};
-        static std::unordered_map<Type, Editor*> editors;
+        static Editor defaultEditor;
+        static ObjectTransferer<GUITransferer> defaultGui;
+        inline static std::unordered_map<Type, Editor*> editors = {};
+        inline static std::vector<std::function<Editor*(const ObjectPtrBase&)>> getEditorFallback = {};
 
         ObjectPtrBase target = nullptr;
-        GUITransferer* gui = nullptr;
+        GUITransferer* gui = &defaultGui;
     };
 
     template <typename TObject, typename TEditor>

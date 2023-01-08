@@ -6,6 +6,10 @@
 
 namespace BDXKEngine
 {
+    std::string Resources::ParsePath(const std::string& path)
+    {
+        return "Resources/" + path;
+    }
     ObjectPtrBase Resources::Load(const std::string& path, bool retainPersistent)
     {
         if (IsExisting(path) == false)throw std::exception("文件不存在");

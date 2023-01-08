@@ -34,6 +34,12 @@ namespace BDXKEngine
             }
             return nullptr;
         }
+        template <typename TComponent, class TBack = TComponent>
+        bool TryGetComponent(ObjectPtr<TBack>& component)
+        {
+            component = GetComponent<TComponent, TBack>();
+            return component.IsNotNull();
+        }
         std::vector<ObjectPtr<Component>> GetComponents() const;
         template <typename TComponent, class TBack = TComponent>
         std::vector<ObjectPtr<TBack>> GetComponents() const
@@ -59,12 +65,13 @@ namespace BDXKEngine
         Vector3 GetUp() const;
         Vector3 GetFront() const;
 
-        void SetParent(const ObjectPtr<GameObject>& parent);
+        void SetParent(const ObjectPtr<GameObject>& parent, bool worldPositionStays = true);
         void SetLocalPosition(Vector3 value);
         void SetLocalEulerAngles(Vector3 value);
         void SetLocalScale(Vector3 value);
         void SetPosition(Vector3 value);
         void SetEulerAngles(Vector3 value);
+        void SetScale(Vector3 value);
 
         void AddComponent(const ObjectPtr<Component>& component);
         void RemoveComponent(const ObjectPtr<Component>& component);

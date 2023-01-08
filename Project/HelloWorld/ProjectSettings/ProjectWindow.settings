@@ -1,0 +1,23 @@
+{
+    "type": "class BDXKEngine::Map<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,bool>",
+    "keys": {
+        "count": 7,
+        "item0": "Assets",
+        "item1": "Assets\\build-in",
+        "item2": "Assets\\Material",
+        "item3": "Assets\\build-in\\Meshes",
+        "item4": "Assets\\build-in\\Shaders",
+        "item5": "Assets\\Skybox",
+        "item6": "Assets\\新建文件夹"
+    },
+    "values": {
+        "count": 7,
+        "item0": true,
+        "item1": false,
+        "item2": true,
+        "item3": false,
+        "item4": false,
+        "item5": false,
+        "item6": true
+    }
+}

@@ -1,4 +1,6 @@
 ﻿#include "GUI.h"
+
+#include <filesystem>
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
 #include <ImGuizmo/ImGuizmo.h>
@@ -10,7 +12,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace BDXKEngine
 {
-    bool GUI::DragDropSource(const ObjectPtrBase& value)
+    bool GUI::IsDragSource(const ObjectPtrBase& value)
     {
         if (ImGui::BeginDragDropSource())
         {
@@ -21,7 +23,7 @@ namespace BDXKEngine
 
         return false;
     }
-    bool GUI::DragDropTarget(ObjectPtrBase& value)
+    bool GUI::IsDragTarget(ObjectPtrBase& value)
     {
         if (ImGui::BeginDragDropTarget())
         {
@@ -39,6 +41,25 @@ namespace BDXKEngine
         }
 
         return false;
+    }
+    bool GUI::IsDragTargetForWindow(const char* label, ObjectPtrBase& value)
+    {
+        const Vector2 cursorPos = ImGui::GetCursorPos();
+        ImGui::PushStyleColor(ImGuiCol_Button, {0, 0, 0, 0});
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0, 0, 0, 0});
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0, 0, 0, 0});
+        ImGui::ButtonEx(
+            label,
+            ImGui::GetContentRegionAvail(),
+            ImGuiButtonFlags_AllowItemOverlap
+        );
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+        ImGui::SetItemAllowOverlap();
+        ImGui::SetCursorPos(cursorPos);
+
+        return IsDragTarget(value);
     }
     ImTextureID GUI::GetImTextureID(const ObjectPtr<Texture2D>& texture)
     {
@@ -65,20 +86,24 @@ namespace BDXKEngine
 
     void GUI::Initialize()
     {
+        //Imgui初始化
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
-        ImGui_ImplWin32_Init(Window::GetHwnd());
-        ImGui_ImplDX11_Init(GL::GetDevice(), GL::GetDeviceContext());
-
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.IniFilename = nullptr;
         // 中文支持
         // io.Fonts->AddFontFromFileTTF(
         //     "C:/Windows/Fonts/simkai.ttf", 18.0f, nullptr,
         //     io.Fonts->GetGlyphRangesChineseFull()
         // );
 
+        //Imgui后端初始化
+        ImGui_ImplWin32_Init(Window::GetHwnd());
+        ImGui_ImplDX11_Init(GL::GetDevice(), GL::GetDeviceContext());
+
+        //Imguizmo初始化
         ImGuizmo::AllowAxisFlip(false);
         ImGuizmo::SetGizmoSizeClipSpace(0.2f);
 
@@ -87,6 +112,7 @@ namespace BDXKEngine
         {
             ImGui_ImplDX11_Shutdown();
             ImGui_ImplWin32_Shutdown();
+
             ImGui::DestroyContext();
         });
     }

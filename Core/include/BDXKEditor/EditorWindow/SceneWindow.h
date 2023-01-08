@@ -2,6 +2,8 @@
 #include "BDXKEditor/EditorWindow/Core/EditorWindow.h"
 #include "BDXKEngine/Framework/Behavior/Core/Behavior.h"
 #include "BDXKEngine/Framework/Renderer/Core/Camera.h"
+#include "BDXKEngine/Platform/GUI/GUI.h"
+#include <ImGuizmo/ImGuizmo.h>
 
 namespace BDXKEditor
 {
@@ -26,11 +28,14 @@ namespace BDXKEditor
     private:
         ObjectPtr<GameObject> target;
         ObjectPtr<GameObject> gameObject;
-        ObjectPtr<Camera> camera;
+        ObjectPtr<Camera> editorCamera;
         ObjectPtr<CameraController> cameraController;
 
         ObjectPtr<Texture2D> cameraTexture;
         Vector2 viewSize;
+        int cameraOption = 0;
+        int handleOption = 1;
+        bool HasMenu() override;
 
         void OnAwake() override;
         void OnGUI() override;

@@ -80,7 +80,7 @@ namespace BDXKEngine
                 }
             }
 
-            if (itemSize != 0) //注意以这种方式创建的对象没有虚表信息，需自行额外处理
+            if (itemSize != 0)
             {
                 if (itemType == GetTypeOf<bool>()) //虽然bool以byte为单位，但vector<bool>似乎以bit的方式储存，所以得特殊处理
                 {
@@ -108,7 +108,7 @@ namespace BDXKEngine
                         TransferField("item" + std::to_string(index), vector[index]);
                     }
                 }
-                else
+                else //注意以这种方式创建的对象没有虚表信息，可能会出问题，需自行额外处理(可以参照ObjectTransferer)
                 {
                     std::vector<char>& vector = *static_cast<std::vector<char>*>(value);
                     int count = static_cast<int>(vector.size() / itemSize);

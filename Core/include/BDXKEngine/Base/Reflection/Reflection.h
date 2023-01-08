@@ -111,7 +111,7 @@ namespace BDXKEngine
 
     struct StaticConstructorRegister
     {
-        StaticConstructorRegister(void (*staticConstructor)())
+        StaticConstructorRegister(const std::function<void()>& staticConstructor)
         {
             staticConstructor();
         }
@@ -119,7 +119,7 @@ namespace BDXKEngine
 
     struct StaticDestructorRegister
     {
-        StaticDestructorRegister(void (*staticDestructor)())
+        StaticDestructorRegister(const std::function<void()>& staticDestructor)
         {
             this->staticDestructor = staticDestructor;
         }
@@ -128,10 +128,10 @@ namespace BDXKEngine
             staticDestructor();
         }
 
-        void (*staticDestructor)();
+        std::function<void()> staticDestructor;
     };
 
     //使用该功能时，应注意执行顺序问题，涉及的变量头文件引入等有可能需要直接放在头文件中定义和初始化
-#define CustomStaticConstructor(Func) inline static StaticConstructorRegister staticConstructorRegister = {&(Func)};
-#define CustomStaticDestructor(Func) inline static StaticDestructorRegister staticDestructorRegister = {&(Func)};
+#define CustomStaticConstructor(func) inline static StaticConstructorRegister staticConstructorRegister = {func};
+#define CustomStaticDestructor(func) inline static StaticDestructorRegister staticDestructorRegister = {func};
 }

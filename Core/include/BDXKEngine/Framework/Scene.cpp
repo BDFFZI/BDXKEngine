@@ -1,4 +1,5 @@
 ﻿#include "Scene.h"
+#include <filesystem>
 #include "BDXKEngine/Function/Resources/Resources.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Platform/Serialization/Serialization.h"
@@ -7,7 +8,7 @@
 
 namespace BDXKEngine
 {
-    std::string Scene::currentSceneName = "Untitled.scene";
+    std::string Scene::currentSceneName = {};
 
     ObjectPtr<Scene> Scene::GetCurrentScene()
     {
@@ -22,16 +23,16 @@ namespace BDXKEngine
         }
         return scene;
     }
-    std::string Scene::GetCurrentSceneName()
+    std::string& Scene::GetCurrentSceneName()
     {
         return currentSceneName;
     }
+
     void Scene::Create(const std::string& sceneName)
     {
         GameObject::Clear();
         currentSceneName = sceneName;
     }
-
     void Scene::Load(const std::string& sceneName, bool retainPersistent)
     {
         GameObject::Clear();

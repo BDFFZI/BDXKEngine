@@ -1,37 +1,40 @@
 {
-    "serializationsCount": 3,
+    "serializationsCount": 10,
     "serialization_0": {
-        "object": "{3C27919F-0E14-44FE-3691-E3259F39A3E2}",
+        "object": "{7DF71ED5-53C8-4DA2-5681-FBE29FDA7CEE}",
+        "data": {
+            "type": "class BDXKEngine::Scene",
+            "name": "Untitled.scene",
+            "renderSettings": "{34DBAA4B-F620-41E9-8EB9-E638D7F09161}",
+            "gameObjects": {
+                "count": 0
+            }
+        }
+    },
+    "serialization_1": {
+        "object": "{34DBAA4B-F620-41E9-8EB9-E638D7F09161}",
+        "data": {
+            "type": "class BDXKEngine::RenderSettings",
+            "name": "class BDXKEngine::RenderSettings",
+            "skybox": "{108A0734-1209-4A4E-3595-592B7830B01E}"
+        }
+    },
+    "serialization_2": {
+        "object": "{108A0734-1209-4A4E-3595-592B7830B01E}",
         "data": {
             "type": "class BDXKEngine::Material",
             "name": "class BDXKEngine::Material",
             "passTypes": {
-                "count": 3,
-                "item0": 1,
-                "item1": 2,
-                "item2": 3
+                "count": 1,
+                "item0": 1
             },
             "passShaders": {
-                "count": 3,
-                "item0": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
-                "item1": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
-                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+                "count": 1,
+                "item0": "{800B639D-CC6D-4232-808A-4966329495FE}"
             },
             "passBlends": {
-                "count": 3,
+                "count": 1,
                 "item0": {
-                    "state": false,
-                    "sourceFactor": 1,
-                    "destinationFactor": 1,
-                    "operation": 1
-                },
-                "item1": {
-                    "state": true,
-                    "sourceFactor": 2,
-                    "destinationFactor": 2,
-                    "operation": 1
-                },
-                "item2": {
                     "state": false,
                     "sourceFactor": 1,
                     "destinationFactor": 1,
@@ -39,38 +42,18 @@
                 }
             },
             "passZTests": {
-                "count": 3,
+                "count": 1,
                 "item0": {
-                    "operation": 4,
+                    "operation": 8,
                     "factor": 0.0,
                     "units": 0.0,
-                    "write": true,
-                    "clip": true
-                },
-                "item1": {
-                    "operation": 4,
-                    "factor": 0.0,
-                    "units": 0.0,
-                    "write": true,
-                    "clip": true
-                },
-                "item2": {
-                    "operation": 4,
-                    "factor": 0.0,
-                    "units": 0.0,
-                    "write": true,
+                    "write": false,
                     "clip": true
                 }
             },
             "passCulls": {
-                "count": 3,
+                "count": 1,
                 "item0": {
-                    "state": 3
-                },
-                "item1": {
-                    "state": 3
-                },
-                "item2": {
                     "state": 3
                 }
             },
@@ -89,9 +72,9 @@
                     0.0
                 ],
                 "vector0": [
+                    0.0,
                     1.0,
-                    1.0,
-                    1.0,
+                    -10.0,
                     1.0
                 ],
                 "vector1": [
@@ -125,21 +108,21 @@
                     0.0
                 ],
                 "matrix0": [
+                    0.9995335936546326,
+                    0.0,
+                    0.030538516119122506,
+                    0.0,
+                    0.008263734169304371,
+                    0.9626915454864502,
+                    -0.2704741656780243,
+                    0.0,
+                    -0.029399177059531213,
+                    0.27060043811798098,
+                    0.9622427225112916,
+                    0.0,
+                    0.0,
                     1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0,
-                    0.0,
-                    1.899999976158142,
-                    5.900000095367432,
-                    2.0,
+                    -10.0,
                     1.0
                 ],
                 "matrix1": [
@@ -197,20 +180,40 @@
                     0.0
                 ]
             },
-            "texture2D0": "",
-            "texture2D1": "",
-            "texture2D2": "",
-            "texture2D3": "",
-            "texture2D4": "",
-            "texture2D5": ""
+            "texture2D0": "{3CA45CDD-E0BB-4428-E29B-7D6AF78251E3}",
+            "texture2D1": "{CB056A8E-6868-4BD3-A2BC-D2E46BC337AC}",
+            "texture2D2": "{44A153DB-9F76-4440-56A2-3C392E071F5B}",
+            "texture2D3": "{4FAEF2F4-386A-4D91-D388-E1D5FC5154B2}",
+            "texture2D4": "{06410BE5-4F78-431B-9387-CD9FA62DDB03}",
+            "texture2D5": "{09C5D9B0-DB93-4176-4F89-3C145573B124}"
         }
     },
-    "serialization_1": {
-        "object": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
+    "serialization_3": {
+        "object": "{800B639D-CC6D-4232-808A-4966329495FE}",
         "data": null
     },
-    "serialization_2": {
-        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
+    "serialization_4": {
+        "object": "{3CA45CDD-E0BB-4428-E29B-7D6AF78251E3}",
+        "data": null
+    },
+    "serialization_5": {
+        "object": "{CB056A8E-6868-4BD3-A2BC-D2E46BC337AC}",
+        "data": null
+    },
+    "serialization_6": {
+        "object": "{44A153DB-9F76-4440-56A2-3C392E071F5B}",
+        "data": null
+    },
+    "serialization_7": {
+        "object": "{4FAEF2F4-386A-4D91-D388-E1D5FC5154B2}",
+        "data": null
+    },
+    "serialization_8": {
+        "object": "{06410BE5-4F78-431B-9387-CD9FA62DDB03}",
+        "data": null
+    },
+    "serialization_9": {
+        "object": "{09C5D9B0-DB93-4176-4F89-3C145573B124}",
         "data": null
     }
 }

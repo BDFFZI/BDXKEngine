@@ -14,6 +14,7 @@ namespace BDXKEngine
         static const Color blue;
         static const Color gray;
         static const Color yellow;
+        static const Color magenta;
         static const Color lightRed;
         static const Color lightGreen;
         static const Color lightBlue;

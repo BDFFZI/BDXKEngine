@@ -5,7 +5,7 @@ namespace BDXKEditor
 {
     class GameWindow : public EditorWindow
     {
-        static std::unordered_map<int, bool> isWindowHovered;
+        static std::unordered_map<ID, bool> isWindowHovered;
 
         void OnGUI() override;
     };

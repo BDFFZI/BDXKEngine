@@ -1,5 +1,4 @@
 #include "BDXKEditor/BDXKEditor.h"
-#include "BDXKEngine/BDXKEngine.h"
 #include "BDXKEngine/Base/Package/Map.h"
 #include "BDXKEngine/Framework/Physics/PhysicsEvent.h"
 #include "BDXKEngine/Function/Debug/Debug.h"
@@ -156,10 +155,5 @@ CustomReflection(Fire);
 
 int main()
 {
-    Reflection::SetReflection<Map<std::string, bool>>();
-    const std::string data = BDXKEngine::ReadFile("projectWindow.ini");
-    const Serializer1<JsonImporter, JsonExporter> serializer = {};
-    Map<std::string, bool>* isUnfoldingPackage = dynamic_cast<Map<std::string, bool>*>(serializer.Deserialize(data));
-    
     BDXKEditor::Run("HelloWorld.scene");
 }

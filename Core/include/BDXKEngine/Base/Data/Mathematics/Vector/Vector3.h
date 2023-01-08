@@ -39,6 +39,8 @@ namespace BDXKEngine
         Vector3 operator/(float value) const;
         Vector3 operator+(Vector3 value) const;
         Vector3 operator-(Vector3 value) const;
+        Vector3 operator*(Vector3 value) const;
+        Vector3 operator/(Vector3 value) const;
         Vector3 operator-() const;
         bool operator==(Vector3 value) const;
         bool operator!=(Vector3 value) const;

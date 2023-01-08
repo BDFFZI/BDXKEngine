@@ -1,57 +1,65 @@
 ﻿#include "Editor.h"
 
 #include "BDXKEngine/Base/Object/Transferer/ObjectTransferer.h"
+#include "imgui/imgui.h"
 
 namespace BDXKEditor
 {
-    std::unordered_map<Type, Editor*> Editor::editors = {};
+    Editor Editor::defaultEditor = {};
+    ObjectTransferer<GUITransferer> Editor::defaultGui = {};
 
-    Editor defaultEditor;
-    Editor* Editor::GetEditor(const Reflective& reflective)
+    const Editor& Editor::GetEditor(const ObjectPtrBase& target, GUITransferer& gui)
     {
-        const Type type = reflective.GetType();
-        if (editors.contains(type))
-            return editors[type];
-        for (auto& func : getEditorFallback)
-            if (Editor* editor = func(reflective); editor != nullptr)
-                return editor;
+        Editor* editor = nullptr;
 
-        return &defaultEditor;
+        if (const Type type = target->GetType(); editors.contains(type))
+            editor = editors[type];
+        else
+            for (auto& func : getEditorFallback)
+                if (editor = func(target); editor != nullptr)break;
+
+        if (editor == nullptr)
+            editor = &defaultEditor;
+
+        editor->target = target;
+        editor->gui = &gui;
+        return *editor;
     }
-    void Editor::AddEditorFallback(const std::function<Editor*(const Reflective&)>& getEditorFallback)
+    void Editor::AddEditorFallback(const std::function<Editor*(const ObjectPtrBase&)>& getEditorFallback)
     {
         Editor::getEditorFallback.push_back(getEditorFallback);
     }
+
     const ObjectPtrBase& Editor::GetTarget() const
     {
         return target;
     }
-    GUITransferer& Editor::GetGUITransferer() const
+    GUITransferer& Editor::GetGUI() const
     {
+        if (gui == nullptr)
+            throw std::exception("无法获取到GUI工具"); //正常来讲，这个报错不可能触发
         return *gui;
     }
-    void Editor::SetTarget(const ObjectPtrBase& target)
-    {
-        this->target = target;
-    }
-    void Editor::SetGui(GUITransferer* gui)
-    {
-        this->gui = gui;
-    }
 
-    void Editor::DrawInspectorGUI()
+    void Editor::DrawInspectorGUI() const
     {
         OnInspectorGUI();
     }
-    void Editor::DrawSceneGUI()
+    void Editor::DrawSceneGUI() const
     {
         OnSceneGUI();
     }
-    void Editor::OnInspectorGUI()
+    void Editor::OnInspectorGUI() const
     {
+        //类型
+        ImGui::TextDisabled(target->GetType().c_str());
+        //实例编号
+        ImGui::SameLine();
+        ImGui::TextDisabled(std::to_string(target->GetInstanceID()).c_str());
+        
         target.ToObjectBase()->Transfer(*gui);
     }
-    void Editor::OnSceneGUI()
+    void Editor::OnSceneGUI() const
     {
     }
 }

@@ -1,6 +1,5 @@
 ﻿#include "InspectorWindow.h"
 #include "BDXKEditor/Editor/Core/Editor.h"
-#include "BDXKEngine/Platform/Serialization/Serialization.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -28,10 +27,7 @@ namespace BDXKEditor
                 window->Show();
             }
 
-            Editor* editor = Editor::GetEditor(*target.ToObjectBase());
-            editor->SetGui(&gui);
-            editor->SetTarget(target);
-            editor->DrawInspectorGUI();
+            Editor::GetEditor(target, gui).DrawInspectorGUI();
         }
     }
 }

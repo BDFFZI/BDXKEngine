@@ -1,15 +1,14 @@
 ﻿#include "Object.h"
 #include <iostream>
-#include <sstream>
 #include "Transferer/ObjectPtrTransferer.h"
 
 namespace BDXKEngine
 {
-    const std::map<int, Object*>& Object::GetObjects()
+    const std::map<ID, Object*>& Object::GetObjects()
     {
         return allObjects;
     }
-    void Object::ReplaceObject(ObjectPtrBase& source, int targetInstanceID)
+    void Object::ReplaceObject(ObjectPtrBase& source, ID targetInstanceID)
     {
         Object* object = source.ToObjectBase();
         if (object == nullptr)
@@ -101,7 +100,7 @@ namespace BDXKEngine
         delete object;
     }
 
-    Object* Object::FindObjectOfInstanceID(const int instanceID)
+    Object* Object::FindObjectOfInstanceID(ID instanceID)
     {
         if (const auto pair = allObjects.find(instanceID); pair != allObjects.end())
             return pair->second;
@@ -109,7 +108,7 @@ namespace BDXKEngine
         return nullptr;
     }
 
-    int Object::GetInstanceID() const
+    ID Object::GetInstanceID() const
     {
         return instanceID;
     }
