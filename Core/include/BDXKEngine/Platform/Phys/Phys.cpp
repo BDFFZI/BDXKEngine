@@ -1,6 +1,7 @@
 ﻿#include "Phys.h"
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
 #include "BDXKEngine/Base/Data/Mathematics/Quaternion/Quaternion.h"
+#include "BDXKEngine/Framework/Core/Component.h"
 
 namespace BDXKEngine
 {
@@ -29,19 +30,17 @@ namespace BDXKEngine
         PxSceneDesc sceneDesc(physics->getTolerancesScale());
         sceneDesc.gravity = PxVec3(0.0f, 0.0f, 0.0f);
         sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
-        sceneDesc.filterShader = [](PxFilterObjectAttributes,
-                                    PxFilterData,
-                                    PxFilterObjectAttributes,
-                                    PxFilterData,
+        sceneDesc.filterShader = [](PxFilterObjectAttributes attributes0,
+                                    PxFilterData filterData0,
+                                    PxFilterObjectAttributes attributes1,
+                                    PxFilterData filterData1,
                                     PxPairFlags& pairFlags,
-                                    const void*,
-                                    PxU32)
+                                    const void* constantBlock,
+                                    PxU32 constantBlockSize)
         {
-            pairFlags = PxPairFlag::eCONTACT_DEFAULT;
-            pairFlags |= PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
-            pairFlags |= PxPairFlag::eMODIFY_CONTACTS;
-            PxFilterFlags ret = PxFilterFlag::eDEFAULT;
-            return ret;
+            pairFlags = PxPairFlag::eSOLVE_CONTACT | PxPairFlag::eDETECT_DISCRETE_CONTACT
+                | PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST;
+            return PxFilterFlags(PxFilterFlag::eDEFAULT);
         };
         scene = physics->createScene(sceneDesc);
         //创建默认资源
@@ -62,7 +61,7 @@ namespace BDXKEngine
     }
     void Phys::SetCallback(PhysCallback* physCallback)
     {
-        scene->setContactModifyCallback(physCallback);
+        scene->setSimulationEventCallback(physCallback);
     }
     Vector3 Phys::ToVector3(const physx::PxVec3T<float>& value)
     {

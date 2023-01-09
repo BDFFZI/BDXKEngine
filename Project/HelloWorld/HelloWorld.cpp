@@ -1,7 +1,6 @@
 #include "BDXKEditor/BDXKEditor.h"
 #include "BDXKEngine/Base/Package/Map.h"
 #include "BDXKEngine/Framework/Physics/PhysicsEvent.h"
-#include "BDXKEngine/Function/Debug/Debug.h"
 #include "BDXKEngine/Function/Random/Random.h"
 #include "BDXKEngine/Function/Time/Time.h"
 #include "BDXKEngine/Function/Window/Cursor.h"
@@ -84,34 +83,35 @@ class CameraController : public Behavior, public StartHandler, public UpdateHand
 
 CustomReflection(CameraController)
 
-class CollisionTest : public Behavior, public CollisionEnterHandler, public CollisionExitHandler, public CollisionStayHandler
+class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler, public CollisionEnterHandler, public CollisionExitHandler,
+                      public CollisionStayHandler
 {
-    bool isCollision = false;
-    int collisionCount = 0;
+    float startTime = 0;
 
-    void Transfer(Transferer& transferer) override
+    void OnAwake() override
     {
-        Behavior::Transfer(transferer);
-
-        TransferFieldInfo(isCollision);
-        TransferFieldInfo(collisionCount);
+        startTime = Time::GetRealtimeSinceStartup();
     }
-
+    void OnUpdate() override
+    {
+        if (Time::GetRealtimeSinceStartup() - startTime > 3)
+            DestroyImmediate(GetGameObject());
+    }
     void OnCollisionEnter(const Collision& collision) override
     {
-        DestroyImmediate(collision.rigidbody->GetGameObject());
-        Debug::Log("OnCollisionEnter");
+        DestroyImmediate(GetGameObject());
+        //Debug::Log("OnCollisionEnter");
     }
 
     void OnCollisionExit(const Collision& collision) override
     {
         GetGameObject()->GetComponent<Renderer>()->GetMaterial()->SetVector(0, Random::ColorHSV());
-        Debug::Log("OnCollisionExit");
+        //Debug::Log("OnCollisionExit");
     }
 
     void OnCollisionStay(const Collision& collision) override
     {
-        Debug::Log("OnCollisionStay");
+        //Debug::Log("OnCollisionStay");
     }
 };
 

@@ -1,4 +1,7 @@
 ﻿#include "PhysicsEvent.h"
+
+#include <iostream>
+
 #include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Framework/Core/Component.h"
 #include "BDXKEngine/Framework/Core/ScriptableObject.h"
@@ -65,21 +68,34 @@ namespace BDXKEngine
         }
     };
 
+    //1碰撞中，2结束碰撞，3开始碰撞
     std::unordered_map<CollisionInfo, int, CollisionInfo, CollisionInfo> collisionInfos = {};
-
 
     class PhysicsCallback : public PhysCallback
     {
-        void onContactModify(physx::PxContactModifyPair* const pairs, physx::PxU32 count) override
+        void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override
         {
-            const Collision collisionA = {static_cast<Rigidbody*>(pairs->actor[1]->userData), static_cast<Collider*>(pairs->shape[1]->userData)};
-            const Collision collisionB = {static_cast<Rigidbody*>(pairs->actor[0]->userData), static_cast<Collider*>(pairs->shape[0]->userData)};
+            const Collision collisionA = {
+                static_cast<Rigidbody*>(pairHeader.actors[1]->userData),
+                static_cast<Collider*>(pairs->shapes[1]->userData)
+            };
+            if (collisionA.rigidbody.IsNull() || collisionA.collider.IsNull())
+                return;
+            const Collision collisionB = {
+                static_cast<Rigidbody*>(pairHeader.actors[0]->userData),
+                static_cast<Collider*>(pairs->shapes[0]->userData)
+            };
+            if (collisionB.rigidbody.IsNull() || collisionB.collider.IsNull())
+                return;
+
             const CollisionInfo collisionInfo = {
                 collisionB.rigidbody->GetGameObject()->GetInstanceID(), collisionA,
                 collisionA.rigidbody->GetGameObject()->GetInstanceID(), collisionB,
             };
             if (collisionInfos.contains(collisionInfo) == false)collisionInfos[collisionInfo] = 3;
             else collisionInfos[collisionInfo] = 2;
+
+            //std::cout << collisionInfo.AInstanceID << " : " << collisionInfo.BInstanceID << std::endl;
         }
     };
 
@@ -101,7 +117,14 @@ namespace BDXKEngine
                 for (std::pair<const CollisionInfo, int>& item : collisionInfos)
                 {
                     CollisionInfo collisionInfo = item.first;
-                    if (item.second == 3) //首次出现
+                    if (item.second == 1) //碰撞中
+                    {
+                        collisionInfo.SendCollisionMessage<CollisionStayHandler>([](CollisionStayHandler* handler, const Collision& collision)
+                        {
+                            handler->OnCollisionStay(collision);
+                        });
+                    }
+                    else if (item.second == 3) //开始碰撞
                     {
                         collisionInfo.SendCollisionMessage<CollisionEnterHandler>([](CollisionEnterHandler* handler, const Collision& collision)
                         {
@@ -109,27 +132,20 @@ namespace BDXKEngine
                         });
 
                         item.second = 1;
+                        std::cout << 3 << std::endl;
                     }
-                    else if (item.second == 2) //持续出现
-                    {
-                        collisionInfo.SendCollisionMessage<CollisionStayHandler>([](CollisionStayHandler* handler, const Collision& collision)
-                        {
-                            handler->OnCollisionStay(collision);
-                        });
-
-                        item.second = 1;
-                    }
-                    else if (item.second == 1) //不再出现
+                    else if (item.second == 2) //结束碰撞
                     {
                         collisionInfo.SendCollisionMessage<CollisionExitHandler>([](CollisionExitHandler* handler, const Collision& collision)
                         {
                             handler->OnCollisionExit(collision);
                         });
 
-                        item.second = -1;
+                        item.second = 0;
+                        std::cout << 2 << std::endl;
                     }
                 }
-                std::erase_if(collisionInfos, [](const std::pair<const CollisionInfo, int>& item) { return item.second == -1; });
+                std::erase_if(collisionInfos, [](const std::pair<const CollisionInfo, int>& item) { return item.second == 0; });
 
                 //物理更新回调
                 for (const auto& drawGUIHandler : fixedUpdateHandlers)

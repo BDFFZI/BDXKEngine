@@ -275,9 +275,9 @@ namespace BDXKEngine
         if (parent != nullptr && std::ranges::find(parent->children, this) == parent->children.end())
             parent->children.emplace_back(this); //克隆时会遇到这种情况
 
-        RenewScale(false);
-        RenewEulerAngles(false);
-        RenewPositionAndMatrix(false);
+        RenewScale();
+        RenewEulerAngles();
+        RenewPositionAndMatrix();
 
         gameObjects.emplace_back(this);
 

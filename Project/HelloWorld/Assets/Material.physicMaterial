@@ -7,7 +7,7 @@
             "name": "class BDXKEngine::PhysicMaterial",
             "dynamicFriction": 0.6000000238418579,
             "staticFriction": 0.6000000238418579,
-            "bounciness": 1.5
+            "bounciness": 2.0
         }
     }
 }

@@ -123,7 +123,7 @@ namespace BDXKEngine
             throw std::exception("每个物体只能装一个Rigidbody");
 
         Behavior::Awake();
-
+        
         actor = Phys::GetPhysics().createRigidDynamic(physx::PxTransform(0, 0, 0));
         actor->userData = this;
     }

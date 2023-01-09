@@ -22,6 +22,7 @@ namespace BDXKEngine
     {
         shape = Phys::GetPhysics().createShape(GetPxGeometry(), material.IsNotNull() ? material->GetPxMaterial() : Phys::GetMaterial());
         shape->userData = this;
+        shape->setSimulationFilterData({GetInstanceID(), 0, 0, 0});
     }
     void Collider::OnDestroy()
     {
