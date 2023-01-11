@@ -1,41 +1,27 @@
+#include <fstream>
+#include <xaudio2.h>
+#include <atlbase.h>
 #include <iostream>
-#include <vector>
-#include "BDXKEngine/Base/Package/Map.h"
-#include "BDXKEngine/Base/Reflection/Reflection.h"
-#include "BDXKEngine/Base/Serializer/Core/Serializer.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonExporter.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonImporter.h"
 
-
-class X
-{
-public:
-    X(int a)
-    {
-        b = a;
-    }
-    ~X()
-    {
-        printf("");
-    }
-
-    int b = 0;
-};
-
-X str0 = {123};
-X& str = str0;
-void A(const X& a)
-{
-    str = a;
-}
+#include "BDXKEngine/Platform/Audio/AudioClip/AudioClipImport.h"
+#include "BDXKEngine/Platform/Audio/AudioSourceVoice/AudioSourceVoice.h"
+#include "BDXKEngine/Platform/Audio/Core/Audio.h"
+using namespace BDXKEngine;
 
 int main(int argc, char* argv[])
 {
+    setlocale(LC_ALL, "zh-CN.UTF-8");
+
+    Audio::Initialize();
+    AudioSourceVoice sourceVoice = {AudioClipImport::Wav(R"(C:\Users\BDFFZI\Desktop\Shoot.wav)")};
+
+    sourceVoice.Play();
+
+    while (true)
     {
-        X a = {321};
-        A(a);
+        // if (sourceVoice.IsPlaying() == false)
+        //     sourceVoice.Play();
     }
 
-    X result = str;
-    return 0;
+    printf("");
 }

@@ -1,18 +1,18 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/Serializer/ObjectSerializer.h"
 #include "BDXKEngine/Base/Object/Object.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Binary/BinaryExporter2.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Binary/BinaryImporter2.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonExporter.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonImporter.h"
+#include "BDXKEngine/Platform/Serialization/SerializerExtension/Binary/BinaryWriter2.h"
+#include "BDXKEngine/Platform/Serialization/SerializerExtension/Binary/BinaryReader2.h"
+#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonWriter.h"
+#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonReader.h"
 
 namespace BDXKEngine
 {
     class Serialization
     {
     public:
-        static ObjectSerializer<JsonImporter, JsonExporter> CreateJsonSerializer();
-        static ObjectSerializer<BinaryImporter2, BinaryExporter2> CreateBinarySerializer();
+        static ObjectSerializer<JsonReader, JsonWriter> CreateJsonSerializer();
+        static ObjectSerializer<BinaryReader2, BinaryWriter2> CreateBinarySerializer();
 
         static ObjectPtrBase Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate = true, bool persistent = true);
         template <typename TObject>

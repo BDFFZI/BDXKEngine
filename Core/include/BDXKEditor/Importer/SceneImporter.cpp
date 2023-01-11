@@ -5,7 +5,7 @@
 
 namespace BDXKEditor
 {
-    ObjectPtrBase SceneImporter::ImportAsset(std::string filePath)
+    ObjectPtrBase SceneImporter::ImportAsset(const std::string& filePath)
     {
         //转储Assets数据到Resources
         auto serializer = Serialization::CreateJsonSerializer();

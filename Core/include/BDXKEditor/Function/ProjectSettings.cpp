@@ -4,8 +4,8 @@
 
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Serializer/Core/Serializer.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonExporter.h"
-#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonImporter.h"
+#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonWriter.h"
+#include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonReader.h"
 
 namespace BDXKEditor
 {
@@ -19,12 +19,12 @@ namespace BDXKEditor
             return nullptr;
 
         const std::string data = ReadFile(ParsePath(fileName));
-        const Serializer1<JsonImporter, JsonExporter> serializer = {};
+        const Serializer1<JsonReader, JsonWriter> serializer = {};
         return serializer.Deserialize(data);
     }
     void ProjectSettings::Save(const std::string& fileName, Reflective* settings)
     {
-        const Serializer1<JsonImporter, JsonExporter> serializer = {};
+        const Serializer1<JsonReader, JsonWriter> serializer = {};
         const std::string data = serializer.Serialize(settings);
         WriteFile(ParsePath(fileName), data);
     }

@@ -1,63 +1,63 @@
-﻿#include "JsonImporter.h"
+﻿#include "JsonReader.h"
 
 #include "BDXKEngine/Base/Data/String/String.h"
 
 namespace BDXKEngine
 {
-    void JsonImporter::TransferJson(std::string key, std::string& value)
+    void JsonReader::TransferJson(std::string key, std::string& value)
     {
         rapidjson::Document document;
         document.CopyFrom(GetCurrentNode()[key.c_str()], document.GetAllocator());
         Export(document, value);
     }
-    void JsonImporter::TransferValue(void* value, const Type& type)
+    void JsonReader::TransferValue(void* value, const Type& type)
     {
         if (HasCurrentNode())
             JsonTransferer::TransferValue(value, type);
     }
 
-    bool JsonImporter::IsImporter()
+    bool JsonReader::IsImporter()
     {
         return true;
     }
-    void JsonImporter::Reset(std::string& data)
+    void JsonReader::Reset(std::string& data)
     {
         Import(GetDocument(), data);
         ResetNodes();
     }
-    void JsonImporter::PushPath(const std::string& key)
+    void JsonReader::PushPath(const std::string& key)
     {
         if (GetCurrentNode().HasMember(key.c_str()) == false)
             PushNode(nullptr);
         else
             PushNode(&GetCurrentNode()[key.c_str()]);
     }
-    void JsonImporter::PopPath(std::string& key)
+    void JsonReader::PopPath(std::string& key)
     {
         PopNode();
     }
 
 
-    void JsonImporter::TransferInt(int& value)
+    void JsonReader::TransferInt(int& value)
     {
         value = GetCurrentNode().GetInt();
     }
-    void JsonImporter::TransferFloat(float& value)
+    void JsonReader::TransferFloat(float& value)
     {
         value = GetCurrentNode().GetFloat();
     }
-    void JsonImporter::TransferBool(bool& value)
+    void JsonReader::TransferBool(bool& value)
     {
         value = GetCurrentNode().GetBool();
     }
-    void JsonImporter::TransferVector2(Vector2& value)
+    void JsonReader::TransferVector2(Vector2& value)
     {
         const auto& array = GetCurrentNode().GetArray();
 
         value.x = array[0].GetFloat();
         value.y = array[1].GetFloat();
     }
-    void JsonImporter::TransferVector3(Vector3& value)
+    void JsonReader::TransferVector3(Vector3& value)
     {
         const auto& array = GetCurrentNode().GetArray();
 
@@ -65,7 +65,7 @@ namespace BDXKEngine
         value.y = array[1].GetFloat();
         value.z = array[2].GetFloat();
     }
-    void JsonImporter::TransferVector4(Vector4& value)
+    void JsonReader::TransferVector4(Vector4& value)
     {
         const auto& array = GetCurrentNode().GetArray();
 
@@ -74,7 +74,7 @@ namespace BDXKEngine
         value.z = array[2].GetFloat();
         value.w = array[3].GetFloat();
     }
-    void JsonImporter::TransferMatrix4x4(Matrix4x4& value)
+    void JsonReader::TransferMatrix4x4(Matrix4x4& value)
     {
         const auto& array = GetCurrentNode().GetArray();
 
@@ -98,7 +98,7 @@ namespace BDXKEngine
         value.m23 = array[14].GetFloat();
         value.m33 = array[15].GetFloat();
     }
-    void JsonImporter::TransferColor(Color& value)
+    void JsonReader::TransferColor(Color& value)
     {
         const auto& array = GetCurrentNode().GetArray();
 
@@ -107,7 +107,7 @@ namespace BDXKEngine
         value.b = array[2].GetFloat();
         value.a = array[3].GetFloat();
     }
-    void JsonImporter::TransferRect(Rect& value)
+    void JsonReader::TransferRect(Rect& value)
     {
         const auto& array = GetCurrentNode().GetArray();
 
@@ -116,11 +116,11 @@ namespace BDXKEngine
         value.width = array[2].GetFloat();
         value.height = array[3].GetFloat();
     }
-    void JsonImporter::TransferString(std::string& value)
+    void JsonReader::TransferString(std::string& value)
     {
         value = GetCurrentNode().GetString();
     }
-    void JsonImporter::TransferBytes(std::vector<char>& value)
+    void JsonReader::TransferBytes(std::vector<char>& value)
     {
         std::string base64;
         TransferString(base64);

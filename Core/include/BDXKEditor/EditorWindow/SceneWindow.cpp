@@ -31,32 +31,33 @@ namespace BDXKEditor
         if ((isControlling = ImGui::IsMouseDown(ImGuiMouseButton_Right)))
         {
             const float deltaTime = Time::GetDeltaTime();
+            const float moveSpeed = 4 * (ImGui::IsKeyDown(ImGuiKey_LeftShift) ? 3 : 1);
 
             //位置调整
             Vector3 position = transform->GetLocalPosition();
             if (ImGui::IsKeyDown(ImGuiKey_W))
             {
-                position += transform->GetFront().GetNormalized() * deltaTime * 4;
+                position += transform->GetFront().GetNormalized() * deltaTime * moveSpeed;
             }
             if (ImGui::IsKeyDown(ImGuiKey_S))
             {
-                position += -transform->GetFront().GetNormalized() * deltaTime * 4;
+                position += -transform->GetFront().GetNormalized() * deltaTime * moveSpeed;
             }
             if (ImGui::IsKeyDown(ImGuiKey_A))
             {
-                position += -transform->GetRight().GetNormalized() * deltaTime * 4;
+                position += -transform->GetRight().GetNormalized() * deltaTime * moveSpeed;
             }
             if (ImGui::IsKeyDown(ImGuiKey_D))
             {
-                position += transform->GetRight().GetNormalized() * deltaTime * 4;
+                position += transform->GetRight().GetNormalized() * deltaTime * moveSpeed;
             }
             if (ImGui::IsKeyDown(ImGuiKey_Q))
             {
-                position += -transform->GetUp().GetNormalized() * deltaTime * 4;
+                position += -transform->GetUp().GetNormalized() * deltaTime * moveSpeed;
             }
             if (ImGui::IsKeyDown(ImGuiKey_E))
             {
-                position += transform->GetUp().GetNormalized() * deltaTime * 4;
+                position += transform->GetUp().GetNormalized() * deltaTime * moveSpeed;
             }
             transform->SetLocalPosition(position);
 

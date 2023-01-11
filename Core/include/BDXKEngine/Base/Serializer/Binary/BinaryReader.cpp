@@ -1,22 +1,22 @@
-﻿#include "BinaryImporter.h"
+﻿#include "BinaryReader.h"
 
 namespace BDXKEngine
 {
-    bool BinaryImporter::IsImporter()
+    bool BinaryReader::IsImporter()
     {
         return true;
     }
-    void BinaryImporter::Reset(std::string& data)
+    void BinaryReader::Reset(std::string& data)
     {
         stream.str(data);
     }
 
-    void BinaryImporter::ReadStreamTo(char* value, int size)
+    void BinaryReader::ReadStreamTo(char* value, int size)
     {
         stream.read(value, size);
     }
 
-    void BinaryImporter::TransferString(std::string& value)
+    void BinaryReader::TransferString(std::string& value)
     {
         int size = 0;
         ReadStreamTo(size);
@@ -27,7 +27,7 @@ namespace BDXKEngine
 
         delete[] data;
     }
-    void BinaryImporter::TransferBytes(std::vector<char>& value)
+    void BinaryReader::TransferBytes(std::vector<char>& value)
     {
         int size = 0;
         ReadStreamTo(size);

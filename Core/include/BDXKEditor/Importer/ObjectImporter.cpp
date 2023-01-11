@@ -4,7 +4,7 @@
 
 namespace BDXKEditor
 {
-    ObjectPtrBase ObjectImporter::ImportAsset(std::string filePath)
+    ObjectPtrBase ObjectImporter::ImportAsset(const std::string& filePath)
     {
         auto serializer = Serialization::CreateJsonSerializer();
         return Serialization::Load(filePath, serializer);

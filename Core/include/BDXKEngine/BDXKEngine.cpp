@@ -10,6 +10,7 @@
 #include "Platform/GUI/GUI.h"
 #include "Platform/Phys/Phys.h"
 #include "Function/Resources/Resources.h"
+#include "Platform/Audio/Core/Audio.h"
 
 namespace BDXKEngine
 {
@@ -46,6 +47,7 @@ namespace BDXKEngine
         GL::Initialize();
         GUI::Initialize();
         Phys::Initialize();
+        Audio::Initialize();
         //功能层
         Graphics::Initialize();
         Input::Initialize();

@@ -4,9 +4,9 @@
 
 namespace BDXKEngine
 {
-    ObjectSerializer<JsonImporter, JsonExporter> Serialization::CreateJsonSerializer()
+    ObjectSerializer<JsonReader, JsonWriter> Serialization::CreateJsonSerializer()
     {
-        return ObjectSerializer<JsonImporter, JsonExporter>{
+        return ObjectSerializer<JsonReader, JsonWriter>{
             [](Transferer& transferer, std::string& serialization)
             {
                 dynamic_cast<JsonTransferer&>(transferer).TransferJson("data", serialization);
@@ -14,9 +14,9 @@ namespace BDXKEngine
             }
         };
     }
-    ObjectSerializer<BinaryImporter2, BinaryExporter2> Serialization::CreateBinarySerializer()
+    ObjectSerializer<BinaryReader2, BinaryWriter2> Serialization::CreateBinarySerializer()
     {
-        return ObjectSerializer<BinaryImporter2, BinaryExporter2>{};
+        return ObjectSerializer<BinaryReader2, BinaryWriter2>{};
     }
     ObjectPtrBase Serialization::Load(const std::string& path, ObjectSerializerBase& serializer, bool instantiate, bool persistent)
     {

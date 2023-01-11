@@ -5,7 +5,7 @@ namespace BDXKEditor
 {
     class ShaderImporter : public Importer
     {
-        ObjectPtrBase ImportAsset(std::string filePath) override;
+        ObjectPtrBase ImportAsset(const std::string& filePath) override;
     };
 
     CustomReflection(ShaderImporter)

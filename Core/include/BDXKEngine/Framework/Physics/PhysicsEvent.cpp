@@ -16,7 +16,7 @@ namespace BDXKEngine
     struct CollisionInfo
     {
         template <typename EventType>
-        void SendCollisionMessage(std::function<void(EventType* eventHandler, const Collision& collision)> send)
+        void SendCollisionMessage(std::function<void(EventType* eventHandler, const Collision& collision)> send) const
         {
             const ObjectPtr gameObjectA = Object::FindObjectOfInstanceID<GameObject>(AInstanceID);
             const ObjectPtr gameObjectB = Object::FindObjectOfInstanceID<GameObject>(BInstanceID);
@@ -116,33 +116,32 @@ namespace BDXKEngine
                 //碰撞事件判断
                 for (std::pair<const CollisionInfo, int>& item : collisionInfos)
                 {
-                    CollisionInfo collisionInfo = item.first;
                     if (item.second == 1) //碰撞中
                     {
-                        collisionInfo.SendCollisionMessage<CollisionStayHandler>([](CollisionStayHandler* handler, const Collision& collision)
+                        item.first.SendCollisionMessage<CollisionStayHandler>([](CollisionStayHandler* handler, const Collision& collision)
                         {
                             handler->OnCollisionStay(collision);
                         });
                     }
                     else if (item.second == 3) //开始碰撞
                     {
-                        collisionInfo.SendCollisionMessage<CollisionEnterHandler>([](CollisionEnterHandler* handler, const Collision& collision)
+                        item.first.SendCollisionMessage<CollisionEnterHandler>([](CollisionEnterHandler* handler, const Collision& collision)
                         {
                             handler->OnCollisionEnter(collision);
                         });
 
                         item.second = 1;
-                        std::cout << 3 << std::endl;
+                        //std::cout << 3 << std::endl;
                     }
                     else if (item.second == 2) //结束碰撞
                     {
-                        collisionInfo.SendCollisionMessage<CollisionExitHandler>([](CollisionExitHandler* handler, const Collision& collision)
+                        item.first.SendCollisionMessage<CollisionExitHandler>([](CollisionExitHandler* handler, const Collision& collision)
                         {
                             handler->OnCollisionExit(collision);
                         });
 
                         item.second = 0;
-                        std::cout << 2 << std::endl;
+                        //std::cout << 2 << std::endl;
                     }
                 }
                 std::erase_if(collisionInfos, [](const std::pair<const CollisionInfo, int>& item) { return item.second == 0; });

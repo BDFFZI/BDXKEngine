@@ -5,27 +5,27 @@
 
 namespace BDXKEngine
 {
-    class BinaryImporter : public IOTransferer
+    class BinaryWriter : public IOTransferer
     {
     public:
         bool IsImporter() override;
         void Reset(std::string& data) override;
     protected:
-        void ReadStreamTo(char* value, int size);
+        void WriteStreamFrom(const char* value, int size);
         template <typename TValue>
-        void ReadStreamTo(TValue& value)
+        void WriteStreamFrom(TValue& value)
         {
-            ReadStreamTo(reinterpret_cast<char*>(&value), sizeof(TValue));
+            WriteStreamFrom(reinterpret_cast<char*>(&value), sizeof(TValue));
         }
 
-        void TransferString(std::string& value);
-        void TransferBytes(std::vector<char>& value);
+        void TransferString(const std::string& value);
+        void TransferBytes(const std::vector<char>& value);
     private:
         std::stringstream stream;
 
-        CustomTransferFunc(int, ReadStreamTo)
-        CustomTransferFunc(float, ReadStreamTo)
-        CustomTransferFunc(bool, ReadStreamTo)
+        CustomTransferFunc(int, WriteStreamFrom)
+        CustomTransferFunc(float, WriteStreamFrom)
+        CustomTransferFunc(bool, WriteStreamFrom)
         CustomTransferFunc(std::string, TransferString)
         CustomTransferFunc(std::vector<char>, TransferBytes)
     };

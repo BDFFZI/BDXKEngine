@@ -4,7 +4,7 @@
 
 namespace BDXKEditor
 {
-    ObjectPtrBase ShaderImporter::ImportAsset(std::string filePath)
+    ObjectPtrBase ShaderImporter::ImportAsset(const std::string& filePath)
     {
         return static_cast<ObjectPtrBase>(ShaderImport::Hlsl(filePath));
     }

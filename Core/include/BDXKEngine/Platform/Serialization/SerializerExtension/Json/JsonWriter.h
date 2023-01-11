@@ -7,7 +7,7 @@
 
 namespace BDXKEngine
 {
-    class JsonExporter : public JsonTransferer
+    class JsonWriter : public JsonTransferer
     {
     public:
         void TransferJson(std::string key, std::string& value) override;

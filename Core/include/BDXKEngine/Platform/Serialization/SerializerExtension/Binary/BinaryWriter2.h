@@ -3,11 +3,11 @@
 #include "BDXKEngine/Base/Data/Graphics/Rect.h"
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector4.h"
 #include "BDXKEngine/Base/Data/Mathematics/Matrix/Matrix4x4.h"
-#include "BDXKEngine/Base/Serializer/Binary/BinaryExporter.h"
+#include "BDXKEngine/Base/Serializer/Binary/BinaryWriter.h"
 
 namespace BDXKEngine
 {
-    class BinaryExporter2 : public BinaryExporter
+    class BinaryWriter2 : public BinaryWriter
     {
         CustomTransferFunc(Vector2, WriteStreamFrom)
         CustomTransferFunc(Vector3, WriteStreamFrom)

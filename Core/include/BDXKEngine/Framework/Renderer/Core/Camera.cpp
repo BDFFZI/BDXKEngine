@@ -120,10 +120,14 @@ namespace BDXKEngine
                 GL::Clear(true, true);
 
                 const auto& skyboxMaterial = RenderSettings::GetSkybox();
-                skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
-                skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
-                skyboxMaterial->UploadRP(0);
-                Graphics::DrawViewport(true);
+                if (skyboxMaterial != nullptr)
+                {
+                    skyboxMaterial->SetMatrix(0, gameObject->GetLocalToWorldMatrix());
+                    skyboxMaterial->SetVector(0, Vector4{gameObject->GetPosition(), 1});
+                    skyboxMaterial->UploadRP(0);
+                    Graphics::DrawViewport(true);
+                }
+
                 break;
             }
         case ClearFlags::Not:

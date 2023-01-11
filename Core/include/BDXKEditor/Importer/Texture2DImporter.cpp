@@ -4,7 +4,7 @@
 
 namespace BDXKEditor
 {
-    ObjectPtrBase Texture2DImporter::ImportAsset(std::string filePath)
+    ObjectPtrBase Texture2DImporter::ImportAsset(const std::string& filePath)
     {
         return static_cast<ObjectPtrBase>(TextureImport::Png(filePath));
     }

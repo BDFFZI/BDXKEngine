@@ -19,10 +19,135 @@
         "data": {
             "type": "class BDXKEngine::RenderSettings",
             "name": "class BDXKEngine::RenderSettings",
-            "skybox": "{108A0734-1209-4A4E-3595-592B7830B01E}"
+            "skybox": ""
         }
     },
     "serialization_2": {
+        "object": "{1421B25B-B7D1-41EC-55B1-FB2CE1E9A908}",
+        "data": {
+            "type": "class BDXKEngine::Light",
+            "name": "class BDXKEngine::Light",
+            "isEnabling": true,
+            "gameObject": "{7339A43A-E1F1-4AD1-A686-0F1C1140E58D}",
+            "lightType": 0,
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intensity": 0.5
+        }
+    },
+    "serialization_3": {
+        "object": "{7339A43A-E1F1-4AD1-A686-0F1C1140E58D}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Sun",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                45.00000381469727,
+                -45.0,
+                0.0
+            ],
+            "localScale": [
+                0.9999998807907105,
+                0.9999998807907105,
+                0.9999999403953552
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{1421B25B-B7D1-41EC-55B1-FB2CE1E9A908}"
+            }
+        }
+    },
+    "serialization_4": {
+        "object": "{CD4C9939-AFB7-435D-FFA2-F0484FDA3FAE}",
+        "data": {
+            "type": "class BDXKEngine::Camera",
+            "name": "class BDXKEngine::Camera",
+            "isEnabling": true,
+            "gameObject": "{97D634A6-2932-4D6C-8F8B-E6632B9EAA24}",
+            "renderTarget": "",
+            "clearFlags": 1,
+            "projection": 1,
+            "background": [
+                0.9638763070106506,
+                0.9656862616539002,
+                0.904147446155548,
+                1.0
+            ],
+            "nearClipPlane": 0.30000001192092898,
+            "farClipPlane": 1000.0,
+            "fieldOfView": 60.0,
+            "size": 5.0,
+            "priority": 0
+        }
+    },
+    "serialization_5": {
+        "object": "{B73912DE-9529-449D-7889-72C38EAC0B93}",
+        "data": {
+            "type": "class CameraController",
+            "name": "class CameraController",
+            "isEnabling": true,
+            "gameObject": "{97D634A6-2932-4D6C-8F8B-E6632B9EAA24}"
+        }
+    },
+    "serialization_6": {
+        "object": "{97D634A6-2932-4D6C-8F8B-E6632B9EAA24}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Camera",
+            "isEnabling": true,
+            "localPosition": [
+                1.2049552202224732,
+                1.7040635347366334,
+                -1.2049552202224732
+            ],
+            "localEulerAngles": [
+                45.00000381469727,
+                -45.0,
+                0.0
+            ],
+            "localScale": [
+                0.9999998807907105,
+                0.9999998807907105,
+                0.9999999403953552
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 2,
+                "item0": "{CD4C9939-AFB7-435D-FFA2-F0484FDA3FAE}",
+                "item1": "{B73912DE-9529-449D-7889-72C38EAC0B93}"
+            }
+        }
+    },
+    "serialization_7": {
+        "object": "{AA1F52E9-AEC0-4A46-638E-DBB969F6008A}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{E5C6FD92-BFC6-4004-8AA3-40E02D93AB7D}",
+            "material": "{108A0734-1209-4A4E-3595-592B7830B01E}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_8": {
         "object": "{108A0734-1209-4A4E-3595-592B7830B01E}",
         "data": {
             "type": "class BDXKEngine::Material",
@@ -76,8 +201,8 @@
                 ],
                 "vector0": [
                     0.0,
-                    1.0,
-                    -10.0,
+                    0.0,
+                    0.0,
                     1.0
                 ],
                 "vector1": [
@@ -111,21 +236,21 @@
                     0.0
                 ],
                 "matrix0": [
-                    0.9995335936546326,
-                    0.0,
-                    0.030538516119122506,
-                    0.0,
-                    0.008263734169304371,
-                    0.9626915454864502,
-                    -0.2704741656780243,
-                    0.0,
-                    -0.029399177059531213,
-                    0.27060043811798098,
-                    0.9622427225112916,
+                    10.0,
                     0.0,
                     0.0,
-                    1.0,
-                    -10.0,
+                    0.0,
+                    0.0,
+                    10.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    10.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
                     1.0
                 ],
                 "matrix1": [
@@ -191,381 +316,39 @@
             "texture2D5": "{09C5D9B0-DB93-4176-4F89-3C145573B124}"
         }
     },
-    "serialization_3": {
+    "serialization_9": {
         "object": "{800B639D-CC6D-4232-808A-4966329495FE}",
         "data": null
     },
-    "serialization_4": {
+    "serialization_10": {
         "object": "{3CA45CDD-E0BB-4428-E29B-7D6AF78251E3}",
         "data": null
     },
-    "serialization_5": {
+    "serialization_11": {
         "object": "{CB056A8E-6868-4BD3-A2BC-D2E46BC337AC}",
         "data": null
     },
-    "serialization_6": {
+    "serialization_12": {
         "object": "{44A153DB-9F76-4440-56A2-3C392E071F5B}",
         "data": null
     },
-    "serialization_7": {
+    "serialization_13": {
         "object": "{4FAEF2F4-386A-4D91-D388-E1D5FC5154B2}",
         "data": null
     },
-    "serialization_8": {
+    "serialization_14": {
         "object": "{06410BE5-4F78-431B-9387-CD9FA62DDB03}",
         "data": null
     },
-    "serialization_9": {
+    "serialization_15": {
         "object": "{09C5D9B0-DB93-4176-4F89-3C145573B124}",
         "data": null
     },
-    "serialization_10": {
-        "object": "{1421B25B-B7D1-41EC-55B1-FB2CE1E9A908}",
-        "data": {
-            "type": "class BDXKEngine::Light",
-            "name": "class BDXKEngine::Light",
-            "isEnabling": true,
-            "gameObject": "{7339A43A-E1F1-4AD1-A686-0F1C1140E58D}",
-            "lightType": 0,
-            "color": [
-                1.0,
-                1.0,
-                1.0,
-                1.0
-            ],
-            "intensity": 0.5
-        }
-    },
-    "serialization_11": {
-        "object": "{7339A43A-E1F1-4AD1-A686-0F1C1140E58D}",
-        "data": {
-            "type": "class BDXKEngine::GameObject",
-            "name": "Sun",
-            "isEnabling": true,
-            "localPosition": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "localEulerAngles": [
-                45.00000381469727,
-                -45.0,
-                0.0
-            ],
-            "localScale": [
-                0.9999998807907105,
-                0.9999998807907105,
-                0.9999999403953552
-            ],
-            "parent": "",
-            "children": {
-                "count": 0
-            },
-            "components": {
-                "count": 1,
-                "item0": "{1421B25B-B7D1-41EC-55B1-FB2CE1E9A908}"
-            }
-        }
-    },
-    "serialization_12": {
-        "object": "{CD4C9939-AFB7-435D-FFA2-F0484FDA3FAE}",
-        "data": {
-            "type": "class BDXKEngine::Camera",
-            "name": "class BDXKEngine::Camera",
-            "isEnabling": true,
-            "gameObject": "{97D634A6-2932-4D6C-8F8B-E6632B9EAA24}",
-            "renderTarget": "",
-            "clearFlags": 1,
-            "projection": 1,
-            "background": [
-                0.5,
-                0.75,
-                1.0,
-                1.0
-            ],
-            "nearClipPlane": 0.30000001192092898,
-            "farClipPlane": 1000.0,
-            "fieldOfView": 60.0,
-            "size": 5.0,
-            "priority": 0
-        }
-    },
-    "serialization_13": {
-        "object": "{B73912DE-9529-449D-7889-72C38EAC0B93}",
-        "data": {
-            "type": "class CameraController",
-            "name": "class CameraController",
-            "isEnabling": true,
-            "gameObject": "{97D634A6-2932-4D6C-8F8B-E6632B9EAA24}"
-        }
-    },
-    "serialization_14": {
-        "object": "{97D634A6-2932-4D6C-8F8B-E6632B9EAA24}",
-        "data": {
-            "type": "class BDXKEngine::GameObject",
-            "name": "Camera",
-            "isEnabling": true,
-            "localPosition": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "localEulerAngles": [
-                -0.0,
-                0.0,
-                0.0
-            ],
-            "localScale": [
-                1.0,
-                1.0,
-                1.0
-            ],
-            "parent": "",
-            "children": {
-                "count": 0
-            },
-            "components": {
-                "count": 2,
-                "item0": "{CD4C9939-AFB7-435D-FFA2-F0484FDA3FAE}",
-                "item1": "{B73912DE-9529-449D-7889-72C38EAC0B93}"
-            }
-        }
-    },
-    "serialization_15": {
-        "object": "{AA1F52E9-AEC0-4A46-638E-DBB969F6008A}",
-        "data": {
-            "type": "class BDXKEngine::MeshRenderer",
-            "name": "class BDXKEngine::MeshRenderer",
-            "isEnabling": true,
-            "gameObject": "{E5C6FD92-BFC6-4004-8AA3-40E02D93AB7D}",
-            "material": "{0417423C-A47E-4571-1B84-EB4E0894BA8C}",
-            "castShadows": true,
-            "receiveShadows": true,
-            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
-        }
-    },
     "serialization_16": {
-        "object": "{0417423C-A47E-4571-1B84-EB4E0894BA8C}",
-        "data": {
-            "type": "class BDXKEngine::Material",
-            "name": "class BDXKEngine::Material",
-            "passTypes": {
-                "count": 3,
-                "item0": 1,
-                "item1": 2,
-                "item2": 3
-            },
-            "passShaders": {
-                "count": 3,
-                "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
-                "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
-                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
-            },
-            "passBlends": {
-                "count": 3,
-                "item0": {
-                    "state": false,
-                    "sourceFactor": 1,
-                    "destinationFactor": 1,
-                    "operation": 1
-                },
-                "item1": {
-                    "state": true,
-                    "sourceFactor": 2,
-                    "destinationFactor": 2,
-                    "operation": 1
-                },
-                "item2": {
-                    "state": false,
-                    "sourceFactor": 1,
-                    "destinationFactor": 1,
-                    "operation": 1
-                }
-            },
-            "passZTests": {
-                "count": 3,
-                "item0": {
-                    "operation": 4,
-                    "factor": 0.0,
-                    "units": 0.0,
-                    "write": true,
-                    "clip": true
-                },
-                "item1": {
-                    "operation": 4,
-                    "factor": 0.0,
-                    "units": 0.0,
-                    "write": true,
-                    "clip": true
-                },
-                "item2": {
-                    "operation": 4,
-                    "factor": 0.0,
-                    "units": 0.0,
-                    "write": true,
-                    "clip": true
-                }
-            },
-            "passCulls": {
-                "count": 3,
-                "item0": {
-                    "state": 3
-                },
-                "item1": {
-                    "state": 3
-                },
-                "item2": {
-                    "state": 3
-                }
-            },
-            "renderQueue": 2000,
-            "parameters": {
-                "float0_3": [
-                    0.0,
-                    0.5,
-                    0.0,
-                    0.0
-                ],
-                "float4_7": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector0": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "vector1": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector2": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector3": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector4": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector5": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "matrix0": [
-                    10.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0003476414713077247,
-                    -0.00999395363032818,
-                    0.0,
-                    0.0,
-                    9.99395751953125,
-                    0.3476416170597077,
-                    0.0,
-                    -0.08649206161499024,
-                    0.05017609894275665,
-                    10.400032043457032,
-                    1.0
-                ],
-                "matrix1": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "matrix2": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "matrix3": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "texture2D0": "{01A33834-35B6-4E3C-F982-FD0F255A21E8}",
-            "texture2D1": "",
-            "texture2D2": "",
-            "texture2D3": "",
-            "texture2D4": "",
-            "texture2D5": ""
-        }
-    },
-    "serialization_17": {
-        "object": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
-        "data": null
-    },
-    "serialization_18": {
-        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
-        "data": null
-    },
-    "serialization_19": {
-        "object": "{01A33834-35B6-4E3C-F982-FD0F255A21E8}",
-        "data": null
-    },
-    "serialization_20": {
         "object": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}",
         "data": null
     },
-    "serialization_21": {
+    "serialization_17": {
         "object": "{71FD9E3B-8E6D-4DB7-3192-B41C4A61F030}",
         "data": {
             "type": "class BDXKEngine::BoxCollider",
@@ -580,7 +363,7 @@
             ]
         }
     },
-    "serialization_22": {
+    "serialization_18": {
         "object": "{612F994D-A66C-4F47-CDAA-26C980AB62B1}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -593,37 +376,73 @@
             "isKinematic": true
         }
     },
-    "serialization_23": {
+    "serialization_19": {
+        "object": "{D1D88018-8E4A-45DC-EDB9-1EA7B96934A8}",
+        "data": {
+            "type": "class BDXKEngine::AudioSource",
+            "name": "class BDXKEngine::AudioSource",
+            "isEnabling": true,
+            "gameObject": "{E5C6FD92-BFC6-4004-8AA3-40E02D93AB7D}",
+            "clip": "{5010D6A5-25A8-42F2-E583-724A16A655C1}",
+            "volume": 0.5,
+            "loop": true,
+            "playOnEnable": true
+        }
+    },
+    "serialization_20": {
+        "object": "{5010D6A5-25A8-42F2-E583-724A16A655C1}",
+        "data": null
+    },
+    "serialization_21": {
+        "object": "{665D1206-03A8-4954-5380-53D2B8AD24B5}",
+        "data": {
+            "type": "class BDXKEngine::AudioSource",
+            "name": "class BDXKEngine::AudioSource",
+            "isEnabling": true,
+            "gameObject": "{E5C6FD92-BFC6-4004-8AA3-40E02D93AB7D}",
+            "clip": "{272FD5AB-3870-4347-3784-D533522B5B6D}",
+            "volume": 1.0,
+            "loop": false,
+            "playOnEnable": true
+        }
+    },
+    "serialization_22": {
         "object": "{E5C6FD92-BFC6-4004-8AA3-40E02D93AB7D}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "name": "Plane",
+            "name": "Music Box",
             "isEnabling": true,
             "localPosition": [
-                -0.08649206161499024,
-                0.05017609894275665,
-                10.400032043457032
+                0.0,
+                0.0,
+                0.0
             ],
             "localEulerAngles": [
-                -88.00775909423828,
+                -0.0,
                 0.0,
                 0.0
             ],
             "localScale": [
                 10.0,
-                0.009999997913837433,
-                10.000001907348633
+                10.0,
+                10.0
             ],
             "parent": "",
             "children": {
                 "count": 0
             },
             "components": {
-                "count": 3,
+                "count": 5,
                 "item0": "{AA1F52E9-AEC0-4A46-638E-DBB969F6008A}",
                 "item1": "{71FD9E3B-8E6D-4DB7-3192-B41C4A61F030}",
-                "item2": "{612F994D-A66C-4F47-CDAA-26C980AB62B1}"
+                "item2": "{612F994D-A66C-4F47-CDAA-26C980AB62B1}",
+                "item3": "{D1D88018-8E4A-45DC-EDB9-1EA7B96934A8}",
+                "item4": "{665D1206-03A8-4954-5380-53D2B8AD24B5}"
             }
         }
+    },
+    "serialization_23": {
+        "object": "{272FD5AB-3870-4347-3784-D533522B5B6D}",
+        "data": null
     }
 }
