@@ -59,6 +59,10 @@ namespace BDXKEngine
     {
         return priority;
     }
+    int Camera::GetCullingMask() const
+    {
+        return cullingMask;
+    }
     float Camera::GetAspectRatio() const
     {
         const Vector2 viewSize = renderTarget.IsNull() ? Screen::GetSize() : renderTarget->GetSize();
@@ -84,6 +88,10 @@ namespace BDXKEngine
     void Camera::SetPriority(int depth)
     {
         this->priority = depth;
+    }
+    void Camera::SetCullingMask(int cullingMask)
+    {
+        this->cullingMask = cullingMask;
     }
     void Camera::SetNearClipPlane(float distance)
     {
@@ -140,6 +148,9 @@ namespace BDXKEngine
         //渲染物体，注意没灯光时不会触发渲染
         for (const Renderer* renderer : rendererQueue)
         {
+            if ((cullingMask & 1 << renderer->GetGameObject()->GetLayer()) == 0)
+                continue;
+
             //获取该物体的渲染管线资源
             const ObjectPtr<Mesh> mesh = renderer->GetMesh(); //获取网格
             const ObjectPtr<Material> material = renderer->GetMaterial(true); //获取材质
@@ -182,6 +193,7 @@ namespace BDXKEngine
         TransferFieldInfo(fieldOfView);
         TransferFieldInfo(size);
         TransferFieldInfo(priority);
+        TransferFieldInfoOf(cullingMask, int);
     }
     void Camera::Enable()
     {

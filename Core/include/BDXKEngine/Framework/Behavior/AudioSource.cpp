@@ -49,6 +49,8 @@ namespace BDXKEngine
 
     void AudioSource::Play()
     {
+        Stop();
+
         if (clip == nullptr)return;
 
         if (audioSourceVoice == nullptr)
@@ -88,7 +90,7 @@ namespace BDXKEngine
     }
     void AudioSource::Transfer(Transferer& transferer)
     {
-        Component::Transfer(transferer);
+        Behavior::Transfer(transferer);
 
         TransferFieldInfo(clip);
         TransferFieldInfo(volume);

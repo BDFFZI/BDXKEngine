@@ -1,5 +1,6 @@
 #include "BDXKEditor/BDXKEditor.h"
 #include "BDXKEngine/Base/Package/Map.h"
+#include "BDXKEngine/Framework/Behavior/AudioSource.h"
 #include "BDXKEngine/Framework/Physics/PhysicsEvent.h"
 #include "BDXKEngine/Function/Random/Random.h"
 #include "BDXKEngine/Function/Time/Time.h"
@@ -83,35 +84,73 @@ class CameraController : public Behavior, public StartHandler, public UpdateHand
 
 CustomReflection(CameraController)
 
-class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler, public CollisionEnterHandler, public CollisionExitHandler,
-                      public CollisionStayHandler
+class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler, public CollisionEnterHandler, public CollisionExitHandler
 {
+    ObjectPtr<AudioClip> bounceOff;
+    ObjectPtr<AudioClip> explode;
+    void Transfer(Transferer& transferer) override
+    {
+        Behavior::Transfer(transferer);
+
+        TransferFieldInfo(bounceOff);
+        TransferFieldInfo(explode);
+    }
+
     float startTime = 0;
+    bool isExploded = false;
+    ObjectPtr<AudioSource> audioSource;
 
     void OnAwake() override
     {
         startTime = Time::GetRealtimeSinceStartup();
+        audioSource = GetGameObject()->GetComponent<AudioSource>();
     }
     void OnUpdate() override
     {
-        if (Time::GetRealtimeSinceStartup() - startTime > 3)
-            DestroyImmediate(GetGameObject());
+        if (isExploded)
+        {
+            if (audioSource->IsPlaying() == false)
+                DestroyImmediate(GetGameObject());
+        }
+        else
+        {
+            if (Time::GetRealtimeSinceStartup() - startTime > 6)
+                DestroyImmediate(GetGameObject());
+        }
     }
     void OnCollisionEnter(const Collision& collision) override
     {
-        DestroyImmediate(GetGameObject());
-        //Debug::Log("OnCollisionEnter");
+        if (isExploded)
+            return;
+
+        if (collision.rigidbody->GetIsKinematic() == false)
+        {
+            ObjectPtr<Renderer> renderer = collision.rigidbody->GetGameObject()->GetComponent<Renderer>();
+            Color color = renderer->GetMaterial()->GetVector(0);
+            color -= 0.1f;
+            if (color.a < 0)
+                DestroyImmediate(collision.rigidbody->GetGameObject());
+            else
+                renderer->GetMaterial()->SetVector(0, color);
+
+            audioSource->SetClip(explode);
+            audioSource->Play();
+            isExploded = true;
+        }
+        else
+        {
+            audioSource->SetClip(bounceOff);
+            audioSource->Play();
+        }
     }
 
     void OnCollisionExit(const Collision& collision) override
     {
+        if (isExploded)
+            return;
+
         GetGameObject()->GetComponent<Renderer>()->GetMaterial()->SetVector(0, Random::ColorHSV());
         //Debug::Log("OnCollisionExit");
-    }
-
-    void OnCollisionStay(const Collision& collision) override
-    {
-        //Debug::Log("OnCollisionStay");
     }
 };
 
@@ -120,12 +159,14 @@ CustomReflection(CollisionTest)
 class Fire : public Behavior, public UpdateHandler, public AwakeHandler, public DrawGUIHandler
 {
     ObjectPtr<GameObject> ammoPrefab;
+    ObjectPtr<AudioSource> audioSource;
 
     void Transfer(Transferer& transferer) override
     {
         Behavior::Transfer(transferer);
 
         TransferFieldInfo(ammoPrefab);
+        TransferFieldInfo(audioSource);
     }
 
     ObjectPtr<GameObject> transform;
@@ -134,6 +175,7 @@ class Fire : public Behavior, public UpdateHandler, public AwakeHandler, public 
     {
         if (Input::GetMouseButtonDown(0))
         {
+            audioSource->Play();
             const ObjectPtr<GameObject> ammo = Serialization::Clone(ammoPrefab);
             ammo->SetPosition(transform->GetPosition());
             ammo->SetIsEnabling(true);

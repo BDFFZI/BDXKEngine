@@ -4,7 +4,6 @@
         "object": "{0DE3CA6F-7047-41AA-4A82-31DB765FB878}",
         "data": {
             "type": "class BDXKEditor::ShaderImporter",
-            "name": "class BDXKEditor::ShaderImporter",
             "guid": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}"
         }
     }

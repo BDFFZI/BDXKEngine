@@ -49,6 +49,30 @@ namespace BDXKEngine
     {
         return renderQueue;
     }
+    float Material::GetFloat(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= 8)
+            throw std::exception("超出容量范围");
+        return reinterpret_cast<float*>(&parameters)[slotIndex];
+    }
+    Vector4 Material::GetVector(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= 6)
+            throw std::exception("超出容量范围");
+        return reinterpret_cast<Vector4*>(&parameters)[2 + slotIndex];
+    }
+    Matrix4x4 Material::GetMatrix(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= 4)
+            throw std::exception("超出容量范围");
+        return reinterpret_cast<Matrix4x4*>(&parameters)[2 + slotIndex];
+    }
+    const ObjectPtr<Texture2D>& Material::GetTexture2D(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= 6)
+            throw std::exception("超出容量范围");
+        return (&texture2D0)[slotIndex];
+    }
 
     void Material::SetPassBlend(int index, const Blend& blend)
     {
@@ -89,7 +113,7 @@ namespace BDXKEngine
     }
     void Material::SetTexture2D(int slotIndex, const ObjectPtr<Texture2D>& texture)
     {
-        if (slotIndex < 0 || slotIndex >= 4)
+        if (slotIndex < 0 || slotIndex >= 6)
             throw std::exception("超出容量范围");
         (&texture2D0)[slotIndex] = texture;
     }

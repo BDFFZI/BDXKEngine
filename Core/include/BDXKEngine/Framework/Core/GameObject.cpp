@@ -67,6 +67,14 @@ namespace BDXKEngine
         return components;
     }
 
+    const std::string& GameObject::GetName() const
+    {
+        return name;
+    }
+    int GameObject::GetLayer() const
+    {
+        return layer;
+    }
     Vector3 GameObject::GetPosition() const
     {
         return position;
@@ -112,6 +120,15 @@ namespace BDXKEngine
         return localToWorldMatrix.MultiplyVector(Vector3::front);
     }
 
+
+    void GameObject::SetName(const std::string& name)
+    {
+        this->name = name;
+    }
+    void GameObject::SetLayer(int layer)
+    {
+        this->layer = layer;
+    }
     void GameObject::SetParent(const ObjectPtr<GameObject>& newparent, bool worldPositionStays)
     {
         //嵌套检查
@@ -263,6 +280,8 @@ namespace BDXKEngine
             }
         }
 
+        TransferFieldInfo(name);
+        TransferFieldInfo(layer);
         TransferFieldInfo(localPosition);
         TransferFieldInfo(localEulerAngles);
         TransferFieldInfo(localScale);

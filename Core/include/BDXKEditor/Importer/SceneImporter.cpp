@@ -10,9 +10,9 @@ namespace BDXKEditor
         //转储Assets数据到Resources
         auto serializer = Serialization::CreateJsonSerializer();
         const ObjectPtrBase objectPtrBase = Serialization::Load(filePath, serializer, false);
-        Resources::Save(objectPtrBase->GetName(), objectPtrBase);
+        Resources::Save(ParseFileName(filePath), objectPtrBase);
 
-        Scene::Load(objectPtrBase->GetName(), true);
+        Scene::Load(ParseFileName(filePath), true);
         return static_cast<ObjectPtrBase>(Scene::GetCurrentScene());
     }
 }

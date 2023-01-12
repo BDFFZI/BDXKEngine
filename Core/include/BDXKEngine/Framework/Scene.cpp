@@ -14,8 +14,8 @@ namespace BDXKEngine
     {
         ObjectPtr scene = new Scene{};
         Instantiate(scene);
-        scene->SetName(currentSceneName);
         scene->renderSettings = RenderSettings::GetSingleton();
+        scene->physicsSettings = PhysicsSettings::GetSingleton();
         for (const auto& item : GameObject::GetGameObjects())
         {
             if (item->GetParent().IsNull())
@@ -55,6 +55,7 @@ namespace BDXKEngine
         Object::Transfer(transferer);
 
         TransferFieldInfo(renderSettings);
+        TransferFieldInfo(physicsSettings);
         TransferFieldInfo(gameObjects);
     }
 }

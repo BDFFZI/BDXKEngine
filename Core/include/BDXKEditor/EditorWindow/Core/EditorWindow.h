@@ -16,17 +16,17 @@ namespace BDXKEditor
         {
             auto& reflection = Reflection::GetReflection<ScriptableObject>();
 
-            ObjectPtr window = new TEditorWindow{};
+            ObjectPtr<EditorWindow> window = new TEditorWindow{};
             reflection.GetFieldOf<bool>(window.ToObjectBase(), "isEnabling") = false;
 
             Serialization::UnMarkPersistent(window.GetInstanceID());
             Instantiate(window);
 
             const size_t typeWindowCount = Object::FindObjectsOfType<TEditorWindow>().size() - 1;
-            window->SetName(std::string{window->GetName()} + (typeWindowCount == 0 ? "" : " " + std::to_string(typeWindowCount)));
-            window->SetCloseable(closeable);
+            window->title = window->GetType() + (typeWindowCount == 0 ? "" : " " + std::to_string(typeWindowCount));
+            window->closeable = true;
 
-            return window;
+            return window.ToObjectPtr<TEditorWindow>();
         }
 
         bool GetCloseable() const;
@@ -38,6 +38,7 @@ namespace BDXKEditor
     private:
         static std::vector<ObjectPtr<EditorWindow>> windows; //抑制自动回收
 
+        std::string title;
         bool closeable = false;
 
         void OnDrawGUI() override;

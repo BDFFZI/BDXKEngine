@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "BDXKEngine/Base/Object/Serializer/ObjectSerializer.h"
-#include "BDXKEngine/Base/Object/Object.h"
 #include "BDXKEngine/Platform/Serialization/SerializerExtension/Binary/BinaryWriter2.h"
 #include "BDXKEngine/Platform/Serialization/SerializerExtension/Binary/BinaryReader2.h"
 #include "BDXKEngine/Platform/Serialization/SerializerExtension/Json/JsonWriter.h"

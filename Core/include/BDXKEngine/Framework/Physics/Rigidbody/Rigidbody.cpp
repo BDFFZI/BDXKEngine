@@ -20,7 +20,7 @@ namespace BDXKEngine
     {
         return useGravity;
     }
-    bool Rigidbody::IsIsKinematic() const
+    bool Rigidbody::GetIsKinematic() const
     {
         return isKinematic;
     }

@@ -53,6 +53,8 @@ namespace BDXKEngine
             return back;
         }
 
+        const std::string& GetName() const;
+        int GetLayer() const;
         Vector3 GetLocalPosition() const;
         Vector3 GetLocalEulerAngles() const;
         Vector3 GetLocalScale() const;
@@ -65,6 +67,8 @@ namespace BDXKEngine
         Vector3 GetUp() const;
         Vector3 GetFront() const;
 
+        void SetName(const std::string& name);
+        void SetLayer(int layer);
         void SetParent(const ObjectPtr<GameObject>& parent, bool worldPositionStays = true);
         void SetLocalPosition(Vector3 value);
         void SetLocalEulerAngles(Vector3 value);
@@ -84,6 +88,8 @@ namespace BDXKEngine
     private:
         static std::vector<ObjectPtr<GameObject>> gameObjects;
 
+        std::string name;
+        int layer = 0; //第0-31层
         Vector3 position = Vector3::zero;
         Vector3 eulerAngles = Vector3::zero;
         Vector3 scale = Vector3::one;

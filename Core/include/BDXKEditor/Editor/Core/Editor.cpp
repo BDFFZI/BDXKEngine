@@ -1,6 +1,7 @@
 ﻿#include "Editor.h"
 
 #include "BDXKEngine/Base/Object/Transferer/ObjectTransferer.h"
+#include "BDXKEngine/Platform/GUI/GUI.h"
 #include "imgui/imgui.h"
 
 namespace BDXKEditor
@@ -51,12 +52,13 @@ namespace BDXKEditor
     }
     void Editor::OnInspectorGUI() const
     {
-        //类型
-        ImGui::TextDisabled(target->GetType().c_str());
         //实例编号
+        ImGui::Button(std::to_string(target->GetInstanceID()).c_str());
+        GUI::IsDragSource(target);
+        //类型
         ImGui::SameLine();
-        ImGui::TextDisabled(std::to_string(target->GetInstanceID()).c_str());
-        
+        ImGui::TextDisabled(target->GetType().c_str());
+
         target.ToObjectBase()->Transfer(*gui);
     }
     void Editor::OnSceneGUI() const

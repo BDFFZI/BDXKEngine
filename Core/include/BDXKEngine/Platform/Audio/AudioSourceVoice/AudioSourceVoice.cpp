@@ -35,6 +35,9 @@ namespace BDXKEngine
     }
     void AudioSourceVoice::Stop()
     {
+        if (isPlaying == false)
+            return;
+
         const HRESULT result = sourceVoice->Stop();
         if (FAILED(result))throw std::exception("停止声音失败");
         isPlaying = false;
@@ -42,9 +45,11 @@ namespace BDXKEngine
 
     void AudioSourceVoice::OnBufferStart(void* pBufferContext) noexcept
     {
+
     }
     void AudioSourceVoice::OnBufferEnd(void* pBufferContext) noexcept
     {
+   
     }
     void AudioSourceVoice::OnVoiceProcessingPassEnd() noexcept
     {
@@ -54,8 +59,9 @@ namespace BDXKEngine
     }
     void AudioSourceVoice::OnStreamEnd() noexcept
     {
+        sourceVoice->Stop();
         sourceVoice->SubmitSourceBuffer(&audioClip->GetBuffer());
-        Stop();
+        isPlaying = false;
     }
     void AudioSourceVoice::OnLoopEnd(void* pBufferContext) noexcept
     {

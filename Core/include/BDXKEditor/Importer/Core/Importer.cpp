@@ -5,7 +5,13 @@ namespace BDXKEditor
 {
     std::string ParseFileName(const std::string& path)
     {
-        return path.substr(path.rfind('\\') + 1);
+        size_t index = path.rfind('\\');
+        if (index == std::string::npos)
+            index = path.rfind('/');
+        if (index == std::string::npos)
+            return path;
+
+        return path.substr(index + 1);
     }
 
     ObjectPtr<Importer> Importer::GetAssetsImporter(const std::string& extension)

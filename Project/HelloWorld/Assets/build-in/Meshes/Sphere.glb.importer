@@ -4,7 +4,6 @@
         "object": "{0A2D9C40-FA63-437E-0F94-025790EC5609}",
         "data": {
             "type": "class BDXKEditor::MeshImporter",
-            "name": "class BDXKEditor::MeshImporter",
             "guid": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
         }
     }

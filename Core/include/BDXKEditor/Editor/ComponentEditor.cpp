@@ -26,7 +26,7 @@ namespace BDXKEditor
 
         const Reflection& reflection = Reflection::GetReflection(target);
         const int count = reflection.GetFields(GetTarget().ToObjectBase(), names, values, types);
-        for (int i = 3; i < count; i++)
+        for (int i = 2; i < count; i++)
         {
             gui.TransferField(names[i], values[i], types[i]);
         }

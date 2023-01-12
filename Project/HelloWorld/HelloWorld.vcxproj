@@ -277,6 +277,7 @@
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collider\SphereCollider.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Material\PhysicMaterial.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\PhysicsEvent.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\PhysicsSettings.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Physics\Rigidbody\Rigidbody.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Camera.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Light.cpp" />
@@ -480,6 +481,7 @@
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Collider\SphereCollider.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Material\PhysicMaterial.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\PhysicsEvent.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\PhysicsSettings.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Physics\Rigidbody\Rigidbody.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Camera.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Framework\Renderer\Core\Light.h" />

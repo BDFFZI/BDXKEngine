@@ -23,14 +23,12 @@ namespace BDXKEditor
         if (Reflection::HasReflection(typeSelect))
             reflection = &Reflection::GetReflection(typeSelect);
 
-        if (ImGui::BeginTable("Title", 7))
+        if (ImGui::BeginTable("Title", 6))
         {
             ImGui::TableNextColumn();
-            ImGui::TableHeader("InstanceID");
-            ImGui::TableNextColumn();
-            ImGui::TableHeader("Name");
-            ImGui::TableNextColumn();
             ImGui::TableHeader("Type");
+            ImGui::TableNextColumn();
+            ImGui::TableHeader("InstanceID");
             ImGui::TableNextColumn();
             ImGui::TableHeader("IsResource");
             ImGui::TableNextColumn();
@@ -46,7 +44,7 @@ namespace BDXKEditor
         ImGui::BeginChild("##");
 
         const auto Objects = GetObjects();
-        if (ImGui::BeginTable("Content", 7))
+        if (ImGui::BeginTable("Content", 6))
         {
             for (const auto& [instanceID,object] : Objects)
             {
@@ -59,17 +57,15 @@ namespace BDXKEditor
                 const ScriptableObject* scriptableObject = dynamic_cast<ScriptableObject*>(object);
 
                 ImGui::TableNextColumn();
-                ImGui::Text(std::to_string(instanceID).c_str());
-                ImGui::TableNextColumn();
-                if (ImGui::Button(GetUIID(object->GetName(), "Name")))
-                {
-                    if (clickObjectEvent != nullptr)clickObjectEvent(object);
-                }
-                ImGui::TableNextColumn();
                 if (ImGui::Button(GetUIID(object->GetType().substr(6), "Type")))
                 {
                     std::string type = object->GetType();
                     strcpy_s(typeSelect, type.data());
+                }
+                ImGui::TableNextColumn();
+                if (ImGui::Button(GetUIID(std::to_string(instanceID), "InstanceID")))
+                {
+                    if (clickObjectEvent != nullptr)clickObjectEvent(object);
                 }
                 ImGui::TableNextColumn();
                 ImGui::Checkbox("##", &isResource);

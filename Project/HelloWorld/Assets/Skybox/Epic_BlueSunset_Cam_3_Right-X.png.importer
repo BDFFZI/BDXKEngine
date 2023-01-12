@@ -4,7 +4,6 @@
         "object": "{5C2EAA88-3CF8-4F6E-18A8-2FEF9F4B842F}",
         "data": {
             "type": "class BDXKEditor::Texture2DImporter",
-            "name": "class BDXKEditor::Texture2DImporter",
             "guid": "{CB056A8E-6868-4BD3-A2BC-D2E46BC337AC}"
         }
     }

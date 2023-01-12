@@ -110,7 +110,7 @@ namespace BDXKEditor
     void EditorSystem::SaveScene()
     {
         auto scene = Scene::GetCurrentScene();
-        Assets::Save(scene->GetName(), scene);
+        Assets::Save(Scene::GetCurrentSceneName(), scene);
         Scene::Save(); //提供给非编辑器状态用
     }
     void EditorSystem::Copy()
@@ -205,7 +205,7 @@ namespace BDXKEditor
             ImGui::PushStyleColor(ImGuiCol_Text, Color::yellow);
             {
                 //复制信息
-                if (copying.IsNotNull() && ImGui::MenuItem(("Copying:" + copying->GetName()).c_str()))
+                if (copying.IsNotNull() && ImGui::MenuItem(("Copying:" + copying->GetType()).c_str()))
                     copying = nullptr;
                 //当前场景名字
                 static char sceneName[64];

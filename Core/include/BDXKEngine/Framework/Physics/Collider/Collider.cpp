@@ -7,6 +7,7 @@ namespace BDXKEngine
     void Collider::OnEnable()
     {
         shape->setGeometry(GetPxGeometry());
+        shape->setSimulationFilterData({static_cast<unsigned int>(GetGameObject()->GetLayer()), 0, 0, 0});
         rightbody->GetPxRigidbody().attachShape(*shape);
         rightbody->ResetCenterOfMassAndInertiaTensor();
     }
@@ -22,7 +23,6 @@ namespace BDXKEngine
     {
         shape = Phys::GetPhysics().createShape(GetPxGeometry(), material.IsNotNull() ? material->GetPxMaterial() : Phys::GetMaterial());
         shape->userData = this;
-        shape->setSimulationFilterData({GetInstanceID(), 0, 0, 0});
     }
     void Collider::OnDestroy()
     {

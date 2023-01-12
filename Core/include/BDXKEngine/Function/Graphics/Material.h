@@ -40,6 +40,10 @@ namespace BDXKEngine
         const ZTest& GetPassZTest(int index) const;
         const Cull& GetPassCull(int index) const;
         RenderQueue GetRenderQueue() const;
+        float GetFloat(int slotIndex);
+        Vector4 GetVector(int slotIndex);
+        Matrix4x4 GetMatrix(int slotIndex);
+        const ObjectPtr<Texture2D>& GetTexture2D(int slotIndex);
 
         void SetPassBlend(int index, const Blend& blend);
         void SetPassZTest(int index, const ZTest& zTest);

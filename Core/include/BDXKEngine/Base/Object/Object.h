@@ -63,13 +63,9 @@ namespace BDXKEngine
         }
 
         ID GetInstanceID() const;
-        const std::string& GetName() const;
-        void SetName(const std::string& name);
 
         bool IsInstantiated() const;
         bool IsDestroyed() const;
-
-        void Transfer(Transferer& transferer) override;
     protected:
         virtual void Awake(); //代替构造函数
         virtual void Destroy(); //代替析构函数
@@ -83,8 +79,7 @@ namespace BDXKEngine
         inline static ID instanceIDCount = 0;
         inline static std::map<ID, Object*> allObjects = {}; //内存中的所有Object，包括未激活的Object
         inline static std::function<void(Object*)> onConstructedObject = {};
-
-        std::string name;
+        
         ID instanceID = 0; //0为空占位符,只有原生状态会使用
         //可以解决重复调用或循环调用的问题，是激活和销毁能以安全正确的顺序执行
         bool isInstantiated = false;

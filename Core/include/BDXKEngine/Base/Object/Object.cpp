@@ -1,5 +1,4 @@
 ﻿#include "Object.h"
-#include <iostream>
 #include "Transferer/ObjectPtrTransferer.h"
 
 namespace BDXKEngine
@@ -56,7 +55,6 @@ namespace BDXKEngine
     void Object::Instantiate(ObjectPtrBase& objectPtr)
     {
         if (objectPtr.IsNull()) throw std::exception("实例化的物体为空");
-        if (objectPtr->name.empty()) objectPtr->name = objectPtr->GetType();
 
         //获取关联物体
         ObjectPtrTransferer referenceTransferer = {objectPtr};
@@ -112,15 +110,7 @@ namespace BDXKEngine
     {
         return instanceID;
     }
-    const std::string& Object::GetName() const
-    {
-        return name;
-    }
 
-    void Object::SetName(const std::string& name)
-    {
-        this->name = name;
-    }
 
     bool Object::IsInstantiated() const
     {
@@ -129,13 +119,6 @@ namespace BDXKEngine
     bool Object::IsDestroyed() const
     {
         return isDestroyed;
-    }
-
-    void Object::Transfer(Transferer& transferer)
-    {
-        Reflective::Transfer(transferer);
-
-        TransferFieldInfo(name);
     }
 
     void Object::Awake()

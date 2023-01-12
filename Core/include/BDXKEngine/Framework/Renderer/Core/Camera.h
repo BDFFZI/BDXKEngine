@@ -30,14 +30,16 @@ namespace BDXKEngine
         ClearFlags GetClearFlags() const;
         Projection GetProjection() const;
         const Color& GetBackground() const;
-        int GetPriority() const;
         float GetAspectRatio() const;
+        int GetPriority() const;
+        int GetCullingMask() const;
 
         void SetRenderTarget(const ObjectPtr<Texture2D>& renderTarget);
         void SetClearFlags(ClearFlags clearFlags);
         void SetProjection(Projection projection);
         void SetBackground(Color color);
         void SetPriority(int depth);
+        void SetCullingMask(int cullingMask);
         void SetNearClipPlane(float distance);
         void SetFarClipPlane(float distance);
 
@@ -54,6 +56,7 @@ namespace BDXKEngine
         float fieldOfView = 60;
         float size = 5;
         int priority = 0;
+        int cullingMask = ~0;
 
         void Transfer(Transferer& transferer) override;
         void Enable() override;

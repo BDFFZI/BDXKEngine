@@ -1,0 +1,10 @@
+{
+    "serializationsCount": 1,
+    "serialization_0": {
+        "object": "{F78F2AD6-0ABD-4E3B-C1BB-AAB72BC0179C}",
+        "data": {
+            "type": "class BDXKEditor::AudioClipImporter",
+            "guid": "{6F9B59BB-2204-49CA-9EA8-75EFF55DFDD8}"
+        }
+    }
+}

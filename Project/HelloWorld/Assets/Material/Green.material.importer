@@ -4,7 +4,6 @@
         "object": "{A6A03911-8735-4476-2AB5-E21DA684792D}",
         "data": {
             "type": "class BDXKEditor::ObjectImporter",
-            "name": "class BDXKEditor::ObjectImporter",
             "guid": "{608455DC-40AF-4F77-E4BF-B179ABD3916B}"
         }
     }

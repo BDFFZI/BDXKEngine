@@ -8,7 +8,31 @@ namespace BDXKEngine
     physx::PxPhysics* Phys::physics = nullptr;
     physx::PxScene* Phys::scene = nullptr;
     physx::PxMaterial* Phys::material = nullptr;
+    int Phys::layerCollisionMatrix[32];
 
+    bool GetLayerCollision(const LayerCollisionMatrix& matrix, int x, int y)
+    {
+        return x < y
+                   ? (matrix[x] & 1 << (32 - y)) != 0
+                   : (matrix[y] & 1 << (32 - x)) != 0;
+    }
+    void SetLayerCollision(LayerCollisionMatrix& matrix, int x, int y, bool value)
+    {
+        if (value)
+        {
+            if (x < y)
+                matrix[x] |= 1 << (32 - y);
+            else
+                matrix[y] |= 1 << (32 - x);
+        }
+        else
+        {
+            if (x < y)
+                matrix[x] &= ~(1 << (32 - y));
+            else
+                matrix[y] &= ~(1 << (32 - x));
+        }
+    }
     void Phys::Initialize()
     {
         using namespace physx;
@@ -40,11 +64,16 @@ namespace BDXKEngine
         {
             pairFlags = PxPairFlag::eSOLVE_CONTACT | PxPairFlag::eDETECT_DISCRETE_CONTACT
                 | PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST;
-            return PxFilterFlags(PxFilterFlag::eDEFAULT);
+
+            if (GetLayerCollision(static_cast<int>(filterData0.word0), static_cast<int>(filterData1.word0)))
+                return PxFilterFlags(PxFilterFlag::eDEFAULT);
+            else
+                return PxFilterFlags(PxFilterFlag::eSUPPRESS);
         };
         scene = physics->createScene(sceneDesc);
         //创建默认资源
         material = physics->createMaterial(0.6f, 0.6f, 0.0f);
+        for (int& i : layerCollisionMatrix)i = ~0;
     }
 
     physx::PxPhysics& Phys::GetPhysics()
@@ -59,9 +88,22 @@ namespace BDXKEngine
     {
         return *material;
     }
+    bool Phys::GetLayerCollision(int x, int y)
+    {
+        return BDXKEngine::GetLayerCollision(layerCollisionMatrix, x, y);
+    }
     void Phys::SetCallback(PhysCallback* physCallback)
     {
         scene->setSimulationEventCallback(physCallback);
+    }
+    void Phys::SetLayerCollision(int x, int y, bool value)
+    {
+        BDXKEngine::SetLayerCollision(layerCollisionMatrix, x, y, value);
+    }
+    void Phys::SetLayerCollisionMatrix(int matrix[32])
+    {
+        for (int index = 0; index < 32; index++)
+            layerCollisionMatrix[index] = matrix[index];
     }
     Vector3 Phys::ToVector3(const physx::PxVec3T<float>& value)
     {

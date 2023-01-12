@@ -31,7 +31,7 @@ namespace BDXKEditor
         if ((isControlling = ImGui::IsMouseDown(ImGuiMouseButton_Right)))
         {
             const float deltaTime = Time::GetDeltaTime();
-            const float moveSpeed = 4 * (ImGui::IsKeyDown(ImGuiKey_LeftShift) ? 3 : 1);
+            const auto moveSpeed = static_cast<float>(4 * (ImGui::IsKeyDown(ImGuiKey_LeftShift) ? 3 : 1));
 
             //位置调整
             Vector3 position = transform->GetLocalPosition();

@@ -54,7 +54,7 @@ namespace BDXKEngine
         float GetMass() const;
         const Vector3& GetCenterOfMass() const;
         bool GetUseGravity() const;
-        bool IsIsKinematic() const;
+        bool GetIsKinematic() const;
         RigidbodyConstraints GetConstraints() const;
         void SetMass(float mass);
         void SetCenterOfMass(const Vector3& centerOfMass);

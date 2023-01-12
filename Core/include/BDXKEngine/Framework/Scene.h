@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "BDXKEngine/Function/Resources/Resources.h"
 #include "Core/GameObject.h"
+#include "Physics/PhysicsSettings.h"
 #include "Renderer/Core/RenderSettings.h"
 
 namespace BDXKEngine
@@ -35,6 +36,7 @@ namespace BDXKEngine
         static std::string currentSceneName;
 
         ObjectPtr<RenderSettings> renderSettings;
+        ObjectPtr<PhysicsSettings> physicsSettings;
         std::vector<ObjectPtr<GameObject>> gameObjects;
 
         void Transfer(Transferer& transferer) override;

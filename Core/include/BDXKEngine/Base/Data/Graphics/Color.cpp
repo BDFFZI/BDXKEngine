@@ -24,6 +24,13 @@ namespace BDXKEngine
     Color::Color() : Color(0, 0, 0, 0)
     {
     }
+    Color::Color(Vector4 vector)
+    {
+        this->r = vector.x;
+        this->g = vector.y;
+        this->b = vector.z;
+        this->a = vector.w;
+    }
     Color::Color(float r, float g, float b, float a)
     {
         this->r = r;
@@ -57,6 +64,22 @@ namespace BDXKEngine
     bool Color::operator!=(Color value) const
     {
         return !(*this == value);
+    }
+    Color Color::operator*=(float value)
+    {
+        r *= value;
+        g *= value;
+        b *= value;
+        a *= value;
+        return *this;
+    }
+    Color Color::operator-=(float value)
+    {
+        r -= value;
+        g -= value;
+        b -= value;
+        a -= value;
+        return *this;
     }
     Color::operator Vector4() const
     {

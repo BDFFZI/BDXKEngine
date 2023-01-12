@@ -8,10 +8,13 @@
 #define PX_PHYSX_STATIC_LIB
 #include "BDXKEngine/Base/Data/Mathematics/Vector/Vector3.h"
 #include "PhysX5/PxPhysicsAPI.h"
-#include "BDXKEngine/Platform/Window/Window.h"
 
 namespace BDXKEngine
 {
+    typedef int LayerCollisionMatrix[32]; //上三角矩阵
+    bool GetLayerCollision(const LayerCollisionMatrix& matrix, int x, int y);
+    void SetLayerCollision(LayerCollisionMatrix& matrix, int x, int y, bool value);
+
     class PhysCallback : public physx::PxSimulationEventCallback
     {
     protected:
@@ -45,7 +48,11 @@ namespace BDXKEngine
         static physx::PxPhysics& GetPhysics();
         static physx::PxScene& GetScene();
         static physx::PxMaterial& GetMaterial();
+        static bool GetLayerCollision(int x, int y);
+
         static void SetCallback(PhysCallback* physCallback);
+        static void SetLayerCollision(int x, int y, bool value);
+        static void SetLayerCollisionMatrix(int matrix[32]);
 
         static Vector3 ToVector3(const physx::PxVec3T<float>& value);
         static physx::PxVec3T<float> ToVec3T(Vector3 value);
@@ -55,5 +62,6 @@ namespace BDXKEngine
         static physx::PxPhysics* physics;
         static physx::PxScene* scene;
         static physx::PxMaterial* material;
+        static LayerCollisionMatrix layerCollisionMatrix;
     };
 }

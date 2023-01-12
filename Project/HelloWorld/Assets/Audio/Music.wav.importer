@@ -4,7 +4,6 @@
         "object": "{CA76206E-9E13-4FA3-E9AB-0D9E89F38905}",
         "data": {
             "type": "class BDXKEditor::AudioClipImporter",
-            "name": "class BDXKEditor::AudioClipImporter",
             "guid": "{272FD5AB-3870-4347-3784-D533522B5B6D}"
         }
     }

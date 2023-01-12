@@ -27,16 +27,19 @@ namespace BDXKEngine
     }
     void JsonReader::PushPath(const std::string& key)
     {
-        if (GetCurrentNode().HasMember(key.c_str()) == false)
-            PushNode(nullptr);
-        else
-            PushNode(&GetCurrentNode()[key.c_str()]);
+        if (HasCurrentNode())
+        {
+            if (GetCurrentNode().HasMember(key.c_str()) == false)
+                PushNode(nullptr);
+            else
+                PushNode(&GetCurrentNode()[key.c_str()]);
+        }
+        else PushNode(nullptr);
     }
     void JsonReader::PopPath(std::string& key)
     {
         PopNode();
     }
-
 
     void JsonReader::TransferInt(int& value)
     {
