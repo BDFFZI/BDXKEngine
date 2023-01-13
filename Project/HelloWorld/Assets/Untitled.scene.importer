@@ -1,11 +1,10 @@
 {
     "serializationsCount": 1,
     "serialization_0": {
-        "object": "{7EF8785E-2C0C-4A41-CB88-6BD460DE2BE5}",
+        "object": "{D3B03157-46AB-4DB8-F7B3-C2D910249F65}",
         "data": {
             "type": "class BDXKEditor::SceneImporter",
-            "name": "class BDXKEditor::SceneImporter",
-            "guid": "{A9638CAC-7B2D-4A2A-6A94-99FCB7A3A79B}"
+            "guid": "{B800AC37-8E04-40ED-EA9D-CE42E7314AA2}"
         }
     }
 }

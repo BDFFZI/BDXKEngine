@@ -84,7 +84,7 @@ class CameraController : public Behavior, public StartHandler, public UpdateHand
 
 CustomReflection(CameraController)
 
-class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler, public CollisionEnterHandler, public CollisionExitHandler
+class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler, public CollisionEnterHandler
 {
     ObjectPtr<AudioClip> bounceOff;
     ObjectPtr<AudioClip> explode;
@@ -114,7 +114,7 @@ class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler
         }
         else
         {
-            if (Time::GetRealtimeSinceStartup() - startTime > 6)
+            if (Time::GetRealtimeSinceStartup() - startTime > 4)
                 DestroyImmediate(GetGameObject());
         }
     }
@@ -123,6 +123,7 @@ class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler
         if (isExploded)
             return;
 
+        GetGameObject()->GetComponent<Renderer>()->GetMaterial()->SetVector(0, Random::ColorHSV());
         if (collision.rigidbody->GetIsKinematic() == false)
         {
             ObjectPtr<Renderer> renderer = collision.rigidbody->GetGameObject()->GetComponent<Renderer>();
@@ -139,18 +140,10 @@ class CollisionTest : public Behavior, public AwakeHandler, public UpdateHandler
         }
         else
         {
+            GetGameObject()->GetComponent<Renderer>()->GetMaterial()->SetVector(0, Random::ColorHSV());
             audioSource->SetClip(bounceOff);
             audioSource->Play();
         }
-    }
-
-    void OnCollisionExit(const Collision& collision) override
-    {
-        if (isExploded)
-            return;
-
-        GetGameObject()->GetComponent<Renderer>()->GetMaterial()->SetVector(0, Random::ColorHSV());
-        //Debug::Log("OnCollisionExit");
     }
 };
 
@@ -179,7 +172,7 @@ class Fire : public Behavior, public UpdateHandler, public AwakeHandler, public 
             const ObjectPtr<GameObject> ammo = Serialization::Clone(ammoPrefab);
             ammo->SetPosition(transform->GetPosition());
             ammo->SetIsEnabling(true);
-            ammo->GetComponent<Rigidbody>()->AddForce(transform->GetFront() * 1000);
+            ammo->GetComponent<Rigidbody>()->AddForce(transform->GetFront() * 1500);
         }
     }
     void OnAwake() override
@@ -188,8 +181,8 @@ class Fire : public Behavior, public UpdateHandler, public AwakeHandler, public 
     }
     void OnDrawGUI() override
     {
-        ImGui::Button("Start Game");
-        ImGui::Button("Over Game");
+        ImGui::Button("开始游戏");
+        ImGui::Button("结束游戏");
     }
 };
 

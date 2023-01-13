@@ -12,7 +12,7 @@ namespace BDXKEngine
     }
     bool AudioSource::GetLoop() const
     {
-        return loop;
+        return playOnLoop;
     }
 
     void AudioSource::SetClip(const ObjectPtr<AudioClip>& clip)
@@ -38,7 +38,7 @@ namespace BDXKEngine
     }
     void AudioSource::SetLoop(bool loop)
     {
-        this->loop = loop;
+        this->playOnLoop = loop;
     }
     bool AudioSource::IsPlaying() const
     {
@@ -85,7 +85,7 @@ namespace BDXKEngine
     }
     void AudioSource::OnUpdate()
     {
-        if (loop && IsPlaying() == false)
+        if (playOnLoop && IsPlaying() == false)
             Play();
     }
     void AudioSource::Transfer(Transferer& transferer)
@@ -94,7 +94,7 @@ namespace BDXKEngine
 
         TransferFieldInfo(clip);
         TransferFieldInfo(volume);
-        TransferFieldInfo(loop);
+        TransferFieldInfo(playOnLoop);
         TransferFieldInfo(playOnEnable);
     }
 }

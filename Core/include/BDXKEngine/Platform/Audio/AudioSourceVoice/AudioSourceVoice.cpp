@@ -15,7 +15,7 @@ namespace BDXKEngine
     }
     AudioSourceVoice::~AudioSourceVoice()
     {
-        sourceVoice->DestroyVoice();
+        sourceVoice->Stop();
     }
 
     void AudioSourceVoice::SetVolume(float volume) const

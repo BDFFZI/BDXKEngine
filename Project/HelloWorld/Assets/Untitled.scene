@@ -1,13 +1,16 @@
 {
-    "serializationsCount": 10,
+    "serializationsCount": 15,
     "serialization_0": {
-        "object": "{7DF71ED5-53C8-4DA2-5681-FBE29FDA7CEE}",
+        "object": "{96823A29-7D26-4569-0AB0-7785BA38CD06}",
         "data": {
             "type": "class BDXKEngine::Scene",
-            "name": "Untitled.scene",
             "renderSettings": "{34DBAA4B-F620-41E9-8EB9-E638D7F09161}",
+            "physicsSettings": "{10920AF8-BAFD-4C1C-39AD-06F8C90D6423}",
             "gameObjects": {
-                "count": 0
+                "count": 3,
+                "item0": "{91C315CE-4AE9-47F0-A9BC-C841FDA63994}",
+                "item1": "{BFAE79DF-343B-42F8-E190-702DBD7DA704}",
+                "item2": "{2DABB247-29BA-4012-F8A4-A3097C9D6E4F}"
             }
         }
     },
@@ -15,205 +18,792 @@
         "object": "{34DBAA4B-F620-41E9-8EB9-E638D7F09161}",
         "data": {
             "type": "class BDXKEngine::RenderSettings",
-            "name": "class BDXKEngine::RenderSettings",
-            "skybox": "{108A0734-1209-4A4E-3595-592B7830B01E}"
+            "skybox": ""
         }
     },
     "serialization_2": {
-        "object": "{108A0734-1209-4A4E-3595-592B7830B01E}",
+        "object": "{10920AF8-BAFD-4C1C-39AD-06F8C90D6423}",
         "data": {
-            "type": "class BDXKEngine::Material",
-            "name": "class BDXKEngine::Material",
-            "passTypes": {
-                "count": 1,
-                "item0": 1
+            "type": "class BDXKEngine::PhysicsSettings",
+            "LayerCollision_0": {
+                "0": true,
+                "1": true,
+                "2": true,
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
             },
-            "passShaders": {
-                "count": 1,
-                "item0": "{800B639D-CC6D-4232-808A-4966329495FE}"
+            "LayerCollision_1": {
+                "1": true,
+                "2": true,
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
             },
-            "passBlends": {
-                "count": 1,
-                "item0": {
-                    "state": false,
-                    "sourceFactor": 1,
-                    "destinationFactor": 1,
-                    "operation": 1
-                }
+            "LayerCollision_2": {
+                "2": true,
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
             },
-            "passZTests": {
-                "count": 1,
-                "item0": {
-                    "operation": 8,
-                    "factor": 0.0,
-                    "units": 0.0,
-                    "write": false,
-                    "clip": true
-                }
+            "LayerCollision_3": {
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
             },
-            "passCulls": {
-                "count": 1,
-                "item0": {
-                    "state": 3
-                }
+            "LayerCollision_4": {
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
             },
-            "renderQueue": 2000,
-            "parameters": {
-                "float0_3": [
-                    0.0,
-                    0.5,
-                    0.0,
-                    0.0
-                ],
-                "float4_7": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector0": [
-                    0.0,
-                    1.0,
-                    -10.0,
-                    1.0
-                ],
-                "vector1": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector2": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector3": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector4": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "vector5": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "matrix0": [
-                    0.9995335936546326,
-                    0.0,
-                    0.030538516119122506,
-                    0.0,
-                    0.008263734169304371,
-                    0.9626915454864502,
-                    -0.2704741656780243,
-                    0.0,
-                    -0.029399177059531213,
-                    0.27060043811798098,
-                    0.9622427225112916,
-                    0.0,
-                    0.0,
-                    1.0,
-                    -10.0,
-                    1.0
-                ],
-                "matrix1": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "matrix2": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "matrix3": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.0
-                ]
+            "LayerCollision_5": {
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
             },
-            "texture2D0": "{3CA45CDD-E0BB-4428-E29B-7D6AF78251E3}",
-            "texture2D1": "{CB056A8E-6868-4BD3-A2BC-D2E46BC337AC}",
-            "texture2D2": "{44A153DB-9F76-4440-56A2-3C392E071F5B}",
-            "texture2D3": "{4FAEF2F4-386A-4D91-D388-E1D5FC5154B2}",
-            "texture2D4": "{06410BE5-4F78-431B-9387-CD9FA62DDB03}",
-            "texture2D5": "{09C5D9B0-DB93-4176-4F89-3C145573B124}"
+            "LayerCollision_6": {
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_7": {
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_8": {
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_9": {
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_10": {
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_11": {
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_12": {
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_13": {
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_14": {
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_15": {
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_16": {
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_17": {
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_18": {
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_19": {
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_20": {
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_21": {
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_22": {
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_23": {
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_24": {
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_25": {
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_26": {
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_27": {
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_28": {
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_29": {
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_30": {
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_31": {
+                "31": true
+            }
         }
     },
     "serialization_3": {
-        "object": "{800B639D-CC6D-4232-808A-4966329495FE}",
-        "data": null
+        "object": "{39D27F5C-FC7E-453A-73BD-CE0D2FF83C15}",
+        "data": {
+            "type": "class BDXKEngine::Camera",
+            "isEnabling": true,
+            "gameObject": "{91C315CE-4AE9-47F0-A9BC-C841FDA63994}",
+            "renderTarget": "",
+            "clearFlags": 1,
+            "projection": 1,
+            "background": [
+                0.5,
+                0.75,
+                1.0,
+                1.0
+            ],
+            "nearClipPlane": 0.30000001192092898,
+            "farClipPlane": 1000.0,
+            "fieldOfView": 60.0,
+            "size": 5.0,
+            "priority": 0,
+            "cullingMask": -1
+        }
     },
     "serialization_4": {
-        "object": "{3CA45CDD-E0BB-4428-E29B-7D6AF78251E3}",
-        "data": null
+        "object": "{91C315CE-4AE9-47F0-A9BC-C841FDA63994}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Camera",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                -0.20000000298023225,
+                -4.099999904632568
+            ],
+            "localEulerAngles": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{39D27F5C-FC7E-453A-73BD-CE0D2FF83C15}"
+            }
+        }
     },
     "serialization_5": {
-        "object": "{CB056A8E-6868-4BD3-A2BC-D2E46BC337AC}",
-        "data": null
+        "object": "{69C1144E-9B7A-46B1-DCB2-D5214A559207}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{BFAE79DF-343B-42F8-E190-702DBD7DA704}",
+            "material": "{23A84ED1-0E04-46ED-89BE-9BDACF14F5E0}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
+        }
     },
     "serialization_6": {
-        "object": "{44A153DB-9F76-4440-56A2-3C392E071F5B}",
+        "object": "{23A84ED1-0E04-46ED-89BE-9BDACF14F5E0}",
         "data": null
     },
     "serialization_7": {
-        "object": "{4FAEF2F4-386A-4D91-D388-E1D5FC5154B2}",
+        "object": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
         "data": null
     },
     "serialization_8": {
-        "object": "{06410BE5-4F78-431B-9387-CD9FA62DDB03}",
+        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
         "data": null
     },
     "serialization_9": {
-        "object": "{09C5D9B0-DB93-4176-4F89-3C145573B124}",
+        "object": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}",
         "data": null
+    },
+    "serialization_10": {
+        "object": "{51B48899-E97B-4E8F-4880-842E6DDC05C4}",
+        "data": {
+            "type": "class BDXKEngine::SphereCollider",
+            "isEnabling": true,
+            "gameObject": "{BFAE79DF-343B-42F8-E190-702DBD7DA704}",
+            "material": "",
+            "radius": 0.5
+        }
+    },
+    "serialization_11": {
+        "object": "{8C8B76FA-D5D3-4E15-F395-C080F92A2C4A}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{BFAE79DF-343B-42F8-E190-702DBD7DA704}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_12": {
+        "object": "{BFAE79DF-343B-42F8-E190-702DBD7DA704}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Sphere",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{69C1144E-9B7A-46B1-DCB2-D5214A559207}",
+                "item1": "{51B48899-E97B-4E8F-4880-842E6DDC05C4}",
+                "item2": "{8C8B76FA-D5D3-4E15-F395-C080F92A2C4A}"
+            }
+        }
+    },
+    "serialization_13": {
+        "object": "{3788AA03-F577-412B-2D8A-A784464441E2}",
+        "data": {
+            "type": "class BDXKEngine::Light",
+            "isEnabling": true,
+            "gameObject": "{2DABB247-29BA-4012-F8A4-A3097C9D6E4F}",
+            "lightType": 1,
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intensity": 0.5
+        }
+    },
+    "serialization_14": {
+        "object": "{2DABB247-29BA-4012-F8A4-A3097C9D6E4F}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "PointLight",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{3788AA03-F577-412B-2D8A-A784464441E2}"
+            }
+        }
     }
 }

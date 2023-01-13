@@ -12,12 +12,12 @@ namespace BDXKEditor
 
     bool GameObjectEditor::DrawTitle(ScriptableObject* target) const
     {
+        //类型
+        ImGui::TextDisabled(target->GetType().c_str());
         //实例编号
+        ImGui::SameLine();
         ImGui::Button(std::to_string(target->GetInstanceID()).c_str());
         GUI::IsDragSource(target);
-        //类型
-        ImGui::SameLine();
-        ImGui::TextDisabled(target->GetType().c_str());
 
         const Reflection& reflection = Reflection::GetReflection<ScriptableObject>();
         GUITransferer& gui = GetGUI();

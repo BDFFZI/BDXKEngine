@@ -1,5 +1,5 @@
 {
-    "serializationsCount": 73,
+    "serializationsCount": 76,
     "serialization_0": {
         "object": "{EFF02BD0-47CB-4277-B4B8-B5DBEBFF36B3}",
         "data": {
@@ -328,7 +328,7 @@
                 "31": true
             },
             "LayerCollision_3": {
-                "3": true,
+                "3": false,
                 "4": true,
                 "5": true,
                 "6": true,
@@ -1006,17 +1006,17 @@
                     0.0
                 ],
                 "matrix0": [
-                    10.0,
+                    30.0,
                     0.0,
                     0.0,
                     0.0,
                     0.0,
-                    0.009999999776482582,
+                    0.10000000149011612,
                     0.0,
                     0.0,
                     0.0,
                     0.0,
-                    10.0,
+                    30.0,
                     0.0,
                     -0.39490601420402529,
                     -0.10794711112976074,
@@ -1130,9 +1130,9 @@
                 0.0
             ],
             "localScale": [
-                10.0,
-                0.009999999776482582,
-                10.0
+                30.0,
+                0.10000000149011612,
+                30.0
             ],
             "parent": "",
             "children": {
@@ -1559,6 +1559,50 @@
         }
     },
     "serialization_32": {
+        "object": "{61128EAD-FEC4-40B5-5394-21DCD59C599B}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{819E91C6-DE70-4FCE-9DAA-3DB4BB142652}",
+            "material": "{4531ADF6-F6F0-4FB5-F0AF-BDA1B5DB91FD}",
+            "castShadows": false,
+            "receiveShadows": false,
+            "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
+        }
+    },
+    "serialization_33": {
+        "object": "{819E91C6-DE70-4FCE-9DAA-3DB4BB142652}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Sphere",
+            "layer": 0,
+            "localPosition": [
+                -9.5367431640625e-7,
+                2.384185791015625e-7,
+                0.4000000059604645
+            ],
+            "localEulerAngles": [
+                -8.537734856872703e-7,
+                0.000006830187885498162,
+                0.0
+            ],
+            "localScale": [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+            ],
+            "parent": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{61128EAD-FEC4-40B5-5394-21DCD59C599B}"
+            }
+        }
+    },
+    "serialization_34": {
         "object": "{67CFAB43-7BB0-4065-D7AC-99CC61DBB027}",
         "data": {
             "type": "class BDXKEngine::Camera",
@@ -1581,7 +1625,7 @@
             "cullingMask": -1
         }
     },
-    "serialization_33": {
+    "serialization_35": {
         "object": "{DB29574B-38FD-4B66-089E-A23A33EF133B}",
         "data": {
             "type": "class CameraController",
@@ -1589,7 +1633,7 @@
             "gameObject": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}"
         }
     },
-    "serialization_34": {
+    "serialization_36": {
         "object": "{6DB4044B-8484-4CCF-0EAE-A0FF9F947C2B}",
         "data": {
             "type": "class Fire",
@@ -1599,7 +1643,7 @@
             "audioSource": "{BC69A8CE-A2EE-4872-0085-E41A18DA107B}"
         }
     },
-    "serialization_35": {
+    "serialization_37": {
         "object": "{F1C92B72-9AED-47BF-D79A-82B088619D1B}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -1611,7 +1655,7 @@
             "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
         }
     },
-    "serialization_36": {
+    "serialization_38": {
         "object": "{5ACB7007-62C2-4050-F793-9E57C2497890}",
         "data": {
             "type": "class BDXKEngine::Material",
@@ -1625,7 +1669,7 @@
                 "count": 3,
                 "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
                 "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
-                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+                "item2": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}"
             },
             "passBlends": {
                 "count": 3,
@@ -1815,25 +1859,29 @@
             "texture2D5": ""
         }
     },
-    "serialization_37": {
+    "serialization_39": {
         "object": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
         "data": null
     },
-    "serialization_38": {
+    "serialization_40": {
         "object": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}",
         "data": null
     },
-    "serialization_39": {
+    "serialization_41": {
         "object": "{39E6DD82-15C1-418F-32B9-383DE9C43EC1}",
         "data": {
             "type": "class BDXKEngine::SphereCollider",
             "isEnabling": true,
             "gameObject": "{AF01B214-FC56-4DF8-8E83-611C98BFCCC0}",
-            "material": "",
+            "material": "{5442A3A8-FD30-4C82-72A0-C7FAAF577F52}",
             "radius": 0.5
         }
     },
-    "serialization_40": {
+    "serialization_42": {
+        "object": "{5442A3A8-FD30-4C82-72A0-C7FAAF577F52}",
+        "data": null
+    },
+    "serialization_43": {
         "object": "{080FCEDB-CFCC-40BF-D3AF-DAF285E2F051}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -1845,7 +1893,7 @@
             "isKinematic": false
         }
     },
-    "serialization_41": {
+    "serialization_44": {
         "object": "{A80279CD-6257-440D-87BA-6E8B1D3E9518}",
         "data": {
             "type": "class CollisionTest",
@@ -1855,15 +1903,15 @@
             "explode": "{6F9B59BB-2204-49CA-9EA8-75EFF55DFDD8}"
         }
     },
-    "serialization_42": {
+    "serialization_45": {
         "object": "{2BE6C435-E5B9-4805-E7B3-1A17B5C0C44C}",
         "data": null
     },
-    "serialization_43": {
+    "serialization_46": {
         "object": "{6F9B59BB-2204-49CA-9EA8-75EFF55DFDD8}",
         "data": null
     },
-    "serialization_44": {
+    "serialization_47": {
         "object": "{AAFCBFFB-0E76-4540-A08E-7235C7532C49}",
         "data": {
             "type": "class BDXKEngine::AudioSource",
@@ -1871,11 +1919,11 @@
             "gameObject": "{AF01B214-FC56-4DF8-8E83-611C98BFCCC0}",
             "clip": "",
             "volume": 0.699999988079071,
-            "loop": false,
+            "playOnLoop": false,
             "playOnEnable": true
         }
     },
-    "serialization_45": {
+    "serialization_48": {
         "object": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -1899,7 +1947,8 @@
             ],
             "parent": "",
             "children": {
-                "count": 0
+                "count": 1,
+                "item0": "{819E91C6-DE70-4FCE-9DAA-3DB4BB142652}"
             },
             "components": {
                 "count": 4,
@@ -1910,11 +1959,11 @@
             }
         }
     },
-    "serialization_46": {
+    "serialization_49": {
         "object": "{5010D6A5-25A8-42F2-E583-724A16A655C1}",
         "data": null
     },
-    "serialization_47": {
+    "serialization_50": {
         "object": "{BC69A8CE-A2EE-4872-0085-E41A18DA107B}",
         "data": {
             "type": "class BDXKEngine::AudioSource",
@@ -1922,11 +1971,11 @@
             "gameObject": "{E6D0F0FC-0EB7-4243-B49C-0AA5C2C355B8}",
             "clip": "{5010D6A5-25A8-42F2-E583-724A16A655C1}",
             "volume": 1.0,
-            "loop": false,
+            "playOnLoop": false,
             "playOnEnable": false
         }
     },
-    "serialization_48": {
+    "serialization_51": {
         "object": "{8D0FC735-50C6-499B-22A2-B182F0FE32A0}",
         "data": {
             "type": "class BDXKEngine::Light",
@@ -1942,7 +1991,7 @@
             "intensity": 0.5
         }
     },
-    "serialization_49": {
+    "serialization_52": {
         "object": "{62096C6D-F621-4024-269E-112C99BB99B5}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -1974,7 +2023,7 @@
             }
         }
     },
-    "serialization_50": {
+    "serialization_53": {
         "object": "{DE0FD068-8481-49EC-15AE-63284CF67837}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -1986,11 +2035,11 @@
             "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
         }
     },
-    "serialization_51": {
+    "serialization_54": {
         "object": "{4531ADF6-F6F0-4FB5-F0AF-BDA1B5DB91FD}",
         "data": null
     },
-    "serialization_52": {
+    "serialization_55": {
         "object": "{22DE1413-AED9-403C-F493-3404EE8BA5FB}",
         "data": {
             "type": "class BDXKEngine::BoxCollider",
@@ -2004,7 +2053,7 @@
             ]
         }
     },
-    "serialization_53": {
+    "serialization_56": {
         "object": "{E7197254-A3CA-4292-9085-AAAE99EF76F8}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -2016,7 +2065,7 @@
             "isKinematic": false
         }
     },
-    "serialization_54": {
+    "serialization_57": {
         "object": "{2F5590A2-4EBE-42C8-2F9D-D97B17E71A6D}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -2051,7 +2100,7 @@
             }
         }
     },
-    "serialization_55": {
+    "serialization_58": {
         "object": "{5EF40B14-7276-474E-5585-5A362C8C239B}",
         "data": {
             "type": "class BDXKEngine::Light",
@@ -2067,7 +2116,7 @@
             "intensity": 0.5
         }
     },
-    "serialization_56": {
+    "serialization_59": {
         "object": "{ECC5E28D-2EAC-4278-D0B9-055E63E8AB1B}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -2099,7 +2148,7 @@
             }
         }
     },
-    "serialization_57": {
+    "serialization_60": {
         "object": "{65E35AA5-4BDF-4A99-458A-D268B44A187F}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -2111,11 +2160,11 @@
             "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
         }
     },
-    "serialization_58": {
+    "serialization_61": {
         "object": "{3C27919F-0E14-44FE-3691-E3259F39A3E2}",
         "data": null
     },
-    "serialization_59": {
+    "serialization_62": {
         "object": "{4D5FFEFC-63DD-4B95-ADBD-A3E9B9AB26BA}",
         "data": {
             "type": "class BDXKEngine::BoxCollider",
@@ -2129,7 +2178,7 @@
             ]
         }
     },
-    "serialization_60": {
+    "serialization_63": {
         "object": "{4CFF0EA7-A19D-4419-8791-A72E0DD27D4B}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -2141,7 +2190,7 @@
             "isKinematic": false
         }
     },
-    "serialization_61": {
+    "serialization_64": {
         "object": "{EAEC0F9F-1B04-4DE1-C1B7-7FD26DB48292}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -2176,7 +2225,7 @@
             }
         }
     },
-    "serialization_62": {
+    "serialization_65": {
         "object": "{3DBAACE8-9D80-4878-F3B8-A931813CB062}",
         "data": {
             "type": "class BDXKEngine::Light",
@@ -2192,7 +2241,7 @@
             "intensity": 0.5
         }
     },
-    "serialization_63": {
+    "serialization_66": {
         "object": "{BEA7A0D3-375C-420F-8DA1-0F2EDDFC79D0}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -2224,7 +2273,7 @@
             }
         }
     },
-    "serialization_64": {
+    "serialization_67": {
         "object": "{292AF561-5BBF-4CAA-F0B9-322027CA2BD8}",
         "data": {
             "type": "class BDXKEngine::MeshRenderer",
@@ -2236,23 +2285,23 @@
             "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
         }
     },
-    "serialization_65": {
+    "serialization_68": {
         "object": "{608455DC-40AF-4F77-E4BF-B179ABD3916B}",
         "data": null
     },
-    "serialization_66": {
+    "serialization_69": {
         "object": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}",
         "data": null
     },
-    "serialization_67": {
+    "serialization_70": {
         "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
         "data": null
     },
-    "serialization_68": {
+    "serialization_71": {
         "object": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}",
         "data": null
     },
-    "serialization_69": {
+    "serialization_72": {
         "object": "{CA993B27-D676-4358-B0AD-8840FF305416}",
         "data": {
             "type": "class BDXKEngine::BoxCollider",
@@ -2266,7 +2315,7 @@
             ]
         }
     },
-    "serialization_70": {
+    "serialization_73": {
         "object": "{7405B3E2-38C1-4D17-2C9E-5D31A02A5956}",
         "data": {
             "type": "class BDXKEngine::Rigidbody",
@@ -2278,7 +2327,7 @@
             "isKinematic": false
         }
     },
-    "serialization_71": {
+    "serialization_74": {
         "object": "{983964DC-EC41-4C2E-4A98-BD20A7D8DAEC}",
         "data": {
             "type": "class BDXKEngine::GameObject",
@@ -2313,7 +2362,7 @@
             }
         }
     },
-    "serialization_72": {
+    "serialization_75": {
         "object": "{AF01B214-FC56-4DF8-8E83-611C98BFCCC0}",
         "data": {
             "type": "class BDXKEngine::GameObject",

@@ -25,7 +25,7 @@ namespace BDXKEngine
     private:
         ObjectPtr<AudioClip> clip;
         float volume = 1;
-        bool loop = false;
+        bool playOnLoop = false;
         bool playOnEnable = true;
 
         AudioSourceVoice* audioSourceVoice = nullptr;

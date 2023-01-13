@@ -4,10 +4,9 @@
         "object": "{544BA3A8-FD30-4C82-72A0-C7FAAF577F52}",
         "data": {
             "type": "class BDXKEngine::PhysicMaterial",
-            "name": "class BDXKEngine::PhysicMaterial",
             "dynamicFriction": 0.6000000238418579,
             "staticFriction": 0.6000000238418579,
-            "bounciness": 2.0
+            "bounciness": 0.0
         }
     }
 }
