@@ -1,262 +1,79 @@
 [Window][DockSpaceViewport_11111111]
 Pos=0,24
-Size=1920,985
+Size=1704,767
 Collapsed=0
 
-[Window][Debug##Default]
-Pos=755,134
-Size=133,187
-Collapsed=0
-
-[Window][class BDXKEditor::ProjectWindow]
-Pos=0,24
-Size=324,724
+[Window][class BDXKEditor::InspectorWindow]
+Pos=1435,24
+Size=269,670
 Collapsed=0
 DockId=0x0000000B,0
 
-[Window][PreviewWindow]
-Pos=0,621
-Size=324,170
+[Window][class BDXKEditor::HierarchyWindow]
+Pos=254,24
+Size=250,639
+Collapsed=0
+DockId=0x00000003,0
+
+[Window][class BDXKEditor::GameWindow 1]
+Pos=506,24
+Size=927,639
+Collapsed=0
+DockId=0x00000004,1
+
+[Window][class BDXKEditor::SceneWindow]
+Pos=506,24
+Size=927,639
 Collapsed=0
 DockId=0x00000004,0
 
-[Window][class BDXKEditor::GameWindow]
-Pos=689,24
-Size=896,690
-Collapsed=0
-DockId=0x00000006,1
-
-[Window][class BDXKEditor::HierarchyWindow]
-Pos=326,24
-Size=361,690
-Collapsed=0
-DockId=0x00000005,0
-
 [Window][class BDXKEditor::ProfilerWindow]
-Pos=326,716
-Size=1259,293
+Pos=254,665
+Size=1179,126
 Collapsed=0
 DockId=0x00000002,1
 
-[Window][class BDXKEditor::InspectorWindow]
-Pos=1587,24
-Size=333,901
-Collapsed=0
-DockId=0x0000000D,0
-
 [Window][class BDXKEditor::ConsoleWindow]
-Pos=326,716
-Size=1259,293
+Pos=254,665
+Size=1179,126
 Collapsed=0
 DockId=0x00000002,0
 
+[Window][class BDXKEditor::ProjectWindow]
+Pos=0,24
+Size=252,426
+Collapsed=0
+DockId=0x00000007,0
+
+[Window][class BDXKEditor::GameWindow]
+Pos=0,452
+Size=252,339
+Collapsed=0
+DockId=0x00000008,0
+
 [Window][Dear ImGui Demo]
-Pos=1587,927
-Size=333,82
-Collapsed=0
-DockId=0x0000000E,0
-
-[Window][class BDXKEditor::SceneWindow]
-Pos=689,24
-Size=896,690
-Collapsed=0
-DockId=0x00000006,0
-
-[Window][class BDXKEngine::Material##112]
-Pos=1024,94
-Size=319,785
-Collapsed=0
-
-[Window][class BDXKEngine::Material##104]
-Pos=627,135
-Size=319,785
-Collapsed=0
-
-[Window][class BDXKEngine::Material##102]
-Pos=128,185
-Size=319,785
-Collapsed=0
-
-[Window][##]
-Pos=670,144
-Size=1000,1000
-Collapsed=0
-
-[Window][##CreateAssetMenu]
-Pos=141,122
-Size=1000,1000
-Collapsed=0
-
-[Window][Sphere##149]
-Pos=706,202
-Size=430,561
-Collapsed=0
-
-[Window][Ground##202]
-Pos=60,60
-Size=256,292
-Collapsed=0
-
-[Window][Ground##104]
-Pos=621,113
-Size=256,292
-Collapsed=0
-
-[Window][Cube##102]
-Pos=670,103
-Size=256,292
-Collapsed=0
-
-[Window][Ground##128]
-Pos=60,60
-Size=256,292
-Collapsed=0
-
-[Window][Ground##134]
-Pos=-7,138
-Size=326,469
-Collapsed=0
-
-[Window][Sphere##127]
-Pos=60,60
-Size=307,292
-Collapsed=0
-
-[Window][New GameObject##2230]
-Pos=834,116
-Size=286,292
-Collapsed=0
-
-[Window][New GameObject##2235]
-Pos=623,121
-Size=325,382
-Collapsed=0
-
-[Window][New GameObject##2306]
-Pos=60,60
-Size=371,360
-Collapsed=0
-
-[Window][New GameObject##156]
-Pos=669,92
-Size=383,454
-Collapsed=0
-
-[Window][New GameObject##2295]
-Pos=664,102
-Size=286,309
-Collapsed=0
-
-[Window][Ground##168]
-Pos=60,60
-Size=349,469
-Collapsed=0
-
-[Window][123]
-Pos=478,183
-Size=317,264
-Collapsed=0
-
-[Window][GUI]
-Pos=154,159
-Size=267,274
-Collapsed=0
-
-[Window][Main Menu]
-Pos=650,76
-Size=149,96
-Collapsed=0
-
-[Window][Ground##154]
-Pos=676,77
-Size=349,492
-Collapsed=0
-
-[Window][Sphere##158]
-Pos=661,102
-Size=349,492
-Collapsed=0
-
-[Window][Ground##249]
-Pos=56,129
-Size=349,369
-Collapsed=0
-
-[Window][1]
-Pos=563,97
-Size=418,493
-Collapsed=0
-
-[Window][class BDXKEditor::InspectorWindow 1]
-Pos=521,83
-Size=487,518
-Collapsed=0
-
-[Window][Camera##98]
-Pos=618,79
-Size=342,384
-Collapsed=0
-
-[Window][class BDXKEditor::InspectorWindow 2]
-Pos=193,150
-Size=349,492
-Collapsed=0
-
-[Window][class BDXKEditor::InspectorWindow 3]
-Pos=916,83
-Size=349,492
-Collapsed=0
-
-[Window][class BDXKEditor::GameWindow 1]
-Pos=0,750
-Size=324,259
+Pos=1435,696
+Size=269,95
 Collapsed=0
 DockId=0x0000000C,0
 
-[Window][class BDXKEditor::GameWindow 2]
-Pos=356,228
-Size=359,240
-Collapsed=0
-
-[Window][class BDXKEditor::HierarchyWindow 1]
+[Window][Debug##Default]
 Pos=60,60
-Size=128,163
-Collapsed=0
-
-[Window][class BDXKEditor::SceneWindow 1]
-Pos=60,60
-Size=976,575
-Collapsed=0
-
-[Window][class BDXKEditor::ProfilerWindow 1]
-Pos=60,60
-Size=652,106
-Collapsed=0
-
-[Window][class BDXKEditor::ConsoleWindow 1]
-Pos=60,60
-Size=59,62
-Collapsed=0
-
-[Window][class BDXKEditor::ProjectWindow 1]
-Pos=60,60
-Size=297,530
+Size=400,400
 Collapsed=0
 
 [Docking][Data]
-DockSpace         ID=0x8B93E3BD Window=0xA787BDB4 Pos=0,24 Size=1920,985 Split=X
-  DockNode        ID=0x00000009 Parent=0x8B93E3BD SizeRef=1585,772 Split=X
-    DockNode      ID=0x00000007 Parent=0x00000009 SizeRef=324,772 Split=Y Selected=0xE0FC89EB
-      DockNode    ID=0x00000003 Parent=0x00000007 SizeRef=350,770 Split=Y Selected=0xE0FC89EB
-        DockNode  ID=0x0000000B Parent=0x00000003 SizeRef=324,567 Selected=0xE0FC89EB
-        DockNode  ID=0x0000000C Parent=0x00000003 SizeRef=324,203 Selected=0x0FF602C6
-      DockNode    ID=0x00000004 Parent=0x00000007 SizeRef=350,218 Selected=0x5DE63DAE
-    DockNode      ID=0x00000008 Parent=0x00000009 SizeRef=1259,772 Split=Y
-      DockNode    ID=0x00000001 Parent=0x00000008 SizeRef=1704,690 Split=X Selected=0x6C4E6B20
-        DockNode  ID=0x00000005 Parent=0x00000001 SizeRef=361,352 Selected=0x8FBC088D
-        DockNode  ID=0x00000006 Parent=0x00000001 SizeRef=896,352 Selected=0xD88128AA
-      DockNode    ID=0x00000002 Parent=0x00000008 SizeRef=1704,293 CentralNode=1 Selected=0x314CB342
-  DockNode        ID=0x0000000A Parent=0x8B93E3BD SizeRef=333,772 Split=Y Selected=0x61B9FF97
-    DockNode      ID=0x0000000D Parent=0x0000000A SizeRef=328,706 Selected=0x61B9FF97
-    DockNode      ID=0x0000000E Parent=0x0000000A SizeRef=328,64 Selected=0xE87781F4
+DockSpace         ID=0x8B93E3BD Window=0xA787BDB4 Pos=0,24 Size=1704,767 Split=X
+  DockNode        ID=0x00000009 Parent=0x8B93E3BD SizeRef=1433,767 Split=X
+    DockNode      ID=0x00000005 Parent=0x00000009 SizeRef=252,767 Split=Y Selected=0xE0FC89EB
+      DockNode    ID=0x00000007 Parent=0x00000005 SizeRef=252,426 Selected=0xE0FC89EB
+      DockNode    ID=0x00000008 Parent=0x00000005 SizeRef=252,339 Selected=0xD88128AA
+    DockNode      ID=0x00000006 Parent=0x00000009 SizeRef=1450,767 Split=Y
+      DockNode    ID=0x00000001 Parent=0x00000006 SizeRef=1704,639 Split=X Selected=0x6C4E6B20
+        DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=250,639 Selected=0x8FBC088D
+        DockNode  ID=0x00000004 Parent=0x00000001 SizeRef=927,639 CentralNode=1 Selected=0x6C4E6B20
+      DockNode    ID=0x00000002 Parent=0x00000006 SizeRef=1704,126 Selected=0x1DF6CD4D
+  DockNode        ID=0x0000000A Parent=0x8B93E3BD SizeRef=269,767 Split=Y Selected=0x61B9FF97
+    DockNode      ID=0x0000000B Parent=0x0000000A SizeRef=269,670 Selected=0x61B9FF97
+    DockNode      ID=0x0000000C Parent=0x0000000A SizeRef=269,95 Selected=0xE87781F4
 

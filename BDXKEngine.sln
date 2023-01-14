@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", "Project\Hello
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Develop", "Project\Develop\Develop.vcxproj", "{1DFC35C2-6FEA-4AA5-8DDA-0BD49089926C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloGame", "Project\HelloGame\HelloGame.vcxproj", "{346F9C2D-5F01-4D17-9BD0-3F1160A1BCFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

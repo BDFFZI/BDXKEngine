@@ -1,10 +1,10 @@
 {
     "serializationsCount": 1,
     "serialization_0": {
-        "object": "{E01D973D-EB82-49AF-EE9C-26BE844FC8D8}",
+        "object": "{5DA9EA1C-EFA1-4F6A-CC94-D0D7F57FF63C}",
         "data": {
             "type": "class BDXKEditor::ShaderImporter",
-            "guid": "{55F8E14C-4F89-4D45-0A99-C08310D654B8}"
+            "guid": "{3D1756E4-A3C7-421C-73AC-34FA14FA054F}"
         }
     }
 }
