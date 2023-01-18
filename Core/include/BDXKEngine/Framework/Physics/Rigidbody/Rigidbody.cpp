@@ -28,6 +28,10 @@ namespace BDXKEngine
     {
         return constraints;
     }
+    Vector3 Rigidbody::GetVelocity() const
+    {
+        return Phys::ToVector3(actor->getLinearVelocity());
+    }
     void Rigidbody::SetMass(float mass)
     {
         this->mass = mass;
@@ -52,6 +56,16 @@ namespace BDXKEngine
         this->constraints = constraints;
         actor->setRigidDynamicLockFlags(static_cast<physx::PxRigidDynamicLockFlag::Enum>(constraints));
     }
+    void Rigidbody::SetVelocity(Vector3 velocity) const
+    {
+        if (isKinematic)return;
+
+        if ((constraints & RigidbodyConstraints::FreezePositionX) != RigidbodyConstraints::None)velocity.x = 0;
+        if ((constraints & RigidbodyConstraints::FreezePositionY) != RigidbodyConstraints::None)velocity.y = 0;
+        if ((constraints & RigidbodyConstraints::FreezePositionZ) != RigidbodyConstraints::None)velocity.z = 0;
+
+        actor->setLinearVelocity(Phys::ToVec3T(velocity));
+    }
 
     void Rigidbody::AddForce(Vector3 force, ForceMode forceMode) const
     {
@@ -74,7 +88,7 @@ namespace BDXKEngine
     {
         if (isKinematic)
         {
-            actor->setGlobalPose({
+            actor->setKinematicTarget({
                 Phys::ToVec3T(GetGameObject()->GetPosition()),
                 Phys::ToQuat(GetGameObject()->GetEulerAngles())
             });
@@ -123,7 +137,7 @@ namespace BDXKEngine
             throw std::exception("每个物体只能装一个Rigidbody");
 
         Behavior::Awake();
-        
+
         actor = Phys::GetPhysics().createRigidDynamic(physx::PxTransform(0, 0, 0));
         actor->userData = this;
     }

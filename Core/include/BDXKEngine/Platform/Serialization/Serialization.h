@@ -30,7 +30,7 @@ namespace BDXKEngine
         static bool IsPersistent(const ObjectPtrBase& objectPtr);
         static bool IsExisting(const std::string& path);
 
-        static void MarkPersistent(int instanceID);
-        static void UnMarkPersistent(int instanceID);
+        static void MarkPersistent(ID instanceID);
+        static void UnMarkPersistent(ID instanceID);
     };
 }

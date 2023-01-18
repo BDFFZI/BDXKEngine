@@ -6,25 +6,40 @@ namespace BDXKEngine
 {
     unsigned int Random::seed = static_cast<unsigned int>(time(nullptr));
 
-    Color Random::ColorHSV()
+    float Random::FloatValue(float min, float max)
     {
         seed++;
-
         std::default_random_engine engine(seed);
-        std::uniform_int_distribution<> random(0, 255);
+        std::uniform_real_distribution<> random(static_cast<double>(min), static_cast<double>(max));
+        return static_cast<float>(random(engine));
+    }
+    int Random::IntValue(int min, int max)
+    {
+        seed++;
+        std::default_random_engine engine(seed);
+        std::uniform_int_distribution<> random(min, max);
+        return random(engine);
+    }
+    Color Random::ColorHSV()
+    {
         return Color{
-            static_cast<float>(random(engine)) / 255.0f,
-            static_cast<float>(random(engine)) / 255.0f,
-            static_cast<float>(random(engine)) / 255.0f,
-            static_cast<float>(random(engine)) / 255.0f
+            FloatValue(),
+            FloatValue(),
+            FloatValue(),
+            FloatValue(),
         };
     }
-    Vector3 Random::InsideUnitSphere()
+    Vector3 Random::SphereInside()
     {
-        return {};
+        const Vector3 suface = SphereSurface();
+        return Vector3::Lerp(-suface, suface, FloatValue());
     }
-    Vector3 Random::OnUnitSphere()
+    Vector3 Random::SphereSurface()
     {
-        return {};
+        return Vector3{
+            FloatValue(),
+            FloatValue(),
+            FloatValue(),
+        }.GetNormalized();
     }
 }

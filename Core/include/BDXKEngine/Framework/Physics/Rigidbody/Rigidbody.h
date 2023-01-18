@@ -56,11 +56,13 @@ namespace BDXKEngine
         bool GetUseGravity() const;
         bool GetIsKinematic() const;
         RigidbodyConstraints GetConstraints() const;
+        Vector3 GetVelocity() const;
         void SetMass(float mass);
         void SetCenterOfMass(const Vector3& centerOfMass);
         void SetUseGravity(bool useGravity);
         void SetIsKinematic(bool isKinematic);
         void SetConstraints(RigidbodyConstraints constraints);
+        void SetVelocity(Vector3 velocity) const;
 
         void AddForce(Vector3 force, ForceMode forceMode = ForceMode::Force) const;
         void ResetCenterOfMassAndInertiaTensor() const;

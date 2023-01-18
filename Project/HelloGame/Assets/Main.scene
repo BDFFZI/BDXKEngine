@@ -1,0 +1,2546 @@
+{
+    "serializationsCount": 66,
+    "serialization_0": {
+        "object": "{575B0426-A1E6-45BF-87B8-8F0583AF7DE6}",
+        "data": {
+            "type": "class BDXKEngine::Scene",
+            "renderSettings": "{37BD777A-B745-416C-FEA1-76570632AC82}",
+            "physicsSettings": "{617EBABD-ADE8-4280-6297-67643C3F890B}",
+            "gameObjects": {
+                "count": 7,
+                "item0": "{2CBAED0A-E908-4583-0780-3472807084AC}",
+                "item1": "{CD9A1535-9AAB-42B3-EA8B-0587E09EED42}",
+                "item2": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+                "item3": "{89973CD6-1046-4233-10BF-B72C1F002F55}",
+                "item4": "{DEAA71D8-1BE8-4F09-878F-46D2F276800E}",
+                "item5": "{CC6FB912-8A0B-42E0-8582-11CDAC936D34}",
+                "item6": "{4EDDD7C2-46A2-4DA8-DDBC-CBA277EF2DE6}"
+            }
+        }
+    },
+    "serialization_1": {
+        "object": "{37BD777A-B745-416C-FEA1-76570632AC82}",
+        "data": {
+            "type": "class BDXKEngine::RenderSettings",
+            "skybox": "{B536835F-5E93-4EDA-85AF-1173D80F4A9D}"
+        }
+    },
+    "serialization_2": {
+        "object": "{B536835F-5E93-4EDA-85AF-1173D80F4A9D}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 1,
+                "item0": 1
+            },
+            "passShaders": {
+                "count": 1,
+                "item0": "{800B639D-CC6D-4232-808A-4966329495FE}"
+            },
+            "passBlends": {
+                "count": 1,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 1,
+                "item0": {
+                    "operation": 8,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": false,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 1,
+                "item0": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_3": {
+        "object": "{800B639D-CC6D-4232-808A-4966329495FE}",
+        "data": null
+    },
+    "serialization_4": {
+        "object": "{617EBABD-ADE8-4280-6297-67643C3F890B}",
+        "data": {
+            "type": "class BDXKEngine::PhysicsSettings",
+            "LayerCollision_0": {
+                "0": true,
+                "1": true,
+                "2": true,
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_1": {
+                "1": true,
+                "2": true,
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_2": {
+                "2": true,
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_3": {
+                "3": true,
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_4": {
+                "4": true,
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_5": {
+                "5": true,
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_6": {
+                "6": true,
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_7": {
+                "7": true,
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_8": {
+                "8": true,
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_9": {
+                "9": true,
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_10": {
+                "10": true,
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_11": {
+                "11": true,
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_12": {
+                "12": true,
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_13": {
+                "13": true,
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_14": {
+                "14": true,
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_15": {
+                "15": true,
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_16": {
+                "16": true,
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_17": {
+                "17": true,
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_18": {
+                "18": true,
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_19": {
+                "19": true,
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_20": {
+                "20": true,
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_21": {
+                "21": true,
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_22": {
+                "22": true,
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_23": {
+                "23": true,
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_24": {
+                "24": true,
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_25": {
+                "25": true,
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_26": {
+                "26": true,
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_27": {
+                "27": true,
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_28": {
+                "28": true,
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_29": {
+                "29": true,
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_30": {
+                "30": true,
+                "31": true
+            },
+            "LayerCollision_31": {
+                "31": true
+            }
+        }
+    },
+    "serialization_5": {
+        "object": "{84BF9A9E-8B63-4306-23B7-6243AE8D6F17}",
+        "data": {
+            "type": "class BDXKEngine::Light",
+            "isEnabling": true,
+            "gameObject": "{2CBAED0A-E908-4583-0780-3472807084AC}",
+            "lightType": 0,
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intensity": 0.5
+        }
+    },
+    "serialization_6": {
+        "object": "{2CBAED0A-E908-4583-0780-3472807084AC}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Sun",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                44.999996185302737,
+                -45.0,
+                0.0
+            ],
+            "localScale": [
+                0.9999990463256836,
+                1.0,
+                0.999999701976776
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{84BF9A9E-8B63-4306-23B7-6243AE8D6F17}"
+            }
+        }
+    },
+    "serialization_7": {
+        "object": "{6D6D53AF-BFF8-452C-C39E-687957EA5FE5}",
+        "data": {
+            "type": "class BDXKEngine::Camera",
+            "isEnabling": true,
+            "gameObject": "{CD9A1535-9AAB-42B3-EA8B-0587E09EED42}",
+            "renderTarget": "",
+            "clearFlags": 1,
+            "projection": 1,
+            "background": [
+                0.5,
+                0.75,
+                1.0,
+                1.0
+            ],
+            "nearClipPlane": 0.30000001192092898,
+            "farClipPlane": 1000.0,
+            "fieldOfView": 60.0,
+            "size": 5.0,
+            "priority": 0,
+            "cullingMask": -1
+        }
+    },
+    "serialization_8": {
+        "object": "{CD9A1535-9AAB-42B3-EA8B-0587E09EED42}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Camera",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                9.0,
+                -4.0
+            ],
+            "localEulerAngles": [
+                70.00000762939453,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{6D6D53AF-BFF8-452C-C39E-687957EA5FE5}"
+            }
+        }
+    },
+    "serialization_9": {
+        "object": "{BD20CA1C-2093-49BB-8EB5-97A91579A81A}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{E909590E-8539-4A24-B4BB-20E6997AFEEC}",
+            "material": "{9F6BA720-4443-480C-7EAC-3A383E8CF85C}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_10": {
+        "object": "{9F6BA720-4443-480C-7EAC-3A383E8CF85C}",
+        "data": null
+    },
+    "serialization_11": {
+        "object": "{02D5C4A9-11B0-4315-09AF-A92945C15D8A}",
+        "data": null
+    },
+    "serialization_12": {
+        "object": "{15666475-005F-49E8-4C8C-75161ACF6093}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{E909590E-8539-4A24-B4BB-20E6997AFEEC}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_13": {
+        "object": "{F7F235E0-FA68-42FD-D6AB-3F2F6C8BC6FC}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{E909590E-8539-4A24-B4BB-20E6997AFEEC}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_14": {
+        "object": "{E909590E-8539-4A24-B4BB-20E6997AFEEC}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Ground",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                -0.004999999888241291,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                14.0,
+                0.009999999776482582,
+                10.0
+            ],
+            "parent": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{BD20CA1C-2093-49BB-8EB5-97A91579A81A}",
+                "item1": "{15666475-005F-49E8-4C8C-75161ACF6093}",
+                "item2": "{F7F235E0-FA68-42FD-D6AB-3F2F6C8BC6FC}"
+            }
+        }
+    },
+    "serialization_15": {
+        "object": "{A43F4E86-397C-4858-4CA4-9C36C4D4DE88}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{288D17CE-D591-4522-99A4-8E2D7A0C4E1F}",
+            "material": "{06A8A9BF-B354-4137-DB89-266D6E4AF253}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_16": {
+        "object": "{5A08C95C-FCA7-4F65-1E85-A5C0B6B85CF5}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{288D17CE-D591-4522-99A4-8E2D7A0C4E1F}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_17": {
+        "object": "{B50C5DE1-259D-4181-FB99-DE55E276EF15}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{288D17CE-D591-4522-99A4-8E2D7A0C4E1F}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_18": {
+        "object": "{288D17CE-D591-4522-99A4-8E2D7A0C4E1F}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Wall Left",
+            "layer": 0,
+            "localPosition": [
+                -7.0,
+                0.5,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                11.0
+            ],
+            "parent": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{A43F4E86-397C-4858-4CA4-9C36C4D4DE88}",
+                "item1": "{5A08C95C-FCA7-4F65-1E85-A5C0B6B85CF5}",
+                "item2": "{B50C5DE1-259D-4181-FB99-DE55E276EF15}"
+            }
+        }
+    },
+    "serialization_19": {
+        "object": "{9AA68FE9-38E3-4518-A591-8A8B5DBD2224}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{3367D7F3-2974-48CC-9190-1C2E8A77542D}",
+            "material": "{06A8A9BF-B354-4137-DB89-266D6E4AF253}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_20": {
+        "object": "{B62038DE-F9C4-4A13-7E8B-3BCA7ACE7ABD}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{3367D7F3-2974-48CC-9190-1C2E8A77542D}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_21": {
+        "object": "{C490B212-105A-4426-0D95-C0B57895F8D5}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{3367D7F3-2974-48CC-9190-1C2E8A77542D}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_22": {
+        "object": "{3367D7F3-2974-48CC-9190-1C2E8A77542D}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Wall Right",
+            "layer": 0,
+            "localPosition": [
+                7.0,
+                0.5,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                11.0
+            ],
+            "parent": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{9AA68FE9-38E3-4518-A591-8A8B5DBD2224}",
+                "item1": "{B62038DE-F9C4-4A13-7E8B-3BCA7ACE7ABD}",
+                "item2": "{C490B212-105A-4426-0D95-C0B57895F8D5}"
+            }
+        }
+    },
+    "serialization_23": {
+        "object": "{0F2F259E-8BA4-4996-3891-0FD1083CE83D}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{69FFF9C9-9A03-4F6D-8881-3D3B61FB7B08}",
+            "material": "{06A8A9BF-B354-4137-DB89-266D6E4AF253}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_24": {
+        "object": "{9575765C-4FBC-42F7-DE9A-336731DF2241}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{69FFF9C9-9A03-4F6D-8881-3D3B61FB7B08}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_25": {
+        "object": "{23A9FA8B-8EF6-461F-FEBD-C0810F22F17E}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{69FFF9C9-9A03-4F6D-8881-3D3B61FB7B08}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_26": {
+        "object": "{69FFF9C9-9A03-4F6D-8881-3D3B61FB7B08}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Wall Up",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.5,
+                5.0
+            ],
+            "localEulerAngles": [
+                -0.000005008955668017734,
+                0.0,
+                0.000008651408279547468
+            ],
+            "localScale": [
+                15.0,
+                1.0,
+                1.0
+            ],
+            "parent": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{0F2F259E-8BA4-4996-3891-0FD1083CE83D}",
+                "item1": "{9575765C-4FBC-42F7-DE9A-336731DF2241}",
+                "item2": "{23A9FA8B-8EF6-461F-FEBD-C0810F22F17E}"
+            }
+        }
+    },
+    "serialization_27": {
+        "object": "{D29CDC5B-3CB7-40B4-61A3-2E2AA286BB51}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{EA3D3C76-9F1F-4D6E-50B6-1413F35B1387}",
+            "material": "{06A8A9BF-B354-4137-DB89-266D6E4AF253}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_28": {
+        "object": "{06A8A9BF-B354-4137-DB89-266D6E4AF253}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    14.949999809265137,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.44999998807907107,
+                    -4.949999809265137,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_29": {
+        "object": "{81C0BDE7-916E-47ED-169E-E13468CD3652}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{EA3D3C76-9F1F-4D6E-50B6-1413F35B1387}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_30": {
+        "object": "{09F920C9-EE52-46D7-E09F-3AE556D442B4}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{EA3D3C76-9F1F-4D6E-50B6-1413F35B1387}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_31": {
+        "object": "{EA3D3C76-9F1F-4D6E-50B6-1413F35B1387}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Wall Down",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.44999998807907107,
+                -4.949999809265137
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                14.949999809265137,
+                1.0,
+                1.0
+            ],
+            "parent": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{D29CDC5B-3CB7-40B4-61A3-2E2AA286BB51}",
+                "item1": "{81C0BDE7-916E-47ED-169E-E13468CD3652}",
+                "item2": "{09F920C9-EE52-46D7-E09F-3AE556D442B4}"
+            }
+        }
+    },
+    "serialization_32": {
+        "object": "{C55BFFF9-F07A-46C4-63A6-CFFB34624649}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": false,
+            "gameObject": "{951EB70A-BE71-40A1-2F82-8630BBDEF6E1}",
+            "material": "{131F0761-F56C-471D-0CB6-ACA1E2AEDB96}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}"
+        }
+    },
+    "serialization_33": {
+        "object": "{131F0761-F56C-471D-0CB6-ACA1E2AEDB96}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    7.831959247589111,
+                    0.0000020030204268550739,
+                    -9.00399754755199e-11,
+                    0.0,
+                    9.094326713920965e-8,
+                    0.9578850865364076,
+                    3.108470991719514e-8,
+                    0.0,
+                    -3.291233952040784e-11,
+                    -6.70687256842939e-7,
+                    2.8477680683135988,
+                    0.0,
+                    -2.075865666029131e-7,
+                    0.20831024646759034,
+                    -0.2512268126010895,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_34": {
+        "object": "{8E62751E-3E17-4C51-60B0-80756BEDE61B}",
+        "data": null
+    },
+    "serialization_35": {
+        "object": "{6A3F21C7-3718-4EB7-0FA2-D7B3DA8B6EF8}",
+        "data": {
+            "type": "class BDXKEngine::BoxCollider",
+            "isEnabling": true,
+            "gameObject": "{951EB70A-BE71-40A1-2F82-8630BBDEF6E1}",
+            "material": "",
+            "size": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        }
+    },
+    "serialization_36": {
+        "object": "{880C829A-70DE-4111-AE89-BD3AF126DF86}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{951EB70A-BE71-40A1-2F82-8630BBDEF6E1}",
+            "constraints": 0,
+            "mass": 1.0,
+            "useGravity": true,
+            "isKinematic": true
+        }
+    },
+    "serialization_37": {
+        "object": "{951EB70A-BE71-40A1-2F82-8630BBDEF6E1}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Cube",
+            "layer": 0,
+            "localPosition": [
+                -4.5088945910265469e-9,
+                0.0,
+                0.07851982116699219
+            ],
+            "localEulerAngles": [
+                -0.000005008955668017734,
+                -179.99998474121098,
+                -179.99998474121098
+            ],
+            "localScale": [
+                2.200000047683716,
+                0.09988676011562348,
+                0.800000011920929
+            ],
+            "parent": "{C96B5682-CCA6-40DF-FBA0-98FDBC5ABEEA}",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 3,
+                "item0": "{C55BFFF9-F07A-46C4-63A6-CFFB34624649}",
+                "item1": "{6A3F21C7-3718-4EB7-0FA2-D7B3DA8B6EF8}",
+                "item2": "{880C829A-70DE-4111-AE89-BD3AF126DF86}"
+            }
+        }
+    },
+    "serialization_38": {
+        "object": "{B1688FD6-1BB4-4F01-E58F-84DB05B429F0}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{C96B5682-CCA6-40DF-FBA0-98FDBC5ABEEA}",
+            "material": "{FAA84FBB-74D0-4723-0D92-CDD8002AA084}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{EA5F4F4B-871E-4908-709C-B1FA289FCB80}"
+        }
+    },
+    "serialization_39": {
+        "object": "{C96B5682-CCA6-40DF-FBA0-98FDBC5ABEEA}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Title",
+            "layer": 0,
+            "localPosition": [
+                -1.49330489307431e-7,
+                0.20831024646759034,
+                0.02828097902238369
+            ],
+            "localEulerAngles": [
+                0.0,
+                -179.99998474121098,
+                -179.99998474121098
+            ],
+            "localScale": [
+                3.559981346130371,
+                9.589710235595704,
+                3.5597100257873537
+            ],
+            "parent": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+            "children": {
+                "count": 1,
+                "item0": "{951EB70A-BE71-40A1-2F82-8630BBDEF6E1}"
+            },
+            "components": {
+                "count": 1,
+                "item0": "{B1688FD6-1BB4-4F01-E58F-84DB05B429F0}"
+            }
+        }
+    },
+    "serialization_40": {
+        "object": "{FAA84FBB-74D0-4723-0D92-CDD8002AA084}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    3.559981346130371,
+                    -5.37542234724242e-7,
+                    -5.37542234724242e-7,
+                    0.0,
+                    -0.0000014480059462584905,
+                    -9.589710235595704,
+                    2.186428392936951e-13,
+                    0.0,
+                    -5.375012506192434e-7,
+                    0.0,
+                    -3.5597100257873537,
+                    0.0,
+                    -1.49330489307431e-7,
+                    0.20831024646759034,
+                    0.02828097902238369,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_41": {
+        "object": "{EA5F4F4B-871E-4908-709C-B1FA289FCB80}",
+        "data": null
+    },
+    "serialization_42": {
+        "object": "{1147D37D-38FC-4B1B-E7AD-93921F807E01}",
+        "data": {
+            "type": "class HelloGame::MainScene",
+            "isEnabling": true,
+            "gameObject": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}"
+        }
+    },
+    "serialization_43": {
+        "object": "{1120836C-ECA7-4F78-94AB-FC0B943496A6}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Scene",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 6,
+                "item0": "{E909590E-8539-4A24-B4BB-20E6997AFEEC}",
+                "item1": "{288D17CE-D591-4522-99A4-8E2D7A0C4E1F}",
+                "item2": "{3367D7F3-2974-48CC-9190-1C2E8A77542D}",
+                "item3": "{69FFF9C9-9A03-4F6D-8881-3D3B61FB7B08}",
+                "item4": "{EA3D3C76-9F1F-4D6E-50B6-1413F35B1387}",
+                "item5": "{C96B5682-CCA6-40DF-FBA0-98FDBC5ABEEA}"
+            },
+            "components": {
+                "count": 1,
+                "item0": "{1147D37D-38FC-4B1B-E7AD-93921F807E01}"
+            }
+        }
+    },
+    "serialization_44": {
+        "object": "{51135045-A5C3-458F-6690-DBAE9458657D}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{89973CD6-1046-4233-10BF-B72C1F002F55}",
+            "material": "{A49333B2-32B9-4BD9-03BC-B8899408377C}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
+        }
+    },
+    "serialization_45": {
+        "object": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+        "data": null
+    },
+    "serialization_46": {
+        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
+        "data": null
+    },
+    "serialization_47": {
+        "object": "{F74CC90F-C23D-4A98-5E9F-A7A45A032AA3}",
+        "data": {
+            "type": "class BDXKEngine::SphereCollider",
+            "isEnabling": true,
+            "gameObject": "{89973CD6-1046-4233-10BF-B72C1F002F55}",
+            "material": "{44BC582B-F192-4280-2FBE-2206E0B39684}",
+            "radius": 0.5
+        }
+    },
+    "serialization_48": {
+        "object": "{4E99140D-1ED9-4450-949A-308310B1FE1E}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{89973CD6-1046-4233-10BF-B72C1F002F55}",
+            "constraints": 2,
+            "mass": 1.0,
+            "useGravity": false,
+            "isKinematic": false
+        }
+    },
+    "serialization_49": {
+        "object": "{E3A21E52-4778-42C5-6F8A-B4760D17D866}",
+        "data": {
+            "type": "class HelloGame::Ball",
+            "isEnabling": true,
+            "gameObject": "{89973CD6-1046-4233-10BF-B72C1F002F55}",
+            "speed": 5.0
+        }
+    },
+    "serialization_50": {
+        "object": "{89973CD6-1046-4233-10BF-B72C1F002F55}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Ball",
+            "layer": 0,
+            "localPosition": [
+                0.04899704456329346,
+                0.5,
+                2.5023040771484377
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 4,
+                "item0": "{51135045-A5C3-458F-6690-DBAE9458657D}",
+                "item1": "{F74CC90F-C23D-4A98-5E9F-A7A45A032AA3}",
+                "item2": "{4E99140D-1ED9-4450-949A-308310B1FE1E}",
+                "item3": "{E3A21E52-4778-42C5-6F8A-B4760D17D866}"
+            }
+        }
+    },
+    "serialization_51": {
+        "object": "{587E80A1-266C-475C-D38E-B6610936A13D}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{DEAA71D8-1BE8-4F09-878F-46D2F276800E}",
+            "material": "{A49333B2-32B9-4BD9-03BC-B8899408377C}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
+        }
+    },
+    "serialization_52": {
+        "object": "{2F097292-C6CB-4401-7588-D76814C92B32}",
+        "data": {
+            "type": "class BDXKEngine::SphereCollider",
+            "isEnabling": true,
+            "gameObject": "{DEAA71D8-1BE8-4F09-878F-46D2F276800E}",
+            "material": "{44BC582B-F192-4280-2FBE-2206E0B39684}",
+            "radius": 0.5
+        }
+    },
+    "serialization_53": {
+        "object": "{5046AD66-DCC5-4CEC-BDAF-DEEBFA9E98B9}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{DEAA71D8-1BE8-4F09-878F-46D2F276800E}",
+            "constraints": 2,
+            "mass": 1.0,
+            "useGravity": false,
+            "isKinematic": false
+        }
+    },
+    "serialization_54": {
+        "object": "{A042539A-AABE-4E1D-D288-775D6C7BA29D}",
+        "data": {
+            "type": "class HelloGame::Ball",
+            "isEnabling": true,
+            "gameObject": "{DEAA71D8-1BE8-4F09-878F-46D2F276800E}",
+            "speed": 5.0
+        }
+    },
+    "serialization_55": {
+        "object": "{DEAA71D8-1BE8-4F09-878F-46D2F276800E}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Ball",
+            "layer": 0,
+            "localPosition": [
+                -5.375368118286133,
+                0.5,
+                -1.7754905223846436
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 4,
+                "item0": "{587E80A1-266C-475C-D38E-B6610936A13D}",
+                "item1": "{2F097292-C6CB-4401-7588-D76814C92B32}",
+                "item2": "{5046AD66-DCC5-4CEC-BDAF-DEEBFA9E98B9}",
+                "item3": "{A042539A-AABE-4E1D-D288-775D6C7BA29D}"
+            }
+        }
+    },
+    "serialization_56": {
+        "object": "{B1B1EF1A-62D1-48E9-9187-2E1B94C3C717}",
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "isEnabling": true,
+            "gameObject": "{CC6FB912-8A0B-42E0-8582-11CDAC936D34}",
+            "material": "{A49333B2-32B9-4BD9-03BC-B8899408377C}",
+            "castShadows": true,
+            "receiveShadows": true,
+            "mesh": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}"
+        }
+    },
+    "serialization_57": {
+        "object": "{A49333B2-32B9-4BD9-03BC-B8899408377C}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    0.5,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.5,
+                    0.0,
+                    5.272167205810547,
+                    0.5,
+                    -1.772469997406006,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_58": {
+        "object": "{736D6B70-893F-4C75-F3AD-9EFC718CF571}",
+        "data": null
+    },
+    "serialization_59": {
+        "object": "{7C581BD3-A7AE-4D7D-859C-427C4A8781F9}",
+        "data": {
+            "type": "class BDXKEngine::SphereCollider",
+            "isEnabling": true,
+            "gameObject": "{CC6FB912-8A0B-42E0-8582-11CDAC936D34}",
+            "material": "{44BC582B-F192-4280-2FBE-2206E0B39684}",
+            "radius": 0.5
+        }
+    },
+    "serialization_60": {
+        "object": "{44BC582B-F192-4280-2FBE-2206E0B39684}",
+        "data": null
+    },
+    "serialization_61": {
+        "object": "{8F0DC253-B9E2-4184-33A6-FCC90CCD8A35}",
+        "data": {
+            "type": "class BDXKEngine::Rigidbody",
+            "isEnabling": true,
+            "gameObject": "{CC6FB912-8A0B-42E0-8582-11CDAC936D34}",
+            "constraints": 2,
+            "mass": 1.0,
+            "useGravity": false,
+            "isKinematic": false
+        }
+    },
+    "serialization_62": {
+        "object": "{AB3B719B-7A28-4B50-3B8F-8971BCF89964}",
+        "data": {
+            "type": "class HelloGame::Ball",
+            "isEnabling": true,
+            "gameObject": "{CC6FB912-8A0B-42E0-8582-11CDAC936D34}",
+            "speed": 5.0
+        }
+    },
+    "serialization_63": {
+        "object": "{CC6FB912-8A0B-42E0-8582-11CDAC936D34}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "Ball",
+            "layer": 0,
+            "localPosition": [
+                5.272167205810547,
+                0.5,
+                -1.772469997406006
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 4,
+                "item0": "{B1B1EF1A-62D1-48E9-9187-2E1B94C3C717}",
+                "item1": "{7C581BD3-A7AE-4D7D-859C-427C4A8781F9}",
+                "item2": "{8F0DC253-B9E2-4184-33A6-FCC90CCD8A35}",
+                "item3": "{AB3B719B-7A28-4B50-3B8F-8971BCF89964}"
+            }
+        }
+    },
+    "serialization_64": {
+        "object": "{DBC2527E-567E-4F04-6797-E56B883CC48E}",
+        "data": {
+            "type": "class HelloGame::System",
+            "isEnabling": true,
+            "gameObject": "{4EDDD7C2-46A2-4DA8-DDBC-CBA277EF2DE6}"
+        }
+    },
+    "serialization_65": {
+        "object": "{4EDDD7C2-46A2-4DA8-DDBC-CBA277EF2DE6}",
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "isEnabling": true,
+            "name": "System",
+            "layer": 0,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "parent": "",
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": "{DBC2527E-567E-4F04-6797-E56B883CC48E}"
+            }
+        }
+    }
+}

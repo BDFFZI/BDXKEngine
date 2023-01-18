@@ -1,4 +1,6 @@
 ﻿#pragma once
+#pragma comment(lib,"imgui.lib")
+#pragma comment(lib,"ImGuizmo.lib")
 #include "BDXKEngine/Platform/GL/Texture/Texture2D.h"
 #include "BDXKEngine/Base/Object/Object.h"
 #define IM_VEC2_CLASS_EXTRA ImVec2(BDXKEngine::Vector2 value){x=value.x;y=value.y;} \

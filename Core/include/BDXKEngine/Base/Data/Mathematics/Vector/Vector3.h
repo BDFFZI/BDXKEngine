@@ -18,6 +18,7 @@ namespace BDXKEngine
         static Vector3 Cross(Vector3 a, Vector3 b);
         static Vector3 Project(Vector3 vector, Vector3 normal);
         static Vector3 Rotate(Vector3 vector, Vector3 axis, float degree);
+        static Vector3 Lerp(Vector3 origin, Vector3 destination, float rate);
 
         float x;
         float y;

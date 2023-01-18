@@ -107,6 +107,7 @@ namespace BDXKEngine
 
     //请确保注册类已继承Reflective并存在无参构造函数
 #define CustomReflection(target) inline Internal_Reflection<target> CustomReflection##target = {};
+#define CustomReflectionInner(target) inline static Internal_Reflection<target> CustomReflection##target = {};
     CustomReflection(Reflective)
 
     struct StaticConstructorRegister

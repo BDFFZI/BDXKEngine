@@ -1,6 +1,4 @@
 ﻿#include "BDXKEditor.h"
-#include <iostream>
-#include "BDXKEngine/BDXKEngine.h"
 #include "BDXKEngine/Base/Data/String/String.h"
 #include "BDXKEngine/Framework/Scene.h"
 #include "BDXKEngine/Framework/Behavior/Animator.h"
@@ -36,71 +34,6 @@ namespace BDXKEditor
     const ObjectPtr<InspectorWindow>& EditorSystem::GetInspectorView()
     {
         return inspectorWindow;
-    }
-    void EditorSystem::Initialize(const std::string& sceneName)
-    {
-        AssetsBuiltIn::Initialize();
-
-        //初始化编辑器窗口
-        hierarchyWindow = EditorWindow::Create<HierarchyWindow>(false);
-        sceneWindow = EditorWindow::Create<SceneWindow>(false);
-        inspectorWindow = EditorWindow::Create<InspectorWindow>(false);
-        profilerWindow = EditorWindow::Create<ProfilerWindow>(false);
-        consoleWindow = EditorWindow::Create<ConsoleWindow>(false);
-        projectWindow = EditorWindow::Create<ProjectWindow>(false);
-        gameWindow = EditorWindow::Create<GameWindow>(false);
-        EditorWindow::Create<GameWindow>()->Show(); //两个游戏窗口便于观看
-        hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
-        {
-            sceneWindow->SetTarget(gameObject);
-            inspectorWindow->SetTarget(gameObject);
-        });
-        profilerWindow->SetClickObjectEvent([](const ObjectPtrBase& object)
-        {
-            sceneWindow->SetTarget(object.ToObject<GameObject>());
-            inspectorWindow->SetTarget(object);
-        });
-        projectWindow->SetClickObjectEvent([](const ObjectPtrBase& object)
-        {
-            inspectorWindow->SetTarget(object);
-        });
-        hierarchyWindow->Show();
-        sceneWindow->Show();
-        inspectorWindow->Show();
-        profilerWindow->Show();
-        consoleWindow->Show();
-        projectWindow->Show();
-        gameWindow->Show();
-
-        //启动编辑器系统
-        editorSystem = Create<EditorSystem>();
-
-        //非运行模式下创建的物体都是标记持久化的物体
-        SetConstructedObjectEvent([](const Object* object)
-        {
-            Serialization::MarkPersistent(object->GetInstanceID());
-        });
-
-        //加载场景
-        if (Assets::IsExisting(sceneName) == false)
-        {
-            //创建默认场景
-            Scene::Create(sceneName);
-            RenderSettings::SetSkybox(CreateAssetMenu::CreateSkyboxMaterial());
-            const ObjectPtr<GameObject> sun = GameObjectMenu::CreateDirectionalLight();
-            sun->SetName("Sun");
-            sun->SetLocalEulerAngles({45, -45, 0});
-            const ObjectPtr<GameObject> ground = GameObjectMenu::CreatePlane();
-            ground->SetName("Ground");
-            const ObjectPtr<GameObject> sphere = GameObjectMenu::CreateSphere();
-            sphere->SetName("Sphere");
-            sphere->SetLocalPosition({0, 0.5f, 0});
-            const ObjectPtr<GameObject> camera = GameObjectMenu::CreateCamera();
-            camera->SetName("Camera");
-            camera->SetLocalPosition({0, 1, -10});
-            SaveScene();
-        }
-        else Assets::Load<Scene>(sceneName, true);
     }
 
     void EditorSystem::NewScene()
@@ -156,6 +89,15 @@ namespace BDXKEditor
         }
         else
         {
+            //取消用户物体的隐藏
+            for (const ObjectPtr<GameObject>& gameObject : GameObject::GetGameObjectsHiding())
+            {
+                if (gameObject->GetName().find("BDXKEditor") != std::string::npos)
+                    continue;
+
+                GameObject::UnHide(gameObject);
+            }
+            //创建物体需要资源化
             SetConstructedObjectEvent([](const Object* object)
             {
                 Serialization::MarkPersistent(object->GetInstanceID());
@@ -228,12 +170,90 @@ namespace BDXKEditor
         ImGui::SaveIniSettingsToDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
     }
 
-    void Run(const std::string& sceneName)
+
+    void EditorSystem::Initialize(const std::string& sceneName)
     {
-        std::cout.rdbuf(ConsoleWindow::GetConsole().rdbuf());
-        BDXKEngine::Run([&]
+        AddQuitCondition([] { return false; });
+
+        AssetsBuiltIn::Initialize();
+
+        //初始化编辑器窗口
+        hierarchyWindow = EditorWindow::Create<HierarchyWindow>(false);
+        sceneWindow = EditorWindow::Create<SceneWindow>(false);
+        inspectorWindow = EditorWindow::Create<InspectorWindow>(false);
+        profilerWindow = EditorWindow::Create<ProfilerWindow>(false);
+        consoleWindow = EditorWindow::Create<ConsoleWindow>(false);
+        projectWindow = EditorWindow::Create<ProjectWindow>(false);
+        gameWindow = EditorWindow::Create<GameWindow>(false);
+        EditorWindow::Create<GameWindow>()->Show(); //两个游戏窗口便于观看
+        hierarchyWindow->SetClickGameObjectEvent([](const ObjectPtr<GameObject>& gameObject)
         {
-            EditorSystem::Initialize(sceneName);
+            sceneWindow->SetTarget(gameObject);
+            inspectorWindow->SetTarget(gameObject);
         });
+        profilerWindow->SetClickObjectEvent([](const ObjectPtrBase& object)
+        {
+            sceneWindow->SetTarget(object.ToObject<GameObject>());
+            inspectorWindow->SetTarget(object);
+        });
+        projectWindow->SetClickObjectEvent([](const ObjectPtrBase& object)
+        {
+            inspectorWindow->SetTarget(object);
+        });
+        hierarchyWindow->Show();
+        sceneWindow->Show();
+        inspectorWindow->Show();
+        profilerWindow->Show();
+        consoleWindow->Show();
+        projectWindow->Show();
+        gameWindow->Show();
+
+        //启动编辑器系统
+        editorSystem = Create<EditorSystem>();
+
+        //非运行模式下创建的物体都是标记持久化的物体
+        SetConstructedObjectEvent([](const Object* object)
+        {
+            Serialization::MarkPersistent(object->GetInstanceID());
+        });
+
+        //加载场景
+        if (Assets::IsExisting(sceneName) == false)
+        {
+            //创建默认场景
+            Scene::Create(sceneName);
+            RenderSettings::SetSkybox(CreateAssetMenu::CreateSkyboxMaterial());
+            const ObjectPtr<GameObject> sun = GameObjectMenu::CreateDirectionalLight();
+            sun->SetName("Sun");
+            sun->SetLocalEulerAngles({45, -45, 0});
+            const ObjectPtr<GameObject> ground = GameObjectMenu::CreatePlane();
+            ground->SetName("Ground");
+            const ObjectPtr<GameObject> sphere = GameObjectMenu::CreateSphere();
+            sphere->SetName("Sphere");
+            sphere->SetLocalPosition({0, 0.5f, 0});
+            const ObjectPtr<GameObject> camera = GameObjectMenu::CreateCamera();
+            camera->SetName("Camera");
+            camera->SetLocalPosition({0, 1, -10});
+            SaveScene();
+        }
+        else Assets::Load<Scene>(sceneName, true);
+    }
+    void EditorSystem::OnEngineBegin()
+    {
+        const Settings* settings = ProjectSettings::Load<Settings>("EditorSettings.settings");
+        if (settings != nullptr)
+        {
+            Initialize(settings->sceneName);
+            delete settings;
+            return;
+        }
+
+        Initialize("Main.scene");
+    }
+    void EditorSystem::OnEngineEnd()
+    {
+        Settings settings;
+        settings.sceneName = Scene::GetCurrentSceneName();
+        ProjectSettings::Save("EditorSettings.settings", &settings);
     }
 }

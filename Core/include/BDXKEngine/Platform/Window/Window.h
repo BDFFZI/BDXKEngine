@@ -83,7 +83,7 @@ namespace BDXKEngine
         static void AddKeyCodeEvent(const KeyCodeEvent& keyCodeEvent);
         static void AddCharacterEvent(const CharacterEvent& characterEvent);
         static void AddNativeEvent(const NativeEvent& characterEvent);
-        static void Show();
+        static void Show(const std::function<bool()>& isOver = [] { return false; });
 
         static Rect GetScreenRect(); //获取当前窗口在屏幕中的范围
         static Vector2 GetCursorLocalPosition(); //获取当前光标相对窗口的位置

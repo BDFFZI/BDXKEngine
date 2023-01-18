@@ -14,6 +14,9 @@
 
 namespace BDXKEngine
 {
+    bool isRunning;
+    std::vector<std::function<bool()>> overConditions;
+
     void Run(const std::string& sceneName)
     {
         engineBeginEvents.emplace_back([=] { Scene::Load(sceneName); }); //此时添加以保证是最后一个执行的启动事件
@@ -53,20 +56,45 @@ namespace BDXKEngine
         Input::Initialize();
         Time::Initialize();
         //框架层
-        PhysicsEvent::Initialize();
         BehaviorEvent::Initialize();
+        PhysicsEvent::Initialize();
         RenderEvent::Initialize();
 
         //正式开始
         {
             for (auto& item : engineBeginEvents)
                 item();
-            Window::Show();
+            if (Scene::GetCurrentSceneName().empty())
+            {
+                if (Resources::IsExisting("Main.scene"))
+                    Scene::Load("Main.scene");
+                else
+                    Scene::Create("Main.scene");
+            }
+
+            isRunning = true;
+            overConditions.emplace_back([&] { return isRunning == false; });
+            Window::Show([&]
+            {
+                return std::ranges::all_of(
+                    overConditions,
+                    [](const std::function<bool()>& isOver) { return isOver(); }
+                );
+            });
         }
 
         // Debug::LogError("系统回收检查");
         // BDXKObject::DebugObjectCount();
         // ObjectPtrBase::PrintRefCountMap();
         // BehaviorManager::DebugHandlersCount();
+    }
+
+    void Quit()
+    {
+        isRunning = false;
+    }
+    void AddQuitCondition(const std::function<bool()>& isOver)
+    {
+        overConditions.emplace_back(isOver);
     }
 }

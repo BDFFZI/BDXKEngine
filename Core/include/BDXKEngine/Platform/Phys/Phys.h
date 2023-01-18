@@ -54,6 +54,7 @@ namespace BDXKEngine
         static void SetLayerCollision(int x, int y, bool value);
         static void SetLayerCollisionMatrix(int matrix[32]);
 
+        static physx::PxTransform CreatePxTransform(Vector3 position, Vector3 rotation);
         static Vector3 ToVector3(const physx::PxVec3T<float>& value);
         static physx::PxVec3T<float> ToVec3T(Vector3 value);
         static Vector3 ToEulerAngles(const physx::PxQuat& value);

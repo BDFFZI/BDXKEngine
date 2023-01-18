@@ -1,0 +1,12 @@
+{
+    "serializationsCount": 1,
+    "serialization_0": {
+        "object": "{44BC582B-F192-4280-2FBE-2206E0B39684}",
+        "data": {
+            "type": "class BDXKEngine::PhysicMaterial",
+            "dynamicFriction": 0.6000000238418579,
+            "staticFriction": 0.6000000238418579,
+            "bounciness": 1.0
+        }
+    }
+}

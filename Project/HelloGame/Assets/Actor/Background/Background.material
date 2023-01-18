@@ -1,0 +1,219 @@
+{
+    "serializationsCount": 4,
+    "serialization_0": {
+        "object": "{9F6BA720-4443-480C-7EAC-3A383E8CF85C}",
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item1": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+                "item2": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}"
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    0.0,
+                    0.5,
+                    0.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    14.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.009999999776482582,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    10.0,
+                    0.0,
+                    0.0,
+                    -0.004999999888241291,
+                    0.0,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": "{02D5C4A9-11B0-4315-09AF-A92945C15D8A}",
+            "texture2D1": "",
+            "texture2D2": "",
+            "texture2D3": "",
+            "texture2D4": "",
+            "texture2D5": ""
+        }
+    },
+    "serialization_1": {
+        "object": "{F2BC0EDC-EB34-4D81-58A6-E5FE06152704}",
+        "data": null
+    },
+    "serialization_2": {
+        "object": "{7C4B63A9-653F-4514-5E83-F2EAEB50129A}",
+        "data": null
+    },
+    "serialization_3": {
+        "object": "{02D5C4A9-11B0-4315-09AF-A92945C15D8A}",
+        "data": null
+    }
+}

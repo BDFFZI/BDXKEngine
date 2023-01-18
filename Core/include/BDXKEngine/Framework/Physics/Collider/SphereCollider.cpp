@@ -1,11 +1,10 @@
 ﻿#include "SphereCollider.h"
-#include <cmath>
 
 namespace BDXKEngine
 {
     physx::PxGeometry& SphereCollider::GetPxGeometry()
     {
-        const Vector3 scale = GetGameObject()->GetLocalScale();
+        const Vector3 scale = GetGameObject()->GetScale();
         geometry = physx::PxSphereGeometry{radius * fmaxf(scale.z, fmaxf(scale.x, scale.y))};
         return geometry;
     }

@@ -82,7 +82,7 @@ namespace BDXKEditor
 
     void SceneWindow::OnAwake()
     {
-        gameObject = GameObject::Create("SceneWindow");
+        gameObject = GameObject::Create("BDXKEditor::SceneWindow");
         Component::Create<Camera>(gameObject);
         GameObject::Hide(gameObject);
 

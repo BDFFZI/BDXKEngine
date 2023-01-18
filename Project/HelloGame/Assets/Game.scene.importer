@@ -1,0 +1,10 @@
+{
+    "serializationsCount": 1,
+    "serialization_0": {
+        "object": "{66F8673E-2D93-4D52-4C90-C4C44F767220}",
+        "data": {
+            "type": "class BDXKEditor::SceneImporter",
+            "guid": "{CFBDECFF-2082-49DF-1AB1-B121698B22A3}"
+        }
+    }
+}

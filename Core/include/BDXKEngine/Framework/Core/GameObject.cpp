@@ -6,6 +6,7 @@
 namespace BDXKEngine
 {
     std::vector<ObjectPtr<GameObject>> GameObject::gameObjects;
+    std::vector<ObjectPtr<GameObject>> GameObject::gameObjectsHiding;
 
     ObjectPtr<GameObject> GameObject::Create(const std::string& name, const ObjectPtr<GameObject>& parent)
     {
@@ -19,6 +20,10 @@ namespace BDXKEngine
     {
         return gameObjects;
     }
+    const std::vector<ObjectPtr<GameObject>>& GameObject::GetGameObjectsHiding()
+    {
+        return gameObjectsHiding;
+    }
     ObjectPtr<GameObject> GameObject::Find(const std::string& name)
     {
         const auto result = std::ranges::find_if(gameObjects, [name](auto& item) { return item->GetName() == name; });
@@ -26,7 +31,22 @@ namespace BDXKEngine
     }
     void GameObject::Hide(const ObjectPtr<GameObject>& gameObject)
     {
-        std::erase(gameObjects, gameObject);
+        if (gameObject->GetParent().IsNotNull())
+            throw std::exception("只有根物体运行被隐藏");
+
+        if (std::ranges::all_of(gameObjectsHiding, [&](const ObjectPtr<GameObject>& item) { return item != gameObject; }))
+        {
+            gameObjectsHiding.push_back(gameObject);
+            std::erase(gameObjects, gameObject);
+        }
+    }
+    void GameObject::UnHide(const ObjectPtr<GameObject>& gameObject)
+    {
+        if (std::ranges::all_of(gameObjects, [&](const ObjectPtr<GameObject>& item) { return item != gameObject; }))
+        {
+            gameObjects.push_back(gameObject);
+            std::erase(gameObjectsHiding, gameObject);
+        }
     }
     void GameObject::Clear()
     {

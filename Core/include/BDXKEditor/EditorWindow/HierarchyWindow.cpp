@@ -65,8 +65,13 @@ namespace BDXKEditor
             if (gameObject != nullptr)gameObject->SetParent(nullptr);
         }
 
-        const std::vector<ObjectPtr<GameObject>> gameObjects = GameObject::GetGameObjects();
-        for (const ObjectPtr<GameObject>& gameObject : gameObjects)
+        for (const ObjectPtr<GameObject>& gameObject : GameObject::GetGameObjects())
+        {
+            if (gameObject->GetParent().IsNull())
+                DrawGameObject(gameObject, 0);
+        }
+        ImGui::Text("Hiding");
+        for (const ObjectPtr<GameObject>& gameObject : GameObject::GetGameObjectsHiding())
         {
             if (gameObject->GetParent().IsNull())
                 DrawGameObject(gameObject, 0);

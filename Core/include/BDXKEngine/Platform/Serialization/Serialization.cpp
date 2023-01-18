@@ -66,11 +66,11 @@ namespace BDXKEngine
         }
         return false;
     }
-    void Serialization::MarkPersistent(int instanceID)
+    void Serialization::MarkPersistent(ID instanceID)
     {
         ObjectGuid::GetOrSetGuid(instanceID);
     }
-    void Serialization::UnMarkPersistent(int instanceID)
+    void Serialization::UnMarkPersistent(ID instanceID)
     {
         ObjectGuid::RemoveGuid(instanceID);
     }

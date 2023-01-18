@@ -4,7 +4,7 @@ namespace BDXKEngine
 {
     physx::PxGeometry& BoxCollider::GetPxGeometry()
     {
-        Vector3 halfSize = GetGameObject()->GetLocalScale();
+        Vector3 halfSize = GetGameObject()->GetScale();
         halfSize.x *= size.x;
         halfSize.y *= size.y;
         halfSize.z *= size.z;

@@ -11,10 +11,18 @@ namespace BDXKEngine
     class GameObject : public ScriptableObject
     {
     public:
-        static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject", const ObjectPtr<GameObject>& parent = nullptr);
         static const std::vector<ObjectPtr<GameObject>>& GetGameObjects();
+        static const std::vector<ObjectPtr<GameObject>>& GetGameObjectsHiding();
+        
+        static ObjectPtr<GameObject> Create(const std::string& name = "New GameObject", const ObjectPtr<GameObject>& parent = nullptr);
         static ObjectPtr<GameObject> Find(const std::string& name);
+        /**
+         * \brief 近似的DontDestroyOnLoad
+         * 被Hide的物体将不被系统管理，Find无法查询到该物体，同样跳转场景时也不会被删除
+         * \param gameObject 被隐藏的物体
+         */
         static void Hide(const ObjectPtr<GameObject>& gameObject);
+        static void UnHide(const ObjectPtr<GameObject>& gameObject);
         static void Clear();
 
         bool GetIsActivating() const override;
@@ -28,7 +36,7 @@ namespace BDXKEngine
         {
             for (const ObjectPtr<Component>& component : components)
             {
-                TComponent* target = component.ToObject<TComponent>();
+                auto* target = component.ToObject<TComponent>();
                 if (target != nullptr)
                     return dynamic_cast<TBack*>(target);
             }
@@ -51,6 +59,21 @@ namespace BDXKEngine
                 if (target != nullptr)back.push_back(dynamic_cast<TBack*>(target));
             }
             return back;
+        }
+
+        template <typename TComponent, class TBack = TComponent>
+        ObjectPtr<TBack> GetComponentInParent() const
+        {
+            ObjectPtr node = this;
+            while (node.IsNotNull())
+            {
+                auto target = node->GetComponent<TComponent, TBack>();
+                if (target.IsNotNull())return target;
+
+                node = node->GetParent();
+            }
+
+            return nullptr;
         }
 
         const std::string& GetName() const;
@@ -87,6 +110,7 @@ namespace BDXKEngine
         void Disable() override;
     private:
         static std::vector<ObjectPtr<GameObject>> gameObjects;
+        static std::vector<ObjectPtr<GameObject>> gameObjectsHiding;
 
         std::string name;
         int layer = 0; //第0-31层

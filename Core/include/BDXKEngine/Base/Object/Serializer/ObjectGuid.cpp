@@ -6,22 +6,22 @@
 
 namespace BDXKEngine
 {
-    std::unordered_map<int, Guid> ObjectGuid::instanceIDToGuid = {};
-    std::unordered_map<Guid, int> ObjectGuid::guidToInstanceID = {};
+    std::unordered_map<ID, Guid> ObjectGuid::instanceIDToGuid = {};
+    std::unordered_map<Guid, ID> ObjectGuid::guidToInstanceID = {};
     std::unordered_set<Guid> ObjectGuid::mainGuid = {};
 
 
-    std::unordered_map<Guid, int>& ObjectGuid::GetAllGuids()
+    std::unordered_map<Guid, ID>& ObjectGuid::GetAllGuids()
     {
         return guidToInstanceID;
     }
     
-    Guid ObjectGuid::GetGuid(int instanceID)
+    Guid ObjectGuid::GetGuid(ID instanceID)
     {
         const auto guidItem = instanceIDToGuid.find(instanceID);
         return guidItem == instanceIDToGuid.end() ? "" : guidItem->second;
     }
-    Guid ObjectGuid::GetOrSetGuid(int instanceID)
+    Guid ObjectGuid::GetOrSetGuid(ID instanceID)
     {
         const auto guidItem = instanceIDToGuid.find(instanceID);
         if (guidItem == instanceIDToGuid.end())
@@ -36,22 +36,22 @@ namespace BDXKEngine
             return guid;
         }
     }
-    int ObjectGuid::GetInstanceID(const Guid& guid)
+    ID ObjectGuid::GetInstanceID(const Guid& guid)
     {
         if (guidToInstanceID.contains(guid))
         {
-            const int instanceID = guidToInstanceID[guid];
+            const ID instanceID = guidToInstanceID[guid];
             if (Object::FindObjectOfInstanceID(instanceID) == nullptr)
                 return 0;
             return instanceID;
         }
         return 0;
     }
-    void ObjectGuid::SetInstanceID(const Guid& guid, int instanceID)
+    void ObjectGuid::SetInstanceID(const Guid& guid, ID instanceID)
     {
         if (guidToInstanceID.contains(guid)) //资源重新导入
         {
-            const int oldInstanceID = guidToInstanceID[guid];
+            const ID oldInstanceID = guidToInstanceID[guid];
             if (Object::FindObjectOfInstanceID(oldInstanceID) == nullptr) //Guid已不被使用，允许重新绑定
             {
                 guidToInstanceID.erase(guid);
@@ -70,7 +70,7 @@ namespace BDXKEngine
         guidToInstanceID[guid] = instanceID;
         instanceIDToGuid[instanceID] = guid;
     }
-    void ObjectGuid::RemoveGuid(int instanceID)
+    void ObjectGuid::RemoveGuid(ID instanceID)
     {
         guidToInstanceID.erase(instanceIDToGuid[instanceID]);
         instanceIDToGuid.erase(instanceID);
@@ -89,7 +89,7 @@ namespace BDXKEngine
     {
         return mainGuid.contains(guid);
     }
-    bool ObjectGuid::IsMainGuid(int instanceID)
+    bool ObjectGuid::IsMainGuid(ID instanceID)
     {
         return mainGuid.contains(GetOrSetGuid(instanceID));
     }

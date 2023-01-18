@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <string>
-
 #include "BDXKEngine/Base/Reflection/Reflection.h"
 #include "BDXKEngine/Base/Reflection/Reflective.h"
 

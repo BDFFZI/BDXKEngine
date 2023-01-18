@@ -41,6 +41,10 @@ namespace BDXKEngine
         const Vector3 vOrthometricNew = vOrthometric * cos(degree) + Cross(axis, vOrthometric) * sin(degree);
         return vParallel + vOrthometricNew;
     }
+    Vector3 Vector3::Lerp(Vector3 origin, Vector3 destination, float rate)
+    {
+        return origin + (destination - origin) * rate;
+    }
     Vector3::Vector3()
     {
         x = 0;
@@ -71,7 +75,8 @@ namespace BDXKEngine
     }
     Vector3 Vector3::GetNormalized() const
     {
-        return *this / GetMagnitude();
+        const float magnitude = GetMagnitude();
+        return Equal(magnitude, 0) ? zero : *this / magnitude;
     }
 
     std::string Vector3::ToString() const

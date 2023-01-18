@@ -94,10 +94,10 @@ namespace BDXKEngine
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         io.IniFilename = nullptr;
         // 中文支持
-        io.Fonts->AddFontFromFileTTF(
-            "C:/Windows/Fonts/simkai.ttf", 18.0f, nullptr,
-            io.Fonts->GetGlyphRangesChineseFull()
-        );
+        // io.Fonts->AddFontFromFileTTF(
+        //     "C:/Windows/Fonts/simkai.ttf", 18.0f, nullptr,
+        //     io.Fonts->GetGlyphRangesChineseFull()
+        // );
 
         //Imgui后端初始化
         ImGui_ImplWin32_Init(Window::GetHwnd());

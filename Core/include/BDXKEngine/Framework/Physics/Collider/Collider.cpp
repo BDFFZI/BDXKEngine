@@ -4,19 +4,34 @@
 
 namespace BDXKEngine
 {
+    void Collider::OnFixedUpdate()
+    {
+        const ObjectPtr<GameObject> rigidbodyGameObject = rigidbody->GetGameObject();
+        const ObjectPtr<GameObject> localGameObject = GetGameObject();
+        const Matrix4x4 localToRigidbodyMatrix = rigidbodyGameObject->GetWorldToLocalMatrix() * localGameObject->GetLocalToWorldMatrix();
+
+        Vector3 position;
+        Vector3 rotation;
+        Vector3 scale;
+        Matrix4x4::DecomposeTRS(localToRigidbodyMatrix, position, rotation, scale);
+
+        rigidbody->GetPxRigidbody().detachShape(*shape);
+        shape->setLocalPose(Phys::CreatePxTransform(position, rotation));
+        rigidbody->GetPxRigidbody().attachShape(*shape);
+    }
     void Collider::OnEnable()
     {
         shape->setGeometry(GetPxGeometry());
         shape->setSimulationFilterData({static_cast<unsigned int>(GetGameObject()->GetLayer()), 0, 0, 0});
-        rightbody->GetPxRigidbody().attachShape(*shape);
-        rightbody->ResetCenterOfMassAndInertiaTensor();
+        rigidbody->GetPxRigidbody().attachShape(*shape);
+        rigidbody->ResetCenterOfMassAndInertiaTensor();
     }
     void Collider::OnDisable()
     {
-        if (rightbody.IsNotNull()) //假如是删除时触发可能出现rightbody已被删除的情况
+        if (rigidbody.IsNotNull()) //假如是删除时触发可能出现rightbody已被删除的情况
         {
-            rightbody->GetPxRigidbody().detachShape(*shape);
-            rightbody->ResetCenterOfMassAndInertiaTensor();
+            rigidbody->GetPxRigidbody().detachShape(*shape);
+            rigidbody->ResetCenterOfMassAndInertiaTensor();
         }
     }
     void Collider::OnAwake()
@@ -39,11 +54,11 @@ namespace BDXKEngine
     {
         Behavior::Awake();
 
-        rightbody = GetGameObject()->GetComponent<Rigidbody>();
-        if (rightbody == nullptr)
+        rigidbody = GetGameObject()->GetComponentInParent<Rigidbody>();
+        if (rigidbody == nullptr)
         {
-            rightbody = Create<Rigidbody>(GetGameObject());
-            rightbody->SetIsKinematic(true);
+            rigidbody = Create<Rigidbody>(GetGameObject());
+            rigidbody->SetIsKinematic(true);
         }
     }
 }

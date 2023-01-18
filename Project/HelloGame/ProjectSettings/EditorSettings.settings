@@ -1,0 +1,4 @@
+{
+    "type": "struct BDXKEditor::EditorSystem::Settings",
+    "sceneName": "Main.scene"
+}

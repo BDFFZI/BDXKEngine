@@ -7,11 +7,6 @@
 
 namespace BDXKEditor
 {
-    std::stringstream stringstream;
-    char buffer[128];
-    std::vector<std::string> logs;
-    float lastScrollMaxY;
-
     std::stringstream& ConsoleWindow::GetConsole()
     {
         return stringstream;
@@ -19,6 +14,10 @@ namespace BDXKEditor
 
     void ConsoleWindow::OnGUI()
     {
+        static char buffer[128];
+        static std::vector<std::string> logs = {};
+        static float lastScrollMaxY = 0;
+
         if (ImGui::Button("Clear"))
             logs.clear();
 
@@ -47,5 +46,9 @@ namespace BDXKEditor
 
     void ConsoleWindow::OnAwake()
     {
+    }
+    void ConsoleWindow::StaticConstructor()
+    {
+        std::cout.rdbuf(GetConsole().rdbuf());
     }
 }

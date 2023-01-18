@@ -152,7 +152,7 @@ namespace BDXKEngine
     {
         nativeEvents.push_back(characterEvent);
     }
-    void Window::Show()
+    void Window::Show(const std::function<bool()>& isOver)
     {
         //显示窗口
         ShowWindow(hwnd, SW_SHOWDEFAULT);
@@ -164,9 +164,16 @@ namespace BDXKEngine
             TranslateMessage(&msg);
             DispatchMessage(&msg);
 
-            //如果没有要处理的消息，我们就用这段空闲时间更新游戏
-            if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
-                PostMessage(hwnd, WM_PAINT, NULL, NULL);
+            if (isOver() == false)
+            {
+                //如果没有要处理的消息，我们就用这段空闲时间更新游戏
+                if (PeekMessage(&msg, hwnd, NULL, NULL, NULL) == FALSE)
+                    PostMessage(hwnd, WM_PAINT, NULL, NULL);
+            }
+            else
+            {
+                SendMessage(hwnd,WM_CLOSE, 0, 0);
+            }
         }
     }
 

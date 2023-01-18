@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "BDXKEngine/BDXKEngine.h"
 #include "EditorWindow/ConsoleWindow.h"
 #include "EditorWindow/GameWindow.h"
 #include "EditorWindow/HierarchyWindow.h"
@@ -16,12 +17,24 @@ namespace BDXKEditor
     class EditorSystem : public ScriptableObject, public DrawGUIHandler, public AwakeHandler, public DestroyHandler
     {
     public:
-        static void Initialize(const std::string& sceneName);
-
         static const ObjectPtr<SceneWindow>& GetSceneView();
         static const ObjectPtr<HierarchyWindow>& GetHierarchyView();
         static const ObjectPtr<InspectorWindow>& GetInspectorView();
     private:
+        struct Settings : Reflective
+        {
+            std::string sceneName;
+
+            void Transfer(Transferer& transferer) override
+            {
+                Reflective::Transfer(transferer);
+
+                TransferFieldInfo(sceneName);
+            }
+        };
+
+        CustomReflectionInner(Settings)
+
         static ObjectPtr<EditorSystem> editorSystem;
         static ObjectPtr<SceneWindow> sceneWindow;
         static ObjectPtr<HierarchyWindow> hierarchyWindow;
@@ -57,6 +70,12 @@ namespace BDXKEditor
         void OnDrawGUI() override;
         void OnAwake() override;
         void OnDestroy() override;
+
+        static void Initialize(const std::string& sceneName);
+        static void OnEngineBegin();
+        static void OnEngineEnd();
+        CustomEngineBeginEvent(OnEngineBegin)
+        CustomEngineEndEvent(OnEngineEnd)
     };
 
     CustomReflection(EditorSystem)

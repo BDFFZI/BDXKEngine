@@ -105,6 +105,10 @@ namespace BDXKEngine
         for (int index = 0; index < 32; index++)
             layerCollisionMatrix[index] = matrix[index];
     }
+    physx::PxTransform Phys::CreatePxTransform(Vector3 position, Vector3 rotation)
+    {
+        return {ToVec3T(position), ToQuat(rotation)};
+    }
     Vector3 Phys::ToVector3(const physx::PxVec3T<float>& value)
     {
         return {value.x, value.y, value.z};
