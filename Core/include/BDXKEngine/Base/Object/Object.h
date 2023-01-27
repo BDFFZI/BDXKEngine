@@ -6,8 +6,6 @@
 
 namespace BDXKEngine
 {
-    typedef unsigned int ID;
-
     /// <summary>
     /// 创建：
     /// 通过InstantiateNoAwake加载未实例化的物体

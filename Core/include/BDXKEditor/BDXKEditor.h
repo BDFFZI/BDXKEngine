@@ -1,20 +1,20 @@
 ﻿#pragma once
 #include "BDXKEngine/BDXKEngine.h"
-#include "EditorWindow/ConsoleWindow.h"
-#include "EditorWindow/GameWindow.h"
-#include "EditorWindow/HierarchyWindow.h"
-#include "EditorWindow/InspectorWindow.h"
-#include "EditorWindow/ProfilerWindow.h"
-#include "EditorWindow/ProjectWindow.h"
-#include "EditorWindow/SceneWindow.h"
-#include "Menu/Core/Menu.h"
+#include "Framework/EditorWindow/ConsoleWindow.h"
+#include "Framework/EditorWindow/GameWindow.h"
+#include "Framework/EditorWindow/HierarchyWindow.h"
+#include "Framework/EditorWindow/InspectorWindow.h"
+#include "Framework/EditorWindow/ProfilerWindow.h"
+#include "Framework/EditorWindow/ProjectWindow.h"
+#include "Framework/EditorWindow/SceneWindow.h"
+#include "Framework/Menu/Core/Menu.h"
 
 
 namespace BDXKEditor
 {
     using namespace BDXKEngine;
 
-    class EditorSystem : public ScriptableObject, public DrawGUIHandler, public AwakeHandler, public DestroyHandler
+    class EditorSystem : public ScriptableObject, public DrawGUIHandler
     {
     public:
         static const ObjectPtr<SceneWindow>& GetSceneView();
@@ -43,7 +43,8 @@ namespace BDXKEditor
         static ObjectPtr<ConsoleWindow> consoleWindow;
         static ObjectPtr<ProjectWindow> projectWindow;
         static ObjectPtr<GameWindow> gameWindow;
-        static bool isRunning;
+        static bool isPlaying;
+        static std::string playScene;
         static ObjectPtrBase copying;
 
         static void NewScene();
@@ -66,10 +67,7 @@ namespace BDXKEditor
         CustomMenu("Edit/Play | Stop", Play)
 
         void DrawMenu(const std::vector<std::string>& path, const std::function<void()>& func, size_t layer = 0);
-
         void OnDrawGUI() override;
-        void OnAwake() override;
-        void OnDestroy() override;
 
         static void Initialize(const std::string& sceneName);
         static void OnEngineBegin();

@@ -36,8 +36,8 @@ namespace BDXKEngine
 
     void Run(const std::string& sceneName);
     void Run(const std::function<void()>& onStart);
-    void Run();
-    void Quit();
+    void Run();//加载或创建名为Main.scene的场景，该场景是游戏的入口，类似于代码中的main函数
+    void Quit();//退出程序。编辑器模式下无效，因为编辑器通过AddQuitCondition函数，抑制了退出功能
 
     void AddQuitCondition(const std::function<bool()>& isOver);
 

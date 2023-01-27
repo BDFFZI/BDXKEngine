@@ -913,13 +913,13 @@
         "object": "{C96B5682-CCA6-40DF-FBA0-98FDBC5ABEEA}",
         "data": {
             "type": "class BDXKEngine::GameObject",
-            "isEnabling": true,
+            "isEnabling": false,
             "name": "Title",
             "layer": 0,
             "localPosition": [
                 1.483908249610977e-7,
-                0.20831024646759034,
-                2.0
+                -0.19200000166893009,
+                0.8999999761581421
             ],
             "localEulerAngles": [
                 -0.0,
@@ -1078,8 +1078,8 @@
                     -3.5597100257873537,
                     0.0,
                     1.483908249610977e-7,
-                    0.20831024646759034,
-                    2.0,
+                    -0.19200000166893009,
+                    0.8999999761581421,
                     1.0
                 ],
                 "matrix1": [

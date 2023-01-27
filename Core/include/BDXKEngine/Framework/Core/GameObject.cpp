@@ -13,7 +13,7 @@ namespace BDXKEngine
         ObjectPtr gameObject = new GameObject();
         Reflection::GetReflection(GetTypeOf<GameObject>()).GetFieldOf<std::string>(gameObject.ToObjectBase(), "name") = name;
         Instantiate(gameObject);
-        if (parent.IsNotNull()) gameObject->SetParent(parent);
+        if (parent.IsNotNull()) gameObject->SetParent(parent, false);
         return gameObject;
     }
     const std::vector<ObjectPtr<GameObject>>& GameObject::GetGameObjects()

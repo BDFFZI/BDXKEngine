@@ -42,14 +42,14 @@ namespace BDXKEngine
 
         return false;
     }
-    bool GUI::IsDragTargetForWindow(const char* label, ObjectPtrBase& value)
+    bool GUI::ButtonWindow()
     {
         const Vector2 cursorPos = ImGui::GetCursorPos();
         ImGui::PushStyleColor(ImGuiCol_Button, {0, 0, 0, 0});
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0, 0, 0, 0});
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0, 0, 0, 0});
-        ImGui::ButtonEx(
-            label,
+        const bool isClick = ImGui::ButtonEx(
+            std::format("##{}", ImGui::GetCurrentWindow()->Name).c_str(),
             ImGui::GetContentRegionAvail(),
             ImGuiButtonFlags_AllowItemOverlap
         );
@@ -59,7 +59,7 @@ namespace BDXKEngine
         ImGui::SetItemAllowOverlap();
         ImGui::SetCursorPos(cursorPos);
 
-        return IsDragTarget(value);
+        return isClick;
     }
     ImTextureID GUI::GetImTextureID(const ObjectPtr<Texture2D>& texture)
     {

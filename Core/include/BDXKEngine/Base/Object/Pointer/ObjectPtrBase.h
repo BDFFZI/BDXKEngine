@@ -5,6 +5,8 @@
 
 namespace BDXKEngine
 {
+    typedef unsigned int ID;
+    
     class Object;
 
     class ObjectPtrBase
@@ -19,7 +21,7 @@ namespace BDXKEngine
         ObjectPtrBase(const ObjectPtrBase& objectPtr);
         virtual ~ObjectPtrBase();
 
-        int GetInstanceID() const;
+        ID GetInstanceID() const;
         Type GetType() const;
         virtual Type GetObjectType() const;
 
@@ -38,11 +40,11 @@ namespace BDXKEngine
         bool operator !=(const ObjectPtrBase& other) const;
         ObjectPtrBase& operator=(const ObjectPtrBase& objectPtr);
     protected:
-        virtual void AddRef(int refInstanceID);
+        virtual void AddRef(ID refInstanceID);
         virtual void RemoveRef();
     private:
         inline static std::unordered_map<Type, std::uintptr_t> virtualTable = {};
-        inline static std::unordered_map<int, int> refCountMap = {};
+        inline static std::unordered_map<ID, int> refCountMap = {};
 
         static void StaticConstructor()
         {
@@ -52,7 +54,7 @@ namespace BDXKEngine
         }
         CustomStaticConstructor(StaticConstructor)
 
-        int instanceID = 0;
+        ID instanceID = 0;
         Object* instancePtr = nullptr; //仅供调试用
     };
 }

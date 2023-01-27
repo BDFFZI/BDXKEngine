@@ -18,9 +18,9 @@ namespace BDXKEngine
 
         static bool IsDragSource(const ObjectPtrBase& value); //拖拽时持续触发
         static bool IsDragTarget(ObjectPtrBase& value);
-        static bool IsDragTargetForWindow(const char* label, ObjectPtrBase& value); //请作为第一个UI渲染
         static bool IsDockTabVisible();
         static void Dropdown(const std::string& name, const std::function<void()>& onGui);
+        static bool ButtonWindow(); //请作为第一个UI渲染
 
         static void Initialize();
         static void BeginDraw();

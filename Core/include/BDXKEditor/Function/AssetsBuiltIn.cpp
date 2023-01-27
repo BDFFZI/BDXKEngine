@@ -1,7 +1,5 @@
 ﻿#include "AssetsBuiltIn.h"
-
 #include <filesystem>
-
 #include "Assets.h"
 
 namespace BDXKEditor

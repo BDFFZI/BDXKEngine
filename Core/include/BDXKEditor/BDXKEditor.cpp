@@ -7,8 +7,8 @@
 #include "Function/Assets.h"
 #include "Function/AssetsBuiltIn.h"
 #include "Function/ProjectSettings.h"
-#include "Menu/CreateAssetMenu.h"
-#include "Menu/GameObjectMenu.h"
+#include "Framework/Menu/CreateAssetMenu.h"
+#include "Framework/Menu/GameObjectMenu.h"
 
 namespace BDXKEditor
 {
@@ -20,7 +20,8 @@ namespace BDXKEditor
     ObjectPtr<ConsoleWindow> EditorSystem::consoleWindow;
     ObjectPtr<ProjectWindow> EditorSystem::projectWindow;
     ObjectPtr<GameWindow> EditorSystem::gameWindow;
-    bool EditorSystem::isRunning = false;
+    bool EditorSystem::isPlaying = false;
+    std::string EditorSystem::playScene = {};
     ObjectPtrBase EditorSystem::copying = {};
 
     const ObjectPtr<SceneWindow>& EditorSystem::GetSceneView()
@@ -80,12 +81,13 @@ namespace BDXKEditor
     }
     void EditorSystem::Play()
     {
-        if (isRunning == false)
+        if (isPlaying == false)
         {
+            playScene = Scene::GetCurrentSceneName();
             SaveScene();
             SetConstructedObjectEvent({});
             Scene::Load(Scene::GetCurrentSceneName(), false);
-            isRunning = true;
+            isPlaying = true;
         }
         else
         {
@@ -102,8 +104,8 @@ namespace BDXKEditor
             {
                 Serialization::MarkPersistent(object->GetInstanceID());
             });
-            Scene::Load(Scene::GetCurrentSceneName(), true);
-            isRunning = false;
+            Scene::Load(playScene, true);
+            isPlaying = false;
         }
     }
 
@@ -132,7 +134,7 @@ namespace BDXKEditor
         ImGui::ShowDemoWindow();
 
         //绘制菜单栏
-        ImGui::PushStyleColor(ImGuiCol_MenuBarBg, isRunning ? Color::darkGreen : Color{ImGui::GetStyleColorVec4(ImGuiCol_MenuBarBg)});
+        ImGui::PushStyleColor(ImGuiCol_MenuBarBg, isPlaying ? Color::darkGreen : Color{ImGui::GetStyleColorVec4(ImGuiCol_MenuBarBg)});
         if (ImGui::BeginMainMenuBar())
         {
             //菜单项
@@ -161,15 +163,6 @@ namespace BDXKEditor
         }
         ImGui::PopStyleColor();
     }
-    void EditorSystem::OnAwake()
-    {
-        ImGui::LoadIniSettingsFromDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
-    }
-    void EditorSystem::OnDestroy()
-    {
-        ImGui::SaveIniSettingsToDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
-    }
-
 
     void EditorSystem::Initialize(const std::string& sceneName)
     {
@@ -240,6 +233,8 @@ namespace BDXKEditor
     }
     void EditorSystem::OnEngineBegin()
     {
+        ImGui::LoadIniSettingsFromDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
+
         const Settings* settings = ProjectSettings::Load<Settings>("EditorSettings.settings");
         if (settings != nullptr)
         {
@@ -252,8 +247,10 @@ namespace BDXKEditor
     }
     void EditorSystem::OnEngineEnd()
     {
+        ImGui::SaveIniSettingsToDisk(ProjectSettings::ParsePath("EditorWindow.settings").c_str());
+
         Settings settings;
-        settings.sceneName = Scene::GetCurrentSceneName();
+        settings.sceneName = isPlaying ? playScene : Scene::GetCurrentSceneName();
         ProjectSettings::Save("EditorSettings.settings", &settings);
     }
 }

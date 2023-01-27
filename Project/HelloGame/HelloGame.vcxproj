@@ -137,34 +137,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Editor\ComponentEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Editor\Core\Editor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Editor\Core\GUITransferer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Editor\GameObjectEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Editor\MaterialEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\AudioClipImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\Core\Importer.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\MeshImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\ObjectImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\SceneImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\ShaderImporter.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Base\Importer\Texture2DImporter.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\BDXKEditor.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\ConsoleWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\Core\EditorWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\GameWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\HierarchyWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\InspectorWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\ProfilerWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\ProjectWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\EditorWindow\SceneWindow.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\ComponentEditor.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\Core\Editor.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\Core\GUITransferer.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\GameObjectEditor.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Editor\MaterialEditor.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\ConsoleWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\Core\EditorWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\GameWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\HierarchyWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\InspectorWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\ProfilerWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\ProjectWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\SceneWindow.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\Menu\Core\Menu.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\Menu\CreateAssetMenu.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\Menu\GameObjectMenu.cpp" />
+    <ClCompile Include="..\..\Core\include\BDXKEditor\Framework\Menu\WindowMenu.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Function\Assets.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Function\AssetsBuiltIn.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEditor\Function\ProjectSettings.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\AudioClipImporter.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\Core\Importer.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\MeshImporter.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\ObjectImporter.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\SceneImporter.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\ShaderImporter.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Importer\Texture2DImporter.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Menu\Core\Menu.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Menu\CreateAssetMenu.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Menu\GameObjectMenu.cpp" />
-    <ClCompile Include="..\..\Core\include\BDXKEditor\Menu\WindowMenu.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Color.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Rect.cpp" />
     <ClCompile Include="..\..\Core\include\BDXKEngine\Base\Data\Guid\Guid.cpp" />
@@ -402,113 +402,38 @@
     <ClCompile Include="Scripts\Actor\Bar.cpp" />
     <ClCompile Include="Scripts\Actor\Gate.cpp" />
     <ClCompile Include="Scripts\Scene\MainScene.cpp" />
-    <ClCompile Include="Scripts\Scene\StoreScene.cpp">
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <Optimization>Disabled</Optimization>
-      <SupportJustMyCode>true</SupportJustMyCode>
-      <AssemblerOutput>NoListing</AssemblerOutput>
-      <AssemblerListingLocation>Output\Object\</AssemblerListingLocation>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
-      <BrowseInformation>false</BrowseInformation>
-      <BrowseInformationFile>Output\Object\</BrowseInformationFile>
-      <CompileAs>Default</CompileAs>
-      <ConformanceMode>true</ConformanceMode>
-      <DiagnosticsFormat>Column</DiagnosticsFormat>
-      <DisableLanguageExtensions>false</DisableLanguageExtensions>
-      <ErrorReporting>Prompt</ErrorReporting>
-      <ExpandAttributedSource>false</ExpandAttributedSource>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <EnableASAN>false</EnableASAN>
-      <EnableFuzzer>false</EnableFuzzer>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
-      <GenerateModuleDependencies>false</GenerateModuleDependencies>
-      <GenerateSourceDependencies>false</GenerateSourceDependencies>
-      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
-      <MinimalRebuild>false</MinimalRebuild>
-      <ModuleDependenciesFile>Output\Object\</ModuleDependenciesFile>
-      <ModuleOutputFile>Output\Object\</ModuleOutputFile>
-      <OmitDefaultLibName>false</OmitDefaultLibName>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <ObjectFileName>Output\Object\</ObjectFileName>
-      <CallingConvention>Cdecl</CallingConvention>
-      <ProgramDataBaseFileName>Output\Object\vc143.pdb</ProgramDataBaseFileName>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>Output\Object\HelloGame.pch</PrecompiledHeaderOutputFile>
-      <PreprocessToFile>false</PreprocessToFile>
-      <PreprocessKeepComments>false</PreprocessKeepComments>
-      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
-      <ShowIncludes>false</ShowIncludes>
-      <SourceDependenciesFile>Output\Object\</SourceDependenciesFile>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
-      <SmallerTypeCheck>false</SmallerTypeCheck>
-      <SpectreMitigation>false</SpectreMitigation>
-      <StructMemberAlignment>Default</StructMemberAlignment>
-      <TrackerLogDirectory>Output\Object\HelloGame.tlog\</TrackerLogDirectory>
-      <TranslateIncludes>false</TranslateIncludes>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <TreatWarningAsError>false</TreatWarningAsError>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <UseFullPaths>true</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <XMLDocumentationFileName>Output\Object\</XMLDocumentationFileName>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <IntelJCCErratum>false</IntelJCCErratum>
-      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
-      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
-      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
-      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\BDFFZI\Desktop\BDXKEngine\Core/include/;C:\Users\BDFFZI\Desktop\BDXKEngine\Core/include/PhysX5/</AdditionalIncludeDirectories>
-      <AdditionalOptions>/utf-8 </AdditionalOptions>
-      <LinkCompiled>true</LinkCompiled>
-    </ClCompile>
     <ClCompile Include="Scripts\System\System.cpp" />
     <ClCompile Include="Scripts\System\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Editor\ComponentEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Editor\Core\Editor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Editor\Core\GUITransferer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Editor\GameObjectEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Editor\MaterialEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\AudioClipImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\Core\Importer.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\MeshImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\ObjectImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\SceneImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\ShaderImporter.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Base\Importer\Texture2DImporter.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\BDXKEditor.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\ConsoleWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\Core\EditorWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\GameWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\HierarchyWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\InspectorWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\ProfilerWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\ProjectWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\EditorWindow\SceneWindow.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\ComponentEditor.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\Core\Editor.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\Core\GUITransferer.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\GameObjectEditor.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Editor\MaterialEditor.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\ConsoleWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\Core\EditorWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\GameWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\HierarchyWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\InspectorWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\ProfilerWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\ProjectWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\EditorWindow\SceneWindow.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\Menu\Core\Menu.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\Menu\CreateAssetMenu.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\Menu\GameObjectMenu.h" />
+    <ClInclude Include="..\..\Core\include\BDXKEditor\Framework\Menu\WindowMenu.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Function\Assets.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Function\AssetsBuiltIn.h" />
     <ClInclude Include="..\..\Core\include\BDXKEditor\Function\ProjectSettings.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\AudioClipImporter.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\Core\Importer.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\MeshImporter.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\ObjectImporter.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\SceneImporter.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\ShaderImporter.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Importer\Texture2DImporter.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Menu\Core\Menu.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Menu\CreateAssetMenu.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Menu\GameObjectMenu.h" />
-    <ClInclude Include="..\..\Core\include\BDXKEditor\Menu\WindowMenu.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Color.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Graphics\Rect.h" />
     <ClInclude Include="..\..\Core\include\BDXKEngine\Base\Data\Guid\Guid.h" />
@@ -601,12 +526,10 @@
     <ClInclude Include="Scripts\Actor\Bar.h" />
     <ClInclude Include="Scripts\Actor\Gate.h" />
     <ClInclude Include="Scripts\Scene\MainScene.h" />
-    <ClInclude Include="Scripts\Scene\StoreScene.h" />
     <ClInclude Include="Scripts\System\System.h" />
     <ClInclude Include="Scripts\System\Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Core\include\BDXKEditor\Menu\GameObjectMenu.cpp~" />
     <Content Include="..\..\Core\include\BDXKEngine\Base\Data\ReadMe.md" />
     <Content Include="..\..\Core\include\BDXKEngine\Base\Object\ReadMe.md" />
     <Content Include="..\..\Core\include\BDXKEngine\Base\Package\ReadMe.md" />
@@ -619,6 +542,10 @@
     <Content Include="..\..\Core\include\BDXKEngine\Platform\ReadMe.md" />
     <Content Include="..\..\Core\include\BDXKEngine\Platform\Serialization\ReadMe.md" />
     <Content Include="..\..\Core\include\BDXKEngine\Platform\Serialization\SerializerExtension\ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="..\..\Core\include\BDXKEditor\Base" />
+    <Folder Include="..\..\Core\include\BDXKEditor\Framework" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

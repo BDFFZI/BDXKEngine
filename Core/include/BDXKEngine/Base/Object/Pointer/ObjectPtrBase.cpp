@@ -56,7 +56,7 @@ namespace BDXKEngine
             ObjectPtrBase::RemoveRef();
     }
 
-    int ObjectPtrBase::GetInstanceID() const
+    ID ObjectPtrBase::GetInstanceID() const
     {
         return instanceID;
     }
@@ -115,7 +115,7 @@ namespace BDXKEngine
         return *this;
     }
 
-    void ObjectPtrBase::AddRef(const int refInstanceID)
+    void ObjectPtrBase::AddRef(const ID refInstanceID)
     {
         refCountMap[refInstanceID]++;
 
