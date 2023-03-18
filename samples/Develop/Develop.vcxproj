@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\</OutDir>
-    <IntDir>$(SolutionDir)Output\Object\</IntDir>
+    <OutDir>Output\</OutDir>
+    <IntDir>Output\Object\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -111,14 +111,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Core/include/;$(SolutionDir)Core/include/PhysX5/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)source</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Core/bin/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories></AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -160,9 +160,201 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Graphics\Color.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Graphics\Rect.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Guid\Guid.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix4x4.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Quaternion\Quaternion.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Vector\Vector2.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Vector\Vector3.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Data\String\String.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Object\Object.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Object\Pointer\ObjectPtrBase.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Object\Serializer\ObjectGuid.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Object\Serializer\ObjectSerializer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Object\Transferer\ObjectPtrTransferer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Object\Transferer\ObjectTransferer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Package\Map.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Reflection\Reflection.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Reflection\Reflective.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Reflection\Transferer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Serializer\Binary\BinaryReader.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Serializer\Binary\BinaryWriter.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Serializer\Core\IOTransferer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Base\Serializer\Core\Serializer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\BDXKEngine.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Behavior\Animator.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Behavior\AudioSource.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Behavior\BehaviorEvent.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Behavior\Core\Behavior.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Core\Component.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Core\GameObject.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Core\ScriptableObject.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Core\Singleton.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\Collider\BoxCollider.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\Collider\Collider.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\Collider\SphereCollider.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\Material\PhysicMaterial.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\PhysicsEvent.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\PhysicsSettings.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Physics\Rigidbody\Rigidbody.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Renderer\Core\Camera.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Renderer\Core\Light.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Renderer\Core\Renderer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Renderer\Core\RenderSettings.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Renderer\MeshRenderer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Renderer\RenderEvent.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Framework\Scene.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Graphics\GraphicsInfo.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Graphics\Material.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Random\Random.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Resources\Resources.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Time\Time.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Window\Cursor.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Window\Input.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Function\Window\Screen.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Audio\AudioClip\AudioClip.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Audio\AudioClip\AudioClipImport.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Audio\AudioSourceVoice\AudioSourceVoice.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Audio\Core\Audio.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Buffer\Buffer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Command\Bleed.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Command\Cull.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Command\ZTest.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Core\GL.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Mesh\Mesh.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Mesh\MeshImport.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Shader\Shader.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Shader\ShaderImport.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Texture\Texture.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Texture\Texture2D.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Texture\TextureCube.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Texture\TextureFormat.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GL\Texture\TextureImport.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\GUI\GUI.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Phys\Phys.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Serialization\Serialization.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryReader2.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryWriter2.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonReader.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonWriter.cpp" />
+    <ClCompile Include="..\..\source\BDXKEngine\Platform\Window\Window.cpp" />
     <ClCompile Include="Develop.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Graphics\Color.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Graphics\Rect.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Guid\Guid.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Math.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix3x3.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Matrix\Matrix4x4.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Quaternion\Quaternion.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Vector\Vector2.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Vector\Vector3.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\Mathematics\Vector\Vector4.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Data\String\String.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Object.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Pointer\ObjectPtr.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Pointer\ObjectPtrBase.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Serializer\ObjectGuid.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Serializer\ObjectSerializer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Transferer\ObjectPtrTransferer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Object\Transferer\ObjectTransferer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Package\Map.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Reflection\Reflection.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Reflection\Reflective.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Reflection\Transferer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Reflection\Type.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Serializer\Binary\BinaryReader.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Serializer\Binary\BinaryWriter.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Serializer\Core\IOTransferer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Base\Serializer\Core\Serializer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\BDXKEngine.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Behavior\Animator.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Behavior\AudioSource.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Behavior\BehaviorEvent.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Behavior\Core\Behavior.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Core\Component.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Core\GameObject.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Core\ScriptableObject.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Core\Singleton.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\Collider\BoxCollider.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\Collider\Collider.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\Collider\SphereCollider.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\Material\PhysicMaterial.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\PhysicsEvent.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\PhysicsSettings.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Physics\Rigidbody\Rigidbody.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Renderer\Core\Camera.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Renderer\Core\Light.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Renderer\Core\Renderer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Renderer\Core\RenderSettings.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Renderer\MeshRenderer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Renderer\RenderEvent.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Framework\Scene.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Graphics\Graphics.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Graphics\GraphicsInfo.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Graphics\Material.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Random\Random.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Resources\Resources.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Time\Time.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Window\Cursor.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Window\Input.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Function\Window\Screen.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Audio\AudioClip\AudioClip.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Audio\AudioClip\AudioClipImport.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Audio\AudioSourceVoice\AudioSourceVoice.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Audio\Core\Audio.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Buffer\Buffer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Command\Blend.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Command\Cull.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Command\ZTest.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Core\GL.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Core\GLLayout.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Mesh\Mesh.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Mesh\MeshImport.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Shader\Shader.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Shader\ShaderImport.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Texture\Texture.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Texture\Texture2D.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Texture\TextureCube.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Texture\TextureFormat.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GL\Texture\TextureImport.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\GUI\GUI.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Phys\Phys.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Serialization\Serialization.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryReader2.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Binary\BinaryWriter2.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonReader.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonTransferer.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\Json\JsonWriter.h" />
+    <ClInclude Include="..\..\source\BDXKEngine\Platform\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\source\BDXKEngine\Base\Data\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Base\Object\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Base\Package\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Base\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Base\Reflection\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Base\Serializer\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Framework\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Function\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Platform\GL\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Platform\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Platform\Serialization\ReadMe.md" />
+    <Content Include="..\..\source\BDXKEngine\Platform\Serialization\SerializerExtension\ReadMe.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
 </Project>
