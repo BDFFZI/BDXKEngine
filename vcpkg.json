@@ -1,0 +1,23 @@
+{
+  "name": "bdxk",
+  "version-string": "0.1.0",
+  "dependencies": [
+    {
+      "name": "imgui",
+      "features": [
+        "docking-experimental",
+        "dx11-binding",
+        "win32-binding"
+      ]
+    },
+    {
+      "name": "imguizmo"
+    },
+    {
+      "name": "rapidjson"
+    },
+    {
+      "name": "physx"
+    }
+  ]
+}
