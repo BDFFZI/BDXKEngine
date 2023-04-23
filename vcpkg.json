@@ -7,7 +7,7 @@
       "features": [
         "docking-experimental",
         "dx11-binding",
-        "win32-binding"
+        "glfw-binding"
       ]
     },
     {
@@ -17,7 +17,13 @@
       "name": "rapidjson"
     },
     {
+      "name": "glfw3"
+    },
+    {
       "name": "physx"
+    },
+    {
+      "name": "crossguid"
     }
   ]
 }

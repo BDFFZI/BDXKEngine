@@ -1,0 +1,11 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 879886899,
+        "data": {
+            "type": "class BDXKEditor::ShaderImporter",
+            "name": "ShaderImporter",
+            "guid": "63a33e78-540a-4d50-800d-2046d11d5054"
+        }
+    }
+}
