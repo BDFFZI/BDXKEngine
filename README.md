@@ -1,5 +1,6 @@
-这是BDXK引擎的包仓库，要查看示例项目，请转到
-https://github.com/BDFFZI/BDXKEngine.Project.git
+- 这是BDXK引擎的包仓库，要查看示例项目，请转到https://github.com/BDFFZI/BDXKEngine.Project.git
+- 若是因B站视频而来，那请下载右侧的Releases v0.0.0文件。
+
 # 常见问题
 ## 这是什么？
 这是BDXK引擎的包仓库，直白点说就是所有引擎代码存放的地方。出于项目长线发展的考虑，BDXK引擎的代码选择以包的方式进行管理，这点和Unity是相似的，其实很多地方我都参考了Unity（盲人摸象般的）。
