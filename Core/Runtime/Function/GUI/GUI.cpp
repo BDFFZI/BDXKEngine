@@ -43,10 +43,10 @@ namespace BDXKEngine
         ImGui::PushStyleColor(ImGuiCol_Button, {0, 0, 0, 0});
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, {0, 0, 0, 0});
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, {0, 0, 0, 0});
+        ImGui::SetNextItemAllowOverlap();
         const bool isClick = ImGui::ButtonEx(
             std::format("##{}", ImGui::GetCurrentWindow()->Name).c_str(),
-            ImGui::GetContentRegionAvail(),
-            ImGuiButtonFlags_AllowItemOverlap
+            ImGui::GetContentRegionAvail()
         );
         ImGui::PopStyleColor();
         ImGui::PopStyleColor();
@@ -121,7 +121,7 @@ namespace BDXKEngine
         const ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->Pos);
         ImGui::SetNextWindowSize(viewport->Size);
-        ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+        ImGui::DockSpaceOverViewport(0, nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
         // ImGui::Begin(
         //     "Background", nullptr,
         //     ImGuiWindowFlags_NoDecoration |
