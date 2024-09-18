@@ -6,7 +6,4 @@
 Library/
 
 # 编译文件
-x64/
-x86/
-[Dd]ebug/
-[Rr]elease/
+**/x64/Debug
