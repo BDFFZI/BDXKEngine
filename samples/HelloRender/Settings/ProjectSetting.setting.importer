@@ -1,0 +1,11 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 495116026,
+        "data": {
+            "type": "class BDXKEditor::ObjectImporter",
+            "name": "ObjectImporter",
+            "guid": "b856fc30-8cb3-4d16-b8a1-48f98909266f"
+        }
+    }
+}

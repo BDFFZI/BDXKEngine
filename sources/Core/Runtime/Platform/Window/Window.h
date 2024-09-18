@@ -1,4 +1,6 @@
 ﻿#pragma once
+#define BDXK_Platform_Windows//不支持跨平台
+
 #include <functional>
 #include <map>
 #include <GLFW/glfw3.h>

@@ -25,5 +25,12 @@
     {
       "name": "crossguid"
     }
+  ],
+  "builtin-baseline": "333ba63a16024f05f9172fe403f9eced000389e5",
+  "overrides": [
+    {
+      "name": "imgui",
+      "version": "1.91.0"
+    }
   ]
 }

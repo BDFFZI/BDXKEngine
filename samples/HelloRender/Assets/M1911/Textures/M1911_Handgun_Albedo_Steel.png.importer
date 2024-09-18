@@ -1,0 +1,11 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 1712160479,
+        "data": {
+            "type": "class BDXKEditor::Texture2DImporter",
+            "name": "Texture2DImporter",
+            "guid": "117e3164-8c8a-42bd-932d-d50a82048d28"
+        }
+    }
+}

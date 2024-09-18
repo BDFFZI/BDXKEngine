@@ -1,0 +1,12 @@
+# 开发编辑器
+.vs/
+.idea/
+
+# 引擎缓存
+Library/
+
+# 编译文件
+x64/
+x86/
+[Dd]ebug/
+[Rr]elease/

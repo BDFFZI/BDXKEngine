@@ -1,0 +1,18 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 1000000000,
+        "data": {
+            "type": "class BDXKEditor::PackageSetting",
+            "name": "PackageSetting",
+            "packageNames": {
+                "count": 1,
+                "item0": "Render"
+            },
+            "packagePaths": {
+                "count": 1,
+                "item0": "../../sources/Render"
+            }
+        }
+    }
+}

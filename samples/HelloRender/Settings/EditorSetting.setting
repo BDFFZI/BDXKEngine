@@ -1,0 +1,11 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 1886362714,
+        "data": {
+            "type": "class BDXKEditor::EditorSetting",
+            "name": "EditorSetting",
+            "sceneName": ""
+        }
+    }
+}

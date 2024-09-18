@@ -1,0 +1,235 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 1000000000,
+        "data": {
+            "type": "class BDXKEngine::Material",
+            "name": "Material",
+            "passTypes": {
+                "count": 3,
+                "item0": 1,
+                "item1": 2,
+                "item2": 3
+            },
+            "passShaders": {
+                "count": 3,
+                "item0": {
+                    "guid": "92356dc8-42a3-4cee-b44f-b2821710b666",
+                    "fileID": 1000000001
+                },
+                "item1": {
+                    "guid": "92356dc8-42a3-4cee-b44f-b2821710b666",
+                    "fileID": 1000000001
+                },
+                "item2": {
+                    "guid": "5d3b6be3-bb0a-4eb4-8668-09bd033c0ea7",
+                    "fileID": 1000000001
+                }
+            },
+            "passBlends": {
+                "count": 3,
+                "item0": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                },
+                "item1": {
+                    "state": true,
+                    "sourceFactor": 2,
+                    "destinationFactor": 2,
+                    "operation": 1
+                },
+                "item2": {
+                    "state": false,
+                    "sourceFactor": 1,
+                    "destinationFactor": 1,
+                    "operation": 1
+                }
+            },
+            "passZTests": {
+                "count": 3,
+                "item0": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item1": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                },
+                "item2": {
+                    "operation": 4,
+                    "factor": 0.0,
+                    "units": 0.0,
+                    "write": true,
+                    "clip": true
+                }
+            },
+            "passCulls": {
+                "count": 3,
+                "item0": {
+                    "state": 3
+                },
+                "item1": {
+                    "state": 3
+                },
+                "item2": {
+                    "state": 3
+                }
+            },
+            "renderQueue": 2000,
+            "parameters": {
+                "float0_3": [
+                    1.0,
+                    0.5,
+                    1.0,
+                    0.0
+                ],
+                "float4_7": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector0": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "vector1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector4": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "vector5": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix0": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "matrix1": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix2": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "matrix3": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "texture2D0": {
+                "guid": "117e3164-8c8a-42bd-932d-d50a82048d28",
+                "fileID": 1000000002
+            },
+            "texture2D1": {
+                "guid": "452693de-928b-4a0b-af7f-6fe694398b82",
+                "fileID": 1000000002
+            },
+            "texture2D2": {
+                "guid": "6977daf7-4cf9-44c0-b626-db3ae4a67005",
+                "fileID": 1000000002
+            },
+            "texture2D3": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "texture2D4": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "texture2D5": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            }
+        }
+    }
+}

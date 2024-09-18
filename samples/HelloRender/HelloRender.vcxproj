@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\sources\Core\Editor\AssetImporter\ObjectImporter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\AssetImporter\SceneImporter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\AssetImporter\ShaderImporter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\AssetImporter\Texture2DImporter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\CoreEditor.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Assets\AssetDatabase.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Assets\AssetImporter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Editor\Editor.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Editor\EditorMenu.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Editor\EditorWindow.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Editor\GUITransferer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Core\Settings\Settings.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorMenu\AssetMenu.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorMenu\GameObjectMenu.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorMenu\WindowMenu.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorWindow\ConsoleWindow.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorWindow\HierarchyWindow.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorWindow\InspectorWindow.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorWindow\ProfilerWindow.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\EditorWindow\ProjectWindow.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Editor\ComponentEditor.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Editor\GameObjectEditor.cpp" />
+    <ClCompile Include="..\..\sources\Core\Editor\Setting\PackageSetting.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Graphics\Color.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Graphics\Rect.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Math\Matrix\Matrix3x3.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Math\Matrix\Matrix4x4.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Math\Quaternion\Quaternion.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Math\Vector\Vector2.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Math\Vector\Vector3.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\Math\Vector\Vector4.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Data\String\String.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Debug\Debug.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Object.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Pointer\ObjectPtrBase.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Serialization\ObjectRef.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Serialization\ObjectSerialization.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Serialization\ObjectSerializer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Transferer\ObjectPtrTransferer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Object\Transferer\ObjectTransferer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Reflection\Reflection.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Reflection\Reflective.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Reflection\Transferer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Reflection\Type.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\Binary\BinaryReader.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\Binary\BinaryWriter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\IOTransferer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\Json\JsonReader.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\Json\JsonTransferer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\Json\JsonWriter.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Base\Serializer\Serializer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\CoreRuntime.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Framework\Actor\Behavior.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Framework\Actor\Component.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Framework\Actor\GameObject.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Framework\Actor\SwitchableObject.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Framework\Scene\Scene.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Framework\Scene\SceneLibrary.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Function\GUI\GUI.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Function\Random\Random.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Buffer\Buffer.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Core\GL.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Shader\Shader.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\State\Bleed.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\State\Cull.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\State\ZTest.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Texture\Texture.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Texture\Texture2D.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Texture\TextureCube.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\GL\Texture\TextureFormat.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\Window\Cursor.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\Window\Input.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\Window\Screen.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\Window\Time.cpp" />
+    <ClCompile Include="..\..\sources\Core\Runtime\Platform\Window\Window.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\AssetImporter\ModelImporter.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\AssetImporter\RenderAssets.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\EditorMenu\RenderAssetsMenu.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\EditorMenu\RenderGameObjectMenu.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\EditorMenu\RenderWindowMenu.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\EditorWindow\GameWindow.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\EditorWindow\SceneWindow.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\Editor\MaterialEditor.cpp" />
+    <ClCompile Include="..\..\sources\Render\Editor\RenderEditor.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Graphics\GraphicsInfo.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Graphics\Material.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Graphics\Mesh.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Renderer\Core\Camera.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Renderer\Core\Light.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Renderer\Core\Renderer.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Renderer\Core\RenderSetting.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\Renderer\MeshRenderer.cpp" />
+    <ClCompile Include="..\..\sources\Render\Runtime\RenderRuntime.cpp" />
+    <ClCompile Include="HelloRender.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\sources\Core\Editor\Core\Assets\ReadMe.md" />
+    <Content Include="..\..\sources\Core\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\Data\Math\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\Data\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\Debug\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\Object\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\Reflection\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Base\Serializer\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Framework\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Function\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Platform\GL\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Platform\ReadMe.md" />
+    <Content Include="..\..\sources\Core\Runtime\Platform\Window\ReadMe.md" />
+    <Content Include="..\..\sources\README.md" />
+    <Content Include="..\..\sources\Render\ReadMe.md" />
+    <Content Include="..\..\sources\Render\Runtime\Renderer\ReadMe.md" />
+    <Content Include="..\..\sources\vcpkg.json" />
+    <Content Include="..\..\sources\一个没啥作用单纯为凑字数的文档.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\sources\Core\Editor\AssetImporter\ObjectImporter.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\AssetImporter\SceneImporter.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\AssetImporter\ShaderImporter.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\AssetImporter\Texture2DImporter.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\CoreEditor.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Assets\AssetDatabase.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Assets\AssetImporter.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Editor\Editor.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Editor\EditorMenu.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Editor\EditorWindow.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Editor\GUITransferer.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Core\Settings\Settings.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorMenu\AssetMenu.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorMenu\GameObjectMenu.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorMenu\WindowMenu.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorWindow\ConsoleWindow.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorWindow\HierarchyWindow.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorWindow\InspectorWindow.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorWindow\ProfilerWindow.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\EditorWindow\ProjectWindow.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Editor\ComponentEditor.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Editor\GameObjectEditor.h" />
+    <ClInclude Include="..\..\sources\Core\Editor\Setting\PackageSetting.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Graphics\Color.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Graphics\Rect.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Math.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Matrix\Matrix3x3.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Matrix\Matrix4x4.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Quaternion\Quaternion.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Vector\Vector2.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Vector\Vector3.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\Math\Vector\Vector4.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Data\String\String.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Debug\Debug.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Object.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Pointer\ObjectPtr.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Pointer\ObjectPtrBase.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Serialization\ObjectRef.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Serialization\ObjectSerialization.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Serialization\ObjectSerializer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Transferer\ObjectPtrTransferer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Object\Transferer\ObjectTransferer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Reflection\Reflection.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Reflection\Reflective.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Reflection\Transferer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Reflection\Type.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\Binary\BinaryReader.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\Binary\BinaryWriter.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\IOTransferer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\Json\JsonReader.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\Json\JsonTransferer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\Json\JsonWriter.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Base\Serializer\Serializer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\CoreRuntime.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Framework\Actor\Behavior.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Framework\Actor\Component.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Framework\Actor\GameObject.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Framework\Actor\SwitchableObject.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Framework\Scene\Scene.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Framework\Scene\SceneLibrary.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Function\GUI\GUI.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Function\Random\Random.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Buffer\Buffer.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Core\GL.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Shader\Shader.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\State\Blend.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\State\Cull.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\State\ZTest.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Texture\Texture.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Texture\Texture2D.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Texture\TextureCube.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\GL\Texture\TextureFormat.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\Window\Cursor.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\Window\Input.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\Window\Screen.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\Window\Time.h" />
+    <ClInclude Include="..\..\sources\Core\Runtime\Platform\Window\Window.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\AssetImporter\ModelImporter.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\AssetImporter\RenderAssets.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\EditorMenu\RenderAssetsMenu.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\EditorMenu\RenderGameObjectMenu.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\EditorMenu\RenderWindowMenu.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\EditorWindow\GameWindow.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\EditorWindow\SceneWindow.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\Editor\MaterialEditor.h" />
+    <ClInclude Include="..\..\sources\Render\Editor\RenderEditor.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Graphics\Graphics.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Graphics\GraphicsInfo.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Graphics\Material.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Graphics\Mesh.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Renderer\Core\Camera.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Renderer\Core\Light.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Renderer\Core\Renderer.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Renderer\Core\RenderSetting.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\Renderer\MeshRenderer.h" />
+    <ClInclude Include="..\..\sources\Render\Runtime\RenderRuntime.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Develop</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)sources;%(AdditionalIncludeDirectories);$(_ZVcpkgCurrentInstalledDir)include</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
+</Project>

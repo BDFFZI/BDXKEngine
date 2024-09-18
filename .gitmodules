@@ -1,0 +1,3 @@
+[submodule "BDXKEngine"]
+	path = BDXKEngine
+	url = https://github.com/BDFFZI/BDXKEngine.git

@@ -1,0 +1,36 @@
+{
+  "name": "bdxk",
+  "version-string": "0.1.0",
+  "dependencies": [
+    {
+      "name": "imgui",
+      "features": [
+        "docking-experimental",
+        "dx11-binding",
+        "glfw-binding"
+      ]
+    },
+    {
+      "name": "imguizmo"
+    },
+    {
+      "name": "rapidjson"
+    },
+    {
+      "name": "glfw3"
+    },
+    {
+      "name": "physx"
+    },
+    {
+      "name": "crossguid"
+    }
+  ],
+  "builtin-baseline": "333ba63a16024f05f9172fe403f9eced000389e5",
+  "overrides": [
+    {
+      "name": "imgui",
+      "version": "1.91.0"
+    }
+  ]
+}

@@ -1,0 +1,649 @@
+{
+    "objectCount": 19,
+    "object_0": {
+        "fileID": 1000000000,
+        "data": {
+            "type": "class BDXKEngine::Scene",
+            "name": "Main.scene",
+            "objects": {
+                "count": 10,
+                "item0": {
+                    "guid": "578aeb2f-db46-4148-a2f5-b9922011753a",
+                    "fileID": 1886362714
+                },
+                "item1": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1969545821
+                },
+                "item2": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1634287335
+                },
+                "item3": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1492328383
+                },
+                "item4": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 591426746
+                },
+                "item5": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1451890191
+                },
+                "item6": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1212293955
+                },
+                "item7": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1792621579
+                },
+                "item8": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 776728931
+                },
+                "item9": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1128891630
+                }
+            }
+        }
+    },
+    "object_1": {
+        "fileID": 1969545821,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Camera",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1089363232
+                }
+            }
+        }
+    },
+    "object_2": {
+        "fileID": 1089363232,
+        "data": {
+            "type": "class BDXKEngine::Camera",
+            "name": "Camera",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1969545821
+            },
+            "renderTarget": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "clearFlags": 1,
+            "projection": 1,
+            "background": [
+                0.27942338585853577,
+                0.30959588289260864,
+                0.33976835012435913,
+                1.0
+            ],
+            "nearClipPlane": 0.30000001192092896,
+            "farClipPlane": 1000.0,
+            "fieldOfView": 60.0,
+            "size": 5.0,
+            "priority": 0,
+            "cullingMask": -1
+        }
+    },
+    "object_3": {
+        "fileID": 1634287335,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "PointLight",
+            "isEnabling": true,
+            "localPosition": [
+                -1.5113701820373535,
+                0.9842859506607056,
+                0.8326546549797058
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 2047891964
+                }
+            }
+        }
+    },
+    "object_4": {
+        "fileID": 2047891964,
+        "data": {
+            "type": "class BDXKEngine::Light",
+            "name": "Light",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1634287335
+            },
+            "lightType": 1,
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intensity": 2.5
+        }
+    },
+    "object_5": {
+        "fileID": 1492328383,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "CasingExit",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1792621579
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1771961417
+                }
+            }
+        }
+    },
+    "object_6": {
+        "fileID": 1792621579,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Body",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                1.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "children": {
+                "count": 4,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1492328383
+                },
+                "item1": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 591426746
+                },
+                "item2": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1451890191
+                },
+                "item3": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1212293955
+                }
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 2027306087
+                }
+            }
+        }
+    },
+    "object_7": {
+        "fileID": 591426746,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Hammer",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                3.299999952316284,
+                -0.30000001192092896
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1792621579
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 209971043
+                }
+            }
+        }
+    },
+    "object_8": {
+        "fileID": 209971043,
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "MeshRenderer",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 591426746
+            },
+            "castShadows": true,
+            "receiveShadows": true,
+            "material": {
+                "guid": "1dbd47b5-675f-45bd-8beb-175fcc7da24a",
+                "fileID": 1000000000
+            },
+            "mesh": {
+                "guid": "42e7b447-d07a-4429-92fc-5f9685a9ed50",
+                "fileID": 9985318803829050264
+            }
+        }
+    },
+    "object_9": {
+        "fileID": 1451890191,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Slider",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                3.700000047683716,
+                1.2600001096725464
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1792621579
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1702463566
+                }
+            }
+        }
+    },
+    "object_10": {
+        "fileID": 1702463566,
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "MeshRenderer",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1451890191
+            },
+            "castShadows": true,
+            "receiveShadows": true,
+            "material": {
+                "guid": "1dbd47b5-675f-45bd-8beb-175fcc7da24a",
+                "fileID": 1000000000
+            },
+            "mesh": {
+                "guid": "42e7b447-d07a-4429-92fc-5f9685a9ed50",
+                "fileID": 9985317704317422053
+            }
+        }
+    },
+    "object_11": {
+        "fileID": 1212293955,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Trigger",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                2.6000001430511475,
+                2.3999998569488525
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1792621579
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 2006788751
+                }
+            }
+        }
+    },
+    "object_12": {
+        "fileID": 2006788751,
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "MeshRenderer",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1212293955
+            },
+            "castShadows": true,
+            "receiveShadows": true,
+            "material": {
+                "guid": "1dbd47b5-675f-45bd-8beb-175fcc7da24a",
+                "fileID": 1000000000
+            },
+            "mesh": {
+                "guid": "42e7b447-d07a-4429-92fc-5f9685a9ed50",
+                "fileID": 9985316604805793842
+            }
+        }
+    },
+    "object_13": {
+        "fileID": 2027306087,
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "MeshRenderer",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1792621579
+            },
+            "castShadows": true,
+            "receiveShadows": true,
+            "material": {
+                "guid": "1dbd47b5-675f-45bd-8beb-175fcc7da24a",
+                "fileID": 1000000000
+            },
+            "mesh": {
+                "guid": "42e7b447-d07a-4429-92fc-5f9685a9ed50",
+                "fileID": 9985315505294165631
+            }
+        }
+    },
+    "object_14": {
+        "fileID": 1771961417,
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "MeshRenderer",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1492328383
+            },
+            "castShadows": true,
+            "receiveShadows": true,
+            "material": {
+                "guid": "1dbd47b5-675f-45bd-8beb-175fcc7da24a",
+                "fileID": 1000000000
+            },
+            "mesh": {
+                "guid": "42e7b447-d07a-4429-92fc-5f9685a9ed50",
+                "fileID": 9985319903340678475
+            }
+        }
+    },
+    "object_15": {
+        "fileID": 776728931,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "Plane",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                -0.004999999888241291,
+                0.0
+            ],
+            "localEulerAngles": [
+                -0.0,
+                0.0,
+                0.0
+            ],
+            "localScale": [
+                10.0,
+                0.009999999776482582,
+                10.0
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 1936864201
+                }
+            }
+        }
+    },
+    "object_16": {
+        "fileID": 1936864201,
+        "data": {
+            "type": "class BDXKEngine::MeshRenderer",
+            "name": "MeshRenderer",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 776728931
+            },
+            "castShadows": true,
+            "receiveShadows": true,
+            "material": {
+                "guid": "6985c281-dc95-4baa-83b9-41b51bc2fc6c",
+                "fileID": 1000000000
+            },
+            "mesh": {
+                "guid": "a840e158-b915-4ddd-b407-6fec01f68e7c",
+                "fileID": 14006427920895789940
+            }
+        }
+    },
+    "object_17": {
+        "fileID": 1128891630,
+        "data": {
+            "type": "class BDXKEngine::GameObject",
+            "name": "DirectionalLight",
+            "isEnabling": true,
+            "localPosition": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "localEulerAngles": [
+                56.3459587097168,
+                -40.75919723510742,
+                -40.76529312133789
+            ],
+            "localScale": [
+                1.0,
+                1.0,
+                0.9999998807907104
+            ],
+            "layer": 0,
+            "scene": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1000000000
+            },
+            "parent": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 0
+            },
+            "children": {
+                "count": 0
+            },
+            "components": {
+                "count": 1,
+                "item0": {
+                    "guid": "00000000-0000-0000-0000-000000000000",
+                    "fileID": 514244934
+                }
+            }
+        }
+    },
+    "object_18": {
+        "fileID": 514244934,
+        "data": {
+            "type": "class BDXKEngine::Light",
+            "name": "Light",
+            "isEnabling": true,
+            "gameObject": {
+                "guid": "00000000-0000-0000-0000-000000000000",
+                "fileID": 1128891630
+            },
+            "lightType": 0,
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "intensity": 1.0
+        }
+    }
+}

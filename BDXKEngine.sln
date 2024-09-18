@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloRender", "samples\HelloRender\HelloRender.vcxproj", "{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Debug|x64.ActiveCfg = Debug|x64
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Debug|x64.Build.0 = Debug|x64
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Debug|x86.ActiveCfg = Debug|Win32
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Debug|x86.Build.0 = Debug|Win32
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Release|x64.ActiveCfg = Release|x64
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Release|x64.Build.0 = Release|x64
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Release|x86.ActiveCfg = Release|Win32
+		{4E15B9FC-9555-46C3-8DA1-0360CD7FB54D}.Release|x86.Build.0 = Release|Win32
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Debug|x64.ActiveCfg = Debug|x64
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Debug|x64.Build.0 = Debug|x64
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Debug|x86.ActiveCfg = Debug|Win32
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Debug|x86.Build.0 = Debug|Win32
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Release|x64.ActiveCfg = Release|x64
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Release|x64.Build.0 = Release|x64
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Release|x86.ActiveCfg = Release|Win32
+		{9B2C0E5F-EE2F-498A-A8CD-F4E91784A2E0}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E5ED05F-99AB-4704-855A-07795CF33AAF}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,11 @@
+{
+    "objectCount": 1,
+    "object_0": {
+        "fileID": 346217504,
+        "data": {
+            "type": "class BDXKEditor::SceneImporter",
+            "name": "SceneImporter",
+            "guid": "5573c8db-81ba-471c-b58f-52e5f9d64405"
+        }
+    }
+}
